@@ -3,13 +3,13 @@
   "short_name": "AI Español",
   "description": "Aprende español, practica DELE y mejora con juegos interactivos.",
   "lang": "es",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#050714",
   "theme_color": "#050714",
   "icons": [
-    { "src": "/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "./app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
 }
