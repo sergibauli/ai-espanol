@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ai-espanol-shell-v11';
+const CACHE_NAME = 'ai-espanol-shell-v12';
 const APP_SHELL = ['/', '/manifest.webmanifest', '/app-icon.svg'];
 
 self.addEventListener('install', event => {
