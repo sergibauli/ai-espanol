@@ -1,0 +1,21 @@
+name = "ai-espanol-api"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# KV para estado Premium y cuotas: crea con `npx wrangler kv namespace create ENT` y pega el id
+[[kv_namespaces]]
+binding = "ENT"
+id = "REEMPLAZAR_CON_ID_KV"
+
+[vars]
+ALLOWED_ORIGINS = "https://sergibauli.github.io,http://localhost:5173,http://localhost:5181"
+# Clerk → Configure → API keys → "Frontend API URL" + /.well-known/jwks.json
+CLERK_JWKS_URL = "https://REEMPLAZAR.clerk.accounts.dev/.well-known/jwks.json"
+CLERK_ISSUER = "https://REEMPLAZAR.clerk.accounts.dev"
+# Precios creados en Stripe (price_...)
+STRIPE_PRICE_MONTHLY = "price_REEMPLAZAR"
+STRIPE_PRICE_ANNUAL = "price_REEMPLAZAR"
+STRIPE_PRICE_PASS30 = "price_REEMPLAZAR"
+FREE_AI_PER_DAY = "3"
+
+# Secretos (no van aquí): npx wrangler secret put DEEPSEEK_API_KEY / STRIPE_SECRET_KEY / STRIPE_WEBHOOK_SECRET

@@ -1,0 +1,10 @@
+{
+  "name": "AI Español · DELE Prep",
+  "short_name": "AI Español",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b0d17",
+  "theme_color": "#0b0d17",
+  "lang": "es",
+  "icons": [{ "src": "app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
