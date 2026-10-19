@@ -61,3 +61,23 @@ export function Tabs({ tabs, value, onChange }) {
 export function LevelBadge({ level }) {
   return <span className="chip bg-brand-soft text-brand">{level}</span>;
 }
+
+/** Anillo de progreso SVG. `value` entre 0 y 1. */
+export function Ring({ value = 0, size = 44, stroke = 4, color = 'var(--brand)', track = 'var(--line)', children, className = '' }) {
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const v = Math.max(0, Math.min(1, Number(value) || 0));
+  return (
+    <div className={`relative inline-grid shrink-0 place-items-center ${className}`} style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={track} strokeWidth={stroke} />
+        <circle
+          cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
+          strokeDasharray={c} strokeDashoffset={c * (1 - v)}
+          style={{ transition: 'stroke-dashoffset .6s ease' }}
+        />
+      </svg>
+      {children && <div className="absolute inset-0 grid place-items-center">{children}</div>}
+    </div>
+  );
+}

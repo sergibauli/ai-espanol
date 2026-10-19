@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Timer, Send, MessageCircle, CheckCircle2, XCircle } from 'lucide-react';
+import { Timer, Send, MessageCircle } from 'lucide-react';
 import { loadOficial } from '../lib/data.js';
 import { useAsync } from '../lib/hooks.js';
 import { addOficialResult, recordActivity } from '../lib/store.js';
 import { useSession } from '../lib/auth.jsx';
 import { FREE_LIMITS } from '../lib/plans.js';
-import { PageHeader, Tabs, Loading } from '../components/ui.jsx';
+import { LEVEL_INFO } from '../lib/data.js';
+import { PageHeader, Tabs, Loading, Ring } from '../components/ui.jsx';
 import AudioPlayer from '../components/AudioPlayer.jsx';
 import WritingBox from '../components/WritingBox.jsx';
 
@@ -60,7 +61,17 @@ export default function OficialExam() {
 
   return (
     <>
-      <PageHeader back={`/oficial/${level}`} title={ex.temaCentral} sub={ex.titulo} />
+      <PageHeader
+        back={`/oficial/${level}`}
+        title={ex.temaCentral}
+        sub={ex.titulo}
+        right={
+          <div className="flex items-center gap-2" style={{ '--lv': LEVEL_INFO[level].color }}>
+            <span className="chip !px-3 !py-1.5 font-black text-white" style={{ background: LEVEL_INFO[level].color }}>DELE {level}</span>
+            <span className="lvl-medal chip !px-3 !py-1.5">MODELO {String(modelo).padStart(2, '0')}</span>
+          </div>
+        }
+      />
       <Tabs value={part} onChange={setPart} tabs={ex.pruebas.map(p => ({ id: p.prueba, label: `${p.prueba}. ${p.nombre.replace('Comprensión ', 'Compr. ').replace('Expresión e interacción ', 'Expr. ')}`, done: submitted[p.prueba] }))} />
 
       <PartTimer key={part} minutes={prueba.duracion} stopped={submitted[part]} />
@@ -90,11 +101,45 @@ export default function OficialExam() {
       </div>
 
       {allDone && (
-        <div className={`card mt-8 p-5 ${apto ? 'border-ok' : 'border-bad'}`}>
-          <div className="flex items-center gap-2 text-xl font-bold">
-            {apto ? <CheckCircle2 className="text-ok" /> : <XCircle className="text-bad" />} {apto ? 'APTO' : 'NO APTO'} · {Math.round((g1 + g2) * 100) / 100}/100
+        <div className={`card pop-in mt-8 overflow-hidden p-0 ${apto ? 'border-ok' : 'border-bad'}`} style={{ '--lv': LEVEL_INFO[level].color }}>
+          <div className="lvl-hero p-5" style={{ '--lv': apto ? 'var(--ok)' : 'var(--bad)' }}>
+            <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 text-white">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-widest opacity-80">Acta de resultado · DELE {level} · Modelo {String(modelo).padStart(2, '0')}</div>
+                <div className="mt-1 text-2xl font-black">{ex.temaCentral}</div>
+              </div>
+              <span className={`stamp ${apto ? 'text-white' : 'text-white'}`}>{apto ? 'Apto' : 'No apto'}</span>
+            </div>
           </div>
-          <p className="muted mt-2 text-sm">Grupo 1 (lectura + escritura): {g1.toFixed(2)}/50 · Grupo 2 (audición + oral): {g2.toFixed(2)}/50. {ex.evaluacion.criterio}.</p>
+          <div className="flex flex-wrap items-center justify-center gap-8 p-6">
+            <Ring value={(g1 + g2) / 100} size={130} stroke={11} color={apto ? 'var(--ok)' : 'var(--bad)'}>
+              <div className="text-center leading-none">
+                <div className="text-3xl font-black tabular-nums">{Math.round((g1 + g2) * 100) / 100}</div>
+                <div className="muted text-xs">de 100</div>
+              </div>
+            </Ring>
+            <div className="min-w-[240px] flex-1 space-y-4">
+              {[
+                { name: 'Grupo 1 · Lectura + Escritura', got: g1, min: ex.evaluacion.grupo1.minimo, pruebas: ex.evaluacion.grupo1.pruebas },
+                { name: 'Grupo 2 · Audición + Oral', got: g2, min: ex.evaluacion.grupo2.minimo, pruebas: ex.evaluacion.grupo2.pruebas },
+              ].map(g => {
+                const okG = g.got >= g.min;
+                return (
+                  <div key={g.name}>
+                    <div className="mb-1 flex items-baseline justify-between text-sm">
+                      <span className="font-semibold">{g.name}</span>
+                      <span className={`font-black tabular-nums ${okG ? 'text-ok' : 'text-bad'}`}>{g.got.toFixed(2)}/50 <span className="muted font-normal">(mín. {g.min})</span></span>
+                    </div>
+                    <div className="relative h-2.5 overflow-hidden rounded-full bg-surface-2">
+                      <div className={`h-full rounded-full transition-all duration-700 ${okG ? 'bg-ok' : 'bg-bad'}`} style={{ width: `${Math.min(100, g.got * 2)}%` }} />
+                      <span className="absolute inset-y-0 w-0.5 bg-ink-3" style={{ left: `${g.min * 2}%` }} title={`Mínimo: ${g.min}`} />
+                    </div>
+                  </div>
+                );
+              })}
+              <p className="muted text-xs">{ex.evaluacion.criterio}.</p>
+            </div>
+          </div>
         </div>
       )}
     </>
@@ -110,9 +155,22 @@ function PartTimer({ minutes, stopped }) {
   }, [stopped]);
   const mm = String(Math.floor(left / 60)).padStart(2, '0');
   const ss = String(left % 60).padStart(2, '0');
+  const elapsed = minutes ? 1 - left / (minutes * 60) : 0;
+  const danger = left < 300 && !stopped;
   return (
-    <div className={`sticky top-14 z-10 mb-5 flex items-center gap-2 rounded-xl border border-line bg-surface/95 px-3 py-2 text-sm backdrop-blur lg:top-3 ${left < 300 && !stopped ? 'text-bad' : ''}`}>
-      <Timer size={16} /> <span className="font-semibold tabular-nums">{mm}:{ss}</span> <span className="muted">restantes de {minutes} min</span>
+    <div className={`sticky top-14 z-10 mb-5 rounded-xl border border-line bg-surface/95 px-3 py-2 text-sm shadow-sm backdrop-blur lg:top-3 ${danger ? 'timer-danger border-bad' : ''}`}>
+      <div className={`flex items-center gap-2 ${danger ? 'text-bad' : ''}`}>
+        <Timer size={16} className={danger ? 'animate-pulse' : ''} />
+        <span className="text-base font-black tabular-nums">{mm}:{ss}</span>
+        <span className="muted">restantes de {minutes} min</span>
+        {stopped && <span className="chip ml-auto bg-ok-soft text-ok">Prueba entregada</span>}
+      </div>
+      <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-surface-2">
+        <div
+          className={`h-full rounded-full transition-all duration-1000 ${danger ? 'bg-bad' : 'bg-brand'}`}
+          style={{ width: `${Math.round(elapsed * 100)}%` }}
+        />
+      </div>
     </div>
   );
 }
