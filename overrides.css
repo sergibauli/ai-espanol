@@ -9,8 +9,6 @@
 body:has(.dashboard-stars) div:has(> .flex.items-center.gap-3.mb-6 .text-green-400),
 body:has(.dashboard-stars) .flex.justify-start,
 body:has(.dashboard-stars) .px-4.py-2\.5.rounded-2xl.rounded-bl-md,
-body:has(.dashboard-stars) .mb-6.relative:has(> .-inset-\[1\.5px\].rounded-3xl),
-body:has(.dashboard-stars) .block.group,
 body:has(.dashboard-stars) .grid.grid-cols-3.gap-3.mb-5 {
   display: none !important;
 }
@@ -157,4 +155,93 @@ a:hover .mx-tile-icon, button:hover .mx-tile-icon {
 }
 @media (prefers-reduced-motion: reduce) {
   #ov-login-btn { animation: none; }
+}
+
+/* ============================================================
+   8. RONDA 2 — conector módulo→secciones, módulos y exámenes DELE
+   ============================================================ */
+
+/* ---------- 8a. Conector de secciones (dentro de .module-experience) ---------- */
+/* Los botones activos llevan box-shadow inline → seleccionables con [style*] */
+.module-experience .flex.items-center.gap-2.px-5.py-3.rounded-2xl {
+  min-height: 3rem;
+  border-radius: 1rem !important;
+  backdrop-filter: blur(10px);
+}
+.module-experience button:not([style*="box-shadow"]).flex.items-center.gap-2.px-5.py-3.rounded-2xl {
+  background: rgba(255,255,255,.05) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  color: rgba(255,255,255,.75) !important;
+  transition: transform .25s cubic-bezier(.2,1.3,.4,1), border-color .25s, background .25s, color .25s;
+}
+.module-experience button:not([style*="box-shadow"]).flex.items-center.gap-2.px-5.py-3.rounded-2xl:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,.32) !important;
+  background: rgba(255,255,255,.09) !important;
+  color: #fff !important;
+}
+.module-experience button[style*="box-shadow"].flex.items-center.gap-2.px-5.py-3.rounded-2xl {
+  box-shadow: 0 8px 26px -6px currentColor, inset 0 1px 0 rgba(255,255,255,.15) !important;
+  animation: ov-tab-in .35s cubic-bezier(.2,1.3,.4,1);
+}
+@keyframes ov-tab-in { from { transform: scale(.94); opacity: .4; } }
+
+/* En móvil: la fila de secciones pasa a carrusel horizontal con snap */
+@media (max-width: 640px) {
+  .module-experience .relative.flex.flex-wrap.gap-3 {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    padding-bottom: .6rem;
+    scrollbar-width: none;
+  }
+  .module-experience .relative.flex.flex-wrap.gap-3::-webkit-scrollbar { display: none; }
+  .module-experience .relative.flex.flex-wrap.gap-3 > button {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
+/* Cabecera del módulo seleccionado: título con más presencia */
+.module-experience .mx-font-display.text-3xl,
+.module-experience .mx-font-display.md\:text-4xl {
+  text-shadow: 0 2px 24px rgba(0,0,0,.5);
+}
+
+/* ---------- 8b. Exámenes DELE: ambiente y tarjetas con más carácter ---------- */
+.exam-experience {
+  background-image:
+    radial-gradient(900px 420px at 88% -8%, rgba(0,212,255,.09), transparent 60%),
+    radial-gradient(760px 400px at -8% 22%, rgba(168,85,247,.08), transparent 55%),
+    radial-gradient(600px 300px at 50% 110%, rgba(255,138,42,.06), transparent 60%) !important;
+}
+.exam-mission-card { position: relative; border-radius: 1.25rem; }
+.exam-mission-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14%; bottom: 14%;
+  width: 3px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, #00d4ff, #a855f7);
+  opacity: 0;
+  transition: opacity .3s;
+  z-index: 20;
+}
+.exam-mission-card:hover::before { opacity: .95; }
+.exam-mission-card:hover {
+  box-shadow: 0 26px 60px -16px rgba(0,0,0,.75), 0 0 46px -10px rgba(0,212,255,.4);
+}
+.exam-mission-card .exam-mission-content > div.font-black {
+  letter-spacing: -.02em;
+  text-shadow: 0 2px 18px rgba(0,0,0,.45);
+}
+/* Selector de nivel: anillo de color al pasar el ratón */
+.exam-level-selector-card:hover {
+  box-shadow: 0 16px 44px -12px rgba(0,0,0,.6), 0 0 34px -6px rgba(0,212,255,.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .module-experience button[style*="box-shadow"] { animation: none; }
 }
