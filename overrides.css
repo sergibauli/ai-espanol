@@ -1,0 +1,126 @@
+/* ============================================================
+   AI Español — overrides visuales v1 (cirugía CSS sobre el dist)
+   Se carga desde index.html. Para actualizar: editar este fichero
+   y subir la versión del service worker (CACHE_NAME) en service-worker.js
+   ============================================================ */
+
+/* ---------- 1. DASHBOARD: quitar el tutor IA de abajo, su input,
+       los cuadritos y el grid de 3 stats (solo en la página Dashboard) ---------- */
+body:has(.dashboard-stars) div:has(> .flex.items-center.gap-3.mb-6 .text-green-400),
+body:has(.dashboard-stars) .flex.justify-start,
+body:has(.dashboard-stars) .px-4.py-2\.5.rounded-2xl.rounded-bl-md,
+body:has(.dashboard-stars) .mb-6.relative:has(> .-inset-\[1\.5px\].rounded-3xl),
+body:has(.dashboard-stars) .block.group,
+body:has(.dashboard-stars) .grid.grid-cols-3.gap-3.mb-5 {
+  display: none !important;
+}
+
+/* ---------- 2. MÓDULOS: pestañas de nivel más bonitas y táctiles ---------- */
+.mx-noscroll {
+  gap: .5rem;
+  padding: .5rem .25rem;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.mx-noscroll > button {
+  scroll-snap-align: start;
+  height: 2.75rem !important;
+  padding: 0 1.15rem !important;
+  font-size: .8rem !important;
+  border-radius: 999px !important;
+  backdrop-filter: blur(8px);
+  transition: transform .25s cubic-bezier(.2,1.4,.4,1), box-shadow .25s, background .25s, border-color .25s !important;
+}
+.mx-noscroll > button[aria-pressed="true"] {
+  color: #fff !important;
+  border-width: 1.5px !important;
+  box-shadow: 0 6px 22px -4px currentColor, 0 0 0 4px rgba(255,255,255,.04) !important;
+  text-shadow: 0 1px 8px rgba(0,0,0,.35);
+}
+.mx-noscroll > button[aria-pressed="false"] {
+  background: rgba(255,255,255,.05) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  color: rgba(255,255,255,.72) !important;
+}
+.mx-noscroll > button[aria-pressed="false"]:hover {
+  border-color: rgba(255,255,255,.3) !important;
+  color: #fff !important;
+}
+
+/* ---------- 3. MÓDULOS: tarjetas de tema más espectaculares ---------- */
+a:has(.mx-tile-num), button:has(.mx-tile-num) {
+  border-radius: 1.25rem;
+  transition: transform .28s cubic-bezier(.2,1.2,.4,1), box-shadow .28s, filter .28s;
+  will-change: transform;
+}
+a:has(.mx-tile-num):hover, button:has(.mx-tile-num):hover {
+  transform: translateY(-5px) scale(1.015);
+  box-shadow: 0 18px 44px -12px rgba(0,0,0,.65), 0 0 32px -6px rgba(255,138,42,.35);
+  filter: saturate(1.15);
+}
+a:has(.mx-tile-num):active, button:has(.mx-tile-num):active {
+  transform: translateY(-1px) scale(.99);
+}
+.mx-tile-title {
+  letter-spacing: -.01em;
+}
+a:hover .mx-tile-title, button:hover .mx-tile-title {
+  text-shadow: 0 0 18px rgba(255,138,42,.45);
+}
+.mx-tile-bar .block.h-full {
+  background-image: linear-gradient(90deg, #ff8a2a, #ffd36b, #ff8a2a);
+  background-size: 200% 100%;
+  animation: mx-bar-shine 2.6s linear infinite;
+}
+@keyframes mx-bar-shine { to { background-position: -200% 0; } }
+.mx-tile-icon {
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,.5));
+}
+a:hover .mx-tile-icon, button:hover .mx-tile-icon {
+  animation: mx-pop .45s cubic-bezier(.2,1.6,.4,1);
+}
+@keyframes mx-pop { 50% { transform: scale(1.18) rotate(-6deg); } }
+
+/* ---------- 4. EXÁMENES OFICIALES: tarjetas de modelo con más brillo ---------- */
+.exam-mission-card {
+  transition: transform .3s cubic-bezier(.2,1.2,.4,1), box-shadow .3s;
+  will-change: transform;
+}
+.exam-mission-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 50px -14px rgba(0,0,0,.7), 0 0 40px -8px rgba(0,212,255,.3);
+}
+.exam-mission-card .exam-mission-content {
+  transition: transform .3s;
+}
+.exam-mission-card:hover .exam-mission-content {
+  transform: translateX(3px);
+}
+
+/* ---------- 5. EXÁMENES: pestañas de nivel adaptables a móvil/tablet ---------- */
+.exam-level-cinematic-hero .flex.justify-center {
+  flex-wrap: wrap;
+  gap: .8rem;
+  row-gap: .9rem;
+}
+.exam-level-selector-card {
+  transition: transform .3s cubic-bezier(.2,1.2,.4,1), box-shadow .3s;
+}
+.exam-level-selector-card:hover {
+  transform: translateY(-4px) scale(1.03);
+}
+@media (max-width: 640px) {
+  .exam-level-selector-card { transform: scale(.88); }
+  .exam-level-selector-card:hover { transform: scale(.88) translateY(-3px); }
+  .exam-level-stats { gap: .5rem !important; }
+  .exam-level-cinematic-hero .text-4xl { font-size: 1.65rem; }
+}
+
+/* ---------- 6. Pulido global ---------- */
+::selection { background: rgba(255,138,42,.35); }
+:focus-visible { outline: 2px solid rgba(255,138,42,.7); outline-offset: 2px; border-radius: .5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  a:has(.mx-tile-num), .exam-mission-card, .exam-level-selector-card, .mx-tile-icon { transition: none !important; animation: none !important; }
+  .mx-tile-bar .block.h-full { animation: none; }
+}
