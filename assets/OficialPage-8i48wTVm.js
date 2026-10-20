@@ -110,7 +110,7 @@ const cards=LEVELS.map((l,i)=>{const on=open===l.key;const n=(COUNTS&&COUNTS[l.k
     h("b",null,p[0]),h("i",null,p[1]),h("em",null,l.p[k])]},k))}),
    e.jsxs(Link,{to:`/oficial/${l.key}`,className:"ofx-cta",children:[t("Ver modelos ","查看模型 ")+l.key,Icon("M5 12h14 M12 5l7 7-7 7",16)]})):null]},l.key)});
 return e.jsxs(Shell,{children:[h("style",null,CSS),e.jsxs("div",{className:"ofx",children:[
- e.jsxs(Link,{to:"/examenes",className:"ofx-back",children:[Icon("M19 12H5 M12 19l-7-7 7-7",18),t("Volver a DELE para practicar","返回 DELE 练习")]}),
+ e.jsxs(Link,{to:"/dashboard",className:"ofx-back",children:[Icon("M19 12H5 M12 19l-7-7 7-7",18),t("Volver al inicio","返回首页")]}),
  hero,
  h("h2",{className:"ofx-h2"},t("Elige tu nivel","选择你的级别")),
  h("p",{className:"ofx-p"},t("Toca un nivel para ver sus cuatro pruebas y tiempos oficiales.","点击级别查看四项考试和官方时间。")),

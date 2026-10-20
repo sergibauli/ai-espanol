@@ -552,3 +552,185 @@ body .module-experience .module-tile > span:first-of-type + span { padding-right
 .ofe .ofe-item [data-enunciado] { font-size: 15.5px !important; color: #fff !important; line-height: 1.5 !important; }
 .ofe .ofe-item button { min-height: 44px; }
 .ofe .ofe-item button:focus-visible { outline: 2px solid #f6dfa8; outline-offset: 2px; }
+
+/* ============================================================
+   14. RONDA 6 — Global: nada se sale por la derecha en el móvil
+   ============================================================ */
+html, body { overflow-x: clip; }
+.mobile-nav-item[href="#/examenes"] { display: none !important; }
+
+/* ============================================================
+   15. RONDA 6 — Portada impactante (un solo botón)
+   ============================================================ */
+.cinematic-login .login-hero { margin: 4px auto 8px; text-align: center; max-width: 420px; padding: 0 12px; }
+.cinematic-login .login-hero-title {
+  margin: 0;
+  font-family: Unbounded, 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(34px, 10vw, 56px);
+  line-height: 1;
+  letter-spacing: -.035em;
+  color: #fff;
+  text-shadow: 0 8px 40px rgba(255,138,42,.35);
+}
+.cinematic-login .login-hero-title span {
+  background: linear-gradient(92deg, #ffd600, #ff8a2a 40%, #ff00aa 70%, #00d4ff);
+  background-size: 220% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: loginHeroShine 6s linear infinite;
+}
+@keyframes loginHeroShine { to { background-position: -220% center; } }
+.cinematic-login .login-hero-zh { margin: 10px 0 0; font-size: 14px; color: #c3c8e0; letter-spacing: .04em; }
+.cinematic-login .login-pills { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.cinematic-login .login-pills li {
+  height: 30px; padding: 0 12px; border-radius: 999px; display: inline-flex; align-items: center;
+  font-size: 12px; font-weight: 700; color: #e6e9f7;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.cinematic-login .login-pills li:nth-child(1) { border-color: rgba(255,214,0,.45); }
+.cinematic-login .login-pills li:nth-child(2) { border-color: rgba(255,0,170,.45); }
+.cinematic-login .login-pills li:nth-child(3) { border-color: rgba(0,212,255,.45); }
+/* tarjeta del botón: sin marco ni puntos, el botón flota solo */
+.cinematic-login .login-cardwrap > div:first-child { opacity: .35 !important; filter: blur(40px); }
+.cinematic-login .login-cardwrap .rounded-3xl.p-8 { background: transparent !important; border: 0 !important; box-shadow: none !important; padding: 20px 8px !important; backdrop-filter: none !important; }
+.cinematic-login .login-cardwrap .rounded-3xl.p-8 > .absolute { display: none !important; }
+.cinematic-login .login-one {
+  position: relative; overflow: hidden;
+  min-height: 66px !important;
+  font-size: 1.1rem !important;
+  border-radius: 20px !important;
+  background: linear-gradient(120deg, #ff8a2a, #ff5500 45%, #ff00aa) !important;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset, 0 20px 50px -12px rgba(255,90,0,.85), 0 0 80px -10px rgba(255,0,170,.5) !important;
+  animation: loginOneFloat 3.2s ease-in-out infinite;
+}
+.cinematic-login .login-one::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.45) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: loginOneShine 3.2s ease-in-out infinite;
+}
+@keyframes loginOneShine { 55%, 100% { transform: translateX(120%); } }
+@keyframes loginOneFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .cinematic-login .login-one, .cinematic-login .login-one::after, .cinematic-login .login-hero-title span { animation: none !important; } }
+
+/* ============================================================
+   16. RONDA 6 — Dashboard: fuera lo de debajo de los botones,
+       tarjetas más espectaculares
+   ============================================================ */
+.dashboard-feature-grid ~ div { display: none !important; }
+.dashboard-feature-grid { gap: 12px !important; margin-bottom: 24px !important; }
+.dashboard-feature-grid .dashboard-card {
+  border-radius: 24px !important;
+  min-height: 190px;
+  justify-content: center;
+  background: linear-gradient(165deg, rgba(20,26,66,.85), rgba(8,11,32,.92)) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  box-shadow: 0 20px 40px -24px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.dashboard-feature-grid .dashboard-card .w-11 { width: 58px !important; height: 58px !important; border-radius: 18px !important; }
+.dashboard-feature-grid .dashboard-card h3,
+.dashboard-feature-grid .dashboard-card .font-bold.text-white { font-size: 16px !important; }
+
+/* ============================================================
+   17. RONDA 6 — Dentro de un módulo: menos márgenes, cabecera
+       compacta, pestañas en carrusel, Teoría/Vocabulario/Ejercicios
+   ============================================================ */
+@media (max-width: 640px) {
+  .module-experience .max-w-5xl.mx-auto.px-4.py-6 { padding-left: 2px !important; padding-right: 2px !important; }
+  .module-experience .max-w-4xl.mx-auto.px-4,
+  .module-experience .max-w-6xl.mx-auto.px-4 { padding-left: 0 !important; padding-right: 0 !important; }
+}
+/* cabecera del módulo */
+.module-experience div.flex.flex-col.md\:flex-row.md\:items-center.gap-5 {
+  flex-direction: row !important; flex-wrap: wrap; align-items: center; gap: 12px 14px !important;
+}
+.module-experience div.flex.flex-col.md\:flex-row.md\:items-center.gap-5 > .flex-1 { flex: 1 1 200px; min-width: 0; }
+.module-experience div.flex.flex-col.md\:flex-row.md\:items-center.gap-5 > .flex-1 h1,
+.module-experience div.flex.flex-col.md\:flex-row.md\:items-center.gap-5 > .flex-1 h2 {
+  font-family: Unbounded, 'Plus Jakarta Sans', sans-serif; font-size: clamp(20px, 5.6vw, 30px) !important; line-height: 1.15 !important; letter-spacing: -.02em;
+}
+.module-experience div.flex.flex-col.md\:flex-row.md\:items-center.gap-5 > button {
+  flex: 1 1 150px; justify-content: center; padding: 11px 12px !important; font-size: 13px !important; min-height: 46px; border-radius: 16px !important;
+}
+/* pestañas Teoría / Vocabulario / ... en una fila deslizable */
+.module-experience div.relative.flex.flex-wrap.gap-3.mt-6.pb-1 {
+  flex-wrap: nowrap !important; overflow-x: auto; gap: 8px !important; margin-top: 16px !important;
+  padding: 4px 2px 8px !important; scroll-snap-type: x proximity; scrollbar-width: none;
+}
+.module-experience div.relative.flex.flex-wrap.gap-3.mt-6.pb-1::-webkit-scrollbar { display: none; }
+.module-experience div.relative.flex.flex-wrap.gap-3.mt-6.pb-1 > button {
+  flex: 0 0 auto; scroll-snap-align: start; padding: 10px 14px !important; font-size: 13px !important; border-radius: 999px !important; min-height: 44px;
+}
+/* Teoría: fuera el título repetido, solo las cifras */
+.module-experience .relative.z-10.mb-10.text-center { margin-bottom: 18px !important; }
+.module-experience .relative.z-10.mb-10.text-center > :not(.grid) { display: none !important; }
+.module-experience .relative.z-10.mb-10.text-center > .grid { margin-top: 8px !important; }
+.module-experience .theory-section-nav { padding: 14px !important; border-radius: 22px !important; }
+.module-experience .theory-concept-card { border-radius: 22px !important; }
+
+/* Vocabulario: fichas modernas, 2 columnas en pantallas anchas */
+.module-experience .vocab-card {
+  padding: 18px !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(255,255,255,.09) !important;
+  border-left: 4px solid var(--card-color, #00d4ff) !important;
+  background: linear-gradient(150deg, rgba(22,28,70,.95), rgba(9,12,34,.98)) !important;
+}
+.module-experience .vocab-card > .absolute.top-0 { display: none; }
+.module-experience .vocab-card > .flex.items-start.justify-between { gap: 10px; margin-bottom: 12px !important; }
+.module-experience .vocab-card h3 { font-family: Unbounded, 'Plus Jakarta Sans', sans-serif; font-size: 21px !important; line-height: 1.2 !important; letter-spacing: -.01em; }
+.module-experience .vocab-card button.w-11 { width: 40px !important; height: 40px !important; }
+.module-experience .vocab-card button.w-11:hover { border-color: var(--card-color) !important; color: var(--card-color); }
+@media (min-width: 700px) {
+  .module-experience div:has(> .vocab-card) { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .module-experience div:has(> .vocab-card) > * { margin: 0 !important; }
+}
+
+/* Ejercicios: tipos en carrusel, tarjetas limpias, botón principal claro */
+.module-experience div.flex.flex-wrap.gap-3.justify-center.mb-8:has(> .premium-tab) {
+  flex-wrap: nowrap !important; justify-content: flex-start !important; overflow-x: auto; gap: 8px !important;
+  margin-bottom: 18px !important; padding: 4px 2px 8px; scrollbar-width: none;
+}
+.module-experience div.flex.flex-wrap.gap-3.justify-center.mb-8:has(> .premium-tab)::-webkit-scrollbar { display: none; }
+.module-experience .premium-tab {
+  flex: 0 0 auto; height: 42px; padding: 0 16px !important; font-size: 14px !important; border-radius: 999px !important;
+  background: rgba(255,255,255,.05) !important; border: 1px solid rgba(255,255,255,.14) !important; color: #d5d9ee !important;
+  -webkit-text-fill-color: currentColor !important; box-shadow: none !important;
+}
+.module-experience .premium-tab.active {
+  background: #ff8a2a !important; border-color: #ff8a2a !important; color: #1a0b00 !important;
+  box-shadow: 0 10px 24px -10px rgba(255,138,42,.9) !important;
+}
+.module-experience .gradient-exercise-card {
+  padding: 18px !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(255,255,255,.09) !important;
+  background: linear-gradient(155deg, rgba(22,28,70,.95), rgba(9,12,34,.98)) !important;
+}
+.module-experience .gradient-exercise-card > .mb-4 > p { font-size: 17px !important; line-height: 1.45 !important; }
+.module-experience .gradient-exercise-card .neon-input { font-size: 16px !important; padding: 14px 16px !important; border-radius: 14px !important; }
+.module-experience .gradient-exercise-card > .flex.gap-3 { gap: 10px !important; }
+.module-experience .gradient-exercise-card > .flex.gap-3 > button {
+  flex: 1 1 0; min-height: 50px; padding: 12px 10px !important; font-size: 15px !important; border-radius: 14px !important;
+}
+.module-experience .gradient-exercise-card > .flex.gap-3 > button:first-child {
+  background: #ff8a2a !important; color: #1a0b00 !important; border-color: #ff8a2a !important;
+}
+.module-experience .option-btn-3d { min-height: 48px; border-radius: 14px !important; }
+/* ajustes finos ronda 6 */
+.cinematic-login p.text-sm.font-medium.mb-8 { display: none !important; }
+.module-experience .max-w-6xl.mx-auto.px-4.py-6 { padding-top: 6px !important; }
+.module-experience div.flex.flex-col.md\:flex-row.md\:items-center.gap-5 > button { line-height: 1.2 !important; font-size: 12.5px !important; }
+.module-experience .flex.items-center.gap-4:has(> .w-14.h-14 + .flex-1) {
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "num tools" "body body";
+  gap: 12px !important;
+  align-items: center;
+}
+.module-experience .flex.items-center.gap-4:has(> .w-14.h-14 + .flex-1) > .w-14 { grid-area: num; width: 46px !important; height: 46px !important; border-radius: 14px !important; }
+.module-experience .flex.items-center.gap-4:has(> .w-14.h-14 + .flex-1) > .flex-1 { grid-area: body; }
+.module-experience .flex.items-center.gap-4:has(> .w-14.h-14 + .flex-1) > .shrink-0:last-child { grid-area: tools; justify-self: end; }
+.module-experience .flex.items-center.gap-4:has(> .w-14.h-14 + .flex-1) h2 { font-size: 20px !important; line-height: 1.25 !important; }
+.module-experience .theory-card-preview { color: #b6bbd6 !important; font-size: 14px !important; }

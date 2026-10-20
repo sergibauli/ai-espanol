@@ -1,59 +1,60 @@
 /* ============================================================
    AI Español v1 — capa de ajustes JS (inyectado desde index.html)
-   Permite modificar la app compilada sin código fuente:
-   DOM, botones, flujos (p. ej. login de Clerk).
+   Permite modificar la app compilada sin código fuente.
+   Ronda 6:
+   - "DELE" lleva siempre a los exámenes OFICIALES (no a practicar)
+   - pestaña "Oficiales" del menú inferior se llama "DELE"
+   - sin botón flotante de "Iniciar sesión" (la portada ya tiene uno)
    ============================================================ */
 (function () {
   'use strict';
 
-  /* ---------- Botón flotante "Iniciar sesión" (un clic, Clerk) ---------- */
-  var LOGIN_BTN_ID = 'ov-login-btn';
-
-  function onAuthPages() {
-    var h = (location.hash || '') + ' ' + (location.pathname || '');
-    return /login|sign-in|signin/.test(h);
+  /* ---------- 1. Exámenes DELE -> oficiales ---------- */
+  function redirectDele() {
+    var h = location.hash || '';
+    var m;
+    if (h === '#/examenes' || h === '#/examenes/') {
+      location.replace('#/oficial');
+      return;
+    }
+    m = h.match(/^#\/examenes-nivel\/(A1|A2|B1|B2)\/?$/i);
+    if (m) location.replace('#/oficial/' + m[1].toUpperCase());
   }
+  window.addEventListener('hashchange', redirectDele);
+  redirectDele();
 
-  function loginTick() {
-    var clerk = window.Clerk;
-    var btn = document.getElementById(LOGIN_BTN_ID);
-
-    // Clerk aún no cargó: esperar (y ocultar botón si estaba)
-    if (!clerk || !clerk.loaded) {
-      if (btn) btn.hidden = true;
-      return;
-    }
-
-    // Sesión iniciada o en pantalla de login: no mostrar el botón
-    if (clerk.user || onAuthPages()) {
-      if (btn) btn.remove();
-      return;
-    }
-
-    if (!btn) {
-      btn = document.createElement('button');
-      btn.id = LOGIN_BTN_ID;
-      btn.type = 'button';
-      btn.setAttribute('aria-label', 'Iniciar sesión');
-      btn.textContent = 'Iniciar sesión';
-      btn.addEventListener('click', function () {
-        try {
-          window.Clerk.openSignIn();
-        } catch (e) {
-          location.hash = '#/login'; // Plan B: ir a la página de login
+  /* ---------- 2. Menú inferior: "Oficiales" -> "DELE" ---------- */
+  function relabelNav() {
+    var links = document.querySelectorAll('a[href="#/oficial"]');
+    for (var i = 0; i < links.length; i++) {
+      var spans = links[i].querySelectorAll('span');
+      for (var j = 0; j < spans.length; j++) {
+        if (spans[j].childElementCount === 0 && /^\s*Oficiales\s*$/.test(spans[j].textContent)) {
+          spans[j].textContent = 'DELE';
         }
-      });
-      document.body.appendChild(btn);
+      }
     }
-    btn.hidden = false;
   }
 
-  var started = false;
+  /* ---------- 3. Limpieza: botón flotante antiguo ---------- */
+  function removeOldLoginBtn() {
+    var b = document.getElementById('ov-login-btn');
+    if (b) b.remove();
+  }
+
+  function tick() {
+    relabelNav();
+    removeOldLoginBtn();
+  }
+
   function start() {
-    if (started) return;
-    started = true;
-    setInterval(loginTick, 900);
-    loginTick();
+    tick();
+    var pending = false;
+    new MutationObserver(function () {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () { pending = false; tick(); });
+    }).observe(document.body, { childList: true, subtree: true });
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
