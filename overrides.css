@@ -245,3 +245,97 @@ a:hover .mx-tile-icon, button:hover .mx-tile-icon {
 @media (prefers-reduced-motion: reduce) {
   .module-experience button[style*="box-shadow"] { animation: none; }
 }
+
+/* ============================================================
+   9. RONDA 3 — tamaños contenidos, exámenes con panel sólido,
+      módulos más limpios
+   ============================================================ */
+
+/* ---------- 9a. Botones y letras que SÍ caben en pantalla ---------- */
+.mx-noscroll > button {
+  height: 2.5rem !important;
+  padding: 0 .95rem !important;
+  font-size: .74rem !important;
+}
+.module-experience .flex.items-center.gap-2.px-5.py-3.rounded-2xl {
+  min-height: 2.6rem !important;
+  padding: .55rem 1.05rem !important;
+  font-size: .8rem !important;
+}
+@media (max-width: 400px) {
+  .mx-noscroll > button { height: 2.3rem !important; padding: 0 .75rem !important; font-size: .68rem !important; }
+  .module-experience .flex.items-center.gap-2.px-5.py-3.rounded-2xl { padding: .5rem .85rem !important; font-size: .72rem !important; }
+}
+
+/* Títulos gigantes → tamaño contenido según pantalla */
+.module-experience .mx-font-display.text-3xl,
+.module-experience .mx-font-display.md\:text-4xl,
+.module-experience .text-3xl.md\:text-4xl {
+  font-size: clamp(1.45rem, 5vw, 2.2rem) !important;
+}
+.exam-level-cinematic-hero .text-4xl,
+.exam-level-cinematic-hero .text-4xl.md\:text-5xl,
+.exam-level-cinematic-hero .md\:text-5xl {
+  font-size: clamp(1.55rem, 5.5vw, 2.5rem) !important;
+}
+.exam-level-cinematic-hero .text-lg { font-size: clamp(.85rem, 3vw, 1.05rem) !important; }
+
+/* ---------- 9b. Exámenes DELE: panel sólido, espaciado, aire de examen ---------- */
+.exam-mission-card .backdrop-blur-xl {
+  background: rgba(9,13,28,.82) !important;
+  border: 1px solid rgba(255,255,255,.09);
+}
+.exam-mission-card .exam-mission-content {
+  padding: 1.4rem 1.4rem 1.4rem 1.5rem !important;
+  gap: .55rem;
+}
+.exam-mission-card .exam-mission-content > .font-black {
+  margin-top: .35rem;
+  line-height: 1.2;
+}
+.exam-mission-grid {
+  gap: 1.15rem !important;
+}
+.exam-mission-content .text-xs.font-bold.px-3.py-1\.5 {
+  letter-spacing: .06em;
+  opacity: .92;
+}
+/* Hero: aire arriba, separadores y stats con ritmo */
+.exam-level-cinematic-hero {
+  padding-top: 1.25rem;
+  padding-bottom: .5rem;
+}
+.exam-level-stats {
+  margin-top: 1.5rem !important;
+  row-gap: .8rem;
+}
+.exam-experience {
+  background-image:
+    radial-gradient(900px 420px at 88% -8%, rgba(0,212,255,.07), transparent 60%),
+    radial-gradient(760px 400px at -8% 22%, rgba(168,85,247,.06), transparent 55%),
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px) !important;
+  background-size: auto, auto, 44px 44px, 44px 44px !important;
+}
+
+/* ---------- 9c. Menú de módulos: tarjetas limpias y legibles ---------- */
+a:has(.mx-tile-num), button:has(.mx-tile-num) {
+  background: rgba(9,13,28,.72) !important;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 1.1rem;
+}
+a:has(.mx-tile-num):hover, button:has(.mx-tile-num):hover {
+  border-color: rgba(255,138,42,.45);
+  box-shadow: 0 14px 34px -12px rgba(0,0,0,.7), 0 0 26px -8px rgba(255,138,42,.3);
+}
+.mx-tile-title {
+  font-size: clamp(.92rem, 2.8vw, 1.08rem) !important;
+  line-height: 1.28;
+}
+.mx-tile-cn { font-size: .72rem !important; }
+.mx-tile-num { font-size: 1rem !important; }
+.mx-tile-lv { font-size: .62rem !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  a:has(.mx-tile-num), button:has(.mx-tile-num) { transition: none !important; }
+}
