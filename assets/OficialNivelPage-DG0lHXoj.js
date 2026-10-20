@@ -1,5 +1,114 @@
-import{p as A,k as C,r as c,j as e,e as E,L as f,i as O,M as z,n as B,S as T,T as I}from"./index-C-xEqDiM.js";import{i as M,l as P,T as x}from"./oficial-loader-CjobP4ib.js";import{A as q}from"./arrow-left-CuZ6dvg9.js";import{H as D}from"./headphones-Bu1pRLkI.js";import{P as R}from"./pen-tool-CjUnSDQz.js";import{C as _}from"./clock-Dctl26sz.js";const i="#e0b566",m="#f6dfa8",y={A1:{color:"#10b981",glow:"#34d399",nombre:"A1 · Acceso",chino:"入门"},A2:{color:"#f97316",glow:"#fbbf24",nombre:"A2 · Plataforma",chino:"基础"},B1:{color:"#3b82f6",glow:"#60a5fa",nombre:"B1 · Umbral",chino:"进阶"},B2:{color:"#a855f7",glow:"#c084fc",nombre:"B2 · Avanzado",chino:"熟练"}};function b(p,l){try{return JSON.parse(localStorage.getItem(`oficial_res_${p}_${l}`)||"null")}catch{return null}}function V(){const{level:p="A1"}=A(),l=String(p).toUpperCase(),{t:a}=C(),[o,j]=c.useState([]),[u,g]=c.useState(!0),[d,w]=c.useState("");c.useEffect(()=>{let t=!0;return g(!0),M(l)?(P(l).then(r=>{t&&(j(r),g(!1))}),()=>{t=!1}):(j([]),g(!1),()=>{t=!1})},[l]);const s=y[l]||y.A1,h=c.useMemo(()=>{if(!d.trim())return o;const t=d.trim().toLowerCase();return o.filter(r=>r.tema.toLowerCase().includes(t)||r.titulo.toLowerCase().includes(t)||r.codigo.toLowerCase().includes(t)||String(r.id).includes(t))},[o,d]),v=c.useMemo(()=>o.filter(t=>b(l,t.id)).length,[o,l]),N=c.useMemo(()=>{const t=o.map(r=>b(l,r.id)).filter(Boolean);return t.length?Math.round(t.reduce((r,n)=>r+(n.total||0),0)/t.length):null},[o,l]);return e.jsxs(E,{children:[e.jsx("style",{children:`
-        @keyframes ofNivelIn { from { opacity: 0; transform: translateY(26px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .ofn { animation: ofNivelIn .55s cubic-bezier(.16,1,.3,1) both; }
-        @keyframes ofShine { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-      `}),e.jsxs("div",{className:"max-w-6xl mx-auto px-4 py-8",children:[e.jsxs(f,{to:"/oficial",className:"inline-flex items-center gap-2 text-white/50 hover:text-amber-300 transition-all mb-6 text-sm group",children:[e.jsx(q,{size:16,className:"group-hover:-translate-x-1 transition-transform"}),a("Volver a Exámenes Oficiales","返回官方考试")]}),e.jsxs("div",{className:"relative rounded-3xl overflow-hidden mb-7 p-6 md:p-8",style:{border:`1px solid ${s.color}30`,background:`linear-gradient(140deg, ${s.color}12, rgba(10,13,28,.96) 50%, rgba(24,18,10,.9))`},children:[e.jsx("div",{className:"absolute top-0 left-0 right-0 h-[3px]",style:{background:`linear-gradient(90deg, transparent, ${s.glow}, ${i}, transparent)`}}),e.jsxs("div",{className:"flex flex-wrap items-center justify-between gap-5",children:[e.jsxs("div",{className:"flex items-center gap-5",children:[e.jsx("div",{className:"w-[74px] h-[74px] rounded-2xl flex items-center justify-center font-mono font-black text-3xl",style:{background:`linear-gradient(135deg, ${s.color}, ${s.glow})`,color:"#0b0f1e",boxShadow:`0 0 30px ${s.glow}55`},children:l}),e.jsxs("div",{children:[e.jsx("h1",{className:"text-2xl md:text-3xl font-black text-white leading-none",children:s.nombre}),e.jsx("p",{className:"text-white/40 text-sm font-bold mt-1.5",children:x[l]>0?`${x[l]} ${a("modelos oficiales completos","套完整官方模型")} · ${s.chino}`:a("Nivel pendiente de publicación","该级别尚未发布")})]})]}),e.jsxs("div",{className:"flex items-center gap-2.5",children:[x[l]>0&&e.jsxs("div",{className:"rounded-xl px-4 py-2.5 text-center",style:{background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.08)"},children:[e.jsxs("div",{className:"font-mono font-black text-lg text-white",children:[v,e.jsxs("span",{className:"text-white/25 text-sm",children:["/",x[l]]})]}),e.jsx("div",{className:"text-[9px] font-bold uppercase tracking-wider text-white/35",children:a("realizados","已完成")})]}),N!==null&&e.jsxs("div",{className:"rounded-xl px-4 py-2.5 text-center",style:{background:`${i}10`,border:`1px solid ${i}30`},children:[e.jsxs("div",{className:"font-mono font-black text-lg",style:{color:m},children:[N,"%"]}),e.jsx("div",{className:"text-[9px] font-bold uppercase tracking-wider",style:{color:`${i}80`},children:a("media","平均分")})]})]})]}),e.jsx("div",{className:"mt-6 h-1.5 rounded-full overflow-hidden",style:{background:"rgba(255,255,255,.06)"},children:e.jsx("div",{className:"h-full rounded-full transition-all duration-700",style:{width:`${o.length?v/o.length*100:0}%`,background:`linear-gradient(90deg, ${s.color}, ${s.glow}, ${i})`}})})]}),e.jsxs("div",{className:"flex items-center gap-3 mb-5",children:[e.jsx("input",{value:d,onChange:t=>w(t.target.value),placeholder:a("Buscar por tema o número de modelo…","按主题或模型编号搜索…"),className:"flex-1 rounded-xl px-4 py-2.5 text-sm text-white/80 outline-none transition-colors placeholder:text-white/25",style:{background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.08)"}}),e.jsxs("span",{className:"text-[11px] font-bold uppercase tracking-wider text-white/25 hidden sm:block",children:[h.length," ",a("modelos","套")]})]}),u?e.jsxs("div",{className:"py-24 text-center",children:[e.jsx("div",{className:"w-11 h-11 mx-auto rounded-full mb-4",style:{border:`3px solid ${s.color}30`,borderTopColor:s.glow,animation:"spin 1s linear infinite"}}),e.jsx("p",{className:"text-white/40 text-sm",children:a("Preparando los modelos oficiales…","正在准备官方模型…")})]}):e.jsx("div",{className:"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4",children:h.map((t,r)=>{const n=b(l,t.id);return e.jsx("div",{className:"ofn",style:{animationDelay:`${Math.min(r,12)*.035}s`},children:e.jsx(f,{to:`/oficial/${l}/${t.id}`,className:"block group",children:e.jsxs("div",{className:"relative rounded-2xl overflow-hidden h-full transition-all duration-300 hover:-translate-y-1",style:{background:`linear-gradient(150deg, ${s.color}10, rgba(12,16,34,.97) 55%, rgba(18,14,10,.95))`,border:`1px solid ${s.color}22`,boxShadow:"0 6px 26px rgba(0,0,0,.32)"},children:[e.jsx("div",{className:"absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity",style:{background:`linear-gradient(90deg, transparent, ${s.glow}, ${i}, transparent)`}}),e.jsxs("div",{className:"p-4",children:[e.jsxs("div",{className:"flex items-start justify-between gap-3 mb-3",children:[e.jsxs("div",{className:"flex items-center gap-3 min-w-0",children:[e.jsx("div",{className:"w-11 h-11 rounded-xl flex items-center justify-center font-mono font-black text-base shrink-0",style:{background:`linear-gradient(140deg, ${s.color}30, ${s.glow}18)`,border:`1px solid ${s.glow}35`,color:m},children:String(t.id).padStart(2,"0")}),e.jsxs("div",{className:"min-w-0",children:[e.jsx("div",{className:"text-[13px] font-black text-white/85 truncate",children:t.tema}),e.jsx("div",{className:"text-[10px] font-bold uppercase tracking-wider mt-0.5",style:{color:`${i}70`},children:t.codigo||`MODELO ${String(t.id).padStart(2,"0")}`}),t.ambito&&e.jsx("div",{className:"text-[10px] text-white/30 font-medium truncate mt-0.5",children:t.ambito})]})]}),n&&e.jsxs("span",{className:"shrink-0 text-[10px] font-black px-2 py-1 rounded-lg",style:{color:n.total>=80?"#34d399":n.total>=60?"#fbbf24":"#f87171",background:n.total>=80?"rgba(52,211,153,.12)":n.total>=60?"rgba(251,191,36,.12)":"rgba(248,113,113,.12)",border:`1px solid ${n.total>=80?"rgba(52,211,153,.3)":n.total>=60?"rgba(251,191,36,.3)":"rgba(248,113,113,.3)"}`},children:[n.total,"%"]})]}),e.jsx("div",{className:"grid grid-cols-2 gap-1.5 mb-3",children:[[O,`${t.lectura.tareas} ${a("tar.","任务")}`,`${t.lectura.preguntas} ${a("ítems","题")}`],[D,`${t.audicion.tareas} ${a("tar.","任务")}`,`${t.audicion.preguntas} ${a("ítems","题")}`],[R,"2",a("tareas","任务")],[z,String(t.oral.tareas),a("tareas","任务")]].map(([$,k,L],S)=>e.jsxs("div",{className:"flex items-center gap-1.5 text-[10px] text-white/40",children:[e.jsx($,{size:10,style:{color:`${s.glow}90`}}),e.jsx("span",{className:"font-bold",children:k}),e.jsx("span",{className:"text-white/20",children:"·"}),e.jsx("span",{children:L})]},S))}),e.jsxs("div",{className:"flex items-center justify-between pt-3",style:{borderTop:"1px solid rgba(255,255,255,.06)"},children:[e.jsxs("span",{className:"flex items-center gap-1 text-[10px] text-white/25 font-bold",children:[e.jsx(_,{size:10})," ",t.lectura.minutos+t.audicion.minutos+t.escritura.minutos," min"]}),e.jsxs("span",{className:"flex items-center gap-1 text-[11px] font-black opacity-70 group-hover:opacity-100 transition-opacity",style:{color:m},children:[n?a("Repetir","重做"):a("Empezar","开始"),e.jsx(B,{size:12,className:"transition-transform group-hover:translate-x-0.5"})]})]})]})]})})},t.id)})}),!u&&o.length===0&&e.jsxs("div",{className:"py-16 text-center",children:[e.jsx("div",{className:"text-4xl font-black mb-3",style:{color:`${i}45`},children:l}),e.jsx("h2",{className:"text-white/85 font-black text-lg mb-2",children:a("Nivel en preparación","该级别准备中")}),e.jsx("p",{className:"text-white/40 text-[13px] max-w-lg mx-auto leading-relaxed",children:a("Los modelos oficiales de este nivel se publican cuando han pasado la auditoría de nivel y de unicidad. Hasta entonces no se muestra aquí ningún modelo, para que no haya duda de qué está desplegado de verdad.","该级别的官方模型将在通过级别与唯一性审核后发布。在此之前此处不显示任何模型，以免对实际部署内容产生疑问。")}),e.jsx(f,{to:"/examenes",className:"inline-block mt-5 px-4 py-2.5 rounded-xl font-black text-[12.5px]",style:{background:`linear-gradient(135deg, ${i}, ${m})`,color:"#17130a"},children:a("Ir a DELE para practicar","前往 DELE 练习")})]}),!u&&o.length>0&&h.length===0&&e.jsx("div",{className:"py-20 text-center text-white/30 text-sm",children:a("No hay modelos que coincidan con la búsqueda.","没有符合搜索条件的模型。")}),e.jsxs("div",{className:"mt-10 flex flex-wrap items-center justify-center gap-3 text-[11px] text-white/25 font-bold",children:[e.jsxs("span",{className:"inline-flex items-center gap-1.5",children:[e.jsx(T,{size:11,style:{color:i}})," ",a("Corrección por IA en escritura y oral","写作与口语由 AI 批改")]}),e.jsxs("span",{className:"inline-flex items-center gap-1.5",children:[e.jsx(I,{size:11,style:{color:i}})," ",a("Puntuación guardada en este dispositivo","成绩保存在本设备")]})]})]})]})}export{V as default};
+import{p as useParams,k as useLang,r as R,j as e,e as Shell,L as Link}from"./index-C-xEqDiM.js";import{i as isAvailable,l as loadList}from"./oficial-loader-CjobP4ib.js";
+/* AI Español — Modelos DELE de un nivel (rediseño v2) */
+const LV={
+A1:{color:"#10b981",glow:"#34d399",name:"Acceso",zh:"入门",info:["Lectura 45′","Audición 25′","Escritura 25′","Oral 3 tareas"]},
+A2:{color:"#f97316",glow:"#fbbf24",name:"Plataforma",zh:"基础",info:["Lectura 60′","Audición 40′","Escritura 25′","Oral 3 tareas"]},
+B1:{color:"#3b82f6",glow:"#60a5fa",name:"Umbral",zh:"进阶",info:["Lectura 70′","Audición 40′","Escritura 45′","Oral 4 tareas"]},
+B2:{color:"#a855f7",glow:"#c084fc",name:"Avanzado",zh:"熟练",info:["Lectura 70′","Audición 40′","Escritura 60′","Oral 3 tareas"]}};
+function h(t,p,...k){const c=k.length===0?void 0:k.length===1?k[0]:k;return e.jsx(t,c===void 0?p||{}:{...(p||{}),children:c})}
+function Icon(d,size,extra){return h("svg",{width:size||18,height:size||18,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round","aria-hidden":"true",...(extra||{})},h("path",{d}))}
+function result(l,id){try{return JSON.parse(localStorage.getItem(`oficial_res_${l}_${id}`)||"null")}catch{return null}}
+function scoreColor(n){return n>=80?"#34d399":n>=60?"#fbbf24":"#f87171"}
+const CSS=`
+.onx{max-width:760px;margin:0 auto;padding:16px 16px 120px;color:#fff;font-family:'Plus Jakarta Sans','Noto Sans SC',system-ui,sans-serif;position:relative;z-index:10}
+.onx *{box-sizing:border-box}
+.onx-glow{position:fixed;width:520px;height:520px;top:-280px;right:-200px;border-radius:50%;background:radial-gradient(circle,var(--c55) 0%,transparent 68%);pointer-events:none;z-index:0}
+.onx-back{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:#c3c8e0;font-size:13px;font-weight:600;text-decoration:none}
+.onx-back:hover{color:#fff}
+.onx-head{margin-top:6px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;animation:onxRise .5s both}
+.onx-kick{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--g)}
+.onx-h1{margin:6px 0 0;font-family:Unbounded,sans-serif;font-weight:900;font-size:clamp(44px,12vw,64px);line-height:.95;letter-spacing:-.03em;text-shadow:0 0 40px var(--c55)}
+.onx-meta{text-align:right;font-size:12px;color:#b6bbd6;line-height:1.55}
+.onx-stats{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.onx-stat{border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:12px}
+.onx-stat b{display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:700;font-size:20px}
+.onx-stat b small{color:#a3a9c7;font-size:13px}
+.onx-stat span{display:block;font-size:11px;color:#b6bbd6;margin-top:3px}
+.onx-bar{margin-top:10px;height:8px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.onx-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--c),var(--g));box-shadow:0 0 12px var(--c);transition:width .8s}
+.onx-rand{margin-top:12px;display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;border-radius:22px;padding:14px 16px;background:linear-gradient(120deg,var(--c),var(--g));box-shadow:0 18px 40px -16px var(--c);transition:transform .2s}
+.onx-rand:active{transform:scale(.98)}
+.onx-rand-ic{width:46px;height:46px;border-radius:14px;background:rgba(5,7,20,.22);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.onx-rand-ic svg{animation:onxSpin 9s linear infinite}
+.onx-rand b{display:block;font-size:15px;color:#050714}
+.onx-rand span{display:block;font-size:12px;color:#0b1030;margin-top:2px;font-weight:600}
+.onx-search{position:relative;margin-top:18px}
+.onx-search svg{position:absolute;left:14px;top:14px;color:#a3a9c7}
+.onx-search input{width:100%;height:46px;border-radius:15px;border:1px solid rgba(255,255,255,.14);background:#0b1030;color:#fff;padding:0 14px 0 42px;font:inherit;font-size:14px}
+.onx-search input::placeholder{color:#8a90b0}
+.onx-filters{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.onx-f{height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:transparent;color:#c3c8e0;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.onx-f[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#050714}
+.onx-f small{opacity:.75;font-family:'JetBrains Mono',monospace;font-size:11px;margin-left:4px}
+.onx-list{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:1fr;gap:10px}
+.onx-list li{animation:onxRise .45s cubic-bezier(.2,.9,.3,1) both}
+.onx-card{display:flex;gap:14px;align-items:stretch;text-decoration:none;color:#fff;border-radius:22px;padding:14px;background:#0b1030;border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 28px -18px rgba(0,0,0,.9);transition:transform .25s cubic-bezier(.2,1.3,.4,1),border-color .25s,box-shadow .25s}
+.onx-card:hover{transform:translateY(-3px);border-color:var(--c);box-shadow:0 18px 36px -18px var(--c)}
+.onx-card.done{background:linear-gradient(150deg,var(--c1a),#0b1030 55%)}
+.onx-num{width:62px;flex:0 0 auto;border-radius:16px;background:var(--c1f);border:1px solid var(--c4d);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.onx-num small{font-size:9.5px;font-weight:800;letter-spacing:.12em;color:var(--g)}
+.onx-num b{font-family:Unbounded,sans-serif;font-weight:900;font-size:22px;line-height:1.1}
+.onx-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.onx-row{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.onx-tema{font-weight:700;font-size:14px;line-height:1.3}
+.onx-tema:first-letter{text-transform:uppercase}
+.onx-amb{display:block;font-size:11px;color:#a3a9c7;margin-top:2px;text-transform:capitalize}
+.onx-score{flex:0 0 auto;height:24px;padding:0 8px;border-radius:8px;font-size:11px;font-weight:800;display:inline-flex;align-items:center}
+.onx-pips{display:flex;gap:6px;align-items:center}
+.onx-pip{height:24px;min-width:30px;padding:0 6px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.12);color:#8a90b0}
+.onx-pip.ok{background:var(--c33);border-color:var(--c88);color:#fff}
+.onx-go{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--g)}
+.onx-empty{text-align:center;padding:36px 10px;color:#a3a9c7;font-size:14px}
+.onx-spin{width:40px;height:40px;margin:40px auto 10px;border-radius:50%;border:3px solid rgba(255,255,255,.12);border-top-color:var(--g);animation:onxSpin 1s linear infinite}
+.onx-card:focus-visible,.onx-rand:focus-visible,.onx-f:focus-visible,.onx-back:focus-visible,.onx-search input:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+@media (min-width:900px){.onx{max-width:1040px}.onx-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@keyframes onxRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes onxSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.onx *{animation:none!important}}
+`;
+function OficialNivelPage(){
+const{level:raw="A1"}=useParams();const l=String(raw).toUpperCase();const cfg=LV[l]||LV.A1;
+let t=(a,b)=>a;try{const L=useLang();if(L&&typeof L.t==="function")t=L.t}catch{}
+const[list,setList]=R.useState([]);const[loading,setLoading]=R.useState(true);const[q,setQ]=R.useState("");const[f,setF]=R.useState("todos");
+R.useEffect(()=>{let alive=true;setLoading(true);if(isAvailable(l)){loadList(l).then(r=>{if(alive){setList(r||[]);setLoading(false)}}).catch(()=>{if(alive){setList([]);setLoading(false)}})}else{setList([]);setLoading(false)}return()=>{alive=false}},[l]);
+const rows=R.useMemo(()=>list.map(m=>({m,r:result(l,m.id)})),[list,l]);
+const hechos=rows.filter(x=>x.r).length;
+const avg=hechos?Math.round(rows.filter(x=>x.r).reduce((a,x)=>a+(x.r.total||0),0)/hechos):null;
+const best=hechos?Math.max(...rows.filter(x=>x.r).map(x=>x.r.total||0)):null;
+const shown=R.useMemo(()=>{const s=q.trim().toLowerCase();return rows.filter(x=>f==="todos"||(f==="hechos"?!!x.r:!x.r)).filter(x=>!s||[x.m.tema,x.m.titulo,x.m.codigo,String(x.m.id)].join(" ").toLowerCase().includes(s))},[rows,q,f]);
+const pick=R.useMemo(()=>{const pool=rows.filter(x=>!x.r);const src=pool.length?pool:rows;return src[Math.floor(Math.random()*src.length)]},[rows]);
+const vars={"--c":cfg.color,"--g":cfg.glow,"--c55":cfg.color+"55","--c1a":cfg.color+"1a","--c1f":cfg.color+"1f","--c33":cfg.color+"40","--c4d":cfg.glow+"4d","--c88":cfg.glow+"88"};
+const FL=[["todos",t("Todos","全部"),rows.length],["pend",t("Sin hacer","未做"),rows.length-hechos],["hechos",t("Hechos","已完成"),hechos]];
+const kids=[
+ h("div",{className:"onx-glow","aria-hidden":"true"}),
+ e.jsxs(Link,{to:"/oficial",className:"onx-back",children:[Icon("M19 12H5 M12 19l-7-7 7-7",18),t("Exámenes oficiales","返回官方考试")]}),
+ h("header",{className:"onx-head"},
+  h("div",null,h("div",{className:"onx-kick"},"DELE · "+cfg.name.toUpperCase()+" · "+cfg.zh),h("h1",{className:"onx-h1"},l)),
+  h("div",{className:"onx-meta"},(list.length||"—")+" "+t("modelos completos","套完整模型"),h("br",null),cfg.info[0]+" · "+cfg.info[1],h("br",null),cfg.info[2]+" · "+cfg.info[3])),
+ h("section",{"aria-label":"Progreso"},
+  h("div",{className:"onx-stats"},
+   h("div",{className:"onx-stat"},h("b",null,String(hechos),h("small",null,"/"+(list.length||0))),h("span",null,t("Completados","已完成"))),
+   h("div",{className:"onx-stat"},h("b",{style:{color:avg!=null?scoreColor(avg):"#a3a9c7"}},avg!=null?avg+"%":"—"),h("span",null,t("Acierto medio","平均正确率"))),
+   h("div",{className:"onx-stat"},h("b",{style:{color:best!=null?scoreColor(best):"#a3a9c7"}},best!=null?best+"%":"—"),h("span",null,t("Mejor modelo","最佳成绩")))),
+  h("div",{className:"onx-bar","aria-hidden":"true"},h("i",{style:{width:(list.length?Math.round(hechos/list.length*100):0)+"%"}}))),
+ pick?e.jsxs(Link,{to:`/oficial/${l}/${pick.m.id}`,className:"onx-rand",children:[
+  h("span",{className:"onx-rand-ic"},Icon("M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M8 8h.01 M16 8h.01 M12 12h.01 M8 16h.01 M16 16h.01",24,{stroke:"#050714"})),
+  h("span",{style:{flex:1}},h("b",null,t("Simulacro sorpresa","随机模拟考试")),h("span",null,t("Un modelo al azar que aún no has hecho","随机选择一套未做的模型"))),
+  Icon("M5 12h14 M12 5l7 7-7 7",20,{stroke:"#050714",strokeWidth:2.4})]}):null,
+ h("div",{className:"onx-search"},Icon("M11 3a8 8 0 1 0 0 16a8 8 0 1 0 0-16z M21 21l-4.3-4.3",18),
+  h("input",{type:"search",value:q,onChange:ev=>setQ(ev.target.value),placeholder:t("Buscar por tema o número de modelo…","按主题或模型编号搜索…"),"aria-label":t("Buscar modelo","搜索模型")})),
+ e.jsx("div",{className:"onx-filters",role:"group","aria-label":"Filtrar",children:FL.map(([k,lab,n])=>e.jsxs("button",{className:"onx-f","aria-pressed":f===k?"true":"false",onClick:()=>setF(k),children:[lab,h("small",null,String(n))]},k))}),
+ loading?h("div",null,h("div",{className:"onx-spin"}),h("p",{className:"onx-empty",style:{paddingTop:0}},t("Preparando los modelos oficiales…","正在准备官方模型…"))):
+ !list.length?h("p",{className:"onx-empty"},t("Nivel pendiente de publicación","该级别尚未发布")):
+ !shown.length?h("p",{className:"onx-empty"},t("Ningún modelo coincide","没有匹配的模型")):
+ e.jsx("ul",{className:"onx-list",children:shown.map((x,i)=>{const{m,r}=x;const num=String(m.id).padStart(2,"0");
+  const pip=(lab,v,title)=>h("span",{className:"onx-pip"+(v!=null?" ok":""),title:title+(v!=null?" · "+v+"%":"")},v!=null?lab+" "+v:lab);
+  return e.jsx("li",{style:{animationDelay:Math.min(i,12)*40+"ms"},children:e.jsxs(Link,{to:`/oficial/${l}/${m.id}`,className:"onx-card"+(r?" done":""),"aria-label":`Modelo ${m.id}: ${m.tema}`,children:[
+   h("span",{className:"onx-num"},h("small",null,"MODELO"),h("b",null,num)),
+   h("span",{className:"onx-body"},
+    h("span",{className:"onx-row"},h("span",null,h("span",{className:"onx-tema"},m.tema||m.titulo),m.ambito?h("span",{className:"onx-amb"},m.ambito):null),
+     r?h("span",{className:"onx-score",style:{color:scoreColor(r.total||0),background:scoreColor(r.total||0)+"22"}},(r.total||0)+"%"):null),
+    h("span",{className:"onx-pips"},pip("L",r&&r.lectura!=null?r.lectura:null,t("Comprensión de lectura","阅读理解")),pip("A",r&&r.audicion!=null?r.audicion:null,t("Comprensión auditiva","听力理解")),
+     h("span",{className:"onx-go"},r?t("Repetir →","重做 →"):t("Empezar →","开始 →"))))]})},m.id)})})];
+return e.jsx(Shell,{children:e.jsxs("div",{className:"onx",style:vars,children:[h("style",null,CSS)].concat(kids)})})}
+export{OficialNivelPage as default};
