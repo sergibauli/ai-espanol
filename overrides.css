@@ -124,3 +124,37 @@ a:hover .mx-tile-icon, button:hover .mx-tile-icon {
   a:has(.mx-tile-num), .exam-mission-card, .exam-level-selector-card, .mx-tile-icon { transition: none !important; animation: none !important; }
   .mx-tile-bar .block.h-full { animation: none; }
 }
+
+/* ---------- 7. Botón flotante "Iniciar sesión" (inyectado por overrides.js) ---------- */
+#ov-login-btn {
+  position: fixed;
+  z-index: 9999;
+  right: 1rem;
+  top: 1rem;
+  padding: .8rem 1.6rem;
+  border: none;
+  border-radius: 999px;
+  font: 800 .95rem/1 system-ui, -apple-system, "PingFang SC", sans-serif;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff8a2a, #ff5e3a);
+  box-shadow: 0 10px 30px -6px rgba(255,110,42,.55), inset 0 1px 0 rgba(255,255,255,.25);
+  transition: transform .22s cubic-bezier(.2,1.4,.4,1), box-shadow .22s;
+  animation: ov-login-pulse 3.2s ease-in-out infinite;
+}
+#ov-login-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 16px 40px -8px rgba(255,110,42,.7), inset 0 1px 0 rgba(255,255,255,.3);
+}
+#ov-login-btn:active { transform: scale(.97); }
+@keyframes ov-login-pulse {
+  0%, 100% { box-shadow: 0 10px 30px -6px rgba(255,110,42,.55), 0 0 0 0 rgba(255,138,42,.4); }
+  50% { box-shadow: 0 10px 30px -6px rgba(255,110,42,.55), 0 0 0 10px rgba(255,138,42,0); }
+}
+@media (max-width: 640px) {
+  /* En móvil, flotante abajo-derecha, sobre la navegación inferior */
+  #ov-login-btn { top: auto; bottom: 5.75rem; right: 1rem; padding: .9rem 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #ov-login-btn { animation: none; }
+}
