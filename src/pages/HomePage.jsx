@@ -98,8 +98,8 @@ export default function HomePage() {
                 Tu nivel actual: <b>{currentLevel.key}</b> · {currentLevel.es} <span className="ui-zh">{currentLevel.zh}</span>
               </p>
               <div className="ui-row">
-                <Link className="ui-btn primary lg" to={`/modulos/modulo-${nextMod.numero}`}>
-                  {nextMod.icono} {lastMod ? "Continuar" : "Empezar"}: módulo {nextMod.numero} <ArrowRightIcon size={18} />
+                <Link className="ui-btn primary lg" to="/ruta">
+                  {nextMod.icono} {lastMod ? "Continuar mi ruta" : "Empezar mi ruta"} · 学习路线 <ArrowRightIcon size={18} />
                 </Link>
                 <Link className="ui-btn lg" to="/examenes/generador">
                   <Wand2Icon size={18} /> Examen rápido

@@ -4,6 +4,7 @@ import { useLocation, Link } from "react-router";
 import { useAppAuth } from "../../lib/auth.jsx";
 import { useLanguage } from "../../lib/i18n.jsx";
 import { NAV_GROUPS, NAV_LINKS } from "./navConfig.js";
+import { GameStats } from "../ui/GameStats.jsx";
 function TopNav() {
   const { isAuthenticated, user, logout } = useAppAuth();
   const { lang, setLang, t: t_1 } = useLanguage();
@@ -208,6 +209,7 @@ function TopNav() {
               })}
             </div>
             <div className="flex items-center gap-2 shrink-0">
+              <GameStats compact />
               <button
                 onClick={() => setLang(lang === "es" ? "zh" : "es")}
                 className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold transition-all hover:bg-white/10"
@@ -221,7 +223,7 @@ function TopNav() {
               </button>
               {user && (
                 <>
-                  <span className="text-xs font-bold text-white/60 hidden lg:inline">{user.name}</span>
+                  <span className="text-xs font-bold text-white/60 hidden xl:inline">{user.name}</span>
                   <button
                     onClick={logout}
                     className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold transition-all hover:bg-red-500/20 hover:text-red-400"

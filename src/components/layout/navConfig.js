@@ -17,6 +17,7 @@ import {
   CalendarIcon,
   LayoutDashboardIcon,
   Wand2Icon,
+  RouteIcon,
   VideoIcon,
   ClipboardListIcon,
   UsersIcon,
@@ -44,6 +45,14 @@ const NAV_GROUPS = [
     color: "#f59e0b",
     glow: "#fbbf24",
     children: [
+      {
+        path: "/ruta",
+        label: "Ruta de lecciones",
+        labelZh: "学习路线",
+        icon: RouteIcon,
+        color: "#58cc02",
+        glow: "#7ee32a",
+      },
       {
         path: "/modulos",
         label: "Módulos",
@@ -214,6 +223,14 @@ const NAV_LINKS = [
     icon: LayoutDashboardIcon,
     color: "#f97316",
     glow: "#fb923c",
+  },
+  {
+    path: "/ruta",
+    label: "Ruta",
+    labelZh: "路线",
+    icon: RouteIcon,
+    color: "#58cc02",
+    glow: "#7ee32a",
   },
   {
     path: "/campus",

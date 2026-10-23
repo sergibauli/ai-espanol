@@ -1480,7 +1480,8 @@ function KoComponent() {
   const [r, setR] = React.useState(true);
   const [T, setT_1] = React.useState("list");
   const [E, setE_1] = React.useState(0);
-  const [b, setB] = React.useState("teoria");
+  // ?tab=examen abre directamente una pestaña (enlaces desde la Ruta)
+  const [b, setB] = React.useState(() => new URLSearchParams(window.location.hash.split("?")[1] || "").get("tab") || "teoria");
   const [R, setR_1] = React.useState(false);
   const [c, setC] = React.useState(false);
   const [O, setO] = React.useState(false);

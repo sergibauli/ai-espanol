@@ -82,6 +82,7 @@ const TicTacToePage = React.lazy(() => import("./pages/juegos/TicTacToePage.jsx"
 const UnoPage = React.lazy(() => import("./pages/juegos/UnoPage.jsx"));
 const ExamGeneratorPage = React.lazy(() => import("./pages/ExamGeneratorPage.jsx"));
 const CampusPage = React.lazy(() => import("./pages/CampusPage.jsx"));
+const RutaPage = React.lazy(() => import("./pages/RutaPage.jsx"));
 const ProfesoresPage = React.lazy(() => import("./pages/ProfesoresPage.jsx"));
 function PageLoader() {
   return (
@@ -268,6 +269,14 @@ function AppRoutes() {
             element={
               <RequireAuth>
                 <ExamGeneratorPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/ruta"
+            element={
+              <RequireAuth>
+                <RutaPage />
               </RequireAuth>
             }
           />
