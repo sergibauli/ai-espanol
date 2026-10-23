@@ -14,6 +14,8 @@ import {
   ArrowLeftIcon,
 } from "lucide-react";
 import * as React from "react";
+import { CompassIcon, FileCheckIcon } from "lucide-react";
+import MODULE_CATALOG from "../data/modulos/catalog.json";
 import { useParams } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 import { L as L_1 } from "../components/LearningImpactScene.jsx";
@@ -1164,6 +1166,7 @@ const No = {
   "1-20": () => import("../data/modulos/modulos-01-20.js").then((i) => i.modulos01to20Module),
   "21-40": () => import("../data/modulos/modulos-21-40.js").then((i) => i.modulos21to40Module),
   "41-60": () => import("../data/modulos/modulos-41-60.js").then((i) => i.modulos41to60Module),
+  "61-80": () => import("../data/modulos/modulos-61-80.js").then((i) => i.modulos61to80Module),
 };
 function Eo(i) {
   if (i >= 1 && i <= 20) {
@@ -1174,6 +1177,9 @@ function Eo(i) {
   }
   if (i >= 41 && i <= 60) {
     return "41-60";
+  }
+  if (i >= 61 && i <= 80) {
+    return "61-80";
   }
   return null;
 }
@@ -1203,7 +1209,10 @@ async function oo(i) {
   return D[t].find((p) => p.id === i) || null;
 }
 async function Mo() {
-  const i = wo.filter((e) => e.numero >= 1 && e.numero <= 60).sort((e, C) => e.numero - C.numero);
+  const i = [
+    ...wo.filter((e) => e.numero >= 1 && e.numero <= 60),
+    ...MODULE_CATALOG.filter((e) => e.numero > 60).map((e) => ({ ...e, id: `modulo-${e.numero}` })),
+  ].sort((e, C) => e.numero - C.numero);
   const n = a().map((e) => ({
     id: e.id,
     numero: e.numero,
@@ -1228,6 +1237,8 @@ const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloGramatica = React.lazy(() => import("./modulo/ModuloGramatica.jsx"));
 const ModuloRepaso = React.lazy(() => import("./modulo/ModuloRepaso.jsx"));
 const ModuloEjerciciosGenerados = React.lazy(() => import("./modulo/ModuloEjerciciosGenerados.jsx"));
+const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
+const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
 let eo = false;
 function useO() {
   React.useEffect(() => {
@@ -1414,7 +1425,12 @@ function RoComponent({ steps }) {
     </div>
   );
 }
+const LEVEL_COLORS = { A1: "#39ff14", A2: "#00d4ff", B1: "#ff8a2a", B2: "#ff00aa" };
 function P(i) {
+  const fromCatalog = i > 60 && MODULE_CATALOG.find((m) => m.numero === i);
+  if (fromCatalog) {
+    return { label: fromCatalog.nivel, color: LEVEL_COLORS[fromCatalog.nivel] };
+  }
   if (i <= 20) {
     return {
       label: "A1",
@@ -1563,6 +1579,9 @@ function KoComponent() {
         key: "teoria",
       },
       {
+        key: "descubre",
+      },
+      {
         key: "vocabulario",
       },
       {
@@ -1582,6 +1601,9 @@ function KoComponent() {
       },
       {
         key: "juegos",
+      },
+      {
+        key: "examen",
       },
     ];
     const m = () => H(b, s);
@@ -1750,9 +1772,9 @@ function KoComponent() {
                   }}
                 />
               </div>
-              <useParams className="mx-font-mono text-white/60 font-bold text-xs animate-pulse">
+              <p className="mx-font-mono text-white/60 font-bold text-xs animate-pulse">
                 {t_1("Cargando módulos...", "正在加载模块...")}
-              </useParams>
+              </p>
             </div>
           )}
           {e.length > 0 && (
@@ -1863,9 +1885,9 @@ function KoComponent() {
             </div>
           )}
           {e.length > 0 && m.length === 0 && (
-            <useParams className="mx-font-mono py-14 text-center text-sm text-white/45">
+            <p className="mx-font-mono py-14 text-center text-sm text-white/45">
               {t_1("No hay módulos en este nivel todavía.", "该级别暂无模块。")}
-            </useParams>
+            </p>
           )}
           <style>{`
             .mx-noscroll::-webkit-scrollbar { display: none; }
@@ -1899,6 +1921,11 @@ function KoComponent() {
       label: "Teoria / 理论",
       icon: LightbulbIcon,
       count: h?.teoriaCount,
+    },
+    {
+      key: "descubre",
+      label: "Descubre / 拓展",
+      icon: CompassIcon,
     },
     {
       key: "vocabulario",
@@ -1937,6 +1964,11 @@ function KoComponent() {
       label: "Juegos / 游戏",
       icon: Gamepad2Icon,
       count: h?.vocabularioCount,
+    },
+    {
+      key: "examen",
+      label: "Examen / 考试",
+      icon: FileCheckIcon,
     },
   ];
   return (
@@ -2055,11 +2087,11 @@ function KoComponent() {
                   <h1 className="mx-font-display text-3xl md:text-4xl font-bold text-white mt-1">
                     {h?.titulo}
                   </h1>
-                  {c && <useParams className="text-white/55 text-sm mt-1">{h?.tituloChino}</useParams>}
+                  {c && <p className="text-white/55 text-sm mt-1">{h?.tituloChino}</p>}
                   {(c || !/[\u3400-\u9fff]/.test(h?.descripcion || "")) && (
-                    <useParams className="text-white/45 text-sm mt-3 max-w-2xl leading-relaxed">
+                    <p className="text-white/45 text-sm mt-3 max-w-2xl leading-relaxed">
                       {h?.descripcion}
-                    </useParams>
+                    </p>
                   )}
                 </div>
                 <button
@@ -2158,15 +2190,15 @@ function KoComponent() {
                     }}
                   />
                 </div>
-                <useParams className="mx-font-mono text-white/60 font-bold">Cargando contenido...</useParams>
-                <useParams className="text-white/30 text-sm">加载内容中...</useParams>
+                <p className="mx-font-mono text-white/60 font-bold">Cargando contenido...</p>
+                <p className="text-white/30 text-sm">加载内容中...</p>
               </div>
             )}
             {!r && j && (
               <div className="text-center py-20">
-                <useParams className="text-white/40 font-bold mb-4">
+                <p className="text-white/40 font-bold mb-4">
                   Error al cargar el contenido / 加载内容出错
-                </useParams>
+                </p>
                 <button
                   onClick={() => B()}
                   className="px-6 py-3 rounded-full text-sm font-bold text-white transition-transform hover:-translate-y-0.5"
@@ -2224,6 +2256,8 @@ function KoComponent() {
                   {b === "repaso" && <ModuloRepaso numero={t.numero} showChinese={c} moduloId={t.id} />}
                   {b === "generar" && <ModuloEjerciciosGenerados vocabulario={t.vocabulario || []} />}
                   {b === "juegos" && <ModuloJuegos vocabulario={t.vocabulario || []} moduloId={t.id} />}
+                  {b === "descubre" && <ModuloDescubre numero={t.numero} showChinese={c} />}
+                  {b === "examen" && <ModuloExamen numero={t.numero} moduloId={t.id} />}
                 </React.Suspense>
               </>
             )}

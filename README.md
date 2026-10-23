@@ -1,4 +1,4 @@
-# AI Español · Preparación DELE (v1, código recuperado)
+# AI Español · Preparación DELE (v3)
 
 Este es el código fuente de la versión que está publicada en GitHub Pages (`sergibauli/ai-espanol`, rama `main`).
 El código original se había perdido y en el repositorio solo quedaba el build compilado. Lo he recuperado
@@ -38,3 +38,33 @@ npm run build    # genera dist/ (base relativa, válido para /ai-espanol/)
 - Se han corregido 2 fallos que ya existían en producción: `<Crown>` en `ExamDetailPage` y `<X>` en `KaraokePage`
   eran componentes no definidos que rompían la pantalla al mostrarse.
 - Ver `ANALISIS.md` para problemas de seguridad y el plan de modernización.
+
+
+## Novedades v3 (23-10-2026)
+
+- **Diseño v3** (`src/styles/modern.css`): nuevo Inicio con racha real, ruta por niveles y próxima clase; navegación bilingüe.
+- **80 módulos** (61–80 nuevos, A2–B2: trabajo, correos formales, debate, medios, gastronomía, fiestas, por/para, ser/estar, pasiva, negocios China–mundo hispano, preparación DELE…).
+- **Pestaña Descubre** en cada módulo (`src/data/plus/`): objetivos, lectura con preguntas, errores típicos de sinohablantes, frases útiles, cultura comparada con China, pronunciación, huecos y reto final.
+- **Exámenes automáticos** (`src/lib/examGenerator.js`): generador en `#/examenes/generador` y pestaña *Examen* en cada módulo. Mezcla miles de preguntas, cronómetro, nota por destrezas, explicaciones en chino, enlace compartible y "asignar como deberes".
+- **Campus en directo** (`#/campus`): clases por Tencent Meeting (botón activo 15 min antes), calendario semanal, deberes con entrega y corrección, alumnos/profesores y solicitudes. Roles: admin ve todo, profesor lo suyo, alumno lo suyo.
+- **Página comercial** (`#/profesores`, pública): profesores nativos y chinos, packs y formulario de clase de prueba. Precios en `src/data/oferta.js`.
+
+El contenido nuevo se generó con DeepSeek y se revisó con validaciones automáticas.
+Para regenerar el índice ligero de módulos: `node scripts/build-catalog.mjs`.
+
+## Activar el Campus real (sin esto funciona en modo demo, con datos solo en el navegador)
+
+1. Clerk → API keys: copia la *Secret key*.
+2. Cloudflare (cuenta gratuita):
+   ```bash
+   cd worker
+   npx wrangler login
+   npx wrangler kv namespace create CAMPUS      # pega el id en wrangler.toml
+   npx wrangler secret put CLERK_SECRET_KEY
+   npx wrangler secret put ADMIN_EMAILS         # tu email (y el de otros admins)
+   npx wrangler deploy                          # te da la URL https://ai-espanol-campus.<tu>.workers.dev
+   ```
+3. Compila la web con esa URL: `VITE_API_URL=https://ai-espanol-campus.<tu>.workers.dev npm run build`.
+4. En el Campus (como admin) da de alta a los profesores con el email de su cuenta. Los alumnos aparecen solos al iniciar sesión por primera vez; asígnales profesor y plan.
+
+Workers.dev puede ir lento desde China; si pasa, añade un dominio propio al Worker.

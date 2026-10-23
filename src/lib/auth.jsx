@@ -112,6 +112,8 @@ function AuthProvider({ children }) {
         isAuthenticated,
         isLoading,
         user: w,
+        isAdminLogin: _ && !j,
+        getToken: u.getToken,
         login,
         logout,
       }}

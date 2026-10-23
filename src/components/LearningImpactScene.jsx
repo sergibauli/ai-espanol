@@ -2,7 +2,7 @@ import { SparklesIcon, Volume2Icon, TrophyIcon, BookOpenIcon } from "lucide-reac
 const n = {
   modules: {
     main: "Ñ",
-    side: "60",
+    side: "80",
     word: "APRENDE",
     color: "#ffb33b",
     accent: "#ff36d7",

@@ -997,13 +997,14 @@ function YeComponent() {
             <ul className="login-pills">
               <li>Exámenes oficiales A1–B2</li>
               <li>Corrección con IA</li>
-              <li>60 módulos · 40 juegos</li>
+              <li>80 módulos · 47 juegos</li>
+              <li>Clases con profesores nativos y chinos</li>
             </ul>
           </div>
           <div className="hidden">
             {[
               {
-                num: "60",
+                num: "80",
                 suffix: "+",
                 label: "Módulos",
                 labelZh: "模块",
@@ -1095,6 +1096,9 @@ function YeComponent() {
             </div>
           )}
         </div>
+        <a href="#/profesores" className="ui-btn primary sm" style={{ position: "fixed", top: 16, right: 16, zIndex: 50 }}>
+          🎥 Clases con profesores · 真人课
+        </a>
         <div
           ref={E.ref}
           className="login-cardwrap relative w-full max-w-md"

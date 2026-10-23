@@ -10,10 +10,11 @@ App web (PWA) para que estudiantes chinos aprendan español y preparen el DELE A
 - React 19 + React Router 7 (**HashRouter**, rutas `#/...`) + Clerk (login) + lucide-react (iconos `XxxIcon`). Vite 7, `base: './'`.
 - `src/App.jsx`: todas las rutas (páginas con `React.lazy`), layout, `RequireAuth`, `ErrorBoundary`.
 - `src/lib/`: `auth.jsx` (useAppAuth), `i18n.jsx` (useLanguage, ES/中文), `progress.js` (progreso de módulos), `srs.js` (repaso espaciado), `favorites.js`, `sound.jsx`, `aiTutor.js` + `ai-generator.js` (DeepSeek), loaders de exámenes.
-- `src/data/`: contenido (60 módulos, exámenes, 80 modelos oficiales DELE, diccionarios ES–ZH). Son ficheros grandes: no los leas enteros, busca con grep.
+- `src/data/`: contenido (80 módulos + `plus/` con lectura, errores típicos y banco de examen por módulo; `modulos/catalog.json` = índice ligero, se regenera con `node scripts/build-catalog.mjs`; exámenes, 80 modelos oficiales DELE, diccionarios ES–ZH). Son ficheros grandes: no los leas enteros, busca con grep.
 - `src/pages/` (juegos en `juegos/`, DELE en `dele/`, pestañas de módulo en `modulo/`).
 - Estilos: `src/styles/app.css` es Tailwind 3 **ya compilado** (no hay config de Tailwind; solo funcionan las clases que ya existen en ese CSS). `src/styles/overrides.css` = ajustes de diseño. `public/overrides.js` = parches DOM heredados (a eliminar).
-- Persistencia: todo en `localStorage` (claves `dele_*`).
+- Persistencia: progreso en `localStorage` (claves `dele_*`). Campus (clases, deberes, roles) en `src/lib/campus.jsx` → Worker `worker/` (KV + Clerk); sin `VITE_API_URL` va en modo demo local.
+- Diseño v3: clases `ui-*` de `src/styles/modern.css` para pantallas nuevas (Inicio, Campus, Generador de exámenes, Profesores).
 
 ## Ojo
 - Código recuperado por descompilación: dentro de las páginas los nombres de variables son genéricos (`i`, `t`, `setU`). Renómbralos al tocar cada fichero.

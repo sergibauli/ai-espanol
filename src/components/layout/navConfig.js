@@ -16,7 +16,25 @@ import {
   CircleQuestionMarkIcon,
   CalendarIcon,
   LayoutDashboardIcon,
+  Wand2Icon,
+  VideoIcon,
+  ClipboardListIcon,
+  UsersIcon,
 } from "lucide-react";
+const CAMPUS_GROUP = {
+  key: "campus",
+  label: "Clases",
+  labelZh: "直播课",
+  icon: VideoIcon,
+  color: "#34d399",
+  glow: "#6ee7b7",
+  children: [
+    { path: "/campus", label: "Mi campus", labelZh: "我的课堂", icon: VideoIcon, color: "#34d399", glow: "#6ee7b7" },
+    { path: "/campus?tab=calendario", label: "Calendario", labelZh: "课程表", icon: CalendarIcon, color: "#3dd6ff", glow: "#7dd3fc" },
+    { path: "/campus?tab=deberes", label: "Deberes", labelZh: "作业", icon: ClipboardListIcon, color: "#fbbf24", glow: "#fde68a" },
+    { path: "/profesores", label: "Profesores y precios", labelZh: "老师与价格", icon: UsersIcon, color: "#ff3d8b", glow: "#f9a8d4" },
+  ],
+};
 const NAV_GROUPS = [
   {
     key: "aprender",
@@ -77,6 +95,14 @@ const NAV_GROUPS = [
     glow: "#22d3ee",
     children: [
       {
+        path: "/examenes/generador",
+        label: "Generador de exámenes",
+        labelZh: "自动出题",
+        icon: Wand2Icon,
+        color: "#ff7a1a",
+        glow: "#fdba74",
+      },
+      {
         path: "/examenes",
         label: "DELE para practicar",
         labelZh: "DELE 练习",
@@ -118,6 +144,7 @@ const NAV_GROUPS = [
       },
     ],
   },
+  CAMPUS_GROUP,
   {
     key: "ia",
     label: "IA Lab",
@@ -190,11 +217,27 @@ const NAV_GROUPS = [
 const NAV_LINKS = [
   {
     path: "/dashboard",
-    label: "Dashboard",
+    label: "Inicio",
     labelZh: "仪表盘",
     icon: LayoutDashboardIcon,
     color: "#f97316",
     glow: "#fb923c",
+  },
+  {
+    path: "/campus",
+    label: "Clases",
+    labelZh: "直播课",
+    icon: VideoIcon,
+    color: "#34d399",
+    glow: "#6ee7b7",
+  },
+  {
+    path: "/examenes/generador",
+    label: "Examen",
+    labelZh: "考试",
+    icon: Wand2Icon,
+    color: "#ff7a1a",
+    glow: "#fdba74",
   },
   {
     path: "/examenes",

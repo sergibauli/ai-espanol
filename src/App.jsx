@@ -9,9 +9,10 @@ import { Pizarra } from "./components/Pizarra.jsx";
 import { TutorChat } from "./components/TutorChat.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
+import { CampusProvider } from "./lib/campus.jsx";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
-const DashboardPage = React.lazy(() => import("./pages/DashboardPage.jsx"));
+const DashboardPage = React.lazy(() => import("./pages/HomePage.jsx"));
 const ExamenesNivelPage = React.lazy(() => import("./pages/dele/ExamenesNivelPage.jsx"));
 const ExamDetailPage = React.lazy(() => import("./pages/dele/ExamDetailPage.jsx"));
 const OficialPage = React.lazy(() => import("./pages/dele/OficialPage.jsx"));
@@ -80,6 +81,9 @@ const ApalabradosPage = React.lazy(() => import("./pages/juegos/ApalabradosPage.
 const WordChainPage = React.lazy(() => import("./pages/juegos/WordChainPage.jsx"));
 const TicTacToePage = React.lazy(() => import("./pages/juegos/TicTacToePage.jsx"));
 const UnoPage = React.lazy(() => import("./pages/juegos/UnoPage.jsx"));
+const ExamGeneratorPage = React.lazy(() => import("./pages/ExamGeneratorPage.jsx"));
+const CampusPage = React.lazy(() => import("./pages/CampusPage.jsx"));
+const ProfesoresPage = React.lazy(() => import("./pages/ProfesoresPage.jsx"));
 function PageLoader() {
   return (
     <StarfieldBackground>
@@ -259,6 +263,23 @@ function AppRoutes() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/profesores" element={<ProfesoresPage />} />
+          <Route
+            path="/examenes/generador"
+            element={
+              <RequireAuth>
+                <ExamGeneratorPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/campus"
+            element={
+              <RequireAuth>
+                <CampusPage />
+              </RequireAuth>
+            }
+          />
           <Route
             path="/dashboard"
             element={
@@ -913,7 +934,9 @@ function App() {
     <HashRouter>
       <AuthProvider>
         <LanguageProvider>
-          <AppRoutes />
+          <CampusProvider>
+            <AppRoutes />
+          </CampusProvider>
         </LanguageProvider>
       </AuthProvider>
     </HashRouter>

@@ -10,7 +10,7 @@ import {
 import * as React from "react";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
-import { buildStudentProfile } from "../data/modulos/index.js";
+import { buildStudentProfile } from "../data/modulos/profile.js";
 import { D } from "../lib/ai-generator.js";
 import { getKnowledgeContext } from "../lib/search.js";
 const Y = `Eres un tutor de español amable y cercano para hablantes de chino que preparan el DELE (A1-B2). Estás conversando POR VOZ con el estudiante.

@@ -3,7 +3,9 @@ import * as ReactDOM from "react-dom/client";
 import { ErrorBoundary, App } from "./App.jsx";
 import "./styles/app.css";
 import "./styles/overrides.css";
-const CLERK_PUBLISHABLE_KEY = "pk_test_Y29tcG9zZWQta2l0dGVuLTcwLmNsZXJrLmFjY291bnRzLmRldiQ";
+import "./styles/modern.css";
+// En producción define VITE_CLERK_PUBLISHABLE_KEY (pk_live_…); la clave de desarrollo queda como respaldo
+const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_Y29tcG9zZWQta2l0dGVuLTcwLmNsZXJrLmFjY291bnRzLmRldiQ";
 const ev = document.getElementById("root");
 if (!ev) {
   document.body.innerHTML =

@@ -25,7 +25,8 @@ function TopNav() {
   if (!isAuthenticated) {
     return null;
   }
-  const E = (_) => _.children.some((A) => m.pathname === A.path || m.pathname.startsWith(`${A.path}/`));
+  const basePath = (p) => p.split("?")[0];
+  const E = (_) => _.children.some((A) => m.pathname === basePath(A.path) || m.pathname.startsWith(`${basePath(A.path)}/`));
   const j = m.pathname === "/dashboard";
   return (
     <>
@@ -80,7 +81,10 @@ function TopNav() {
                     filter: j ? "drop-shadow(0 0 4px #fb923c)" : "none",
                   }}
                 />
-                <span>仪表盘</span>
+                <span className="flex flex-col leading-none text-left">
+                  <span>Inicio</span>
+                  <span className="text-[9px] opacity-60 mt-0.5">首页</span>
+                </span>
               </Link>
               {NAV_GROUPS.map((_) => {
                 const A = E(_);
@@ -105,7 +109,10 @@ function TopNav() {
                           filter: A ? `drop-shadow(0 0 4px ${_.glow})` : "none",
                         }}
                       />
-                      <span>{_.labelZh}</span>
+                      <span className="flex flex-col leading-none text-left">
+                        <span>{_.label}</span>
+                        <span className="text-[9px] opacity-60 mt-0.5">{_.labelZh}</span>
+                      </span>
                       <ChevronDownIcon
                         size={12}
                         style={{
@@ -135,7 +142,7 @@ function TopNav() {
                           {_.label} · {_.labelZh}
                         </div>
                         {_.children.map((R) => {
-                          const P = m.pathname === R.path || m.pathname.startsWith(`${R.path}/`);
+                          const P = `${m.pathname}${m.search}` === R.path || (!R.path.includes("?") && m.pathname === R.path && !m.search);
                           const R_icon = R.icon;
                           return (
                             <Link

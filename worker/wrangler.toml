@@ -1,0 +1,16 @@
+name = "ai-espanol-campus"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# KV del campus: crea con `npx wrangler kv namespace create CAMPUS` y pega el id
+[[kv_namespaces]]
+binding = "CAMPUS"
+id = "REEMPLAZAR_CON_ID_KV"
+
+[vars]
+ALLOWED_ORIGINS = "https://sergibauli.github.io,http://localhost:5173"
+# Instancia de Clerk (sale de la publishable key). En producción, la de la instancia pk_live.
+CLERK_ISSUER = "https://composed-kitten-70.clerk.accounts.dev"
+# Secretos (no van aquí, el repositorio es público):
+#   npx wrangler secret put CLERK_SECRET_KEY   → sk_test_… / sk_live_… de Clerk
+#   npx wrangler secret put ADMIN_EMAILS       → emails con acceso de administración, separados por comas

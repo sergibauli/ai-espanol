@@ -1,4 +1,4 @@
-import { buildStudentProfile } from "../data/modulos/index.js";
+import { buildStudentProfile } from "../data/modulos/profile.js";
 import { getKnowledgeContext } from "./search.js";
 const CHAT_CACHE_KEY = "dele_chat_cache_v1";
 const CHAT_CACHE_MAX = 60;

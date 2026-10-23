@@ -82,10 +82,10 @@ function BsComponent({ onClose }) {
           <SparklesIcon size={28} className="text-amber-400" />
         </div>
         <h3 className="text-white font-black text-xl mb-2">Limite alcanzado / 已达到限制</h3>
-        <useParams className="text-white/50 text-sm mb-6">
+        <p className="text-white/50 text-sm mb-6">
           Has usado todas tus correcciones de hoy. Vuelve manana para mas. /
           你今天的批改次数已用完。明天再来。
-        </useParams>
+        </p>
         <button
           onClick={onClose}
           className="px-6 py-3 rounded-xl text-white font-bold transition-all hover:scale-105"
@@ -277,10 +277,10 @@ function DsComponent({ exercises }) {
                   border: `1px solid ${m ? (f ? "rgba(34,197,94,.4)" : "rgba(239,68,68,.4)") : "rgba(255,255,255,.08)"}`,
                 }}
               >
-                <useParams className="text-white/90 text-sm font-medium">
+                <p className="text-white/90 text-sm font-medium">
                   {r.id}. {r.statement}
-                </useParams>
-                <useParams className="text-white/40 text-xs mb-2">{r.statementCn}</useParams>
+                </p>
+                <p className="text-white/40 text-xs mb-2">{r.statementCn}</p>
                 <div className="flex gap-2">
                   <button
                     disabled={m}
@@ -345,9 +345,9 @@ function DsComponent({ exercises }) {
                   )}
                 </div>
                 {m && (
-                  <useParams className="text-white/50 text-xs mt-2">
+                  <p className="text-white/50 text-xs mt-2">
                     {r.explanation} <span className="text-white/35">{r.explanationCn}</span>
-                  </useParams>
+                  </p>
                 )}
               </div>
             );
@@ -365,9 +365,9 @@ function DsComponent({ exercises }) {
                 border: "1px solid rgba(255,255,255,.08)",
               }}
             >
-              <useParams className="text-white/90 text-sm font-bold">
+              <p className="text-white/90 text-sm font-bold">
                 {r.left} {r.leftCn && <span className="text-white/40 font-medium">{r.leftCn}</span>}
-              </useParams>
+              </p>
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {exercises.matching.map((y) => (
                   <button
@@ -398,9 +398,9 @@ function DsComponent({ exercises }) {
                 ))}
               </div>
               {C[r.id] === r.id && (
-                <useParams className="flex items-center gap-1 text-xs font-bold mt-1.5 text-green-400">
+                <p className="flex items-center gap-1 text-xs font-bold mt-1.5 text-green-400">
                   <CircleCheckBigIcon size={13} /> {t("¡Correcto!", "正确！")}
-                </useParams>
+                </p>
               )}
             </div>
           ))}
@@ -436,7 +436,7 @@ function DsComponent({ exercises }) {
                   border: `1px solid ${k ? (f ? "rgba(34,197,94,.4)" : "rgba(239,68,68,.4)") : "rgba(255,255,255,.08)"}`,
                 }}
               >
-                <useParams className="text-white/90 text-sm">
+                <p className="text-white/90 text-sm">
                   {r.id}. {r.before}{" "}
                   <span
                     className="px-2 py-0.5 rounded font-bold text-amber-300"
@@ -448,7 +448,7 @@ function DsComponent({ exercises }) {
                     ____
                   </span>{" "}
                   {r.after}
-                </useParams>
+                </p>
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {r.options.map((D, T) => (
                     <button
@@ -490,7 +490,7 @@ function DsComponent({ exercises }) {
                       {f ? <CircleCheckBigIcon size={14} /> : <CircleXIcon size={14} />}{" "}
                       {f ? t("¡Correcto!", "正确！") : `${t("Respuesta", "答案")}: ${r.options[r.answer]}`}
                     </span>
-                    <useParams className="text-white/50 text-xs mt-1">{r.explanation}</useParams>
+                    <p className="text-white/50 text-xs mt-1">{r.explanation}</p>
                   </>
                 )}
               </div>
@@ -559,7 +559,7 @@ function DsComponent({ exercises }) {
                   }}
                 />
                 {xe && y.trim() && (
-                  <useParams
+                  <p
                     className="flex items-center gap-1 text-xs font-bold mt-2"
                     style={{
                       color: f ? "#4ade80" : "#f87171",
@@ -567,7 +567,7 @@ function DsComponent({ exercises }) {
                   >
                     {f ? <CircleCheckBigIcon size={14} /> : <CircleXIcon size={14} />}{" "}
                     {f ? t("¡Correcto!", "正确！") : `${t("Texto", "原文")}: ${r.text}`}
-                  </useParams>
+                  </p>
                 )}
               </div>
             );
@@ -585,7 +585,7 @@ function DsComponent({ exercises }) {
                 border: "1px solid rgba(255,255,255,.08)",
               }}
             >
-              <useParams className="text-white/90 text-sm leading-relaxed">
+              <p className="text-white/90 text-sm leading-relaxed">
                 {r.text.split(/(\[\d+\])/).map((y, f) => {
                   if (/^\[\d+\]$/.test(y)) {
                     return (
@@ -603,7 +603,7 @@ function DsComponent({ exercises }) {
                   }
                   return <span key={f}>{y}</span>;
                 })}
-              </useParams>
+              </p>
               {r.answers.map((y, f) => {
                 const D = Ee[r.id]?.[f];
                 return (
@@ -701,9 +701,9 @@ function DsComponent({ exercises }) {
                 }}
               />
               {(E[r.id] || "").trim() && ae(E[r.id]) === ae(r.answer) && (
-                <useParams className="text-xs font-bold mt-2 text-green-400">
+                <p className="text-xs font-bold mt-2 text-green-400">
                   ✅ {t("¡Correcto!", "正确！")}
-                </useParams>
+                </p>
               )}
               {ae(E[r.id] || "") !== ae(r.answer) && (
                 <button
@@ -756,10 +756,10 @@ function DsComponent({ exercises }) {
                   border: "1px solid rgba(255,255,255,.08)",
                 }}
               >
-                <useParams className="text-white/90 text-sm font-bold">
+                <p className="text-white/90 text-sm font-bold">
                   {r.instruction} <span className="text-white/40 font-medium">{r.instructionCn}</span>
-                </useParams>
-                <useParams className="text-white/60 text-sm italic mt-1">{r.sentence}</useParams>
+                </p>
+                <p className="text-white/60 text-sm italic mt-1">{r.sentence}</p>
                 <input
                   value={y}
                   onChange={(D) =>
@@ -776,7 +776,7 @@ function DsComponent({ exercises }) {
                   }}
                 />
                 {I && y.trim() && (
-                  <useParams
+                  <p
                     className="flex items-center gap-1 text-xs font-bold mt-2"
                     style={{
                       color: f ? "#4ade80" : "#f87171",
@@ -784,7 +784,7 @@ function DsComponent({ exercises }) {
                   >
                     {f ? <CircleCheckBigIcon size={14} /> : <CircleXIcon size={14} />}{" "}
                     {f ? t("¡Correcto!", "正确！") : `${t("Respuesta", "答案")}: ${r.answer} (${r.answerCn})`}
-                  </useParams>
+                  </p>
                 )}
               </div>
             );
@@ -1798,12 +1798,12 @@ function WaComponent() {
                 <BookOpenIcon size={30} />
               </div>
             </div>
-            <useParams className="text-lg font-black">
+            <p className="text-lg font-black">
               {t_1("Preparando tu examen", "正在准备考试")}
-            </useParams>
-            <useParams className="mt-2 text-sm text-white/45">
+            </p>
+            <p className="mt-2 text-sm text-white/45">
               {t_1("Cargamos únicamente este nivel para entrar más rápido.", "仅加载当前级别，进入更快。")}
-            </useParams>
+            </p>
           </div>
         </div>
       </StarfieldBackground>
@@ -1814,7 +1814,7 @@ function WaComponent() {
       <div className="min-h-screen text-white flex items-center justify-center">
         <div className="text-center">
           <BookOpenIcon className="mx-auto text-white/10 mb-4" size={56} />
-          <useParams className="text-white/40 text-lg">{t_1("Examen no encontrado", "未找到考试")}</useParams>
+          <p className="text-white/40 text-lg">{t_1("Examen no encontrado", "未找到考试")}</p>
           <Link
             to={`/examenes-nivel/${De}`}
             className="text-orange-400 text-sm mt-4 inline-block hover:underline"
@@ -2103,9 +2103,9 @@ function WaComponent() {
                   >
                     {t_1("Vocabulario del examen", "考试词汇")}
                   </h2>
-                  <useParams className="text-orange-300/50 text-sm font-bold">
+                  <p className="text-orange-300/50 text-sm font-bold">
                     {n.vocabulary.length} {t_1("palabras", "词")}
-                  </useParams>
+                  </p>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2179,14 +2179,14 @@ function WaComponent() {
                             />
                           </button>
                         </div>
-                        <useParams
+                        <p
                           className="font-bold text-lg"
                           style={{
                             color: `${l}dd`,
                           }}
                         >
                           {t.chinese}
-                        </useParams>
+                        </p>
                         {t.example && (
                           <div
                             className="mt-3 rounded-xl p-3"
@@ -2195,14 +2195,14 @@ function WaComponent() {
                               border: `1px solid ${l}20`,
                             }}
                           >
-                            <useParams
+                            <p
                               className="text-white/50 text-sm italic"
                               style={{
                                 textShadow: `0 0 8px ${l}20`,
                               }}
                             >
                               “{t.example}”
-                            </useParams>
+                            </p>
                           </div>
                         )}
                       </div>
@@ -2309,14 +2309,14 @@ function WaComponent() {
                           }}
                         />
                       </div>
-                      <useParams
+                      <p
                         className="text-white/90 text-xl md:text-2xl leading-[2.2] whitespace-pre-line font-medium"
                         style={{
                           textShadow: "0 0 20px rgba(59,130,246,0.2)",
                         }}
                       >
                         <XsComponent text={n.reading.text} speed={20} />
-                      </useParams>
+                      </p>
                       <div className="flex items-center justify-center gap-2 mt-6">
                         <div
                           className="h-px w-12"
@@ -2586,9 +2586,9 @@ function WaComponent() {
                   <h2 className="text-white font-black text-2xl md:text-3xl">
                     {n.listening.title || t_1("Comprension auditiva", "听力理解")}
                   </h2>
-                  <useParams className="text-white/40 text-sm font-medium">
+                  <p className="text-white/40 text-sm font-medium">
                     {t_1("Escucha y responde", "听并回答")}
-                  </useParams>
+                  </p>
                 </div>
               </div>
               <OComponent glowColor="#10b981" tilt={false}>
@@ -2684,16 +2684,16 @@ function WaComponent() {
                     <div className="voice-cockpit">
                       <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 mb-4">
                         <div>
-                          <useParams className="flex items-center gap-2 text-sm font-black text-white">
+                          <p className="flex items-center gap-2 text-sm font-black text-white">
                             <Volume2Icon size={17} className="text-emerald-300" />{" "}
                             {t_1("Estudio de voces", "语音工作室")}
-                          </useParams>
-                          <useParams className="mt-1 text-xs text-white/40">
+                          </p>
+                          <p className="mt-1 text-xs text-white/40">
                             {t_1(
                               "Elige un personaje y todo el examen sonará con esa voz.",
                               "选择角色，整场考试将使用该声音。",
                             )}
-                          </useParams>
+                          </p>
                         </div>
                         <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.18em] text-emerald-300">
                           Audio DELE
@@ -2795,12 +2795,12 @@ function WaComponent() {
                           <div className="flex items-center gap-2">
                             <GaugeIcon size={18} className="text-cyan-300" />
                             <div>
-                              <useParams className="text-xs font-black text-white">
+                              <p className="text-xs font-black text-white">
                                 {t_1("Ritmo de escucha", "播放速度")}
-                              </useParams>
-                              <useParams className="text-[10px] text-white/35">
+                              </p>
+                              <p className="text-[10px] text-white/35">
                                 {t_1("Adáptalo a tu nivel", "适应你的水平")}
-                              </useParams>
+                              </p>
                             </div>
                           </div>
                           <span className="text-xl font-black text-emerald-300">
@@ -2899,10 +2899,10 @@ function WaComponent() {
                         border: "1px solid rgba(6,182,212,0.25)",
                       }}
                     >
-                      <useParams className="text-white/70 text-sm font-bold mb-3 flex items-center gap-2">
+                      <p className="text-white/70 text-sm font-bold mb-3 flex items-center gap-2">
                         <HeadphonesIcon size={16} className="text-cyan-300" />{" "}
                         {t_1("Escucha y escribe lo que oyes", "听并写下你听到的内容")}
-                      </useParams>
+                      </p>
                       <button
                         onClick={() => q(n.listening.transcription)}
                         className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all mb-3"
@@ -2977,15 +2977,15 @@ function WaComponent() {
                                 border: "1px solid rgba(6,182,212,0.25)",
                               }}
                             >
-                              <useParams className="text-white font-black">
+                              <p className="text-white font-black">
                                 🎯 {t_1("Precisión", "准确率")}: {d}%
-                              </useParams>
-                              <useParams className="text-white/40 text-xs mt-2 font-bold">
+                              </p>
+                              <p className="text-white/40 text-xs mt-2 font-bold">
                                 {t_1("Texto correcto", "正确文本")}:
-                              </useParams>
-                              <useParams className="text-white/85 text-sm mt-1 whitespace-pre-wrap leading-relaxed">
+                              </p>
+                              <p className="text-white/85 text-sm mt-1 whitespace-pre-wrap leading-relaxed">
                                 {n.listening.transcription}
-                              </useParams>
+                              </p>
                             </div>
                           );
                         })()}
@@ -3018,7 +3018,7 @@ function WaComponent() {
                             ))}
                         </div>
                       ) : (
-                        <useParams className="text-base md:text-lg leading-[2.2]">
+                        <p className="text-base md:text-lg leading-[2.2]">
                           {n.listening.transcription
                             .split(/\s+/)
                             .filter(Boolean)
@@ -3030,7 +3030,7 @@ function WaComponent() {
                                 {t}
                               </span>
                             ))}
-                        </useParams>
+                        </p>
                       )}
                       <div className="flex flex-wrap items-center gap-3 mt-6">
                         <button
@@ -3083,9 +3083,9 @@ function WaComponent() {
                       }}
                     >
                       <EyeOffIcon size={40} className="text-white/10 mx-auto mb-4" />
-                      <useParams className="text-white/30 text-base font-medium">
+                      <p className="text-white/30 text-base font-medium">
                         {t_1("Escucha primero y luego revela el texto.", "请先听，然后再显示文本。")}
-                      </useParams>
+                      </p>
                       <button
                         onClick={() => setX(true)}
                         className="mt-4 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
@@ -3109,12 +3109,12 @@ function WaComponent() {
                         <TargetIcon size={20} className="text-emerald-400" />{" "}
                         {t_1("Preguntas de audición", "听力问题")}
                       </h3>
-                      <useParams className="text-white/35 text-sm mt-1">
+                      <p className="text-white/35 text-sm mt-1">
                         {t_1(
                           "Escúchalas individualmente o revisa todas en una sola pantalla.",
                           "可逐题收听，或在同一屏幕查看全部问题。",
                         )}
-                      </useParams>
+                      </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       <button
@@ -3187,9 +3187,9 @@ function WaComponent() {
                             </span>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start justify-between gap-3 mb-3">
-                                <useParams className="text-white font-black leading-relaxed">
+                                <p className="text-white font-black leading-relaxed">
                                   {t.question}
-                                </useParams>
+                                </p>
                                 <button
                                   onClick={() => q(t.question)}
                                   aria-label={t_1(`Escuchar pregunta ${a + 1}`, `收听问题 ${a + 1}`)}
@@ -3276,9 +3276,9 @@ function WaComponent() {
                               >
                                 {t.id}
                               </span>
-                              <useParams className="text-white text-xl font-black leading-relaxed flex-1">
+                              <p className="text-white text-xl font-black leading-relaxed flex-1">
                                 {t.question}
-                              </useParams>
+                              </p>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               {t.options.map((d, p) => {
@@ -3366,11 +3366,11 @@ function WaComponent() {
                                   border: `1px solid ${Y[t.id] === t.correctAnswer ? "rgba(34,197,94,0.15)" : "rgba(239,68,68,0.15)"}`,
                                 }}
                               >
-                                <useParams
+                                <p
                                   className={Y[t.id] === t.correctAnswer ? "text-green-400" : "text-red-400"}
                                 >
                                   {t.explanation}
-                                </useParams>
+                                </p>
                               </div>
                             )}
                           </Ue1Component>
@@ -3429,12 +3429,12 @@ function WaComponent() {
                   <h2 className="text-white font-black text-2xl md:text-3xl">
                     {t_1("Ejercicios variados", "多样练习")}
                   </h2>
-                  <useParams className="text-amber-300/50 text-sm font-bold">
+                  <p className="text-amber-300/50 text-sm font-bold">
                     {t_1(
                       "Estilo DELE: verdadero/falso, emparejar, huecos, ordenar y transformar",
                       "DELE风格：判断、配对、填空、排序和改写",
                     )}
-                  </useParams>
+                  </p>
                 </div>
               </div>
               <DsComponent exercises={exercises} />
@@ -3458,9 +3458,9 @@ function WaComponent() {
                   <h2 className="text-white font-black text-2xl md:text-3xl">
                     {t_1("Gramatica del nivel", "本级语法")} {n.level}
                   </h2>
-                  <useParams className="text-cyan-300/50 text-sm font-bold">
+                  <p className="text-cyan-300/50 text-sm font-bold">
                     {t_1("Puntos clave para tu nivel DELE", "你的DELE级别的关键语法点")}
-                  </useParams>
+                  </p>
                 </div>
               </div>
               <div className="space-y-3">
@@ -3488,11 +3488,11 @@ function WaComponent() {
                         {t.title} <span className="text-sm font-bold text-cyan-300">{t.titleCn}</span>
                       </h3>
                     </div>
-                    <useParams className="text-white/70 text-sm leading-relaxed">{t.explanationCn}</useParams>
+                    <p className="text-white/70 text-sm leading-relaxed">{t.explanationCn}</p>
                     {t.examples[0] && (
-                      <useParams className="text-white/50 text-sm mt-1.5">
+                      <p className="text-white/50 text-sm mt-1.5">
                         💬 {t.examples[0].es} <span className="text-white/35">{t.examples[0].zh}</span>
-                      </useParams>
+                      </p>
                     )}
                     <Link
                       to="/gramatica"
@@ -3529,9 +3529,9 @@ function WaComponent() {
                     >
                       {t_1("Descripcion de fotografia", "照片描述")}
                     </h2>
-                    <useParams className="text-white/40 text-sm font-medium">
+                    <p className="text-white/40 text-sm font-medium">
                       {t_1("Describe la imagen en voz alta o por escrito", "口头或书面描述图片")}
-                    </useParams>
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -3666,7 +3666,7 @@ function WaComponent() {
                           alt="Foto A"
                           className="w-full h-48 object-cover"
                         />
-                        <useParams
+                        <p
                           className="text-center text-xs font-bold py-1"
                           style={{
                             background: "rgba(255,138,42,0.15)",
@@ -3674,7 +3674,7 @@ function WaComponent() {
                           }}
                         >
                           Foto A
-                        </useParams>
+                        </p>
                       </div>
                       <div
                         className="rounded-xl overflow-hidden"
@@ -3687,7 +3687,7 @@ function WaComponent() {
                           alt="Foto B"
                           className="w-full h-48 object-cover"
                         />
-                        <useParams
+                        <p
                           className="text-center text-xs font-bold py-1"
                           style={{
                             background: "rgba(255,138,42,0.15)",
@@ -3695,17 +3695,17 @@ function WaComponent() {
                           }}
                         >
                           Foto B
-                        </useParams>
+                        </p>
                       </div>
                     </div>
                     <div className="space-y-2 text-sm text-white/85">
-                      <useParams>
+                      <p>
                         1. {t_1("¿Qué tienen en común las dos fotos?", "这两张照片有什么共同点？")}
-                      </useParams>
-                      <useParams>2. {t_1("¿En qué se diferencian?", "它们有什么不同？")}</useParams>
-                      <useParams>
+                      </p>
+                      <p>2. {t_1("¿En qué se diferencian?", "它们有什么不同？")}</p>
+                      <p>
                         3. {t_1("¿Cuál prefieres y por qué?", "你更喜欢哪一张？为什么？")}
-                      </useParams>
+                      </p>
                     </div>
                   </div>
                 </OComponent>
@@ -3816,9 +3816,9 @@ function WaComponent() {
                 </div>
                 <div>
                   <h2 className="text-white font-bold text-lg">{t_1("Escritura", "写作")}</h2>
-                  <useParams className="text-white/30 text-xs">
+                  <p className="text-white/30 text-xs">
                     {t_1("Elige una opcion", "选择一个选项")}
-                  </useParams>
+                  </p>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -3888,9 +3888,9 @@ function WaComponent() {
                         >
                           {t.title}
                         </h3>
-                        <useParams className="text-white/50 text-base font-medium mb-5">
+                        <p className="text-white/50 text-base font-medium mb-5">
                           {t.description}
-                        </useParams>
+                        </p>
                         <div className="grid grid-cols-3 gap-3 mb-5">
                           {["Intro / 开头", "Cuerpo / 主体", "Final / 结尾"].map((a, x) => (
                             <div
@@ -3903,9 +3903,9 @@ function WaComponent() {
                               }}
                             >
                               <span className="text-violet-400 text-sm font-black">{a.split(" / ")[0]}</span>
-                              <useParams className="text-white/30 text-xs mt-2 font-medium">
+                              <p className="text-white/30 text-xs mt-2 font-medium">
                                 {[t.structure.intro, t.structure.body, t.structure.conclusion][x]}
-                              </useParams>
+                              </p>
                             </div>
                           ))}
                         </div>
@@ -4037,9 +4037,9 @@ function WaComponent() {
                 </div>
                 <div>
                   <h2 className="text-white font-bold text-lg">{t_1("Monologo", "独白")}</h2>
-                  <useParams className="text-white/30 text-xs">
+                  <p className="text-white/30 text-xs">
                     {t_1("Elige un tema", "选择一个主题")}
-                  </useParams>
+                  </p>
                 </div>
               </div>
               {[n.monologue.topic1, n.monologue.topic2].map((t, a) => {
@@ -4087,18 +4087,18 @@ function WaComponent() {
                           {t.title}
                         </h3>
                       </div>
-                      <useParams className="text-white/50 text-base font-medium mb-5">
+                      <p className="text-white/50 text-base font-medium mb-5">
                         {t.description}
-                      </useParams>
+                      </p>
                       <div className="mb-5">
-                        <useParams
+                        <p
                           className="font-bold text-sm mb-3 flex items-center gap-2"
                           style={{
                             color: `${l}60`,
                           }}
                         >
                           <ZapIcon size={12} /> {t_1("Conectores utiles", "有用连接词")}:
-                        </useParams>
+                        </p>
                         <div className="flex flex-wrap gap-2">
                           {t.connectors.map((d, p) => (
                             <button
@@ -4118,14 +4118,14 @@ function WaComponent() {
                         </div>
                       </div>
                       <div>
-                        <useParams
+                        <p
                           className="font-bold text-sm mb-3 flex items-center gap-2"
                           style={{
                             color: `${l}60`,
                           }}
                         >
                           <CircleQuestionMarkIcon size={12} /> {t_1("Preguntas guia", "引导问题")}:
-                        </useParams>
+                        </p>
                         <ul className="space-y-2">
                           {t.guideQuestions.map((d, p) => (
                             <li
@@ -4295,9 +4295,9 @@ function WaComponent() {
                       </div>
                       {Je && (
                         <div className="mb-4">
-                          <useParams className="text-white/30 text-xs mb-1">
+                          <p className="text-white/30 text-xs mb-1">
                             {t_1("Transcripcion", "转录")}:
-                          </useParams>
+                          </p>
                           <div
                             className="rounded-xl p-4"
                             style={{
@@ -4305,7 +4305,7 @@ function WaComponent() {
                               border: "1px solid rgba(255,255,255,0.05)",
                             }}
                           >
-                            <useParams className="text-white/75 text-sm">{Je}</useParams>
+                            <p className="text-white/75 text-sm">{Je}</p>
                           </div>
                           <button
                             onClick={() => pe(Je, "monologo", setQe, n?.monologue?.topic1?.title)}
@@ -4348,9 +4348,9 @@ function WaComponent() {
                 </div>
                 <div>
                   <h2 className="text-white font-bold text-lg">{t_1("Interaccion oral", "口语互动")}</h2>
-                  <useParams className="text-white/30 text-xs">
+                  <p className="text-white/30 text-xs">
                     {t_1("Practica con IA", "用AI练习")}
-                  </useParams>
+                  </p>
                 </div>
               </div>
               <OComponent glowColor="#06b6d4">
@@ -4382,14 +4382,14 @@ function WaComponent() {
                       {t_1("Situacion", "情境")}
                     </h3>
                   </div>
-                  <useParams
+                  <p
                     className="text-white/80 text-base leading-relaxed font-medium"
                     style={{
                       textShadow: "0 0 10px rgba(6,182,212,0.1)",
                     }}
                   >
                     {n.interaction.situation}
-                  </useParams>
+                  </p>
                 </div>
               </OComponent>
               {n.interaction.questions.map((t, a) => (
@@ -4424,15 +4424,15 @@ function WaComponent() {
                         boxShadow: "0 0 15px rgba(6,182,212,0.05)",
                       }}
                     >
-                      <useParams className="text-cyan-300/50 text-xs mb-1 font-bold uppercase tracking-wider">
+                      <p className="text-cyan-300/50 text-xs mb-1 font-bold uppercase tracking-wider">
                         {t_1("Ayuda / 帮助", "帮助")}:
-                      </useParams>
-                      <useParams className="text-white/65 text-base font-medium">{t.help}</useParams>
+                      </p>
+                      <p className="text-white/65 text-base font-medium">{t.help}</p>
                     </div>
                     <div>
-                      <useParams className="text-cyan-300/30 text-xs mb-2 font-bold uppercase tracking-wider">
+                      <p className="text-cyan-300/30 text-xs mb-2 font-bold uppercase tracking-wider">
                         {t_1("Frases utiles / 有用的句子", "有用的句子")}:
-                      </useParams>
+                      </p>
                       <div className="flex flex-wrap gap-2">
                         {t.usefulPhrases.map((x, l) => {
                           const d = ["#06b6d4", "#22d3ee", "#67e8f9", "#a5f3fc"];
@@ -4598,9 +4598,9 @@ function WaComponent() {
                       </div>
                       {et && (
                         <div className="mb-4">
-                          <useParams className="text-white/30 text-xs mb-1">
+                          <p className="text-white/30 text-xs mb-1">
                             {t_1("Transcripcion", "转录")}:
-                          </useParams>
+                          </p>
                           <div
                             className="rounded-xl p-4"
                             style={{
@@ -4608,7 +4608,7 @@ function WaComponent() {
                               border: "1px solid rgba(255,255,255,0.05)",
                             }}
                           >
-                            <useParams className="text-white/75 text-sm">{et}</useParams>
+                            <p className="text-white/75 text-sm">{et}</p>
                           </div>
                           <button
                             onClick={() => pe(et, "interaccion", setTt, n?.interaction?.situation)}
@@ -4655,9 +4655,9 @@ function WaComponent() {
                   <span className="relative">{t_1("Finalizar examen", "完成考试")}</span>{" "}
                   <ChevronRightIcon size={20} />
                 </button>
-                <useParams className="text-white/20 text-xs">
+                <p className="text-white/20 text-xs">
                   {t_1("Ver certificado con todas las calificaciones", "查看所有成绩的证书")}
-                </useParams>
+                </p>
               </div>
             </WComponent>
           )}
@@ -4743,9 +4743,9 @@ function WaComponent() {
                 <h2 className="text-3xl font-bold text-white mb-1">
                   {t_1("Certificado de Practica", "练习证书")}
                 </h2>
-                <useParams className="text-white/35 text-sm mb-2">
+                <p className="text-white/35 text-sm mb-2">
                   DELE {n.level} - {n.theme}
-                </useParams>
+                </p>
                 <div
                   className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-mono mb-6"
                   style={{
@@ -4764,18 +4764,18 @@ function WaComponent() {
                   }}
                 >
                   <div className="text-left">
-                    <useParams className="text-white/35 text-xs">
+                    <p className="text-white/35 text-xs">
                       {t_1("Calificacion Global", "总分")}
-                    </useParams>
-                    <useParams className={`text-5xl font-bold ${ge(U).color}`}>
+                    </p>
+                    <p className={`text-5xl font-bold ${ge(U).color}`}>
                       {U}
                       <span className="text-xl text-white/25">/100</span>
-                    </useParams>
+                    </p>
                   </div>
                   <div className="h-12 w-px bg-white/10" />
                   <div className="text-left">
-                    <useParams className={`text-lg font-bold ${ge(U).color}`}>{ge(U).label}</useParams>
-                    <useParams className="text-white/25 text-xs">{ge(U).labelCn}</useParams>
+                    <p className={`text-lg font-bold ${ge(U).color}`}>{ge(U).label}</p>
+                    <p className="text-white/25 text-xs">{ge(U).labelCn}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
@@ -4790,7 +4790,7 @@ function WaComponent() {
                       }}
                     >
                       <t.icon size={18} className={`${t.color} mx-auto mb-2`} />
-                      <useParams className="text-white/50 text-xs mb-1">{t.name}</useParams>
+                      <p className="text-white/50 text-xs mb-1">{t.name}</p>
                       <div className="flex items-center justify-center gap-1">
                         <span className={`text-xl font-bold ${t.color}`}>{t.score}</span>
                         <span className="text-white/15 text-xs">/100</span>
@@ -4825,7 +4825,7 @@ function WaComponent() {
                     <CrownIcon size={16} className="text-yellow-400" />
                     <TrendingUpIcon size={16} className="text-emerald-400" />
                   </div>
-                  <useParams className="text-white/45 text-sm">
+                  <p className="text-white/45 text-sm">
                     {U >= 75
                       ? t_1("Excelente trabajo! Estas muy preparado.", "出色的工作！你已经非常准备好了。")
                       : U >= 60
@@ -4834,7 +4834,7 @@ function WaComponent() {
                             "No te rindas! La practica constante te llevara al exito.",
                             "不要放弃！坚持练习会带你走向成功。",
                           )}
-                  </useParams>
+                  </p>
                 </div>
               </div>
             </div>
