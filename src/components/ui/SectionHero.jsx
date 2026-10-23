@@ -20,7 +20,7 @@ export function SectionHero({ icon: Icon, eyebrow, title, titleZh, description, 
           <ArrowLeftIcon size={14} /> Inicio · 首页
         </Link>
       )}
-      <div className="ui-row" style={{ alignItems: "flex-start", flexWrap: "nowrap", gap: 18 }}>
+      <div className="ui-row ui-hero-head" style={{ alignItems: "flex-start", flexWrap: "nowrap", gap: 18 }}>
         {Icon && (
           <span
             className="ui-icon"

@@ -1968,7 +1968,7 @@ function KoComponent() {
                 className="flex items-center gap-2 text-white/40 hover:text-orange-400 transition-all text-sm mb-6 group"
               >
                 <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" /> Volver
-                a modulos / 返回模块列表
+                a módulos / 返回模块列表
               </button>
               <div
                 className={`flex flex-col md:flex-row md:items-center gap-5 transition-all duration-500 ${R ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}

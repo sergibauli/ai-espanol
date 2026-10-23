@@ -280,3 +280,8 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
     mask-image: linear-gradient(90deg, #000 85%, transparent);
   }
 }
+
+@media (max-width: 640px) {
+  .ui-hero-head { flex-direction: column; gap: 10px !important; }
+  .ui-hero-head > .ui-icon { width: 44px !important; height: 44px !important; border-radius: 14px !important; }
+}

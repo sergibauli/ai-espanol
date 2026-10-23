@@ -632,5 +632,376 @@ const GRAMMAR_TOPICS = [
       answerCn: "por eso",
     },
   },
+  // Temas B2 (generados con DeepSeek y revisados)
+  {
+    "id": "imperfecto-subjuntivo",
+    "title": "El imperfecto de subjuntivo",
+    "titleCn": "虚拟式过去未完成时",
+    "level": "B2",
+    "category": "subjuntivo",
+    "explanation": "El imperfecto de subjuntivo se forma a partir de la tercera persona del plural del pretérito indefinido: hablaron → hablara/hablase. Se usa en oraciones subordinadas cuando el verbo principal está en pasado o condicional, para expresar deseos, dudas, emociones o acciones no reales: Quería que vinieras. También aparece en condicionales irreales (Si tuviera dinero, viajaría) y en fórmulas de cortesía (Quisiera pedirle un favor).",
+    "explanationCn": "虚拟式过去未完成时由简单过去时第三人称复数词干构成：hablaron → hablara/hablase。当主句动词是过去时或条件式时，从句用它表示愿望、怀疑、情感或非现实动作：Quería que vinieras（我希望你来）。也用于非现实条件句（Si tuviera dinero, viajaría）和礼貌表达（Quisiera pedirle un favor）。",
+    "examples": [
+      {
+        "es": "Si tuviera tiempo, estudiaría más.",
+        "zh": "如果我有时间，我会学得更多。"
+      },
+      {
+        "es": "Me pidió que le enviara el informe.",
+        "zh": "他让我把报告发给他。"
+      },
+      {
+        "es": "Ojalá lloviera mañana.",
+        "zh": "但愿明天下雨。"
+      },
+      {
+        "es": "Quisiera hacerle una pregunta.",
+        "zh": "我想问您一个问题。"
+      }
+    ],
+    "commonError": "Usar el presente de subjuntivo tras un verbo en pasado: *Me pidió que le envíe el informe.",
+    "commonErrorCn": "主句是过去时却用现在虚拟式：*Me pidió que le envíe el informe。",
+    "tip": "Memoriza la regla: pasado/condicional en la principal → imperfecto de subjuntivo en la subordinada.",
+    "tipCn": "记住规则：主句用过去时或条件式 → 从句用虚拟式过去未完成时。",
+    "practice": {
+      "question": "Completa: Si ___ (tener) más dinero, compraría una casa.",
+      "questionCn": "填空：Si ___ (tener) más dinero, compraría una casa.",
+      "answer": "tuviera",
+      "answerCn": "tuviera"
+    }
+  },
+  {
+    "id": "condicionales-irreales",
+    "title": "Oraciones condicionales irreales",
+    "titleCn": "非现实条件句",
+    "level": "B2",
+    "category": "oraciones",
+    "explanation": "Las condicionales irreales expresan situaciones hipotéticas que no se cumplen. Hay dos tipos: si + imperfecto de subjuntivo + condicional simple (hipótesis presente/futura): Si estudiaras, aprobarías; y si + pluscuamperfecto de subjuntivo + condicional compuesto (hipótesis pasada): Si hubieras estudiado, habrías aprobado. También se usan para dar consejos o expresar deseos de forma atenuada.",
+    "explanationCn": "非现实条件句表达不成立的假设。两种类型：si + 虚拟式过去未完成时 + 简单条件式（现在/将来假设）：Si estudiaras, aprobarías（如果你学习，就会通过）；si + 虚拟式过去完成时 + 复合条件式（过去假设）：Si hubieras estudiado, habrías aprobado（如果你当时学习了，就会通过）。也用于委婉建议或愿望。",
+    "examples": [
+      {
+        "es": "Si fuera rico, viajaría por todo el mundo.",
+        "zh": "如果我是富人，我会环游世界。"
+      },
+      {
+        "es": "Si hubieras venido, te habrías divertido.",
+        "zh": "如果你来了，你会玩得很开心。"
+      },
+      {
+        "es": "Si yo fuera tú, hablaría con ella.",
+        "zh": "如果我是你，我会和她谈谈。"
+      },
+      {
+        "es": "Si hubiéramos salido antes, no habríamos perdido el tren.",
+        "zh": "如果我们早点出发，就不会错过火车了。"
+      }
+    ],
+    "commonError": "Usar el condicional en la prótasis: *Si tendría dinero, viajaría.",
+    "commonErrorCn": "在条件从句中用条件式：*Si tendría dinero, viajaría。",
+    "tip": "Nunca uses el condicional después de si; usa imperfecto o pluscuamperfecto de subjuntivo.",
+    "tipCn": "si 后面永远不用条件式；用虚拟式过去未完成时或过去完成时。",
+    "practice": {
+      "question": "Completa: Si ___ (saber) la respuesta, te la diría.",
+      "questionCn": "填空：Si ___ (saber) la respuesta, te la diría.",
+      "answer": "supiera",
+      "answerCn": "supiera"
+    }
+  },
+  {
+    "id": "estilo-indirecto",
+    "title": "Estilo indirecto y correlación de tiempos",
+    "titleCn": "间接引语与时态呼应",
+    "level": "B2",
+    "category": "discurso",
+    "explanation": "El estilo indirecto reproduce palabras ajenas con verbos como decir, preguntar, pedir. Si el verbo introductor está en presente, los tiempos no cambian; si está en pasado, se produce una correlación: presente → imperfecto, pretérito → pluscuamperfecto, futuro → condicional. También cambian pronombres, posesivos y marcadores temporales (hoy → ese día, mañana → al día siguiente).",
+    "explanationCn": "间接引语用 decir、preguntar、pedir 等动词转述他人的话。若引导动词是现在时，时态不变；若是过去时，则需时态呼应：现在时 → 过去未完成时，简单过去时 → 过去完成时，将来时 → 条件式。代词、物主代词和时间标记也要改变（hoy → ese día，mañana → al día siguiente）。",
+    "examples": [
+      {
+        "es": "«Estoy cansado» → Dijo que estaba cansado.",
+        "zh": "“我累了” → 他说他累了。"
+      },
+      {
+        "es": "«Vendré mañana» → Prometió que vendría al día siguiente.",
+        "zh": "“我明天来” → 他答应第二天来。"
+      },
+      {
+        "es": "«¿Dónde vives?» → Me preguntó dónde vivía.",
+        "zh": "“你住哪儿？” → 他问我住哪儿。"
+      },
+      {
+        "es": "«Ya he terminado» → Comentó que ya había terminado.",
+        "zh": "“我已经完成了” → 他说他已经完成了。"
+      }
+    ],
+    "commonError": "No cambiar los tiempos cuando el verbo introductor está en pasado: *Dijo que está cansado.",
+    "commonErrorCn": "引导动词是过去时却不改变时态：*Dijo que está cansado。",
+    "tip": "Haz una tabla de equivalencias: presente→imperfecto, pretérito→pluscuamperfecto, futuro→condicional.",
+    "tipCn": "做一张时态对应表：现在时→过去未完成时，简单过去时→过去完成时，将来时→条件式。",
+    "practice": {
+      "question": "Transforma: «Iré contigo» → Ella dijo que ___ conmigo.",
+      "questionCn": "转换：«Iré contigo» → Ella dijo que ___ conmigo.",
+      "answer": "iría",
+      "answerCn": "iría"
+    }
+  },
+  {
+    "id": "pasiva-y-pasiva-refleja",
+    "title": "La voz pasiva y la pasiva refleja",
+    "titleCn": "被动语态与自复被动",
+    "level": "B2",
+    "category": "voz",
+    "explanation": "La voz pasiva se forma con ser + participio + por: El libro fue escrito por Cervantes. La pasiva refleja usa se + verbo en tercera persona: Se venden pisos. La pasiva refleja es más frecuente en español oral y escrito, sobre todo con cosas. El agente no se expresa con se. La concordancia en la pasiva refleja es con el sujeto: Se vende casa / Se venden casas.",
+    "explanationCn": "被动语态由 ser + 过去分词 + por 构成：El libro fue escrito por Cervantes。自复被动用 se + 第三人称动词：Se venden pisos（出售公寓）。自复被动在西班牙语口语和书面语中更常用，尤其涉及事物。se 结构不表达施动者。自复被动要与主语一致：Se vende casa / Se venden casas。",
+    "examples": [
+      {
+        "es": "La novela fue publicada en 1980.",
+        "zh": "这部小说于1980年出版。"
+      },
+      {
+        "es": "Se venden entradas en la taquilla.",
+        "zh": "售票处有票出售。"
+      },
+      {
+        "es": "El edificio será construido por una empresa china.",
+        "zh": "这座大楼将由一家中国公司建造。"
+      },
+      {
+        "es": "Se habla español en muchos países.",
+        "zh": "许多国家讲西班牙语。"
+      }
+    ],
+    "commonError": "Usar se + verbo en singular con sujeto plural: *Se vende pisos.",
+    "commonErrorCn": "主语复数却用 se + 单数动词：*Se vende pisos。",
+    "tip": "Con cosas, prefiere la pasiva refleja (se vende); reserva ser + participio para textos formales o cuando menciones el agente.",
+    "tipCn": "涉及事物时优先用自复被动（se vende）；ser + 过去分词用于正式文本或需要指出施动者时。",
+    "practice": {
+      "question": "Elige: ___ (Se vende / Se venden) coches usados.",
+      "questionCn": "选择：___ (Se vende / Se venden) coches usados.",
+      "answer": "Se venden",
+      "answerCn": "Se venden"
+    }
+  },
+  {
+    "id": "usos-de-se",
+    "title": "Los usos de se",
+    "titleCn": "se 的用法",
+    "level": "B2",
+    "category": "pronombres",
+    "explanation": "El pronombre se tiene varios valores: reflexivo (María se lava), recíproco (Se quieren), dativo de interés (Se comió toda la tarta), pasiva refleja (Se construyen casas), impersonal (Se come bien aquí), pronominal (Se arrepintió), y como sustituto de le/les ante lo/la/los/las (Se lo di). Identificar el uso ayuda a evitar errores de concordancia y de pronombres.",
+    "explanationCn": "代词 se 有多种用法：反身（María se lava）、相互（Se quieren）、利益与格（Se comió toda la tarta）、自复被动（Se construyen casas）、无人称（Se come bien aquí）、代词化（Se arrepintió），以及在 lo/la/los/las 前代替 le/les（Se lo di）。辨别用法有助于避免一致性和代词错误。",
+    "examples": [
+      {
+        "es": "Se lo dije ayer.",
+        "zh": "我昨天告诉了他。"
+      },
+      {
+        "es": "Se come muy bien en ese restaurante.",
+        "zh": "那家餐厅吃得很好。"
+      },
+      {
+        "es": "Ana y Luis se escriben correos.",
+        "zh": "安娜和路易斯互相写邮件。"
+      },
+      {
+        "es": "Se mudó a otra ciudad.",
+        "zh": "他搬到了另一个城市。"
+      }
+    ],
+    "commonError": "Decir *Le lo dije en lugar de Se lo dije.",
+    "commonErrorCn": "说成 *Le lo dije 而不是 Se lo dije。",
+    "tip": "Cuando coinciden le/les + lo/la/los/las, el primer pronombre se convierte en se.",
+    "tipCn": "当 le/les 与 lo/la/los/las 同时出现时，第一个代词变成 se。",
+    "practice": {
+      "question": "Completa: ___ (Le / Se) lo expliqué todo.",
+      "questionCn": "填空：___ (Le / Se) lo expliqué todo.",
+      "answer": "Se",
+      "answerCn": "Se"
+    }
+  },
+  {
+    "id": "oraciones-relativo",
+    "title": "Las oraciones de relativo",
+    "titleCn": "关系从句",
+    "level": "B2",
+    "category": "oraciones",
+    "explanation": "Las oraciones de relativo modifican un antecedente con que, quien, el cual, cuyo o donde. Que es el más común; quien se usa con personas tras preposición; el cual/la cual concuerda en género y número y suele aparecer tras preposición o en estilo formal; cuyo indica posesión y concuerda con lo poseído; donde se refiere a lugares. El modo (indicativo/subjuntivo) depende de si el antecedente es conocido o no.",
+    "explanationCn": "关系从句用 que、quien、el cual、cuyo 或 donde 修饰先行词。que 最常用；quien 用于介词后指人；el cual/la cual 与先行词性数一致，多用于介词后或正式文体；cuyo 表示所属，与所拥有之物一致；donde 指地点。式（陈述式/虚拟式）取决于先行词是否确定。",
+    "examples": [
+      {
+        "es": "El libro que leí es interesante.",
+        "zh": "我读的那本书很有意思。"
+      },
+      {
+        "es": "La persona con quien hablé era muy amable.",
+        "zh": "和我说话的人非常友好。"
+      },
+      {
+        "es": "El autor cuyo libro ganó el premio es joven.",
+        "zh": "其书获奖的那位作者很年轻。"
+      },
+      {
+        "es": "La ciudad donde nací es pequeña.",
+        "zh": "我出生的城市很小。"
+      }
+    ],
+    "commonError": "Usar que en lugar de cuyo: *El autor que su libro ganó el premio.",
+    "commonErrorCn": "用 que 代替 cuyo：*El autor que su libro ganó el premio。",
+    "tip": "Con preposición y persona, usa quien o el cual; para posesión, cuyo concuerda con el sustantivo poseído.",
+    "tipCn": "介词后指人用 quien 或 el cual；表示所属用 cuyo，与所拥有的名词一致。",
+    "practice": {
+      "question": "Completa: La chica ___ (que / cuyo) padre es médico estudia conmigo.",
+      "questionCn": "填空：La chica ___ (que / cuyo) padre es médico estudia conmigo.",
+      "answer": "cuyo",
+      "answerCn": "cuyo"
+    }
+  },
+  {
+    "id": "subjuntivo-temporales",
+    "title": "Subjuntivo en oraciones temporales",
+    "titleCn": "时间从句中的虚拟式",
+    "level": "B2",
+    "category": "subjuntivo",
+    "explanation": "Las oraciones temporales con cuando, en cuanto, antes de que, hasta que, mientras usan subjuntivo cuando expresan futuro o acción no realizada: Cuando llegues, avísame. Si expresan hábito o pasado, usan indicativo: Cuando llego a casa, ceno. Antes de que siempre lleva subjuntivo. Después de que puede llevar indicativo o subjuntivo según el tiempo.",
+    "explanationCn": "时间从句由 cuando、en cuanto、antes de que、hasta que、mientras 引导，表达将来或未完成的动作时用虚拟式：Cuando llegues, avísame（你到了告诉我）。表达习惯或过去时用陈述式：Cuando llego a casa, ceno。antes de que 总是接虚拟式。después de que 根据时态可用陈述式或虚拟式。",
+    "examples": [
+      {
+        "es": "Cuando termines, llámame.",
+        "zh": "你完成后给我打电话。"
+      },
+      {
+        "es": "En cuanto llegue, te aviso.",
+        "zh": "他一到我就通知你。"
+      },
+      {
+        "es": "Antes de que te vayas, dime la verdad.",
+        "zh": "你走之前，告诉我真相。"
+      },
+      {
+        "es": "Cuando era niño, jugaba en la calle.",
+        "zh": "我小时候在街上玩。"
+      }
+    ],
+    "commonError": "Usar indicativo para futuro: *Cuando terminas, llámame.",
+    "commonErrorCn": "将来动作却用陈述式：*Cuando terminas, llámame。",
+    "tip": "Si la acción temporal es futura o no realizada, usa subjuntivo; si es habitual o pasada, indicativo.",
+    "tipCn": "时间动作是将来或未实现时用虚拟式；是习惯或过去时用陈述式。",
+    "practice": {
+      "question": "Completa: En cuanto ___ (llegar) a casa, te llamo.",
+      "questionCn": "填空：En cuanto ___ (llegar) a casa, te llamo.",
+      "answer": "llegue",
+      "answerCn": "llegue"
+    }
+  },
+  {
+    "id": "concesivas",
+    "title": "Oraciones concesivas",
+    "titleCn": "让步从句",
+    "level": "B2",
+    "category": "oraciones",
+    "explanation": "Las concesivas expresan una dificultad que no impide la acción principal: aunque, a pesar de que, por mucho que, si bien. Aunque puede llevar indicativo (hecho real) o subjuntivo (hipótesis): Aunque llueve, salgo / Aunque llueva, saldré. A pesar de que suele ir con indicativo; por mucho que + subjuntivo expresa insistencia. También existen conectores como aun así.",
+    "explanationCn": "让步从句表达不阻碍主句动作的困难：aunque、a pesar de que、por mucho que、si bien。aunque 可接陈述式（事实）或虚拟式（假设）：Aunque llueve, salgo / Aunque llueva, saldré。a pesar de que 多接陈述式；por mucho que + 虚拟式表示强调。还有 aun así 等连接词。",
+    "examples": [
+      {
+        "es": "Aunque está cansado, sigue trabajando.",
+        "zh": "尽管他累了，他仍继续工作。"
+      },
+      {
+        "es": "Aunque llueva, iremos al parque.",
+        "zh": "即使下雨，我们也要去公园。"
+      },
+      {
+        "es": "A pesar de que estudió mucho, no aprobó.",
+        "zh": "尽管他学了很多，还是没通过。"
+      },
+      {
+        "es": "Por mucho que insistas, no cambiaré de opinión.",
+        "zh": "无论你怎么坚持，我都不会改变主意。"
+      }
+    ],
+    "commonError": "Usar siempre indicativo con aunque en contextos hipotéticos: *Aunque llueve mañana, saldremos.",
+    "commonErrorCn": "在假设语境中 aunque 总用陈述式：*Aunque llueve mañana, saldremos。",
+    "tip": "Indicativo = hecho real; subjuntivo = hipótesis o futuro. Por mucho que siempre pide subjuntivo.",
+    "tipCn": "陈述式 = 真实事实；虚拟式 = 假设或将来。por mucho que 总是接虚拟式。",
+    "practice": {
+      "question": "Completa: Aunque ___ (tener) dinero, no lo gastaría.",
+      "questionCn": "填空：Aunque ___ (tener) dinero, no lo gastaría.",
+      "answer": "tuviera",
+      "answerCn": "tuviera"
+    }
+  },
+  {
+    "id": "perifrasis-verbales",
+    "title": "Perífrasis verbales de uso frecuente",
+    "titleCn": "常用动词短语",
+    "level": "B2",
+    "category": "verbos",
+    "explanation": "Las perífrasis verbales combinan un verbo auxiliar con infinitivo, gerundio o participio. Llevar + gerundio indica duración: Llevo dos años estudiando. Acabar de + infinitivo expresa pasado inmediato: Acabo de llegar. Volver a + infinitivo indica repetición: Volvió a llamar. Dejar de + infinitivo significa cesar: Dejó de fumar. Ponerse a + infinitivo indica inicio: Se puso a llorar.",
+    "explanationCn": "动词短语由助动词加不定式、副动词或分词构成。llevar + 副动词表示持续：Llevo dos años estudiando（我学了两年了）。acabar de + 不定式表示刚过去：Acabo de llegar（我刚到）。volver a + 不定式表示重复：Volvió a llamar（他又打电话了）。dejar de + 不定式表示停止：Dejó de fumar（他戒烟了）。ponerse a + 不定式表示开始：Se puso a llorar（他哭了起来）。",
+    "examples": [
+      {
+        "es": "Llevo tres horas esperando.",
+        "zh": "我已经等了三个小时。"
+      },
+      {
+        "es": "Acabo de terminar el examen.",
+        "zh": "我刚考完试。"
+      },
+      {
+        "es": "Volvió a olvidar las llaves.",
+        "zh": "他又忘了钥匙。"
+      },
+      {
+        "es": "Se puso a estudiar a las ocho.",
+        "zh": "他八点开始学习。"
+      }
+    ],
+    "commonError": "Decir *Llevo tres horas espero en lugar de Llevo tres horas esperando.",
+    "commonErrorCn": "说成 *Llevo tres horas espero 而不是 Llevo tres horas esperando。",
+    "tip": "Memoriza la estructura: llevar + tiempo + gerundio; acabar de + infinitivo; volver a + infinitivo.",
+    "tipCn": "记住结构：llevar + 时间 + 副动词；acabar de + 不定式；volver a + 不定式。",
+    "practice": {
+      "question": "Completa: ___ (Acabar) de salir; no está en casa.",
+      "questionCn": "填空：___ (Acabar) de salir; no está en casa.",
+      "answer": "Acaba",
+      "answerCn": "Acaba"
+    }
+  },
+  {
+    "id": "futuro-perfecto-condicional-compuesto",
+    "title": "Futuro perfecto y condicional compuesto para hipótesis",
+    "titleCn": "将来完成时与复合条件式表示推测",
+    "level": "B2",
+    "category": "tiempos",
+    "explanation": "El futuro perfecto (habrá + participio) y el condicional compuesto (habría + participio) expresan hipótesis sobre el pasado. Futuro perfecto: suposición de algo ya ocurrido: Habrá llegado ya. Condicional compuesto: hipótesis no realizada o consecuencia de una condición pasada: Habría venido, pero estaba enfermo. También se usan para conjeturas: ¿Dónde estará? / ¿Qué habrá pasado?",
+    "explanationCn": "将来完成时（habrá + 过去分词）和复合条件式（habría + 过去分词）表示对过去的推测。将来完成时：对已发生事情的猜测：Habrá llegado ya（他应该已经到了）。复合条件式：未实现的假设或过去条件的结果：Habría venido, pero estaba enfermo（他本来会来的，但病了）。也用于猜测：¿Dónde estará? / ¿Qué habrá pasado?",
+    "examples": [
+      {
+        "es": "A estas horas ya habrá terminado.",
+        "zh": "这个时间他应该已经完成了。"
+      },
+      {
+        "es": "Habría ido a la fiesta, pero no me invitaron.",
+        "zh": "我本来会去派对的，但他们没邀请我。"
+      },
+      {
+        "es": "¿Qué habrá pasado? No contesta.",
+        "zh": "会发生什么事呢？他不接电话。"
+      },
+      {
+        "es": "Yo habría dicho otra cosa.",
+        "zh": "我本来会说别的。"
+      }
+    ],
+    "commonError": "Confundir el condicional simple con el compuesto para pasado: *Habría venido si me lo pides (por hubiera/hubiese pedido).",
+    "commonErrorCn": "过去假设中误用简单条件式代替复合条件式：*Habría venido si me lo pides（应为 hubiera/hubiese pedido）。",
+    "tip": "Futuro perfecto = conjetura sobre el pasado; condicional compuesto = hipótesis no realizada en el pasado.",
+    "tipCn": "将来完成时 = 对过去的猜测；复合条件式 = 过去未实现的假设。",
+    "practice": {
+      "question": "Completa: No sé dónde está; ___ (haber) salido temprano.",
+      "questionCn": "填空：No sé dónde está; ___ (haber) salido temprano.",
+      "answer": "habrá",
+      "answerCn": "habrá"
+    }
+  },
 ];
 export { GRAMMAR_TOPICS };
