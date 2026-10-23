@@ -1890,7 +1890,7 @@ function KoComponent() {
   const uo = [
     {
       key: "teoria",
-      label: "Teoria / 理论",
+      label: "Teoría / 理论",
       icon: LightbulbIcon,
       count: h?.teoriaCount,
     },
@@ -1907,7 +1907,7 @@ function KoComponent() {
     },
     {
       key: "dialogos",
-      label: "Dialogos / 对话",
+      label: "Diálogos / 对话",
       icon: MessageCircleIcon,
       count: h?.dialogosCount,
     },
@@ -1918,7 +1918,7 @@ function KoComponent() {
     },
     {
       key: "gramatica",
-      label: "Gramatica / 语法",
+      label: "Gramática / 语法",
       icon: BookMarkedIcon,
     },
     {
@@ -1962,9 +1962,6 @@ function KoComponent() {
               background: `linear-gradient(180deg, ${d}08 0%, transparent 60%)`,
             }}
           >
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden xl:block opacity-65 scale-75">
-              <L_1 variant="modules" compact />
-            </div>
             <div className="max-w-5xl mx-auto px-4 py-6 relative z-10">
               <button
                 onClick={onClick}

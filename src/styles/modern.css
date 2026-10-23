@@ -266,3 +266,17 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 /* Lista de módulos: tarjetas más grandes y legibles */
 .mod-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 @media (max-width: 640px) { .mod-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } }
+
+/* Ficha de módulo: las 10 pestañas visibles en escritorio; en móvil, carrusel con pista visual */
+@media (min-width: 900px) {
+  .module-experience div.relative.flex.flex-wrap.gap-3.mt-6.pb-1 {
+    display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow: visible !important; gap: 8px !important;
+  }
+  .module-experience div.relative.flex.flex-wrap.gap-3.mt-6.pb-1 > button { justify-content: center; }
+}
+@media (max-width: 899px) {
+  .module-experience div.relative.flex.flex-wrap.gap-3.mt-6.pb-1 {
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+}
