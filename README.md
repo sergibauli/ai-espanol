@@ -62,9 +62,19 @@ Para regenerar el índice ligero de módulos: `node scripts/build-catalog.mjs`.
    npx wrangler kv namespace create CAMPUS      # pega el id en wrangler.toml
    npx wrangler secret put CLERK_SECRET_KEY
    npx wrangler secret put ADMIN_EMAILS         # tu email (y el de otros admins)
+   npx wrangler secret put DEEPSEEK_API_KEY     # clave de DeepSeek para el tutor IA (nunca llega al navegador)
    npx wrangler deploy                          # te da la URL https://ai-espanol-campus.<tu>.workers.dev
    ```
 3. Compila la web con esa URL: `VITE_API_URL=https://ai-espanol-campus.<tu>.workers.dev npm run build`.
 4. En el Campus (como admin) da de alta a los profesores con el email de su cuenta. Los alumnos aparecen solos al iniciar sesión por primera vez; asígnales profesor y plan.
 
 Workers.dev puede ir lento desde China; si pasa, añade un dominio propio al Worker.
+
+## Clave de DeepSeek (tutor IA, correcciones, generador IA)
+
+Todas las llamadas pasan por `src/lib/deepseekClient.js`:
+- **Con el Worker desplegado** (`VITE_API_URL`): la clave vive en el Worker (`DEEPSEEK_API_KEY`) y la web llama a `/ai/chat`,
+  con cuota diaria (200 por usuario con sesión, 20 por IP sin sesión). Es la opción segura.
+- **Sin Worker**: añade el secreto `DEEPSEEK_API_KEY` en GitHub (Settings → Secrets → Actions). El build lo inyecta cifrado con
+  una sal aleatoria: no aparece en claro en el código publicado ni lo detectan los bots que buscan `sk-…`, pero alguien con
+  conocimientos puede recuperarlo desde el navegador. Úsalo solo como solución temporal y con una clave con poco saldo.
