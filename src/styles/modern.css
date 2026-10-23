@@ -76,6 +76,9 @@
 }
 
 .ui-card {
+  color: var(--ui-text);
+  font-family: var(--ui-font);
+  text-align: left;
   background: var(--ui-surface);
   border: 1px solid var(--ui-border);
   border-radius: var(--ui-radius);

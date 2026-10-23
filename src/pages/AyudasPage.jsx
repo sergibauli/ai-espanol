@@ -1,5 +1,6 @@
 import { SparklesIcon, ChevronDownIcon, ArrowLeftIcon, SearchIcon, ChevronUpIcon } from "lucide-react";
 import * as React from "react";
+import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 const g = [
@@ -1682,26 +1683,16 @@ function UComponent() {
     <StarfieldBackground>
       <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen relative">
         <DComponent />
-        <div className="relative z-10">
-          <Link
-            to="/dashboard"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-orange-400 transition-colors mb-6 text-sm font-bold"
-          >
-            <ArrowLeftIcon size={16} /> Volver / 返回
-          </Link>
-        </div>
-        <div className="fx-section-head relative z-10 mt-2">
-          <span className="fx-kicker">
-            <SparklesIcon size={13} />
-            Conectores para textos / 文本连接词
-          </span>
-          <h1 className="fx-title text-4xl md:text-6xl font-black tracking-tight mb-3">
-            Ayudas de Escritura
-          </h1>
-          <p className="text-white/50 text-lg md:text-xl max-w-2xl mx-auto">
-            西班牙语写作连接词与表达技巧 / Conectores y técnicas para escribir en español
-          </p>
-          <div className="fx-underline" />
+        <div className="relative z-10" style={{ marginBottom: 24 }}>
+          <SectionHero
+            icon={SparklesIcon}
+            accent="#3b82f6"
+            eyebrow="Escritura · 写作"
+            title="Ayudas de escritura"
+            titleZh="西班牙语写作助手"
+            description="Conectores, plantillas y técnicas para escribir textos del DELE: narrar, opinar, argumentar, cartas y correos."
+            descriptionZh="DELE写作用的连接词、模板和技巧：叙述、观点、论证、信件和邮件。"
+          />
         </div>
         <div className="relative z-10 mb-8">
           <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">

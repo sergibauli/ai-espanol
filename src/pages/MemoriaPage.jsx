@@ -11,6 +11,7 @@ import {
   CheckIcon,
 } from "lucide-react";
 import * as React from "react";
+import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 import { useFavorites } from "../lib/favorites.js";
@@ -57,28 +58,16 @@ function PComponent() {
   return (
     <StarfieldBackground>
       <div className="max-w-4xl mx-auto px-4 py-6 min-h-screen relative z-10">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-cyan-400 transition-colors mb-6 text-sm font-bold"
-        >
-          <ArrowLeftIcon size={16} /> Volver / 返回
-        </Link>
-        <div className="fx-section-head mt-2">
-          <span
-            className="fx-kicker"
-            style={{
-              color: "#66e7ff",
-              borderColor: "rgba(0,212,255,.35)",
-              background: "rgba(0,212,255,.08)",
-              boxShadow: "0 0 22px rgba(0,212,255,.14)",
-            }}
-          >
-            <BrainIcon size={13} />
-            Agente de Memorización · 记忆智能体
-          </span>
-          <h1 className="fx-title text-4xl md:text-6xl font-black mb-2">Repaso Espaciado</h1>
-          <p className="text-white/50 text-lg">间隔重复 · memoriza de forma automática y eficiente</p>
-          <div className="fx-underline" />
+        <div style={{ marginBottom: 24 }}>
+          <SectionHero
+            icon={BrainIcon}
+            accent="#3dd6ff"
+            eyebrow="Repaso inteligente · 记忆复习"
+            title="Repaso espaciado"
+            titleZh="间隔重复记忆"
+            description="Guarda palabras desde los módulos y diccionarios: el sistema te las pregunta justo antes de que las olvides (1, 3, 7, 14 y 30 días)."
+            descriptionZh="从模块和词典收藏单词，系统会在你快忘记时提醒复习。"
+          />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 fx-stagger">
           {[

@@ -1,5 +1,6 @@
 import { YoutubeIcon, ArrowLeftIcon, PlayIcon, FunnelIcon, ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
+import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 const g = [
@@ -199,30 +200,17 @@ function NComponent() {
   return (
     <StarfieldBackground>
       <div className="max-w-6xl mx-auto px-4 py-6 min-h-screen relative z-10">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-red-400 transition-colors mb-6 text-sm font-bold"
-        >
-          <ArrowLeftIcon size={16} /> Volver / 返回
-        </Link>
-        <div className="fx-section-head mt-2">
-          <span
-            className="fx-kicker"
-            style={{
-              color: "#ff6b6b",
-              borderColor: "rgba(255,56,96,.4)",
-              background: "rgba(255,56,96,.08)",
-              boxShadow: "0 0 22px rgba(255,56,96,.16)",
-            }}
-          >
-            <YoutubeIcon size={13} />
-            Vídeos en español real · 真实西语视频
-          </span>
-          <h1 className="fx-title text-4xl md:text-6xl font-black mb-2">Conversaciones y acentos</h1>
-          <p className="text-white/50 text-lg">
-            Escucha español real de España, México, Colombia y Argentina
-          </p>
-          <div className="fx-underline" />
+        <div style={{ marginBottom: 24 }}>
+          <SectionHero
+            icon={YoutubeIcon}
+            accent="#ff4d4d"
+            eyebrow="Vídeos · 视频"
+            title="Conversaciones y acentos"
+            titleZh="真实西语视频"
+            description="Español real de España, México, Colombia y Argentina, ordenado por nivel y acento."
+            descriptionZh="来自西班牙、墨西哥、哥伦比亚和阿根廷的真实西语，按级别和口音分类。"
+            stats={[{ value: g.length, label: "canales y listas · 个频道" }]}
+          />
         </div>
         <div className="flex flex-wrap gap-2 justify-center mb-8">
           {y.map((a) => (

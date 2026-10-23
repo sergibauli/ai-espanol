@@ -10,6 +10,7 @@ import {
   QuoteIcon,
 } from "lucide-react";
 import * as React from "react";
+import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 import { GRAMMAR_TOPICS } from "../data/gramatica.js";
@@ -102,21 +103,21 @@ function QComponent() {
   const w_length = GRAMMAR_TOPICS.length;
   return (
     <StarfieldBackground>
-      <div className="max-w-3xl mx-auto px-4 py-6 min-h-screen">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-orange-400 transition-colors mb-6 text-sm font-bold"
-        >
-          <ArrowLeftIcon size={16} /> Volver al inicio / 返回首页
-        </Link>
-        <div className="fx-section-head mt-2">
-          <span className="fx-kicker">
-            <BookOpenIcon size={13} />
-            Gramática esencial / 核心语法 · {w_length} temas
-          </span>
-          <h1 className="fx-title text-4xl md:text-6xl font-black mb-3">Gramática explicada</h1>
-          <p className="text-white/40 text-sm font-medium">语法详解 · Organizada por niveles / 按级别分类</p>
-          <div className="fx-underline" />
+      <div className="max-w-4xl mx-auto px-4 py-6 min-h-screen">
+        <div style={{ marginBottom: 24 }}>
+          <SectionHero
+            icon={BookOpenIcon}
+            accent="#f97316"
+            eyebrow="Gramática · 语法"
+            title="Gramática explicada"
+            titleZh="西班牙语语法详解"
+            description="Los temas clave de cada nivel, explicados con ejemplos y en chino. Toca un nivel para saltar a sus temas."
+            descriptionZh="各级别的核心语法，配有例句和中文讲解。"
+            stats={[
+              { value: w_length, label: "temas · 个主题" },
+              { value: h.length, label: "niveles · 个级别" },
+            ]}
+          />
         </div>
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {h.map((s) => {

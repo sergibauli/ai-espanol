@@ -13,6 +13,7 @@ import {
   RotateCcwIcon,
 } from "lucide-react";
 import * as React from "react";
+import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 import { useFavorites } from "../lib/favorites.js";
@@ -317,62 +318,15 @@ function NeComponent() {
         @keyframes bookKnowledgeGlow { 0%, 100% { opacity: .25; transform: translate(-50%, -50%) scale(.75); } 50% { opacity: .8; transform: translate(-50%, -62%) scale(1.18); } }
       `}</style>
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-purple-400 transition-all mb-8 text-sm group"
-        >
-          <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" />
-          {t_1("Volver al inicio", "返回首页")}
-        </Link>
-        <div className="text-center mb-10">
-          <div className="dictionary-book-scene relative inline-block mb-5" aria-hidden="true">
-            <div
-              className="dictionary-book-glow"
-              style={{
-                background: levelCfg.glow,
-              }}
-            />
-            <div className="dictionary-book">
-              <div
-                className="dictionary-book-page dictionary-book-left"
-                style={{
-                  background: `linear-gradient(135deg, ${levelCfg.color}, ${levelCfg.accent})`,
-                }}
-              >
-                <span>ES</span>
-              </div>
-              <div
-                className="dictionary-book-page dictionary-book-right"
-                style={{
-                  background: `linear-gradient(225deg, ${levelCfg.color}, ${levelCfg.accent})`,
-                }}
-              >
-                <span>中</span>
-              </div>
-              <div
-                className="dictionary-book-spine"
-                style={{
-                  background: levelCfg.glow,
-                }}
-              />
-            </div>
-          </div>
-          <h1
-            className="text-4xl md:text-5xl font-bold mb-2 text-white"
-            style={{
-              textShadow: `0 0 30px ${levelCfg.glow}20`,
-            }}
-          >
-            {t_1("Diccionarios", "词典")}
-          </h1>
-          <p className="text-white/50 text-lg">
-            {t_1("Vocabulario por nivel y tematica", "按级别和主题的词汇")}
-          </p>
-          <div
-            className="w-32 h-1 rounded-full mx-auto mt-4"
-            style={{
-              background: `linear-gradient(90deg, transparent, ${levelCfg.glow}, transparent)`,
-            }}
+        <div style={{ marginBottom: 26 }}>
+          <SectionHero
+            icon={BookOpenIcon}
+            accent={levelCfg.color}
+            eyebrow="Diccionarios · 词典"
+            title="Diccionario español–chino"
+            titleZh="西汉词典 · 按级别和主题"
+            description="Todo el vocabulario de cada nivel, por temas, con audio y ejemplos. Marca con ♥ las palabras para repasarlas en Memoria."
+            descriptionZh="每个级别的全部词汇，按主题分类，带发音和例句。点♥收藏到记忆复习。"
           />
         </div>
         <div className="dictionary-level-selector flex justify-center gap-4 mb-8">

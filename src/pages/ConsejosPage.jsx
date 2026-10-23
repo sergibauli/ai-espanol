@@ -11,6 +11,7 @@ import {
   TargetIcon,
 } from "lucide-react";
 import * as React from "react";
+import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 const v = [
@@ -204,28 +205,22 @@ function ZComponent() {
   };
   return (
     <StarfieldBackground>
-      <div className="max-w-3xl mx-auto px-4 py-6 min-h-screen">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors mb-6 text-sm font-bold"
-        >
-          <ArrowLeftIcon size={16} /> Volver al inicio / 返回首页
-        </Link>
-        <div className="fx-section-head mt-4">
-          <span className="fx-kicker">
-            <AwardIcon
-              size={13}
-              style={{
-                color: "#ff5ed8",
-              }}
-            />
-            DELE Examen / DELE考试
-          </span>
-          <h1 className="fx-title text-4xl md:text-6xl font-black mb-3">Consejos para el Examen</h1>
-          <p className="text-white/45 text-sm font-medium">
-            考试技巧 · Tips para aprobar el DELE / 通过DELE的技巧
-          </p>
-          <div className="fx-underline" />
+      <div className="max-w-4xl mx-auto px-4 py-6 min-h-screen">
+        <div style={{ marginBottom: 24 }}>
+          <SectionHero
+            icon={AwardIcon}
+            accent="#ff3d8b"
+            eyebrow="Examen DELE · DELE考试"
+            title="Consejos para aprobar"
+            titleZh="DELE 通关技巧"
+            description="Estrategias por prueba (comprensión, expresión e interacción) y errores que más penalizan en el examen."
+            descriptionZh="按考试部分整理的策略，以及最容易丢分的错误。"
+            actions={
+              <Link className="ui-btn primary" to="/examenes/generador">
+                Hacer un simulacro · 模拟考试
+              </Link>
+            }
+          />
         </div>
         <div className="space-y-5 fx-stagger">
           {v.map((t) => {

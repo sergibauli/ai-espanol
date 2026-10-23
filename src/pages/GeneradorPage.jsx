@@ -15,6 +15,7 @@ import {
   HistoryIcon,
 } from "lucide-react";
 import * as React from "react";
+import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
 import { u, C } from "../components/CorrectionDisplay.jsx";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
@@ -151,37 +152,21 @@ function PeComponent() {
   return (
     <StarfieldBackground>
       <div className="max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-cyan-400 transition-colors mb-6 text-sm font-bold"
-        >
-          <ArrowLeftIcon size={16} /> Volver / 返回
-        </Link>
-        <div className="text-center mb-8">
-          <div
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-4"
-            style={{
-              background: "rgba(168,85,247,.14)",
-              border: "1px solid rgba(168,85,247,.35)",
-            }}
-          >
-            <SparklesIcon
-              size={16}
-              style={{
-                color: "#c084fc",
-              }}
-            />
-            <span className="text-sm font-black text-white">Agentes IA de Contenido · AI内容智能体</span>
-          </div>
-          <h1
-            className="text-4xl md:text-5xl font-black text-white mb-2"
-            style={{
-              textShadow: "0 0 30px rgba(168,85,247,.3)",
-            }}
-          >
-            Generador IA
-          </h1>
-          <p className="text-white/50 text-lg">Genera exámenes DELE completos con un solo clic</p>
+        <div style={{ marginBottom: 24 }}>
+          <SectionHero
+            icon={SparklesIcon}
+            accent="#c084fc"
+            eyebrow="IA Lab · AI实验室"
+            title="Generador IA de exámenes"
+            titleZh="AI 生成 DELE 试卷"
+            description="Escribe un tema y la IA crea un examen DELE completo con tareas de comprensión y expresión. Para exámenes al instante sin IA, usa el generador automático."
+            descriptionZh="输入主题，AI 生成完整的 DELE 试卷。"
+            actions={
+              <Link className="ui-btn" to="/examenes/generador">
+                Generador automático · 自动出题
+              </Link>
+            }
+          />
         </div>
         <div
           className="rounded-3xl p-6 mb-8"
