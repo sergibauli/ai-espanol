@@ -50,6 +50,14 @@ export async function deepseekFetch(_url, init = {}) {
       body: init.body,
     });
   }
+  // Ahorro de tokens: modelo barato, respuestas cortas y solo los últimos mensajes del chat
+  try {
+    const b = JSON.parse(init.body || "{}");
+    b.model = "deepseek-chat";
+    b.max_tokens = Math.min(Number(b.max_tokens) || 700, 900);
+    if (Array.isArray(b.messages) && b.messages.length > 9) b.messages = [b.messages[0], ...b.messages.slice(-8)];
+    init = { ...init, body: JSON.stringify(b) };
+  } catch {}
   const key = embeddedKey();
   if (!key) {
     return new Response(JSON.stringify({ error: { message: "IA no configurada" } }), { status: 503, headers: { "Content-Type": "application/json" } });
