@@ -1,0 +1,748 @@
+export const b2ExamsExtra3 = [
+  {
+    id: 31,
+    level: "B2",
+    theme: "La exploración espacial",
+    vocabulary: [
+      {
+        word: "exploración espacial",
+        definition: "Investigación y viajes fuera de la Tierra",
+        chinese: "太空探索",
+        example: "La exploración espacial avanza cada año.",
+      },
+      {
+        word: "universo",
+        definition: "Conjunto de toda la materia y el espacio",
+        chinese: "宇宙",
+        example: "El universo es inmenso.",
+      },
+      {
+        word: "astronauta",
+        definition: "Persona que viaja al espacio",
+        chinese: "宇航员",
+        example: "La astronauta pasó seis meses en la estación.",
+      },
+      {
+        word: "cohete",
+        definition: "Vehículo que viaja al espacio",
+        chinese: "火箭",
+        example: "El cohete despegó con éxito.",
+      },
+      {
+        word: "órbita",
+        definition: "Trayectoria de un cuerpo alrededor de otro",
+        chinese: "轨道",
+        example: "El satélite está en órbita.",
+      },
+      {
+        word: "planeta",
+        definition: "Cuerpo celeste que gira alrededor de una estrella",
+        chinese: "行星",
+        example: "Marte es un planeta rojo.",
+      },
+      {
+        word: "gravedad",
+        definition: "Fuerza que atrae los cuerpos",
+        chinese: "重力",
+        example: "En la Luna hay menos gravedad.",
+      },
+      {
+        word: "misión",
+        definition: "Viaje o tarea con un objetivo",
+        chinese: "任务",
+        example: "La misión a Marte durará años.",
+      },
+      {
+        word: "descubrimiento",
+        definition: "Hallazgo de algo nuevo",
+        chinese: "发现",
+        example: "Fue un descubrimiento histórico.",
+      },
+      {
+        word: "colonizar",
+        definition: "Establecerse en un territorio nuevo",
+        chinese: "殖民",
+        example: "Algún día podríamos colonizar Marte.",
+      },
+    ],
+    reading: {
+      textType: "artículo de opinión",
+      title: "¿Merece la pena explorar el espacio?",
+      text: `La exploración espacial ha vuelto a estar en el centro del debate. Las agencias espaciales y, cada vez más, las empresas privadas compiten por llegar a la Luna y a Marte. Para sus defensores, explorar el espacio es una aventura esencial que impulsa la ciencia y la tecnología.
+
+Muchos inventos que usamos a diario —el GPS, los paneles solares, los sistemas de purificación de agua— nacieron gracias a la carrera espacial. Además, la exploración espacial nos ayuda a comprender el origen del universo y a buscar respuestas a preguntas fundamentales: ¿estamos solos? ¿Es posible la vida en otros planetas?
+
+Sin embargo, los críticos señalan que el espacio es un proyecto carísimo. ¿No sería mejor invertir ese dinero en resolver los problemas de la Tierra: el hambre, la pobreza o el cambio climático? Argumentan que gastar miles de millones en llegar a Marte es un lujo que la humanidad no puede permitirse.
+
+En realidad, no se trata de elegir entre la Tierra y el espacio. La ciencia espacial ya contribuye a solucionar problemas terrestres, desde la vigilancia del clima hasta las comunicaciones. Explorar el espacio no nos aleja de la Tierra; nos ayuda a entenderla y a cuidarla mejor. La curiosidad es, quizás, la cualidad más humana que tenemos.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Quiénes compiten por llegar a la Luna y Marte?",
+          options: [
+            "a) Solo las agencias espaciales",
+            "b) Las agencias y las empresas privadas",
+            "c) Solo los gobiernos",
+            "d) Las universidades",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Las agencias espaciales y... las empresas privadas compiten".',
+        },
+        {
+          id: 2,
+          question: "¿Qué inventos nacieron gracias a la carrera espacial?",
+          options: [
+            "a) El teléfono",
+            "b) El GPS, los paneles solares y la purificación de agua",
+            "c) La televisión",
+            "d) El automóvil",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "el GPS, los paneles solares, los sistemas de purificación de agua".',
+        },
+        {
+          id: 3,
+          question: "¿Qué preguntas fundamentales ayuda a responder la exploración espacial?",
+          options: [
+            "a) Sobre la economía",
+            "b) ¿Estamos solos? ¿Es posible la vida en otros planetas?",
+            "c) Sobre la política",
+            "d) Sobre la moda",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "¿estamos solos? ¿Es posible la vida en otros planetas?".',
+        },
+        {
+          id: 4,
+          question: "¿Qué argumentan los críticos?",
+          options: [
+            "a) Que el espacio es barato",
+            "b) Que el dinero debería invertirse en los problemas de la Tierra",
+            "c) Que Marte no existe",
+            "d) Que el espacio es aburrido",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "¿No sería mejor invertir ese dinero en resolver los problemas de la Tierra?".',
+        },
+        {
+          id: 5,
+          question: "¿Qué problemas de la Tierra mencionan los críticos?",
+          options: [
+            "a) El tráfico",
+            "b) El hambre, la pobreza y el cambio climático",
+            "c) La educación",
+            "d) La vivienda",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "el hambre, la pobreza o el cambio climático".',
+        },
+        {
+          id: 6,
+          question: "¿A qué contribuye la ciencia espacial según el texto?",
+          options: [
+            "a) A resolver problemas terrestres",
+            "b) A crear problemas",
+            "c) A gastar más",
+            "d) A la contaminación",
+          ],
+          correctAnswer: 0,
+          explanation:
+            'El texto dice: "La ciencia espacial ya contribuye a solucionar problemas terrestres".',
+        },
+        {
+          id: 7,
+          question: "¿Qué nos ayuda a hacer la exploración espacial?",
+          options: [
+            "a) A olvidar la Tierra",
+            "b) A entenderla y cuidarla mejor",
+            "c) A abandonarla",
+            "d) A contaminarla",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "nos ayuda a entenderla y a cuidarla mejor".',
+        },
+        {
+          id: 8,
+          question: "¿Qué es la cualidad más humana según el texto?",
+          options: ["a) El miedo", "b) La curiosidad", "c) El dinero", "d) La velocidad"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "La curiosidad es, quizás, la cualidad más humana".',
+        },
+        {
+          id: 9,
+          question: "¿Qué es colonizar?",
+          options: ["a) Viajar", "b) Establecerse en un territorio nuevo", "c) Explorar", "d) Investigar"],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "establecerse en un territorio nuevo".',
+        },
+        {
+          id: 10,
+          question: "¿Qué es la gravedad?",
+          options: [
+            "a) Una estrella",
+            "b) La fuerza que atrae los cuerpos",
+            "c) Un planeta",
+            "d) Una misión",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "fuerza que atrae los cuerpos".',
+        },
+      ],
+    },
+    listening: {
+      title: "Entrevista sobre Marte",
+      transcription: `Bienvenidos a nuestro programa de ciencia. Hoy hablamos con la astrofísica Carmen Ruiz sobre la posibilidad de viajar a Marte. Carmen, ¿cuándo pisará el ser humano Marte?
+
+"Es difícil dar una fecha exacta", responde Carmen. "Las agencias hablan de los años treinta o cuarenta de este siglo. Pero antes hay que resolver muchos problemas técnicos, como la radiación cósmica y el aterrizaje de naves pesadas".
+
+Carmen explica que el viaje a Marte dura entre seis y nueve meses, y que los astronautas tendrían que vivir allí durante mucho tiempo. "No es un viaje de ida y vuelta rápida. Habría que construir una base y aprender a producir agua, oxígeno y alimentos en el propio planeta".
+
+¿Y es realista pensar en colonizar Marte? Carmen se muestra prudente: "A largo plazo, quizás. Pero Marte no es una copia de la Tierra: no tiene atmósfera respirable y la temperatura media es de sesenta grados bajo cero. Colonizarlo sería un desafío enorme".
+
+Para terminar, Carmen destaca que la exploración espacial es, sobre todo, una fuente de conocimiento: "No exploramos Marte para escapar de la Tierra, sino para entender mejor nuestro lugar en el universo".`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Quién es Carmen Ruiz?",
+          options: ["a) Una astronauta", "b) Una astrofísica", "c) Una ingeniera", "d) Una bióloga"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Para cuándo hablan de pisar Marte las agencias?",
+          options: [
+            "a) Este año",
+            "b) Los años treinta o cuarenta de este siglo",
+            "c) El próximo siglo",
+            "d) Nunca",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué problemas técnicos hay que resolver?",
+          options: [
+            "a) El precio",
+            "b) La radiación cósmica y el aterrizaje de naves pesadas",
+            "c) El idioma",
+            "d) La comida",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Cuánto dura el viaje a Marte?",
+          options: ["a) Un mes", "b) De seis a nueve meses", "c) Un año", "d) Dos años"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué habría que aprender a producir en Marte?",
+          options: ["a) Dinero", "b) Agua, oxígeno y alimentos", "c) Ropa", "d) Combustible"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Es Marte una copia de la Tierra según Carmen?",
+          options: ["a) Sí", "b) No, no tiene atmósfera respirable", "c) Casi", "d) No lo dice"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Cuál es la temperatura media de Marte?",
+          options: ["a) Cero grados", "b) Sesenta grados bajo cero", "c) Veinte grados", "d) Cien grados"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Cómo se muestra Carmen sobre colonizar Marte?",
+          options: ["a) Muy optimista", "b) Prudente", "c) Negativa", "d) Indiferente"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Para qué exploramos Marte según Carmen?",
+          options: [
+            "a) Para escapar de la Tierra",
+            "b) Para entender nuestro lugar en el universo",
+            "c) Para hacer turismo",
+            "d) Para extraer recursos",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué es un descubrimiento?",
+          options: ["a) Una misión", "b) El hallazgo de algo nuevo", "c) Un cohete", "d) Un planeta"],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Vale la pena explorar el espacio?",
+        description:
+          "Escribe un ensayo argumentativo sobre si merece la pena invertir en la exploración espacial.",
+        structure: {
+          intro: "Plantea la pregunta.",
+          body: "Argumenta a favor y en contra.",
+          conclusion: "Da tu postura.",
+        },
+        connectors: ["Cabe preguntarse", "No obstante", "Asimismo", "Por consiguiente", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "La vida en otros planetas",
+        description: "Escribe un texto de opinión sobre la posibilidad de que exista vida en otros planetas.",
+        structure: {
+          intro: "Presenta el tema.",
+          body: "Analiza los argumentos.",
+          conclusion: "Da tu opinión.",
+        },
+        connectors: ["En mi opinión", "Por un lado", "Por otro lado", "Además", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "La exploración del espacio",
+        description:
+          "Habla durante 2-3 minutos de la importancia de la exploración espacial y de si merece la pena invertir en ella.",
+        connectors: ["En mi opinión", "Por una parte", "Por otra parte", "No obstante", "En conclusión"],
+        guideQuestions: [
+          "¿Es importante explorar el espacio?",
+          "¿Qué beneficios tiene?",
+          "¿Cuáles son los inconvenientes?",
+          "¿Viajarías al espacio?",
+          "¿Qué futuro le ves a la exploración espacial?",
+        ],
+      },
+      topic2: {
+        title: "La Tierra, nuestro hogar",
+        description:
+          "Habla durante 2-3 minutos de si deberíamos centrarnos más en cuidar la Tierra que en explorar otros planetas.",
+        connectors: ["En mi opinión", "Es fundamental", "Por ejemplo", "Además", "En conclusión"],
+        guideQuestions: [
+          "¿Debemos priorizar la Tierra?",
+          "¿Por qué?",
+          "¿Qué problemas tiene la Tierra?",
+          "¿La exploración espacial ayuda a la Tierra?",
+          "¿Qué harías tú?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero debatís sobre la inversión en exploración espacial frente a otros gastos.",
+      questions: [
+        {
+          question: "Expón tu opinión sobre la exploración espacial.",
+          help: "Usa: En mi opinión... / Creo que...",
+          usefulPhrases: [
+            "En mi opinión, es fascinante.",
+            "Creo que es demasiado caro.",
+            "Genera avances tecnológicos.",
+            "¿Tú qué piensas?",
+          ],
+        },
+        {
+          question: "Debate si el dinero debería ir a la Tierra o al espacio.",
+          help: "Usa: Sin embargo... / Por otro lado...",
+          usefulPhrases: [
+            "Sin embargo, hay pobreza en la Tierra.",
+            "Por otro lado, el espacio da conocimiento.",
+            "Podemos hacer ambas cosas.",
+            "El equilibrio es clave.",
+          ],
+        },
+        {
+          question: "Llegad a una conclusión común.",
+          help: "Usa: En conclusión... / Estamos de acuerdo en...",
+          usefulPhrases: [
+            "En conclusión, ambas cosas importan.",
+            "Estamos de acuerdo en que la ciencia es clave.",
+            "Y en no olvidar la Tierra.",
+            "Buen debate.",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 32,
+    level: "B2",
+    theme: "El futuro de la medicina",
+    vocabulary: [
+      {
+        word: "medicina",
+        definition: "Ciencia que trata y previene enfermedades",
+        chinese: "医学",
+        example: "La medicina avanza a gran velocidad.",
+      },
+      {
+        word: "tratamiento",
+        definition: "Conjunto de medidas para curar",
+        chinese: "治疗",
+        example: "El nuevo tratamiento es muy eficaz.",
+      },
+      {
+        word: "enfermedad",
+        definition: "Alteración de la salud",
+        chinese: "疾病",
+        example: "La enfermedad tiene cura.",
+      },
+      {
+        word: "prevención",
+        definition: "Medidas para evitar la enfermedad",
+        chinese: "预防",
+        example: "La prevención es mejor que la cura.",
+      },
+      {
+        word: "diagnóstico",
+        definition: "Identificación de una enfermedad",
+        chinese: "诊断",
+        example: "El diagnóstico precoz salva vidas.",
+      },
+      {
+        word: "genética",
+        definition: "Ciencia que estudia los genes",
+        chinese: "基因学",
+        example: "La genética revoluciona la medicina.",
+      },
+      {
+        word: "vacuna",
+        definition: "Sustancia que protege de una enfermedad",
+        chinese: "疫苗",
+        example: "La vacuna previene la enfermedad.",
+      },
+      {
+        word: "investigación",
+        definition: "Estudio para descubrir cosas nuevas",
+        chinese: "研究",
+        example: "La investigación médica es esencial.",
+      },
+      {
+        word: "esperanza de vida",
+        definition: "Años que se espera vivir",
+        chinese: "预期寿命",
+        example: "La esperanza de vida ha aumentado.",
+      },
+      {
+        word: "telemedicina",
+        definition: "Atención médica a distancia",
+        chinese: "远程医疗",
+        example: "La telemedicina facilita las consultas.",
+      },
+    ],
+    reading: {
+      textType: "artículo periodístico",
+      title: "La medicina del futuro",
+      text: `La medicina está viviendo una revolución sin precedentes. La genética, la inteligencia artificial y la biotecnología están transformando la forma de diagnosticar, tratar y prevenir las enfermedades. Los expertos aseguran que, en las próximas décadas, veremos avances que hoy parecen de ciencia ficción.
+
+Una de las áreas más prometedoras es la medicina personalizada. Gracias al análisis del ADN, los médicos podrán diseñar tratamientos a medida para cada paciente, en lugar de aplicar el mismo tratamiento a todos. Esto aumentará la eficacia y reducirá los efectos secundarios.
+
+La inteligencia artificial también está revolucionando el diagnóstico. Los algoritmos ya son capaces de detectar ciertos tipos de cáncer en imágenes médicas con una precisión igual o superior a la de los especialistas. Y la telemedicina, impulsada por la pandemia, ha hecho que la atención médica llegue a lugares antes inaccesibles.
+
+Sin embargo, estos avances plantean importantes dilemas éticos. ¿Quién tendrá acceso a la medicina personalizada? ¿Estamos preparados para modificar los genes de los seres humanos? Los expertos insisten en que la tecnología debe ir acompañada de una reflexión ética. El futuro de la medicina no depende solo de la ciencia, sino también de las decisiones que tomemos como sociedad.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué está transformando la medicina?",
+          options: [
+            "a) La política",
+            "b) La genética, la inteligencia artificial y la biotecnología",
+            "c) El turismo",
+            "d) La economía",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "La genética, la inteligencia artificial y la biotecnología".',
+        },
+        {
+          id: 2,
+          question: "¿Qué es la medicina personalizada?",
+          options: [
+            "a) Tratar a todos igual",
+            "b) Diseñar tratamientos a medida para cada paciente",
+            "c) Atender a distancia",
+            "d) Prevenir enfermedades",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "diseñar tratamientos a medida para cada paciente".',
+        },
+        {
+          id: 3,
+          question: "¿Qué permite el análisis del ADN?",
+          options: ["a) Curar todo", "b) Tratamientos personalizados", "c) Vivir para siempre", "d) Nada"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Gracias al análisis del ADN... tratamientos a medida".',
+        },
+        {
+          id: 4,
+          question: "¿Qué es capaz de detectar la inteligencia artificial?",
+          options: [
+            "a) El hambre",
+            "b) Ciertos tipos de cáncer en imágenes",
+            "c) La pobreza",
+            "d) Los terremotos",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "detectar ciertos tipos de cáncer en imágenes médicas".',
+        },
+        {
+          id: 5,
+          question: "¿Qué ha impulsado la telemedicina?",
+          options: ["a) La pandemia", "b) El turismo", "c) La moda", "d) El deporte"],
+          correctAnswer: 0,
+          explanation: 'El texto dice: "impulsada por la pandemia".',
+        },
+        {
+          id: 6,
+          question: "¿Qué ha conseguido la telemedicina?",
+          options: [
+            "a) Nada",
+            "b) Llevar la atención médica a lugares inaccesibles",
+            "c) Aumentar los costes",
+            "d) Reducir la calidad",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "la atención médica llegue a lugares antes inaccesibles".',
+        },
+        {
+          id: 7,
+          question: "¿Qué dilemas plantean estos avances?",
+          options: [
+            "a) Ninguno",
+            "b) Dilemas éticos sobre el acceso y la modificación genética",
+            "c) Solo económicos",
+            "d) Solo técnicos",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "plantean importantes dilemas éticos".',
+        },
+        {
+          id: 8,
+          question: "¿De qué depende el futuro de la medicina según el texto?",
+          options: [
+            "a) Solo de la ciencia",
+            "b) De la ciencia y de las decisiones de la sociedad",
+            "c) Solo del dinero",
+            "d) De la suerte",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "depende no solo de la ciencia, sino también de las decisiones que tomemos".',
+        },
+        {
+          id: 9,
+          question: "¿Qué es la prevención?",
+          options: [
+            "a) Curar una enfermedad",
+            "b) Medidas para evitar la enfermedad",
+            "c) Un tratamiento",
+            "d) Un diagnóstico",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "medidas para evitar la enfermedad".',
+        },
+        {
+          id: 10,
+          question: "¿Qué es la telemedicina?",
+          options: [
+            "a) Medicina a distancia",
+            "b) Medicina personalizada",
+            "c) Una vacuna",
+            "d) Un hospital",
+          ],
+          correctAnswer: 0,
+          explanation: 'Según el vocabulario, es "atención médica a distancia".',
+        },
+      ],
+    },
+    listening: {
+      title: "Avances médicos del futuro",
+      transcription: `Bienvenidos a nuestro programa de salud. Hoy hablamos con el doctor Andrés Molina, investigador en biomedicina. Doctor, ¿qué avances médicos veremos en los próximos años?
+
+"Muchos y muy importantes", responde el doctor. "La medicina personalizada será la gran protagonista. Gracias a la genética, podremos predecir qué enfermedades puede desarrollar una persona y actuar antes de que aparezcan".
+
+El doctor Molina también destaca el papel de la inteligencia artificial. "Los algoritmos ya ayudan a diagnosticar enfermedades con más precisión que algunos médicos. En el futuro, la IA será una herramienta imprescindible en todas las consultas".
+
+Sobre la telemedicina, el doctor se muestra optimista: "Ha venido para quedarse. Permite atender a pacientes de zonas rurales o con movilidad reducida sin que tengan que desplazarse".
+
+Sin embargo, advierte de los retos: "La tecnología es maravillosa, pero no podemos olvidar el factor humano. La medicina no es solo ciencia, también es empatía y cuidado. Y debemos garantizar que estos avances lleguen a todos, no solo a quien pueda pagarlos".`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Quién es Andrés Molina?",
+          options: [
+            "a) Un médico de cabecera",
+            "b) Un investigador en biomedicina",
+            "c) Un enfermero",
+            "d) Un farmacéutico",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Cuál será la gran protagonista según el doctor?",
+          options: ["a) La telemedicina", "b) La medicina personalizada", "c) La cirugía", "d) La farmacia"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué podremos predecir gracias a la genética?",
+          options: [
+            "a) El tiempo",
+            "b) Las enfermedades que puede desarrollar una persona",
+            "c) El futuro",
+            "d) Nada",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué hacen ya los algoritmos?",
+          options: ["a) Nada", "b) Diagnosticar enfermedades con precisión", "c) Operar", "d) Recetar"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué será la IA en el futuro según el doctor?",
+          options: ["a) Prescindible", "b) Una herramienta imprescindible", "c) Un problema", "d) Una moda"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿A quién permite atender la telemedicina?",
+          options: [
+            "a) Solo a ricos",
+            "b) A pacientes de zonas rurales o con movilidad reducida",
+            "c) Solo a jóvenes",
+            "d) A nadie",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué dice el doctor sobre la telemedicina?",
+          options: [
+            "a) Que desaparecerá",
+            "b) Que ha venido para quedarse",
+            "c) Que es inútil",
+            "d) Que es cara",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué no podemos olvidar según el doctor?",
+          options: ["a) El dinero", "b) El factor humano", "c) La tecnología", "d) La velocidad"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué es la medicina además de ciencia?",
+          options: ["a) Un negocio", "b) Empatía y cuidado", "c) Una moda", "d) Un lujo"],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué debemos garantizar según el doctor?",
+          options: [
+            "a) Que los avances lleguen a todos",
+            "b) Que la medicina sea cara",
+            "c) Que solo unos pocos se beneficien",
+            "d) Nada",
+          ],
+          correctAnswer: 0,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "La medicina personalizada",
+        description:
+          "Escribe un texto de opinión sobre las ventajas y los riesgos de la medicina personalizada.",
+        structure: {
+          intro: "Presenta el tema.",
+          body: "Analiza ventajas y riesgos.",
+          conclusion: "Da tu opinión.",
+        },
+        connectors: ["En mi opinión", "Por un lado", "Por otro lado", "No obstante", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "La tecnología y la salud",
+        description: "Escribe un ensayo sobre cómo la tecnología está transformando la atención médica.",
+        structure: {
+          intro: "Presenta el tema.",
+          body: "Analiza los cambios.",
+          conclusion: "Da tu visión.",
+        },
+        connectors: ["Cabe destacar", "Asimismo", "Por consiguiente", "No obstante", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "La salud en el futuro",
+        description: "Habla durante 2-3 minutos de cómo imaginas la medicina y la salud en el futuro.",
+        connectors: ["Me imagino", "Es probable que", "Por una parte", "Por otra parte", "En conclusión"],
+        guideQuestions: [
+          "¿Cómo será la medicina del futuro?",
+          "¿Qué papel tendrá la tecnología?",
+          "¿Qué avances te gustaría ver?",
+          "¿Qué riesgos hay?",
+          "¿Cómo cuidarás tu salud?",
+        ],
+      },
+      topic2: {
+        title: "La ética en la medicina",
+        description: "Habla durante 2-3 minutos de los dilemas éticos de los avances médicos.",
+        connectors: ["En mi opinión", "Es un dilema", "Por un lado", "Por otro lado", "En conclusión"],
+        guideQuestions: [
+          "¿Qué dilemas éticos plantea la medicina?",
+          "¿Deberíamos modificar los genes?",
+          "¿Quién debe decidir?",
+          "¿La tecnología deshumaniza la medicina?",
+          "¿Qué límites pondrías tú?",
+        ],
+      },
+    },
+    interaction: {
+      situation: "Tú y tu compañero debatís sobre los avances médicos y sus implicaciones éticas.",
+      questions: [
+        {
+          question: "Expón tu opinión sobre los avances médicos.",
+          help: "Usa: En mi opinión... / Creo que...",
+          usefulPhrases: [
+            "En mi opinión, son maravillosos.",
+            "Creo que también tienen riesgos.",
+            "La medicina personalizada es clave.",
+            "¿Tú qué piensas?",
+          ],
+        },
+        {
+          question: "Debate los dilemas éticos de la medicina personalizada.",
+          help: "Usa: Sin embargo... / Por otro lado...",
+          usefulPhrases: [
+            "Sin embargo, no todos tendrán acceso.",
+            "Por otro lado, salvará vidas.",
+            "¿Y la modificación genética?",
+            "La ética es fundamental.",
+          ],
+        },
+        {
+          question: "Llegad a una conclusión común.",
+          help: "Usa: En conclusión... / Estamos de acuerdo en...",
+          usefulPhrases: [
+            "En conclusión, la medicina debe ser para todos.",
+            "Estamos de acuerdo en que la ética importa.",
+            "Y en que la tecnología ayuda.",
+            "Buen debate.",
+          ],
+        },
+      ],
+    },
+  },
+];

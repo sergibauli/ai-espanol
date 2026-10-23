@@ -1,0 +1,1879 @@
+export const b1ExamsExtra = [
+  {
+    id: 21,
+    level: "B1",
+    theme: "El consumo responsable",
+    vocabulary: [
+      {
+        word: "consumo responsable",
+        definition: "Forma de comprar de manera consciente y sostenible",
+        chinese: "负责任消费",
+        example: "El consumo responsable nos invita a pensar antes de comprar.",
+      },
+      {
+        word: "compra impulsiva",
+        definition: "Compra que se hace sin reflexionar",
+        chinese: "冲动购物",
+        example: "Las rebajas provocan muchas compras impulsivas.",
+      },
+      {
+        word: "necesidad",
+        definition: "Algo que es imprescindible para vivir",
+        chinese: "需求",
+        example: "Comer es una necesidad básica del ser humano.",
+      },
+      {
+        word: "capricho",
+        definition: "Deseo de algo que no es realmente necesario",
+        chinese: "心血来潮",
+        example: "Ese bolso tan caro es un capricho, no una necesidad.",
+      },
+      {
+        word: "presupuesto",
+        definition: "Cantidad de dinero disponible para gastar",
+        chinese: "预算",
+        example: "Este mes tengo un presupuesto limitado para la compra.",
+      },
+      {
+        word: "rebajas",
+        definition: "Periodo en el que las tiendas bajan los precios",
+        chinese: "打折季",
+        example: "En enero empiezan las rebajas de invierno.",
+      },
+      {
+        word: "de segunda mano",
+        definition: "Que ya ha sido usado por otra persona",
+        chinese: "二手的",
+        example: "Compré una bicicleta de segunda mano muy barata.",
+      },
+      {
+        word: "consumismo",
+        definition: "Tendencia a comprar de forma excesiva",
+        chinese: "消费主义",
+        example: "El consumismo nos hace comprar cosas que no necesitamos.",
+      },
+      {
+        word: "publicidad engañosa",
+        definition: "Anuncios que exageran o mienten sobre un producto",
+        chinese: "虚假广告",
+        example: "Esa crema promete milagros, es publicidad engañosa.",
+      },
+      {
+        word: "sostenibilidad",
+        definition: "Uso de los recursos sin agotarlos",
+        chinese: "可持续性",
+        example: "La sostenibilidad es clave para el futuro del planeta.",
+      },
+    ],
+    reading: {
+      textType: "artículo periodístico",
+      title: "Comprar menos para vivir mejor",
+      text: `Vivimos en una sociedad que nos empuja a comprar constantemente. La publicidad nos rodea por todas partes: en la televisión, en las redes sociales, en la calle e incluso en nuestro propio teléfono móvil. Cada día recibimos cientos de mensajes que nos repiten la misma idea: necesitamos cosas nuevas para ser felices.
+
+Sin embargo, cada vez más personas se están uniendo al movimiento del consumo responsable. Este movimiento propone comprar de forma consciente, pensando en lo que realmente necesitamos y en el impacto que tienen nuestras compras sobre el medio ambiente y sobre la sociedad.
+
+Ana, una profesora de 32 años, cambió sus hábitos hace tres años. "Antes compraba ropa cada semana y muchas prendas las usaba solo una vez. Ahora compro menos, pero elijo prendas de mejor calidad, y no me arrepiento de nada", explica. También asegura que ahora ahorra mucho más dinero que antes.
+
+Los expertos afirman que el consumo responsable no significa dejar de comprar, sino comprar mejor: elegir productos locales, objetos de segunda mano o artículos fabricados de forma ética. Además, aseguran que este cambio no solo beneficia al planeta, sino también a nuestro bolsillo.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué nos rodea por todas partes según el texto?",
+          options: ["a) La publicidad", "b) La naturaleza", "c) Los amigos", "d) Los problemas"],
+          correctAnswer: 0,
+          explanation: 'El texto dice: "La publicidad nos rodea por todas partes".',
+        },
+        {
+          id: 2,
+          question: "¿Qué propone el movimiento del consumo responsable?",
+          options: [
+            "a) Comprar más barato",
+            "b) Comprar solo por internet",
+            "c) Comprar de forma consciente",
+            "d) No comprar nunca",
+          ],
+          correctAnswer: 2,
+          explanation: 'El texto dice que el movimiento "propone comprar de forma consciente".',
+        },
+        {
+          id: 3,
+          question: "¿Qué edad tiene Ana?",
+          options: ["a) 28 años", "b) 32 años", "c) 35 años", "d) 40 años"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Ana, una profesora de 32 años".',
+        },
+        {
+          id: 4,
+          question: "¿Qué hacía Ana antes de cambiar sus hábitos?",
+          options: [
+            "a) Compraba muy poco",
+            "b) Ahorraba mucho dinero",
+            "c) Compraba ropa de calidad",
+            "d) Compraba ropa cada semana",
+          ],
+          correctAnswer: 3,
+          explanation: 'Ana dice: "Antes compraba ropa cada semana".',
+        },
+        {
+          id: 5,
+          question: "¿Qué significa el consumo responsable según los expertos?",
+          options: [
+            "a) Dejar de comprar por completo",
+            "b) Comprar mejor",
+            "c) Comprar más barato",
+            "d) Comprar solo marcas caras",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "no significa dejar de comprar, sino comprar mejor".',
+        },
+        {
+          id: 6,
+          question: "¿Qué tipo de productos recomienda elegir el texto?",
+          options: [
+            "a) Locales, de segunda mano o éticos",
+            "b) Extranjeros y baratos",
+            "c) De lujo",
+            "d) Solo nuevos",
+          ],
+          correctAnswer: 0,
+          explanation:
+            'El texto menciona "productos locales, objetos de segunda mano o artículos fabricados de forma ética".',
+        },
+        {
+          id: 7,
+          question: "¿A quién beneficia este cambio según los expertos?",
+          options: [
+            "a) Solo a las empresas",
+            "b) Solo a los gobiernos",
+            "c) Al planeta y a nuestro bolsillo",
+            "d) A nadie",
+          ],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "no solo beneficia al planeta, sino también a nuestro bolsillo".',
+        },
+        {
+          id: 8,
+          question: "¿Cuántas veces usaba Ana muchas de sus prendas?",
+          options: ["a) Muchas veces", "b) Solo una vez", "c) Dos veces", "d) Nunca"],
+          correctAnswer: 1,
+          explanation: 'Ana dice: "muchas prendas las usaba solo una vez".',
+        },
+        {
+          id: 9,
+          question: "¿Hace cuánto tiempo cambió Ana sus hábitos?",
+          options: ["a) Hace un año", "b) Hace dos años", "c) Hace cinco años", "d) Hace tres años"],
+          correctAnswer: 3,
+          explanation: 'El texto dice: "cambió sus hábitos hace tres años".',
+        },
+        {
+          id: 10,
+          question: "¿Dónde aparece la publicidad según el texto?",
+          options: [
+            "a) Solo en la radio",
+            "b) Solo en el cine",
+            "c) En la televisión, las redes sociales y la calle",
+            "d) En ningún sitio",
+          ],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "en la televisión, en las redes sociales, en la calle e incluso en nuestro propio teléfono móvil".',
+        },
+      ],
+    },
+    listening: {
+      title: "Entrevista sobre el consumo responsable",
+      transcription: `Entrevistador: Hoy hablamos con David, un joven que hace dos años decidió cambiar su forma de comprar. David, ¿cómo empezó todo?
+David: Todo empezó cuando vi un documental sobre la industria de la moda. Me di cuenta de que compraba muchas cosas que no necesitaba y de que eso tenía un impacto terrible en el planeta. Ese día decidí que tenía que cambiar.
+
+Entrevistador: ¿Y qué cambios hiciste en tu vida?
+David: Al principio fue difícil. Dejé de comprar ropa nueva y empecé a comprar en tiendas de segunda mano. También borré las aplicaciones de compras del móvil para evitar la tentación. Ahora, antes de comprar algo, me hago tres preguntas: ¿lo necesito de verdad?, ¿lo voy a usar mucho?, ¿puedo comprarlo de segunda mano?
+
+Entrevistador: ¿Qué beneficios has notado?
+David: Muchos. Gasto mucho menos dinero, mi casa está más ordenada y me siento más tranquilo. Además, el año pasado empecé a arreglar mi ropa en lugar de tirarla. El mes pasado, por ejemplo, arreglé unos vaqueros rotos y ahora están como nuevos. Lo más importante es que ya no me siento esclavo de la publicidad.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué vio David que le hizo cambiar?",
+          options: [
+            "a) Una conferencia",
+            "b) Un documental sobre la moda",
+            "c) Un anuncio de televisión",
+            "d) Una película de ciencia ficción",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Hace cuánto tiempo cambió David su forma de comprar?",
+          options: ["a) Hace un año", "b) Hace tres años", "c) Hace dos años", "d) Hace cinco años"],
+          correctAnswer: 2,
+        },
+        {
+          id: 3,
+          question: "¿Dónde empezó a comprar ropa David?",
+          options: [
+            "a) En tiendas de segunda mano",
+            "b) En tiendas de lujo",
+            "c) Solo por internet",
+            "d) En mercados extranjeros",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          id: 4,
+          question: "¿Qué hizo David con las aplicaciones de compras?",
+          options: [
+            "a) Las instaló de nuevo",
+            "b) Las actualizó",
+            "c) Las usó más a menudo",
+            "d) Las borró del móvil",
+          ],
+          correctAnswer: 3,
+        },
+        {
+          id: 5,
+          question: "¿Cuántas preguntas se hace David antes de comprar?",
+          options: ["a) Dos", "b) Tres", "c) Cuatro", "d) Cinco"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué beneficios ha notado David con el cambio?",
+          options: [
+            "a) Tiene más ropa que antes",
+            "b) Gasta más dinero",
+            "c) Su casa está más ordenada y se siente tranquilo",
+            "d) Viaja más a menudo",
+          ],
+          correctAnswer: 2,
+        },
+        {
+          id: 7,
+          question: "¿Cuándo empezó David a arreglar su ropa?",
+          options: ["a) El año pasado", "b) El mes pasado", "c) Hace dos años", "d) Hace cinco años"],
+          correctAnswer: 0,
+        },
+        {
+          id: 8,
+          question: "¿Qué arregló David el mes pasado?",
+          options: ["a) Una camisa", "b) Unos vaqueros rotos", "c) Un abrigo", "d) Unas zapatillas"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué es lo más importante para David?",
+          options: [
+            "a) Ahorrar dinero",
+            "b) Tener una casa ordenada",
+            "c) Comprar de segunda mano",
+            "d) Ya no sentirse esclavo de la publicidad",
+          ],
+          correctAnswer: 3,
+        },
+        {
+          id: 10,
+          question: "¿De qué trataba el documental que vio David?",
+          options: [
+            "a) De la industria de la moda",
+            "b) De la cocina",
+            "c) De los viajes",
+            "d) De la tecnología",
+          ],
+          correctAnswer: 0,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "Mis hábitos de consumo",
+        description:
+          "Escribe un texto sobre tus hábitos de consumo. Explica qué compras normalmente, si sueles hacer compras impulsivas y qué podrías mejorar.",
+        structure: {
+          intro: "Presenta tu forma de comprar.",
+          body: "Describe tus hábitos y algún cambio que hayas hecho.",
+          conclusion: "Explica qué te gustaría mejorar.",
+        },
+        connectors: ["Normalmente", "A veces", "Sin embargo", "Últimamente", "En el futuro"],
+        wordCount: "120-150 palabras",
+      },
+      optionB: {
+        title: "¿Comprar por necesidad o por capricho?",
+        description:
+          "Escribe un texto de opinión sobre la diferencia entre comprar por necesidad y por capricho. Incluye tu opinión, ejemplos y consejos para consumir mejor.",
+        structure: {
+          intro: "Introduce el tema del consumismo.",
+          body: "Explica la diferencia entre necesidad y capricho.",
+          conclusion: "Da tu opinión y un consejo.",
+        },
+        connectors: ["Por un lado", "Por otro lado", "En mi opinión", "Por eso", "Para terminar"],
+        wordCount: "120-150 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi experiencia con el consumo responsable",
+        description:
+          "Habla durante 2 minutos sobre tu relación con el consumo. Explica si compras mucho o poco, si has cambiado tus hábitos y qué beneficios has notado.",
+        connectors: ["En mi caso", "Antes solía", "Ahora prefiero", "Por un lado", "En resumen", "Creo que"],
+        guideQuestions: [
+          "¿Compras mucho o poco?",
+          "¿Has hecho alguna vez una compra impulsiva?",
+          "¿Has cambiado algún hábito de consumo?",
+          "¿Qué beneficios tiene consumir menos?",
+          "¿Qué consejo darías para comprar mejor?",
+        ],
+      },
+      topic2: {
+        title: "El problema del consumismo",
+        description:
+          "Habla durante 2 minutos sobre el consumismo en la sociedad actual. Explica sus causas, sus consecuencias y cómo podemos reducirlo.",
+        connectors: [
+          "En mi opinión",
+          "Una de las causas es",
+          "Como consecuencia",
+          "Por eso",
+          "Para reducir el consumismo",
+          "En conclusión",
+        ],
+        guideQuestions: [
+          "¿Por qué crees que compramos tantas cosas?",
+          "¿Qué papel juega la publicidad?",
+          "¿Qué consecuencias tiene el consumismo?",
+          "¿Cómo afecta al medio ambiente?",
+          "¿Qué podemos hacer para consumir de forma responsable?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero vais a organizar un mercadillo de intercambio de ropa y objetos usados en vuestro barrio. Tenéis que decidir cómo funciona, cómo difundirlo y qué hacer con los objetos que no se intercambien.",
+      questions: [
+        {
+          question: "¿Cómo va a funcionar el mercadillo? ¿Se intercambia, se vende o se regala?",
+          help: "Decide las normas. Usa: Yo propongo que... / Podríamos...",
+          usefulPhrases: [
+            "Cada persona trae lo que ya no usa.",
+            "Se puede intercambiar ropa, libros y juguetes.",
+            "Podemos poner un precio simbólico muy bajo.",
+            "Es importante que las normas sean claras.",
+            "Todo lo que no se intercambie se puede donar.",
+          ],
+        },
+        {
+          question: "¿Cómo vamos a difundir el evento para que venga mucha gente?",
+          help: "Propón canales de difusión. Usa: Sería buena idea... / Podemos publicar...",
+          usefulPhrases: [
+            "Podemos crear un cartel y colgarlo en el barrio.",
+            "Las redes sociales son muy útiles para difundir.",
+            "El boca a boca entre vecinos funciona muy bien.",
+            "Podemos pedir ayuda al ayuntamiento.",
+            "Es importante explicar la fecha y el lugar claramente.",
+          ],
+        },
+        {
+          question: "¿Qué hacemos con los objetos que sobren al final?",
+          help: "Decide el destino de los objetos. Usa: Lo mejor sería... / Podemos donar...",
+          usefulPhrases: [
+            "Podemos donarlos a una ONG.",
+            "Una asociación de caridad los recogerá al final.",
+            "Podemos guardarlos para el próximo mercadillo.",
+            "Es una buena oportunidad para ayudar a otros.",
+            "Así evitamos que acaben en la basura.",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 22,
+    level: "B1",
+    theme: "El voluntariado y la solidaridad",
+    vocabulary: [
+      {
+        word: "voluntariado",
+        definition: "Trabajo no remunerado para ayudar a los demás",
+        chinese: "志愿服务",
+        example: "Hago voluntariado en un comedor social.",
+      },
+      {
+        word: "solidaridad",
+        definition: "Apoyo a las personas que lo necesitan",
+        chinese: "团结互助",
+        example: "La solidaridad es esencial en una sociedad.",
+      },
+      {
+        word: "ONG",
+        definition: "Organización no gubernamental",
+        chinese: "非政府组织",
+        example: "Trabajo con una ONG que ayuda a niños.",
+      },
+      {
+        word: "colaborar",
+        definition: "Trabajar con otros por un objetivo común",
+        chinese: "合作",
+        example: "Colaboro con una asociación local.",
+      },
+      {
+        word: "ayudar",
+        definition: "Hacer algo por otra persona",
+        chinese: "帮助",
+        example: "Me gusta ayudar a los demás.",
+      },
+      {
+        word: "donar",
+        definition: "Dar dinero, ropa o sangre de forma gratuita",
+        chinese: "捐赠",
+        example: "Doné ropa a una asociación.",
+      },
+      {
+        word: "beneficiario",
+        definition: "Persona que recibe la ayuda",
+        chinese: "受益者",
+        example: "Los beneficiarios del programa son niños.",
+      },
+      {
+        word: "causa",
+        definition: "Motivo por el que se lucha",
+        chinese: "事业",
+        example: "Es una causa muy importante.",
+      },
+      {
+        word: "compromiso",
+        definition: "Responsabilidad con algo o alguien",
+        chinese: "承诺",
+        example: "Tengo un compromiso con mi comunidad.",
+      },
+      {
+        word: "asociación",
+        definition: "Grupo de personas con un fin común",
+        chinese: "协会",
+        example: "La asociación organiza actividades.",
+      },
+    ],
+    reading: {
+      textType: "artículo periodístico",
+      title: "El valor del voluntariado",
+      text: `Cada vez más personas dedican parte de su tiempo libre a ayudar a los demás. El voluntariado ha crecido en los últimos años, especialmente entre los jóvenes. Ayudar en un comedor social, dar clases de refuerzo a niños o cuidar del medio ambiente son algunas de las actividades más comunes.
+
+Los voluntarios aseguran que ayudar no solo beneficia a quien recibe la ayuda, sino también a quien la ofrece. "Cuando colaboro con la asociación, me siento útil y aprendo cosas nuevas", cuenta Marta, una estudiante de veintitrés años que dedica sus sábados a una ONG de su barrio.
+
+Sin embargo, las organizaciones necesitan más recursos y personas comprometidas. Muchos proyectos dependen de las donaciones económicas y de los voluntarios para poder continuar. Los expertos recuerdan que la solidaridad no consiste solo en dar dinero, sino también en ofrecer tiempo, conocimientos y apoyo emocional.
+
+Aunque a veces no podemos cambiar el mundo entero, cada pequeño gesto cuenta. Como dice un refrán: "muchos pocos hacen un mucho". La solidaridad es una cadena que se construye día a día con la participación de todos.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué actividades de voluntariado menciona el texto?",
+          options: [
+            "a) Ayudar en un comedor, dar clases y cuidar el medio ambiente",
+            "b) Viajar y hacer deporte",
+            "c) Trabajar en oficinas",
+            "d) Organizar fiestas",
+          ],
+          correctAnswer: 0,
+          explanation: 'El texto menciona "comedor social, clases de refuerzo, cuidar del medio ambiente".',
+        },
+        {
+          id: 2,
+          question: "¿Entre qué grupo ha crecido especialmente el voluntariado?",
+          options: [
+            "a) Entre los mayores",
+            "b) Entre los jóvenes",
+            "c) Entre los niños",
+            "d) Entre los jubilados",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "especialmente entre los jóvenes".',
+        },
+        {
+          id: 3,
+          question: "¿Cómo se siente Marta cuando colabora?",
+          options: ["a) Cansada", "b) Útil y aprendiendo cosas nuevas", "c) Aburrida", "d) Estresada"],
+          correctAnswer: 1,
+          explanation: 'Marta dice: "me siento útil y aprendo cosas nuevas".',
+        },
+        {
+          id: 4,
+          question: "¿Qué edad tiene Marta?",
+          options: ["a) Veinte años", "b) Veintitrés años", "c) Veinticinco años", "d) Treinta años"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "una estudiante de veintitrés años".',
+        },
+        {
+          id: 5,
+          question: "¿Qué necesitan las organizaciones según el texto?",
+          options: [
+            "a) Solo dinero",
+            "b) Más recursos y personas comprometidas",
+            "c) Solo voluntarios",
+            "d) Publicidad",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "necesitan más recursos y personas comprometidas".',
+        },
+        {
+          id: 6,
+          question: "¿De qué dependen muchos proyectos?",
+          options: [
+            "a) Del gobierno",
+            "b) De las donaciones y los voluntarios",
+            "c) De las empresas",
+            "d) De la publicidad",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "dependen de las donaciones económicas y de los voluntarios".',
+        },
+        {
+          id: 7,
+          question: "¿En qué consiste la solidaridad según los expertos?",
+          options: [
+            "a) Solo en dar dinero",
+            "b) En dar tiempo, conocimientos y apoyo",
+            "c) Solo en donar ropa",
+            "d) En trabajar gratis",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "ofrecer tiempo, conocimientos y apoyo emocional".',
+        },
+        {
+          id: 8,
+          question: "¿Qué refrán aparece en el texto?",
+          options: [
+            'a) "A quien madruga Dios le ayuda"',
+            'b) "Muchos pocos hacen un mucho"',
+            'c) "El que no arriesga no gana"',
+            'd) "Más vale tarde que nunca"',
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita el refrán "muchos pocos hacen un mucho".',
+        },
+        {
+          id: 9,
+          question: "¿Qué es una ONG?",
+          options: [
+            "a) Una empresa privada",
+            "b) Una organización no gubernamental",
+            "c) Un organismo público",
+            "d) Una escuela",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "organización no gubernamental".',
+        },
+        {
+          id: 10,
+          question: "¿Quién es el beneficiario de un programa?",
+          options: [
+            "a) El que dona dinero",
+            "b) La persona que recibe la ayuda",
+            "c) El voluntario",
+            "d) El organizador",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "persona que recibe la ayuda".',
+        },
+      ],
+    },
+    listening: {
+      title: "Mi experiencia como voluntario",
+      transcription: `Hola, me llamo Carlos y os voy a contar mi experiencia como voluntario. Hace dos años empecé a colaborar con una ONG que ayuda a personas sin hogar. Al principio solo iba los sábados por la mañana a repartir comida.
+
+Con el tiempo me fui implicando más. Ahora también organizo actividades y ayudo a buscar trabajo a los beneficiarios. No es fácil, porque muchas personas llegan con historias muy duras. Pero cuando ves que alguien recupera la esperanza, te das cuenta de que vale la pena.
+
+El voluntariado me ha cambiado la vida. He aprendido a valorar lo que tengo y a no quejarme por tonterías. Además, he conocido a gente maravillosa. Animo a todo el mundo a probarlo, aunque solo sea unas horas al mes. No hace falta ser un héroe para ayudar.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Desde cuándo es voluntario Carlos?",
+          options: [
+            "a) Desde hace un año",
+            "b) Desde hace dos años",
+            "c) Desde hace tres años",
+            "d) Desde hace cinco años",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿A quién ayuda la ONG de Carlos?",
+          options: ["a) A niños", "b) A personas sin hogar", "c) A ancianos", "d) A animales"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué hacía Carlos al principio?",
+          options: [
+            "a) Organizaba actividades",
+            "b) Repartía comida",
+            "c) Buscaba trabajo",
+            "d) Daba clases",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué hace Carlos ahora además de repartir comida?",
+          options: [
+            "a) Organiza actividades y ayuda a buscar trabajo",
+            "b) Solo reparte comida",
+            "c) Da clases de español",
+            "d) Cuida niños",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          id: 5,
+          question: "¿Por qué no es fácil el voluntariado según Carlos?",
+          options: [
+            "a) Porque es caro",
+            "b) Porque llegan historias muy duras",
+            "c) Porque está lejos",
+            "d) Porque es aburrido",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué siente Carlos cuando alguien recupera la esperanza?",
+          options: ["a) Que vale la pena", "b) Que es inútil", "c) Indiferencia", "d) Tristeza"],
+          correctAnswer: 0,
+        },
+        {
+          id: 7,
+          question: "¿Qué ha aprendido Carlos con el voluntariado?",
+          options: ["a) A quejarse más", "b) A valorar lo que tiene", "c) A gastar menos", "d) A viajar"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué ha conocido Carlos gracias al voluntariado?",
+          options: ["a) Gente maravillosa", "b) Mucho dinero", "c) Fama", "d) Poder"],
+          correctAnswer: 0,
+        },
+        {
+          id: 9,
+          question: "¿Qué anima Carlos a hacer?",
+          options: ["a) A donar dinero", "b) A probar el voluntariado", "c) A viajar", "d) A estudiar"],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué dice Carlos sobre ayudar?",
+          options: [
+            "a) Hay que ser un héroe",
+            "b) No hace falta ser un héroe",
+            "c) Solo ayudan los ricos",
+            "d) Es imposible",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "Mi experiencia ayudando a los demás",
+        description:
+          "Escribe sobre una experiencia en la que ayudaste a alguien. Explica qué hiciste, cómo te sentiste y qué aprendiste.",
+        structure: {
+          intro: "Presenta la experiencia.",
+          body: "Explica qué hiciste.",
+          conclusion: "Di cómo te sentiste y qué aprendiste.",
+        },
+        connectors: ["Hace un tiempo", "Primero", "Después", "Me sentí", "Aprendí"],
+        wordCount: "120-150 palabras",
+      },
+      optionB: {
+        title: "¿Es importante el voluntariado?",
+        description:
+          "Escribe un texto de opinión sobre la importancia del voluntariado en la sociedad. Da argumentos y ejemplos.",
+        structure: {
+          intro: "Presenta tu opinión.",
+          body: "Da argumentos.",
+          conclusion: "Concluye con tu punto de vista.",
+        },
+        connectors: ["En mi opinión", "Por un lado", "Por otro lado", "Además", "En conclusión"],
+        wordCount: "120-150 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "El voluntariado en tu vida",
+        description:
+          "Habla durante 2 minutos de si has hecho voluntariado o te gustaría hacerlo. Explica en qué te gustaría colaborar y por qué.",
+        connectors: ["Me gustaría", "He colaborado", "Porque", "Además", "En mi opinión"],
+        guideQuestions: [
+          "¿Has hecho voluntariado alguna vez?",
+          "¿En qué te gustaría colaborar?",
+          "¿Por qué es importante ayudar?",
+          "¿Cuánto tiempo podrías dedicar?",
+          "¿Qué beneficios tiene el voluntariado?",
+        ],
+      },
+      topic2: {
+        title: "¿Cómo podemos ser más solidarios?",
+        description:
+          "Habla durante 2 minutos de cómo podemos ser más solidarios en nuestra vida diaria. Da ejemplos concretos.",
+        connectors: ["Podemos", "Es importante", "Por ejemplo", "Además", "En conclusión"],
+        guideQuestions: [
+          "¿Qué significa ser solidario?",
+          "¿Qué gestos solidarios conoces?",
+          "¿Cómo puedes ayudar en tu barrio?",
+          "¿Es importante donar?",
+          "¿Qué harías tú para ayudar?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero queréis organizar una actividad solidaria en vuestro barrio. Tenéis que decidir qué actividad hacer.",
+      questions: [
+        {
+          question: "Propón una actividad solidaria y pregunta la opinión de tu compañero.",
+          help: "Usa: Podríamos... / ¿Qué te parece...?",
+          usefulPhrases: [
+            "Podríamos recoger alimentos.",
+            "¿Qué te parece organizar una campaña de ropa?",
+            "Me parece buena idea.",
+            "¿Y si hacemos una colecta?",
+          ],
+        },
+        {
+          question: "Decide a quién va dirigida la ayuda y cómo la organizáis.",
+          help: "Usa: Podemos ayudar a... / Necesitamos...",
+          usefulPhrases: [
+            "Podemos ayudar a una residencia de ancianos.",
+            "Necesitamos voluntarios.",
+            "Podemos pedir donaciones.",
+            "Vamos a difundirlo por redes sociales.",
+          ],
+        },
+        {
+          question: "Acuerda la fecha y reparte las tareas.",
+          help: "Usa: ¿Cuándo...? / Yo me encargo de...",
+          usefulPhrases: [
+            "¿Cuándo lo hacemos?",
+            "El sábado por la mañana.",
+            "Yo me encargo de los carteles.",
+            "Tú contactas con la asociación.",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 23,
+    level: "B1",
+    theme: "El ocio y el tiempo libre",
+    vocabulary: [
+      {
+        word: "ocio",
+        definition: "Tiempo libre dedicado a actividades placenteras",
+        chinese: "休闲",
+        example: "El ocio es necesario para desconectar.",
+      },
+      {
+        word: "tiempo libre",
+        definition: "Horas que no dedicas al trabajo o estudio",
+        chinese: "空闲时间",
+        example: "En mi tiempo libre leo y paseo.",
+      },
+      {
+        word: "afición",
+        definition: "Actividad que te gusta hacer por placer",
+        chinese: "爱好",
+        example: "Mi gran afición es la fotografía.",
+      },
+      {
+        word: "entretenimiento",
+        definition: "Actividad para divertirse",
+        chinese: "娱乐",
+        example: "El cine es un entretenimiento popular.",
+      },
+      {
+        word: "desconectar",
+        definition: "Dejar de pensar en el trabajo o los problemas",
+        chinese: "放松",
+        example: "Necesito desconectar los fines de semana.",
+      },
+      {
+        word: "pasatiempo",
+        definition: "Actividad con la que te entretienes",
+        chinese: "消遣",
+        example: "Los crucigramas son mi pasatiempo favorito.",
+      },
+      {
+        word: "ocio activo",
+        definition: "Ocio que implica movimiento o actividad",
+        chinese: "积极休闲",
+        example: "El senderismo es ocio activo.",
+      },
+      {
+        word: "ocio pasivo",
+        definition: "Ocio sin actividad física, como ver la tele",
+        chinese: "被动休闲",
+        example: "Ver series es ocio pasivo.",
+      },
+      {
+        word: "aburrirse",
+        definition: "Sentir falta de interés o diversión",
+        chinese: "感到无聊",
+        example: "Me aburro si no tengo planes.",
+      },
+      {
+        word: "disfrutar",
+        definition: "Sentir placer con algo",
+        chinese: "享受",
+        example: "Disfruto mucho de la música en directo.",
+      },
+    ],
+    reading: {
+      textType: "artículo de opinión",
+      title: "El equilibrio entre trabajo y ocio",
+      text: `Vivimos en una sociedad que valora la productividad y el éxito profesional. Sin embargo, cada vez más expertos advierten de la importancia del tiempo libre para nuestra salud física y mental. Descansar y disfrutar no es un lujo, sino una necesidad.
+
+El ocio puede ser activo o pasivo. El ocio activo, como hacer deporte, viajar o aprender algo nuevo, aporta beneficios claros: mejora el estado de ánimo, reduce el estrés y estimula la creatividad. El ocio pasivo, como ver la televisión o navegar por internet, también tiene su lugar, pero los especialistas recomiendan no abusar de él.
+
+El problema es que muchas personas no saben desconectar. Revisan el correo del trabajo en vacaciones y sienten culpa cuando no son productivas. Es importante aprender a disfrutar del tiempo libre sin remordimientos, porque descansar bien nos hace trabajar mejor.
+
+En definitiva, el equilibrio entre obligaciones y ocio es clave para una vida plena. No se trata de trabajar menos, sino de vivir mejor. Encontrar una afición que te apasione puede ser el primer paso para conseguirlo.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué valora nuestra sociedad según el texto?",
+          options: [
+            "a) El descanso",
+            "b) La productividad y el éxito profesional",
+            "c) El ocio",
+            "d) La familia",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "una sociedad que valora la productividad y el éxito profesional".',
+        },
+        {
+          id: 2,
+          question: "¿Qué es el descanso según los expertos?",
+          options: ["a) Un lujo", "b) Una necesidad", "c) Una pérdida de tiempo", "d) Un capricho"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "no es un lujo, sino una necesidad".',
+        },
+        {
+          id: 3,
+          question: "¿Qué beneficios tiene el ocio activo?",
+          options: [
+            "a) Mejora el ánimo, reduce el estrés y estimula la creatividad",
+            "b) Cansa más",
+            "c) No tiene beneficios",
+            "d) Solo divierte",
+          ],
+          correctAnswer: 0,
+          explanation:
+            'El texto dice: "mejora el estado de ánimo, reduce el estrés y estimula la creatividad".',
+        },
+        {
+          id: 4,
+          question: "¿Qué es el ocio pasivo?",
+          options: [
+            "a) Hacer deporte",
+            "b) Ver la tele o navegar por internet",
+            "c) Viajar",
+            "d) Aprender algo nuevo",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "como ver la televisión o navegar por internet".',
+        },
+        {
+          id: 5,
+          question: "¿Qué recomiendan los especialistas sobre el ocio pasivo?",
+          options: ["a) Eliminarlo", "b) No abusar de él", "c) Practicarlo siempre", "d) Sustituirlo"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "recomiendan no abusar de él".',
+        },
+        {
+          id: 6,
+          question: "¿Qué problema tienen muchas personas según el texto?",
+          options: [
+            "a) Demasiado tiempo libre",
+            "b) No saben desconectar",
+            "c) No tienen aficiones",
+            "d) Se aburren",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "muchas personas no saben desconectar".',
+        },
+        {
+          id: 7,
+          question: "¿Qué sienten algunas personas cuando no son productivas?",
+          options: ["a) Alegría", "b) Culpa", "c) Tranquilidad", "d) Satisfacción"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "sienten culpa cuando no son productivas".',
+        },
+        {
+          id: 8,
+          question: "¿Qué es clave para una vida plena según el texto?",
+          options: [
+            "a) Trabajar más",
+            "b) El equilibrio entre obligaciones y ocio",
+            "c) Ganar más dinero",
+            "d) Viajar mucho",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "el equilibrio entre obligaciones y ocio es clave".',
+        },
+        {
+          id: 9,
+          question: "¿Qué puede ser el primer paso para vivir mejor?",
+          options: [
+            "a) Trabajar menos",
+            "b) Encontrar una afición que te apasione",
+            "c) Ver más tele",
+            "d) Dormir más",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Encontrar una afición que te apasione puede ser el primer paso".',
+        },
+        {
+          id: 10,
+          question: "¿Qué es una afición?",
+          options: [
+            "a) Un trabajo",
+            "b) Una actividad que te gusta por placer",
+            "c) Una obligación",
+            "d) Un problema",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "actividad que te gusta hacer por placer".',
+        },
+      ],
+    },
+    listening: {
+      title: "Mi tiempo libre",
+      transcription: `Hola, soy Lucía. Os voy a hablar de cómo paso mi tiempo libre. Trabajo muchas horas entre semana, así que los fines de semana son sagrados para mí.
+
+Los sábados por la mañana practico yoga en casa o salgo a correr por el parque. Me encanta el ocio activo porque me ayuda a desconectar y a mantenerme en forma. Por la tarde, quedo con mis amigos para tomar algo o ir al cine.
+
+Los domingos prefiero el ocio pasivo. Me levanto tarde, desayuno con calma y leo el periódico. Por la tarde veo alguna serie o escucho música. También me gusta cocinar platos nuevos, aunque reconozco que a veces paso demasiado tiempo con el móvil.
+
+Creo que es importante tener aficiones variadas. Por eso este año quiero aprender a tocar la guitarra y apuntarme a clases de fotografía.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Por qué son sagrados los fines de semana para Lucía?",
+          options: [
+            "a) Porque viaja",
+            "b) Porque trabaja muchas horas entre semana",
+            "c) Porque estudia",
+            "d) Porque no le gusta el trabajo",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué hace Lucía los sábados por la mañana?",
+          options: ["a) Duerme", "b) Yoga o sale a correr", "c) Va al cine", "d) Lee el periódico"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Por qué le gusta el ocio activo?",
+          options: [
+            "a) Porque es barato",
+            "b) Porque le ayuda a desconectar y estar en forma",
+            "c) Porque es fácil",
+            "d) Porque conoce gente",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué hace Lucía los sábados por la tarde?",
+          options: ["a) Se queda en casa", "b) Queda con amigos", "c) Trabaja", "d) Viaja"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué tipo de ocio prefiere los domingos?",
+          options: ["a) Activo", "b) Pasivo", "c) Ninguno", "d) Deportivo"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué hace los domingos por la tarde?",
+          options: ["a) Corre", "b) Ve series o escucha música", "c) Trabaja", "d) Sale de fiesta"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué reconoce Lucía?",
+          options: [
+            "a) Que duerme mucho",
+            "b) Que pasa demasiado tiempo con el móvil",
+            "c) Que no le gusta cocinar",
+            "d) Que trabaja poco",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué quiere aprender este año?",
+          options: ["a) A cocinar", "b) A tocar la guitarra", "c) A bailar", "d) A pintar"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿A qué clases quiere apuntarse?",
+          options: ["a) De guitarra", "b) De fotografía", "c) De cocina", "d) De baile"],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué opina Lucía sobre las aficiones?",
+          options: [
+            "a) Que no son importantes",
+            "b) Que es importante tener aficiones variadas",
+            "c) Que solo sirven para divertirse",
+            "d) Que son una pérdida de tiempo",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "Mi tiempo libre",
+        description:
+          "Escribe sobre cómo pasas tu tiempo libre. Explica qué actividades haces, con quién y por qué te gustan.",
+        structure: {
+          intro: "Presenta tus actividades.",
+          body: "Describe con quién y cuándo las haces.",
+          conclusion: "Di por qué son importantes para ti.",
+        },
+        connectors: ["En mi tiempo libre", "Normalmente", "Con mis amigos", "Me gusta porque", "Además"],
+        wordCount: "120-150 palabras",
+      },
+      optionB: {
+        title: "¿Ocio activo o pasivo?",
+        description:
+          "Escribe un texto de opinión sobre el ocio activo y el pasivo. ¿Cuál es mejor? Argumenta tu respuesta.",
+        structure: {
+          intro: "Presenta el debate.",
+          body: "Compara los dos tipos.",
+          conclusion: "Da tu opinión.",
+        },
+        connectors: ["Por un lado", "Por otro lado", "En mi opinión", "Sin embargo", "En conclusión"],
+        wordCount: "120-150 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Tus aficiones",
+        description:
+          "Habla durante 2 minutos de tus aficiones. Explica cuáles son, cuándo las practicas y por qué te gustan.",
+        connectors: ["Mi afición favorita es", "Practico", "Me gusta porque", "Además", "En mi tiempo libre"],
+        guideQuestions: [
+          "¿Cuáles son tus aficiones?",
+          "¿Cuándo las practicas?",
+          "¿Por qué te gustan?",
+          "¿Las compartes con alguien?",
+          "¿Qué afición te gustaría probar?",
+        ],
+      },
+      topic2: {
+        title: "El ocio en la sociedad actual",
+        description:
+          "Habla durante 2 minutos de cómo ha cambiado el ocio en la sociedad actual. Piensa en la tecnología y las nuevas formas de divertirse.",
+        connectors: ["Hoy en día", "Antes", "En mi opinión", "Por ejemplo", "En conclusión"],
+        guideQuestions: [
+          "¿Cómo ha cambiado el ocio?",
+          "¿Qué papel juega la tecnología?",
+          "¿El ocio actual es mejor o peor?",
+          "¿Cómo te diviertes tú?",
+          "¿Qué te gustaría cambiar?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero estáis planeando actividades de ocio para el fin de semana. Tenéis que poneros de acuerdo.",
+      questions: [
+        {
+          question: "Pregunta a tu compañero qué le gusta hacer en su tiempo libre.",
+          help: "Usa: ¿Qué te gusta...? / ¿Cuáles son tus aficiones?",
+          usefulPhrases: [
+            "¿Qué te gusta hacer en tu tiempo libre?",
+            "Me gusta el senderismo.",
+            "¿Cuáles son tus aficiones?",
+            "Me encanta la fotografía.",
+          ],
+        },
+        {
+          question: "Propón un plan y negocia la hora y el lugar.",
+          help: "Usa: ¿Te apetece...? / Podemos...",
+          usefulPhrases: [
+            "¿Te apetece ir al concierto?",
+            "Podemos quedar el sábado.",
+            "¿A qué hora te viene bien?",
+            "Mejor el domingo.",
+          ],
+        },
+        {
+          question: "Confirma el plan final y despídete.",
+          help: "Usa: Entonces... / ¡Nos vemos!",
+          usefulPhrases: [
+            "Entonces, el sábado a las siete.",
+            "Perfecto, lo apunto.",
+            "¡Nos vemos!",
+            "Va a ser divertido.",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 24,
+    level: "B1",
+    theme: "La conciliación familiar y laboral",
+    vocabulary: [
+      {
+        word: "conciliación",
+        definition: "Equilibrio entre la vida laboral y familiar",
+        chinese: "工作与家庭平衡",
+        example: "La conciliación es un reto para muchas familias.",
+      },
+      {
+        word: "jornada",
+        definition: "Horas de trabajo al día",
+        chinese: "工作日",
+        example: "Tengo una jornada de ocho horas.",
+      },
+      {
+        word: "teletrabajo",
+        definition: "Trabajar desde casa con tecnología",
+        chinese: "远程办公",
+        example: "El teletrabajo facilita la conciliación.",
+      },
+      {
+        word: "horario flexible",
+        definition: "Horario que puedes adaptar",
+        chinese: "弹性时间",
+        example: "Mi empresa tiene horario flexible.",
+      },
+      {
+        word: "permiso",
+        definition: "Autorización para ausentarse del trabajo",
+        chinese: "许可/假期",
+        example: "Pedí un permiso para ir al médico.",
+      },
+      {
+        word: "guardería",
+        definition: "Centro que cuida a niños pequeños",
+        chinese: "托儿所",
+        example: "Mi hijo va a la guardería.",
+      },
+      {
+        word: "cuidado",
+        definition: "Atención a una persona que lo necesita",
+        chinese: "照顾",
+        example: "El cuidado de los mayores es importante.",
+      },
+      {
+        word: "estrés",
+        definition: "Tensión por exceso de trabajo o preocupaciones",
+        chinese: "压力",
+        example: "El trabajo me genera mucho estrés.",
+      },
+      {
+        word: "carga",
+        definition: "Peso de responsabilidades",
+        chinese: "负担",
+        example: "La carga de trabajo es demasiado alta.",
+      },
+      {
+        word: "equilibrio",
+        definition: "Estado de armonía entre dos cosas",
+        chinese: "平衡",
+        example: "Busco un equilibrio entre trabajo y familia.",
+      },
+    ],
+    reading: {
+      textType: "artículo periodístico",
+      title: "El reto de conciliar trabajo y familia",
+      text: `Conciliar la vida laboral y familiar es uno de los grandes retos de la sociedad actual. Muchos trabajadores, especialmente las mujeres, tienen que hacer malabares para cumplir con su jornada laboral y, al mismo tiempo, cuidar de sus hijos o de sus padres mayores.
+
+El teletrabajo y los horarios flexibles han ayudado a mejorar esta situación. Gracias a la tecnología, muchas personas pueden trabajar desde casa y organizar mejor su tiempo. Sin embargo, el teletrabajo también tiene un lado negativo: difumina la frontera entre el trabajo y la vida personal, y a veces es difícil desconectar.
+
+Las empresas juegan un papel fundamental. Las que ofrecen medidas de conciliación, como permisos, guarderías o reducción de jornada, consiguen empleados más satisfechos y productivos. Por el contrario, las jornadas interminables y la falta de flexibilidad provocan estrés y agotamiento.
+
+Los expertos afirman que la conciliación no es solo un asunto familiar, sino una cuestión de justicia social. Repartir de forma equitativa las tareas del hogar y los cuidados es esencial para que hombres y mujeres tengan las mismas oportunidades en el trabajo.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Quiénes tienen más dificultades para conciliar según el texto?",
+          options: ["a) Los hombres", "b) Las mujeres", "c) Los jóvenes", "d) Los jubilados"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "especialmente las mujeres".',
+        },
+        {
+          id: 2,
+          question: "¿Qué ha ayudado a mejorar la conciliación?",
+          options: [
+            "a) Trabajar más horas",
+            "b) El teletrabajo y los horarios flexibles",
+            "c) Las guarderías privadas",
+            "d) Los viajes",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "El teletrabajo y los horarios flexibles han ayudado".',
+        },
+        {
+          id: 3,
+          question: "¿Cuál es el lado negativo del teletrabajo?",
+          options: [
+            "a) Que se gana menos",
+            "b) Que difumina la frontera entre trabajo y vida personal",
+            "c) Que no hay jefes",
+            "d) Que no se puede viajar",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "difumina la frontera entre el trabajo y la vida personal".',
+        },
+        {
+          id: 4,
+          question: "¿Qué medidas de conciliación menciona el texto?",
+          options: [
+            "a) Sueldos más altos",
+            "b) Permisos, guarderías o reducción de jornada",
+            "c) Vacaciones más largas",
+            "d) Coches de empresa",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "permisos, guarderías o reducción de jornada".',
+        },
+        {
+          id: 5,
+          question: "¿Qué consiguen las empresas que ofrecen medidas de conciliación?",
+          options: [
+            "a) Empleados más satisfechos y productivos",
+            "b) Menos beneficios",
+            "c) Más problemas",
+            "d) Menos clientes",
+          ],
+          correctAnswer: 0,
+          explanation: 'El texto dice: "consiguen empleados más satisfechos y productivos".',
+        },
+        {
+          id: 6,
+          question: "¿Qué provocan las jornadas interminables?",
+          options: ["a) Más dinero", "b) Estrés y agotamiento", "c) Felicidad", "d) Motivación"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "provocan estrés y agotamiento".',
+        },
+        {
+          id: 7,
+          question: "¿Qué es la conciliación según los expertos?",
+          options: [
+            "a) Un asunto solo familiar",
+            "b) Una cuestión de justicia social",
+            "c) Un problema sin solución",
+            "d) Una moda",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "una cuestión de justicia social".',
+        },
+        {
+          id: 8,
+          question: "¿Qué es esencial para la igualdad de oportunidades?",
+          options: [
+            "a) Trabajar más",
+            "b) Repartir equitativamente las tareas del hogar",
+            "c) Ganar más dinero",
+            "d) Tener más vacaciones",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Repartir de forma equitativa las tareas del hogar y los cuidados".',
+        },
+        {
+          id: 9,
+          question: "¿Qué es el teletrabajo?",
+          options: [
+            "a) Trabajar en una oficina",
+            "b) Trabajar desde casa con tecnología",
+            "c) Trabajar de noche",
+            "d) Trabajar los fines de semana",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "trabajar desde casa con tecnología".',
+        },
+        {
+          id: 10,
+          question: "¿Qué es una guardería?",
+          options: [
+            "a) Un hospital",
+            "b) Un centro que cuida a niños pequeños",
+            "c) Una escuela para adultos",
+            "d) Un parque",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "centro que cuida a niños pequeños".',
+        },
+      ],
+    },
+    listening: {
+      title: "Mi día a día",
+      transcription: `Hola, me llamo Elena y soy madre de dos niños pequeños. Os cuento cómo organizo mi día para poder trabajar y cuidar de mi familia.
+
+Me levanto a las seis y media, preparo el desayuno y llevo a los niños a la guardería. Entro a trabajar a las nueve y salgo a las tres. Por suerte, mi empresa me permite hacer horario intensivo y algunos días trabajo desde casa.
+
+Por la tarde recojo a los niños y pasamos tiempo juntos. Los llevo al parque, les ayudo con los deberes y preparo la cena. Mi marido también colabora: él se encarga de la compra y de bañar a los niños.
+
+No es fácil, y a veces me siento agotada. Pero creo que el esfuerzo merece la pena. Me gustaría que las empresas ofrecieran más ayudas para conciliar, como guarderías o más días de teletrabajo.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuántos hijos tiene Elena?",
+          options: ["a) Uno", "b) Dos", "c) Tres", "d) Cuatro"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿A qué hora se levanta Elena?",
+          options: ["a) A las seis", "b) A las seis y media", "c) A las siete", "d) A las ocho"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Dónde lleva a sus hijos por la mañana?",
+          options: ["a) Al colegio", "b) A la guardería", "c) A casa de los abuelos", "d) Al parque"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué horario tiene Elena en el trabajo?",
+          options: ["a) De nueve a cinco", "b) De nueve a tres", "c) De ocho a tres", "d) De diez a seis"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué le permite su empresa?",
+          options: [
+            "a) No trabajar",
+            "b) Horario intensivo y teletrabajo",
+            "c) Trabajar solo por la mañana",
+            "d) Vacaciones largas",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué hace Elena por la tarde?",
+          options: [
+            "a) Trabaja",
+            "b) Recoge a los niños y pasa tiempo con ellos",
+            "c) Duerme",
+            "d) Sale con amigas",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿De qué se encarga su marido?",
+          options: [
+            "a) De cocinar",
+            "b) De la compra y de bañar a los niños",
+            "c) De limpiar",
+            "d) De llevar a los niños",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Cómo se siente Elena a veces?",
+          options: ["a) Muy feliz", "b) Agotada", "c) Aburrida", "d) Tranquila"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué le gustaría a Elena?",
+          options: [
+            "a) Dejar de trabajar",
+            "b) Que las empresas ofrecieran más ayudas para conciliar",
+            "c) Tener más hijos",
+            "d) Cambiar de trabajo",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué ayudas menciona Elena?",
+          options: [
+            "a) Más sueldo",
+            "b) Guarderías y más días de teletrabajo",
+            "c) Un coche",
+            "d) Más vacaciones",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "El equilibrio entre trabajo y vida personal",
+        description:
+          "Escribe un texto de opinión sobre la importancia de conciliar trabajo y vida personal. Da argumentos y ejemplos.",
+        structure: {
+          intro: "Presenta el tema.",
+          body: "Da argumentos.",
+          conclusion: "Concluye con tu opinión.",
+        },
+        connectors: ["En mi opinión", "Por un lado", "Por otro lado", "Además", "En conclusión"],
+        wordCount: "120-150 palabras",
+      },
+      optionB: {
+        title: "Mi rutina diaria",
+        description:
+          "Describe tu rutina diaria y cómo organizas tu tiempo entre el trabajo o el estudio y tus responsabilidades.",
+        structure: {
+          intro: "Presenta tu rutina.",
+          body: "Describe tu día.",
+          conclusion: "Di si estás satisfecho con tu equilibrio.",
+        },
+        connectors: ["Me levanto", "Después", "Por la tarde", "Normalmente", "Al final del día"],
+        wordCount: "120-150 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Tu equilibrio entre trabajo y vida personal",
+        description:
+          "Habla durante 2 minutos de cómo organizas tu tiempo entre el trabajo o el estudio y tu vida personal.",
+        connectors: ["Normalmente", "Me levanto", "Después", "En mi tiempo libre", "Creo que"],
+        guideQuestions: [
+          "¿Cómo organizas tu día?",
+          "¿Trabajas o estudias muchas horas?",
+          "¿Tienes tiempo para tu familia?",
+          "¿Qué haces para desconectar?",
+          "¿Estás satisfecho con tu equilibrio?",
+        ],
+      },
+      topic2: {
+        title: "¿Qué deberían hacer las empresas?",
+        description:
+          "Habla durante 2 minutos de qué medidas deberían tomar las empresas para facilitar la conciliación.",
+        connectors: ["En mi opinión", "Las empresas deberían", "Por ejemplo", "Además", "En conclusión"],
+        guideQuestions: [
+          "¿Qué medidas de conciliación conoces?",
+          "¿Qué deberían ofrecer las empresas?",
+          "¿El teletrabajo ayuda?",
+          "¿Qué opinas de las guarderías en el trabajo?",
+          "¿Qué medida te gustaría tener?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero sois compañeros de trabajo. Habláis de las dificultades para conciliar y proponéis soluciones.",
+      questions: [
+        {
+          question: "Comenta las dificultades para conciliar trabajo y familia.",
+          help: "Usa: Me cuesta... / Es difícil...",
+          usefulPhrases: [
+            "Me cuesta llegar a todo.",
+            "Es difícil con niños pequeños.",
+            "No tengo tiempo para mí.",
+            "¿Y tú cómo lo llevas?",
+          ],
+        },
+        {
+          question: "Proponed soluciones que podría ofrecer la empresa.",
+          help: "Usa: Podríamos pedir... / Sería buena idea...",
+          usefulPhrases: [
+            "Podríamos pedir teletrabajo.",
+            "Sería buena idea un horario flexible.",
+            "¿Y una guardería en la oficina?",
+            "Podemos hablar con el jefe.",
+          ],
+        },
+        {
+          question: "Acuerda una propuesta para presentar al jefe.",
+          help: "Usa: Entonces proponemos... / De acuerdo.",
+          usefulPhrases: [
+            "Entonces proponemos horario flexible.",
+            "Y dos días de teletrabajo.",
+            "De acuerdo.",
+            "Redactamos la propuesta.",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 25,
+    level: "B1",
+    theme: "Las ciudades sostenibles",
+    vocabulary: [
+      {
+        word: "sostenible",
+        definition: "Que puede mantenerse sin dañar el medio ambiente",
+        chinese: "可持续的",
+        example: "Necesitamos ciudades más sostenibles.",
+      },
+      {
+        word: "medio ambiente",
+        definition: "El entorno natural",
+        chinese: "环境",
+        example: "Cuidar el medio ambiente es urgente.",
+      },
+      {
+        word: "contaminación",
+        definition: "Suciedad en el aire, el agua o el suelo",
+        chinese: "污染",
+        example: "La contaminación del aire es un problema.",
+      },
+      {
+        word: "transporte público",
+        definition: "Autobuses, metro o trenes compartidos",
+        chinese: "公共交通",
+        example: "Uso el transporte público todos los días.",
+      },
+      {
+        word: "carril bici",
+        definition: "Vía reservada para bicicletas",
+        chinese: "自行车道",
+        example: "La ciudad ha creado nuevos carriles bici.",
+      },
+      {
+        word: "reciclar",
+        definition: "Transformar residuos para reutilizarlos",
+        chinese: "回收",
+        example: "Reciclo papel, vidrio y plástico.",
+      },
+      {
+        word: "energía renovable",
+        definition: "Energía que no se agota, como la solar",
+        chinese: "可再生能源",
+        example: "La ciudad usa energía solar.",
+      },
+      {
+        word: "zona verde",
+        definition: "Área con árboles y plantas",
+        chinese: "绿化带",
+        example: "El parque es una zona verde.",
+      },
+      {
+        word: "emisiones",
+        definition: "Gases que se liberan a la atmósfera",
+        chinese: "排放",
+        example: "Los coches producen emisiones contaminantes.",
+      },
+      {
+        word: "peatón",
+        definition: "Persona que camina por la calle",
+        chinese: "行人",
+        example: "Los peatones tienen prioridad.",
+      },
+    ],
+    reading: {
+      textType: "artículo periodístico",
+      title: "Ciudades para vivir mejor",
+      text: `Más de la mitad de la población mundial vive en ciudades, y esta cifra no deja de crecer. Por eso, transformar las ciudades en lugares más sostenibles se ha convertido en una prioridad para muchos gobiernos.
+
+Una ciudad sostenible es aquella que reduce su impacto en el medio ambiente y mejora la calidad de vida de sus habitantes. Para conseguirlo, se necesitan varias medidas: ampliar el transporte público, crear carriles bici, aumentar las zonas verdes y fomentar el reciclaje.
+
+Muchas ciudades europeas ya están dando pasos en esta dirección. Algunas han restringido el tráfico de coches en el centro y han peatonalizado calles enteras. Otras han apostado por las energías renovables, instalando paneles solares en los edificios públicos.
+
+Sin embargo, el cambio no depende solo de los gobiernos. Los ciudadanos también tenemos un papel importante: usar el transporte público, reciclar, consumir menos y cuidar los espacios comunes son gestos que, sumados, pueden transformar nuestras ciudades. El futuro de las ciudades está en nuestras manos.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué porcentaje de la población vive en ciudades?",
+          options: ["a) La cuarta parte", "b) Más de la mitad", "c) El diez por ciento", "d) Casi toda"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Más de la mitad de la población mundial vive en ciudades".',
+        },
+        {
+          id: 2,
+          question: "¿Qué es una ciudad sostenible?",
+          options: [
+            "a) Una ciudad grande",
+            "b) La que reduce su impacto ambiental y mejora la vida",
+            "c) Una ciudad rica",
+            "d) Una ciudad antigua",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "reduce su impacto en el medio ambiente y mejora la calidad de vida".',
+        },
+        {
+          id: 3,
+          question: "¿Qué medidas se necesitan para una ciudad sostenible?",
+          options: [
+            "a) Más coches",
+            "b) Ampliar el transporte público y crear carriles bici",
+            "c) Más centros comerciales",
+            "d) Menos parques",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "ampliar el transporte público, crear carriles bici".',
+        },
+        {
+          id: 4,
+          question: "¿Qué han hecho algunas ciudades europeas?",
+          options: [
+            "a) Construir más carreteras",
+            "b) Restringir el tráfico y peatonalizar calles",
+            "c) Eliminar los parques",
+            "d) Prohibir las bicicletas",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "han restringido el tráfico de coches y han peatonalizado calles".',
+        },
+        {
+          id: 5,
+          question: "¿En qué han apostado otras ciudades?",
+          options: [
+            "a) En las energías renovables",
+            "b) En el carbón",
+            "c) En el petróleo",
+            "d) En la energía nuclear",
+          ],
+          correctAnswer: 0,
+          explanation: 'El texto dice: "han apostado por las energías renovables".',
+        },
+        {
+          id: 6,
+          question: "¿Qué gestos pueden hacer los ciudadanos según el texto?",
+          options: [
+            "a) Comprar más",
+            "b) Usar el transporte público, reciclar y consumir menos",
+            "c) Usar más el coche",
+            "d) No reciclar",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "usar el transporte público, reciclar, consumir menos".',
+        },
+        {
+          id: 7,
+          question: "¿Dónde instalan paneles solares algunas ciudades?",
+          options: [
+            "a) En las casas",
+            "b) En los edificios públicos",
+            "c) En los coches",
+            "d) En los parques",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "instalando paneles solares en los edificios públicos".',
+        },
+        {
+          id: 8,
+          question: "¿Qué es reciclar?",
+          options: [
+            "a) Tirar la basura",
+            "b) Transformar residuos para reutilizarlos",
+            "c) Comprar productos nuevos",
+            "d) Quemar basura",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "transformar residuos para reutilizarlos".',
+        },
+        {
+          id: 9,
+          question: "¿Qué es un peatón?",
+          options: ["a) Un conductor", "b) Una persona que camina", "c) Un ciclista", "d) Un pasajero"],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, es "persona que camina por la calle".',
+        },
+        {
+          id: 10,
+          question: "¿Qué son las emisiones?",
+          options: [
+            "a) Los árboles",
+            "b) Gases que se liberan a la atmósfera",
+            "c) Los coches",
+            "d) Las bicicletas",
+          ],
+          correctAnswer: 1,
+          explanation: 'Según el vocabulario, son "gases que se liberan a la atmósfera".',
+        },
+      ],
+    },
+    listening: {
+      title: "Mi ciudad está cambiando",
+      transcription: `Hola, soy Diego. Os voy a hablar de los cambios que está viviendo mi ciudad para ser más sostenible. Hace unos años, el centro estaba lleno de coches y la contaminación era un problema grave.
+
+Ahora la situación es muy diferente. Han ampliado las líneas de metro y autobús, y han creado muchos kilómetros de carril bici. También han peatonalizado varias calles del centro, que ahora están llenas de terrazas y peatones.
+
+Además, han plantado miles de árboles y han creado nuevos parques. En mi barrio han instalado contenedores para reciclar papel, vidrio y plástico. Yo he cambiado mis hábitos: voy al trabajo en bicicleta y reciclo en casa.
+
+Todavía queda mucho por hacer, pero creo que vamos por buen camino. Me gustaría que en el futuro hubiera más zonas verdes y menos coches. Una ciudad más sostenible es una ciudad más feliz.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué problema tenía la ciudad de Diego antes?",
+          options: [
+            "a) Poca gente",
+            "b) Muchos coches y contaminación",
+            "c) Pocos edificios",
+            "d) Mucha lluvia",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué han ampliado en la ciudad?",
+          options: [
+            "a) Las carreteras",
+            "b) Las líneas de metro y autobús",
+            "c) Los aeropuertos",
+            "d) Las playas",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué han creado para las bicicletas?",
+          options: ["a) Aparcamientos", "b) Carriles bici", "c) Tiendas", "d) Puentes"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué han hecho con las calles del centro?",
+          options: [
+            "a) Las han cerrado",
+            "b) Las han peatonalizado",
+            "c) Las han ampliado",
+            "d) Las han iluminado",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué han plantado en la ciudad?",
+          options: ["a) Flores", "b) Miles de árboles", "c) Verduras", "d) Nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué han instalado en su barrio?",
+          options: ["a) Semáforos", "b) Contenedores para reciclar", "c) Bancos", "d) Farolas"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Cómo va Diego al trabajo ahora?",
+          options: ["a) En coche", "b) En bicicleta", "c) En moto", "d) Andando"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué hace Diego en casa?",
+          options: ["a) Nada", "b) Recicla", "c) Planta árboles", "d) Compra menos"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué le gustaría a Diego para el futuro?",
+          options: [
+            "a) Más coches",
+            "b) Más zonas verdes y menos coches",
+            "c) Más edificios",
+            "d) Más carreteras",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué dice Diego sobre una ciudad sostenible?",
+          options: ["a) Que es cara", "b) Que es más feliz", "c) Que es aburrida", "d) Que es imposible"],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Cómo es tu ciudad?",
+        description:
+          "Describe tu ciudad y di qué se podría hacer para que fuera más sostenible. Incluye transporte, zonas verdes y reciclaje.",
+        structure: {
+          intro: "Describe tu ciudad.",
+          body: "Di qué problemas tiene.",
+          conclusion: "Propón soluciones.",
+        },
+        connectors: ["Mi ciudad es", "El problema es", "Se podría", "Además", "En mi opinión"],
+        wordCount: "120-150 palabras",
+      },
+      optionB: {
+        title: "La ciudad del futuro",
+        description:
+          "Escribe un texto de opinión sobre cómo será la ciudad del futuro. Piensa en el transporte, la energía y el medio ambiente.",
+        structure: {
+          intro: "Describe la ciudad del futuro.",
+          body: "Habla del transporte y la energía.",
+          conclusion: "Da tu visión.",
+        },
+        connectors: ["En el futuro", "Creo que", "Además", "Por eso", "En conclusión"],
+        wordCount: "120-150 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Tu ciudad ideal",
+        description:
+          "Habla durante 2 minutos de cómo sería tu ciudad ideal. Describe el transporte, las zonas verdes y el medio ambiente.",
+        connectors: ["Mi ciudad ideal tendría", "Habría", "Además", "Me gustaría", "Porque"],
+        guideQuestions: [
+          "¿Cómo sería tu ciudad ideal?",
+          "¿Qué transporte tendría?",
+          "¿Habría muchas zonas verdes?",
+          "¿Cómo se cuidaría el medio ambiente?",
+          "¿Qué te gustaría cambiar de tu ciudad?",
+        ],
+      },
+      topic2: {
+        title: "¿Qué haces por el medio ambiente?",
+        description:
+          "Habla durante 2 minutos de lo que haces tú para cuidar el medio ambiente en tu vida diaria.",
+        connectors: ["Yo reciclo", "Normalmente", "Además", "Intento", "Creo que"],
+        guideQuestions: [
+          "¿Reciclas en casa?",
+          "¿Qué transporte usas?",
+          "¿Ahorras energía?",
+          "¿Qué más podrías hacer?",
+          "¿Crees que los gestos individuales importan?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero sois vecinos y queréis proponer mejoras sostenibles en vuestro barrio. Habláis de ideas.",
+      questions: [
+        {
+          question: "Comenta los problemas medioambientales de vuestro barrio.",
+          help: "Usa: El problema es... / Hay mucha...",
+          usefulPhrases: [
+            "Hay mucha contaminación.",
+            "Faltan zonas verdes.",
+            "No hay suficientes contenedores.",
+            "El tráfico es terrible.",
+          ],
+        },
+        {
+          question: "Proponed mejoras sostenibles para el barrio.",
+          help: "Usa: Podríamos pedir... / Sería buena idea...",
+          usefulPhrases: [
+            "Podríamos pedir un carril bici.",
+            "Sería buena idea plantar árboles.",
+            "¿Y más contenedores de reciclaje?",
+            "Podemos hacer una petición.",
+          ],
+        },
+        {
+          question: "Acuerda una propuesta y cómo presentarla.",
+          help: "Usa: Entonces... / Vamos a...",
+          usefulPhrases: [
+            "Entonces pedimos más zonas verdes.",
+            "Vamos a recoger firmas.",
+            "Presentamos la propuesta al ayuntamiento.",
+            "De acuerdo, ¡manos a la obra!",
+          ],
+        },
+      ],
+    },
+  },
+];

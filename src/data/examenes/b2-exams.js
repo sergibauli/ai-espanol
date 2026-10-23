@@ -1,0 +1,7988 @@
+export const b2Exams = [
+  {
+    id: 1,
+    level: "B2",
+    theme: "El medio ambiente y cambio climático",
+    icon: "Trees",
+    vocabulary: [
+      {
+        word: "sostenible",
+        definition: "Que se puede mantener sin dañar el medio ambiente",
+        chinese: "可持续的",
+        example: "Debemos buscar un desarrollo sostenible.",
+      },
+      {
+        word: "contaminación",
+        definition: "Presencia de sustancias dañinas en el aire, agua o suelo",
+        chinese: "污染",
+        example: "La contaminación del aire es un grave problema.",
+      },
+      {
+        word: "huella de carbono",
+        definition: "Cantidad de CO2 que genera una persona o actividad",
+        chinese: "碳足迹",
+        example: "Debemos reducir nuestra huella de carbono.",
+      },
+      {
+        word: "energías renovables",
+        definition: "Energía obtenida de fuentes naturales inagotables",
+        chinese: "可再生能源",
+        example: "Las energías renovables son el futuro.",
+      },
+      {
+        word: "deshielo",
+        definition: "Proceso de fusión de los glaciares",
+        chinese: "冰川融化",
+        example: "El deshielo de los polos sube el nivel del mar.",
+      },
+      {
+        word: "biodiversidad",
+        definition: "Variedad de seres vivos en un ecosistema",
+        chinese: "生物多样性",
+        example: "La selva amazónica tiene gran biodiversidad.",
+      },
+      {
+        word: "reciclaje",
+        definition: "Proceso de transformar residuos en nuevos productos",
+        chinese: "回收",
+        example: "El reciclaje es fundamental para el planeta.",
+      },
+      {
+        word: "efecto invernadero",
+        definition: "Aumento de la temperatura por gases en la atmósfera",
+        chinese: "温室效应",
+        example: "El efecto invernadero provoca el calentamiento global.",
+      },
+      {
+        word: "sequía",
+        definition: "Falta prolongada de lluvias",
+        chinese: "干旱",
+        example: "La sequía ha arruinado muchos cultivos.",
+      },
+      {
+        word: "ecosistema",
+        definition: "Conjunto de organismos y su entorno",
+        chinese: "生态系统",
+        example: "Debemos proteger los ecosistemas marinos.",
+      },
+      {
+        word: "residuos",
+        definition: "Materiales desechados después de su uso",
+        chinese: "废弃物",
+        example: "Los residuos plásticos tardan siglos en degradarse.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "España supera por primera vez el 50% de energía renovable en 2024",
+      text: `España ha alcanzado un hito histórico en su transición energética. Durante el año dos mil veinticuatro, más de la mitad de la electricidad consumida en el país procedió de fuentes renovables, según datos publicados ayer por Red Eléctrica de España.
+
+Este logro sitúa a España a la vanguardia de Europa en materia de energías limpias. La eólica ha sido la tecnología protagonista, aportando el veinticinco por ciento de la generación total, seguida de la solar fotovoltaica con un quince por ciento y la hidráulica con un doce por ciento.
+
+"Es un momento trascendental", declaró la ministra para la Transición Ecológica durante la presentación de los datos. "Hace apenas una década, las renovables no superaban el treinta por ciento. La inversión en infraestructuras y el compromiso de las empresas han hecho posible esta transformación."
+
+Sin embargo, los expertos advierten de que queda mucho camino por recorrer. El transporte y la calefacción siguen dependiendo en gran medida de los combustibles fósiles. Además, el almacenamiento de energía sigue siendo un desafío técnico y económico.
+
+Las organizaciones ecologistas han celebrado la noticia pero exigen más ambición. Greenpeace ha instado al gobierno a acelerar el cierre de las centrales térmicas, mientras que WWF ha subrayado la necesidad de proteger los espacios naturales donde se instalan los parques eólicos y solares.
+
+El sector empresarial, por su parte, ha destacado los beneficios económicos. La transición energética ha creado más de cincuenta mil empleos en el último lustro y ha reducido la factura energética de las familias en un promedio de trescientos euros anuales.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué porcentaje de energía renovable consumió España en 2024?",
+          options: ["a] Más del 30%", "b] Exactamente el 50%", "c] Más del 50%", "d] Menos del 40%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "más de la mitad de la electricidad consumida... procedió de fuentes renovables".',
+        },
+        {
+          id: 2,
+          question: "¿Qué tecnología renovable aportó más energía?",
+          options: ["a] Solar fotovoltaica", "b] Hidráulica", "c] Eólica", "d] Biomasa"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "La eólica ha sido la tecnología protagonista, aportando el veinticinco por ciento".',
+        },
+        {
+          id: 3,
+          question: "¿Cuál era el porcentaje de renovables hace una década?",
+          options: ["a] Menos del 20%", "b] No superaban el 30%", "c] El 40%", "d] El 50%"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Hace apenas una década, las renovables no superaban el treinta por ciento".',
+        },
+        {
+          id: 4,
+          question: "¿Qué sectores siguen usando combustibles fósiles?",
+          options: [
+            "a] Solo la industria",
+            "b] El transporte y la calefacción",
+            "c] Solo el transporte",
+            "d] La electricidad",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "El transporte y la calefacción siguen dependiendo en gran medida de los combustibles fósiles".',
+        },
+        {
+          id: 5,
+          question: "¿Qué exige Greenpeace?",
+          options: [
+            "a] Más parques eólicos",
+            "b] Acelerar el cierre de centrales térmicas",
+            "c] Más inversión en solar",
+            "d] Reducir el precio de la luz",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Greenpeace ha instado al gobierno a acelerar el cierre de las centrales térmicas".',
+        },
+        {
+          id: 6,
+          question: "¿Cuántos empleos ha creado la transición energética?",
+          options: ["a] Veinte mil", "b] Treinta mil", "c] Cuarenta mil", "d] Más de cincuenta mil"],
+          correctAnswer: 3,
+          explanation: 'El texto dice: "ha creado más de cincuenta mil empleos".',
+        },
+        {
+          id: 7,
+          question: "¿Cuánto se ha reducido la factura energética anual?",
+          options: ["a] Cien euros", "b] Doscientos euros", "c] Trescientos euros", "d] Quinientos euros"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "ha reducido la factura energética... en un promedio de trescientos euros anuales".',
+        },
+        {
+          id: 8,
+          question: "¿Qué organismo publicó los datos?",
+          options: [
+            "a] El Ministerio de Energía",
+            "b] Red Eléctrica de España",
+            "c] Greenpeace",
+            "d] La Comisión Europea",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "datos publicados ayer por Red Eléctrica de España".',
+        },
+        {
+          id: 9,
+          question: "¿Qué desafío técnico menciona el texto?",
+          options: [
+            "a] La falta de viento",
+            "b] El almacenamiento de energía",
+            "c] La falta de sol",
+            "d] El precio de los paneles",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "el almacenamiento de energía sigue siendo un desafío técnico y económico".',
+        },
+        {
+          id: 10,
+          question: "¿Qué subraya WWF?",
+          options: [
+            "a] La necesidad de más parques solares",
+            "b] La necesidad de proteger espacios naturales",
+            "c] La reducción de precios",
+            "d] El cierre de nucleares",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "WWF ha subrayado la necesidad de proteger los espacios naturales".',
+        },
+      ],
+    },
+    listening: {
+      title: "Entrevista sobre cambio climático",
+      transcription: `Periodista: Hoy tenemos con nosotros al doctor Raúl Martínez, climatólogo del Centro de Investigaciones Medioambientales. Doctor Martínez, ¿estamos a tiempo de revertir el cambio climático?
+
+Doctor Martínez: Buena pregunta. La verdad es que estamos en una situación crítica pero no irreversible. Los últimos informes del IPCC son claros: si reducimos las emisiones de gases de efecto invernadero en un cuarenta y cinco por ciento para dos mil treinta, podemos limitar el calentamiento global a uno con cinco grados.
+
+Periodista: ¿Qué medidas considera más urgentes?
+
+Doctor Martínez: En primer lugar, la transición energética. Debemos dejar de quemar carbón, petróleo y gas lo antes posible. Pero no es solo eso. También necesitamos cambiar nuestros modelos de producción y consumo. La agricultura industrial y la ganadería extensiva son responsables del dieciocho por ciento de las emisiones globales.
+
+Periodista: Mucha gente piensa que los cambios individuales no sirven de nada.
+
+Doctor Martínez: Eso es falso. Claro que las grandes corporaciones y los gobiernos tienen la responsabilidad principal, pero las decisiones individuales suman. Si cada persona reduce su consumo de carne, utiliza el transporte público, recicla y vota con conciencia climática, el impacto es enorme. Además, los cambios individuales presionan a las empresas y a los políticos.
+
+Periodista: ¿Qué le diría a los jóvenes que sienten ansiedad climática?
+
+Doctor Martínez: Les diría que canalicen esa ansiedad en acción. La desesperación paraliza, pero la acción empodera. Hay muchas formas de participar: desde el activismo hasta la innovación tecnológica. Ellos serán los líderes de esta transición.
+
+Periodista: ¿Cree que la tecnología nos salvará?
+
+Doctor Martínez: La tecnología es una herramienta, no una solución mágica. Los paneles solares y los coches eléctricos ayudan, pero sin cambios estructurales en nuestra economía y sociedad, no será suficiente. Necesitamos una transformación cultural profunda.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es la profesión del doctor Martínez?",
+          options: ["a] Periodista", "b] Climatólogo", "c] Político", "d] Ingeniero"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué organismo menciona?",
+          options: ["a] La ONU", "b] Greenpeace", "c] El IPCC", "d] La OMS"],
+          correctAnswer: 2,
+        },
+        {
+          id: 3,
+          question: "¿Qué porcentaje de reducción propone para 2030?",
+          options: ["a] El 25%", "b] El 35%", "c] El 45%", "d] El 55%"],
+          correctAnswer: 2,
+        },
+        {
+          id: 4,
+          question: "¿Cuál es la primera medida urgente?",
+          options: [
+            "a] Reducir el plástico",
+            "b] La transición energética",
+            "c] Plantar árboles",
+            "d] Reciclar más",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué porcentaje de emisiones produce la agricultura industrial?",
+          options: ["a] El 8%", "b] El 12%", "c] El 18%", "d] El 25%"],
+          correctAnswer: 2,
+        },
+        {
+          id: 6,
+          question: "¿Qué opina sobre los cambios individuales?",
+          options: [
+            "a] No sirven de nada",
+            "b] Tienen un impacto enorme",
+            "c] Son irrelevantes",
+            "d] Son peligrosos",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué dice sobre la ansiedad climática?",
+          options: [
+            "a] Que es normal",
+            "b] Que hay que canalizarla en acción",
+            "c] Que hay que ignorarla",
+            "d] Que hay que medicarse",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Cree que la tecnología sola salvará el planeta?",
+          options: [
+            "a] Sí, completamente",
+            "b] No, necesita cambios estructurales",
+            "c] No, es inútil",
+            "d] Sí, con más inversión",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué transporte recomienda usar?",
+          options: ["a] Coche privado", "b] Transporte público", "c] Avión", "d] Moto"],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué transformación necesitamos según él?",
+          options: ["a] Tecnológica", "b] Económica", "c] Cultural profunda", "d] Política"],
+          correctAnswer: 2,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "La responsabilidad individual frente al cambio climático",
+        description:
+          "¿Crees que las acciones individuales son suficientes para combatir el cambio climático o se necesitan cambios a nivel gubernamental y empresarial? Argumenta tu respuesta.",
+        structure: {
+          intro: "Presenta el debate sobre responsabilidad climática.",
+          body: "Analiza las acciones individuales y las estructurales.",
+          conclusion: "Concluye con tu postura y propuestas.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "Por consiguiente", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "El futuro de la energía en tu país",
+        description:
+          "Analiza la situación energética de tu país. ¿Qué fuentes de energía se utilizan? ¿Qué cambios serían necesarios para una transición energética?",
+        structure: {
+          intro: "Describe la situación energética actual.",
+          body: "Analiza los desafíos y oportunidades.",
+          conclusion: "Propone medidas concretas.",
+        },
+        connectors: ["Actualmente", "Por una parte", "Por otra parte", "En cuanto a", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "El cambio climático y tú",
+        description:
+          "Habla sobre tu relación con el cambio climático durante 1-2 minutos. Di qué sabes del tema, qué haces para reducir tu huella de carbono y qué opinas sobre las políticas actuales.",
+        connectors: [
+          "El cambio climático es",
+          "Personalmente yo",
+          "Creo que las políticas actuales",
+          "Lo que más me preocupa es",
+          "En el futuro",
+        ],
+        guideQuestions: [
+          "¿Cual es tu experiencia personal con este tema?",
+          "¿Como afecta a tu dia a dia?",
+          "¿Que opinan tus familiares o amigos?",
+          "¿Que cambiarias o mejorarias?",
+        ],
+      },
+      topic2: {
+        title: "Sostenibilidad en la vida cotidiana",
+        description:
+          "Habla sobre cómo podemos ser más sostenibles en nuestra vida diaria. Di qué hábitos has adoptado y qué más podrías hacer.",
+        connectors: [
+          "La sostenibilidad empieza en",
+          "Yo he adoptado",
+          "También podríamos",
+          "Es difícil pero",
+          "Mi compromiso es",
+        ],
+        guideQuestions: [
+          "¿Cuando empezaste a interesarte por esto?",
+          "¿Que aspectos te resultan mas importantes?",
+          "¿Como ha evolucionado con el tiempo?",
+          "¿Que consejo darias a alguien en esta situacion?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero sois miembros de un ayuntamiento. Debéis decidir qué medidas implementar para hacer la ciudad más sostenible.",
+      questions: [
+        {
+          question:
+            "¿Qué medida priorizamos: más transporte público, bicicletas compartidas o zonas peatonales?",
+          help: "Argumenta tu posición. Usa: Propongo... porque... / Es prioritario...",
+          usefulPhrases: [
+            "Te recomiendo...",
+            "Si te gusta esto, deberias probar...",
+            "Lo mejor de este sitio es...",
+            "Evita ir los fines de semana porque esta lleno.",
+            "Personalmente, yo prefiero...",
+            "Un truco es...",
+          ],
+        },
+        {
+          question: "¿Cómo incentivamos a los ciudadanos a reducir sus residuos?",
+          help: "Sugiere incentivos. Usa: Podríamos implementar... / Sería efectivo...",
+          usefulPhrases: [
+            "Creo que la mejor opcion es...",
+            "En mi opinion, deberias considerar...",
+            "Una alternativa interesante seria...",
+            "Ten en cuenta que...",
+            "Yo en tu lugar...",
+            "Lo importante es...",
+          ],
+        },
+        {
+          question: "¿Qué plazo damos a estas medidas y cómo las financiamos?",
+          help: "Planifica. Usa: El plazo debería ser... / La financiación podría venir de...",
+          usefulPhrases: [
+            "Segun mi experiencia...",
+            "Algo que funciona muy bien es...",
+            "Te sugiero que...",
+            "No olvides que...",
+            "Un consejo practico es...",
+            "La clave esta en...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 2,
+    level: "B2",
+    theme: "La política y sociedad",
+    icon: "Landmark",
+    vocabulary: [
+      {
+        word: "democracia",
+        definition: "Sistema de gobierno donde el pueblo elige a sus representantes",
+        chinese: "民主",
+        example: "La democracia requiere participación ciudadana.",
+      },
+      {
+        word: "elecciones",
+        definition: "Proceso de votar para elegir representantes",
+        chinese: "选举",
+        example: "Las elecciones serán en noviembre.",
+      },
+      {
+        word: "parlamento",
+        definition: "Órgano legislativo de un país",
+        chinese: "议会",
+        example: "El parlamento aprobó la nueva ley.",
+      },
+      {
+        word: "ciudadanía",
+        definition: "Conjunto de ciudadanos con derechos y deberes",
+        chinese: "公民身份",
+        example: "La ciudadanía activa es fundamental.",
+      },
+      {
+        word: "política",
+        definition: "Arte de gobernar un país",
+        chinese: "政治",
+        example: "La política afecta a todos los aspectos de la vida.",
+      },
+      {
+        word: "partido político",
+        definition: "Organización que persigue objetivos políticos",
+        chinese: "政党",
+        example: "Hay muchos partidos políticos en el sistema.",
+      },
+      {
+        word: "voto",
+        definition: "Opinión expresada en una elección",
+        chinese: "投票",
+        example: "Mi voto es secreto.",
+      },
+      {
+        word: "gobierno",
+        definition: "Conjunto de personas que dirigen un país",
+        chinese: "政府",
+        example: "El gobierno anunció nuevas medidas.",
+      },
+      {
+        word: "oposición",
+        definition: "Partidos que no forman parte del gobierno",
+        chinese: "反对派",
+        example: "La oposición criticó la propuesta.",
+      },
+      {
+        word: "legislación",
+        definition: "Conjunto de leyes de un país",
+        chinese: "立法",
+        example: "La legislación laboral protege a los trabajadores.",
+      },
+      {
+        word: "participación ciudadana",
+        definition: "Implicación de los ciudadanos en la vida pública",
+        chinese: "公民参与",
+        example: "La participación ciudadana fortalece la democracia.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "La abstención juvenil preocupa a los analistas políticos",
+      text: `Los datos del último proceso electoral han encendido las alarmas entre los analistas políticos. La abstención entre jóvenes de dieciocho a treinta años ha alcanzado el cuarenta y cinco por ciento, cifra récord en las últimas cuatro décadas.
+
+El fenómeno no es exclusivo de España. En países como Francia, Italia y Grecia se observa una tendencia similar. Los expertos señalan múltiples causas: desafección política, falta de confianza en las instituciones y la percepción de que los partidos tradicionales no representan sus intereses.
+
+"Los jóvenes no son apáticos", aclara la politóloga Elena Vargas. "Son críticos. Han crecido en una era de información instantánea y detectan hipocresía con facilidad. Cuando un político promete una cosa y hace otra, lo comparten en redes y se viraliza. Eso erosiona la confianza."
+
+Sin embargo, otros expertos advierten de un paradójico efecto. Aunque votan menos, los jóvenes participan más en movimientos sociales, plataformas digitales y activismo ciudadano. El cambio climático, los derechos LGTBIQ+ y la justicia racial son causas donde la participación juvenil es mayoritaria.
+
+Los partidos políticos intentan revertir esta tendencia. Algunos han lanzado campañas específicas en redes sociales, han incluido a más candidatos jóvenes en sus listas o han incorporado propuestas sobre vivienda, empleo precario y educación.
+
+La pregunta que se hacen los analistas es si esta desconexión del sistema partidista tradicional se traducirá en un cambio estructural de la representación política o, por el contrario, en una pérdida de peso generacional en la toma de decisiones.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es el porcentaje de abstención juvenil?",
+          options: ["a] El 25%", "b] El 35%", "c] El 45%", "d] El 55%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "La abstención entre jóvenes... ha alcanzado el cuarenta y cinco por ciento".',
+        },
+        {
+          id: 2,
+          question: "¿En qué países europeos ocurre también?",
+          options: [
+            "a] Solo en España",
+            "b] Francia, Italia y Grecia",
+            "c] Solo en Alemania",
+            "d] En el norte de Europa",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto menciona: "En países como Francia, Italia y Grecia".',
+        },
+        {
+          id: 3,
+          question: "¿Qué dice Elena Vargas sobre los jóvenes?",
+          options: [
+            "a] Que son apáticos",
+            "b] Que son críticos",
+            "c] Que no les importa la política",
+            "d] Que son violentos",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita: "Los jóvenes no son apáticos... Son críticos".',
+        },
+        {
+          id: 4,
+          question: "¿En qué tipo de participación son más activos los jóvenes?",
+          options: [
+            "a] Solo en votaciones",
+            "b] En movimientos sociales y activismo",
+            "c] En los partidos tradicionales",
+            "d] En el gobierno",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Aunque votan menos, los jóvenes participan más en movimientos sociales... y activismo ciudadano".',
+        },
+        {
+          id: 5,
+          question: "¿Qué causas menciona como ejemplos de activismo juvenil?",
+          options: [
+            "a] Solo economía",
+            "b] Cambio climático, derechos LGTBIQ+ y justicia racial",
+            "c] Solo educación",
+            "d] Solo sanidad",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esas tres causas específicamente.",
+        },
+        {
+          id: 6,
+          question: "¿Qué han hecho los partidos para atraer a jóvenes?",
+          options: [
+            "a] Nada",
+            "b] Campañas en redes y candidatos jóvenes",
+            "c] Solo debates en TV",
+            "d] Prohibir las redes sociales",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "han lanzado campañas específicas en redes sociales, han incluido a más candidatos jóvenes".',
+        },
+        {
+          id: 7,
+          question: "¿Cuáles son las propuestas para jóvenes?",
+          options: [
+            "a] Pensiones y sanidad",
+            "b] Vivienda, empleo precario y educación",
+            "c] Solo impuestos",
+            "d] Defensa",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "propuestas sobre vivienda, empleo precario y educación".',
+        },
+        {
+          id: 8,
+          question: "¿Cuál es la preocupación principal de los analistas?",
+          options: [
+            "a] Que voten demasiado",
+            "b] Pérdida de peso generacional o cambio estructural",
+            "c] Que se unan a partidos",
+            "d] Que estudien política",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "si esta desconexión... se traducirá en un cambio estructural... o... en una pérdida de peso generacional".',
+        },
+        {
+          id: 9,
+          question: "¿Qué era ha crecido con los jóvenes según Vargas?",
+          options: [
+            "a] La era industrial",
+            "b] La era de información instantánea",
+            "c] La era medieval",
+            "d] La era del hierro",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Han crecido en una era de información instantánea".',
+        },
+        {
+          id: 10,
+          question: "¿Qué detectan fácilmente los jóvenes según la politóloga?",
+          options: ["a] Mentiras", "b] Hipocresía", "c] Problemas económicos", "d] Corrupción"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "detectan hipocresía con facilidad".',
+        },
+      ],
+    },
+    listening: {
+      title: "Debate sobre participación ciudadana",
+      transcription: `Locutor: Bienvenidos al programa "Sociedad Activa". Hoy debatimos sobre la participación ciudadana con dos invitados: Laura Méndez, activista comunitaria, y Pedro Casas, profesor de Ciencia Política.
+
+Laura, ¿qué entiendes por participación ciudadana?
+
+Laura: Entiendo que la democracia no se limita a votar cada cuatro años. Participación ciudadana es implicarse en las decisiones que afectan a tu barrio, tu ciudad, tu país. Es ir a un pleno municipal, firmar una iniciativa legislativa popular, unirte a una asociación de vecinos.
+
+Pedro, ¿estás de acuerdo?
+
+Pedro: En parte. Pero creo que Laura idealiza la participación. La mayoría de ciudadanos no tiene tiempo ni energía para participar activamente. Trabajan ocho o diez horas, tienen familias que cuidar. Exigirles que además participen políticamente es una forma de elitismo.
+
+Laura: Discrepo totalmente. La participación no exige horas interminables. Con cinco minutos al día informándote de lo que pasa en tu municipio ya estás participando más que la mitad de la población. Además, las plataformas digitales facilitan mucho la participación.
+
+Pedro: Pero esas plataformas también crean burbujas informativas. La gente solo se informa de lo que confirma sus prejuicios. Eso no es participación, es reafirmación de sesgos.
+
+Laura: Eso pasa con todo. El problema no es la participación, sino la falta de educación mediática. Los ciudadanos necesitan aprender a contrastar información, no abstenerse.
+
+Pedro: Quizás tengas razón en eso. Pero insisto: sin una estructura institucional que escuche y responda, la participación es frustrante. Si un ciudadano propone algo y nunca recibe respuesta, se desmoviliza.
+
+Laura: Totalmente de acuerdo. La participación debe ser vinculante, no meramente consultiva.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es el nombre del programa?",
+          options: ["a] Democracia Hoy", "b] Sociedad Activa", "c] Política en Debate", "d] Ciudadanos"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué es Laura?",
+          options: ["a] Profesora", "b] Activista comunitaria", "c] Política", "d] Periodista"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué es Pedro?",
+          options: ["a] Médico", "b] Profesor de Ciencia Política", "c] Abogado", "d] Actor"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué opina Pedro sobre la participación ciudadana?",
+          options: [
+            "a] Que es fundamental",
+            "b] Que es una forma de elitismo",
+            "c] Que todos deberían participar",
+            "d] Que es fácil",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Cuántos minutos dice Laura que se necesitan para participar?",
+          options: ["a] Uno", "b] Cinco", "c] Diez", "d] Sesenta"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué facilita la participación según Laura?",
+          options: [
+            "a] Las reuniones presenciales",
+            "b] Las plataformas digitales",
+            "c] Los periódicos",
+            "d] La televisión",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué problema ven las plataformas digitales según Pedro?",
+          options: [
+            "a] Son caras",
+            "b] Crean burbujas informativas",
+            "c] Son difíciles de usar",
+            "d] No existen",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué necesitan los ciudadanos según Laura?",
+          options: ["a] Más tiempo", "b] Educación mediática", "c] Más dinero", "d] Más leyes"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué cree Pedro que necesita la participación?",
+          options: [
+            "a] Más dinero",
+            "b] Estructura institucional que responda",
+            "c] Más políticos",
+            "d] Menos tecnología",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿En qué están de acuerdo ambos al final?",
+          options: [
+            "a] Que la participación no sirve",
+            "b] Que la participación debe ser vinculante",
+            "c] Que nadie debería participar",
+            "d] Que solo los expertos deberían votar",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Votar es un derecho o una obligación?",
+        description:
+          "Reflexiona sobre si el voto debería ser obligatorio o voluntario. Argumenta tu posición con ejemplos.",
+        structure: {
+          intro: "Presenta el debate.",
+          body: "Analiza ventajas y desventajas de ambos sistemas.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["En primer lugar", "Por otro lado", "Asimismo", "En consecuencia", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "El papel de los jóvenes en la política actual",
+        description:
+          "Analiza el papel que desempeñan los jóvenes en la política de hoy. ¿Están desconectados o simplemente cambiaron su forma de participación?",
+        structure: {
+          intro: "Describe la situación actual.",
+          body: "Analiza diferentes formas de participación.",
+          conclusion: "Concluye con una reflexión sobre el futuro.",
+        },
+        connectors: ["Actualmente", "Por una parte", "Por otra parte", "Sin embargo", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "La democracia en el siglo XXI",
+        description:
+          "Habla sobre el estado de la democracia en la actualidad durante 1-2 minutos. Di qué funciona bien, qué debería mejorar y cómo participas tú.",
+        connectors: [
+          "La democracia actual",
+          "Lo que funciona bien es",
+          "Lo que debería mejorar",
+          "Yo participo",
+          "Creo que el futuro",
+        ],
+        guideQuestions: [
+          "¿Por que crees que este tema es relevante?",
+          "¿Has tenido alguna experiencia relacionada?",
+          "¿Como influye en la sociedad actual?",
+          "¿Que futuro le ves a este tema?",
+        ],
+      },
+      topic2: {
+        title: "Desconfianza en las instituciones",
+        description:
+          "Habla sobre por qué muchas personas desconfían de las instituciones políticas. Di qué factores contribuyen a esto y qué podría restaurar la confianza.",
+        connectors: [
+          "La desconfianza en las instituciones",
+          "Los factores que contribuyen son",
+          "Por ejemplo",
+          "Para restaurar la confianza",
+          "En mi opinión",
+        ],
+        guideQuestions: [
+          "¿Cual es tu relacion personal con esto?",
+          "¿Que ventajas e inconvenientes ves?",
+          "¿Como lo viven las personas de tu entorno?",
+          "¿Crees que va a cambiar en el futuro?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero sois candidatos de dos partidos diferentes. Debéis debatir sobre tres propuestas para mejorar la ciudad.",
+      questions: [
+        {
+          question: "¿Priorizamos la creación de empleo joven o la mejora de la sanidad pública?",
+          help: "Argumenta. Usa: Propongo priorizar... porque... / Aunque la sanidad es importante...",
+          usefulPhrases: [
+            "Desde mi punto de vista...",
+            "Me parece que lo mejor seria...",
+            "Una buena idea podria ser...",
+            "Recuerda que...",
+            "Si fuera tu, yo...",
+            "Lo fundamental es...",
+          ],
+        },
+        {
+          question: "¿Cómo financiamos estas propuestas sin subir impuestos?",
+          help: "Propón soluciones. Usa: Podríamos financiarlo mediante... / Sería viable...",
+          usefulPhrases: [
+            "Basandome en mi experiencia...",
+            "Lo que a mi me funciona es...",
+            "Prueba a...",
+            "No te olvides de...",
+            "Un tip muy util es...",
+            "El secreto esta en...",
+          ],
+        },
+        {
+          question: "¿Qué compromiso adquirimos con los ciudadanos para garantizar la transparencia?",
+          help: "Propón medidas. Usa: Nos comprometemos a... / Los ciudadanos podrán...",
+          usefulPhrases: [
+            "A mi modo de ver...",
+            "Considero que deberias...",
+            "Podrias intentar...",
+            "Es importante recordar...",
+            "Yo te aconsejaria que...",
+            "Lo esencial es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 3,
+    level: "B2",
+    theme: "La economía y el dinero",
+    icon: "Banknote",
+    vocabulary: [
+      {
+        word: "economía",
+        definition: "Sistema de producción, distribución y consumo de bienes",
+        chinese: "经济",
+        example: "La economía español está creciendo.",
+      },
+      {
+        word: "inflación",
+        definition: "Aumento generalizado de los precios",
+        chinese: "通货膨胀",
+        example: "La inflación ha subido un tres por ciento.",
+      },
+      {
+        word: "inversión",
+        definition: "Dinero destinado a obtener un beneficio futuro",
+        chinese: "投资",
+        example: "Hice una inversión en bolsa.",
+      },
+      {
+        word: "hipoteca",
+        definition: "Préstamo para comprar una vivienda",
+        chinese: "抵押贷款",
+        example: "La hipoteca subió por la subida de tipos.",
+      },
+      {
+        word: "ahorro",
+        definition: "Dinero que se guarda para el futuro",
+        chinese: "储蓄",
+        example: "Tengo un ahorro para emergencias.",
+      },
+      {
+        word: "deuda",
+        definition: "Cantidad de dinero que se debe",
+        chinese: "债务",
+        example: "Tiene una deuda con el banco.",
+      },
+      {
+        word: "mercado laboral",
+        definition: "Conjunto de oferta y demanda de empleo",
+        chinese: "劳动力市场",
+        example: "El mercado laboral está complicado.",
+      },
+      {
+        word: "pensiones",
+        definition: "Renta periódica que reciben los jubilados",
+        chinese: "养老金",
+        example: "El sistema de pensiones necesita reformas.",
+      },
+      {
+        word: "crisis económica",
+        definition: "Período de grave recesión económica",
+        chinese: "经济危机",
+        example: "La crisis económica dejó muchos parados.",
+      },
+      {
+        word: "startup",
+        definition: "Empresa emergente con alto potencial de crecimiento",
+        chinese: "初创公司",
+        example: "Montó una startup tecnológica.",
+      },
+      {
+        word: "criptomonedas",
+        definition: "Monedas digitales descentralizadas",
+        chinese: "加密货币",
+        example: "Las criptomonedas son muy volátiles.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "La generación milennial: entre la precariedad y el emprendimiento",
+      text: `Un informe reciente del Banco Mundial dibuja un panorama desigual para los milennials españoles. Nacidos entre mil novecientos ochenta y dos y mil novecientos noventa y nueve, esta generación ha convivido con dos crisis económicas antes de cumplir los cuarenta años.
+
+El estudio revela que el treinta y dos por ciento de los milennials tiene un empleo temporal, frente al quince por ciento de la generación X. Además, el acceso a la vivienda se ha convertido en un obstáculo casi insalvable: el precio medio de la vivienda ha subido un ciento cincuenta por ciento en la última década, mientras que los salarios solo han aumentado un doce por ciento.
+
+Sin embargo, el informe también destaca una faceta positiva: el emprendimiento. Los milennials lideran la creación de nuevas empresas en España. El cuarenta por ciento de las startups españolas fueron fundadas por personas de esta generación. Sectores como la tecnología, la sostenibilidad y los servicios digitales concentran la mayor parte de estos emprendedores.
+
+Ana Beltrán, de treinta y cuatro años, fundó hace tres años una plataforma de comercio sostenible. "Después de cinco años trabajando en contratos precarios, decidí crear mi propio proyecto. No tenía nada que perder", cuenta. Su empresa ya factura dos millones de euros anuales.
+
+Los expertos señalan que la combinación de crisis, formación superior y dominio tecnológico ha forjado a una generación resiliente y adaptable. No obstante, advierten de que el sistema económico debe evolucionar para ofrecer mayor estabilidad a los trabajadores del siglo veintiuno.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuántas crisis han vivido los milennials antes de los 40?",
+          options: ["a] Una", "b] Dos", "c] Tres", "d] Cuatro"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "ha convivido con dos crisis económicas antes de cumplir los cuarenta años".',
+        },
+        {
+          id: 2,
+          question: "¿Qué porcentaje tiene empleo temporal?",
+          options: ["a] El 15%", "b] El 22%", "c] El 32%", "d] El 42%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "el treinta y dos por ciento de los milennials tiene un empleo temporal".',
+        },
+        {
+          id: 3,
+          question: "¿Cuánto ha subido el precio de la vivienda en la última década?",
+          options: ["a] El 50%", "b] El 100%", "c] El 150%", "d] El 200%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "ha subido un ciento cincuenta por ciento".',
+        },
+        {
+          id: 4,
+          question: "¿Cuánto han aumentado los salarios?",
+          options: ["a] El 5%", "b] El 12%", "c] El 20%", "d] El 30%"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "los salarios solo han aumentado un doce por ciento".',
+        },
+        {
+          id: 5,
+          question: "¿Qué porcentaje de startups fundan milennials?",
+          options: ["a] El 20%", "b] El 30%", "c] El 40%", "d] El 50%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "El cuarenta por ciento de las startups españolas fueron fundadas por personas de esta generación".',
+        },
+        {
+          id: 6,
+          question: "¿En qué sectores emprenden más?",
+          options: [
+            "a] Construcción y agricultura",
+            "b] Tecnología, sostenibilidad y servicios digitales",
+            "c] Turismo y hostelería",
+            "d] Textil y moda",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres sectores.",
+        },
+        {
+          id: 7,
+          question: "¿Qué edad tiene Ana Beltrán?",
+          options: ["a] Treinta y dos", "b] Treinta y cuatro", "c] Treinta y seis", "d] Cuarenta"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Ana Beltrán, de treinta y cuatro años".',
+        },
+        {
+          id: 8,
+          question: "¿Cuánto factura su empresa?",
+          options: ["a] Un millón", "b] Dos millones", "c] Tres millones", "d] Cinco millones"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "ya factura dos millones de euros anuales".',
+        },
+        {
+          id: 9,
+          question: "¿Qué tres factores han forjado a esta generación?",
+          options: [
+            "a] Dinero, poder y tiempo",
+            "b] Crisis, formación superior y dominio tecnológico",
+            "c] Educación, familia y amigos",
+            "d] Viajes, idiomas y cultura",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "la combinación de crisis, formación superior y dominio tecnológico".',
+        },
+        {
+          id: 10,
+          question: "¿Qué advierten los expertos?",
+          options: [
+            "a] Que el sistema debe evolucionar",
+            "b] Que todo está bien",
+            "c] Que no hay problemas",
+            "d] Que no necesitan cambios",
+          ],
+          correctAnswer: 0,
+          explanation:
+            'El texto dice: "el sistema económico debe evolucionar para ofrecer mayor estabilidad".',
+        },
+      ],
+    },
+    listening: {
+      title: "Educación financiera para jóvenes",
+      transcription: `Bienvenidos a "Economía en tu bolsillo". Hoy hablamos de educación financiera con el economista José Ruiz.
+
+José, ¿por qué es importante la educación financiera?
+
+José: Porque tomamos decisiones financieras todos los días sin darnos cuenta. Elegir una tarjeta de crédito, contratar una hipoteca, ahorrar para el futuro... Sin conocimientos básicos, cometemos errores caros.
+
+¿Qué errores son los más comunes entre jóvenes?
+
+José: El principal es vivir por encima de sus posibilidades. Con las tarjetas de crédito y los pagos aplazados, es fácil gastar más de lo que se ingresa. Otro error grave es no ahorrar. Muchos jóvenes piensan que ahorrar es para ricos, pero no. Ahorrar es un hábito.
+
+¿Cuánto debería ahorrar una persona joven?
+
+José: Se recomienda ahorrar al menos un veinte por ciento de los ingresos netos. Parece mucho, pero si se empieza con un cinco por ciento y se aumenta gradualmente, se logra. Lo importante es la constancia.
+
+¿Qué opinas de las criptomonedas?
+
+José: Son activos de alto riesgo. No son una inversión, son una especulación. Si alguien quiere invertir en ellas, que solo use dinero que pueda permitirse perder. Nunca endeudarse para comprar criptomonedas.
+
+¿Algún consejo final?
+
+José: Sí. Tres pilares: gastar menos de lo que ganas, ahorrar regularmente e invertir con cabeza. La educación financiera no es aburrida, es libertad.
+
+Muchas gracias, José.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cómo se llama el programa?",
+          options: ["a] Dinero y más", "b] Economía en tu bolsillo", "c] Finanzas Hoy", "d] El economista"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Quién es José Ruiz?",
+          options: ["a] Profesor", "b] Economista", "c] Banquero", "d] Periodista"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Cuál es el principal error de los jóvenes?",
+          options: [
+            "a] Ahorrar demasiado",
+            "b] Vivir por encima de sus posibilidades",
+            "c] No gastar",
+            "d] Trabajar poco",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué porcentaje se recomienda ahorrar?",
+          options: ["a] El 10%", "b] El 20%", "c] El 30%", "d] El 50%"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Con qué porcentaje recomienda empezar?",
+          options: ["a] El 1%", "b] El 5%", "c] El 10%", "d] El 20%"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué opina José de las criptomonedas?",
+          options: ["a] Son seguras", "b] Son de alto riesgo", "c] Son lo mejor", "d] No sabe nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué no hay que hacer con criptomonedas?",
+          options: ["a] Investigar", "b] Endeudarse para comprar", "c] Usar dinero propio", "d] Aprender"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Cuántos pilares menciona al final?",
+          options: ["a] Dos", "b] Tres", "c] Cuatro", "d] Cinco"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Cuál no es un pilar?",
+          options: [
+            "a] Gastar menos",
+            "b] Ahorrar regularmente",
+            "c] Invertir con cabeza",
+            "d] Pedir préstamos",
+          ],
+          correctAnswer: 3,
+        },
+        {
+          id: 10,
+          question: "¿Cómo define la educación financiera?",
+          options: ["a] Aburrida", "b] Libertad", "c] Difícil", "d] Solo para ricos"],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "La importancia de la educación financiera",
+        description:
+          "Analiza por qué es necesaria la educación financiera en las escuelas y universidades. ¿Qué conceptos deberían enseñarse?",
+        structure: {
+          intro: "Presenta la importancia de la educación financiera.",
+          body: "Analiza qué se debería enseñar y por qué.",
+          conclusion: "Concluye con propuestas concretas.",
+        },
+        connectors: ["En primer lugar", "Además", "Por ejemplo", "Sin embargo", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "¿El ahorro está en crisis entre los jóvenes?",
+        description:
+          "Reflexiona sobre si los jóvenes de hoy ahorran menos que generaciones anteriores. Analiza las causas y propone soluciones.",
+        structure: {
+          intro: "Presenta la situación del ahorro juvenil.",
+          body: "Analiza causas económicas y sociales.",
+          conclusion: "Propone soluciones y concluye.",
+        },
+        connectors: [
+          "En la actualidad",
+          "Por una parte",
+          "Por otra parte",
+          "En consecuencia",
+          "En definitiva",
+        ],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi relación con el dinero",
+        description:
+          "Habla sobre cómo gestionas tu dinero durante 1-2 minutos. Di si ahorras, en qué gastas, si tienes deudas y qué opinas del consumismo.",
+        connectors: [
+          "Yo gestiono mi dinero",
+          "Gasto en",
+          "Ahorro",
+          "Creo que el consumismo",
+          "Mi consejo es",
+        ],
+        guideQuestions: [
+          "¿Como te enteraste de este tema por primera vez?",
+          "¿Que es lo que mas te llama la atencion?",
+          "¿Has vivido alguna situacion parecida?",
+          "¿Que soluciones propondrias?",
+        ],
+      },
+      topic2: {
+        title: "El futuro de la economía",
+        description:
+          "Habla sobre cómo crees que será la economía en el futuro. Di qué sectores crecerán, qué desaparecerá y cómo afectará a los trabajadores.",
+        connectors: [
+          "Creo que la economía del futuro",
+          "Los sectores que crecerán son",
+          "En cambio",
+          "Para los trabajadores",
+          "Mi predicción es",
+        ],
+        guideQuestions: [
+          "¿Que papel juega esto en tu vida cotidiana?",
+          "¿Crees que todo el mundo piensa igual?",
+          "¿Que recuerdos tienes relacionados?",
+          "¿Como te gustaria que fuera?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero estáis considerando invertir en un proyecto conjunto. Debéis evaluar riesgos, beneficios y reparto de responsabilidades.",
+      questions: [
+        {
+          question: "¿En qué tipo de proyecto invertimos? ¿Tecnología, hostelería o servicios?",
+          help: "Propón y argumenta. Usa: Creo que deberíamos invertir en... porque...",
+          usefulPhrases: [
+            "En mi caso particular...",
+            "Lo que mejor resultado me ha dado es...",
+            "Intenta...",
+            "Ten presente que...",
+            "Un consejo que doy siempre es...",
+            "El truco consiste en...",
+          ],
+        },
+        {
+          question: "¿Cómo repartimos la inversión y los beneficios?",
+          help: "Negocia términos. Usa: Propongo que cada uno ponga... / Los beneficios se repartirían...",
+          usefulPhrases: [
+            "Pienso que lo mas acertado es...",
+            "Te animo a que pruebes...",
+            "Otra opcion interesante es...",
+            "No subestimes...",
+            "Mi recomendacion seria...",
+            "Lo crucial es...",
+          ],
+        },
+        {
+          question: "¿Qué hacemos si el proyecto no funciona? ¿Tenemos plan B?",
+          help: "Evalúa riesgos. Usa: Si falla... / Como plan B podríamos...",
+          usefulPhrases: [
+            "Por mi experiencia...",
+            "Algo que nunca falla es...",
+            "Quizas deberias...",
+            "Es fundamental que...",
+            "Una estrategia efectiva es...",
+            "La cuestion es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 4,
+    level: "B2",
+    theme: "La psicología y personalidad",
+    icon: "Brain",
+    vocabulary: [
+      {
+        word: "personalidad",
+        definition: "Conjunto de rasgos psicológicos que definen a una persona",
+        chinese: "个性",
+        example: "Tiene una personalidad extrovertida.",
+      },
+      {
+        word: "introvertido/a",
+        definition: "Persona reservada que prefiere la soledad",
+        chinese: "内向的",
+        example: "Soy introvertido y me cuesta socializar.",
+      },
+      {
+        word: "extrovertido/a",
+        definition: "Persona sociable y abierta",
+        chinese: "外向的",
+        example: "Mi hermana es muy extrovertida.",
+      },
+      {
+        word: "inteligencia emocional",
+        definition: "Capacidad de reconocer y gestionar las emociones",
+        chinese: "情商",
+        example: "La inteligencia emocional es clave en el trabajo.",
+      },
+      {
+        word: "resiliencia",
+        definition: "Capacidad de superar adversidades",
+        chinese: "韧性/复原力",
+        example: "Su resiliencia le ayudó a superar la crisis.",
+      },
+      {
+        word: "empatía",
+        definition: "Capacidad de ponerse en el lugar de otro",
+        chinese: "同理心",
+        example: "La empatía es fundamental en las relaciones.",
+      },
+      {
+        word: "autoconocimiento",
+        definition: "Conocimiento de uno mismo",
+        chinese: "自我认知",
+        example: "El autoconocimiento es el primer paso para cambiar.",
+      },
+      {
+        word: "autoestima",
+        definition: "Valoración que hace una persona de sí misma",
+        chinese: "自尊",
+        example: "Tiene una autoestima muy alta.",
+      },
+      {
+        word: "motivación",
+        definition: "Impulso que lleva a actuar",
+        chinese: "动力",
+        example: "La motivación es esencial para el éxito.",
+      },
+      {
+        word: "estrés",
+        definition: "Tensión física o mental por situaciones difíciles",
+        chinese: "压力",
+        example: "El estrés laboral afecta a muchos trabajadores.",
+      },
+      {
+        word: "bienestar",
+        definition: "Estado de satisfacción y equilibrio",
+        chinese: "幸福感",
+        example: "El bienestar mental es tan importante como el físico.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "Las empresas españolas apuestan por la inteligencia emocional",
+      text: `Una encuesta realizada por el Instituto Español de Psicología revela que el ochenta y cinco por ciento de las empresas del IBEX treinta y cinco consideran la inteligencia emocional una competencia esencial para sus empleados.
+
+El estudio, que analiza las políticas de recursos humanos de las mayores empresas españolas, destaca que la capacidad de gestionar emociones propias y ajenas se valora incluso por encima de las habilidades técnicas en puestos de dirección.
+
+"Un directivo puede ser brillante técnicamente, pero si no sabe comunicarse, gestionar conflictos o motivar a su equipo, su efectividad se reduce drásticamente", afirma la directora del estudio, Clara Medina.
+
+Las empresas han empezado a incorporar evaluaciones de inteligencia emocional en sus procesos de selección. Tests específicos miden capacidades como la autoconciencia, la autorregulación, la motivación, la empatía y las habilidades sociales.
+
+Además, el setenta por ciento de las compañías encuestadas ofrecen programas de desarrollo emocional a sus empleados. Talleres de gestión del estrés, mindfulness en el trabajo y formación en comunicación asertiva son algunas de las iniciativas más comunes.
+
+El impacto es medible. Las empresas que han invertido en estos programas reportan una reducción del treinta por ciento en absentismo laboral y un aumento del veinticinco por ciento en la satisfacción de los equipos.
+
+Sin embargo, algunos críticos advierten de los peligros de instrumentalizar las emociones. "No se trata de usar la inteligencia emocional para manipular a los empleados, sino de crear entornos más sanos", advierte el psicólogo Raúl Vázquez.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué porcentaje de empresas valora la inteligencia emocional?",
+          options: ["a] El 70%", "b] El 75%", "c] El 85%", "d] El 95%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "el ochenta y cinco por ciento... consideran la inteligencia emocional una competencia esencial".',
+        },
+        {
+          id: 2,
+          question: "¿Qué se valora más que las habilidades técnicas?",
+          options: [
+            "a] La experiencia",
+            "b] La inteligencia emocional",
+            "c] Los idiomas",
+            "d] Los títulos universitarios",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "la capacidad de gestionar emociones... se valora incluso por encima de las habilidades técnicas".',
+        },
+        {
+          id: 3,
+          question: "¿Quién es Clara Medina?",
+          options: [
+            "a] Una psicóloga",
+            "b] La directora del estudio",
+            "c] Una empresaria",
+            "d] Una profesora",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "la directora del estudio, Clara Medina".',
+        },
+        {
+          id: 4,
+          question: "¿Qué porcentaje ofrece programas de desarrollo emocional?",
+          options: ["a] El 50%", "b] El 60%", "c] El 70%", "d] El 80%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "el setenta por ciento de las compañías... ofrecen programas de desarrollo emocional".',
+        },
+        {
+          id: 5,
+          question: "¿Cuánto se reduce el absentismo?",
+          options: ["a] El 10%", "b] El 20%", "c] El 30%", "d] El 40%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "una reducción del treinta por ciento en absentismo laboral".',
+        },
+        {
+          id: 6,
+          question: "¿Cuánto aumenta la satisfacción de los equipos?",
+          options: ["a] El 15%", "b] El 20%", "c] El 25%", "d] El 30%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "un aumento del veinticinco por ciento en la satisfacción de los equipos".',
+        },
+        {
+          id: 7,
+          question: "¿Qué iniciativa NO se menciona?",
+          options: [
+            "a] Mindfulness",
+            "b] Gestión del estrés",
+            "c] Comunicación asertiva",
+            "d] Terapia individual",
+          ],
+          correctAnswer: 3,
+          explanation:
+            "El texto menciona mindfulness, gestión del estrés y comunicación asertiva, pero no terapia individual.",
+        },
+        {
+          id: 8,
+          question: "¿Qué advierten los críticos?",
+          options: [
+            "a] Que no funciona",
+            "b] Que se puede usar para manipular",
+            "c] Que es caro",
+            "d] Que no es necesario",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "advierten de los peligros de instrumentalizar las emociones".',
+        },
+        {
+          id: 9,
+          question: "¿Cuántas capacidades miden los tests?",
+          options: ["a] Tres", "b] Cuatro", "c] Cinco", "d] Seis"],
+          correctAnswer: 2,
+          explanation:
+            "El texto menciona: autoconciencia, autorregulación, motivación, empatía y habilidades sociales = cinco.",
+        },
+        {
+          id: 10,
+          question: "¿Qué es el IBEX 35?",
+          options: [
+            "a] Un banco",
+            "b] Las mayores empresas españolas",
+            "c] Una universidad",
+            "d] Un sindicato",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "las mayores empresas españolas" refiriéndose al IBEX 35.',
+        },
+      ],
+    },
+    listening: {
+      title: "Personalidad y entorno laboral",
+      transcription: `Bienvenidos al podcast "Mente Sana". Hoy hablamos con la psicóloga industrial Elena Soto sobre la relación entre personalidad y entorno laboral.
+
+Elena, ¿cómo afecta la personalidad al rendimiento laboral?
+
+Elena: La personalidad no determina el rendimiento, pero sí influye en cómo nos adaptamos a ciertos entornos. Un introvertido puede ser un excelente programador porque tolera bien el trabajo solitario. Un extrovertido puede brillar en ventas porque la interacción le energiza. El problema surge cuando la persona está en un entorno que no se alinea con sus rasgos.
+
+¿Qué entornos son difíciles para los introvertidos?
+
+Elena: Los espacios abiertos con mucho ruido, las reuniones constantes y los trabajos que exigen networking continuo. No es que no puedan hacerlo, pero les cuesta más energía. Necesitan espacios de recuperación.
+
+¿Y para los extrovertidos?
+
+Elena: El teletrabajo prolongado y el trabajo completamente solitario. Los extrovertidos necesitan estímulo social. Sin él, pueden sentirse desmotivados.
+
+¿Cómo pueden las empresas adaptarse?
+
+Elena: Ofreciendo flexibilidad. Espacios híbridos donde haya zonas de trabajo colaborativo y zonas silenciosas. Fomentando que cada uno encuentre su ritmo.
+
+¿Qué papel juega la inteligencia emocional?
+
+Elena: Fundamental. Nos ayuda a entender qué necesitamos y a comunicarlo. Un introvertido con alta inteligencia emocional puede explicar a su jefe por qué necesita concentración sin sentirse culpable.
+
+Muchas gracias, Elena.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cómo se llama el podcast?",
+          options: ["a] Mente Abierta", "b] Mente Sana", "c] Psicología Hoy", "d] El Psicólogo"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué tipo de psicóloga es Elena?",
+          options: ["a] Clínica", "b] Industrial", "c] Educativa", "d] Forense"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué trabajo menciona para introvertidos?",
+          options: ["a] Ventas", "b] Programador", "c] Profesor", "d] Actor"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué energiza a los extrovertidos?",
+          options: ["a] La soledad", "b] La interacción social", "c] El silencio", "d] La lectura"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué es difícil para los extrovertidos?",
+          options: [
+            "a] Las reuniones",
+            "b] El teletrabajo prolongado",
+            "c] Trabajar en equipo",
+            "d] Hablar por teléfono",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué recomienda Elena para las empresas?",
+          options: [
+            "a] Solo espacios abiertos",
+            "b] Flexibilidad y espacios híbridos",
+            "c] Solo trabajo remoto",
+            "d] Horarios fijos",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué necesitan los introvertidos?",
+          options: [
+            "a] Más reuniones",
+            "b] Espacios de recuperación",
+            "c] Más trabajo social",
+            "d] Menos vacaciones",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué ayuda a comunicar necesidades?",
+          options: ["a] La inteligencia emocional", "b] La fuerza", "c] El dinero", "d] La fama"],
+          correctAnswer: 0,
+        },
+        {
+          id: 9,
+          question: "¿Qué puede hacer un introvertido con alta IE?",
+          options: [
+            "a] Explicar sus necesidades sin culpa",
+            "b] Trabajar menos",
+            "c] Ganar más dinero",
+            "d] Ser extrovertido",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          id: 10,
+          question: "¿Qué tipo de espacios necesitan las empresas según Elena?",
+          options: ["a] Solo colaborativos", "b] Solo silenciosos", "c] Híbridos", "d] Exteriores"],
+          correctAnswer: 2,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "Introversión vs. extroversión en el mundo laboral",
+        description:
+          "Analiza cómo las empresas pueden mejorar la integración de diferentes tipos de personalidad. ¿Se favorece a un tipo sobre otro?",
+        structure: {
+          intro: "Presenta el debate sobre personalidad en el trabajo.",
+          body: "Analiza las ventajas de cada tipo y los sesgos.",
+          conclusion: "Propone un modelo inclusivo.",
+        },
+        connectors: ["Actualmente", "Por un lado", "Por otro lado", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "La importancia del autoconocimiento",
+        description:
+          "Reflexiona sobre por qué es importante conocerse a uno mismo. ¿Cómo afecta el autoconocimiento a las relaciones personales y profesionales?",
+        structure: {
+          intro: "Define el autoconocimiento y su importancia.",
+          body: "Analiza su impacto en distintos ámbitos.",
+          conclusion: "Concluye con propuestas para mejorarlo.",
+        },
+        connectors: ["En primer lugar", "Asimismo", "Además", "Por tanto", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi personalidad y cómo ha cambiado",
+        description:
+          "Habla sobre tu personalidad y cómo ha evolucionado durante 1-2 minutos. Di si eras diferente antes, qué experiencias te cambiaron y cómo te ves ahora.",
+        connectors: [
+          "Mi personalidad es",
+          "Antes era",
+          "Pero después de",
+          "Ahora me considero",
+          "Creo que he cambiado",
+        ],
+        guideQuestions: [
+          "¿Desde cuando conoces este tema?",
+          "¿Que aspectos positivos y negativos tiene?",
+          "¿Como afecta a las nuevas generaciones?",
+          "¿Que importancia le das?",
+        ],
+      },
+      topic2: {
+        title: "La salud mental en la sociedad actual",
+        description:
+          "Habla sobre la importancia de la salud mental hoy. Di qué factores la afectan, qué se está haciendo y qué más debería hacerse.",
+        connectors: [
+          "La salud mental es",
+          "Hoy en día",
+          "Los factores que la afectan son",
+          "Se está haciendo",
+          "Pero debería",
+        ],
+        guideQuestions: [
+          "¿Que significa esto para ti personalmente?",
+          "¿Has tenido que adaptarte por este motivo?",
+          "¿Que piensan tus amigos al respecto?",
+          "¿Crees que la situacion mejorara?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero tenéis personalidades muy diferentes y debéis trabajar juntos en un proyecto. Tenéis que encontrar la manera de colaborar eficazmente.",
+      questions: [
+        {
+          question: "¿Qué tipo de personalidad tienes? ¿Cómo prefieres trabajar?",
+          help: "Descríbete. Usa: Yo soy... / Prefiero trabajar...",
+          usefulPhrases: [
+            "Sinceramente, yo creo que...",
+            "Te propongo que...",
+            "Valora la posibilidad de...",
+            "No ignores que...",
+            "Lo que funciona de verdad es...",
+            "El objetivo principal es...",
+          ],
+        },
+        {
+          question: "¿Cómo organizamos el trabajo para que ambos nos sintamos cómodos?",
+          help: "Propón un sistema. Usa: Podríamos... / Tú podrías encargarte de...",
+          usefulPhrases: [
+            "Si me preguntas a mi...",
+            "Una solucion practica es...",
+            "Piensa en la opcion de...",
+            "Recuerda siempre que...",
+            "El mejor consejo que puedo darte es...",
+            "El punto clave es...",
+          ],
+        },
+        {
+          question: "¿Qué hacemos si tenemos conflictos por nuestras diferencias?",
+          help: "Planifica la resolución. Usa: Si hay conflictos... / Lo mejor sería...",
+          usefulPhrases: [
+            "A mi entender...",
+            "Lo mas sensato seria...",
+            "No descartes la idea de...",
+            "Hay que tener en cuenta que...",
+            "Mi sugerencia es...",
+            "Lo prioritario es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 5,
+    level: "B2",
+    theme: "La educación universitaria",
+    icon: "GraduationCap",
+    vocabulary: [
+      {
+        word: "universidad",
+        definition: "Institución de educación superior",
+        chinese: "大学",
+        example: "Estudio en la Universidad de Barcelona.",
+      },
+      {
+        word: "grado",
+        definition: "Titulación universitaria de cuatro años",
+        chinese: "本科",
+        example: "Estoy cursando el grado de Derecho.",
+      },
+      {
+        word: "máster",
+        definition: "Estudios de postgrado especializados",
+        chinese: "硕士",
+        example: "Después del grado haré un máster.",
+      },
+      {
+        word: "doctorado",
+        definition: "Estudios de investigación de más alto nivel",
+        chinese: "博士",
+        example: "Está haciendo el doctorado en Física.",
+      },
+      {
+        word: "asignatura",
+        definition: "Materia que se estudia en un curso",
+        chinese: "科目",
+        example: "Tengo seis asignaturas este semestre.",
+      },
+      {
+        word: "matrícula",
+        definition: "Inscripción en un curso académico",
+        chinese: "注册/学费",
+        example: "La matrícula cuesta mil euros.",
+      },
+      {
+        word: "beca",
+        definition: "Ayuda económica para estudiantes",
+        chinese: "奖学金",
+        example: "Consiguió una beca para estudiar.",
+      },
+      {
+        word: " Erasmus",
+        definition: "Programa de intercambio europeo para estudiantes",
+        chinese: "伊拉斯谟",
+        example: "Hizo un Erasmus en Italia.",
+      },
+      {
+        word: "facultad",
+        definition: "Edificio o departamento universitario",
+        chinese: "学院",
+        example: "La facultad de Medicina es muy grande.",
+      },
+      {
+        word: "clase magistral",
+        definition: "Lección teórica impartida por un profesor",
+        chinese: "大课/讲座",
+        example: "La clase magistral tenía doscientos alumnos.",
+      },
+      {
+        word: "seminario",
+        definition: "Clase reducida para debate y análisis",
+        chinese: "研讨会",
+        example: "El seminario era muy participativo.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "¿Merece la pena ir a la universidad? El debate se recrudece",
+      text: `Un informe reciente de la Fundación BBVA ha reavivado el debate sobre el valor de la educación universitaria. Según el estudio, el treinta por ciento de los titulados universitarios en España trabaja en un puesto que no requiere titulación superior.
+
+La cifra ha provocado un intenso debate social. Por un lado, defensores del sistema universitario argumentan que la formación superior aporta competencias transversales —pensamiento crítico, capacidad de análisis, habilidades comunicativas— que, aunque no sean visibles en el primer empleo, marcan la diferencia a largo plazo en la trayectoria profesional.
+
+"Un licenciado no es solo alguien que sabe de una materia concreta. Es alguien que ha aprendido a aprender", defiende el rector de la Universidad Complutense.
+
+Por otro lado, críticos como el economista Carlos Mendieta señalan el desfase entre la oferta académica y la demanda laboral. "Estamos formando a demasiados periodistas y filósofos, y no suficientes programadores e ingenieros de datos", afirma.
+
+El informe también revela disparidades salariales. Los titulados STEM (Ciencia, Tecnología, Ingeniería y Matemáticas) tienen un salario inicial un treinta y cinco por ciento superior al de los titulados de Humanidades. No obstante, a los quince años de graduarse, la brecha se reduce al quince por ciento.
+
+La conclusión más sugerente del estudio es que el factor diferencial no es tanto la carrera elegida como la universidad en sí, sino el desarrollo de habilidades complementarias durante la carrera: idiomas, prácticas en empresas, experiencia internacional.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué porcentaje de titulados trabaja en puestos sin requerir titulación?",
+          options: ["a] El 20%", "b] El 25%", "c] El 30%", "d] El 40%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "el treinta por ciento de los titulados universitarios... trabaja en un puesto que no requiere titulación superior".',
+        },
+        {
+          id: 2,
+          question: "¿Qué competencias transversales menciona el texto?",
+          options: [
+            "a] Solo técnicas",
+            "b] Pensamiento crítico, análisis y comunicación",
+            "c] Solo idiomas",
+            "d] Solo matemáticas",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto menciona: "pensamiento crítico, capacidad de análisis, habilidades comunicativas".',
+        },
+        {
+          id: 3,
+          question: "¿Qué defiende el rector de la Complutense?",
+          options: [
+            "a] Que la universidad no sirve",
+            "b] Que un licenciado ha aprendido a aprender",
+            "c] Que solo importa el primer empleo",
+            "d] Que hay que eliminar carreras",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita: "Es alguien que ha aprendido a aprender".',
+        },
+        {
+          id: 4,
+          question: "¿Qué opina Carlos Mendieta?",
+          options: [
+            "a] Que la universidad es perfecta",
+            "b] Que hay desfase entre oferta académica y demanda laboral",
+            "c] Que hay que cerrar universidades",
+            "d] Que solo importa el dinero",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "señala el desfase entre la oferta académica y la demanda laboral".',
+        },
+        {
+          id: 5,
+          question: "¿Qué carreras menciona como excesivas?",
+          options: [
+            "a] Programadores e ingenieros",
+            "b] Periodistas y filósofos",
+            "c] Médicos y abogados",
+            "d] Ingenieros y arquitectos",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "demasiados periodistas y filósofos".',
+        },
+        {
+          id: 6,
+          question: "¿Qué carreras menciona como necesarias?",
+          options: [
+            "a] Periodistas y filósofos",
+            "b] Programadores e ingenieros de datos",
+            "c] Abogados y jueces",
+            "d] Profesores y médicos",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "no suficientes programadores e ingenieros de datos".',
+        },
+        {
+          id: 7,
+          question: "¿Cuánto más ganan los titulados STEM inicialmente?",
+          options: ["a] Un 15%", "b] Un 25%", "c] Un 35%", "d] Un 50%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "un treinta y cinco por ciento superior".',
+        },
+        {
+          id: 8,
+          question: "¿Cuál es la brecha salarial a los 15 años?",
+          options: ["a] El 5%", "b] El 10%", "c] El 15%", "d] El 20%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "la brecha se reduce al quince por ciento".',
+        },
+        {
+          id: 9,
+          question: "¿Qué factor es realmente diferencial según el estudio?",
+          options: [
+            "a] La carrera elegida",
+            "b] La universidad",
+            "c] Habilidades complementarias",
+            "d] La nota media",
+          ],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "el factor diferencial... es el desarrollo de habilidades complementarias".',
+        },
+        {
+          id: 10,
+          question: "¿Qué habilidades complementarias se mencionan?",
+          options: [
+            "a] Solo matemáticas",
+            "b] Idiomas, prácticas y experiencia internacional",
+            "c] Solo deporte",
+            "d] Solo tecnología",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto menciona: "idiomas, prácticas en empresas, experiencia internacional".',
+        },
+      ],
+    },
+    listening: {
+      title: "El sistema universitario español",
+      transcription: `Bienvenidos al programa "Campus". Hoy analizamos el sistema universitario español con la educadora Teresa León.
+
+Teresa, ¿cómo describirías el sistema universitario español actual?
+
+Teresa: Es un sistema de masas. Cuarenta y siete por ciento de los jóvenes acceden a la universidad. Esto ha diluido la selectividad de antaño. Antes, el diez por ciento iba a la universidad y era una élite formada. Ahora es casi una extensión obligada de la educación secundaria.
+
+¿Eso es positivo o negativo?
+
+Teresa: Ambas cosas. Positivo porque democratiza el acceso al conocimiento. Negativo porque muchos estudiantes llegan sin vocación clara, presionados por la expectativa social de "tener que ir a la universidad".
+
+¿Y la financiación?
+
+Teresa: Es un problema grave. España invierte menos de la media europea en educación superior. Las universidades públicas están infrafinanciadas. Los profesores tienen sobrecarga docente y poco tiempo para investigar.
+
+¿Qué soluciones propones?
+
+Teresa: Primero, diversificar las vías formativas. No todo el mundo tiene que ir a la universidad. La formación profesional de grado superior ofrece excelentes salidas laborales. Segundo, aumentar la inversión. Tercero, vincular más la universidad con el tejido empresarial.
+
+¿Y el modelo anglosajón de matrículas altas?
+
+Teresa: No, gracias. No creo que endeudar a los jóvenes sea la solución. Prefiero un modelo mixto con más financiación pública y becas meritocráticas.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cómo se llama el programa?",
+          options: ["a] Universidad", "b] Campus", "c] Educación", "d] Campus Hoy"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué porcentaje de jóvenes accede a la universidad?",
+          options: ["a] El 37%", "b] El 47%", "c] El 57%", "d] El 67%"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué porcentaje iba antes?",
+          options: ["a] El 5%", "b] El 10%", "c] El 20%", "d] El 30%"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Por qué van muchos sin vocación?",
+          options: [
+            "a] Porque les obligan",
+            "b] Por presión social",
+            "c] Porque es gratis",
+            "d] Porque no hay otra opción",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Cuánto invierte España en educación superior?",
+          options: [
+            "a] Más que la media europea",
+            "b] Menos que la media europea",
+            "c] Igual que la media",
+            "d] No lo sabe",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué propone como primera solución?",
+          options: [
+            "a] Cerrar universidades",
+            "b] Diversificar vías formativas",
+            "c] Subir las matrículas",
+            "d] Eliminar FP",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué opina del modelo anglosajón?",
+          options: ["a] Le parece ideal", "b] No le gusta", "c] Quiere implementarlo", "d] No sabe nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué tipo de becas prefiere?",
+          options: ["a] Solo para pobres", "b] Meritocráticas", "c] Para todos", "d] Ninguna"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Cuál es el problema de los profesores?",
+          options: [
+            "a] Cobran mucho",
+            "b] Sobrecarga docente",
+            "c] No tienen estudiantes",
+            "d] Trabajan poco",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué vinculación propone?",
+          options: [
+            "a] Con el extranjero",
+            "b] Con el tejido empresarial",
+            "c] Con el gobierno",
+            "d] Con las escuelas",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿La universidad sigue siendo útil?",
+        description:
+          "Analiza si la educación universitaria sigue siendo relevante en la era digital. Argumenta tu posición.",
+        structure: {
+          intro: "Presenta el debate sobre la utilidad de la universidad.",
+          body: "Analiza ventajas y desventajas en la era digital.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "En consecuencia", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "Formación profesional vs. universidad",
+        description:
+          "Compara la formación profesional con la universidad. ¿Cuál ofrece mejores perspectivas laborales? ¿Deberían valorarse por igual?",
+        structure: {
+          intro: "Presenta las dos vías formativas.",
+          body: "Compara ventajas y desventajas.",
+          conclusion: "Da tu opinión sobre la valoración social.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Sin embargo", "En cuanto a", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi experiencia universitaria",
+        description:
+          "Habla sobre tu experiencia en la universidad o la formación superior durante 1-2 minutos. Di qué estudiaste, qué te gustó, qué cambiarías y si te fue útil.",
+        connectors: [
+          "Yo estudié",
+          "Lo que más me gustó fue",
+          "Si pudiera cambiar",
+          "Me ha sido útil porque",
+          "Creo que la universidad",
+        ],
+        guideQuestions: [
+          "¿Cual fue tu primera experiencia con esto?",
+          "¿Como ha cambiado tu perspectiva?",
+          "¿Que habilidades has desarrollado gracias a ello?",
+          "¿Que le recomendarias a alguien que empieza?",
+        ],
+      },
+      topic2: {
+        title: "El futuro de la educación",
+        description:
+          "Habla sobre cómo crees que será la educación en el futuro. Di qué cambios habrá, qué tecnologías se usarán y si las universidades seguirán existiendo.",
+        connectors: [
+          "Creo que la educación del futuro",
+          "Las tecnologías como",
+          "Las universidades",
+          "El aprendizaje será",
+          "Mi predicción es",
+        ],
+        guideQuestions: [
+          "¿Por que te parece interesante este tema?",
+          "¿Que habilidades se necesitan?",
+          "¿Como influye en otras areas de tu vida?",
+          "¿Cual ha sido tu mayor aprendizaje?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero debéis decidir si hacer un máster o entrar directamente al mercado laboral tras terminar el grado.",
+      questions: [
+        {
+          question: "¿Prefieres seguir estudiando o empezar a trabajar? ¿Por qué?",
+          help: "Argumenta. Usa: Prefiero... porque... / Creo que es mejor...",
+          usefulPhrases: [
+            "Yo diria que...",
+            "Prueba esta opcion...",
+            "Tal vez te interese...",
+            "Es relevante saber que...",
+            "Algo que debes probar es...",
+            "El factor mas importante es...",
+          ],
+        },
+        {
+          question: "¿Qué ventajas tiene tu opción a corto y largo plazo?",
+          help: "Analiza pros. Usa: A corto plazo... / A largo plazo...",
+          usefulPhrases: [
+            "Mi impresion es que...",
+            "Te convendria...",
+            "Otra posibilidad es...",
+            "No te pierdas el detalle de...",
+            "Una buena tactica es...",
+            "El aspecto decisivo es...",
+          ],
+        },
+        {
+          question: "¿Y si hacemos un compromiso: trabajar un año y luego decidir?",
+          help: "Negocia. Usa: Podríamos comprometernos a... / Me parece razonable...",
+          usefulPhrases: [
+            "Considerando la situacion...",
+            "El enfoque mas adecuado es...",
+            "Explora la opcion de...",
+            "Destaca especialmente...",
+            "Un metodo infalible es...",
+            "El elemento central es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 6,
+    level: "B2",
+    theme: "El mercado laboral",
+    icon: "Briefcase",
+    vocabulary: [
+      {
+        word: "empleo",
+        definition: "Actividad remunerada que realiza una persona",
+        chinese: "就业",
+        example: "El empleo juvenil es un problema grave.",
+      },
+      {
+        word: "paro",
+        definition: "Situación de no tener trabajo",
+        chinese: "失业",
+        example: "La tasa de paro ha bajado este año.",
+      },
+      {
+        word: "currículum",
+        definition: "Documento con la formación y experiencia profesional",
+        chinese: "简历",
+        example: "Envié mi currículum a varias empresas.",
+      },
+      {
+        word: "entrevista de trabajo",
+        definition: "Conversación para evaluar a un candidato",
+        chinese: "工作面试",
+        example: "Tengo una entrevista de trabajo mañana.",
+      },
+      {
+        word: "salario",
+        definition: "Dinero que se recibe por el trabajo",
+        chinese: "工资",
+        example: "Mi salario mensual es de dos mil euros.",
+      },
+      {
+        word: "contrato indefinido",
+        definition: "Contrato sin fecha de finalización",
+        chinese: "无固定期限合同",
+        example: "Firmé un contrato indefinido.",
+      },
+      {
+        word: "temporalidad",
+        definition: "Uso excesivo de contratos temporales",
+        chinese: "临时性",
+        example: "La temporalidad es un problema en España.",
+      },
+      {
+        word: "teletrabajo",
+        definition: "Trabajo realizado desde casa mediante tecnología",
+        chinese: "远程办公",
+        example: "El teletrabajo se ha extendido mucho.",
+      },
+      {
+        word: "jornada laboral",
+        definition: "Horario de trabajo diario o semanal",
+        chinese: "工作日",
+        example: "Mi jornada laboral es de ocho horas.",
+      },
+      {
+        word: "despido",
+        definition: "Terminación de la relación laboral por parte del empleador",
+        chinese: "解雇",
+        example: "El despido fue improcedente.",
+      },
+      {
+        word: "habilidades blandas",
+        definition: "Competencias interpersonales como comunicación y empatía",
+        chinese: "软技能",
+        example: "Las habilidades blandas son muy valoradas.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title:
+        "El teletrabajo llegó para quedarse: el cuarenta por ciento de las empresas mantiene el modelo híbrido",
+      text: `Un estudio de la consultora Mercer revela que el cuarenta por ciento de las grandes empresas españolas ha adoptado modelos de trabajo híbrido de forma permanente, combinando días de teletrabajo con presencialidad en la oficina.
+
+La pandemia obligó a millones de trabajadores a experimentar el trabajo desde casa. Lo que comenzó como una medida sanitaria se ha convertido en una transformación estructural del mercado laboral. Según el informe, el treinta y cinco por ciento de los empleados valoraría cambiar de empresa si se les obligara a volver a la oficina cinco días por semana.
+
+"El teletrabajo no es una moda pasajera. Ha demostrado ser viable y beneficioso para muchos sectores", señala la directora del estudio, Marta Gil. "Las empresas que ignoren esta tendencia perderán talento."
+
+No obstante, el modelo presenta desafíos. El estudio detecta que el treinta por ciento de los trabajadores híbridos sufre de "fatiga por videollamadas" y que el veinticinco por ciento echa de menos la interacción social con sus compañeros.
+
+Además, surge el debate sobre la desconexión digital. Francia ya tiene leyes que garantizan el "derecho a desconectar" fuera del horario laboral. En España, el Gobierno aprobó un real decreto similar, aunque su aplicación es todavía incipiente.
+
+Las empresas más avanzadas están rediseñando sus oficinas. En vez de puestos fijos, crean espacios flexibles de colaboración. El objetivo es que los días de presencialidad se centren en reuniones creativas, mientras que el trabajo individual se hace desde casa.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué porcentaje de empresas mantiene el modelo híbrido?",
+          options: ["a] El 30%", "b] El 35%", "c] El 40%", "d] El 50%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "el cuarenta por ciento... ha adoptado modelos de trabajo híbrido".',
+        },
+        {
+          id: 2,
+          question: "¿Qué consultora hizo el estudio?",
+          options: ["a] Deloitte", "b] Mercer", "c] PwC", "d] KPMG"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "consultora Mercer".',
+        },
+        {
+          id: 3,
+          question: "¿Qué porcentaje cambiaría de empresa si fuera presencial?",
+          options: ["a] El 25%", "b] El 30%", "c] El 35%", "d] El 40%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "el treinta y cinco por ciento... valoraría cambiar de empresa".',
+        },
+        {
+          id: 4,
+          question: "¿Qué tipo de fatiga sufren algunos trabajadores?",
+          options: ["a] Física", "b] Por videollamadas", "c] Mental", "d] De ojos"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "fatiga por videollamadas".',
+        },
+        {
+          id: 5,
+          question: "¿Qué porcentaje echa de menos la interacción social?",
+          options: ["a] El 15%", "b] El 20%", "c] El 25%", "d] El 30%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "el veinticinco por ciento echa de menos la interacción social".',
+        },
+        {
+          id: 6,
+          question: "¿Qué país ya tiene leyes de desconexión digital?",
+          options: ["a] España", "b] Italia", "c] Francia", "d] Alemania"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "Francia ya tiene leyes que garantizan el derecho a desconectar".',
+        },
+        {
+          id: 7,
+          question: "¿Qué tipo de espacios crean las empresas avanzadas?",
+          options: [
+            "a] Puestos fijos",
+            "b] Espacios flexibles de colaboración",
+            "c] Cubículos individuales",
+            "d] Oficinas cerradas",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "crean espacios flexibles de colaboración".',
+        },
+        {
+          id: 8,
+          question: "¿Para qué sirven los días de presencialidad?",
+          options: ["a] Trabajo individual", "b] Reuniones creativas", "c] Descanso", "d] Formación"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "los días de presencialidad se centran en reuniones creativas".',
+        },
+        {
+          id: 9,
+          question: "¿Qué transformación describe el texto?",
+          options: ["a] Temporal", "b] Estructural", "c] Imaginaria", "d] Económica"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "se ha convertido en una transformación estructural".',
+        },
+        {
+          id: 10,
+          question: "¿Cómo es la aplicación en España del decreto de desconexión?",
+          options: ["a] Muy avanzada", "b] Incipiente", "c] No existe", "d] Perfecta"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "su aplicación es todavía incipiente".',
+        },
+      ],
+    },
+    listening: {
+      title: "Consejos para una entrevista de trabajo",
+      transcription: `Bienvenidos a "Carrera Profesional". Hoy la coach de empleo Patricia Sol nos da consejos para triunfar en una entrevista de trabajo.
+
+Patricia, ¿cuál es el error más común en una entrevista?
+
+Patricia: No prepararse. Muchos candidatos llegan sin saber nada sobre la empresa. Eso demuestra desinterés. Investiga la empresa, sus valores, sus productos, sus noticias recientes.
+
+¿Qué preguntas suele hacer un entrevistador?
+
+Patricia: La clásica "Cuéntame sobre ti" no es casualidad. Quieren ver cómo te comunicas. No des tu vida entera. En dos minutos, resume tu formación, experiencia y qué te aporta al puesto.
+
+¿Cómo se responde a una pregunta sobre puntos débiles?
+
+Patricia: Nunca digas "soy perfeccionista". Es un cliché. En vez de eso, menciona una debilidad real que estés mejorando. Por ejemplo: "A veces me cuesta delegar, pero estoy trabajando en confiar más en mi equipo".
+
+¿Y sobre el salario?
+
+Patricia: Si te preguntan, ten una cifra preparada basada en investigación de mercado. No subestimes tu valor, pero sé realista. Si no te preguntan, no lo saques tú primero.
+
+¿Algún consejo final?
+
+Patricia: Haz preguntas. Una entrevista es bidireccional. Pregunta sobre el equipo, los proyectos futuros, la cultura de la empresa. Eso demuestra interés genuino.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es el error más común?",
+          options: ["a] Vestir mal", "b] No prepararse", "c] Llegar tarde", "d] Ser demasiado modesto"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué hay que investigar sobre la empresa?",
+          options: ["a] Solo el nombre", "b] Valores, productos y noticias", "c] Solo el CEO", "d] Nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Cuánto tiempo debe durar la respuesta sobre ti mismo?",
+          options: ["a] Treinta segundos", "b] Dos minutos", "c] Diez minutos", "d] Una hora"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué ejemplo de debilidad da Patricia?",
+          options: [
+            "a] Soy perfeccionista",
+            "b] Me cuesta delegar pero estoy mejorando",
+            "c] No tengo debilidades",
+            "d] Trabajo demasiado",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué no se debe decir sobre debilidades?",
+          options: ["a] Algo real", "b] Que estás mejorando", 'c] "Soy perfeccionista"', "d] Un ejemplo"],
+          correctAnswer: 2,
+        },
+        {
+          id: 6,
+          question: "¿Cómo se debe preparar la cifra salarial?",
+          options: [
+            "a] Inventarse un número",
+            "b] Basada en investigación de mercado",
+            "c] Pedir lo mínimo",
+            "d] No decir nada",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Quién debe sacar el tema del salario primero?",
+          options: ["a] El candidato", "b] El entrevistador", "c] Ninguno", "d] Ambos"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Por qué hacer preguntas al final?",
+          options: [
+            "a] Para impressionar",
+            "b] Para demostrar interés genuino",
+            "c] Para perder tiempo",
+            "d] Para negociar",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué tipo de preguntas se recomiendan?",
+          options: [
+            "a] Solo sobre el salario",
+            "b] Sobre equipo, proyectos y cultura",
+            "c] Sobre vacaciones",
+            "d] Sobre el edificio",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Cómo define Patricia una entrevista?",
+          options: ["a] Unidireccional", "b] Bidireccional", "c] Un monólogo", "d] Un examen"],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "Teletrabajo: ¿libertad o esclavitud invisible?",
+        description:
+          "Analiza los pros y contras del teletrabajo. ¿Mejora realmente la calidad de vida o crea nuevas formas de explotación?",
+        structure: {
+          intro: "Presenta el debate sobre el teletrabajo.",
+          body: "Analiza beneficios y riesgos.",
+          conclusion: "Concluye con una postura equilibrada.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "Cómo encontrar empleo en tiempos de incertidumbre",
+        description:
+          "Escribe una guía con consejos prácticos para jóvenes que buscan su primer empleo en el mercado laboral actual.",
+        structure: {
+          intro: "Describe la situación del mercado laboral.",
+          body: "Ofrece consejos prácticos.",
+          conclusion: "Anima y da esperanza.",
+        },
+        connectors: ["En primer lugar", "En segundo lugar", "Asimismo", "Por último", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi experiencia laboral",
+        description:
+          "Habla sobre tu experiencia en el mercado laboral durante 1-2 minutos. Di qué has hecho, qué te ha gustado, qué dificultades has tenido y qué buscas ahora.",
+        connectors: [
+          "He trabajado en",
+          "Lo que más me gustó fue",
+          "Las dificultades que encontré fueron",
+          "Ahora busco",
+          "Mi experiencia me ha enseñado",
+        ],
+        guideQuestions: [
+          "¿Como influye en tu vida diaria?",
+          "¿Que cambios has notado con el tiempo?",
+          "¿Que relacion tiene con tu entorno?",
+          "¿Que consejo practico darias?",
+        ],
+      },
+      topic2: {
+        title: "El trabajo del futuro",
+        description:
+          "Habla sobre cómo crees que será el trabajo en el futuro. Di qué cambios habrá, qué habilidades serán importantes y si el trabajo desaparecerá.",
+        connectors: [
+          "Creo que el trabajo del futuro",
+          "Las habilidades más importantes serán",
+          "La tecnología",
+          "El trabajo no desaparecerá pero",
+          "Para prepararse",
+        ],
+        guideQuestions: [
+          "¿Que te motivo a conocer mas sobre esto?",
+          "¿Que aspectos te frustran o te alegran?",
+          "¿Como lo viven otras personas?",
+          "¿Que planes tienes relacionados?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero sois candidatos para el mismo puesto. Debéis convencer al entrevistador (el otro compañero alterna) de que sois la mejor opción.",
+      questions: [
+        {
+          question: "¿Por qué eres el candidato ideal para este puesto?",
+          help: "Véndete. Usa: Soy el candidato ideal porque... / Mi experiencia en...",
+          usefulPhrases: [
+            "Reflexionando sobre el tema...",
+            "Mi propuesta es que...",
+            "Tambien podrias pensar en...",
+            "Es significativo que...",
+            "Lo primordial es...",
+            "El detalle mas importante es...",
+          ],
+        },
+        {
+          question: "¿Qué aportarías al equipo que otros no aportarían?",
+          help: "Destaca diferencias. Usa: Yo aporto... / Lo que me diferencia es...",
+          usefulPhrases: [
+            "En la practica...",
+            "Te resultara util...",
+            "Dale una oportunidad a...",
+            "Llama la atencion que...",
+            "Una tecnica muy buena es...",
+            "El componente vital es...",
+          ],
+        },
+        {
+          question: "¿Cómo te ves en esta empresa dentro de cinco años?",
+          help: "Muestra visión. Usa: Dentro de cinco años me veo... / Mi objetivo es...",
+          usefulPhrases: [
+            "Viendolo con perspectiva...",
+            "Creo que te beneficiaria...",
+            "No dejes de considerar...",
+            "Es llamativo que...",
+            "La estrategia mas eficaz es...",
+            "El pilar fundamental es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 7,
+    level: "B2",
+    theme: "La inmigración y cultura",
+    icon: "Globe",
+    vocabulary: [
+      {
+        word: "inmigrante",
+        definition: "Persona que llega a un país para vivir",
+        chinese: "移民",
+        example: "España es un país de acogida de inmigrantes.",
+      },
+      {
+        word: "emigrar",
+        definition: "Salir de un país para vivir en otro",
+        chinese: "移居国外",
+        example: "Muchos jóvenes emigran por falta de oportunidades.",
+      },
+      {
+        word: "integración",
+        definition: "Proceso de incorporación a una sociedad",
+        chinese: "融合",
+        example: "La integración de los inmigrantes es fundamental.",
+      },
+      {
+        word: "multiculturalidad",
+        definition: "Coexistencia de diversas culturas",
+        chinese: "多元文化",
+        example: "La multiculturalidad enriquece a la sociedad.",
+      },
+      {
+        word: "asilo",
+        definition: "Protección que un país da a refugiados",
+        chinese: "庇护",
+        example: "Pidieron asilo político en Francia.",
+      },
+      {
+        word: "frontera",
+        definition: "Línea que separa dos países",
+        chinese: "边境",
+        example: "La frontera entre España y Portugal es abierta.",
+      },
+      {
+        word: "xenofobia",
+        definition: "Odio o rechazo a los extranjeros",
+        chinese: "排外",
+        example: "Debemos combatir la xenofobia.",
+      },
+      {
+        word: "diversidad",
+        definition: "Variedad de personas, culturas o ideas",
+        chinese: "多样性",
+        example: "La diversidad cultural es una riqueza.",
+      },
+      {
+        word: "refugiado",
+        definition: "Persona que huye de guerra o persecución",
+        chinese: "难民",
+        example: "Los refugiados necesitan ayuda humanitaria.",
+      },
+      {
+        word: "acogida",
+        definition: "Recepción y atención a personas que llegan",
+        chinese: "接待",
+        example: "El sistema de acogida necesita mejoras.",
+      },
+      {
+        word: "identidad cultural",
+        definition: "Conjunto de valores y tradiciones de un grupo",
+        chinese: "文化认同",
+        example: "Preservar la identidad cultural es importante.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "Segunda generación: la identidad a caballo entre dos mundos",
+      text: `España alberga a más de siete millones de personas nacidas en el extranjero. Pero detrás de esta cifra hay una realidad más compleja: los hijos de inmigrantes, la llamada segunda generación, que navega entre dos culturas sin pertenecer del todo a ninguna.
+
+Un estudio del CIS revela que el sesenta por ciento de los jóvenes de segunda generación se siente "más español que otra cosa", mientras que el treinta por ciento vive una dualidad identitaria. "En casa soy marroquí, en la calle español", resume Omar, de veintidós años, hijo de padres inmigrados de Fez.
+
+Esta dualidad no siempre es fácil. Muchos jóvenes enfrentan expectativas familiares arraigadas en tradiciones del país de origen mientras crecen en una sociedad española con valores diferentes. La presión por mantener el idioma materno, las costumbres religiosas o los códigos de conducta tradicionales puede generar tensiones.
+
+Sin embargo, la segunda generación también es un puente. Muchos jóvenes bilingües y biculturales están aprovechando sus habilidades en el mercado laboral. Mediadores interculturales, traductores, emprendedores con negocios que conectan dos culturas.
+
+Las políticas públicas empiezan a reconocer esta realidad. Programas de mentoría, becas específicas y espacios de diálogo intercultural son algunas de las iniciativas. Pero los propios protagonistas reclaman algo más simple: no ser preguntados "de dónde son" cuando ya han respondido toda su vida que son de aquí.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuántos extranjeros viven en España?",
+          options: [
+            "a] Más de cinco millones",
+            "b] Más de siete millones",
+            "c] Más de diez millones",
+            "d] Menos de tres millones",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "más de siete millones de personas nacidas en el extranjero".',
+        },
+        {
+          id: 2,
+          question: "¿Qué porcentaje se siente más español?",
+          options: ["a] El 40%", "b] El 50%", "c] El 60%", "d] El 70%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "el sesenta por ciento... se siente más español que otra cosa".',
+        },
+        {
+          id: 3,
+          question: "¿De dónde son los padres de Omar?",
+          options: ["a] Argelia", "b] Marruecos", "c] Túnez", "d] Senegal"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "hijo de padres inmigrados de Fez" (Fez es una ciudad de Marruecos).',
+        },
+        {
+          id: 4,
+          question: "¿Qué tipo de tensiones enfrentan?",
+          options: [
+            "a] Económicas",
+            "b] Entre tradiciones familiares y valores españoles",
+            "c] De idioma",
+            "d] Políticas",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "expectativas familiares arraigadas en tradiciones... mientras crecen en una sociedad española con valores diferentes".',
+        },
+        {
+          id: 5,
+          question: "¿Qué roles laborales están aprovechando?",
+          options: [
+            "a] Solo médicos",
+            "b] Mediadores, traductores y emprendedores",
+            "c] Solo ingenieros",
+            "d] Solo abogados",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto menciona: "Mediadores interculturales, traductores, emprendedores".',
+        },
+        {
+          id: 6,
+          question: "¿Qué organismo hizo el estudio?",
+          options: ["a] INE", "b] CIS", "c] UNESCO", "d] UE"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "estudio del CIS".',
+        },
+        {
+          id: 7,
+          question: "¿Qué programa menciona el texto?",
+          options: [
+            "a] Solo deportes",
+            "b] Programas de mentoría, becas y diálogo intercultural",
+            "c] Solo becas",
+            "d] Solo ayudas económicas",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres programas.",
+        },
+        {
+          id: 8,
+          question: "¿Qué reclaman los protagonistas?",
+          options: [
+            "a] Más dinero",
+            "b] No ser preguntados de dónde son",
+            "c] Más escuelas",
+            "d] Menos inmigración",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "no ser preguntados de dónde son".',
+        },
+        {
+          id: 9,
+          question: "¿Qué presión mantienen las familias?",
+          options: [
+            "a] Solo económica",
+            "b] Idioma, costumbres religiosas y códigos de conducta",
+            "c] Solo política",
+            "d] Solo social",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto menciona: "mantener el idioma materno, las costumbres religiosas o los códigos de conducta tradicionales".',
+        },
+        {
+          id: 10,
+          question: "¿Cómo se define a la segunda generación en el texto?",
+          options: ["a] Un problema", "b] Un puente entre culturas", "c] Una carga", "d] Una minoría"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "la segunda generación también es un puente".',
+        },
+      ],
+    },
+    listening: {
+      title: "Vivir entre dos culturas",
+      transcription: `Bienvenidos a "Voces". Hoy tenemos con nosotros a Mei Lin, hija de padres chinos nacida en Barcelona.
+
+Mei Lin, ¿cómo describes tu identidad?
+
+Mei Lin: Es complicado. Legalmente soy española, nací aquí. Pero mi piel, mi cara, mis ojos dicen otra cosa a los demás. Mucha gente me pregunta "¿de dónde eres?" y cuando digo "de Barcelona", insisten "sí, pero de verdad". Eso duele.
+
+¿Cómo fue crecer en tu familia?
+
+Mei Lin: En casa era China. Comida china, idioma chino, valores chinos. Mis padres querían que mantuviera la cultura. Fuera de casa era España. Tenía que navegar entre dos mundos.
+
+¿Tuviste conflictos?
+
+Mei Lin: Muchos. Mis padres querían que estudiara medicina. Yo quería ser artista. Para ellos, el arte no es un trabajo seguro. Es una visión muy china: estabilidad primero. Tuvimos años de discusiones.
+
+¿Y ahora?
+
+Mei Lin: Ahora soy diseñadora gráfica. Mis padres finalmente aceptaron mi decisión. Y creo que mi herencia bicultural es mi superpoder. Entiendo dos mundos, dos formas de ver la vida. Eso es valioso en mi trabajo.
+
+¿Qué le dirías a otros jóvenes en tu situación?
+
+Mei Lin: Que no tengan que elegir. Puedes ser ambas cosas. No tienes que renunciar a tu herencia para encajar, ni tienes que rechazar tu entorno para mantener tu identidad.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Dónde nació Mei Lin?",
+          options: ["a] En China", "b] En Barcelona", "c] En Madrid", "d] En Valencia"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué le preguntan mucho?",
+          options: ["a] Su edad", "b] De dónde es", "c] Su trabajo", "d] Su nombre"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué idioma se hablaba en casa?",
+          options: ["a] Español", "b] Catalán", "c] Chino", "d] Inglés"],
+          correctAnswer: 2,
+        },
+        {
+          id: 4,
+          question: "¿Qué querían sus padres que estudiara?",
+          options: ["a] Arte", "b] Medicina", "c] Derecho", "d] Ingeniería"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué quería estudiar Mei Lin?",
+          options: ["a] Medicina", "b] Derecho", "c] Arte", "d] Ciencias"],
+          correctAnswer: 2,
+        },
+        {
+          id: 6,
+          question: "¿Qué es ahora Mei Lin?",
+          options: ["a] Médica", "b] Abogada", "c] Diseñadora gráfica", "d] Profesora"],
+          correctAnswer: 2,
+        },
+        {
+          id: 7,
+          question: "¿Cómo define su herencia bicultural?",
+          options: ["a] Un problema", "b] Un superpoder", "c] Una carga", "d] Una ventaja laboral"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué consejo da a otros jóvenes?",
+          options: [
+            "a] Que elijan una cultura",
+            "b] Que no tengan que elegir",
+            "c] Que se vayan de España",
+            "d] Que rechacen su herencia",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué visión tienen sus padres sobre el trabajo?",
+          options: [
+            "a] Creatividad primero",
+            "b] Estabilidad primero",
+            "c] Arte primero",
+            "d] Dinero primero",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Cuántos años de discusiones tuvieron?",
+          options: ["a] Unos meses", "b] Un año", "c] Años", "d] Nunca discutieron"],
+          correctAnswer: 2,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "La multiculturalidad: ¿enriquecimiento o conflicto?",
+        description:
+          "Analiza si la convivencia de diversas culturas enriquece a la sociedad o genera tensiones. Argumenta con ejemplos.",
+        structure: {
+          intro: "Presenta el debate sobre multiculturalidad.",
+          body: "Analiza beneficios y desafíos con ejemplos.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "Sin embargo", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "La identidad de la segunda generación de inmigrantes",
+        description:
+          "Reflexiona sobre los desafíos identitarios que enfrentan los hijos de inmigrantes. ¿Cómo pueden las sociedades facilitar su integración?",
+        structure: {
+          intro: "Describe la situación de la segunda generación.",
+          body: "Analiza desafíos y posibles soluciones.",
+          conclusion: "Propone medidas concretas.",
+        },
+        connectors: ["En primer lugar", "En segundo lugar", "Asimismo", "Por tanto", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi experiencia como extranjero o hijo de inmigrantes",
+        description:
+          "Habla sobre tu experiencia viviendo en otro país o siendo hijo de inmigrantes durante 1-2 minutos. Di qué desafíos has enfrentado, qué has aprendido y cómo te ha cambiado.",
+        connectors: [
+          "Yo vivo en/Soy hijo de",
+          "Los desafíos que he enfrentado son",
+          "He aprendido",
+          "Esto me ha cambiado porque",
+          "Mi consejo para otros",
+        ],
+        guideQuestions: [
+          "¿Cual es tu experiencia mas memorable?",
+          "¿Que habilidades has desarrollado?",
+          "¿Como ha evolucionado para ti?",
+          "¿Que importancia tiene en tu rutina?",
+        ],
+      },
+      topic2: {
+        title: "Convivencia intercultural",
+        description:
+          "Habla sobre cómo se puede mejorar la convivencia entre personas de diferentes culturas. Da ejemplos concretos.",
+        connectors: [
+          "La convivencia intercultural puede mejorar",
+          "Por ejemplo",
+          "También",
+          "Es importante",
+          "Creo que",
+        ],
+        guideQuestions: [
+          "¿Desde cuando forma parte de tu vida?",
+          "¿Que desafios has encontrado?",
+          "¿Como te ha cambiado?",
+          "¿Que le recomendarias a un principiante?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero representáis a dos comunidades culturales diferentes que deben convivir en el mismo barrio. Tenéis que resolver conflictos y establecer normas de convivencia.",
+      questions: [
+        {
+          question: "¿Qué aspectos de nuestra cultura queremos compartir con la comunidad vecina?",
+          help: "Propón intercambio. Usa: Nos gustaría compartir... / Podríamos organizar...",
+          usefulPhrases: [
+            "En el dia a dia...",
+            "Mi consejo directo es...",
+            "Piensa tambien en...",
+            "Observa que...",
+            "Una buena practica es...",
+            "El rasgo distintivo es...",
+          ],
+        },
+        {
+          question: "¿Qué normas de convivencia proponemos para respetar ambas culturas?",
+          help: "Establece normas. Usa: Proponemos que... / Sería respetuoso...",
+          usefulPhrases: [
+            "Analizando las opciones...",
+            "Te serviria mucho...",
+            "Valorar la alternativa de...",
+            "Cabe destacar que...",
+            "Un recurso muy valioso es...",
+            "El factor diferenciador es...",
+          ],
+        },
+        {
+          question: "¿Cómo resolvemos los conflictos cuando surjan?",
+          help: "Crea un mecanismo. Usa: Cuando haya conflictos... / Designaremos...",
+          usefulPhrases: [
+            "En primera persona...",
+            "La mejor decision seria...",
+            "Abre la mente a...",
+            "Es curioso notar que...",
+            "Un procedimiento exitoso es...",
+            "El rasgo caracteristico es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 8,
+    level: "B2",
+    theme: "La salud mental",
+    icon: "HeartPulse",
+    vocabulary: [
+      {
+        word: "ansiedad",
+        definition: "Estado de nerviosismo e inquietud excesiva",
+        chinese: "焦虑",
+        example: "La ansiedad afecta a millones de personas.",
+      },
+      {
+        word: "depresión",
+        definition: "Trastorno del estado de ánimo con tristeza profunda",
+        chinese: "抑郁",
+        example: "La depresión requiere tratamiento profesional.",
+      },
+      {
+        word: "terapia",
+        definition: "Tratamiento psicológico para problemas emocionales",
+        chinese: "治疗",
+        example: "La terapia cognitiva es muy efectiva.",
+      },
+      {
+        word: "psicólogo",
+        definition: "Profesional que estudia la conducta y la mente",
+        chinese: "心理学家",
+        example: "Fui al psicólogo para hablar de mis problemas.",
+      },
+      {
+        word: "estigma",
+        definition: "Rechazo social hacia algo o alguien",
+        chinese: "污名",
+        example: "Hay que eliminar el estigma de la salud mental.",
+      },
+      {
+        word: "mindfulness",
+        definition: "Atención plena al momento presente",
+        chinese: "正念",
+        example: "El mindfulness reduce el estrés.",
+      },
+      {
+        word: "burnout",
+        definition: "Síndrome de agotamiento profesional",
+        chinese: "职业倦怠",
+        example: "El burnout es común en trabajadores sanitarios.",
+      },
+      {
+        word: "autoestima",
+        definition: "Valoración que una persona hace de sí misma",
+        chinese: "自尊",
+        example: "Tener buena autoestima es fundamental.",
+      },
+      {
+        word: "resiliencia",
+        definition: "Capacidad de superar situaciones adversas",
+        chinese: "韧性",
+        example: "La resiliencia se puede entrenar.",
+      },
+      {
+        word: "bienestar emocional",
+        definition: "Estado de equilibrio y satisfacción emocional",
+        chinese: "情绪健康",
+        example: "El bienestar emocional es tan importante como el físico.",
+      },
+      {
+        word: "tabú",
+        definition: "Tema que socialmente no se puede tratar",
+        chinese: "禁忌",
+        example: "La salud mental sigue siendo un tabú en muchos lugares.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "Los jóvenes españoles, los más estresados de Europa",
+      text: `Un informe de la OCDE sitúa a los jóvenes españoles entre los más estresados de Europa. El cuarenta y cinco por ciento de los jóvenes de entre dieciocho y veintinueve años ha experimentado síntomas de ansiedad durante el último año, cifra diez puntos superior a la media europea.
+
+Los factores son múltiples y entrelazados. La precariedad laboral —el cuarenta por ciento tiene contratos temporales—, la dificultad para acceder a la vivienda y la comparación constante en redes sociales crean una tormenta perfecta de incertidumbre.
+
+"Los jóvenes sienten que no controlan su futuro", explica la psicóloga María Torres. "Viven en un presente permanente, sin seguridad laboral ni capacidad de planificar a largo plazo. Eso genera ansiedad crónica."
+
+El estigma sigue siendo una barrera. Aunque las nuevas generaciones hablan más abiertamente de salud mental, el treinta por ciento de los encuestados admitió no buscar ayuda por miedo al qué dirán.
+
+Las universidades están empezando a reaccionar. La Universidad de Barcelona ha implementado un programa de bienestar estudiantil con talleres de gestión del estrés, meditación y apoyo psicológico gratuito. Los resultados preliminares muestran una reducción del veinte por ciento en abandono académico.
+
+Sin embargo, los expertos reclaman un cambio estructural. "No basta con poner parches. Necesitamos políticas que den estabilidad a los jóvenes: empleo digno, vivienda accesible y una red de apoyo psicológico universal", concluye Torres.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué organismo hizo el informe?",
+          options: ["a] ONU", "b] OCDE", "c] OMS", "d] UNESCO"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "informe de la OCDE".',
+        },
+        {
+          id: 2,
+          question: "¿Qué porcentaje de jóvenes ha tenido síntomas de ansiedad?",
+          options: ["a] El 35%", "b] El 40%", "c] El 45%", "d] El 50%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "El cuarenta y cinco por ciento... ha experimentado síntomas de ansiedad".',
+        },
+        {
+          id: 3,
+          question: "¿Cuánto es superior a la media europea?",
+          options: ["a] Cinco puntos", "b] Diez puntos", "c] Quince puntos", "d] Veinte puntos"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "cifra diez puntos superior a la media europea".',
+        },
+        {
+          id: 4,
+          question: "¿Qué porcentaje tiene contratos temporales?",
+          options: ["a] El 30%", "b] El 40%", "c] El 50%", "d] El 60%"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "el cuarenta por ciento tiene contratos temporales".',
+        },
+        {
+          id: 5,
+          question: "¿Qué genera ansiedad crónica según Torres?",
+          options: ["a] Estudiar mucho", "b] No controlar el futuro", "c] Tener amigos", "d] Viajar poco"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "sienten que no controlan su futuro... Eso genera ansiedad crónica".',
+        },
+        {
+          id: 6,
+          question: "¿Qué porcentaje no busca ayuda por estigma?",
+          options: ["a] El 20%", "b] El 25%", "c] El 30%", "d] El 35%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "el treinta por ciento... admitió no buscar ayuda por miedo al qué dirán".',
+        },
+        {
+          id: 7,
+          question: "¿Qué universidad implementó un programa de bienestar?",
+          options: ["a] Complutense", "b] Autónoma de Madrid", "c] Barcelona", "d] Sevilla"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "La Universidad de Barcelona ha implementado un programa".',
+        },
+        {
+          id: 8,
+          question: "¿Cuánto se redujo el abandono académico?",
+          options: ["a] El 10%", "b] El 15%", "c] El 20%", "d] El 25%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "una reducción del veinte por ciento en abandono académico".',
+        },
+        {
+          id: 9,
+          question: "¿Qué reclaman los expertos?",
+          options: ["a] Más parches", "b] Cambio estructural", "c] Menos universidades", "d] Más exámenes"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "los expertos reclaman un cambio estructural".',
+        },
+        {
+          id: 10,
+          question: "¿Qué tres políticas menciona Torres?",
+          options: [
+            "a] Educación, sanidad y defensa",
+            "b] Empleo digno, vivienda accesible y apoyo psicológico universal",
+            "c] Solo empleo",
+            "d] Solo vivienda",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto menciona: "empleo digno, vivienda accesible y una red de apoyo psicológico universal".',
+        },
+      ],
+    },
+    listening: {
+      title: "Mindfulness en el trabajo",
+      transcription: `Bienvenidos a "Salud Laboral". Hoy hablamos con el instructor de mindfulness Carlos Vega sobre su implementación en empresas.
+
+Carlos, ¿qué es el mindfulness?
+
+Carlos: Es la capacidad de prestar atención al momento presente sin juzgar. No es relajarse, es estar alerta y consciente de lo que ocurre aquí y ahora.
+
+¿Por qué las empresas lo están adoptando?
+
+Carlos: Porque el estrés laboral cuesta dinero. Ansiedad, absentismo, rotación de personal... Todo eso afecta a la productividad. El mindfulness no es una moda espiritual, es una herramienta de gestión del estrés respaldada por la ciencia.
+
+¿Cómo se practica en una empresa?
+
+Carlos: Sesiones guiadas de diez o quince minutos al principio de la jornada o después del almuerzo. Los empleados aprenden a centrarse en la respiración, a notar tensiones en el cuerpo, a gestionar interrupciones mentales.
+
+¿Cuáles son los resultados?
+
+Carlos: Hemos trabajado con veinte empresas. En todas, hemos visto reducción del estrés percibido, mejora en la concentración y menos conflictos interpersonales. Una empresa de tecnología redujo su absentismo un veinticinco por ciento en seis meses.
+
+¿Es para todos?
+
+Carlos: No. Algunas personas con traumas severos o trastornos psiquiátricos activos deben consultar primero con un profesional. Pero para el estrés cotidiano, es muy efectivo.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cómo se llama el programa?",
+          options: ["a] Salud Mental", "b] Salud Laboral", "c] Mindfulness Hoy", "d] Bienestar"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué es el mindfulness según Carlos?",
+          options: ["a] Relajarse", "b] Dormir", "c] Atención al presente sin juzgar", "d] Hacer yoga"],
+          correctAnswer: 2,
+        },
+        {
+          id: 3,
+          question: "¿Por qué lo adoptan las empresas?",
+          options: ["a] Por moda", "b] Porque el estrés cuesta dinero", "c] Por ley", "d] Porque es gratis"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Cuánto duran las sesiones?",
+          options: ["a] Cinco minutos", "b] Diez o quince minutos", "c] Treinta minutos", "d] Una hora"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Cuándo se hacen las sesiones?",
+          options: [
+            "a] Solo por la tarde",
+            "b] Al principio de la jornada o después del almuerzo",
+            "c] Solo por la mañana",
+            "d] A medianoche",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Con cuántas empresas ha trabajado Carlos?",
+          options: ["a] Diez", "b] Quince", "c] Veinte", "d] Treinta"],
+          correctAnswer: 2,
+        },
+        {
+          id: 7,
+          question: "¿Cuánto redujo el absentismo la empresa de tecnología?",
+          options: ["a] El 10%", "b] El 15%", "c] El 25%", "d] El 30%"],
+          correctAnswer: 2,
+        },
+        {
+          id: 8,
+          question: "¿Es el mindfulness para todos?",
+          options: [
+            "a] Sí, todos pueden hacerlo",
+            "b] No, personas con traumas deben consultar primero",
+            "c] Solo para jóvenes",
+            "d] Solo para adultos",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué NO se menciona como resultado?",
+          options: [
+            "a] Reducción del estrés",
+            "b] Mejora en concentración",
+            "c] Menos conflictos",
+            "d] Aumento de sueldo",
+          ],
+          correctAnswer: 3,
+        },
+        {
+          id: 10,
+          question: "¿Qué aprenden los empleados?",
+          options: [
+            "a] A dormir",
+            "b] A centrarse en la respiración y notar tensiones",
+            "c] A hacer ejercicio",
+            "d] A comer mejor",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "El estigma de la salud mental en la sociedad actual",
+        description:
+          "Analiza por qué la salud mental sigue siendo un tabú y propone medidas para normalizar el diálogo sobre el tema.",
+        structure: {
+          intro: "Describe el estigma actual.",
+          body: "Analiza causas y consecuencias.",
+          conclusion: "Propone medidas concretas.",
+        },
+        connectors: ["En primer lugar", "Asimismo", "Sin embargo", "En consecuencia", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "Burnout: la epidemia silenciosa del siglo XXI",
+        description:
+          "Reflexiona sobre el síndrome de burnout. ¿Qué lo causa? ¿Cómo prevenirlo? ¿Es responsabilidad individual o de las empresas?",
+        structure: {
+          intro: "Define el burnout y su relevancia.",
+          body: "Analiza causas y responsabilidades.",
+          conclusion: "Propone soluciones.",
+        },
+        connectors: ["En la actualidad", "Por una parte", "Por otra parte", "Por tanto", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "La salud mental en mi cultura",
+        description:
+          "Habla sobre cómo se ve la salud mental en tu cultura durante 1-2 minutos. Di si se habla abiertamente, si hay estigma y cómo ha cambiado.",
+        connectors: ["En mi cultura", "La salud mental", "Se habla", "El estigma", "Ha cambiado"],
+        guideQuestions: [
+          "¿Que te sorprendio al conocer mas sobre esto?",
+          "¿Como influye en tu dia a dia?",
+          "¿Que relacion tiene con tu cultura?",
+          "¿Como lo ves en el futuro?",
+        ],
+      },
+      topic2: {
+        title: "Mi relación con el estrés y la ansiedad",
+        description:
+          "Habla sobre cómo manejas el estrés y la ansiedad. Di qué técnicas usas, qué te ayuda y qué consejos darías.",
+        connectors: [
+          "Yo manejo el estrés",
+          "Me ayuda",
+          "También uso",
+          "Cuando estoy ansioso",
+          "Mi consejo es",
+        ],
+        guideQuestions: [
+          "¿Cual es tu relacion con este tema?",
+          "¿Que ventajas tiene para ti?",
+          "¿Has tenido algun problema relacionado?",
+          "¿Como lo mejorarias?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero sois compañeros de trabajo. Uno de vosotros está sufriendo burnout y el otro debe ayudarle y proponer soluciones al jefe.",
+      questions: [
+        {
+          question: "¿Cómo te sientes últimamente? ¿Has notado algo diferente en tu rendimiento?",
+          help: "Expresa el problema. Usa: Últimamente me siento... / He notado que...",
+          usefulPhrases: [
+            "Si hablamos claro...",
+            "Intentalo de esta forma...",
+            "Dale un enfoque a...",
+            "No pasa desapercibido que...",
+            "Una dinamica positiva es...",
+            "El sello distintivo es...",
+          ],
+        },
+        {
+          question:
+            "¿Qué crees que está causando esta situación? ¿El volumen de trabajo, la presión, algo más?",
+          help: "Identifica causas. Usa: Creo que se debe a... / El principal factor es...",
+          usefulPhrases: [
+            "Sin rodeos...",
+            "Tu mejor apuesta es...",
+            "Introduce la variable de...",
+            "Es evidente que...",
+            "Una costumbre beneficiosa es...",
+            "La marca de identidad es...",
+          ],
+        },
+        {
+          question: "¿Qué cambios podemos proponer al jefe para mejorar la situación?",
+          help: "Propón soluciones. Usa: Podríamos proponer... / Sería útil...",
+          usefulPhrases: [
+            "Con franqueza...",
+            "Te ira genial si...",
+            "Incorpora la idea de...",
+            "Se aprecia claramente que...",
+            "Un protocolo eficiente es...",
+            "El indicador principal es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 9,
+    level: "B2",
+    theme: "La tecnología e inteligencia artificial",
+    icon: "Cpu",
+    vocabulary: [
+      {
+        word: "inteligencia artificial",
+        definition: "Sistemas informáticos que simulan capacidades humanas",
+        chinese: "人工智能",
+        example: "La inteligencia artificial está transformando la medicina.",
+      },
+      {
+        word: "algoritmo",
+        definition: "Conjunto de instrucciones para resolver un problema",
+        chinese: "算法",
+        example: "Los algoritmos deciden qué contenido vemos.",
+      },
+      {
+        word: "automatización",
+        definition: "Uso de tecnología para realizar tareas sin intervención humana",
+        chinese: "自动化",
+        example: "La automatización elimina trabajos repetitivos.",
+      },
+      {
+        word: "big data",
+        definition: "Análisis de grandes volúmenes de datos",
+        chinese: "大数据",
+        example: "El big data ayuda a las empresas a entender a sus clientes.",
+      },
+      {
+        word: "ciberseguridad",
+        definition: "Protección de sistemas informáticos contra ataques",
+        chinese: "网络安全",
+        example: "La ciberseguridad es crucial en la era digital.",
+      },
+      {
+        word: "privacidad",
+        definition: "Derecho a mantener la información personal protegida",
+        chinese: "隐私",
+        example: "La privacidad en internet es un derecho fundamental.",
+      },
+      {
+        word: "automatización",
+        definition: "Proceso de usar máquinas en lugar de personas",
+        chinese: "自动化",
+        example: "La automatización de fábricas reduce costos.",
+      },
+      {
+        word: "chatbot",
+        definition: "Programa de IA que conversa con usuarios",
+        chinese: "聊天机器人",
+        example: "Muchas webs usan chatbots para atención al cliente.",
+      },
+      {
+        word: "machine learning",
+        definition: "Capacidad de las máquinas para aprender de datos",
+        chinese: "机器学习",
+        example: "El machine learning mejora con más datos.",
+      },
+      {
+        word: "ética digital",
+        definition: "Principios morales aplicados a la tecnología",
+        chinese: "数字伦理",
+        example: "La ética digital es un debate urgente.",
+      },
+      {
+        word: "transformación digital",
+        definition: "Adaptación de procesos a la era digital",
+        chinese: "数字化转型",
+        example: "La transformación digital afecta a todas las industrias.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "La UE aprueba la primera ley mundial de inteligencia artificial",
+      text: `El Parlamento Europeo ha aprobado la Ley de Inteligencia Artificial, conocida como AI Act, convirtiéndose en el primer marco regulatorio comprehensivo del mundo para esta tecnología. La normativa clasifica los sistemas de IA según su nivel de riesgo y establece obligaciones proporcionales.
+
+Los sistemas de "alto riesgo", como los utilizados en justicia, educación o contratación laboral, deberán cumplir requisitos estrictos de transparencia, supervisión humana y calidad de datos. Los sistemas de riesgo "inaceptable", como el reconocimiento emocional en lugares de trabajo o la puntuación social, quedan prohibidos.
+
+"Estamos enviando un mensaje claro: la innovación tecnológica no puede avanzar a expensas de los derechos fundamentales", declaró la eurodiputada española que lideró las negociaciones.
+
+Las grandes empresas tecnológicas han recibido la normativa con cautela. Algunas consideran que podría ralentizar la innovación europea frente a competidores estadounidenses y chinos. Sin embargo, otras ven una oportunidad para diferenciarse mediante estándares éticos.
+
+Las multas por incumplimiento pueden alcanzar los treinta y cinco millones de euros o el siete por ciento de la facturación global anual. Los Estados miembros disponen de dos años para adaptar sus legislaciones.
+
+Los defensores de la ley destacan que protege especialmente a los grupos vulnerables. Los algoritmos de contratación, por ejemplo, no podrán discriminar por género, raza o edad, y deberán ser auditados periódicamente.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué ha aprobado el Parlamento Europeo?",
+          options: [
+            "a] Una ley de privacidad",
+            "b] La Ley de Inteligencia Artificial (AI Act)",
+            "c] Una ley de ciberseguridad",
+            "d] Una ley de patentes",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "El Parlamento Europeo ha aprobado la Ley de Inteligencia Artificial, conocida como AI Act".',
+        },
+        {
+          id: 2,
+          question: "¿Cómo clasifica la normativa los sistemas de IA?",
+          options: ["a] Por tamaño", "b] Por nivel de riesgo", "c] Por precio", "d] Por país"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "clasifica los sistemas de IA según su nivel de riesgo".',
+        },
+        {
+          id: 3,
+          question: "¿Qué sistemas quedan prohibidos?",
+          options: [
+            "a] Los de justicia",
+            "b] Los de educación",
+            "c] Reconocimiento emocional en trabajo y puntuación social",
+            "d] Los médicos",
+          ],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "sistemas de riesgo inaceptable, como el reconocimiento emocional en lugares de trabajo o la puntuación social, quedan prohibidos".',
+        },
+        {
+          id: 4,
+          question: "¿Qué mensaje envía la eurodiputada?",
+          options: [
+            "a] Que la IA debe prohibirse",
+            "b] Que la innovación no puede avanzar a expensas de derechos",
+            "c] Que Europa va atrasada",
+            "d] Que no hace falta regulación",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto cita: "la innovación tecnológica no puede avanzar a expensas de los derechos fundamentales".',
+        },
+        {
+          id: 5,
+          question: "¿Qué preocupación tienen algunas empresas?",
+          options: [
+            "a] Que sea demasiado barata",
+            "b] Que ralentice la innovación europea",
+            "c] Que no tenga multas",
+            "d] Que sea voluntaria",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "podría ralentizar la innovación europea".',
+        },
+        {
+          id: 6,
+          question: "¿Cuál es la multa máxima?",
+          options: [
+            "a] Diez millones",
+            "b] Veinte millones",
+            "c] Treinta y cinco millones o el 7% de facturación",
+            "d] Cincuenta millones",
+          ],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "treinta y cinco millones de euros o el siete por ciento de la facturación global anual".',
+        },
+        {
+          id: 7,
+          question: "¿Cuánto tiempo tienen los Estados para adaptarse?",
+          options: ["a] Un año", "b] Dos años", "c] Tres años", "d] Cinco años"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "dos años para adaptar sus legislaciones".',
+        },
+        {
+          id: 8,
+          question: "¿Qué algoritmos deberán ser auditados?",
+          options: [
+            "a] Los de redes sociales",
+            "b] Los de contratación",
+            "c] Los de juegos",
+            "d] Los de traducción",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Los algoritmos de contratación... deberán ser auditados periódicamente".',
+        },
+        {
+          id: 9,
+          question: "¿Qué no pueden hacer los algoritmos de contratación?",
+          options: [
+            "a] Ser rápidos",
+            "b] Discriminar por género, raza o edad",
+            "c] Procesar datos",
+            "d] Ser automáticos",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "no podrán discriminar por género, raza o edad".',
+        },
+        {
+          id: 10,
+          question: "¿Qué grupos protege especialmente la ley?",
+          options: ["a] Solo mayores", "b] Solo niños", "c] Grupos vulnerables", "d] Solo trabajadores"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "protege especialmente a los grupos vulnerables".',
+        },
+      ],
+    },
+    listening: {
+      title: "El futuro del trabajo con IA",
+      transcription: `Bienvenidos a "Tecnología y Sociedad". Hoy el experto en IA Roberto Solís nos habla del futuro del trabajo.
+
+Roberto, ¿la IA va a destruir empleos?
+
+Roberto: Va a transformarlos. Algunos desaparecerán, otros cambiarán y muchos nuevos surgirán. La historia muestra que cada revolución tecnológica destruye empleos pero crea otros. El riesgo está en la transición: las personas desplazadas necesitan reciclaje.
+
+¿Qué empleos están en mayor riesgo?
+
+Roberto: Los más rutinarios y repetitivos: entrada de datos, atención al cliente básica, análisis de documentos legales simples. Pero incluso en esos campos, la IA será una herramienta, no un reemplazo total.
+
+¿Y qué empleos crecerán?
+
+Roberto: Todos los relacionados con la IA misma: ingenieros de prompts, auditores de algoritmos, especialistas en ética de IA. Pero también roles humanos que la IA no puede hacer: creatividad genuina, empatía, liderazgo, trabajo social.
+
+¿Cómo debe prepararse la gente?
+
+Roberto: Aprender a usar la IA como herramienta. El empleado que sepa colaborar con IA será más valioso que el que la ignore o el que sea reemplazado por ella. También desarrollar habilidades humanas: pensamiento crítico, comunicación, adaptabilidad.
+
+¿Es optimista?
+
+Roberto: Cautelosamente sí. Pero depende de nuestras decisiones colectivas. Si invertimos en educación y protegemos a los trabajadores, la IA puede liberarnos del trabajo tedioso y permitirnos centrarnos en lo que realmente importa.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es la profesión de Roberto?",
+          options: ["a] Programador", "b] Experto en IA", "c] Periodista", "d] Político"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué hará la IA según Roberto?",
+          options: ["a] Solo destruir empleos", "b] Transformarlos", "c] No afectar", "d] Crear caos"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Dónde está el riesgo?",
+          options: [
+            "a] En la tecnología",
+            "b] En la transición y necesidad de reciclaje",
+            "c] En las empresas",
+            "d] En los gobiernos",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué empleos están en mayor riesgo?",
+          options: ["a] Creativos", "b] Rutinarios y repetitivos", "c] Médicos", "d] Profesores"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué nuevo rol relacionado con IA menciona?",
+          options: ["a] Ingeniero de prompts", "b] Programador tradicional", "c] Camarero", "d] Conductor"],
+          correctAnswer: 0,
+        },
+        {
+          id: 6,
+          question: "¿Qué habilidades humanas recomienda desarrollar?",
+          options: ["a] Fuerza física", "b] Creatividad, empatía, liderazgo", "c] Velocidad", "d] Memoria"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Cómo debe prepararse la gente?",
+          options: [
+            "a] Ignorar la IA",
+            "b] Aprender a usarla como herramienta",
+            "c] Oponerse a ella",
+            "d] Dejar de trabajar",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Es optimista o pesimista?",
+          options: ["a] Muy pesimista", "b] Cautelosamente optimista", "c] Neutral", "d] Indiferente"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué depende del futuro según él?",
+          options: [
+            "a] Solo de la tecnología",
+            "b] De nuestras decisiones colectivas",
+            "c] De las empresas",
+            "d] Del gobierno",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué puede hacer la IA si tomamos buenas decisiones?",
+          options: [
+            "a] Destruir todo",
+            "b] Liberarnos del trabajo tedioso",
+            "c] Controlar el mundo",
+            "d] Eliminar la creatividad",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Debe regularse la inteligencia artificial?",
+        description:
+          "Analiza si la IA necesita regulación gubernamental o si la innovación debe desarrollarse libremente. Argumenta tu posición.",
+        structure: {
+          intro: "Presenta el debate sobre regulación de IA.",
+          body: "Analiza pros y contras de regular.",
+          conclusion: "Concluye con tu postura y propuestas.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "En consecuencia", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "La privacidad en la era digital",
+        description:
+          "Reflexiona sobre si hemos renunciado a nuestra privacidad a cambio de comodidad digital. ¿Es reversible esta situación?",
+        structure: {
+          intro: "Describe la situación actual de la privacidad.",
+          body: "Analiza el intercambio entre privacidad y comodidad.",
+          conclusion: "Reflexiona sobre si es reversible.",
+        },
+        connectors: ["En la actualidad", "Por una parte", "Por otra parte", "En cuanto a", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "La IA en mi vida cotidiana",
+        description:
+          "Habla sobre cómo usas la inteligencia artificial en tu día a día durante 1-2 minutos. Di qué herramientas usas, qué te preocupa y qué te entusiasma.",
+        connectors: [
+          "Yo uso la IA para",
+          "Me preocupa",
+          "Pero me entusiasma",
+          "Creo que el futuro",
+          "Lo que me gustaría",
+        ],
+        guideQuestions: [
+          "¿Como empezaste en esto?",
+          "¿Que es lo mas dificil y lo mas facil?",
+          "¿Como influye en tus relaciones?",
+          "¿Que has aprendido?",
+        ],
+      },
+      topic2: {
+        title: "Ética y tecnología",
+        description:
+          "Habla sobre los dilemas éticos que plantea la tecnología. Di qué preocupaciones tienes y cómo deberíamos abordarlos.",
+        connectors: [
+          "La tecnología plantea dilemas como",
+          "Me preocupa particularmente",
+          "Creo que deberíamos",
+          "Es responsabilidad de",
+          "El futuro depende de",
+        ],
+        guideQuestions: [
+          "¿Por que te resulta importante?",
+          "¿Que cambios te ha traido?",
+          "¿Como lo ves en otros paises?",
+          "¿Que te gustaria que mejorara?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero debatís sobre si implementar una nueva tecnología de IA en vuestra empresa. Uno está a favor y otro en contra.",
+      questions: [
+        {
+          question: "¿Crees que esta tecnología de IA mejorará la productividad o creará problemas?",
+          help: "Argumenta. Usa: Creo que mejorará... porque... / Temo que cree problemas porque...",
+          usefulPhrases: [
+            "Hablando sin tapujos...",
+            "Notaras la diferencia con...",
+            "Plantea la posibilidad de...",
+            "Resulta obvio que...",
+            "Una rutina recomendable es...",
+            "El parametro esencial es...",
+          ],
+        },
+        {
+          question: "¿Qué pasa con los empleos que podrían desaparecer? ¿Tenemos responsabilidad con ellos?",
+          help: "Habla de responsabilidad. Usa: Tenemos responsabilidad... / Deberíamos...",
+          usefulPhrases: [
+            "Sin ambages...",
+            "Experimenta con...",
+            "Desarrolla el concepto de...",
+            "Se constata que...",
+            "Un sistema que funciona es...",
+            "El baremo decisivo es...",
+          ],
+        },
+        {
+          question: "¿Bajo qué condiciones estarías dispuesto/a a aceptar esta implementación?",
+          help: "Negocia. Usa: Aceptaría si... / Mi condición es...",
+          usefulPhrases: [
+            "Directamente...",
+            "Atrévete a probar...",
+            "Formula la hipotesis de...",
+            "Queda patente que...",
+            "Una forma acertada es...",
+            "El criterio clave es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 10,
+    level: "B2",
+    theme: "El arte y literatura",
+    icon: "Palette",
+    vocabulary: [
+      {
+        word: "literatura",
+        definition: "Arte de expresar ideas mediante la palabra escrita",
+        chinese: "文学",
+        example: "La literatura española es muy rica.",
+      },
+      {
+        word: "novela",
+        definition: "Obra literaria narrativa extensa",
+        chinese: "小说",
+        example: "Estoy leyendo una novela de Murakami.",
+      },
+      {
+        word: "poesía",
+        definition: "Género literario que expresa sentimientos mediante el verso",
+        chinese: "诗歌",
+        example: "La poesía de Lorca es conmovedora.",
+      },
+      {
+        word: "escultura",
+        definition: "Arte de modelar figuras en diversos materiales",
+        chinese: "雕塑",
+        example: "La escultura de Rodin es impresionante.",
+      },
+      {
+        word: "exposición",
+        definition: "Muestra pública de obras de arte",
+        chinese: "展览",
+        example: "La exposición de Picasso fue un éxito.",
+      },
+      {
+        word: "género literario",
+        definition: "Categoría en que se clasifica una obra literaria",
+        chinese: "文学体裁",
+        example: "El género literario de terror me da miedo.",
+      },
+      {
+        word: "narrador",
+        definition: "Quien cuenta la historia en una obra",
+        chinese: "叙述者",
+        example: "El narrador es omnisciente en esta novela.",
+      },
+      {
+        word: "trama",
+        definition: "Desarrollo de los acontecimientos de una obra",
+        chinese: "情节",
+        example: "La trama de la película es muy compleja.",
+      },
+      {
+        word: "estilo",
+        definition: "Manera particular de expresarse un autor",
+        chinese: "风格",
+        example: "El estilo de Borges es único.",
+      },
+      {
+        word: "movimiento artístico",
+        definition: "Tendencia común entre artistas de una época",
+        chinese: "艺术运动",
+        example: "El surrealismo fue un movimiento artístico revolucionario.",
+      },
+      {
+        word: "interpretación",
+        definition: "Manera de entender o representar algo",
+        chinese: "诠释",
+        example: "Su interpretación del personaje fue brillante.",
+      },
+    ],
+    reading: {
+      textType: "crítica",
+      title: "La literatura en la era digital: ¿crisis o transformación?",
+      text: `La pregunta se repite en cada foro cultural: ¿está muriendo la lectura? Los datos, sin embargo, ofrecen un panorama más matizado. Según la Federación de Gremios de Editores de España, las ventas de libros han crecido un cinco por ciento en el último año, impulsadas principalmente por el formato digital y los audiolibros.
+
+Lo que está cambiando no es tanto el consumo como el soporte. El libro de papel, objeto táctil y ritual, coexiste ahora con el e-reader, más práctico para desplazamientos, y el audiolibro, que permite "leer" mientras se conduce o se hace ejercicio. La literatura se ha vuelto multimodal.
+
+Pero hay una transformación más profunda: la fragmentación. Las redes sociales, con su lógica de inmediatez, están alterando nuestra capacidad de atención sostenida. ¿Puede una novela de seiscientas páginas competir con TikTok? Para muchos jóvenes, la respuesta es negativa.
+
+Los escritores están adaptándose. Nacen géneros híbridos entre la literatura y las redes, como la "microficción" de Twitter o las novelas publicadas por entregas en plataformas digitales. Algunos autores usan Instagram para compartir fragmentos y crear comunidad con sus lectores.
+
+La crítica literaria se democratiza. Los bookstagrammers y booktokers tienen más influencia que muchos críticos tradicionales. Esto tiene luces y sombras: se fomenta la lectura pero también se homogeneizan los gustos hacia los best-sellers.
+
+Quizás la literatura no está muriendo. Está mutando, como ha hecho siempre. Del rollo de papiro al códice, de la imprenta al e-book: cada tecnología reconfigura la relación entre el texto y el lector.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuánto han crecido las ventas de libros?",
+          options: ["a] El 2%", "b] El 3%", "c] El 5%", "d] El 10%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "las ventas de libros han crecido un cinco por ciento".',
+        },
+        {
+          id: 2,
+          question: "¿Qué formatos impulsan el crecimiento?",
+          options: ["a] Solo papel", "b] Digital y audiolibros", "c] Solo audiolibros", "d] Solo e-books"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "impulsadas principalmente por el formato digital y los audiolibros".',
+        },
+        {
+          id: 3,
+          question: "¿Qué coexistencia describe el texto?",
+          options: [
+            "a] Solo papel",
+            "b] Papel, e-reader y audiolibro",
+            "c] Solo digital",
+            "d] Solo audiolibros",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto menciona: "El libro de papel... coexiste ahora con el e-reader... y el audiolibro".',
+        },
+        {
+          id: 4,
+          question: "¿Qué alteran las redes sociales según el texto?",
+          options: [
+            "a] La creatividad",
+            "b] La capacidad de atención sostenida",
+            "c] La memoria",
+            "d] El habla",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "están alterando nuestra capacidad de atención sostenida".',
+        },
+        {
+          id: 5,
+          question: "¿Qué género híbrido nace de Twitter?",
+          options: ["a] La novela gráfica", "b] La microficción", "c] El ensayo", "d] La poesía épica"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "la microficción de Twitter".',
+        },
+        {
+          id: 6,
+          question: "¿Qué plataformas usan algunos autores?",
+          options: ["a] Solo Facebook", "b] Instagram", "c] LinkedIn", "d] Wikipedia"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Algunos autores usan Instagram".',
+        },
+        {
+          id: 7,
+          question: "¿Quién tiene más influencia según el texto?",
+          options: [
+            "a] Los críticos tradicionales",
+            "b] Bookstagrammers y booktokers",
+            "c] Los profesores",
+            "d] Los libreros",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Los bookstagrammers y booktokers tienen más influencia que muchos críticos tradicionales".',
+        },
+        {
+          id: 8,
+          question: "¿Qué se homogeneiza según el texto?",
+          options: [
+            "a] Los idiomas",
+            "b] Los gustos hacia los best-sellers",
+            "c] Los géneros",
+            "d] Los precios",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "se homogeneizan los gustos hacia los best-sellers".',
+        },
+        {
+          id: 9,
+          question: "¿Cuál es la conclusión final del texto?",
+          options: [
+            "a] Que la literatura muere",
+            "b] Que la literatura está mutando",
+            "c] Que solo importa el papel",
+            "d] Que las redes destruyen todo",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Quizás la literatura no está muriendo. Está mutando".',
+        },
+        {
+          id: 10,
+          question: "¿Cuál es el mensaje sobre la tecnología y la literatura?",
+          options: [
+            "a] La tecnología destruye la literatura",
+            "b] Cada tecnología reconfigura la relación texto-lector",
+            "c] La tecnología es irrelevante",
+            "d] Solo el papel es válido",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "cada tecnología reconfigura la relación entre el texto y el lector".',
+        },
+      ],
+    },
+    listening: {
+      title: "La importancia del arte en la educación",
+      transcription: `Bienvenidos a "Cultura Viva". Hoy la directora del Museo Reina Sofía, Elena Martínez, nos habla del arte en la educación.
+
+Elena, ¿por qué es importante el arte en la educación?
+
+Elena: Porque el arte no es decorativo, es formativo. Enseña a observar, a interpretar, a cuestionar. Un niño que visita un museo aprende a leer imágenes, a descodificar símbolos, a construir argumentos visuales. Son habilidades críticas en nuestro mundo visual.
+
+¿Cree que se valora suficientemente?
+
+Elena: No. En muchos sistemas educativos, las artes son lo primero que se recorta. Es un error enorme. Las personas que crean la tecnología del futuro necesitan pensamiento creativo. Un ingeniero que ha estudiado arte puede diseñar interfaces más intuitivas y humanas.
+
+¿Qué programa tiene el museo para escuelas?
+
+Elena: Llevamos más de quince años con "Arte para Aprender". Profesores y mediadores del museo van a los colegios y los niños vienen aquí. No les damos lecciones de historia del arte. Les proponemos preguntas: ¿Qué crees que sentía el artista? ¿Qué te transmite esta obra?
+
+¿Cuáles son los resultados?
+
+Elena: Increíbles. Mejora la expresión oral, la confianza, la empatía. Los niños que participan en el programa obtienen mejores resultados en comprensión lectora. El arte entrena la atención y la interpretación.
+
+¿Un mensaje final?
+
+Elena: Que llevemos a los niños a los museos. No para que sean artistas, sino para que sean ciudadanos con pensamiento crítico y sensibilidad.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es el programa del museo?",
+          options: ["a] Museo Infantil", "b] Arte para Aprender", "c] Cultura Viva", "d] Arte y Educación"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Cuánto tiempo lleva el programa?",
+          options: ["a] Cinco años", "b] Diez años", "c] Más de quince años", "d] Veinte años"],
+          correctAnswer: 2,
+        },
+        {
+          id: 3,
+          question: "¿Qué NO enseña el arte según Elena?",
+          options: ["a] Observar", "b] Interpretar", "c] Cuestionar", "d] Programar"],
+          correctAnswer: 3,
+        },
+        {
+          id: 4,
+          question: "¿Qué es lo primero que se recorta en educación?",
+          options: ["a] Matemáticas", "b] Las artes", "c] Deporte", "d] Ciencias"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué habilidad necesitan los creadores de tecnología?",
+          options: [
+            "a] Solo matemáticas",
+            "b] Pensamiento creativo",
+            "c] Solo física",
+            "d] Solo programación",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué mejoran los niños del programa?",
+          options: [
+            "a] Solo matemáticas",
+            "b] Expresión oral, confianza y empatía",
+            "c] Solo deporte",
+            "d] Nada",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿En qué obtienen mejores resultados?",
+          options: ["a] Matemáticas", "b] Comprensión lectora", "c] Deporte", "d] Ciencias"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué entrena el arte según ella?",
+          options: [
+            "a] Solo la vista",
+            "b] La atención y la interpretación",
+            "c] Solo el oído",
+            "d] El gusto",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Para qué quiere que los niños vayan al museo?",
+          options: [
+            "a] Para ser artistas",
+            "b] Para ser ciudadanos con pensamiento crítico",
+            "c] Para trabajar en museos",
+            "d] Para vender arte",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué tipo de preguntas hacen a los niños?",
+          options: [
+            "a] De historia del arte",
+            "b] Sobre sentimientos y transmisiones de la obra",
+            "c] De matemáticas",
+            "d] De gramática",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Tiene futuro el libro de papel?",
+        description:
+          "Analiza el futuro del libro impreso frente a formatos digitales. Argumenta si sobrevivirá o desaparecerá.",
+        structure: {
+          intro: "Presenta el debate entre formato físico y digital.",
+          body: "Analiza ventajas de ambos y tendencias.",
+          conclusion: "Concluye con tu predicción.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "En consecuencia", "Para concluir"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "El arte como herramienta de transformación social",
+        description: "Reflexiona sobre cómo el arte puede transformar la sociedad. Usa ejemplos concretos.",
+        structure: {
+          intro: "Presenta el poder transformador del arte.",
+          body: "Analiza ejemplos históricos o actuales.",
+          conclusion: "Reflexiona sobre el papel del arte hoy.",
+        },
+        connectors: [
+          "A lo largo de la historia",
+          "Por ejemplo",
+          "En la actualidad",
+          "Por tanto",
+          "En definitiva",
+        ],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi relación con la lectura",
+        description:
+          "Habla sobre tu relación con la lectura durante 1-2 minutos. Di qué lees, en qué formato, cómo ha cambiado tu hábito lector y qué significa para ti.",
+        connectors: [
+          "Yo leo",
+          "Prefiero el formato",
+          "Mi hábito lector ha cambiado",
+          "Para mí la lectura es",
+          "Recomiendo",
+        ],
+        guideQuestions: [
+          "¿Que papel juega en tu vida?",
+          "¿Como ha evolucionado?",
+          "¿Que habilidades te ha aportado?",
+          "¿Que planes tienes?",
+        ],
+      },
+      topic2: {
+        title: "Una obra de arte o libro que me marcó",
+        description:
+          "Habla sobre una obra (pintura, libro, película) que te haya marcado profundamente. Di qué es, por qué te impactó y cómo te cambió.",
+        connectors: [
+          "La obra que me marcó es",
+          "Me impactó porque",
+          "Después de experimentarla",
+          "Cambió mi forma de ver",
+          "Creo que",
+        ],
+        guideQuestions: [
+          "¿Como te afecta personalmente?",
+          "¿Que diferencias ves con el pasado?",
+          "¿Como influye en tu entorno?",
+          "¿Que consejo darias?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero debéis organizar un evento cultural. Uno quiere algo tradicional y el otro algo innovador y digital.",
+      questions: [
+        {
+          question: "¿Qué tipo de evento cultural preferimos: tradicional o digital/innovador?",
+          help: "Defiende tu opción. Usa: Propongo... porque... / Creo que es mejor...",
+          usefulPhrases: [
+            "Con sinceridad...",
+            "Lanza-te a...",
+            "Vislumbra la opcion de...",
+            "Se desprende que...",
+            "Un acierto seguro es...",
+            "El referente principal es...",
+          ],
+        },
+        {
+          question: "¿A quién queremos atraer? ¿Cuál es nuestro público objetivo?",
+          help: "Define el público. Usa: Nuestro público objetivo es... / Queremos atraer a...",
+          usefulPhrases: [
+            "De forma directa...",
+            "Olvidate de los miedos y...",
+            "Contempla la alternativa de...",
+            "Se infiere que...",
+            "Una decision inteligente es...",
+            "El modelo a seguir es...",
+          ],
+        },
+        {
+          question: "¿Cómo combinamos elementos tradicionales e innovadores para contentar a todos?",
+          help: "Negocia. Usa: Podríamos combinar... / Un compromiso sería...",
+          usefulPhrases: [
+            "Sin velos...",
+            "Empieza ya a...",
+            "Adopta la perspectiva de...",
+            "Se deduce claramente que...",
+            "Un enfoque ganador es...",
+            "El paradigma correcto es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 11,
+    level: "B2",
+    theme: "Los derechos humanos",
+    icon: "Scale",
+    vocabulary: [
+      {
+        word: "dignidad",
+        definition: "Cualidad de merecer respeto por ser persona",
+        chinese: "尊严",
+        example: "Todos los seres humanos nacen con dignidad.",
+      },
+      {
+        word: "discriminación",
+        definition: "Trato desfavorable por razón de raza, sexo, religión, etc.",
+        chinese: "歧视",
+        example: "Debemos luchar contra la discriminación.",
+      },
+      {
+        word: "igualdad",
+        definition: "Condición de tener los mismos derechos",
+        chinese: "平等",
+        example: "La igualdad entre hombres y mujeres es fundamental.",
+      },
+      {
+        word: "libertad",
+        definition: "Capacidad de actuar según la propia voluntad",
+        chinese: "自由",
+        example: "La libertad de expresión es un derecho básico.",
+      },
+      {
+        word: "justicia",
+        definition: "Principio moral que consiste en dar a cada uno lo suyo",
+        chinese: "正义",
+        example: "La justicia social busca la equidad.",
+      },
+      {
+        word: "tolerancia",
+        definition: "Respeto hacia las opiniones o prácticas ajenas",
+        chinese: "宽容",
+        example: "La tolerancia es esencial en una sociedad diversa.",
+      },
+      {
+        word: "persecución",
+        definition: "Acecho o castigo por razones políticas, religiosas, etc.",
+        chinese: "迫害",
+        example: "Muchas personas sufren persecución por sus creencias.",
+      },
+      {
+        word: "refugio",
+        definition: "Protección que se da a quien huye de peligro",
+        chinese: "庇护",
+        example: "Pidieron refugio en otro país.",
+      },
+      {
+        word: "explotación",
+        definition: "Aprovechamiento injusto del trabajo o situación de alguien",
+        chinese: "剥削",
+        example: "La explotación laboral debe denunciarse.",
+      },
+      {
+        word: "genocidio",
+        definition: "Exterminio sistemático de un grupo étnico o nacional",
+        chinese: "种族灭绝",
+        example: "El genocidio es el crimen más grave contra la humanidad.",
+      },
+      {
+        word: "activista",
+        definition: "Persona que defiende activamente una causa",
+        chinese: "活动家",
+        example: "Es activista por los derechos de las mujeres.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "Amnistía Internacional denuncia el aumento de restricciones a la libertad de expresión",
+      text: `El informe anual de Amnistía Internacional presentado ayer arroja conclusiones preocupantes sobre el estado de los derechos humanos en el mundo. La organización denuncia un "deterioro generalizado" de la libertad de expresión, con más de cincuenta países que han aprobado leyes restrictivas en el último año.
+
+"Estamos asistiendo a una ofensiva global contra la disidencia", afirma el secretario general de la organización. "Gobiernos de todo el espectro político están utilizando argumentos de seguridad nacional o lucha contra la desinformación para silenciar voces críticas."
+
+El informe destaca el caso de periodistas encarcelados en países como Turquía, China y Egipto, donde el número de reporteros en prisión ha alcanzado cifras récord. Pero también señala tendencias preocupantes en democracias consolidadas: leyes de secreto oficial ampliadas, vigilancia masiva de comunicaciones y restricciones a las protestas pacíficas.
+
+En Europa, la organización critica las políticas migratorias de la Unión Europea, calificando los campos de contención en las fronteras exteriores de "vergonzosos". "Estamos externalizando la responsabilidad de proteger a los refugiados, delegándola en países que no garantizan sus derechos", denuncia.
+
+No todo son malas noticias. El informe destaca también el papel de los movimientos ciudadanos: las protestas por el clima, los movimientos feministas y las luchas por la justicia racial han conseguido avances significativos en varios países.
+
+Amnistía urge a la comunidad internacional a reforzar el multilateralismo y a sancionar a los países que vulneran sistemáticamente los derechos humanos. "Los derechos no se conceden, se exigen", concluye el informe.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué denuncia Amnistía Internacional?",
+          options: [
+            "a] Mejora de derechos",
+            "b] Deterioro de la libertad de expresión",
+            "c] Aumento de democracias",
+            "d] Paz mundial",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "denuncia un deterioro generalizado de la libertad de expresión".',
+        },
+        {
+          id: 2,
+          question: "¿Cuántos países aprobaron leyes restrictivas?",
+          options: ["a] Menos de 30", "b] Más de 40", "c] Más de 50", "d] Más de 100"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "más de cincuenta países".',
+        },
+        {
+          id: 3,
+          question: "¿Qué argumentos usan los gobiernos para silenciar?",
+          options: ["a] Educación", "b] Seguridad nacional y desinformación", "c] Economía", "d] Salud"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "utilizando argumentos de seguridad nacional o lucha contra la desinformación".',
+        },
+        {
+          id: 4,
+          question: "¿En qué países menciona periodistas encarcelados?",
+          options: [
+            "a] Francia, Italia, España",
+            "b] Turquía, China y Egipto",
+            "c] Brasil, Argentina, Chile",
+            "d] Australia, Canadá",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres países.",
+        },
+        {
+          id: 5,
+          question: "¿Qué crítica hace a las políticas migratorias de la UE?",
+          options: [
+            "a] Son muy abiertas",
+            "b] Los campos de contención son vergonzosos",
+            "c] No existen",
+            "d] Son perfectas",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "calificando los campos de contención... de vergonzosos".',
+        },
+        {
+          id: 6,
+          question: "¿Qué movimientos destaca como positivos?",
+          options: [
+            "a] Solo el feminismo",
+            "b] Protestas climáticas, feministas y justicia racial",
+            "c] Solo el clima",
+            "d] Solo económicos",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres movimientos.",
+        },
+        {
+          id: 7,
+          question: "¿Qué urge a la comunidad internacional?",
+          options: [
+            "a] Cerrar fronteras",
+            "b] Reforzar el multilateralismo",
+            "c] Aumentar el comercio",
+            "d] Reducir la ayuda",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "urge a la comunidad internacional a reforzar el multilateralismo".',
+        },
+        {
+          id: 8,
+          question: "¿Qué tipo de gobiernos silencian según el informe?",
+          options: [
+            "a] Solo dictaduras",
+            "b] Todo el espectro político",
+            "c] Solo democracias",
+            "d] Solo monarquías",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Gobiernos de todo el espectro político".',
+        },
+        {
+          id: 9,
+          question: "¿Qué leyes se mencionan en democracias consolidadas?",
+          options: [
+            "a] Solo leyes fiscales",
+            "b] Leyes de secreto oficial, vigilancia y restricción a protestas",
+            "c] Solo leyes educativas",
+            "d] Solo leyes sanitarias",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esas tres.",
+        },
+        {
+          id: 10,
+          question: "¿Cuál es la conclusión final del informe?",
+          options: [
+            "a] Los derechos se conceden",
+            "b] Los derechos no se conceden, se exigen",
+            "c] Los derechos no importan",
+            "d] Los derechos son opcionales",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita: "Los derechos no se conceden, se exigen".',
+        },
+      ],
+    },
+    listening: {
+      title: "Testimonio de una defensora de derechos humanos",
+      transcription: `Soy Lucía Fernández, abogada especializada en derechos humanos. Llevo quince años trabajando con víctimas de violencia de género y trata de personas.
+
+Empecé en este campo porque vi una injusticia que no podía ignorar. Las mujeres que llegaban a la clínica legal donde hacía prácticas tenían historias que me rompían el corazón. Pero también tenían una fuerza increíble.
+
+El trabajo es duro. A veces sentimos que perdemos más batallas de las que ganamos. Los sistemas judiciales son lentos, los agresores tienen recursos legales infinitos y las víctimas, a menudo, no tienen ni siquiera un abogado.
+
+Pero hay momentos que lo compensan todo. Cuando una mujer que llegó destrozada consigue reconstruir su vida, encontrar trabajo, recuperar a sus hijos... eso es lo que nos mantiene.
+
+Lo que más me preocupa ahora es la deshumanización del discurso público. Cuando los políticos hablan de "invasión" migratoria o cuestionan la violencia de género, están negando la realidad de personas concretas. Eso tiene consecuencias reales: menos recursos, menos protección, más sufrimiento.
+
+Mi mensaje para los jóvenes es: no sean indiferentes. La indiferencia es el caldo de cultivo de las violaciones de derechos humanos. Lean, informense, y si pueden, actúen. Cada pequeña acción cuenta.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es la profesión de Lucía?",
+          options: ["a] Médica", "b] Abogada", "c] Profesora", "d] Periodista"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Con qué víctimas trabaja?",
+          options: [
+            "a] Solo robos",
+            "b] Violencia de género y trata de personas",
+            "c] Solo accidentes",
+            "d] Solo fraudes",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Cuánto tiempo lleva trabajando en esto?",
+          options: ["a] Cinco años", "b] Diez años", "c] Quince años", "d] Veinte años"],
+          correctAnswer: 2,
+        },
+        {
+          id: 4,
+          question: "¿Qué le preocupa del discurso público?",
+          options: [
+            "a] Que sea demasiado técnico",
+            "b] La deshumanización",
+            "c] Que sea muy largo",
+            "d] Que sea aburrido",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué consecuencia tiene ese discurso?",
+          options: ["a] Más recursos", "b] Menos recursos y protección", "c] Más justicia", "d] Más empleo"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué mensaje da a los jóvenes?",
+          options: [
+            "a] Que estudien derecho",
+            "b] Que no sean indiferentes",
+            "c] Que emigren",
+            "d] Que sean políticos",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué es el caldo de cultivo de las violaciones de derechos?",
+          options: ["a] La educación", "b] La indiferencia", "c] La riqueza", "d] La tecnología"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué compensa el trabajo duro?",
+          options: [
+            "a] El dinero",
+            "b] Ver a las víctimas reconstruir sus vidas",
+            "c] La fama",
+            "d] Los premios",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Por qué empezó en este campo?",
+          options: [
+            "a] Por dinero",
+            "b] Porque vio una injusticia",
+            "c] Porque se lo pidieron",
+            "d] Por casualidad",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué describe sobre las víctimas?",
+          options: [
+            "a] Que son débiles",
+            "b] Que tienen una fuerza increíble",
+            "c] Que no quieren ayuda",
+            "d] Que son pocas",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "La libertad de expresión: ¿dónde está el límite?",
+        description:
+          "Reflexiona sobre los límites de la libertad de expresión. ¿Debe estar absolutamente garantizada o tienen que existir restricciones?",
+        structure: {
+          intro: "Presenta el debate sobre límites a la libertad de expresión.",
+          body: "Analiza casos y argumentos a favor y en contra.",
+          conclusion: "Concluye con tu postura sobre dónde trazar la línea.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "El papel de los jóvenes en la defensa de los derechos humanos",
+        description:
+          "Analiza qué papel pueden y deben tener los jóvenes en la defensa de los derechos humanos en el siglo XXI.",
+        structure: {
+          intro: "Presenta la importancia de la juventud en los derechos humanos.",
+          body: "Analiza formas de participación y ejemplos.",
+          conclusion: "Concluye con un llamado a la acción.",
+        },
+        connectors: ["En primer lugar", "Asimismo", "Por ejemplo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Un derecho humano que me preocupa especialmente",
+        description:
+          "Habla sobre un derecho humano que consideras especialmente amenazado hoy. Di por qué y qué se debería hacer.",
+        connectors: [
+          "El derecho que más me preocupa es",
+          "Está amenazado porque",
+          "Por ejemplo",
+          "Creo que deberíamos",
+          "Es urgente que",
+        ],
+        guideQuestions: [
+          "¿Cual es tu experiencia personal con este tema?",
+          "¿Como afecta a tu dia a dia?",
+          "¿Que opinan tus familiares o amigos?",
+          "¿Que cambiarias o mejorarias?",
+        ],
+      },
+      topic2: {
+        title: "Activismo en la era digital",
+        description:
+          "Habla sobre cómo han cambiado los movimientos de derechos humanos con la tecnología. Di si es positivo o negativo.",
+        connectors: [
+          "Los movimientos de derechos humanos",
+          "La tecnología ha cambiado",
+          "Por un lado",
+          "Por otro lado",
+          "Creo que",
+        ],
+        guideQuestions: [
+          "¿Cuando empezaste a interesarte por esto?",
+          "¿Que aspectos te resultan mas importantes?",
+          "¿Como ha evolucionado con el tiempo?",
+          "¿Que consejo darias a alguien en esta situacion?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero sois representantes de dos ONGs que deben decidir cómo distribuir fondos limitados entre diferentes causas de derechos humanos.",
+      questions: [
+        {
+          question:
+            "¿Qué causa priorizamos: educación para niñas, defensa de periodistas o ayuda a refugiados?",
+          help: "Argumenta. Usa: Propongo priorizar... porque... / Es más urgente...",
+          usefulPhrases: [
+            "Te recomiendo...",
+            "Si te gusta esto, deberias probar...",
+            "Lo mejor de este sitio es...",
+            "Evita ir los fines de semana porque esta lleno.",
+            "Personalmente, yo prefiero...",
+            "Un truco es...",
+          ],
+        },
+        {
+          question: "¿Cómo evaluamos el impacto de nuestra inversión?",
+          help: "Establece criterios. Usa: El impacto se medirá por... / Evaluaremos...",
+          usefulPhrases: [
+            "Creo que la mejor opcion es...",
+            "En mi opinion, deberias considerar...",
+            "Una alternativa interesante seria...",
+            "Ten en cuenta que...",
+            "Yo en tu lugar...",
+            "Lo importante es...",
+          ],
+        },
+        {
+          question: "¿Buscamos financiación adicional o nos ajustamos al presupuesto?",
+          help: "Decide estrategia. Usa: Podríamos buscar... / Es más realista...",
+          usefulPhrases: [
+            "Segun mi experiencia...",
+            "Algo que funciona muy bien es...",
+            "Te sugiero que...",
+            "No olvides que...",
+            "Un consejo practico es...",
+            "La clave esta en...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 12,
+    level: "B2",
+    theme: "El emprendimiento",
+    icon: "Rocket",
+    vocabulary: [
+      {
+        word: "emprender",
+        definition: "Iniciar un negocio o proyecto",
+        chinese: "创业",
+        example: "Decidió emprender a los treinta años.",
+      },
+      {
+        word: "startup",
+        definition: "Empresa emergente innovadora",
+        chinese: "初创公司",
+        example: "Su startup de tecnología recibió financiación.",
+      },
+      {
+        word: "financiación",
+        definition: "Dinero necesario para un proyecto",
+        chinese: "融资",
+        example: "Buscan financiación para expandirse.",
+      },
+      {
+        word: "inversor",
+        definition: "Persona o entidad que invierte dinero",
+        chinese: "投资者",
+        example: "Encontraron un inversor dispuesto a arriesgar.",
+      },
+      {
+        word: "escalabilidad",
+        definition: "Capacidad de crecer sin aumentar costos proporcionalmente",
+        chinese: "可扩展性",
+        example: "La escalabilidad es clave para una startup.",
+      },
+      {
+        word: "pitch",
+        definition: "Presentación breve para convencer inversores",
+        chinese: "路演",
+        example: "Preparó un pitch perfecto para los inversores.",
+      },
+      {
+        word: "modelo de negocio",
+        definition: "Forma en que una empresa genera ingresos",
+        chinese: "商业模式",
+        example: "Su modelo de negocio es innovador.",
+      },
+      {
+        word: "competencia",
+        definition: "Rivalidad entre empresas del mismo sector",
+        chinese: "竞争",
+        example: "La competencia en este sector es feroz.",
+      },
+      {
+        word: "monetización",
+        definition: "Proceso de generar ingresos con un producto",
+        chinese: "变现",
+        example: "La monetización de la app fue difícil.",
+      },
+      {
+        word: "brainstorming",
+        definition: "Técnica de generación de ideas en grupo",
+        chinese: "头脑风暴",
+        example: "Hicimos un brainstorming para nuevas ideas.",
+      },
+      {
+        word: "prototipo",
+        definition: "Modelo inicial de un producto",
+        chinese: "原型",
+        example: "Crearon un prototipo funcional en dos meses.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "España, potencia emergente del emprendimiento tecnológico",
+      text: `El informe anual de Startup Genome sitúa a Madrid y Barcelona entre las treinta mejores ciudades del mundo para emprender en tecnología. España ha ascendido siete posiciones en el ranking global, consolidándose como uno de los ecosistemas emergentes más dinámicos de Europa.
+
+El crecimiento ha sido impresionante. En dos mil veintitrés, las startups españolas captaron cuatro mil seiscientos millones de euros, un sesenta y cinco por ciento más que el año anterior. Los sectores más dinámicos son fintech, salud digital y movilidad sostenible.
+
+"España combina tres ingredientes clave: talento técnico de alta calidad, costes operativos inferiores a los de Londres o París, y un estilo de vida que atrae a profesionales internacionales", señala el informe.
+
+El caso de Carmen Soto ilustra esta tendencia. Hace tres años, dejó su trabajo en una multinacional para fundar GreenTech, una startup que desarrolla paneles solares portátiles. Hoy emplea a cuarenta personas y ha cerrado acuerdos de distribución en cinco países.
+
+"El apoyo institucional ha mejorado mucho", reconoce Soto. "Los incentivos fiscales para inversores y los programas de aceleración como las ayudas del Centro para el Desarrollo Tecnológico han sido decisivos."
+
+No obstante, persisten desafíos. La inversión en fases tempranas sigue siendo inferior a la de otros ecosistemas europeos. Y el llamado "valle de la muerte" —el periodo entre la idea y la primera venta— sigue siendo el mayor obstáculo para los emprendedores novatos.
+
+Los expertos coinciden: para consolidar este auge, España necesita más inversión en I+D, mejores mecanismos de financiación pública y una reducción de la burocracia que sigue siendo una pesadilla para las empresas jóvenes.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué ciudades españolas destaca el informe?",
+          options: [
+            "a] Sevilla y Valencia",
+            "b] Madrid y Barcelona",
+            "c] Bilbao y Málaga",
+            "d] Zaragoza y Granada",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "sitúa a Madrid y Barcelona entre las treinta mejores ciudades".',
+        },
+        {
+          id: 2,
+          question: "¿Cuántas posiciones ascendió España?",
+          options: ["a] Tres", "b] Cinco", "c] Siete", "d] Diez"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "ha ascendido siete posiciones".',
+        },
+        {
+          id: 3,
+          question: "¿Cuánto captaron las startups españolas en 2023?",
+          options: ["a] 2600 millones", "b] 3600 millones", "c] 4600 millones", "d] 5600 millones"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "captaron cuatro mil seiscientos millones de euros".',
+        },
+        {
+          id: 4,
+          question: "¿Cuál es el aumento respecto al año anterior?",
+          options: ["a] El 45%", "b] El 55%", "c] El 65%", "d] El 75%"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "un sesenta y cinco por ciento más".',
+        },
+        {
+          id: 5,
+          question: "¿Cuáles son los sectores más dinámicos?",
+          options: [
+            "a] Construcción y turismo",
+            "b] Fintech, salud digital y movilidad sostenible",
+            "c] Textil y moda",
+            "d] Alimentación",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres sectores.",
+        },
+        {
+          id: 6,
+          question: "¿Qué startup fundó Carmen Soto?",
+          options: ["a] SolarTech", "b] GreenTech", "c] EcoPanel", "d] SunPower"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "fundar GreenTech".',
+        },
+        {
+          id: 7,
+          question: "¿Cuántas personas emplea hoy?",
+          options: ["a] Veinte", "b] Treinta", "c] Cuarenta", "d] Cincuenta"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "emplea a cuarenta personas".',
+        },
+        {
+          id: 8,
+          question: '¿Cuál es el "valle de la muerte"?',
+          options: [
+            "a] Un lugar físico",
+            "b] El periodo entre la idea y la primera venta",
+            "c] La quiebra de empresas",
+            "d] La competencia",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto define: "el periodo entre la idea y la primera venta".',
+        },
+        {
+          id: 9,
+          question: "¿Qué tres cosas necesita España para consolidar el auge?",
+          options: [
+            "a] Más gente, más dinero, más tiempo",
+            "b] I+D, financiación pública y reducción de burocracia",
+            "c] Solo inversión",
+            "d] Solo menos impuestos",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto menciona: "más inversión en I+D, mejores mecanismos de financiación pública y una reducción de la burocracia".',
+        },
+        {
+          id: 10,
+          question: "¿Qué es GreenTech?",
+          options: [
+            "a] Una consultora",
+            "b] Una startup de paneles solares portátiles",
+            "c] Una app",
+            "d] Una tienda",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "una startup que desarrolla paneles solares portátiles".',
+        },
+      ],
+    },
+    listening: {
+      title: "Consejos para emprendedores",
+      transcription: `Bienvenidos a "Startup Life". Hoy tenemos a Javier Luna, fundador de tres empresas exitosas.
+
+Javier, ¿qué consejo le darías a alguien que quiere emprender?
+
+Javier: Primero, no emprendas por emprender. Necesitas resolver un problema real que hayas experimentado personalmente. Las mejores ideas nacen de la frustración propia.
+
+¿Y si no tienen dinero?
+
+Javier: Empiezan con menos de lo que creen. No necesitas un inversor el primer día. Construye un prototipo mínimo viable, pruébalo con usuarios reales, itera. Cuando tengas tracción, busca financiación desde una posición de fuerza, no de necesidad.
+
+¿Cuál es el mayor error?
+
+Javier: Querer hacerlo todo perfecto antes de lanzar. El perfeccionismo mata startups. Lanza algo bueno, no perfecto. Recoge feedback. Mejora. El mercado te enseñará más que meses de planificación.
+
+¿Cómo encuentran cofundadores?
+
+Javier: No busques en networking events. Busca en tu círculo cercano. Alguien con quien hayas trabajado, estudiado o compartido proyectos. Necesitas confianza ciega porque pasarás por momentos muy difíciles.
+
+¿Un último consejo?
+
+Javier: La resiliencia lo es todo. El noventa por ciento de las startups fallan. No es personal. Aprende del fracaso y vuelve a intentarlo. Cada fracaso te acerca al éxito.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuántas empresas ha fundado Javier?",
+          options: ["a] Una", "b] Dos", "c] Tres", "d] Cuatro"],
+          correctAnswer: 2,
+        },
+        {
+          id: 2,
+          question: "¿De dónde deben nacer las ideas según él?",
+          options: ["a] De libros", "b] De la frustración propia", "c] De inversores", "d] Del gobierno"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué recomienda construir primero?",
+          options: [
+            "a] Un producto perfecto",
+            "b] Un prototipo mínimo viable",
+            "c] Un edificio",
+            "d] Un equipo grande",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Cuándo buscar financiación?",
+          options: ["a] El primer día", "b] Desde una posición de fuerza", "c] Nunca", "d] Solo del banco"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Cuál es el mayor error?",
+          options: [
+            "a] Lanzar pronto",
+            "b] Querer hacerlo todo perfecto",
+            "c] Pedir ayuda",
+            "d] Trabajar en equipo",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Dónde NO buscar cofundadores?",
+          options: [
+            "a] En el círculo cercano",
+            "b] En networking events",
+            "c] En la universidad",
+            "d] En el trabajo",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué necesitas con un cofundador?",
+          options: ["a] Dinero", "b] Confianza ciega", "c] Familiaridad", "d] Rivales"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué porcentaje de startups fracasa?",
+          options: ["a] El 70%", "b] El 80%", "c] El 90%", "d] El 50%"],
+          correctAnswer: 2,
+        },
+        {
+          id: 9,
+          question: "¿Qué dice sobre el fracaso?",
+          options: [
+            "a] Que es definitivo",
+            "b] Que cada fracaso te acerca al éxito",
+            "c] Que hay que evitarlo",
+            "d] Que es personal",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué dice Javier sobre el perfeccionismo?",
+          options: [
+            "a] Que es bueno",
+            "b] Que mata startups",
+            "c] Que es necesario",
+            "d] Que atrae inversores",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Emprender o ser empleado?",
+        description:
+          "Analiza las ventajas y desventajas de emprender frente a trabajar como empleado. ¿Cuál es mejor para la sociedad?",
+        structure: {
+          intro: "Presenta el dilema emprender vs. empleado.",
+          body: "Analiza pros y contras de ambos.",
+          conclusion: "Concluye con tu opinión.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "El ecosistema emprendedor en mi país",
+        description:
+          "Describe el ecosistema emprendedor de tu país. ¿Qué fortalezas tiene? ¿Qué debería mejorar?",
+        structure: {
+          intro: "Presenta el ecosistema emprendedor.",
+          body: "Analiza fortalezas y debilidades.",
+          conclusion: "Propone mejoras.",
+        },
+        connectors: ["En primer lugar", "Asimismo", "Sin embargo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi idea de negocio ideal",
+        description:
+          "Habla sobre una idea de negocio que te gustaría crear durante 1-2 minutos. Di qué problema resuelve, cómo funcionaría y qué necesitarías.",
+        connectors: [
+          "Mi idea de negocio sería",
+          "Resolvería el problema de",
+          "Funcionaría así",
+          "Necesitaría",
+          "Creo que tiene futuro",
+        ],
+        guideQuestions: [
+          "¿Por que crees que este tema es relevante?",
+          "¿Has tenido alguna experiencia relacionada?",
+          "¿Como influye en la sociedad actual?",
+          "¿Que futuro le ves a este tema?",
+        ],
+      },
+      topic2: {
+        title: "Fracaso y aprendizaje",
+        description:
+          "Habla sobre una vez que fracasaste en algo y qué aprendiste. Si no has fracasado, habla sobre la importancia del fracaso en el aprendizaje.",
+        connectors: [
+          "Una vez fracasé en",
+          "El fracaso me enseñó",
+          "Ahora sé que",
+          "Creo que el fracaso",
+          "Lo importante es",
+        ],
+        guideQuestions: [
+          "¿Cual es tu relacion personal con esto?",
+          "¿Que ventajas e inconvenientes ves?",
+          "¿Como lo viven las personas de tu entorno?",
+          "¿Crees que va a cambiar en el futuro?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero tenéis una idea de negocio conjunta pero distintas visiones sobre cómo ejecutarla. Debéis llegar a un acuerdo.",
+      questions: [
+        {
+          question: "¿Nuestro modelo de negocio es B2B (empresas) o B2C (consumidores finales)?",
+          help: "Defiende tu opción. Usa: Propongo B2B/B2C porque... / El mercado objetivo es...",
+          usefulPhrases: [
+            "Desde mi punto de vista...",
+            "Me parece que lo mejor seria...",
+            "Una buena idea podria ser...",
+            "Recuerda que...",
+            "Si fuera tu, yo...",
+            "Lo fundamental es...",
+          ],
+        },
+        {
+          question: "¿Buscamos inversión externa o autofinanciamos el crecimiento?",
+          help: "Negocia. Usa: Prefiero autofinanciarnos porque... / Con inversión podríamos...",
+          usefulPhrases: [
+            "Basandome en mi experiencia...",
+            "Lo que a mi me funciona es...",
+            "Prueba a...",
+            "No te olvides de...",
+            "Un tip muy util es...",
+            "El secreto esta en...",
+          ],
+        },
+        {
+          question: "¿Cuál es nuestro plan si al cabo de un año no hemos alcanzado los objetivos?",
+          help: "Planifica contingencias. Usa: Si no lo logramos... / Nuestro plan B sería...",
+          usefulPhrases: [
+            "A mi modo de ver...",
+            "Considero que deberias...",
+            "Podrias intentar...",
+            "Es importante recordar...",
+            "Yo te aconsejaria que...",
+            "Lo esencial es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 13,
+    level: "B2",
+    theme: "La globalización",
+    icon: "Globe2",
+    vocabulary: [
+      {
+        word: "globalización",
+        definition: "Proceso de interconexión e integración mundial",
+        chinese: "全球化",
+        example: "La globalización ha transformado la economía.",
+      },
+      {
+        word: "interdependencia",
+        definition: "Dependencia mutua entre países",
+        chinese: "相互依存",
+        example: "La interdependencia económica es cada vez mayor.",
+      },
+      {
+        word: "comercio internacional",
+        definition: "Intercambio de bienes entre países",
+        chinese: "国际贸易",
+        example: "El comercio internacional ha crecido exponencialmente.",
+      },
+      {
+        word: "deslocalización",
+        definition: "Traslado de empresas a países con menor coste",
+        chinese: "外包",
+        example: "La deslocalización afectó a muchos trabajadores.",
+      },
+      {
+        word: "cadenas de suministro",
+        definition: "Red de producción y distribución de productos",
+        chinese: "供应链",
+        example: "Las cadenas de suministro se rompieron durante la pandemia.",
+      },
+      {
+        word: "arancel",
+        definition: "Impuesto sobre productos importados",
+        chinese: "关税",
+        example: "EE.UU. impuso aranceles a productos chinos.",
+      },
+      {
+        word: "libre comercio",
+        definition: "Intercambio sin barreras aduaneras",
+        chinese: "自由贸易",
+        example: "El libre comercio beneficia a consumidores.",
+      },
+      {
+        word: "proteccionismo",
+        definition: "Política de proteger la industria nacional",
+        chinese: "保护主义",
+        example: "El proteccionismo ha aumentado recientemente.",
+      },
+      {
+        word: "multinacional",
+        definition: "Empresa que opera en varios países",
+        chinese: "跨国公司",
+        example: "Las multinacionales tienen gran poder.",
+      },
+      {
+        word: "desigualdad",
+        definition: "Falta de igualdad entre personas o países",
+        chinese: "不平等",
+        example: "La globalización aumentó la desigualdad.",
+      },
+      {
+        word: " soberanía",
+        definition: "Autoridad suprema de un Estado sobre su territorio",
+        chinese: "主权",
+        example: "Algunos temen perder soberanía con la globalización.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "La desglobalización silenciosa que está transformando el comercio mundial",
+      text: `Después de tres décadas de hiperglobalización, el comercio mundial está cambiando de rumbo. El Banco Mundial advierte en su último informe que la relación entre crecimiento del comercio y crecimiento del PIB mundial ha caído a su nivel más bajo desde mil novecientos ochenta.
+
+El fenómeno no es una auténtica desglobalización, sino una "reconfiguración". Las cadenas de suministro se están reestructurando: en lugar de buscar exclusivamente eficiencia y costes mínimos, las empresas priorizan ahora la resiliencia y la cercanía geográfica.
+
+"El modelo de fabricar todo en China y vender en EE.UU. está en crisis", explica la economista María Chen. "Las empresas diversifican sus proveedores, acercan la producción a los mercados finales y mantienen stocks de seguridad mayores."
+
+La pandemia fue un acelerador, pero no la única causa. Las tensiones geopolíticas entre Estados Unidos y China, la guerra en Ucrania y la creciente conciencia climática están empujando a las empresas a repensar sus cadenas globales.
+
+Este proceso tiene ganadores y perdedores. México, Vietnam e India se están beneficiando del "nearshoring": empresas estadounidenses y europeas trasladan producción a países cercanos y con menores costes. En cambio, China está perdiendo cuota en sectores textiles y manufactura básica.
+
+Para los consumidores, esta reconfiguración tiene un coste. Los productos pueden encarecerse entre un cinco y un quince por ciento debido a la pérdida de eficiencias. Pero, según los defensores del nearshoring, se gana en seguridad de suministro y se reduce la huella de carbono del transporte.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué advierte el Banco Mundial?",
+          options: [
+            "a] Que el comercio crece más",
+            "b] Que la relación comercio-PIB es la más baja desde 1980",
+            "c] Que hay más globalización",
+            "d] Que todo está bien",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "ha caído a su nivel más bajo desde mil novecientos ochenta".',
+        },
+        {
+          id: 2,
+          question: "¿Cómo define el fenómeno?",
+          options: [
+            "a] Desglobalización total",
+            "b] Reconfiguración",
+            "c] Globalización acelerada",
+            "d] Estancamiento",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "una reconfiguración".',
+        },
+        {
+          id: 3,
+          question: "¿Qué priorizan las empresas ahora?",
+          options: [
+            "a] Solo eficiencia",
+            "b] Resiliencia y cercanía geográfica",
+            "c] Solo precio bajo",
+            "d] Solo velocidad",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "priorizan ahora la resiliencia y la cercanía geográfica".',
+        },
+        {
+          id: 4,
+          question: "¿Qué fenómeno describe la economista?",
+          options: [
+            "a] Nearshoring",
+            "b] El modelo China-EE.UU. en crisis",
+            "c] Offshoring",
+            "d] Globalización",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "El modelo de fabricar todo en China y vender en EE.UU. está en crisis".',
+        },
+        {
+          id: 5,
+          question: "¿Qué aceleró este proceso?",
+          options: [
+            "a] Solo la guerra",
+            "b] La pandemia, tensiones geopolíticas y conciencia climática",
+            "c] Solo la economía",
+            "d] Solo la tecnología",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres factores.",
+        },
+        {
+          id: 6,
+          question: "¿Qué países se benefician del nearshoring?",
+          options: [
+            "a] China y Japón",
+            "b] México, Vietnam e India",
+            "c] España y Francia",
+            "d] Australia y Nueva Zelanda",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres países.",
+        },
+        {
+          id: 7,
+          question: "¿Qué está perdiendo China?",
+          options: [
+            "a] Todo",
+            "b] Cuota en textiles y manufactura básica",
+            "c] Sectores tecnológicos",
+            "d] Nada",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "China está perdiendo cuota en sectores textiles y manufactura básica".',
+        },
+        {
+          id: 8,
+          question: "¿Cuánto pueden encarecerse los productos?",
+          options: ["a] Entre 1% y 5%", "b] Entre 5% y 15%", "c] Entre 20% y 30%", "d] No cambiarán"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "entre un cinco y un quince por ciento".',
+        },
+        {
+          id: 9,
+          question: "¿Qué se gana según los defensores?",
+          options: [
+            "a] Solo dinero",
+            "b] Seguridad de suministro y menor huella de carbono",
+            "c] Más productos",
+            "d] Más empleo",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "se gana en seguridad de suministro y se reduce la huella de carbono".',
+        },
+        {
+          id: 10,
+          question: "¿Qué son los stocks de seguridad?",
+          options: [
+            "a] Productos defectuosos",
+            "b] Reservas mayores de productos",
+            "c] Descuentos",
+            "d] Nuevos productos",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "mantienen stocks de seguridad mayores".',
+        },
+      ],
+    },
+    listening: {
+      title: "El futuro del comercio global",
+      transcription: `Bienvenidos a "Economía Global". Hoy el experto en comercio internacional Pedro Vega analiza el futuro del comercio.
+
+Pedro, ¿estamos ante el fin de la globalización?
+
+Pedro: No, pero sí ante el fin de una versión extrema de la misma. La globalización sigue, pero se diversifica. En lugar de un solo centro de producción (China), habrá varios. Es una globalización más distribuida y consciente.
+
+¿Qué factores impulsan este cambio?
+
+Pedro: Tres factores principales. Primero, seguridad nacional: los países no quieren depender de un único proveedor para bienes estratégicos como chips o medicinas. Segundo, sostenibilidad: transportar mercancías por todo el mundo tiene un coste ambiental enorme. Tercero, derechos laborales: los consumidores europeos no quieren productos hechos con explotación.
+
+¿Esto significa productos más caros?
+
+Pedro: Probablemente sí, a corto plazo. Pero hay que ver el coste total. Si incluimos el coste ambiental del transporte y el social de la explotación laboral, quizás los productos "baratos" de China no eran tan baratos.
+
+¿Qué países se beneficiarán?
+
+Pedro: Los que ofrezcan estabilidad política, infraestructuras decentes y mano de obra calificada a precios razonables. México para Norteamérica, Europa del Este para la UE, Vietnam y la India para el mercado asiático.
+
+¿Un mensaje final?
+
+Pedro: Que la globalización no está muriendo, está madurando. Pasamos de una adolescencia desenfrenada a una edad adulta más consciente.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Estamos ante el fin de la globalización?",
+          options: ["a] Sí", "b] No, pero de una versión extrema", "c] No hay cambios", "d] Sí, totalmente"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Cuántos factores impulsan el cambio?",
+          options: ["a] Dos", "b] Tres", "c] Cuatro", "d] Cinco"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Cuál es el primer factor?",
+          options: ["a] Economía", "b] Seguridad nacional", "c] Cultura", "d] Deporte"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Cuál es el segundo factor?",
+          options: ["a] Tecnología", "b] Sostenibilidad", "c] Educación", "d] Política"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Cuál es el tercer factor?",
+          options: ["a] Idiomas", "b] Derechos laborales", "c] Turismo", "d] Salud"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Serán los productos más caros?",
+          options: ["a] No", "b] Sí, a corto plazo", "c] No cambiarán", "d] Serán gratis"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué países beneficiará para Norteamérica?",
+          options: ["a] China", "b] México", "c] España", "d] Brasil"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué define Pedro como adolescencia desenfrenada?",
+          options: [
+            "a] La nueva globalización",
+            "b] La globalización anterior",
+            "c] El comercio local",
+            "d] La economía",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué incluye en el coste total?",
+          options: [
+            "a] Solo el precio",
+            "b] Coste ambiental y social",
+            "c] Solo transporte",
+            "d] Solo materiales",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Cómo define la nueva globalización?",
+          options: ["a] Más joven", "b] Más distribuida y consciente", "c] Más rápida", "d] Más barata"],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿La globalización ha beneficiado a todos por igual?",
+        description:
+          "Analiza si la globalización ha sido positiva para todos o si ha generado ganadores y perdedores. Usa ejemplos concretos.",
+        structure: {
+          intro: "Presenta el debate sobre globalización.",
+          body: "Analiza impactos positivos y negativos en diferentes países.",
+          conclusion: "Concluye con tu evaluación.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "¿Deberíamos consumir productos locales?",
+        description:
+          "Reflexiona sobre el consumo local vs. global. ¿Es sostenible el localismo económico? ¿Es accesible para todos?",
+        structure: {
+          intro: "Presenta el debate entre consumo local y global.",
+          body: "Analiza pros y contras del localismo.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "La globalización en mi vida cotidiana",
+        description:
+          "Habla sobre cómo la globalización afecta tu día a día durante 1-2 minutos. Di qué productos usas, de dónde vienen y qué opinas.",
+        connectors: [
+          "En mi día a día",
+          "Uso productos de",
+          "Viene de",
+          "Creo que la globalización",
+          "Lo bueno/malo es",
+        ],
+        guideQuestions: [
+          "¿Como te enteraste de este tema por primera vez?",
+          "¿Que es lo que mas te llama la atencion?",
+          "¿Has vivido alguna situacion parecida?",
+          "¿Que soluciones propondrias?",
+        ],
+      },
+      topic2: {
+        title: "¿El futuro es local o global?",
+        description:
+          "Habla sobre si crees que el futuro será más local o más global. Argumenta tu posición con ejemplos.",
+        connectors: ["Creo que el futuro será", "Porque", "Por ejemplo", "Por un lado", "Por otro lado"],
+        guideQuestions: [
+          "¿Que papel juega esto en tu vida cotidiana?",
+          "¿Crees que todo el mundo piensa igual?",
+          "¿Que recuerdos tienes relacionados?",
+          "¿Como te gustaria que fuera?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero representáis a empresas de dos países diferentes que negocian un acuerdo comercial. Debéis acordar términos.",
+      questions: [
+        {
+          question: "¿Qué productos o servicios intercambiamos? ¿A qué precio?",
+          help: "Negocia. Usa: Podemos ofrecer... / El precio sería...",
+          usefulPhrases: [
+            "En mi caso particular...",
+            "Lo que mejor resultado me ha dado es...",
+            "Intenta...",
+            "Ten presente que...",
+            "Un consejo que doy siempre es...",
+            "El truco consiste en...",
+          ],
+        },
+        {
+          question: "¿Cómo nos aseguramos de que el acuerdo sea equitativo para ambas partes?",
+          help: "Establece garantías. Usa: Podríamos incluir... / Es importante que...",
+          usefulPhrases: [
+            "Pienso que lo mas acertado es...",
+            "Te animo a que pruebes...",
+            "Otra opcion interesante es...",
+            "No subestimes...",
+            "Mi recomendacion seria...",
+            "Lo crucial es...",
+          ],
+        },
+        {
+          question: "¿Qué pasa si hay problemas logísticos o políticos?",
+          help: "Planifica contingencias. Usa: En caso de... / El plan B sería...",
+          usefulPhrases: [
+            "Por mi experiencia...",
+            "Algo que nunca falla es...",
+            "Quizas deberias...",
+            "Es fundamental que...",
+            "Una estrategia efectiva es...",
+            "La cuestion es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 14,
+    level: "B2",
+    theme: "La vivienda y gentrificación",
+    icon: "Home",
+    vocabulary: [
+      {
+        word: "gentrificación",
+        definition: "Transformación de barrios populares por clase media alta",
+        chinese: "士绅化",
+        example: "La gentrificación ha cambiado el barrio.",
+      },
+      {
+        word: "alquiler",
+        definition: "Pago periódico por usar una vivienda",
+        chinese: "租金",
+        example: "El alquiler ha subido un veinte por ciento.",
+      },
+      {
+        word: "hipoteca",
+        definition: "Préstamo para comprar una casa",
+        chinese: "抵押贷款",
+        example: "La hipoteca le queda quince años.",
+      },
+      {
+        word: "vivienda protegida",
+        definition: "Viviendas con precios regulados",
+        chinese: "保障性住房",
+        example: "Necesitamos más vivienda protegida.",
+      },
+      {
+        word: "desahucio",
+        definition: "Expulsión de una vivienda por no pagar",
+        chinese: "驱逐",
+        example: "El desahucio afectó a una familia.",
+      },
+      {
+        word: "especulación",
+        definition: "Compra para obtener beneficios sin crear valor",
+        chinese: "投机",
+        example: "La especulación inmobiliaria sube los precios.",
+      },
+      {
+        word: "okupación",
+        definition: "Ocupación de una vivienda sin permiso",
+        chinese: "强占",
+        example: "La okupación es un problema social.",
+      },
+      {
+        word: "urbanismo",
+        definition: "Planificación del desarrollo de ciudades",
+        chinese: "城市规划",
+        example: "El urbanismo sostenible es necesario.",
+      },
+      {
+        word: "barrio",
+        definition: "Zona de una ciudad con identidad propia",
+        chinese: "街区",
+        example: "Mi barrio ha cambiado mucho.",
+      },
+      {
+        word: "bolha inmobiliaria",
+        definition: "Subida artificial de precios de vivienda",
+        chinese: "房地产泡沫",
+        example: "La burbuja inmobiliaria estalló en 2008.",
+      },
+      {
+        word: "cooperativa de vivienda",
+        definition: "Viviendas gestionadas colectivamente",
+        chinese: "住房合作社",
+        example: "Las cooperativas son una alternativa.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "Barcelona declara la guerra a los pisos turísticos: multas de hasta cien mil euros",
+      text: `El Ayuntamiento de Barcelona ha aprobado una ordenanza que prohíbe el alquiler de viviendas por días a turistas en toda la ciudad, con multas que pueden alcanzar los cien mil euros. La medida, la más restrictiva de España, busca devolver viviendas al mercado residencial.
+
+"Barcelona ha dicho basta. No somos una ciudad-museo ni un parque temático", declaró la alcaldesa durante la presentación de la normativa. "Cada piso turístico es una vivienda menos para una familia barcelonesa."
+
+Según datos municipales, en la ciudad existen más de diez mil pisos turísticos ilegales, a los que hay que sumar los cuatro mil quinientos legalmente registrados antes de la moratoria de dos mil diecisiete. La alcaldesa calcula que la medida podría devolver al mercado residencial unas ocho mil viviendas.
+
+La medida ha generado un intenso debate. Las asociaciones de vecinos la han celebrado como "un paso histórico" en la lucha contra la gentrificación y la expulsión de residentes. Por el contrario, la asociación de apartamentos turísticos advierte de pérdida de empleo y de una caída del turismo.
+
+Los expertos en urbanismo señalan que la medida, aunque necesaria, no es suficiente. "Prohibir los pisos turísticos es importante, pero hay que acompañarla de políticas de vivienda pública y control de alquileres. Si no, el mercado seguirá siendo inaccesible", señala el arquitecto urbanista Toni Mora.
+
+Otras ciudades españolas observan atentamente. Madrid, Valencia y Málaga estudian medidas similares para contener la presión turística sobre sus mercados de vivienda.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué ha aprobado el Ayuntamiento de Barcelona?",
+          options: [
+            "a] Subvenciones",
+            "b] Prohibición de alquiler turístico por días",
+            "c] Más pisos turísticos",
+            "d] Nada",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "ha aprobado una ordenanza que prohíbe el alquiler de viviendas por días a turistas".',
+        },
+        {
+          id: 2,
+          question: "¿Cuánto pueden ser las multas?",
+          options: [
+            "a] Diez mil euros",
+            "b] Cincuenta mil euros",
+            "c] Cien mil euros",
+            "d] Un millón de euros",
+          ],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "multas que pueden alcanzar los cien mil euros".',
+        },
+        {
+          id: 3,
+          question: "¿Cuántos pisos turísticos ilegales hay?",
+          options: ["a] Mil", "b] Cinco mil", "c] Más de diez mil", "d] Veinte mil"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "más de diez mil pisos turísticos ilegales".',
+        },
+        {
+          id: 4,
+          question: "¿Cuántas viviendas podrían volver al mercado?",
+          options: ["a] Mil", "b] Cuatro mil", "c] Ocho mil", "d] Veinte mil"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "podría devolver al mercado residencial unas ocho mil viviendas".',
+        },
+        {
+          id: 5,
+          question: "¿Qué dicen las asociaciones de vecinos?",
+          options: [
+            "a] Que es mala medida",
+            "b] Que es un paso histórico",
+            "c] Que no cambia nada",
+            "d] Que favorece al turismo",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "lo han celebrado como un paso histórico".',
+        },
+        {
+          id: 6,
+          question: "¿Qué advierte la asociación de apartamentos turísticos?",
+          options: [
+            "a] Más turismo",
+            "b] Pérdida de empleo y caída del turismo",
+            "c] Más viviendas",
+            "d] Mejor economía",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "advierte de pérdida de empleo y de una caída del turismo".',
+        },
+        {
+          id: 7,
+          question: "¿Qué dice Toni Mora sobre la medida?",
+          options: [
+            "a] Que es suficiente",
+            "b] Que es necesaria pero no suficiente",
+            "c] Que es mala",
+            "d] Que es perfecta",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "aunque necesaria, no es suficiente".',
+        },
+        {
+          id: 8,
+          question: "¿Qué otras ciudades estudian medidas similares?",
+          options: [
+            "a] Solo Barcelona",
+            "b] Madrid, Valencia y Málaga",
+            "c] Solo Madrid",
+            "d] Solo Valencia",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esas tres ciudades.",
+        },
+        {
+          id: 9,
+          question: "¿Qué declaró la alcaldesa?",
+          options: [
+            "a] Que Barcelona es un parque temático",
+            "b] No somos una ciudad-museo ni un parque temático",
+            "c] Que quiere más turismo",
+            "d] Que no hay problema",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita: "No somos una ciudad-museo ni un parque temático".',
+        },
+        {
+          id: 10,
+          question: "¿Cuándo fue la moratoria de pisos turísticos?",
+          options: ["a] 2015", "b] 2017", "c] 2020", "d] 2023"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "moratoria de dos mil diecisiete".',
+        },
+      ],
+    },
+    listening: {
+      title: "La crisis de la vivienda en España",
+      transcription: `Bienvenidos a "Vivienda y Ciudad". Hoy la arquitecta y urbanista Rosa Martínez analiza la situación.
+
+Rosa, ¿existe realmente una crisis de vivienda en España?
+
+Rosa: Rotundamente sí. Tenemos un problema estructural. España construyó mucho durante la burbuja, pero no el tipo de vivienda que necesitábamos. Se hicieron pisos grandes y caros en periferias, mientras faltaban viviendas asequibles en centros urbanos.
+
+¿Por qué han subido tanto los alquileres?
+
+Rosa: Por varios factores. Primero, la conversión de viviendas en pisos turísticos reduce la oferta. Segundo, la compra masiva por fondos de inversión. Tercero, la falta de construcción de vivienda pública desde los años noventa.
+
+¿Qué soluciones propones?
+
+Rosa: Necesitamos un cambio de modelo. Primero, vivienda pública masiva, no como asistencia sino como derecho. Segundo, control de alquileres en zonas tensionadas. Tercero, fiscalidad que penalice la vivienda vacía y la especulación.
+
+¿Y la compra vs. alquiler?
+
+Rosa: En España hay una obsesión cultural con la propiedad. En países como Alemania, más de la mitad de la población alquila. La propiedad no debería ser el único modelo válido.
+
+¿Es optimista?
+
+Rosa: Soy realista. El problema es grave pero hay soluciones conocidas. Lo que falta es voluntad política. Los jóvenes están cambiando la percepción: muchos prefieren calidad de vida y movilidad sobre la hipotecad eterna.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es la profesión de Rosa?",
+          options: ["a] Política", "b] Arquitecta y urbanista", "c] Ingeniera", "d] Abogada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué se construyó durante la burbuja?",
+          options: [
+            "a] Viviendas sociales",
+            "b] Pisos grandes y caros en periferias",
+            "c] Hospitales",
+            "d] Escuelas",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Cuántos factores menciona para la subida de alquileres?",
+          options: ["a] Dos", "b] Tres", "c] Cuatro", "d] Cinco"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Cuál es el primer factor?",
+          options: ["a] Inflación", "b] Conversión a pisos turísticos", "c] Paro", "d] Nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Cuál es el segundo factor?",
+          options: ["a] Emigración", "b] Compra masiva por fondos de inversión", "c] Guerra", "d] Población"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Cuál es el tercer factor?",
+          options: [
+            "a] Mucha construcción pública",
+            "b] Falta de construcción pública desde los 90",
+            "c] Mucha demanda",
+            "d] Poca población",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué país menciona como modelo de alquiler?",
+          options: ["a] Francia", "b] Alemania", "c] Italia", "d] Portugal"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué falta según Rosa?",
+          options: ["a] Dinero", "b] Voluntad política", "c] Gente", "d] Tierra"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué están cambiando los jóvenes?",
+          options: [
+            "a] Nada",
+            "b] Prefieren calidad de vida sobre hipoteca eterna",
+            "c] Quieren casas más grandes",
+            "d] No quieren trabajar",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué dice sobre la propiedad en España?",
+          options: [
+            "a] Que no importa",
+            "b] Hay una obsesión cultural con la propiedad",
+            "c] Que es mala",
+            "d] Que no existe",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Quién tiene derecho a vivir en el centro de la ciudad?",
+        description:
+          "Reflexiona sobre el derecho a la vivienda frente al derecho a la propiedad. ¿Es justo limitar el alquiler turístico?",
+        structure: {
+          intro: "Presenta el conflicto entre vivienda y turismo.",
+          body: "Analiza ambos derechos y sus limites.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "La vivienda como derecho o como mercancía",
+        description:
+          "Analiza si la vivienda debería considerarse un derecho humano básico o un bien de mercado.",
+        structure: {
+          intro: "Presenta el debate derecho vs. mercancía.",
+          body: "Analiza consecuencias de ambos enfoques.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "La vivienda en mi ciudad",
+        description:
+          "Habla sobre la situación de la vivienda en tu ciudad durante 1-2 minutos. Di si es cara, qué tipo de viviendas hay y qué problemas existen.",
+        connectors: ["En mi ciudad", "La vivienda es", "Los problemas son", "La gente joven", "Creo que"],
+        guideQuestions: [
+          "¿Desde cuando conoces este tema?",
+          "¿Que aspectos positivos y negativos tiene?",
+          "¿Como afecta a las nuevas generaciones?",
+          "¿Que importancia le das?",
+        ],
+      },
+      topic2: {
+        title: "Turismo y vida local",
+        description:
+          "Habla sobre cómo afecta el turismo a la vida de los residentes en tu ciudad o una que conozcas. Di si es positivo o negativo.",
+        connectors: [
+          "El turismo en",
+          "Afecta a los residentes porque",
+          "Por un lado",
+          "Por otro lado",
+          "Mi opinión es",
+        ],
+        guideQuestions: [
+          "¿Que significa esto para ti personalmente?",
+          "¿Has tenido que adaptarte por este motivo?",
+          "¿Que piensan tus amigos al respecto?",
+          "¿Crees que la situacion mejorara?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero vivís en el mismo barrio que está sufriendo gentrificación. Debéis decidir qué acciones tomar como vecinos.",
+      questions: [
+        {
+          question: "¿Qué problemas notamos en el barrio últimamente?",
+          help: "Describe la situación. Usa: Últimamente hemos notado... / El problema principal es...",
+          usefulPhrases: [
+            "Sinceramente, yo creo que...",
+            "Te propongo que...",
+            "Valora la posibilidad de...",
+            "No ignores que...",
+            "Lo que funciona de verdad es...",
+            "El objetivo principal es...",
+          ],
+        },
+        {
+          question: "¿Qué acciones concretas podemos tomar como vecinos?",
+          help: "Propón acciones. Usa: Podríamos organizar... / Es importante...",
+          usefulPhrases: [
+            "Si me preguntas a mi...",
+            "Una solucion practica es...",
+            "Piensa en la opcion de...",
+            "Recuerda siempre que...",
+            "El mejor consejo que puedo darte es...",
+            "El punto clave es...",
+          ],
+        },
+        {
+          question: "¿Cómo negociamos con el Ayuntamiento o las empresas?",
+          help: "Planifica estrategia. Usa: Deberíamos pedir una reunión con... / Exigiremos...",
+          usefulPhrases: [
+            "A mi entender...",
+            "Lo mas sensato seria...",
+            "No descartes la idea de...",
+            "Hay que tener en cuenta que...",
+            "Mi sugerencia es...",
+            "Lo prioritario es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 15,
+    level: "B2",
+    theme: "Las redes sociales",
+    icon: "MessageCircle",
+    vocabulary: [
+      {
+        word: "viral",
+        definition: "Contenido que se difunde masivamente en internet",
+        chinese: "病毒式传播",
+        example: "Su vídeo se hizo viral en horas.",
+      },
+      {
+        word: "influencer",
+        definition: "Persona con gran capacidad de influencia en redes",
+        chinese: "网红",
+        example: "Los influencers tienen millones de seguidores.",
+      },
+      {
+        word: "seguidor",
+        definition: "Persona que sigue a alguien en redes sociales",
+        chinese: "粉丝",
+        example: "Tiene cien mil seguidores en Instagram.",
+      },
+      {
+        word: "engagement",
+        definition: "Nivel de interacción de una audiencia",
+        chinese: "互动率",
+        example: "El engagement de su cuenta es muy alto.",
+      },
+      {
+        word: "algoritmo",
+        definition: "Sistema que decide qué contenido mostrar",
+        chinese: "算法",
+        example: "El algoritmo de TikTok favorece contenido corto.",
+      },
+      {
+        word: "cancel culture",
+        definition: "Práctica de boicotear a alguien por opiniones controvertidas",
+        chinese: "取消文化",
+        example: "La cancel culture genera debate.",
+      },
+      {
+        word: "fake news",
+        definition: "Noticias falsas difundidas como si fueran reales",
+        chinese: "假新闻",
+        example: "Las fake news son un grave problema.",
+      },
+      {
+        word: "FOMO",
+        definition: "Miedo a perderse algo (Fear Of Missing Out)",
+        chinese: "错失恐惧症",
+        example: "El FOMO nos hace mirar el móvil constantemente.",
+      },
+      {
+        word: "filtrar",
+        definition: "Compartir información privada sin permiso",
+        chinese: "泄露",
+        example: "Filtraron conversaciones privadas.",
+      },
+      {
+        word: "comunidad online",
+        definition: "Grupo de personas con intereses comunes en internet",
+        chinese: "在线社区",
+        example: "Formo parte de una comunidad online de lectores.",
+      },
+      {
+        word: "bienestar digital",
+        definition: "Uso saludable de la tecnología",
+        chinese: "数字健康",
+        example: "El bienestar digital es cada vez más importante.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "Instagram y la salud mental: los números que Meta no quiere que veas",
+      text: `Una investigación del Wall Street Journal ha destapado los datos internos de Meta sobre el impacto de Instagram en la salud mental de los adolescentes. Los documentos filtrados revelan que la empresa conocía desde hace años los efectos negativos de su plataforma.
+
+Según los datos internos, el treinta y dos por ciento de las adolescentes dijeron que cuando se sentían mal con su cuerpo, Instagram les hacía sentirse peor. Una de cada tres adolescentes reportó que la plataforma agravaba sus problemas de inseguridad corporal.
+
+El algoritmo de Instagram, diseñado para maximizar el tiempo de uso, juega un papel clave. Al priorizar contenido que genera comparación social —fotos de cuerpos ideales, vidas de lujo, viajes perfectos—, la plataforma expone constantemente a los usuarios a estándares inalcanzables.
+
+Los documentos también revelan que Meta realizó estudios internos que confirmaban estos hallazgos. En uno de ellos, el sesenta y seis por ciento de los adolescentes dijo que Instagram les había generado insomnio al menos una vez.
+
+Ante la presión, Meta ha anunciado cambios: pausas obligatorias para menores después de cierto tiempo de uso, restricción de contenido sobre cuerpos en la sección de explorar y herramientas para padres. Pero los críticos consideran que estas medidas son insuficientes y llegan demasiado tarde.
+
+"Las redes sociales no son inherentemente malas, pero su modelo de negocio basado en la atención sí lo es", afirma la psicóloga especializada en bienestar digital Ana Torres. "Mientras más tiempo pasemos, más dinero ganan. Esa es la ecuación que explica el diseño adictivo."`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué investigación destapó los datos?",
+          options: ["a] The New York Times", "b] El Wall Street Journal", "c] The Guardian", "d] El País"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Una investigación del Wall Street Journal".',
+        },
+        {
+          id: 2,
+          question: "¿Qué porcentaje de adolescentes dijo que Instagram les hacía sentirse peor?",
+          options: ["a] El 22%", "b] El 32%", "c] El 42%", "d] El 52%"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "el treinta y dos por ciento de las adolescentes dijeron que... Instagram les hacía sentirse peor".',
+        },
+        {
+          id: 3,
+          question: "¿Qué prioriza el algoritmo según el texto?",
+          options: [
+            "a] Contenido educativo",
+            "b] Contenido que genera comparación social",
+            "c] Noticias",
+            "d] Deportes",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Al priorizar contenido que genera comparación social".',
+        },
+        {
+          id: 4,
+          question: "¿Qué porcentaje reportó insomnio?",
+          options: ["a] El 46%", "b] El 56%", "c] El 66%", "d] El 76%"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "el sesenta y seis por ciento de los adolescentes dijo que Instagram les había generado insomnio".',
+        },
+        {
+          id: 5,
+          question: "¿Qué cambios ha anunciado Meta?",
+          options: [
+            "a] Cerrar Instagram",
+            "b] Pausas obligatorias, restricción de contenido y herramientas para padres",
+            "c] Nada",
+            "d] Cobrar por usarla",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esas tres medidas.",
+        },
+        {
+          id: 6,
+          question: "¿Qué opinan los críticos?",
+          options: [
+            "a] Que son suficientes",
+            "b] Que son insuficientes y llegan tarde",
+            "c] Que son perfectas",
+            "d] Que no cambiarán nada",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "los críticos consideran que estas medidas son insuficientes y llegan demasiado tarde".',
+        },
+        {
+          id: 7,
+          question: "¿Qué dice Ana Torres sobre las redes sociales?",
+          options: [
+            "a] Que son malas",
+            "b] Que su modelo de negocio basado en la atención es malo",
+            "c] Que no afectan",
+            "d] Que son buenas",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita: "su modelo de negocio basado en la atención sí lo es".',
+        },
+        {
+          id: 8,
+          question: "¿Cuál es la ecuación según Ana Torres?",
+          options: [
+            "a] Más tiempo = menos dinero",
+            "b] Más tiempo = más dinero",
+            "c] Menos tiempo = más dinero",
+            "d] Tiempo = calidad",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Mientras más tiempo pasemos, más dinero ganan".',
+        },
+        {
+          id: 9,
+          question: "¿Qué tipo de contenido genera comparación?",
+          options: [
+            "a] Solo noticias",
+            "b] Cuerpos ideales, vidas de lujo, viajes perfectos",
+            "c] Solo educación",
+            "d] Solo humor",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres tipos.",
+        },
+        {
+          id: 10,
+          question: "¿Por qué es adictivo el diseño según el texto?",
+          options: [
+            "a] Porque es divertido",
+            "b] Porque maximiza tiempo de uso = dinero",
+            "c] Porque es educativo",
+            "d] Porque es gratis",
+          ],
+          correctAnswer: 1,
+          explanation:
+            "El texto explica que el modelo de negocio basado en la atención explica el diseño adictivo.",
+        },
+      ],
+    },
+    listening: {
+      title: "Vivir sin redes sociales: un experimento de un año",
+      transcription: `Soy Laura y hace un año que no uso redes sociales. Instagram, Facebook, Twitter, TikTok... nada. Quiero contaros mi experiencia.
+
+Al principio fue difícil. Siento FOMO constante. Mis amigos hablaban de memes que yo no entendía, de tendencias que no veía. Me sentía excluida.
+
+Pero después de un mes, algo cambió. Empecé a notar que tenía más tiempo. Tiempo para leer, para pasear, para estar con amigos de verdad, no virtualmente. Mi concentración mejoró notablemente. Pude leer libros enteros sin distracciones.
+
+Lo más sorprendente fue mi autoestima. Sin la comparación constante con vidas perfectas, me sentí más contenta con mi cuerpo, con mi trabajo, con mi vida. La ansiedad que sentía cada vez que publicaba una foto desapareció.
+
+Por supuesto, hay desventajas. Me he perdido eventos porque solo se anunciaban en Instagram. He perdido contacto con algunos conocidos. Y en mi trabajo, como community manager, tuve que crear un perfil profesional separado.
+
+Pero no pienso volver personalmente. Las redes sociales no son malas en sí, pero para mí eran adictivas y tóxicas. Vivir sin ellas me ha devuelto la atención, el tiempo y la paz mental.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuánto tiempo lleva Laura sin redes sociales?",
+          options: ["a] Seis meses", "b] Un año", "c] Dos años", "d] Tres años"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué sintió al principio?",
+          options: ["a] Felicidad", "b] FOMO", "c] Calma", "d] Nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué mejoró después de un mes?",
+          options: ["a] Su alimentación", "b] Su concentración", "c] Su visión", "d] Su dinero"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué desapareció respecto a su autoestima?",
+          options: ["a] Nada", "b] La ansiedad al publicar fotos", "c] El amor propio", "d] La confianza"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué desventaja menciona?",
+          options: [
+            "a] Se perdió eventos",
+            "b] Se perdió amigos",
+            "c] Se perdió trabajo",
+            "d] Se perdió dinero",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          id: 6,
+          question: "¿Cuál es su profesión?",
+          options: ["a] Médica", "b] Community manager", "c] Profesora", "d] Abogada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué tuvo que crear para el trabajo?",
+          options: [
+            "a] Una nueva cuenta personal",
+            "b] Un perfil profesional separado",
+            "c] Nada",
+            "d] Un blog",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué le devolvió vivir sin redes?",
+          options: ["a] Dinero", "b] Atención, tiempo y paz mental", "c] Amigos", "d] Trabajo"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Piensa volver a las redes personales?",
+          options: ["a] Sí", "b] No", "c] Tal vez", "d] No lo sabe"],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Cómo describe las redes para ella?",
+          options: ["a] Buenas", "b] Adictivas y tóxicas", "c] Neutras", "d] Necesarias"],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Deberíamos regular el uso de redes sociales para menores?",
+        description:
+          "Analiza si debería haber límites de edad o tiempo para el uso de redes sociales por parte de menores. Argumenta tu posición.",
+        structure: {
+          intro: "Presenta el debate sobre regulación de redes para menores.",
+          body: "Analiza pros y contras de regular.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "El impacto de las redes sociales en las relaciones personales",
+        description:
+          "Reflexiona sobre cómo las redes sociales han cambiado nuestra forma de relacionarnos. ¿Nos acercan o nos alejan?",
+        structure: {
+          intro: "Describe el impacto de las redes en las relaciones.",
+          body: "Analiza efectos positivos y negativos.",
+          conclusion: "Concluye con tu reflexión.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi relación con las redes sociales",
+        description:
+          "Habla sobre tu uso de redes sociales durante 1-2 minutos. Di cuáles usas, cuánto tiempo pasas, qué te gusta y qué te preocupa.",
+        connectors: [
+          "Yo uso",
+          "Paso aproximadamente",
+          "Lo que más me gusta es",
+          "Lo que me preocupa",
+          "Creo que debería",
+        ],
+        guideQuestions: [
+          "¿Cual fue tu primera experiencia con esto?",
+          "¿Como ha cambiado tu perspectiva?",
+          "¿Que habilidades has desarrollado gracias a ello?",
+          "¿Que le recomendarias a alguien que empieza?",
+        ],
+      },
+      topic2: {
+        title: "Influencers: ¿modelos a seguir o negocio?",
+        description:
+          "Habla sobre los influencers. ¿Son auténticos? ¿Tienen responsabilidad social? ¿Crees que son positivos para la sociedad?",
+        connectors: [
+          "Los influencers",
+          "Algunos son",
+          "Otros",
+          "Creo que tienen responsabilidad",
+          "En mi opinión",
+        ],
+        guideQuestions: [
+          "¿Por que te parece interesante este tema?",
+          "¿Que habilidades se necesitan?",
+          "¿Como influye en otras areas de tu vida?",
+          "¿Cual ha sido tu mayor aprendizaje?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero tenéis opiniones opuestas sobre el uso de redes sociales. Uno las defiende y el otro las critica. Debéis debatir y llegar a un acuerdo.",
+      questions: [
+        {
+          question: "¿Son las redes sociales más útiles o más dañinas para la sociedad?",
+          help: "Argumenta. Usa: Creo que son más... porque... / El principal problema/beneficio es...",
+          usefulPhrases: [
+            "Yo diria que...",
+            "Prueba esta opcion...",
+            "Tal vez te interese...",
+            "Es relevante saber que...",
+            "Algo que debes probar es...",
+            "El factor mas importante es...",
+          ],
+        },
+        {
+          question: "¿Qué regulaciones serían razonables sin limitar la libertad de expresión?",
+          help: "Propón regulaciones. Usa: Sería razonable... / Podríamos regular...",
+          usefulPhrases: [
+            "Mi impresion es que...",
+            "Te convendria...",
+            "Otra posibilidad es...",
+            "No te pierdas el detalle de...",
+            "Una buena tactica es...",
+            "El aspecto decisivo es...",
+          ],
+        },
+        {
+          question: "¿Cómo usamos nosotros las redes de forma responsable?",
+          help: "Comprométete. Usa: Yo me comprometo a... / Podríamos acordar...",
+          usefulPhrases: [
+            "Considerando la situacion...",
+            "El enfoque mas adecuado es...",
+            "Explora la opcion de...",
+            "Destaca especialmente...",
+            "Un metodo infalible es...",
+            "El elemento central es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 16,
+    level: "B2",
+    theme: "El turismo sostenible",
+    icon: "Mountain",
+    vocabulary: [
+      {
+        word: "turismo sostenible",
+        definition: "Turismo que respeta el medio ambiente y la cultura local",
+        chinese: "可持续旅游",
+        example: "El turismo sostenible es el futuro.",
+      },
+      {
+        word: "huella ecológica",
+        definition: "Impacto ambiental que deja una actividad",
+        chinese: "生态足迹",
+        example: "Debemos reducir nuestra huella ecológica.",
+      },
+      {
+        word: "turismo de masas",
+        definition: "Turismo masificado que impacta negativamente",
+        chinese: "大众旅游",
+        example: "El turismo de masas destruye destinos.",
+      },
+      {
+        word: "ecoturismo",
+        definition: "Turismo en contacto con la naturaleza",
+        chinese: "生态旅游",
+        example: "El ecoturismo es respetuoso con el entorno.",
+      },
+      {
+        word: "turismo responsable",
+        definition: "Turismo consciente de su impacto",
+        chinese: "负责任的旅游",
+        example: "Practico turismo responsable cuando viajo.",
+      },
+      {
+        word: "hostal",
+        definition: "Alojamiento económico similar a un hotel",
+        chinese: "旅馆",
+        example: "Me alojé en un hostal sostenible.",
+      },
+      {
+        word: "albergue",
+        definition: "Alojamiento colectivo de bajo coste",
+        chinese: "青年旅社",
+        example: "Los albergues son económicos y sociales.",
+      },
+      {
+        word: "sobreturismo",
+        definition: "Exceso de turistas en un destino",
+        chinese: "过度旅游",
+        example: "El sobreturismo afecta a Venecia y Barcelona.",
+      },
+      {
+        word: "conservación",
+        definition: "Protección y cuidado del medio ambiente",
+        chinese: "保护",
+        example: "La conservación de los ecosistemas es vital.",
+      },
+      {
+        word: "comunidad local",
+        definition: "Población que vive en el destino turístico",
+        chinese: "当地社区",
+        example: "El turismo debe beneficiar a la comunidad local.",
+      },
+      {
+        word: "patrimonio natural",
+        definition: "Lugares naturales protegidos por su valor",
+        chinese: "自然遗产",
+        example: "Debemos proteger el patrimonio natural.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "Venecia introduce tasas de acceso para combatir el sobreturismo",
+      text: `A partir del mes que viene, Venecia se convertirá en la primera ciudad italiana en cobrar una tasa de acceso a los visitantes no residentes. La medida, de cinco euros por persona y día, busca limitar el número de turistas y proteger la frágil ciudad lagunar.
+
+La iniciativa surge después de años de debate sobre el sobreturismo. Venecia, con menos de cincuenta mil habitantes, recibe más de veinte millones de visitantes al año. Esta masificación ha provocado el deterioro de los edificios históricos, la saturación de los servicios públicos y la expulsión de residentes.
+
+"No queremos prohibir el turismo, queremos regularlo", explicó el alcalde. "Venecia es un tesoro de la humanidad y debemos preservarlo. La tasa no es una barrera, es una herramienta de gestión."
+
+El sistema funcionará por reserva previa. Los visitantes deberán registrarse online y pagar la tasa antes de llegar. Se establecerán límites diarios: en días de alta afluencia, solo podrán entrar cuarenta mil visitantes.
+
+La medida ha generado reacciones encontradas. Las asociaciones de comerciantes temen una caída de ventas, mientras que los grupos de preservación del patrimonio la consideran insuficiente.
+
+Otras ciudades europeas observan con atención. Ámsterdam, Brujas y Barcelona estudian implementar sistemas similares para gestionar la afluencia turística. El modelo veneciano podría convertirse en un referente para el turismo urbano del siglo XXI.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuánto costará la tasa de acceso a Venecia?",
+          options: ["a] Dos euros", "b] Tres euros", "c] Cinco euros", "d] Diez euros"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "de cinco euros por persona y día".',
+        },
+        {
+          id: 2,
+          question: "¿Cuántos habitantes tiene Venecia?",
+          options: ["a] Menos de 30 mil", "b] Menos de 50 mil", "c] Menos de 100 mil", "d] Más de 100 mil"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "con menos de cincuenta mil habitantes".',
+        },
+        {
+          id: 3,
+          question: "¿Cuántos visitantes recibe al año?",
+          options: [
+            "a] Más de 5 millones",
+            "b] Más de 10 millones",
+            "c] Más de 20 millones",
+            "d] Más de 50 millones",
+          ],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "recibe más de veinte millones de visitantes al año".',
+        },
+        {
+          id: 4,
+          question: "¿Cómo funcionará el sistema?",
+          options: ["a] Sin registro", "b] Por reserva previa online", "c] Solo en persona", "d] Por sorteo"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "El sistema funcionará por reserva previa. Los visitantes deberán registrarse online".',
+        },
+        {
+          id: 5,
+          question: "¿Cuál es el límite diario de visitantes?",
+          options: ["a] Veinte mil", "b] Treinta mil", "c] Cuarenta mil", "d] Cincuenta mil"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "solo podrán entrar cuarenta mil visitantes".',
+        },
+        {
+          id: 6,
+          question: "¿Qué temen los comerciantes?",
+          options: ["a] Más gente", "b] Caída de ventas", "c] Más competencia", "d] Nada"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Las asociaciones de comerciantes temen una caída de ventas".',
+        },
+        {
+          id: 7,
+          question: "¿Qué opinan los grupos de preservación?",
+          options: [
+            "a] Que es suficiente",
+            "b] Que es insuficiente",
+            "c] Que es perfecto",
+            "d] Que no importa",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "los grupos de preservación del patrimonio la consideran insuficiente".',
+        },
+        {
+          id: 8,
+          question: "¿Qué otras ciudades estudian medidas similares?",
+          options: [
+            "a] Madrid, Barcelona y Valencia",
+            "b] Ámsterdam, Brujas y Barcelona",
+            "c] París, Roma y Londres",
+            "d] Berlín, Viena y Praga",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esas tres ciudades.",
+        },
+        {
+          id: 9,
+          question: "¿Qué no quiere hacer el alcalde según el texto?",
+          options: [
+            "a] Regular el turismo",
+            "b] Prohibir el turismo",
+            "c] Cobrar una tasa",
+            "d] Preservar Venecia",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "No queremos prohibir el turismo, queremos regularlo".',
+        },
+        {
+          id: 10,
+          question: "¿Qué consecuencia tiene el sobreturismo en Venecia?",
+          options: [
+            "a] Mejora la economía",
+            "b] Deterioro de edificios, saturación y expulsión de residentes",
+            "c] Solo beneficia",
+            "d] Nada negativo",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esas tres consecuencias.",
+        },
+      ],
+    },
+    listening: {
+      title: "Mi viaje sostenible por Costa Rica",
+      transcription: `Hola, soy Marta y os quiero contar mi viaje sostenible por Costa Rica.
+
+Decidí ir a Costa Rica porque es un país pionero en ecoturismo. El noventa y ocho por ciento de su electricidad viene de renovables y tiene una red de parques nacionales increíble.
+
+Me alojé en ecolodges, pequeños alojamientos construidos con materiales locales que funcionan con energía solar. En uno de ellos, el agua caliente venía de paneles solares y la comida era del huerto propio.
+
+Visité el Parque Nacional de Manuel Antonio. Solo permiten mil seiscientos visitantes al día para proteger la fauna. Vi monos, perezosos y cientos de aves. La guía nos explicó que el dinero de las entradas se destina a conservación.
+
+También visité una comunidad indígena. Hicieron un tour donde mostraban sus tradiciones, su relación con la naturaleza y su forma de vida sostenible. Compré artesanías directamente a ellos, sin intermediarios.
+
+El viaje me costó más que uno convencional, unos quinientos euros más. Pero sabiendo que mi dinero iba a conservación y comunidades locales, valió cada céntimo.
+
+Mi consejo: viajar sosteniblemente es posible. Solo hay que investigar, elegir bien y ser consciente del impacto que generamos.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Por qué eligió Costa Rica?",
+          options: [
+            "a] Porque es barato",
+            "b] Porque es pionero en ecoturismo",
+            "c] Porque es cerca",
+            "d] Porque tiene playas",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué porcentaje de electricidad es renovable?",
+          options: ["a] El 78%", "b] El 88%", "c] El 98%", "d] El 100%"],
+          correctAnswer: 2,
+        },
+        {
+          id: 3,
+          question: "¿Dónde se alojó?",
+          options: ["a] Hoteles de lujo", "b] Ecolodges", "c] Casas de amigos", "d] Tiendas de campaña"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Cuántos visitantes permiten al día en Manuel Antonio?",
+          options: ["a] 600", "b] 1.000", "c] 1.600", "d] 5.000"],
+          correctAnswer: 2,
+        },
+        {
+          id: 5,
+          question: "¿Qué animales vio?",
+          options: ["a] Solo aves", "b] Monos, perezosos y aves", "c] Solo peces", "d] Solo insectos"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿A dónde se destina el dinero de las entradas?",
+          options: ["a] Al gobierno", "b] A conservación", "c] A hoteles", "d] A guías"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué compró en la comunidad indígena?",
+          options: ["a] Comida", "b] Artesanías", "c] Ropa", "d] Electrónica"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Cuánto más costó el viaje?",
+          options: ["a] Cien euros", "b] Doscientos euros", "c] Quinientos euros", "d] Mil euros"],
+          correctAnswer: 2,
+        },
+        {
+          id: 9,
+          question: "¿A dónde iba el dinero según Marta?",
+          options: [
+            "a] A grandes empresas",
+            "b] A conservación y comunidades locales",
+            "c] Al gobierno",
+            "d] A aerolíneas",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Cuál es su consejo final?",
+          options: [
+            "a] No viajar",
+            "b] Viajar sosteniblemente es posible",
+            "c] Viajar solo",
+            "d] Viajar barato",
+          ],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Es posible un turismo realmente sostenible?",
+        description:
+          "Analiza si el turismo puede ser verdaderamente sostenible o si es inherentemente destructivo para el medio ambiente.",
+        structure: {
+          intro: "Presenta el debate sobre sostenibilidad turística.",
+          body: "Analiza ejemplos y argumentos a favor y en contra.",
+          conclusion: "Concluye con tu evaluación.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "El sobreturismo: ¿quién tiene la culpa?",
+        description:
+          "Reflexiona sobre las causas del sobreturismo. ¿Es culpa de los turistas, de las empresas, de los gobiernos o de todos?",
+        structure: {
+          intro: "Presenta el problema del sobreturismo.",
+          body: "Analiza responsabilidades de cada actor.",
+          conclusion: "Concluye con una reflexión.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Mi último viaje",
+        description:
+          "Habla sobre tu último viaje durante 1-2 minutos. Di dónde fuiste, cómo viajaste, si fue sostenible y qué aprendiste.",
+        connectors: [
+          "Mi último viaje fue a",
+          "Viajé en",
+          "Lo que más me gustó fue",
+          "Aprendí que",
+          "La próxima vez",
+        ],
+        guideQuestions: [
+          "¿Como influye en tu vida diaria?",
+          "¿Que cambios has notado con el tiempo?",
+          "¿Que relacion tiene con tu entorno?",
+          "¿Que consejo practico darias?",
+        ],
+      },
+      topic2: {
+        title: "Turismo masivo vs. turismo sostenible",
+        description:
+          "Habla sobre las diferencias entre turismo masivo y sostenible. ¿Cuál prefieres? ¿Por qué?",
+        connectors: [
+          "El turismo masivo",
+          "En cambio, el turismo sostenible",
+          "Yo prefiero",
+          "Porque",
+          "Creo que",
+        ],
+        guideQuestions: [
+          "¿Que te motivo a conocer mas sobre esto?",
+          "¿Que aspectos te frustran o te alegran?",
+          "¿Como lo viven otras personas?",
+          "¿Que planes tienes relacionados?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero planificáis un viaje juntos pero tenéis diferentes prioridades: uno quiere comodidad y el otro sostenibilidad.",
+      questions: [
+        {
+          question: "¿Qué tipo de alojamiento preferimos: hotel económico, ecolodge o apartamento?",
+          help: "Negocia. Usa: Prefiero un ecolodge porque... / Pero un hotel es más...",
+          usefulPhrases: [
+            "Reflexionando sobre el tema...",
+            "Mi propuesta es que...",
+            "Tambien podrias pensar en...",
+            "Es significativo que...",
+            "Lo primordial es...",
+            "El detalle mas importante es...",
+          ],
+        },
+        {
+          question: "¿Cómo nos movemos: avión, tren o coche compartido?",
+          help: "Decide transporte. Usa: El tren es más sostenible... / El avión es más rápido...",
+          usefulPhrases: [
+            "En la practica...",
+            "Te resultara util...",
+            "Dale una oportunidad a...",
+            "Llama la atencion que...",
+            "Una tecnica muy buena es...",
+            "El componente vital es...",
+          ],
+        },
+        {
+          question: "¿Qué actividades hacemos que sean respetuosas con el entorno local?",
+          help: "Planifica. Usa: Podríamos visitar... / Evitemos...",
+          usefulPhrases: [
+            "Viendolo con perspectiva...",
+            "Creo que te beneficiaria...",
+            "No dejes de considerar...",
+            "Es llamativo que...",
+            "La estrategia mas eficaz es...",
+            "El pilar fundamental es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 17,
+    level: "B2",
+    theme: "La gastronomía mundial",
+    icon: "Soup",
+    vocabulary: [
+      {
+        word: "gastronomía",
+        definition: "Arte de la cocina y los alimentos",
+        chinese: "美食",
+        example: "La gastronomía española es muy diversa.",
+      },
+      {
+        word: "cocina de autor",
+        definition: "Cocina creativa e innovadora de un chef",
+        chinese: "创意料理",
+        example: "El restaurante ofrece cocina de autor.",
+      },
+      {
+        word: "slow food",
+        definition: "Movimiento contra la comida rápida",
+        chinese: "慢食运动",
+        example: "El slow food valora la calidad sobre la velocidad.",
+      },
+      {
+        word: "km cero",
+        definition: "Productos locales de proximidad",
+        chinese: "零公里",
+        example: "Este restaurante trabaja con productos km cero.",
+      },
+      {
+        word: "fusion",
+        definition: "Mezcla de cocinas de diferentes culturas",
+        chinese: "融合菜",
+        example: "La cocina fusión mezcla sabores orientales y occidentales.",
+      },
+      {
+        word: "degustación",
+        definition: "Prueba de pequeñas porciones de diferentes platos",
+        chinese: "品尝",
+        example: "Hicimos un menú de degustación.",
+      },
+      {
+        word: "maridaje",
+        definition: "Combinación armónica de comida y bebida",
+        chinese: "配餐",
+        example: "El maridaje de vinos fue perfecto.",
+      },
+      {
+        word: "producto de temporada",
+        definition: "Alimentos disponibles en su época natural",
+        chinese: "时令产品",
+        example: "Cocinamos solo con productos de temporada.",
+      },
+      {
+        word: "alimentación consciente",
+        definition: "Comer con atención y responsabilidad",
+        chinese: "正念饮食",
+        example: "La alimentación consciente mejora la salud.",
+      },
+      {
+        word: "foodie",
+        definition: "Persona apasionada por la gastronomía",
+        chinese: "美食家",
+        example: "Soy un foodie que disfruta probando todo.",
+      },
+      {
+        word: "street food",
+        definition: "Comida callejera de venta ambulante",
+        chinese: "街头小吃",
+        example: "La street food de Bangkok es increíble.",
+      },
+    ],
+    reading: {
+      textType: "descriptivo",
+      title: "Madrid se consolida como capital gastronómica con tres nuevas estrellas Michelin",
+      text: `La Guía Michelin ha concedido tres nuevas estrellas a restaurantes de Madrid, consolidando a la capital como el epicentro de la alta cocina española. Dos restaurantes han conseguido su primera estrella y uno ha alcanzado la segunda, sumándose a la veintena de establecimientos con distinción en la ciudad.
+
+El restauranteDistrito 69, dirigido por la chef argentina-española Carla Martínez, ha sido uno de los galardonados. Su propuesta combina técnicas de vanguardia con ingredientes tradicionales argentinos: empanadas desconstruidas, asado a baja temperatura con humo de quebracho, y postres que fusionan dulce de leche con chocolate de origen español.
+
+"La cocina es diálogo entre culturas", explica Martínez. "Nací en Buenos Aires, me formé en Barcelona y cocino en Madrid. Mis platos son ese viaje."
+
+El otro estreno estelar esMarina, especializado en producto del mar con tratamientos minimalistas. Su chef, Javier Solís, trabaja exclusivamente con pescadores sostenibles de Galicia y Cantabria. Su filosofía es simple: "El producto ya es perfecto, mi trabajo es no estropearlo."
+
+La segunda estrella ha sido paraLúmina, que ya tenía una desde dos mil veintiuno. El chef Pablo Torres ha sorprendido a los inspectores con su menú "Sin fronteras", donde un mismo plato puede combinar especias de la India, técnicas japonesas y productos andaluces.
+
+La directora de la Guía Michelin para España señaló que Madrid atrae "talento culinario de todo el mundo, creando una escena vibrante y diversa que refleja la propia ciudad".`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuántas nuevas estrellas ha recibido Madrid?",
+          options: ["a] Una", "b] Dos", "c] Tres", "d] Cuatro"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "ha concedido tres nuevas estrellas".',
+        },
+        {
+          id: 2,
+          question: "¿Cuántos restaurantes tienen estrella en Madrid?",
+          options: ["a] Menos de diez", "b] Una veintena", "c] Treinta", "d] Cincuenta"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "sumándose a la veintena de establecimientos".',
+        },
+        {
+          id: 3,
+          question: "¿Quién dirige Distrito 69?",
+          options: ["a] Javier Solís", "b] Carla Martínez", "c] Pablo Torres", "d] No lo dice"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "dirigido por la chef argentina-española Carla Martínez".',
+        },
+        {
+          id: 4,
+          question: "¿Qué tipo de cocina hace Carla Martínez?",
+          options: [
+            "a] Solo española",
+            "b] Fusión argentino-española",
+            "c] Solo japonesa",
+            "d] Solo italiana",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto describe: "combina técnicas de vanguardia con ingredientes tradicionales argentinos".',
+        },
+        {
+          id: 5,
+          question: "¿De dónde saca el pescado Javier Solís?",
+          options: [
+            "a] De cualquier sitio",
+            "b] De pescadores sostenibles de Galicia y Cantabria",
+            "c] De Portugal",
+            "d] De Japón",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "trabaja exclusivamente con pescadores sostenibles de Galicia y Cantabria".',
+        },
+        {
+          id: 6,
+          question: "¿Cuál es la filosofía de Javier Solís?",
+          options: [
+            "a] Complicar los platos",
+            "b] El producto ya es perfecto, no estropearlo",
+            "c] Usar solo técnicas modernas",
+            "d] Cocinar sin producto fresco",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita: "El producto ya es perfecto, mi trabajo es no estropearlo".',
+        },
+        {
+          id: 7,
+          question: "¿Qué restaurante consiguió la segunda estrella?",
+          options: ["a] Distrito 69", "b] Marina", "c] Lúmina", "d] Ninguno"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "La segunda estrella ha sido para Lúmina".',
+        },
+        {
+          id: 8,
+          question: "¿Cómo se llama el menú de Pablo Torres?",
+          options: ["a] Sin límites", "b] Sin fronteras", "c] Sin fronteras", "d] Universal"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "menú Sin fronteras".',
+        },
+        {
+          id: 9,
+          question: "¿Qué tres culturas combina Lúmina?",
+          options: [
+            "a] India, Japón y Andalucía",
+            "b] China, Francia y México",
+            "c] Italia, Grecia y España",
+            "d] Tailandia, Perú y España",
+          ],
+          correctAnswer: 0,
+          explanation: 'El texto menciona: "especias de la India, técnicas japonesas y productos andaluces".',
+        },
+        {
+          id: 10,
+          question: "¿Qué dijo la directora de Michelin sobre Madrid?",
+          options: [
+            "a] Que no tiene buena cocina",
+            "b] Que atrae talento culinario de todo el mundo",
+            "c] Que es cara",
+            "d] Que no merece estrellas",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita: "Madrid atrae talento culinario de todo el mundo".',
+        },
+      ],
+    },
+    listening: {
+      title: "La revolución de la comida callejera gourmet",
+      transcription: `Soy Daniel, chef con diez años de experiencia en restaurantes de alta cocina, y hace dos años dejé todo para dedicarme a la street food gourmet.
+
+La decisión sorprendió a todos. Mis compañeros de la escuela de cocina me llamaron loco. Pero veía algo que ellos no veían: la democratización de la buena comida.
+
+En un restaurante con estrella Michelin, una cena cuesta doscientos euros. Es elitista. Con mi food truck, ofrezco la misma calidad de producto, la misma creatividad, por doce euros. La gente normal puede acceder a la alta cocina.
+
+Mi concepto es simple: un solo producto hecho de forma excepcional. Hago solo bocadillos de bacalao. Pero cada mes cambio la receta: al pil pil, a la vizcaína, con alioli de azafrán, con escalivada... El bacalao es mi lienzo.
+
+La respuesta ha sido increíble. Cola de una hora todos los días. He sido nombrado mejor food truck de España. Y lo mejor: veo la satisfacción en la cara de la gente que prueba mi comida.
+
+La alta cocina no necesita mantelería de lino. Necesita pasión, producto y talento. Eso es lo que importa.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuánto tiempo trabajó en alta cocina?",
+          options: ["a] Cinco años", "b] Diez años", "c] Quince años", "d] Veinte años"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Cuándo empezó con street food?",
+          options: ["a] Hace un año", "b] Hace dos años", "c] Hace tres años", "d] Hace cinco años"],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Cuánto cuesta una cena en un restaurante con estrella Michelin?",
+          options: ["a] Cien euros", "b] Doscientos euros", "c] Trescientos euros", "d] Cincuenta euros"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Cuánto cuesta su bocadillo?",
+          options: ["a] Cinco euros", "b] Doce euros", "c] Veinte euros", "d] Treinta euros"],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué producto usa?",
+          options: ["a] Pollo", "b] Bacalao", "c] Ternera", "d] Verduras"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Cuánto dura la cola normalmente?",
+          options: ["a] Quince minutos", "b] Media hora", "c] Una hora", "d] Dos horas"],
+          correctAnswer: 2,
+        },
+        {
+          id: 7,
+          question: "¿Qué premio recibió?",
+          options: [
+            "a] Mejor chef",
+            "b] Mejor food truck de España",
+            "c] Mejor restaurante",
+            "d] Estrella Michelin",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Cuál es su concepto?",
+          options: [
+            "a] Muchos productos",
+            "b] Un solo producto hecho de forma excepcional",
+            "c] Comida rápida barata",
+            "d] Solo postres",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué dijeron sus compañeros?",
+          options: ["a] Que era genial", "b] Que estaba loco", "c] Que le ayudarían", "d] Nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué no necesita la alta cocina según él?",
+          options: ["a] Pasión", "b] Producto", "c] Mantelería de lino", "d] Talento"],
+          correctAnswer: 2,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "La cocina como forma de identidad cultural",
+        description:
+          "Analiza cómo la gastronomía refleja la identidad de un pueblo. Usa ejemplos de diferentes culturas.",
+        structure: {
+          intro: "Presenta la relación entre cocina e identidad.",
+          body: "Analiza ejemplos de diferentes culturas.",
+          conclusion: "Reflexiona sobre la importancia de preservar tradiciones gastronómicas.",
+        },
+        connectors: ["En primer lugar", "Asimismo", "Por ejemplo", "Por tanto", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "¿La alta cocina es elitista?",
+        description:
+          "Reflexiona sobre si la alta cocina es exclusiva de quienes pueden pagarla o si puede democratizarse.",
+        structure: {
+          intro: "Presenta el debate sobre elitismo gastronómico.",
+          body: "Analiza argumentos sobre accesibilidad y democratización.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "No obstante", "En consecuencia", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "La comida de mi país",
+        description:
+          "Habla sobre la gastronomía de tu país durante 1-2 minutos. Di qué platos son típicos, qué ingredientes se usan y qué significa la comida en tu cultura.",
+        connectors: [
+          "La gastronomía de mi país",
+          "Los platos típicos son",
+          "Se usan ingredientes como",
+          "Para nosotros la comida",
+          "Te recomiendo probar",
+        ],
+        guideQuestions: [
+          "¿Cual es tu experiencia mas memorable?",
+          "¿Que habilidades has desarrollado?",
+          "¿Como ha evolucionado para ti?",
+          "¿Que importancia tiene en tu rutina?",
+        ],
+      },
+      topic2: {
+        title: "Mi restaurante favorito",
+        description:
+          "Habla sobre tu restaurante favorito. Di dónde está, qué tipo de comida sirven, por qué te gusta y una experiencia memorable allí.",
+        connectors: [
+          "Mi restaurante favorito está en",
+          "Sirven",
+          "Me gusta porque",
+          "Una vez",
+          "Te lo recomiendo",
+        ],
+        guideQuestions: [
+          "¿Desde cuando forma parte de tu vida?",
+          "¿Que desafios has encontrado?",
+          "¿Como te ha cambiado?",
+          "¿Que le recomendarias a un principiante?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero debéis organizar una cena para un grupo de amigos internacionales con diferentes restricciones alimentarias.",
+      questions: [
+        {
+          question: "¿Qué tipo de cocina elegimos que sea inclusiva para todos?",
+          help: "Propón opciones. Usa: Podríamos hacer cocina... porque... / Es importante que tenga opciones...",
+          usefulPhrases: [
+            "En el dia a dia...",
+            "Mi consejo directo es...",
+            "Piensa tambien en...",
+            "Observa que...",
+            "Una buena practica es...",
+            "El rasgo distintivo es...",
+          ],
+        },
+        {
+          question: "¿Cómo nos aseguramos de que todos puedan comer algo sin preocupaciones?",
+          help: "Planifica. Usa: Podríamos preguntar sobre... / Prepararemos...",
+          usefulPhrases: [
+            "Analizando las opciones...",
+            "Te serviria mucho...",
+            "Valorar la alternativa de...",
+            "Cabe destacar que...",
+            "Un recurso muy valioso es...",
+            "El factor diferenciador es...",
+          ],
+        },
+        {
+          question: "¿Dónde cenamos? ¿En casa, restaurante o pedimos catering?",
+          help: "Decide. Usa: Creo que es mejor... porque... / Si vamos a un restaurante...",
+          usefulPhrases: [
+            "En primera persona...",
+            "La mejor decision seria...",
+            "Abre la mente a...",
+            "Es curioso notar que...",
+            "Un procedimiento exitoso es...",
+            "El rasgo caracteristico es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 18,
+    level: "B2",
+    theme: "Los medios de comunicación",
+    icon: "Radio",
+    vocabulary: [
+      {
+        word: "periodismo",
+        definition: "Actividad de informar sobre hechos de actualidad",
+        chinese: "新闻业",
+        example: "El periodismo es la cuarta potestad.",
+      },
+      {
+        word: "prensa",
+        definition: "Medios de comunicación escritos",
+        chinese: "报刊",
+        example: "La prensa tradicional está en crisis.",
+      },
+      {
+        word: "desinformación",
+        definition: "Difusión intencionada de información falsa",
+        chinese: "虚假信息",
+        example: "La desinformación es un peligro para la democracia.",
+      },
+      {
+        word: "periodismo de investigación",
+        definition: "Periodismo que profundiza en temas complejos",
+        chinese: "调查性新闻",
+        example: "El periodismo de investigación destapa corrupciones.",
+      },
+      {
+        word: "clickbait",
+        definition: "Titular sensacionalista para atraer clics",
+        chinese: "标题党",
+        example: "Los medios usan clickbait para ganar visitas.",
+      },
+      {
+        word: "radio",
+        definition: "Medio de comunicación sonoro",
+        chinese: "广播",
+        example: "La radio sigue siendo importante.",
+      },
+      {
+        word: "televisión",
+        definition: "Medio de comunicación audiovisual",
+        chinese: "电视",
+        example: "La televisión ha perdido audiencia joven.",
+      },
+      {
+        word: "podcast",
+        definition: "Programa de audio digital bajo demanda",
+        chinese: "播客",
+        example: "Escucho podcasts mientras conduzco.",
+      },
+      {
+        word: "transparencia",
+        definition: "Claridad y honestidad en la información",
+        chinese: "透明度",
+        example: "La transparencia mediática es fundamental.",
+      },
+      {
+        word: "libertad de prensa",
+        definition: "Derecho a informar sin censura",
+        chinese: "新闻自由",
+        example: "La libertad de prensa está amenazada en muchos países.",
+      },
+      {
+        word: "ciberperiodismo",
+        definition: "Periodismo que se difunde por internet",
+        chinese: "网络新闻",
+        example: "El ciberperiodismo es el futuro.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "El periodismo local agoniza: cien medios han cerrado en cinco años",
+      text: `El Observatorio de la Crisis del Periodismo ha presentado un informe demoledor: en los últimos cinco años, cien medios de comunicación locales han cerrado en España, dejando a más de tres millones de ciudadanos sin información de proximidad.
+
+Los periódicos locales eran el pegamento de las comunidades. Informaban sobre plenos municipales, obras, festividades, pequeños negocios y sucesos que los grandes medios ignoraban. Su desaparición crea "desiertos informativos" donde la desinformación prolifera sin contrapeso.
+
+"Sin periodismo local, la corrupción municipal crece en la oscuridad", advierte el director del observatorio. "Muchos ayuntamientos ya no tienen a nadie que vigile sus cuentas."
+
+La crisis tiene causas estructurales. La migración de la publicidad a Google y Meta absorbió los ingresos publicitarios. La digitalización llegó tarde a muchos medios locales, acostumbrados a modelos analógicos. Y la concentración de la propiedad en grandes grupos prioritizó la rentabilidad sobre el servicio público.
+
+Algunas iniciativan intentan revertir la tendencia. Medios cooperativos, financiados por sus lectores, están surgiendo en Cataluña, Galicia y País Vasco. Plataformas de crowdfunding permiten a periodistas independientes cubrir sus propias zonas.
+
+Pero los expertos advierten que sin apoyo institucional, estas iniciativas son insuficientes. "El periodismo local es un bien público, como la educación o la sanidad. Necesita financiación pública y marcos regulatorios que protejan su independencia", concluye el informe.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuántos medios locales han cerrado en cinco años?",
+          options: ["a] Cincuenta", "b] Cien", "c] Doscientos", "d] Quinientos"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "cien medios de comunicación locales han cerrado".',
+        },
+        {
+          id: 2,
+          question: "¿Cuántos ciudadanos se quedan sin información local?",
+          options: ["a] Un millón", "b] Dos millones", "c] Más de tres millones", "d] Ninguno"],
+          correctAnswer: 2,
+          explanation:
+            'El texto dice: "dejando a más de tres millones de ciudadanos sin información de proximidad".',
+        },
+        {
+          id: 3,
+          question: "¿Qué crea la desaparición de periódicos locales?",
+          options: ["a] Más empleo", "b] Desiertos informativos", "c] Más democracia", "d] Más riqueza"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "crea desiertos informativos".',
+        },
+        {
+          id: 4,
+          question: "¿Qué crece sin periodismo local?",
+          options: ["a] La transparencia", "b] La corrupción municipal", "c] La economía", "d] El turismo"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "la corrupción municipal crece en la oscuridad".',
+        },
+        {
+          id: 5,
+          question: "¿Qué absorbió los ingresos publicitarios?",
+          options: ["a] La radio", "b] Google y Meta", "c] La televisión", "d] Los periódicos"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "La migración de la publicidad a Google y Meta absorbió los ingresos publicitarios".',
+        },
+        {
+          id: 6,
+          question: "¿Qué tipo de medios están surgiendo?",
+          options: [
+            "a] Solo privados",
+            "b] Medios cooperativos financiados por lectores",
+            "c] Solo estatales",
+            "d] Ninguno",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Medios cooperativos, financiados por sus lectores, están surgiendo".',
+        },
+        {
+          id: 7,
+          question: "¿En qué regiones surgen estos medios?",
+          options: [
+            "a] Solo Madrid",
+            "b] Cataluña, Galicia y País Vasco",
+            "c] Solo Andalucía",
+            "d] Solo Valencia",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esas tres regiones.",
+        },
+        {
+          id: 8,
+          question: "¿Qué comparan el periodismo local con?",
+          options: ["a] El entretenimiento", "b] La educación o la sanidad", "c] El deporte", "d] La moda"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "El periodismo local es un bien público, como la educación o la sanidad".',
+        },
+        {
+          id: 9,
+          question: "¿Qué necesita según el informe?",
+          options: [
+            "a] Solo dinero privado",
+            "b] Financiación pública y marcos regulatorios",
+            "c] Nada",
+            "d] Solo voluntad",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Necesita financiación pública y marcos regulatorios que protegan su independencia".',
+        },
+        {
+          id: 10,
+          question: "¿Qué permiten las plataformas de crowdfunding?",
+          options: [
+            "a] Comprar periódicos",
+            "b] A periodistas independientes cubrir sus zonas",
+            "c] Ganar dinero fácil",
+            "d] Nada",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Plataformas de crowdfunding permiten a periodistas independientes cubrir sus propias zonas".',
+        },
+      ],
+    },
+    listening: {
+      title: "El futuro del periodismo",
+      transcription: `Bienvenidos a "Prensa Libre". Hoy hablamos con la periodista veterana Carmen Ruiz sobre el futuro de la profesión.
+
+Carmen, ¿está muriendo el periodismo?
+
+Carmen: No, está mutando. Lo que muere es el modelo de negocio, no la necesidad de información. La gente necesita saber qué pasa en su entorno más que nunca. Lo que cambia es quién se lo cuenta y cómo.
+
+¿El periodismo tradicional tiene futuro?
+
+Carmen: El periodismo impreso como lo conocíamos no volverá. Pero el periodismo de calidad, el que investiga, contrasta y contextualiza, tiene más valor que nunca en medio de tanta desinformación.
+
+¿Cómo se financia ese periodismo?
+
+Carmen: Los paywalls, las suscripciones, el mecenazgo, la financiación pública con independencia garantizada... Necesitamos diversificar. No hay una sola fórmula mágica.
+
+¿Qué rol tienen los ciudadanos?
+
+Carmen: Somos todos periodistas en potencia con un móvil. Pero eso no sustituye al profesional. El ciudadano graba un vídeo; el periodista lo contextualiza, verifica y explica su relevancia.
+
+¿Un mensaje para los jóvenes?
+
+Carmen: Que estudien periodismo si les apasiona informar, investigar y contar historias. No si quieren fama o dinero fácil. El periodismo es un oficio noble pero exigente.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Está muriendo el periodismo según Carmen?",
+          options: ["a] Sí", "b] No, está mutando", "c] No lo sabe", "d] Sí, completamente"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Qué muere según ella?",
+          options: [
+            "a] La necesidad de información",
+            "b] El modelo de negocio",
+            "c] Los periodistas",
+            "d] Las noticias",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 3,
+          question: "¿Qué tiene más valor que nunca?",
+          options: [
+            "a] La desinformación",
+            "b] El periodismo de calidad",
+            "c] Los rumores",
+            "d] La propaganda",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Cómo se puede financiar el periodismo?",
+          options: [
+            "a] Solo con publicidad",
+            "b] Paywalls, suscripciones, mecenazgo, financiación pública",
+            "c] Solo con donaciones",
+            "d] No se puede",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué son todos con un móvil?",
+          options: ["a] Periodistas profesionales", "b] Periodistas en potencia", "c] Fotógrafos", "d] Nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué hace el periodista que no hace el ciudadano?",
+          options: [
+            "a] Grabar vídeos",
+            "b] Contextualizar, verificar y explicar",
+            "c] Publicar en redes",
+            "d] Tomar fotos",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué dice sobre el periodismo impreso?",
+          options: [
+            "a] Volverá fuerte",
+            "b] No volverá como lo conocíamos",
+            "c] Es el futuro",
+            "d] Es mejor que digital",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Por qué estudiar periodismo según ella?",
+          options: [
+            "a] Por dinero fácil",
+            "b] Por fama",
+            "c] Si te apasiona informar e investigar",
+            "d] Para ser famoso",
+          ],
+          correctAnswer: 2,
+        },
+        {
+          id: 9,
+          question: "¿Cómo define el periodismo?",
+          options: ["a] Fácil", "b] Noble pero exigente", "c] Aburrido", "d] Innecesario"],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Qué no es periodismo según ella?",
+          options: ["a] Investigar", "b] Informar", "c] Buscar fama o dinero fácil", "d] Contar historias"],
+          correctAnswer: 2,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Pueden las redes sociales sustituir al periodismo profesional?",
+        description:
+          "Analiza si las redes sociales y los ciudadanos pueden sustituir al periodismo profesional o si este sigue siendo necesario.",
+        structure: {
+          intro: "Presenta el debate.",
+          body: "Analiza capacidades y limitaciones de ambos.",
+          conclusion: "Concluye con tu evaluación.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "La desinformación: un peligro para la democracia",
+        description:
+          "Reflexiona sobre cómo la desinformación afecta a las democracias. ¿Qué podemos hacer como ciudadanos para combatirla?",
+        structure: {
+          intro: "Describe el problema de la desinformación.",
+          body: "Analiza impacto en la democracia y soluciones.",
+          conclusion: "Concluye con un llamado a la acción.",
+        },
+        connectors: ["En primer lugar", "Asimismo", "Por ejemplo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Cómo me informo",
+        description:
+          "Habla sobre cómo te informas durante 1-2 minutos. Di qué medios usas, si confías en ellos, cómo contrastas la información y qué opinas del estado del periodismo.",
+        connectors: [
+          "Yo me informo a través de",
+          "Confío en",
+          "Para contrastar",
+          "Creo que el periodismo",
+          "Lo que me preocupa es",
+        ],
+        guideQuestions: [
+          "¿Que te sorprendio al conocer mas sobre esto?",
+          "¿Como influye en tu dia a dia?",
+          "¿Que relacion tiene con tu cultura?",
+          "¿Como lo ves en el futuro?",
+        ],
+      },
+      topic2: {
+        title: "La importancia de la prensa libre",
+        description:
+          "Habla sobre por qué es importante tener prensa libre e independiente. Da ejemplos de países donde no existe y las consecuencias.",
+        connectors: [
+          "La prensa libre es importante porque",
+          "Sin ella",
+          "Por ejemplo en",
+          "Las consecuencias son",
+          "Por eso",
+        ],
+        guideQuestions: [
+          "¿Cual es tu relacion con este tema?",
+          "¿Que ventajas tiene para ti?",
+          "¿Has tenido algun problema relacionado?",
+          "¿Como lo mejorarias?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero estáis creando un nuevo medio de comunicación digital. Debéis decidir el enfoque, el público y el modelo de negocio.",
+      questions: [
+        {
+          question:
+            "¿Qué tipo de contenido producimos: noticias, análisis profundo o entretenimiento informativo?",
+          help: "Decide el enfoque. Usa: Propongo... porque... / Creo que hay una demanda de...",
+          usefulPhrases: [
+            "Si hablamos claro...",
+            "Intentalo de esta forma...",
+            "Dale un enfoque a...",
+            "No pasa desapercibido que...",
+            "Una dinamica positiva es...",
+            "El sello distintivo es...",
+          ],
+        },
+        {
+          question: "¿Cómo nos financiamos sin depender de algoritmos de redes sociales?",
+          help: "Propón modelo. Usa: Podríamos usar... / El modelo de suscripción...",
+          usefulPhrases: [
+            "Sin rodeos...",
+            "Tu mejor apuesta es...",
+            "Introduce la variable de...",
+            "Es evidente que...",
+            "Una costumbre beneficiosa es...",
+            "La marca de identidad es...",
+          ],
+        },
+        {
+          question:
+            "¿Cómo garantizamos la independencia editorial frente a presiones políticas o económicas?",
+          help: "Establece principios. Usa: Nuestros principios serán... / Garantizaremos independencia mediante...",
+          usefulPhrases: [
+            "Con franqueza...",
+            "Te ira genial si...",
+            "Incorpora la idea de...",
+            "Se aprecia claramente que...",
+            "Un protocolo eficiente es...",
+            "El indicador principal es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 19,
+    level: "B2",
+    theme: "La ciencia y descubrimientos",
+    icon: "Microscope",
+    vocabulary: [
+      {
+        word: "investigación",
+        definition: "Búsqueda sistemática de conocimiento",
+        chinese: "研究",
+        example: "La investigación científica avanza rápido.",
+      },
+      {
+        word: "descubrimiento",
+        definition: "Hallazgo de algo desconocido",
+        chinese: "发现",
+        example: "El descubrimiento del ADN cambió la ciencia.",
+      },
+      {
+        word: "experimentación",
+        definition: "Prueba para verificar una hipótesis",
+        chinese: "实验",
+        example: "La experimentación es clave en ciencia.",
+      },
+      {
+        word: "hipótesis",
+        definition: "Suposición que se puede comprobar",
+        chinese: "假设",
+        example: "Formuló una hipótesis interesante.",
+      },
+      {
+        word: "divulgación científica",
+        definition: "Comunicación de la ciencia al público",
+        chinese: "科学传播",
+        example: "La divulgación científica es fundamental.",
+      },
+      {
+        word: "biotecnología",
+        definition: "Aplicación de la biología a la tecnología",
+        chinese: "生物技术",
+        example: "La biotecnología revoluciona la medicina.",
+      },
+      {
+        word: "genética",
+        definition: "Estudio de los genes y la herencia",
+        chinese: "遗传学",
+        example: "La genética permite entender enfermedades.",
+      },
+      {
+        word: "vacuna",
+        definition: "Preparación para generar inmunidad",
+        chinese: "疫苗",
+        example: "La vacuna contra el COVID salvó millones de vidas.",
+      },
+      {
+        word: "astrofísica",
+        definition: "Rama de la física que estudia el universo",
+        chinese: "天体物理学",
+        example: "La astrofísica explora los misterios del cosmos.",
+      },
+      {
+        word: "innovación",
+        definition: "Introducción de novedades",
+        chinese: "创新",
+        example: "La innovación científica impulsa el progreso.",
+      },
+      {
+        word: "evidencia",
+        definition: "Prueba que respalda una afirmación",
+        chinese: "证据",
+        example: "Las decisiones deben basarse en evidencia.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "España lidera el proyecto europeo de energía de fusión nuclear",
+      text: `España se ha posicionado a la vanguardia de la investigación en energía de fusión nuclear al liderar el proyecto EUROfusion, una iniciativa europea que busca replicar en la Tierra el proceso que alimenta al Sol para generar energía limpia e ilimitada.
+
+El Centro de Investigaciones Energéticas de Barcelona coordina un consorcio de treinta y cinco instituciones de veintiocho países. El proyecto ha recibido una financiación de dos mil millones de euros para los próximos siete años, con España aportando el quince por ciento del presupuesto.
+
+"La fusión es el santo grial de la energía", explica la directora del proyecto, la física nuclear Elena Vargas. "Usa como combustible isótopos del hidrógeno que se encuentran en el agua del mar, no produce residuos radiactivos de larga duración y no genera gases de efecto invernadero."
+
+El proyecto español se centra en el desarrollo del reactor experimental JT-60SA, ubicado en Japón pero diseñado en gran parte por ingenieros europeos liderados por el equipo de Barcelona. Los primeros experimentos con plasma ya han comenzado.
+
+Los científicos calculan que, si los avances se mantienen al ritmo actual, el primer reactor de fusión comercial podría estar operativo hacia dos mil sesenta. Eso significaría una revolución energética sin precedentes.
+
+Sin embargo, persisten desafíos técnicos. Mantener el plasma a temperaturas de ciento cincuenta millones de grados requiere materiales superconductores que aún están en desarrollo. Y el coste de construcción de reactores comerciales será inicialmente muy elevado.
+
+"La inversión en I+D energética es una apuesta de largo plazo, pero es la única vía para una solución energética realmente sostenible", señala Vargas.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Qué proyecto lidera España?",
+          options: ["a] EUROsolar", "b] EUROfusion", "c] EUROwind", "d] EUROhydro"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "liderar el proyecto EUROfusion".',
+        },
+        {
+          id: 2,
+          question: "¿Qué busca el proyecto?",
+          options: [
+            "a] Energía solar",
+            "b] Replicar el proceso del Sol en la Tierra",
+            "c] Energía eólica",
+            "d] Petróleo",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "replicar en la Tierra el proceso que alimenta al Sol".',
+        },
+        {
+          id: 3,
+          question: "¿Dónde está el Centro de Investigaciones?",
+          options: ["a] Madrid", "b] Barcelona", "c] Valencia", "d] Sevilla"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "Centro de Investigaciones Energéticas de Barcelona".',
+        },
+        {
+          id: 4,
+          question: "¿Cuántas instituciones participan?",
+          options: ["a] Quince", "b] Veinticinco", "c] Treinta y cinco", "d] Cuarenta y cinco"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "treinta y cinco instituciones".',
+        },
+        {
+          id: 5,
+          question: "¿Cuánto ha recibido en financiación?",
+          options: [
+            "a] Doscientos millones",
+            "b] Mil millones",
+            "c] Dos mil millones",
+            "d] Cinco mil millones",
+          ],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "una financiación de dos mil millones de euros".',
+        },
+        {
+          id: 6,
+          question: "¿Qué usa como combustible?",
+          options: ["a] Carbón", "b] Isótopos del hidrógeno del agua del mar", "c] Petróleo", "d] Uranio"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Usa como combustible isótopos del hidrógeno que se encuentran en el agua del mar".',
+        },
+        {
+          id: 7,
+          question: "¿Cuándo podría estar el primer reactor comercial?",
+          options: ["a] 2040", "b] 2050", "c] 2060", "d] 2070"],
+          correctAnswer: 2,
+          explanation: 'El texto dice: "hacia dos mil sesenta".',
+        },
+        {
+          id: 8,
+          question: "¿Qué temperatura alcanza el plasma?",
+          options: [
+            "a] Quince millones de grados",
+            "b] Ciento cincuenta millones de grados",
+            "c] Mil millones de grados",
+            "d] Un millón de grados",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "ciento cincuenta millones de grados".',
+        },
+        {
+          id: 9,
+          question: "¿Qué necesita para mantener el plasma?",
+          options: ["a] Agua", "b] Materiales superconductores", "c] Aire", "d] Aceite"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "requiere materiales superconductores".',
+        },
+        {
+          id: 10,
+          question: "¿Por qué es importante la inversión según Vargas?",
+          options: [
+            "a] Porque es barata",
+            "b] Es la única vía para una solución sostenible",
+            "c] Porque es rápida",
+            "d] Porque es fácil",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto cita: "es la única vía para una solución energética realmente sostenible".',
+        },
+      ],
+    },
+    listening: {
+      title: "El valor de la divulgación científica",
+      transcription: `Soy el biólogo Fernando López y llevo quince años divulgando ciencia en YouTube. Quiero hablar de por qué la divulgación importa.
+
+Cuando empecé, muchos colegas me miraban raro. "Eso no es ciencia seria", me decían. Pero la ciencia que no se comunica no existe para la sociedad. Si los ciudadanos no entienden qué es la energía nuclear o cómo funcionan las vacunas, ¿cómo van a votar con conocimiento?
+
+La divulgación no es simplificación, es traducción. Tomar un concepto complejo y explicarlo de forma que cualquiera lo entienda sin perder rigor. Eso requiere más esfuerzo, no menos.
+
+Los números demuestran que funciona. El ochenta por ciento de mis seguidores dicen que entienden mejor la ciencia gracias a mis vídeos. Un treinta por ciento ha cambiado de opinión sobre temas controvertidos como los transgénicos o la energía nuclear después de informarse.
+
+Pero hay riesgos. El sensacionalismo vende. Muchos canales exageran hallazgos para conseguir clics. Eso genera desconfianza. La divulgación debe ser honesta sobre incertidumbres y limitaciones.
+
+Mi regla de oro: si no puedo explicárselo a mi abuela, no lo he entendido bien. La ciencia debe ser accesible para todos. Eso no la hace menos rigurosa, la hace más útil.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es la profesión de Fernando?",
+          options: ["a] Físico", "b] Biólogo", "c] Químico", "d] Médico"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Cuánto tiempo lleva divulgando?",
+          options: ["a] Cinco años", "b] Diez años", "c] Quince años", "d] Veinte años"],
+          correctAnswer: 2,
+        },
+        {
+          id: 3,
+          question: "¿Qué decían sus colegas al principio?",
+          options: ["a] Que era genial", "b] Que no era ciencia seria", "c] Que le ayudarían", "d] Nada"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué porcentaje entiende mejor la ciencia?",
+          options: ["a] El 60%", "b] El 70%", "c] El 80%", "d] El 90%"],
+          correctAnswer: 2,
+        },
+        {
+          id: 5,
+          question: "¿Qué porcentaje ha cambiado de opinión?",
+          options: ["a] El 10%", "b] El 20%", "c] El 30%", "d] El 40%"],
+          correctAnswer: 2,
+        },
+        {
+          id: 6,
+          question: "¿Qué riesgo menciona?",
+          options: ["a] Que aburra", "b] El sensacionalismo", "c] Que sea gratis", "d] Que sea largo"],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Cuál es su regla de oro?",
+          options: [
+            "a] Explicar en 10 segundos",
+            "b] Si no puedo explicárselo a mi abuela, no lo he entendido",
+            "c] Usar solo palabras difíciles",
+            "d] No usar ejemplos",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué genera el sensacionalismo?",
+          options: ["a] Confianza", "b] Desconfianza", "c] Riqueza", "d] Conocimiento"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Qué dice sobre la divulgación y el rigor?",
+          options: [
+            "a] Que pierde rigor",
+            "b] Que no la hace menos rigurosa",
+            "c] Que es imposible",
+            "d] Que es aburrida",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 10,
+          question: "¿Por qué es importante la divulgación para la democracia?",
+          options: [
+            "a] Para entender temas y votar con conocimiento",
+            "b] Para ganar elecciones",
+            "c] Para divertirse",
+            "d] Para trabajar menos",
+          ],
+          correctAnswer: 0,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Debe la ciencia ser prioridad en la inversión pública?",
+        description:
+          "Analiza si los gobiernos deberían invertir más en investigación científica o si hay prioridades más urgentes.",
+        structure: {
+          intro: "Presenta el debate sobre inversión en ciencia.",
+          body: "Analiza beneficios de la inversión y prioridades competidoras.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "El papel de la ciencia en la sociedad actual",
+        description:
+          "Reflexiona sobre el rol que debería jugar la ciencia en la sociedad de hoy. ¿Es un instrumento de progreso o también de control?",
+        structure: {
+          intro: "Presenta el doble rol de la ciencia.",
+          body: "Analiza usos benévolos y perversos de la ciencia.",
+          conclusion: "Reflexiona sobre cómo maximizar su impacto positivo.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Un descubrimiento científico que me fascina",
+        description:
+          "Habla sobre un descubrimiento o avance científico reciente que te parezca fascinante durante 1-2 minutos. Di qué es, por qué te interesa y qué implicaciones tiene.",
+        connectors: [
+          "Un descubrimiento que me fascina es",
+          "Consiste en",
+          "Me interesa porque",
+          "Las implicaciones son",
+          "Creo que cambiará",
+        ],
+        guideQuestions: [
+          "¿Como empezaste en esto?",
+          "¿Que es lo mas dificil y lo mas facil?",
+          "¿Como influye en tus relaciones?",
+          "¿Que has aprendido?",
+        ],
+      },
+      topic2: {
+        title: "Ciencia y ética",
+        description:
+          "Habla sobre un avance científico que plantee dilemas éticos. ¿Cómo deberíamos regular la ciencia cuando toca límites morales?",
+        connectors: [
+          "Un avance controvertido es",
+          "Plantea dilemas porque",
+          "Por un lado",
+          "Por otro lado",
+          "Creo que deberíamos regularlo",
+        ],
+        guideQuestions: [
+          "¿Por que te resulta importante?",
+          "¿Que cambios te ha traido?",
+          "¿Como lo ves en otros paises?",
+          "¿Que te gustaria que mejorara?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero debatís sobre la ética de un avance científico (edición genética, IA, etc.). Uno defiende el progreso sin límites y el otro pide regulación ética.",
+      questions: [
+        {
+          question: "¿Este avance científico beneficia más que perjudica a la humanidad?",
+          help: "Argumenta. Usa: Creo que beneficia porque... / Temo que perjudique porque...",
+          usefulPhrases: [
+            "Hablando sin tapujos...",
+            "Notaras la diferencia con...",
+            "Plantea la posibilidad de...",
+            "Resulta obvio que...",
+            "Una rutina recomendable es...",
+            "El parametro esencial es...",
+          ],
+        },
+        {
+          question: "¿Quién debe decidir los límites éticos: científicos, políticos o la sociedad?",
+          help: "Da tu opinión. Usa: Los límites deberían decidirse por... porque...",
+          usefulPhrases: [
+            "Sin ambages...",
+            "Experimenta con...",
+            "Desarrolla el concepto de...",
+            "Se constata que...",
+            "Un sistema que funciona es...",
+            "El baremo decisivo es...",
+          ],
+        },
+        {
+          question: "¿Cómo nos aseguramos de que este avance no aumente la desigualdad?",
+          help: "Propón medidas. Usa: Podríamos asegurar... mediante...",
+          usefulPhrases: [
+            "Directamente...",
+            "Atrévete a probar...",
+            "Formula la hipotesis de...",
+            "Queda patente que...",
+            "Una forma acertada es...",
+            "El criterio clave es...",
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 20,
+    level: "B2",
+    theme: "Las tradiciones en peligro",
+    icon: "Clock",
+    vocabulary: [
+      {
+        word: "patrimonio",
+        definition: "Bienes culturales o naturales heredados del pasado",
+        chinese: "遗产",
+        example: "Debemos proteger nuestro patrimonio cultural.",
+      },
+      {
+        word: "tradición",
+        definition: "Costumbre transmitida de generación en generación",
+        chinese: "传统",
+        example: "Es una tradición centenaria.",
+      },
+      {
+        word: "despoblación",
+        definition: "Pérdida de población de un territorio",
+        chinese: "人口减少",
+        example: "La despoblación afecta a las tradiciones rurales.",
+      },
+      {
+        word: "artesanía",
+        definition: "Trabajo hecho a mano con habilidad",
+        chinese: "手工艺",
+        example: "La artesanía local está desapareciendo.",
+      },
+      {
+        word: "oficio",
+        definition: "Actividad manual o profesional",
+        chinese: "手艺/职业",
+        example: "Los oficios tradicionales se pierden.",
+      },
+      {
+        word: "lengua minoritaria",
+        definition: "Idioma hablado por una minoría",
+        chinese: "少数语言",
+        example: "Las lenguas minoritarias están en peligro.",
+      },
+      {
+        word: "etnografía",
+        definition: "Estudio descriptivo de pueblos y culturas",
+        chinese: "民族志",
+        example: "La etnografía documenta tradiciones.",
+      },
+      {
+        word: "patrimonio inmaterial",
+        definition: "Prácticas, representaciones y saberes que las comunidades reconocen como patrimonio",
+        chinese: "非物质文化遗产",
+        example: "La UNESCO protege el patrimonio inmaterial.",
+      },
+      {
+        word: "memoria colectiva",
+        definition: "Recuerdos compartidos por un grupo social",
+        chinese: "集体记忆",
+        example: "Las tradiciones forman la memoria colectiva.",
+      },
+      {
+        word: "transmisión",
+        definition: "Acción de transmitir conocimientos",
+        chinese: "传承",
+        example: "La transmisión de saberes es fundamental.",
+      },
+      {
+        word: "etnocidio",
+        definition: "Destrucción de una cultura",
+        chinese: "文化灭绝",
+        example: "El etnocidio es la pérdida de una forma de vida.",
+      },
+    ],
+    reading: {
+      textType: "noticia",
+      title: "Los últimos maestros artesanos: cuando un oficio muere con sus manos",
+      text: `En el pueblo leonés de Puebla de Lillo, don Severino, de ochenta y nueve años, es el último cestero que queda. Cuando él muera, siglos de conocimiento sobre el mimbre de montaña desaparecerán. Su caso no es único: en España, más de doscientos oficios tradicionales están en peligro de extinción.
+
+La Fundación Alfredo Kraus acaba de publicar un atlas de oficios en peligro que documenta la alarmante situación. Herreros de pueblo, tejedores de esparto, maestros constructores de varas, alfareros de horno de leña... Oficios que fueron la base de la economía rural hace apenas cincuenta años ahora sobreviven en manos de una veintena de ancianos dispersos por la geografía española.
+
+Las causas son conocidas: la despoblación rural, la industrialización, la desaparición de la economía de subsistencia y, sobre todo, la falta de relevo generacional. Los jóvenes emigraron a las ciudades y no aprendieron los oficios de sus abuelos.
+
+Pero hay intentos de salvación. Algunas escuelas de artesanía ofrecen cursos gratuitos. Programas de patrimonio inmaterial de la UNESCO documentan técnicas antes de que desaparezcan. Y en algunos pueblos, los ayuntamientos han creado talleres donde los últimos maestros enseñan a jóvenes interesados.
+
+"No se trata solo de preservar una técnica", explica la antropóloga María Luzón. "Cada oficio es un sistema de conocimiento sobre el entorno, los materiales, el clima, la comunidad. Perderlo es perder una forma de entender el mundo."
+
+El gobierno ha aprobado recientemente un plan de salvaguarda de oficios que incluye becas para aprendices, registro de maestros artesanos y apoyo a la comercialización de productos artesanales. Pero los expertos temen que llegue tarde para muchos oficios.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Quién es don Severino?",
+          options: [
+            "a] Un médico",
+            "b] El último cestero de Puebla de Lillo",
+            "c] Un profesor",
+            "d] Un político",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "don Severino... es el último cestero que queda".',
+        },
+        {
+          id: 2,
+          question: "¿Cuántos oficios tradicionales están en peligro?",
+          options: ["a] Menos de cien", "b] Más de doscientos", "c] Exactamente cincuenta", "d] Mil"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "más de doscientos oficios tradicionales están en peligro de extinción".',
+        },
+        {
+          id: 3,
+          question: "¿Qué publicó la Fundación Alfredo Kraus?",
+          options: ["a] Un libro", "b] Un atlas de oficios en peligro", "c] Una película", "d] Un mapa"],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "acaba de publicar un atlas de oficios en peligro".',
+        },
+        {
+          id: 4,
+          question: "¿Cuál es una de las causas principales?",
+          options: [
+            "a] La falta de relevo generacional",
+            "b] Muchos jóvenes interesados",
+            "c] Mucho dinero",
+            "d] Muchas escuelas",
+          ],
+          correctAnswer: 0,
+          explanation: 'El texto menciona: "la falta de relevo generacional" como causa principal.',
+        },
+        {
+          id: 5,
+          question: "¿Qué dice María Luzón sobre los oficios?",
+          options: [
+            "a] Que son solo técnicas",
+            "b] Que son sistemas de conocimiento sobre el entorno",
+            "c] Que no importan",
+            "d] Que son solo negocios",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto cita: "Cada oficio es un sistema de conocimiento sobre el entorno, los materiales, el clima, la comunidad".',
+        },
+        {
+          id: 6,
+          question: "¿Qué ha aprobado el gobierno?",
+          options: [
+            "a] Nada",
+            "b] Un plan de salvaguarda de oficios",
+            "c] Una ley de inmigración",
+            "d] Un plan económico",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "ha aprobado recientemente un plan de salvaguarda de oficios".',
+        },
+        {
+          id: 7,
+          question: "¿Qué incluye el plan?",
+          options: [
+            "a] Solo becas",
+            "b] Becas, registro de maestros y apoyo a la comercialización",
+            "c] Solo dinero",
+            "d] Solo escuelas",
+          ],
+          correctAnswer: 1,
+          explanation: "El texto menciona esos tres elementos.",
+        },
+        {
+          id: 8,
+          question: "¿Qué temen los expertos?",
+          options: [
+            "a] Que sea muy caro",
+            "b] Que llegue tarde para muchos oficios",
+            "c] Que sea muy fácil",
+            "d] Que no funcione",
+          ],
+          correctAnswer: 1,
+          explanation: 'El texto dice: "los expertos temen que llegue tarde para muchos oficios".',
+        },
+        {
+          id: 9,
+          question: "¿Qué ofrece la UNESCO?",
+          options: ["a] Dinero", "b] Programas de patrimonio inmaterial", "c] Turismo", "d] Escuelas"],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Programas de patrimonio inmaterial de la UNESCO documentan técnicas".',
+        },
+        {
+          id: 10,
+          question: "¿Por qué emigraron los jóvenes según el texto?",
+          options: [
+            "a] Porque querían aprender oficios",
+            "b] A las ciudades, sin aprender oficios",
+            "c] Porque había mucho trabajo",
+            "d] Porque les gustaba el campo",
+          ],
+          correctAnswer: 1,
+          explanation:
+            'El texto dice: "Los jóvenes emigraron a las ciudades y no aprendieron los oficios de sus abuelos".',
+        },
+      ],
+    },
+    listening: {
+      title: "Preservar las lenguas minoritarias",
+      transcription: `Soy la lingüista Ane Larrinaga y llevo treinta años estudiando y trabajando por las lenguas minoritarias de España.
+
+En España tenemos cuatro lenguas oficiales además del castellano: catalán, euskera, gallego y occitano. Pero hay muchas más que no tienen reconocimiento oficial: asturiano, aragonés, extremeño, fala... Todas ellas están en peligro.
+
+Una lengua no es solo un sistema de comunicación. Es un modo de ver el mundo, una forma de organizar el pensamiento. Cuando una lengua muere, se lleva consigo formas de entender la realidad que son irreemplazables.
+
+La causa principal es la diglosia: las lenguas minoritarias se usan en casa, pero no en la escuela, ni en la administración, ni en los medios. Los niños las perciben como "menos útiles" y dejan de hablarlas.
+
+Pero hay esperanza. El euskera pasó de tener apenas hablantes mayores a ser lengua viva gracias a la inmersión escolar. El catalán se mantiene fuerte. Esto demuestra que la planificación lingüística funciona.
+
+Lo que necesitamos es voluntad política. Lenguas oficiales en sus territorios, inmersión educativa, medios de comunicación propios y tecnología adaptada. Si una lengua no está en internet, para los jóvenes no existe.
+
+Cada lengua que se pierde es una catástrofe cultural. No podemos permitir que siga pasando.`,
+      questions: [
+        {
+          id: 1,
+          question: "¿Cuál es la profesión de Ane?",
+          options: ["a] Profesora", "b] Lingüista", "c] Escritora", "d] Periodista"],
+          correctAnswer: 1,
+        },
+        {
+          id: 2,
+          question: "¿Cuántas lenguas oficiales además del castellano hay?",
+          options: ["a] Dos", "b] Tres", "c] Cuatro", "d] Cinco"],
+          correctAnswer: 2,
+        },
+        {
+          id: 3,
+          question: "¿Cuál no tiene reconocimiento oficial?",
+          options: ["a] Catalán", "b] Asturiano", "c] Euskera", "d] Gallego"],
+          correctAnswer: 1,
+        },
+        {
+          id: 4,
+          question: "¿Qué es la diglosia?",
+          options: [
+            "a] Una lengua",
+            "b] Uso de la lengua minoritaria solo en casa",
+            "c] Una escuela",
+            "d] Un país",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 5,
+          question: "¿Qué ejemplo de éxito menciona?",
+          options: ["a] El asturiano", "b] El euskera", "c] El aragonés", "d] El extremeño"],
+          correctAnswer: 1,
+        },
+        {
+          id: 6,
+          question: "¿Qué demuestra el caso del euskera?",
+          options: [
+            "a] Que es imposible",
+            "b] Que la planificación lingüística funciona",
+            "c] Que es fácil",
+            "d] Que es caro",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          id: 7,
+          question: "¿Qué necesitan las lenguas según ella?",
+          options: ["a] Solo dinero", "b] Voluntad política", "c] Solo escuelas", "d] Solo medios"],
+          correctAnswer: 1,
+        },
+        {
+          id: 8,
+          question: "¿Qué pasa si una lengua no está en internet?",
+          options: ["a] Nada", "b] Para los jóvenes no existe", "c] Se vuelve más popular", "d] Se protege"],
+          correctAnswer: 1,
+        },
+        {
+          id: 9,
+          question: "¿Cuánto tiempo lleva trabajando en esto?",
+          options: ["a] Diez años", "b] Veinte años", "c] Treinta años", "d] Cuarenta años"],
+          correctAnswer: 2,
+        },
+        {
+          id: 10,
+          question: "¿Qué es una lengua según Ane?",
+          options: ["a] Solo palabras", "b] Un modo de ver el mundo", "c] Solo sonidos", "d] Solo gramática"],
+          correctAnswer: 1,
+        },
+      ],
+    },
+    writing: {
+      optionA: {
+        title: "¿Debe el Estado proteger las tradiciones en peligro?",
+        description:
+          "Analiza si es responsabilidad del Estado preservar tradiciones, oficios y lenguas en peligro de extinción o si debe ser un proceso natural.",
+        structure: {
+          intro: "Presenta el debate sobre protección de tradiciones.",
+          body: "Analiza argumentos a favor y en contra de la intervención estatal.",
+          conclusion: "Concluye con tu postura.",
+        },
+        connectors: ["Por una parte", "Por otra parte", "Asimismo", "En consecuencia", "En conclusión"],
+        wordCount: "120-180 palabras",
+      },
+      optionB: {
+        title: "Tradición y modernidad: ¿contradición o complemento?",
+        description:
+          "Reflexiona sobre si la tradición y la modernidad son incompatibles o si pueden coexistir y enriquecerse mutuamente.",
+        structure: {
+          intro: "Presenta la relación entre tradición y modernidad.",
+          body: "Analiza ejemplos de coexistencia o conflicto.",
+          conclusion: "Concluye con tu reflexión.",
+        },
+        connectors: ["En primer lugar", "No obstante", "Asimismo", "Por tanto", "En definitiva"],
+        wordCount: "120-180 palabras",
+      },
+    },
+    monologue: {
+      topic1: {
+        title: "Una tradición de mi familia o región",
+        description:
+          "Habla sobre una tradición importante de tu familia o región durante 1-2 minutos. Di qué es, cómo se practica, si sigue viva y qué significa para ti.",
+        connectors: [
+          "Una tradición importante es",
+          "Se practica",
+          "Sigue viva porque",
+          "Para mí significa",
+          "Me preocupa/Me alegra que",
+        ],
+        guideQuestions: [
+          "¿Que papel juega en tu vida?",
+          "¿Como ha evolucionado?",
+          "¿Que habilidades te ha aportado?",
+          "¿Que planes tienes?",
+        ],
+      },
+      topic2: {
+        title: "El valor de preservar lenguas minoritarias",
+        description:
+          "Habla sobre por qué es importante o no preservar las lenguas minoritarias. Da argumentos y ejemplos.",
+        connectors: [
+          "Las lenguas minoritarias",
+          "Preservarlas es importante porque",
+          "Por ejemplo",
+          "Sin embargo",
+          "Creo que",
+        ],
+        guideQuestions: [
+          "¿Como te afecta personalmente?",
+          "¿Que diferencias ves con el pasado?",
+          "¿Como influye en tu entorno?",
+          "¿Que consejo darias?",
+        ],
+      },
+    },
+    interaction: {
+      situation:
+        "Tú y tu compañero debéis decidir cómo preservar una tradición cultural importante que está desapareciendo en vuestra comunidad.",
+      questions: [
+        {
+          question: "¿Qué tradición queremos preservar y por qué es importante?",
+          help: "Define la tradición. Usa: La tradición que queremos preservar es... porque...",
+          usefulPhrases: [
+            "Con sinceridad...",
+            "Lanza-te a...",
+            "Vislumbra la opcion de...",
+            "Se desprende que...",
+            "Un acierto seguro es...",
+            "El referente principal es...",
+          ],
+        },
+        {
+          question: "¿Cómo la documentamos y transmitimos a las nuevas generaciones?",
+          help: "Propón métodos. Usa: Podríamos documentarla mediante... / Para transmitirla...",
+          usefulPhrases: [
+            "De forma directa...",
+            "Olvidate de los miedos y...",
+            "Contempla la alternativa de...",
+            "Se infiere que...",
+            "Una decision inteligente es...",
+            "El modelo a seguir es...",
+          ],
+        },
+        {
+          question: "¿Quién se encarga y cómo conseguimos apoyo institucional o comunitario?",
+          help: "Organiza responsabilidades. Usa: Yo me encargaría de... / Buscaremos apoyo en...",
+          usefulPhrases: [
+            "Sin velos...",
+            "Empieza ya a...",
+            "Adopta la perspectiva de...",
+            "Se deduce claramente que...",
+            "Un enfoque ganador es...",
+            "El paradigma correcto es...",
+          ],
+        },
+      ],
+    },
+  },
+];
+export { b2Exams as default };
