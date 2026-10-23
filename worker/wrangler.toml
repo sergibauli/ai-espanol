@@ -14,3 +14,5 @@ CLERK_ISSUER = "https://composed-kitten-70.clerk.accounts.dev"
 # Secretos (no van aquí, el repositorio es público):
 #   npx wrangler secret put CLERK_SECRET_KEY   → sk_test_… / sk_live_… de Clerk
 #   npx wrangler secret put ADMIN_EMAILS       → emails con acceso de administración, separados por comas
+#   npx wrangler secret put DEEPSEEK_API_KEY   → clave de DeepSeek para el tutor IA (proxy /ai/chat)
+# Cuotas diarias de IA (opcional): AI_DAILY_USER = "200", AI_DAILY_ANON = "20"

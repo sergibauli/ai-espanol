@@ -259,3 +259,7 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
   .ui-card { background: none; border: 1px solid #bbb; backdrop-filter: none; }
   .ui-muted, .ui-zh { color: #444; }
 }
+
+/* Lista de módulos: tarjetas más grandes y legibles */
+.mod-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+@media (max-width: 640px) { .mod-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } }

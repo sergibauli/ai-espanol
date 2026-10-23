@@ -203,14 +203,6 @@ const NAV_GROUPS = [
         color: "#3b82f6",
         glow: "#60a5fa",
       },
-      {
-        path: "/clases",
-        label: "Clases",
-        labelZh: "课程",
-        icon: CalendarIcon,
-        color: "#39ff14",
-        glow: "#00d4ff",
-      },
     ],
   },
 ];
@@ -358,14 +350,6 @@ const NAV_LINKS = [
     icon: CircleQuestionMarkIcon,
     color: "#3b82f6",
     glow: "#60a5fa",
-  },
-  {
-    path: "/clases",
-    label: "Clases",
-    labelZh: "课程",
-    icon: CalendarIcon,
-    color: "#39ff14",
-    glow: "#00d4ff",
   },
 ];
 export { NAV_GROUPS, NAV_LINKS };

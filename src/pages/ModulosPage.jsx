@@ -16,6 +16,7 @@ import {
 import * as React from "react";
 import { CompassIcon, FileCheckIcon } from "lucide-react";
 import MODULE_CATALOG from "../data/modulos/catalog.json";
+import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { useParams } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 import { L as L_1 } from "../components/LearningImpactScene.jsx";
@@ -1237,6 +1238,10 @@ const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloGramatica = React.lazy(() => import("./modulo/ModuloGramatica.jsx"));
 const ModuloRepaso = React.lazy(() => import("./modulo/ModuloRepaso.jsx"));
 const ModuloEjerciciosGenerados = React.lazy(() => import("./modulo/ModuloEjerciciosGenerados.jsx"));
+const LAST_VISITED = () => {
+  const entries = Object.entries(getModuleProgress()).filter(([, v]) => v?.lastVisited);
+  return entries.sort((a, b) => b[1].lastVisited - a[1].lastVisited)[0]?.[0] || null;
+};
 const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
 let eo = false;
@@ -1642,63 +1647,30 @@ function KoComponent() {
       <StarfieldBackground>
         <Io1Component />
         <div className="module-experience relative z-10 mx-auto w-full max-w-[1400px] px-3 sm:px-4 pb-14 pt-3">
-          <div
-            className={`text-center mb-3 sm:mb-4 transition-all duration-700 ${R ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-          >
-            <div className="hidden md:flex justify-center -mt-2 -mb-2">
-              <L_1 variant="modules" compact />
-            </div>
-            <div
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-2.5"
-              style={{
-                background: "linear-gradient(135deg, rgba(255,179,59,.12), rgba(255,107,26,.08))",
-                border: "1px solid rgba(255,211,107,.25)",
-                boxShadow: "0 0 22px rgba(255,179,59,.12)",
-              }}
+          <div style={{ marginBottom: 16, fontFamily: "var(--ui-font)", color: "var(--ui-text)" }}>
+            <SectionHero
+              icon={BookMarkedIcon}
+              accent="#f59e0b"
+              eyebrow="Módulos · 学习模块"
+              title="Tu curso de español, de A1 a B2"
+              titleZh="从A1到B2的完整课程"
+              description="Cada módulo trae teoría, vocabulario, diálogos, lectura, errores típicos, ejercicios, juegos y un examen que cambia cada vez."
+              descriptionZh="每个模块包括语法、词汇、对话、阅读、常见错误、练习、游戏和每次不同的考试。"
+              stats={[
+                { value: e.length || "…", label: "módulos · 模块" },
+                { value: u, label: "completados · 已完成" },
+                { value: `${Math.round(_)}%`, label: "del curso · 课程进度" },
+              ]}
+              actions={
+                <a className="ui-btn primary" href={`#/modulos/${LAST_VISITED() || "modulo-1"}`}>
+                  {LAST_VISITED() ? "Continuar donde lo dejé · 继续学习" : "Empezar por el módulo 1 · 开始"}
+                </a>
+              }
             >
-              <BookMarkedIcon
-                size={13}
-                style={{
-                  color: "#ffb33b",
-                }}
-              />
-              <span className="mx-font-mono text-white font-bold text-[11px] sm:text-xs">
-                {e.length || "..."} {t_1("módulos", "模块")}
-              </span>
-              <span className="text-white/25">·</span>
-              <span className="mx-font-mono text-[#ffd36b] font-black text-[11px] sm:text-xs">
-                {u}/{e.length || 0}
-              </span>
-            </div>
-            <h1
-              className="mx-font-display text-2xl sm:text-4xl md:text-5xl font-extrabold mb-1.5"
-              style={{
-                background: "linear-gradient(135deg, #ffb33b 0%, #ff6b1a 40%, #ff36d7 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 30px rgba(255,179,59,.35))",
-              }}
-            >
-              {t_1("Módulos de Aprendizaje", "学习模块")}
-            </h1>
-            <div
-              className="mx-auto h-1.5 w-48 sm:w-72 rounded-full overflow-hidden"
-              style={{
-                background: "rgba(255,255,255,.08)",
-              }}
-            >
-              <div
-                className="h-full rounded-full transition-all duration-1000"
-                style={{
-                  width: `${_}%`,
-                  background: "linear-gradient(90deg, #ffb33b, #ff6b1a, #ff36d7)",
-                  boxShadow: "0 0 14px #ff6b1a",
-                }}
-              />
-            </div>
-            <div className="hidden sm:block mt-1">
-              <RoComponent steps={["Descubre", "Comprende", "Practica", "Domina"]} />
-            </div>
+              <div className="ui-progress" style={{ marginTop: 16 }}>
+                <i style={{ width: `${_}%` }} />
+              </div>
+            </SectionHero>
           </div>
           <div
             className="sticky top-1 z-30 -mx-3 sm:mx-0 px-3 sm:px-0 py-2 mb-3 backdrop-blur-md"
@@ -1779,7 +1751,7 @@ function KoComponent() {
           )}
           {e.length > 0 && (
             <div
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2.5 sm:gap-3"
+              className="mod-grid"
               style={{
                 perspective: "1200px",
               }}

@@ -43,7 +43,8 @@ import {
   SquareDashedIcon,
 } from "lucide-react";
 import * as React from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { SectionHero } from "../../components/ui/SectionHero.jsx";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
 import { useLanguage } from "../../lib/i18n.jsx";
 const i = [
@@ -51,7 +52,7 @@ const i = [
     id: "kahoot",
     name: "Kahoot Quiz",
     nameCn: "卡胡特问答",
-    desc: "Compite con preguntas tipo quiz al estilo Kahoot",
+    desc: "Compite respondiendo preguntas tipo quiz estilo Kahoot",
     descCn: "Kahoot风格问答竞赛",
     icon: ZapIcon,
     color: "#ff00aa",
@@ -67,9 +68,9 @@ const i = [
   {
     id: "ahorcado",
     name: "Ahorcado",
-    nameCn: "Hangman",
-    desc: "Adivina la palabra antes de que sea demasiado tarde",
-    descCn: "在太迟之前猜出单词",
+    nameCn: "猜词游戏",
+    desc: "Adivina la palabra antes de que sea tarde",
+    descCn: "在来不及之前猜出单词",
     icon: EyeIcon,
     color: "#00d4ff",
     glow: "rgba(0,212,255,.45)",
@@ -102,7 +103,7 @@ const i = [
     id: "crucigrama",
     name: "Crucigrama",
     nameCn: "填字游戏",
-    desc: "Completa el crucigrama con palabras en espanol",
+    desc: "Completa el crucigrama con palabras en español",
     descCn: "用西班牙语单词完成填字游戏",
     icon: TypeIcon,
     color: "#39ff14",
@@ -118,7 +119,7 @@ const i = [
   {
     id: "sopa",
     name: "Sopa de Letras",
-    nameCn: "单词搜索",
+    nameCn: "字母搜索",
     desc: "Encuentra palabras escondidas en la sopa de letras",
     descCn: "在字母汤中找到隐藏的单词",
     icon: ShuffleIcon,
@@ -136,7 +137,7 @@ const i = [
     id: "ruleta",
     name: "Ruleta de Palabras",
     nameCn: "单词轮盘",
-    desc: "Gira la ruleta y aprende nuevas palabras",
+    desc: "Gira la ruleta y aprende palabras nuevas",
     descCn: "转动轮盘学习新单词",
     icon: BrainIcon,
     color: "#ff6b35",
@@ -153,7 +154,7 @@ const i = [
     id: "scramble",
     name: "Palabra Desordenada",
     nameCn: "单词重组",
-    desc: "Ordena las letras para formar la palabra correcta",
+    desc: "Ordena las letras y forma la palabra correcta",
     descCn: "重新排列字母组成正确单词",
     icon: BookOpenIcon,
     color: "#ffd36b",
@@ -170,7 +171,7 @@ const i = [
     id: "flashcards",
     name: "Flashcards 3D",
     nameCn: "3D闪卡",
-    desc: "Estudia vocabulario con tarjetas en 3D que se voltean",
+    desc: "Estudia vocabulario con tarjetas 3D que se voltean",
     descCn: "用3D翻转卡片学习词汇",
     icon: CreditCardIcon,
     color: "#ff00aa",
@@ -221,7 +222,7 @@ const i = [
     id: "vocab-blast",
     name: "Vocabulario Blast",
     nameCn: "词汇大爆炸",
-    desc: "Empareja palabras españolas con chinas contra el tiempo",
+    desc: "Empareja palabras españolas y chinas contra el reloj",
     descCn: "限时配对西班牙语和中文",
     icon: BombIcon,
     color: "#ffd600",
@@ -238,7 +239,7 @@ const i = [
     id: "word-quiz",
     name: "Word Quiz Battle",
     nameCn: "单词问答战",
-    desc: "Responde preguntas tipo quiz con multiplicadores de racha",
+    desc: "Responde preguntas con multiplicadores de racha",
     descCn: "问答模式，连击加倍",
     icon: TargetIcon,
     color: "#ff3860",
@@ -323,7 +324,7 @@ const i = [
     id: "word-maze",
     name: "Word Maze",
     nameCn: "单词迷宫",
-    desc: "Recoge las letras en orden en el laberinto",
+    desc: "Recoge las letras en orden por el laberinto",
     descCn: "按顺序在迷宫中收集字母",
     icon: GitBranchIcon,
     color: "#39ff14",
@@ -340,7 +341,7 @@ const i = [
     id: "word-dash",
     name: "Word Dash",
     nameCn: "单词冲刺",
-    desc: "Escribe las palabras lo mas rapido posible",
+    desc: "Escribe las palabras lo más rápido posible",
     descCn: "尽快输入单词",
     icon: ZapIcon,
     color: "#2080ff",
@@ -357,7 +358,7 @@ const i = [
     id: "word-puzzle",
     name: "Word Puzzle",
     nameCn: "单词拼图",
-    desc: "Arma la palabra con las piezas del puzzle",
+    desc: "Arma la palabra con las piezas del puzle",
     descCn: "用拼图块拼出单词",
     icon: LayoutGridIcon,
     color: "#b829dd",
@@ -390,8 +391,8 @@ const i = [
   {
     id: "word-rush",
     name: "Word Rush",
-    nameCn: "单词冲刺",
-    desc: "Escribe las palabras lo mas rapido posible",
+    nameCn: "单词急速",
+    desc: "Escribe las palabras lo más rápido posible",
     descCn: "尽快输入单词",
     icon: ZapIcon,
     color: "#ff00aa",
@@ -408,7 +409,7 @@ const i = [
     id: "word-pop",
     name: "Word Pop",
     nameCn: "单词泡泡",
-    desc: "Encuentra y haz clic en el español correcto",
+    desc: "Encuentra y pulsa la palabra española correcta",
     descCn: "找到并点击正确的西班牙语",
     icon: CircleIcon,
     color: "#b829dd",
@@ -425,7 +426,7 @@ const i = [
     id: "word-orbit",
     name: "Word Orbit",
     nameCn: "单词轨道",
-    desc: "Encuentra la palabra que orbita correcta",
+    desc: "Encuentra la palabra correcta en órbita",
     descCn: "找到轨道上正确的单词",
     icon: OrbitIcon,
     color: "#00d4ff",
@@ -442,7 +443,7 @@ const i = [
     id: "word-fusion",
     name: "Word Fusion",
     nameCn: "单词融合",
-    desc: "Combina las sílabas para formar palabras completas",
+    desc: "Combina sílabas y forma palabras completas",
     descCn: "组合音节组成完整单词",
     icon: WandSparklesIcon,
     color: "#b829dd",
@@ -476,7 +477,7 @@ const i = [
     id: "word-storm",
     name: "Word Storm",
     nameCn: "单词风暴",
-    desc: "Escribe las palabras antes de que la tormenta te golpee",
+    desc: "Escribe palabras antes de que la tormenta te golpee",
     descCn: "在暴风雨击中你之前输入单词",
     icon: WindIcon,
     color: "#ff00aa",
@@ -493,7 +494,7 @@ const i = [
     id: "word-stack",
     name: "Word Stack",
     nameCn: "单词堆叠",
-    desc: "Selecciona los bloques 3D en el orden correcto para formar la palabra",
+    desc: "Elige los bloques 3D en orden y forma la palabra",
     descCn: "按正确顺序选择3D方块组成单词",
     icon: LayersIcon,
     color: "#ffd600",
@@ -510,7 +511,7 @@ const i = [
     id: "word-cipher",
     name: "Word Cipher",
     nameCn: "单词密码",
-    desc: "Descifra el código de símbolos para revelar la palabra secreta",
+    desc: "Descifra símbolos y revela la palabra secreta",
     descCn: "破解符号密码揭示秘密单词",
     icon: LockIcon,
     color: "#39ff14",
@@ -527,7 +528,7 @@ const i = [
     id: "word-trivia",
     name: "Word Trivia",
     nameCn: "单词问答",
-    desc: "Trivia de vocabulario con preguntas tipo Kahoot y bonus por tiempo",
+    desc: "Trivia de vocabulario estilo Kahoot con bonus por tiempo",
     descCn: "Kahoot风格词汇问答，时间奖励",
     icon: CircleQuestionMarkIcon,
     color: "#ff3860",
@@ -544,8 +545,8 @@ const i = [
     id: "word-pinball",
     name: "Word Pinball",
     nameCn: "单词弹球",
-    desc: "Pinball de palabras: selecciona el bloque correcto con efectos 3D",
-    descCn: "单词弹球：选择正确的3D方块",
+    desc: "Pinball de palabras con efectos 3D",
+    descCn: "单词弹球：带3D效果",
     icon: SquareDashedIcon,
     color: "#00d4ff",
     glow: "rgba(0,212,255,.45)",
@@ -561,7 +562,7 @@ const i = [
     id: "word-tetris",
     name: "Word Tetris",
     nameCn: "单词方块",
-    desc: "Tetris de palabras: forma palabras con letras que caen",
+    desc: "Forma palabras con letras que caen",
     descCn: "单词俄罗斯方块：用下落字母组成单词",
     icon: SquareIcon,
     color: "#39ff14",
@@ -578,8 +579,8 @@ const i = [
     id: "word-pacman",
     name: "Word Pac-Man",
     nameCn: "单词吃豆人",
-    desc: "Pac-Man de palabras: recoge letras en el laberinto mientras evitas fantasmas",
-    descCn: "单词吃豆人：在迷宫中收集字母并躲避幽灵",
+    desc: "Recoge letras en el laberinto y evita fantasmas",
+    descCn: "在迷宫中收集字母并躲避幽灵",
     icon: GhostIcon,
     color: "#ffd700",
     glow: "rgba(255,215,0,.45)",
@@ -595,8 +596,8 @@ const i = [
     id: "word-shooter",
     name: "Word Shooter",
     nameCn: "单词射击",
-    desc: "Shooter espacial: destruye naves enemigas escribiendo palabras en 3D",
-    descCn: "太空射击：输入单词摧毁3D敌舰",
+    desc: "Destruye naves enemigas escribiendo palabras en 3D",
+    descCn: "输入单词摧毁3D敌舰",
     icon: RocketIcon,
     color: "#00d4ff",
     glow: "rgba(0,212,255,.45)",
@@ -612,8 +613,8 @@ const i = [
     id: "word-match-3d",
     name: "Word Match 3D",
     nameCn: "3D单词配对",
-    desc: "Matching 3D: Encuentra parejas español↔chino en tarjetas de cristal",
-    descCn: "3D配对：在水晶卡片中找到西班牙语和中文配对",
+    desc: "Encuentra parejas español-chino en tarjetas de cristal",
+    descCn: "在水晶卡片中找到西班牙语和中文配对",
     icon: DiamondIcon,
     color: "#ff00aa",
     glow: "rgba(255,0,170,.45)",
@@ -629,8 +630,8 @@ const i = [
     id: "word-racer",
     name: "Word Racer",
     nameCn: "单词赛车",
-    desc: "Carrera de palabras: compite contra la IA en una pista 3D",
-    descCn: "单词赛车：在3D赛道上与AI竞速",
+    desc: "Compite contra la IA en una pista 3D",
+    descCn: "在3D赛道上与AI竞速",
     icon: CarIcon,
     color: "#ffd600",
     glow: "rgba(255,214,0,.45)",
@@ -646,8 +647,8 @@ const i = [
     id: "word-defender",
     name: "Word Defender",
     nameCn: "单词防御",
-    desc: "Defensa de torre: destruye asteroides con palabras antes de que golpeen la torre",
-    descCn: "塔防游戏：在陨石击中塔之前摧毁它们",
+    desc: "Destruye asteroides con palabras antes de que golpeen la torre",
+    descCn: "在陨石击中塔之前摧毁它们",
     icon: ShieldIcon,
     color: "#b829dd",
     glow: "rgba(184,41,221,.45)",
@@ -663,8 +664,8 @@ const i = [
     id: "word-slinger",
     name: "Word Slinger",
     nameCn: "单词牛仔",
-    desc: "Vaquero del Oeste: dispara letreros con la palabra correcta",
-    descCn: "西部牛仔：射击带有正确单词的木牌",
+    desc: "Dispara a los letreros con la palabra correcta",
+    descCn: "射击带有正确单词的木牌",
     icon: CrosshairIcon,
     color: "#ff6b35",
     glow: "rgba(255,107,53,.45)",
@@ -680,8 +681,8 @@ const i = [
     id: "word-ninja",
     name: "Word Ninja",
     nameCn: "单词忍者",
-    desc: "Ninja espadachín: corta palabras que caen antes de que toquen el suelo",
-    descCn: "忍者剑客：在单词落地前斩断它们",
+    desc: "Corta las palabras que caen antes de que toquen el suelo",
+    descCn: "在单词落地前斩断它们",
     icon: SwordIcon,
     color: "#ff3860",
     glow: "rgba(255,56,96,.45)",
@@ -697,8 +698,8 @@ const i = [
     id: "word-quest",
     name: "Word Quest",
     nameCn: "单词冒险",
-    desc: "Aventura RPG épica: derrota monstruos traduciendo palabras en tu búsqueda",
-    descCn: "史诗RPG冒险：通过翻译单词击败怪物的旅程",
+    desc: "Derrota monstruos traduciendo palabras en tu aventura",
+    descCn: "史诗RPG冒险：通过翻译单词击败怪物",
     icon: CrownIcon,
     color: "#ffd600",
     glow: "rgba(255,214,0,.45)",
@@ -714,8 +715,8 @@ const i = [
     id: "word-archer",
     name: "Word Archer",
     nameCn: "单词弓箭手",
-    desc: "Un arquero dispara flechas a dianas con palabras españolas. Escribe la traducción china para acertar",
-    descCn: "弓箭手射击带有西班牙语单词的靶子，输入中文翻译命中",
+    desc: "Dispara a dianas con palabras y acierta la traducción",
+    descCn: "射击带有西班牙语单词的靶子，输入中文翻译命中",
     icon: TargetIcon,
     color: "#00d4ff",
     glow: "rgba(0,212,255,.45)",
@@ -731,8 +732,8 @@ const i = [
     id: "word-candy",
     name: "Word Candy",
     nameCn: "单词糖果",
-    desc: "Candy Crush de palabras: intercambia dulces para formar palabras en español con explosiones espectaculares",
-    descCn: "糖果单词消消乐：交换糖果方块组成西班牙语单词， spectacular爆炸效果",
+    desc: "Intercambia dulces y forma palabras con explosiones",
+    descCn: "交换糖果方块组成西班牙语单词，爆炸效果炫酷",
     icon: CandyIcon,
     color: "#ff00aa",
     glow: "rgba(255,0,170,.45)",
@@ -748,8 +749,8 @@ const i = [
     id: "apalabrados",
     name: "Apalabrados",
     nameCn: "西班牙语拼字",
-    desc: "Scrabble en español: coloca letras en el tablero 15x15 para formar palabras con bonus espectaculares",
-    descCn: "西班牙语拼字游戏：在15x15棋盘上放置字母组成单词， spectacular加分",
+    desc: "Coloca letras en el tablero y forma palabras con bonus",
+    descCn: "在棋盘上放置字母组成单词，获得加分",
     icon: HashIcon,
     color: "#ffd600",
     glow: "rgba(255,214,0,.45)",
@@ -765,8 +766,8 @@ const i = [
     id: "word-chain",
     name: "Cadenas de Palabras",
     nameCn: "单词链",
-    desc: "Alterna palabras conectadas por su última letra. Sin repeticiones, contra el reloj.",
-    descCn: "通过最后一个字母连接单词，不许重复，限时",
+    desc: "Encadena palabras por su última letra contra el reloj",
+    descCn: "通过最后一个字母连接单词，限时",
     icon: Link2Icon,
     color: "#39ff14",
     glow: "rgba(57,255,20,.45)",
@@ -782,7 +783,7 @@ const i = [
     id: "tic-tac-toe",
     name: "Tic Tac Toe",
     nameCn: "三子棋",
-    desc: "Clásico 3 en raya. Juega con un amigo o contra la IA con 3 niveles de dificultad.",
+    desc: "Clásico 3 en raya contra un amigo o la IA",
     descCn: "经典三子棋：双人对战或三级AI难度",
     icon: Grid3x3Icon,
     color: "#ff00aa",
@@ -799,7 +800,7 @@ const i = [
     id: "uno",
     name: "UNO",
     nameCn: "UNO卡牌",
-    desc: "Juego clásico de UNO en español. Dos jugadores, cartas especiales y palabras de vocabulario.",
+    desc: "Clásico UNO en español con cartas especiales",
     descCn: "经典UNO卡牌游戏：双人对战，特殊卡牌，词汇学习",
     icon: CrownIcon,
     color: "#ffd600",
@@ -816,7 +817,7 @@ const i = [
     id: "pronunciacion",
     name: "Templo de las Silabas",
     nameCn: "音节圣殿",
-    desc: "Practica la pronunciacion de silabas espanolas",
+    desc: "Practica la pronunciación de sílabas españolas",
     descCn: "练习西班牙语音节发音",
     icon: MessageCircleIcon,
     color: "#b829dd",
@@ -870,208 +871,179 @@ const p = [
       ["ahorcado", "crucigrama", "sopa", "tic-tac-toe", "uno", "tetris", "pinball"].includes(r.id),
   },
 ];
-const S = 24;
-const k = (r) =>
+const RECENT_KEY = "ai-espanol:games-recent";
+const normalize = (r) =>
   String(r || "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
-const fa = (r) =>
-  `${r.name} ${r.desc || ""} ${(r.tags || []).join(" ")} ${String(r.nameCn ?? "")} ${String(r.descCn ?? "")}`;
-function YaComponent() {
-  const { t } = useLanguage();
-  const [n, setN] = React.useState("todos");
-  const [d, setD] = React.useState("");
-  const [l, setL] = React.useState(false);
-  const [c, setC] = React.useState(false);
-  React.useEffect(() => {
-    const a = window.setTimeout(() => setC(true), 30);
-    return () => window.clearTimeout(a);
-  }, []);
-  React.useEffect(() => {
-    setL(false);
-  }, [n, d]);
-  const h = p.find((a) => a.key === n) || p[0];
-  const s = React.useMemo(() => {
-    const a = k(d.trim());
-    return i.filter((o) => h.test(o) && (!a || k(fa(o)).includes(a)));
-  }, [h, d]);
-  const D = l ? s : s.slice(0, S);
+const searchText = (r) => `${r.name} ${r.desc || ""} ${(r.tags || []).join(" ")} ${String(r.nameCn ?? "")} ${String(r.descCn ?? "")}`;
+
+function readRecent() {
+  try {
+    return JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+function rememberGame(id) {
+  try {
+    localStorage.setItem(RECENT_KEY, JSON.stringify([id, ...readRecent().filter((x) => x !== id)].slice(0, 6)));
+  } catch {}
+}
+
+function GameIcon({ game, size = 52 }) {
+  const Icon = game.icon;
   return (
-    <StarfieldBackground>
-      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-3 pb-16 pt-4 sm:px-4">
-        <div
-          className={`mb-3 flex items-center gap-2.5 transition-all duration-700 sm:mb-4 ${c ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-        >
-          <Link
-            to="/dashboard"
-            aria-label={t("Volver", "返回")}
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white"
-            style={{
-              background: "rgba(255,255,255,.05)",
-              border: "1px solid rgba(255,255,255,.1)",
-            }}
-          >
-            <ArrowLeftIcon size={16} />
-          </Link>
-          <div className="min-w-0">
-            <h1
-              className="mx-font-display truncate text-xl font-extrabold sm:text-3xl"
-              style={{
-                background: "linear-gradient(135deg, #ffb33b 0%, #ff6b1a 45%, #ff36d7 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 24px rgba(255,179,59,.35))",
-              }}
-            >
-              <Gamepad2Icon className="mr-1.5 inline align-[-3px]" size={18} /> {t("Juegos", "游戏")}
-            </h1>
-            <p className="mx-font-mono text-[11px] text-white/40">
-              {i.length} {t("juegos disponibles", "个游戏")} · {t("elige y juega", "选一个开始")}
-            </p>
-          </div>
+    <span
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size * 0.3,
+        background: game.gradient,
+        boxShadow: `0 10px 26px ${game.glow}`,
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+      }}
+    >
+      <Icon size={size * 0.46} color="#fff" />
+    </span>
+  );
+}
+
+function GameCard({ game }) {
+  return (
+    <Link to={game.path} onClick={() => rememberGame(game.id)} className="ui-card is-link" style={{ display: "flex", flexDirection: "column", gap: 12, padding: 16 }}>
+      <div className="ui-row" style={{ flexWrap: "nowrap", gap: 12 }}>
+        <GameIcon game={game} />
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontWeight: 800, fontSize: 15 }}>{game.name}</div>
+          <div className="ui-zh" style={{ fontSize: 12 }}>{game.nameCn}</div>
         </div>
-        <div className="relative mb-2.5">
-          <SearchIcon
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/35"
-            size={16}
-          />
-          <input
-            value={d}
-            onChange={(a) => setD(a.target.value)}
-            type="search"
-            inputMode="search"
-            enterKeyHint="search"
-            aria-label={t("Buscar juegos", "搜索游戏")}
-            placeholder={t("Buscar juego...", "搜索游戏...")}
-            className="h-11 w-full rounded-2xl pl-10 pr-20 text-sm font-bold text-white outline-none placeholder:text-white/30"
-            style={{
-              background: "rgba(255,255,255,.05)",
-              border: "1px solid rgba(255,255,255,.12)",
-            }}
-          />
-          {d.length > 0 && (
-            <button
-              onClick={() => setD("")}
-              className="absolute right-2 top-1/2 h-10 -translate-y-1/2 rounded-full px-3.5 text-[11px] font-black text-white/60 transition-colors hover:text-white"
-              style={{
-                background: "rgba(255,255,255,.07)",
-              }}
-            >
-              {t("Borrar", "清除")}
-            </button>
-          )}
-        </div>
-        <div className="mx-noscroll mb-3 flex items-center gap-2 overflow-x-auto pb-1">
-          {p.map((a) => {
-            const o = a.key === n;
-            const z = a.key === "todos" ? i.length : i.filter(a.test).length;
-            return (
-              <button
-                key={a.key}
-                onClick={() => setN(a.key)}
-                aria-pressed={o}
-                className="h-10 shrink-0 rounded-full px-4 text-xs font-black transition-all duration-300 hover:-translate-y-0.5"
-                style={
-                  o
-                    ? {
-                        background: `${a.color}1f`,
-                        border: `1px solid ${a.color}`,
-                        color: a.color,
-                        boxShadow: `0 0 16px ${a.color}59`,
-                      }
-                    : {
-                        background: "rgba(255,255,255,.04)",
-                        border: "1px solid rgba(255,255,255,.1)",
-                        color: "rgba(255,255,255,.5)",
-                      }
-                }
-              >
-                {t(a.label, a.labelCn)}
-                <span className="ml-1.5 font-bold opacity-60">{z}</span>
-              </button>
-            );
-          })}
-        </div>
-        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-3 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
-          {D.map((a, o) => (
-            <Link
-              key={a.id}
-              to={a.path}
-              title={`${a.name} — ${a.desc || ""}`}
-              className="group flex flex-col items-center gap-1.5 rounded-2xl p-2 text-center transition-transform duration-300 hover:-translate-y-1"
-              style={{
-                opacity: c ? 1 : 0,
-                transform: c ? "none" : "translateY(10px)",
-                transition: "opacity .5s ease, transform .5s ease",
-                transitionDelay: `${Math.min(o, 20) * 22}ms`,
-              }}
-            >
-              <span
-                className="relative flex h-14 w-14 items-center justify-center rounded-2xl sm:h-16 sm:w-16"
-                style={{
-                  background: a.gradient,
-                  boxShadow: a.shadow,
-                  animation: `mxFloat 3.6s ease-in-out ${(o % 7) * 0.28}s infinite`,
-                }}
-              >
-                <span
-                  aria-hidden
-                  className="absolute inset-0 rounded-2xl"
-                  style={{
-                    background: a.after,
-                  }}
-                />
-                <a.icon
-                  size={26}
-                  className="relative text-white"
-                  style={{
-                    filter: "drop-shadow(0 2px 6px rgba(0,0,0,.45))",
-                  }}
-                />
-              </span>
-              <span className="line-clamp-2 text-[10px] font-bold leading-tight text-white/85 sm:text-[11px]">
-                {a.name}
-              </span>
-            </Link>
+      </div>
+      <div style={{ fontSize: 13, color: "var(--ui-text-2)", lineHeight: 1.45, flex: 1 }}>
+        {game.desc}
+        <div className="ui-zh" style={{ fontSize: 12, marginTop: 2 }}>{game.descCn}</div>
+      </div>
+      <div className="ui-between">
+        <div className="ui-row" style={{ gap: 4 }}>
+          {(game.tags || []).slice(0, 2).map((t) => (
+            <span key={t} className="ui-chip" style={{ fontSize: 11, padding: "2px 8px" }}>
+              {t}
+            </span>
           ))}
         </div>
-        {s.length === 0 && (
-          <p className="mx-font-mono py-14 text-center text-sm text-white/45">
-            {t("Ningún juego coincide con esa búsqueda.", "没有匹配的游戏。")}
-          </p>
-        )}
-        {s.length > S && (
-          <div className="mt-4 flex justify-center">
+        <span style={{ color: game.color, fontWeight: 900, fontSize: 13 }}>Jugar →</span>
+      </div>
+    </Link>
+  );
+}
+
+function JuegosHubPage() {
+  const navigate = useNavigate();
+  const [category, setCategory] = React.useState("todos");
+  const [query, setQuery] = React.useState("");
+  const recent = readRecent()
+    .map((id) => i.find((g) => g.id === id))
+    .filter(Boolean);
+  const daySeed = Math.floor(Date.now() / 86400000);
+  const featured = i[daySeed % i.length];
+  const cat = p.find((c) => c.key === category) || p[0];
+  const q = normalize(query.trim());
+  const list = i.filter((g) => cat.test(g) && (!q || normalize(searchText(g)).includes(q)));
+
+  return (
+    <StarfieldBackground>
+      <div className="ui-page">
+        <SectionHero
+          icon={Gamepad2Icon}
+          accent="#06b6d4"
+          eyebrow="Juegos · 游戏"
+          title="Aprende jugando"
+          titleZh="边玩边学西班牙语"
+          description="Juegos de vocabulario con las palabras de tus módulos: elige un módulo dentro de cada juego y repasa sin darte cuenta."
+          descriptionZh="用模块词汇玩游戏，在每个游戏里选择模块，轻松复习。"
+          stats={[
+            { value: i.length, label: "juegos · 个游戏" },
+            { value: p.length - 1, label: "categorías · 类别" },
+            { value: recent.length, label: "jugados · 玩过" },
+          ]}
+          actions={
             <button
-              onClick={() => setL((a) => !a)}
-              className="h-11 rounded-full px-5 text-xs font-black transition-all duration-300 hover:-translate-y-0.5"
-              style={{
-                background: "rgba(255,179,59,.12)",
-                border: "1px solid rgba(255,179,59,.4)",
-                color: "#ffd36b",
-                boxShadow: "0 0 18px rgba(255,179,59,.18)",
+              className="ui-btn primary"
+              onClick={() => {
+                const g = i[Math.floor(Math.random() * i.length)];
+                rememberGame(g.id);
+                navigate(g.path);
               }}
             >
-              <SparklesIcon className="mr-1.5 inline align-[-3px]" size={13} />
-              {l
-                ? t("Ver menos", "收起")
-                : `${t("Ver los", "显示全部")} ${s.length} ${t("juegos", "个游戏")}`}
-              <ChevronRightIcon
-                className={`ml-1 inline align-[-3px] transition-transform duration-300 ${l ? "rotate-90" : ""}`}
-                size={13}
-              />
+              <ShuffleIcon size={16} /> Partida rápida · 随机
             </button>
+          }
+        />
+
+        <section className="ui-section ui-grid cols-2" style={{ alignItems: "stretch" }}>
+          <Link
+            to={featured.path}
+            onClick={() => rememberGame(featured.id)}
+            className="ui-card is-link"
+            style={{ display: "flex", gap: 18, alignItems: "center", background: `radial-gradient(120% 140% at 0% 0%, ${featured.color}33, transparent 60%), var(--ui-surface)` }}
+          >
+            <GameIcon game={featured} size={78} />
+            <div style={{ minWidth: 0 }}>
+              <div className="ui-eyebrow" style={{ color: featured.color }}>
+                <SparklesIcon size={13} /> Juego del día · 今日推荐
+              </div>
+              <div className="ui-h2" style={{ marginTop: 6 }}>{featured.name}</div>
+              <div className="ui-zh">{featured.nameCn}</div>
+              <div style={{ fontSize: 14, color: "var(--ui-text-2)", marginTop: 6 }}>{featured.desc}</div>
+            </div>
+          </Link>
+          <div className="ui-card">
+            <div className="ui-h3" style={{ marginBottom: 12 }}>Seguir jugando · 继续玩</div>
+            {recent.length ? (
+              <div className="ui-row" style={{ gap: 12 }}>
+                {recent.map((g) => (
+                  <Link key={g.id} to={g.path} onClick={() => rememberGame(g.id)} title={g.name} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: 78, textDecoration: "none", color: "inherit" }}>
+                    <GameIcon game={g} size={50} />
+                    <span style={{ fontSize: 11, fontWeight: 700, textAlign: "center", lineHeight: 1.2 }}>{g.name}</span>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="ui-muted" style={{ fontSize: 14 }}>Aquí aparecerán los últimos juegos que abras. 这里会显示你最近玩过的游戏。</div>
+            )}
           </div>
-        )}
-        <style>{`
-          .mx-noscroll::-webkit-scrollbar { display: none; }
-          .mx-noscroll { -ms-overflow-style: none; scrollbar-width: none; }
-          @keyframes mxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-          @media (prefers-reduced-motion: reduce) { .mx-noscroll, a { animation: none !important; } }
-        `}</style>
+        </section>
+
+        <section className="ui-section">
+          <div className="ui-between" style={{ marginBottom: 14 }}>
+            <div className="ui-tabs">
+              {p.map((c) => (
+                <button key={c.key} className={category === c.key ? "is-on" : ""} onClick={() => setCategory(c.key)}>
+                  {c.label} · {c.labelCn} <span style={{ opacity: 0.6 }}>{i.filter(c.test).length}</span>
+                </button>
+              ))}
+            </div>
+            <label className="ui-row" style={{ position: "relative", flex: "0 1 320px" }}>
+              <SearchIcon size={16} style={{ position: "absolute", left: 12, opacity: 0.6 }} />
+              <input className="ui-input" style={{ paddingLeft: 36 }} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar juego · 搜索游戏" />
+            </label>
+          </div>
+          {list.length ? (
+            <div className="ui-grid auto" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))" }}>
+              {list.map((g) => (
+                <GameCard key={g.id} game={g} />
+              ))}
+            </div>
+          ) : (
+            <div className="ui-empty">No hay juegos con «{query}».</div>
+          )}
+        </section>
       </div>
     </StarfieldBackground>
   );
 }
-export { YaComponent as default };
+export { JuegosHubPage as default };

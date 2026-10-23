@@ -1,4 +1,5 @@
-export const D = import.meta.env.VITE_DEEPSEEK_API_KEY ?? "";
+import { deepseekFetch } from "./deepseekClient.js";
+export const D = "";
 const s = "dele_ai_gen_cache_v1";
 function o(t, e) {
   return `${t}::${e.trim().toLowerCase().replace(/\s+/g, " ")}`;
@@ -30,11 +31,10 @@ function f(t, e, r) {
   h(n);
 }
 async function d(t, e, max_tokens = 8000) {
-  const n = await fetch("https://api.deepseek.com/v1/chat/completions", {
+  const n = await deepseekFetch("https://api.deepseek.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${D}`,
     },
     body: JSON.stringify({
       model: "deepseek-chat",

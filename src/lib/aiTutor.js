@@ -32,7 +32,6 @@ function cacheAnswer(content, t) {
   }
   writeChatCache(c);
 }
-const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY ?? "";
 const TUTOR_SYSTEM_PROMPT = `Eres un tutor de español amable y conversacional para hablantes de chino que preparan el examen DELE (A1-B2). Habla como un mentor cercano, NO como un libro de texto.
 
 Reglas de estilo (MUY importantes):
@@ -72,7 +71,6 @@ function speakSpanish(i) {
 export {
   getCachedAnswer,
   speakSpanish,
-  DEEPSEEK_API_KEY,
   buildTutorSystemPrompt,
   CHAT_HISTORY_TURNS,
   cacheAnswer,

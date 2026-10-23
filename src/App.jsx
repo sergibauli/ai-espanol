@@ -39,7 +39,6 @@ const GeneradorPage = React.lazy(() => import("./pages/GeneradorPage.jsx"));
 const TutorVozPage = React.lazy(() => import("./pages/TutorVozPage.jsx"));
 const VideosPage = React.lazy(() => import("./pages/VideosPage.jsx"));
 const EnjambrePage = React.lazy(() => import("./pages/juegos/EnjambrePage.jsx"));
-const ClasesPage = React.lazy(() => import("./pages/ClasesPage.jsx"));
 const ClasePage = React.lazy(() => import("./pages/ClasePage.jsx"));
 const PromoPage = React.lazy(() => import("./pages/PromoPage.jsx"));
 const KahootPage = React.lazy(() => import("./pages/juegos/KahootPage.jsx"));
@@ -516,14 +515,7 @@ function AppRoutes() {
               </RequireAuth>
             }
           />
-          <Route
-            path="/clases"
-            element={
-              <RequireAuth>
-                <ClasesPage />
-              </RequireAuth>
-            }
-          />
+          <Route path="/clases" element={<Navigate to="/campus" replace />} />
           <Route path="/clase" element={<ClasePage />} />
           <Route path="/promo" element={<PromoPage />} />
           <Route

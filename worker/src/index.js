@@ -3,7 +3,8 @@
 // - El rol se decide AQUÍ, nunca en el navegador: ADMIN_EMAILS → admin; email en profesores → teacher; resto → student.
 // - Cada rol recibe solo sus datos: el alumno sus clases/deberes/entregas, el profesor los suyos, admin todo.
 // Almacenamiento: KV (binding CAMPUS), un documento JSON "db" + caché de emails por usuario.
-// Secretos: CLERK_SECRET_KEY (para leer el email del usuario). Variables: ver wrangler.toml.
+// - Proxy de IA (/ai/chat): la clave de DeepSeek vive aquí como secreto y nunca llega al navegador.
+// Secretos: CLERK_SECRET_KEY, ADMIN_EMAILS, DEEPSEEK_API_KEY. Variables: ver wrangler.toml.
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json" } });
 const fail = (status, error) => json({ error }, status);
@@ -44,6 +45,7 @@ async function route(req, env, url) {
     return json({ teachers: db.teachers.map(publicTeacher) });
   }
   if (path === "/campus/lead" && req.method === "POST") return createLead(req, env);
+  if (path === "/ai/chat" && req.method === "POST") return aiChat(req, env);
 
   const token = await authenticate(req, env);
   if (!token) return fail(401, "Inicia sesión para continuar.");
@@ -314,6 +316,34 @@ const OPS = {
     return upsert(db.leads, { id: b.id, estado: str(b.estado, 20) }, "l");
   },
 };
+
+// ---------- Proxy de DeepSeek ----------
+// Cuota diaria: usuarios con sesión de Clerk AI_DAILY_USER (200), visitantes sin sesión AI_DAILY_ANON (20) por IP.
+async function aiChat(req, env) {
+  if (!env.DEEPSEEK_API_KEY) return fail(503, "IA no configurada");
+  const token = await authenticate(req, env).catch(() => null);
+  const who = token ? `u:${token.sub}` : `ip:${req.headers.get("cf-connecting-ip") || "anon"}`;
+  const limit = Number(token ? env.AI_DAILY_USER || 200 : env.AI_DAILY_ANON || 20);
+  const key = `ai:${who}:${new Date().toISOString().slice(0, 10)}`;
+  const used = Number(await env.CAMPUS.get(key)) || 0;
+  if (used >= limit) return fail(429, "Has llegado al límite diario de IA. Vuelve mañana. 今天的AI次数已用完。");
+  const b = await req.json().catch(() => ({}));
+  const messages = Array.isArray(b.messages) ? b.messages.slice(-30).map((m) => ({ role: ["system", "user", "assistant"].includes(m.role) ? m.role : "user", content: str(m.content, 12000) })) : [];
+  if (!messages.length) return fail(400, "Faltan mensajes.");
+  await env.CAMPUS.put(key, String(used + 1), { expirationTtl: 172800 });
+  const r = await fetch("https://api.deepseek.com/chat/completions", {
+    method: "POST",
+    headers: { "content-type": "application/json", authorization: `Bearer ${env.DEEPSEEK_API_KEY}` },
+    body: JSON.stringify({
+      model: "deepseek-chat",
+      messages,
+      temperature: Math.min(1.5, Math.max(0, Number(b.temperature ?? 0.7))),
+      max_tokens: Math.min(2000, Number(b.max_tokens) || 1200),
+      ...(b.response_format?.type === "json_object" ? { response_format: { type: "json_object" } } : {}),
+    }),
+  });
+  return new Response(await r.text(), { status: r.status, headers: { "content-type": "application/json" } });
+}
 
 // Formulario público: limitado por IP para evitar spam
 async function createLead(req, env) {

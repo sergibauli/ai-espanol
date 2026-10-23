@@ -1,9 +1,9 @@
 import { AwardIcon, LightbulbIcon, StarIcon, FileTextIcon, CircleAlertIcon } from "lucide-react";
 import * as React from "react";
+import { deepseekFetch } from "../lib/deepseekClient.js";
 const k = 10000;
 const x = "dele_tokens_used";
 const h = "dele_tokens_date";
-const S = import.meta.env.VITE_DEEPSEEK_API_KEY ?? ""; // antes: clave hardcodeada (revocar)
 const T = "https://api.deepseek.com/chat/completions";
 const model = "deepseek-chat";
 function R() {
@@ -115,11 +115,10 @@ export function u() {
         consumeTokens();
         try {
           const d = $(l, f, b);
-          const c = await fetch(T, {
+          const c = await deepseekFetch(T, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${S}`,
             },
             body: JSON.stringify({
               model,

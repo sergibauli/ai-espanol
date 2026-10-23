@@ -3,11 +3,11 @@ import * as React from "react";
 import {
   getCachedAnswer,
   speakSpanish,
-  DEEPSEEK_API_KEY,
   buildTutorSystemPrompt,
   CHAT_HISTORY_TURNS,
   cacheAnswer,
 } from "../lib/aiTutor.js";
+import { deepseekFetch } from "../lib/deepseekClient.js";
 function TutorAvatar({ size, talking }) {
   return (
     <>
@@ -130,11 +130,10 @@ function TutorChat() {
       return;
     }
     try {
-      const X = await fetch("https://api.deepseek.com/v1/chat/completions", {
+      const X = await deepseekFetch("https://api.deepseek.com/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${DEEPSEEK_API_KEY}`,
         },
         body: JSON.stringify({
           model: "deepseek-chat",
