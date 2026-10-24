@@ -22,12 +22,12 @@ const MORE = [
   ["/tutor-voz", "Tutor IA · AI导师"],
 ];
 
-export function LightShell({ children, legacy = false }) {
+export function LightShell({ children, legacy = false, stage = false }) {
   const { pathname } = useLocation();
   const { logout } = useAppAuth();
   const active = (to) => pathname === to || (to !== "/ruta" && pathname.startsWith(to)) || (to === "/ruta" && pathname === "/dashboard");
   return (
-    <div className={`light-page ${legacy ? "light-legacy" : ""}`}>
+    <div className={`light-page ${legacy ? "light-legacy" : ""} ${stage ? "has-stage" : ""}`}>
       <div className="light-top">
         <Link to="/ruta" className="side-brand" style={{ padding: 0, fontSize: 20 }}>
           <img src="./mono-face.png" alt="" className="mono-logo" style={{ width: 34, height: 34 }} /> AI Español
@@ -59,7 +59,7 @@ export function LightShell({ children, legacy = false }) {
             </a>
           </div>
         </nav>
-        <main style={{ minWidth: 0 }}>{children}</main>
+        <main style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
       </div>
       <nav className="bottom-nav" aria-label="Navegación móvil">
         {MAIN.map((m) => (
@@ -77,3 +77,6 @@ export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos"
 
 // Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
 export const LEGACY_LIGHT = (p) => /^\/(gramatica|diccionarios|memoria|videos|consejos|ayudas|generador|tutor-voz|examenes)(\/|$)/.test(p) && p !== "/examenes/generador";
+
+// Páginas inmersivas (DELE oficial, pronunciación, karaoke, juegos): marco de app con su contenido en una "pantalla"
+export const STAGE_ROUTES = (p) => /^\/(oficial|pronunciacion|karaoke|examenes-nivel)(\/|$)/.test(p) || /^\/examenes\/[^/]+\/[^/]+/.test(p) || /^\/juegos\/.+/.test(p);

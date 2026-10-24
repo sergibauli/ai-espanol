@@ -10,7 +10,7 @@ import { TutorChat } from "./components/TutorChat.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
 import { CampusProvider } from "./lib/campus.jsx";
-import { LIGHT_ROUTES, LEGACY_LIGHT, LightShell } from "./components/layout/LightShell.jsx";
+import { LIGHT_ROUTES, LEGACY_LIGHT, STAGE_ROUTES, LightShell } from "./components/layout/LightShell.jsx";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
 const DashboardPage = React.lazy(() => import("./pages/RutaPage.jsx"));
@@ -256,7 +256,8 @@ function AppRoutes() {
     };
   }, []);
   const legacyLight = isAuthenticated && LEGACY_LIGHT(pathname);
-  const light = LIGHT_ROUTES(pathname) || legacyLight;
+  const stage = isAuthenticated && STAGE_ROUTES(pathname);
+  const light = LIGHT_ROUTES(pathname) || legacyLight || stage;
   const u = pathname === "/login" || pathname === "/" || pathname === "/sign-in" || pathname.startsWith("/juegos") || light;
   return (
     <>
@@ -920,7 +921,7 @@ function AppRoutes() {
         </Routes>
       </React.Suspense>
         );
-        return legacyLight ? <LightShell legacy>{routes}</LightShell> : routes;
+        return legacyLight ? <LightShell legacy>{routes}</LightShell> : stage ? <LightShell stage>{routes}</LightShell> : routes;
       })()}
       {!u && <Pizarra />}
       {!u && <FavoritesPanel />}

@@ -690,3 +690,11 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 @media (max-width: 700px) { .welcome-strip { grid-template-columns: 1fr 1fr; } .welcome-main { padding-top: 24px; } }
 
 @media (max-width: 520px) { .welcome-btn { font-size: 14px; padding: 0 12px; } }
+
+/* ====================== Marco de app para páginas inmersivas ====================== */
+.app-stage { position: relative; margin: 14px; border-radius: 28px; overflow: hidden; background: #050714; min-height: calc(100vh - 28px); transform: translateZ(0); box-shadow: 0 6px 0 #d7d7d7, 0 20px 50px rgba(0,0,0,.12); border: 2px solid #e5e5e5; isolation: isolate; }
+.app-stage .min-h-screen { min-height: calc(100vh - 32px) !important; }
+.has-stage .side-nav { z-index: 2; }
+@media (max-width: 1000px) {
+  .app-stage { margin: 8px 8px 84px; border-radius: 22px; min-height: calc(100vh - 150px); }
+}
