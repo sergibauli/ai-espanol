@@ -1,16 +1,8 @@
 import * as React from "react";
 import { BookOpenIcon, GlobeIcon, AlertTriangleIcon, MessageSquareQuoteIcon, Volume2Icon, TargetIcon, TrophyIcon, CheckIcon, XIcon } from "lucide-react";
 import { loadModulePlus } from "../../lib/examGenerator.js";
+import { speak } from "../../components/lesson/fx.js";
 
-function speak(text) {
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "es-ES";
-    u.rate = 0.9;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
-  } catch {}
-}
 
 function SpeakBtn({ text }) {
   return (

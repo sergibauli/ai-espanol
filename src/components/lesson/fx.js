@@ -33,7 +33,32 @@ export function sfx(kind) {
   } catch {}
 }
 
+import AUDIO_INDEX from "../../data/audio-index.json";
+
+// Audios pregrabados con la voz del profesor (Fish Audio): mismo hash FNV-1a que scripts de generación
+const AUDIO = new Set(AUDIO_INDEX);
+function fnv(t) {
+  let h = 0x811c9dc5;
+  for (const b of new TextEncoder().encode(t)) {
+    h ^= b;
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h.toString(16).padStart(8, "0");
+}
+let current = null;
+
 export function speak(text, rate = 0.9) {
+  const key = fnv(String(text || "").trim());
+  if (AUDIO.has(key)) {
+    try {
+      current?.pause();
+      speechSynthesis?.cancel?.();
+      current = new Audio(`./audio/${key}.mp3`);
+      current.playbackRate = rate < 0.7 ? 0.75 : 1;
+      current.play().catch(() => {});
+      return;
+    } catch {}
+  }
   try {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "es-ES";
