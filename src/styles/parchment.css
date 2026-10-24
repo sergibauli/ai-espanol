@@ -119,3 +119,81 @@
   background: linear-gradient(rgba(255,250,235,.55), rgba(255,250,235,.55)), url("../../public/theme/papel.jpg") center / 260% auto, #fbf1dc !important;
   box-shadow: 0 0 0 1px #e9cf8e, 0 0 18px rgba(242,193,78,.35), 0 3px 0 #b8904a !important;
 }
+
+/* ===== v6.5 · fieles a las maquetas: cinta dorada, pergaminos enrollados, medallones ===== */
+/* Cinta-pergamino con el título de la sección (maqueta «Aprende jugando») */
+.imp-ribbon { position: relative; width: min(560px, 78%); margin: 4px auto 18px; padding: 0 22px; z-index: 2; }
+.imp-ribbon b {
+  display: block; padding: 14px 18px 12px; text-align: center; border-radius: 4px;
+  background: linear-gradient(rgba(255,246,220,.12), rgba(120,90,40,.25)), url("../../public/theme/papel.jpg") center / cover;
+  border-block: 2px solid #f2c14e; box-shadow: 0 0 26px rgba(242,193,78,.55), inset 0 0 22px rgba(0,0,0,.35);
+  font: 800 clamp(24px, 3.4vw, 38px) / 1.05 var(--ui-display); letter-spacing: .5px;
+  color: #ffd86e; text-shadow: 1px 1px 0 #5a2e0c, -1px 1px 0 #5a2e0c, 1px -1px 0 #5a2e0c, -1px -1px 0 #5a2e0c, 0 3px 0 #3a1c06, 0 0 16px rgba(242,193,78,.8);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.imp-ribbon::before, .imp-ribbon::after {
+  content: ""; position: absolute; top: -10px; bottom: -10px; width: 24px; border-radius: 10px;
+  background: linear-gradient(90deg, #4a2a0c, #b7802a 28%, #fff0b8 50%, #b7802a 72%, #4a2a0c);
+  box-shadow: 0 0 14px rgba(242,193,78,.6), 0 4px 6px rgba(0,0,0,.4);
+}
+.imp-ribbon::before { left: 0; }
+.imp-ribbon::after { right: 0; }
+@media (max-width: 640px) { .imp-ribbon { width: 92%; margin-bottom: 12px; } .imp-ribbon b { font-size: 22px; padding: 10px 12px; } }
+
+/* Paneles oscuros heredados → papel de pergamino (los marca lightAdapter) */
+.la-paper {
+  background: linear-gradient(rgba(255,250,235,.55), rgba(255,250,235,.55)), url("../../public/theme/papel.jpg") center / 260% auto, #fbf1dc !important;
+  border-color: #d9b97a !important;
+}
+.la-paper.la-round { box-shadow: 0 0 0 1px #e9cf8e, 0 0 16px rgba(242,193,78,.4), 0 3px 0 #b8904a !important; }
+
+/* Tarjetas de juego: pergamino con los bordes enrollados arriba y abajo */
+.light-page .fx-game, main.game-bg button.la-paper.la-round { border-radius: 6px !important; overflow: visible !important; margin-block: 7px; }
+.light-page .fx-game::before, .light-page .fx-game::after,
+main.game-bg button.la-paper.la-round::before, main.game-bg button.la-paper.la-round::after {
+  content: "" !important; position: absolute !important; inset: auto -7px !important; width: auto !important; height: 13px !important; border-radius: 8px !important; pointer-events: none; z-index: 1 !important;
+  transform: none !important; animation: none !important; opacity: 1 !important; filter: none !important; mix-blend-mode: normal !important;
+  background: linear-gradient(180deg, #fff7de, #ecd39c 40%, #b98d4b 78%, #7d5726);
+  box-shadow: 0 2px 4px rgba(60,30,0,.35), 0 0 12px rgba(242,193,78,.5);
+}
+.light-page .fx-game::before, main.game-bg button.la-paper.la-round::before { top: -8px !important; }
+.light-page .fx-game::after, main.game-bg button.la-paper.la-round::after { bottom: -8px !important; }
+.light-page .fx-game:hover { box-shadow: 0 0 0 2px #f2c14e, 0 0 26px rgba(242,193,78,.7) !important; }
+
+/* Iconos → medallones dorados */
+.fx-game-icon, main.game-bg :is(div, span):has(+ h1):has(> svg),
+main.game-bg button.la-paper [class*="rounded"]:has(> svg.lucide:only-child) {
+  border-radius: 50% !important; aspect-ratio: 1 / 1; flex-shrink: 0; align-self: center;
+  box-shadow: 0 0 0 3px #f2c14e, 0 0 0 5px #8f5a1e, 0 0 16px rgba(242,193,78,.55) !important;
+}
+.light-page .ui-card.is-hero .ui-icon { border-radius: 50% !important; background: radial-gradient(circle at 35% 30%, #fff6dc, #f2c14e 60%, #c8961e) !important; color: #8f0c21 !important; box-shadow: 0 0 0 3px #8f5a1e, 0 0 18px rgba(242,193,78,.6) !important; }
+
+/* Títulos de juego: dorado con contorno marrón */
+main.game-bg h1 {
+  background: linear-gradient(180deg, #fff6d0 0%, #f7d27a 45%, #d39a2c 56%, #f2c14e 100%) !important;
+  -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(1px 0 0 #6b3a12) drop-shadow(-1px 0 0 #6b3a12) drop-shadow(0 1px 0 #6b3a12) drop-shadow(0 -1px 0 #6b3a12) drop-shadow(0 3px 0 #3a1c06) drop-shadow(0 0 16px rgba(242,193,78,.5)) !important;
+}
+
+/* Filtros en píldora de pergamino con marco dorado */
+.light-page .ui-tabs { background: linear-gradient(rgba(255,250,235,.5), rgba(255,250,235,.5)), url("../../public/theme/papel.jpg") center / cover, #f6e7c4 !important; border: 1.5px solid #d9b97a !important; box-shadow: 0 0 0 1px rgba(242,193,78,.4), 0 0 14px rgba(242,193,78,.35) !important; }
+.light-page .ui-tabs button { color: #5b3a1e !important; }
+.light-page .ui-tabs button.is-on { background: linear-gradient(#fff3c4, #f2c14e) !important; color: #5a0a16 !important; box-shadow: inset 0 0 0 1px #c8961e !important; }
+
+/* Lección: pregunta en placa degradada con marco dorado y opciones pastel (maqueta del quiz) */
+.lp-root :has(> :is(.lp-options, .lp-pics, .lp-tiles, .lp-match)) > .lp-eyebrow { text-align: center; }
+.lp-root :has(> :is(.lp-options, .lp-pics, .lp-tiles, .lp-match)) > .lp-title {
+  width: fit-content; max-width: 100%; margin: 8px auto 6px; padding: 14px 28px; border-radius: 16px; text-align: center;
+  background: linear-gradient(100deg, #f7a8c4, #ecc9ef 45%, #a9d4f5); border: 3px solid #e8c36a; color: #2a1608 !important;
+  box-shadow: inset 0 0 0 1px #fff6d8, 0 0 20px rgba(242,193,78,.55), 0 4px 0 #b8904a;
+}
+.lp-root :has(> :is(.lp-options, .lp-pics, .lp-tiles, .lp-match)) > .lp-zh { text-align: center; }
+.lp-root :is(.lp-option, .lp-pic):not(.picked):not(.right):not(.wrong) { border-color: #e2bf6e; border-bottom-color: #c49a4a; color: #3b2416; }
+.lp-root .lp-options > .lp-option:nth-child(4n+1):not(.picked):not(.right):not(.wrong), .lp-root .lp-pics > .lp-pic:nth-child(4n+1):not(.picked):not(.right):not(.wrong) { background: #f9d9dd !important; }
+.lp-root .lp-options > .lp-option:nth-child(4n+2):not(.picked):not(.right):not(.wrong), .lp-root .lp-pics > .lp-pic:nth-child(4n+2):not(.picked):not(.right):not(.wrong) { background: #d8e7f7 !important; }
+.lp-root .lp-options > .lp-option:nth-child(4n+3):not(.picked):not(.right):not(.wrong), .lp-root .lp-pics > .lp-pic:nth-child(4n+3):not(.picked):not(.right):not(.wrong) { background: #ddefd3 !important; }
+.lp-root .lp-options > .lp-option:nth-child(4n+4):not(.picked):not(.right):not(.wrong), .lp-root .lp-pics > .lp-pic:nth-child(4n+4):not(.picked):not(.right):not(.wrong) { background: #f8ecd0 !important; }
+.lp-root .lp-key { border-radius: 50%; background: #fff6dc; border-color: #d9b97a; color: #8f5a1e; }
+
+.light-page .ui-input { background: #fbf1dc !important; border: 1.5px solid #d9b97a !important; color: #3b2416 !important; box-shadow: 0 0 12px rgba(242,193,78,.3); }
+@media (max-width: 640px) { .imp-ribbon + .ui-card.is-hero :is(.ui-h1, .ui-icon) { display: none; } }

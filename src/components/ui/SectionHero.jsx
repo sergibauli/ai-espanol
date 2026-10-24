@@ -8,6 +8,10 @@ import { ArrowLeftIcon } from "lucide-react";
  */
 export function SectionHero({ icon: Icon, eyebrow, title, titleZh, description, descriptionZh, stats = [], actions, accent = "#ff7a1a", back = "/dashboard", children }) {
   return (
+    <>
+    <div className="imp-ribbon" aria-hidden="true">
+      <b>{title}</b>
+    </div>
     <section
       className="ui-card is-hero"
       style={{
@@ -67,5 +71,6 @@ export function SectionHero({ icon: Icon, eyebrow, title, titleZh, description, 
       )}
       {children}
     </section>
+    </>
   );
 }

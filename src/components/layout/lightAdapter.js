@@ -32,9 +32,9 @@ function adapt(root) {
     if (el.closest(".side-nav, .bottom-nav, .light-top, svg, video, img")) continue;
     const cs = getComputedStyle(el);
     if (isDarkPanel(cs)) {
-      el.style.setProperty("background", "#fbf1dc", "important");
-      el.style.setProperty("border-color", "#d9b97a", "important");
-      if (parseFloat(cs.borderRadius) > 6) el.style.setProperty("box-shadow", "0 0 0 1px #e7c873, 0 4px 14px rgba(200,150,30,.25)", "important");
+      // Papel de pergamino: el fondo real lo pone la clase .la-paper en parchment.css
+      el.classList.add("la-paper");
+      if (parseFloat(cs.borderRadius) > 6) el.classList.add("la-round");
     }
   }
   // Segunda pasada: textos claros sobre fondo ya claro
