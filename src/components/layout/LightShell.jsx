@@ -22,12 +22,12 @@ const MORE = [
   ["/tutor-voz", "Tutor IA · AI导师"],
 ];
 
-export function LightShell({ children }) {
+export function LightShell({ children, legacy = false }) {
   const { pathname } = useLocation();
   const { logout } = useAppAuth();
   const active = (to) => pathname === to || (to !== "/ruta" && pathname.startsWith(to)) || (to === "/ruta" && pathname === "/dashboard");
   return (
-    <div className="light-page">
+    <div className={`light-page ${legacy ? "light-legacy" : ""}`}>
       <div className="light-top">
         <Link to="/ruta" className="side-brand" style={{ padding: 0, fontSize: 20 }}>
           <Emoji3D emoji="🐵" size={34} /> AI Español
@@ -74,3 +74,6 @@ export function LightShell({ children }) {
 }
 
 export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador"].includes(p) || /^\/modulos\/[^/]+/.test(p);
+
+// Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
+export const LEGACY_LIGHT = (p) => /^\/(gramatica|diccionarios|memoria|videos|consejos|ayudas|generador|tutor-voz|examenes)(\/|$)/.test(p) && p !== "/examenes/generador";

@@ -649,3 +649,20 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 .light-page .ui-tabs { background: #fff; border: 2px solid #e5e5e5; }
 .light-page .ui-tabs button.is-on { background: #ddf4ff; color: #1899d6; }
 .light-page .ui-option { background: #fff; border: 2px solid #e5e5e5; color: #4b4b4b; }
+
+/* ====================== Páginas antiguas en tema claro (traducción de colores) ====================== */
+.light-legacy .fixed.inset-0.w-full.h-full, .light-legacy canvas.fixed { display: none !important; }
+.light-legacy .relative.min-h-screen { background: #fff !important; }
+.light-legacy { --tw-text-opacity: 1; }
+.light-legacy .text-white, .light-legacy .text-white\/95, .light-legacy .text-white\/90, .light-legacy .text-white\/85, .light-legacy .text-white\/80 { color: #3c3c3c !important; }
+.light-legacy .text-white\/75, .light-legacy .text-white\/70, .light-legacy .text-white\/65, .light-legacy .text-white\/60, .light-legacy .text-white\/55 { color: #4b4b4b !important; }
+.light-legacy [class*="text-white\/"] { color: #777 !important; }
+.light-legacy .text-white\/20, .light-legacy .text-white\/15, .light-legacy .text-white\/10 { color: #afafaf !important; }
+.light-legacy .bg-white\/5, .light-legacy .bg-white\/10, .light-legacy [class*="bg-black\/"], .light-legacy .bg-slate-900, .light-legacy .bg-slate-950\/70 { background-color: #f7f7f7 !important; }
+.light-legacy [class*="border-white"] { border-color: #e5e5e5 !important; }
+.light-legacy [style*="color: rgb(255, 255, 255)"]:not([style*="background"]), .light-legacy [style*="color: rgba(255, 255, 255"]:not([style*="background"]) { color: #3c3c3c !important; }
+.light-legacy [style*="background: rgba(255, 255, 255, 0.0"], .light-legacy [style*="background: rgba(0, 0, 0"] { background: #fff !important; border-color: #e5e5e5 !important; }
+.light-legacy h1, .light-legacy h2, .light-legacy h3 { color: #3c3c3c; }
+.light-legacy .fx-title { -webkit-text-fill-color: currentColor; color: #3c3c3c; filter: none; }
+.light-legacy input, .light-legacy textarea, .light-legacy select { color: #3c3c3c !important; }
+.light-legacy [class*="rounded"][style*="linear-gradient"] .text-white, .light-legacy button[style*="linear-gradient"], .light-legacy button[style*="linear-gradient"] * { color: #fff !important; }

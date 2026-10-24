@@ -10,7 +10,7 @@ import { TutorChat } from "./components/TutorChat.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
 import { CampusProvider } from "./lib/campus.jsx";
-import { LIGHT_ROUTES } from "./components/layout/LightShell.jsx";
+import { LIGHT_ROUTES, LEGACY_LIGHT, LightShell } from "./components/layout/LightShell.jsx";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
 const DashboardPage = React.lazy(() => import("./pages/RutaPage.jsx"));
@@ -254,13 +254,16 @@ function AppRoutes() {
       document.documentElement.classList.remove("app-is-hidden");
     };
   }, []);
-  const light = LIGHT_ROUTES(pathname);
+  const legacyLight = isAuthenticated && LEGACY_LIGHT(pathname);
+  const light = LIGHT_ROUTES(pathname) || legacyLight;
   const u = pathname === "/login" || pathname === "/sign-in" || pathname.startsWith("/juegos") || light;
   return (
     <>
       <CursorTrail />
       <SwipeNavigation />
       {isAuthenticated && !light && <TopNav />}
+      {(() => {
+        const routes = (
       <React.Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -915,6 +918,9 @@ function AppRoutes() {
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
       </React.Suspense>
+        );
+        return legacyLight ? <LightShell legacy>{routes}</LightShell> : routes;
+      })()}
       {!u && <Pizarra />}
       {!u && <FavoritesPanel />}
       {isAuthenticated && !pathname.startsWith("/juegos") && (
