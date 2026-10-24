@@ -249,7 +249,8 @@ function OficialNivelPage() {
           {
             className: "onx-h1",
           },
-          l,
+          h("span", { className: "onx-medal" }, l),
+          h("span", { className: "onx-h1-text" }, `Exámenes DELE ${l}`),
         ),
       ),
       h(
@@ -522,12 +523,17 @@ function OficialNivelPage() {
         })}
       </ul>
     ),
+    <Link key="volver" to="/oficial" className="onx-back-bottom">
+      ← {t("Niveles", "返回级别")}
+    </Link>,
   ];
   return (
     <StarfieldBackground>
       <div className="onx" style={vars}>
         {h("style", null, CSS)}
-        {...kids}
+        {kids.map((kid, i) => (
+          <React.Fragment key={i}>{kid}</React.Fragment>
+        ))}
       </div>
     </StarfieldBackground>
   );

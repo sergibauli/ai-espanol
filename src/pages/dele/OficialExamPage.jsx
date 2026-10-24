@@ -1629,6 +1629,7 @@ function IaComponent() {
         @keyframes ofIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
         .of-in { animation: ofIn .4s cubic-bezier(.16,1,.3,1) both; }
       `}</style>
+      <img className="ofe-dragon" src={`${import.meta.env.BASE_URL}theme/dragon-enroscado.png`} alt="" aria-hidden="true" />
       <div className="ofe max-w-5xl mx-auto px-4 py-8">
         <Link
           to={`/oficial/${nivel}`}
@@ -1638,7 +1639,7 @@ function IaComponent() {
           {t_1("Volver a los modelos", "返回模型列表")}
         </Link>
         <div
-          className="relative rounded-3xl overflow-hidden mb-6 p-5 md:p-6"
+          className="ofe-ribbon relative rounded-3xl overflow-hidden mb-6 p-5 md:p-6"
           style={{
             border: `1px solid ${p.color}30`,
             background: `linear-gradient(140deg, ${p.color}12, rgba(10,13,28,.96) 52%, rgba(24,18,10,.92))`,
@@ -1672,6 +1673,9 @@ function IaComponent() {
                   {n.codigo || `MODELO ${String(n.modelo).padStart(2, "0")}`}
                 </div>
                 <h1 className="text-white font-black text-xl md:text-2xl leading-tight">{n.temaCentral}</h1>
+                <div className="ofe-ribbon-zh">
+                  官方试卷 <span className="ofe-seal">真题</span>
+                </div>
                 <p className="text-white/35 text-[12px] font-bold mt-0.5">{n.titulo}</p>
               </div>
             </div>
