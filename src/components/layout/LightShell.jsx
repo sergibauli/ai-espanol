@@ -63,7 +63,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
             </a>
           </div>
         </nav>
-        <main ref={mainRef} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
+        <main ref={mainRef} className={pathname.startsWith("/juegos/") ? "game-bg" : ""} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
       </div>
       <nav className="bottom-nav" aria-label="Navegación móvil">
         {MAIN.map((m) => (

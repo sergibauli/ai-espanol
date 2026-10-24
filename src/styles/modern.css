@@ -827,3 +827,19 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 
 .light-legacy .dict2-back, .light-legacy .dict2-back * { color: #fff !important; }
 .light-legacy .dict2-front h3 { color: #3c3c3c !important; }
+
+/* Fondo vistoso para los juegos y sin iconos de música */
+.game-bg { position: relative; background:
+  radial-gradient(600px 400px at 10% 10%, rgba(255,200,0,.25), transparent 60%),
+  radial-gradient(700px 500px at 90% 20%, rgba(28,176,246,.22), transparent 60%),
+  radial-gradient(700px 500px at 50% 100%, rgba(206,130,255,.22), transparent 60%),
+  radial-gradient(circle at 2px 2px, rgba(88,204,2,.18) 2px, transparent 0) 0 0 / 34px 34px,
+  linear-gradient(180deg, #f2fbff, #fff7ef) !important; min-height: 100vh; }
+.game-bg .relative.min-h-screen { background: transparent !important; }
+.game-bg button[aria-label*="úsica" i], .game-bg button[title*="úsica" i], .game-bg button[aria-label*="music" i], .game-bg button[aria-label*="onido" i], .game-bg button[title*="onido" i], .game-bg .sound-toggles { display: none !important; }
+/* Ruta en móvil: el camino visible nada más entrar */
+@media (max-width: 900px) {
+  .ruta-side { display: none !important; }
+  .light-page .ruta-levels { top: 58px; }
+  .ruta-path { padding-top: 46px; }
+}
