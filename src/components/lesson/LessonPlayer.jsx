@@ -267,12 +267,24 @@ function TypeIt({ step, value = "", onChange, locked, onEnter }) {
         autoComplete="off"
         spellCheck={false}
       />
-      <div className="lp-accents">
-        {["á", "é", "í", "ó", "ú", "ñ", "ü", "¿", "¡"].map((c) => (
-          <button key={c} className="lp-tile small" disabled={locked} onClick={() => onChange(value + c)}>
-            {c}
-          </button>
+      <div className="lp-kbd" aria-label="Teclado español">
+        {["áéíóúüñ¿¡", "qwertyuiop", "asdfghjklñ", "zxcvbnm"].map((row) => (
+          <div key={row} className="lp-kbd-row">
+            {[...new Set(row)].map((c) => (
+              <button key={c} className={`lp-key-btn ${"áéíóúüñ¿¡".includes(c) ? "acc" : ""}`} disabled={locked} onClick={() => onChange(value + c)}>
+                {c}
+              </button>
+            ))}
+          </div>
         ))}
+        <div className="lp-kbd-row">
+          <button className="lp-key-btn wide" disabled={locked} onClick={() => onChange(value + " ")}>
+            espacio · 空格
+          </button>
+          <button className="lp-key-btn" disabled={locked} onClick={() => onChange(value.slice(0, -1))} aria-label="Borrar">
+            ⌫
+          </button>
+        </div>
       </div>
     </div>
   );

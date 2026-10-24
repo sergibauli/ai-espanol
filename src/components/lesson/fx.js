@@ -60,10 +60,15 @@ export function speak(text, rate = 0.9, voice = "m") {
       speechSynthesis?.cancel?.();
       current = new Audio(`./audio/${key}.mp3`);
       current.playbackRate = rate < 0.7 ? 0.75 : 1;
-      current.play().catch(() => {});
+      // Si el navegador bloquea el audio (p. ej. iPhone tras usar el micrófono), usa la voz del sistema
+      current.play().catch(() => synth(t, rate));
       return;
     } catch {}
   }
+  synth(t, rate);
+}
+
+function synth(text, rate) {
   try {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "es-ES";

@@ -1,24 +1,21 @@
 import * as React from "react";
 import { Link, useLocation } from "react-router";
-import { Emoji3D } from "../ui/Emoji3D.jsx";
+import { createPortal } from "react-dom";
+import { NavIcon } from "../ui/NavIcon.jsx";
 import { GameStats } from "../ui/GameStats.jsx";
 import { useAppAuth } from "../../lib/auth.jsx";
 import { attachLightAdapter } from "./lightAdapter.js";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
 const MAIN = [
-  { to: "/ruta", emoji: "🏯", es: "Aprender", zh: "学习" },
-  { to: "/modulos", emoji: "📜", es: "Unidades", zh: "单元" },
-  { to: "/oficial", emoji: "🐉", es: "DELE", zh: "考试" },
-  { to: "/juegos", emoji: "🏮", es: "Juegos", zh: "游戏" },
-  { to: "/tutor-voz", emoji: "🐵", es: "Tutor IA", zh: "AI导师" },
-];
-const MORE = [
-  ["/gramatica", "🖌️", "Gramática · 语法"],
-  ["/diccionarios", "🀄", "Diccionario · 词典"],
-  ["/pronunciacion", "🗣️", "Pronunciación · 发音"],
-  ["/memoria", "🧠", "Repaso · 记忆"],
-  ["/videos", "🎐", "Vídeos · 视频"],
+  { to: "/ruta", icon: "ruta", es: "Aprender", zh: "学习" },
+  { to: "/modulos", icon: "unidades", es: "Unidades", zh: "单元" },
+  { to: "/oficial", icon: "dele", es: "DELE", zh: "考试" },
+  { to: "/juegos", icon: "juegos", es: "Juegos", zh: "游戏" },
+  { to: "/tutor-voz", icon: "tutor", es: "Tutor IA", zh: "AI导师" },
+  { to: "/diccionarios", icon: "diccionario", es: "Diccionario", zh: "词典" },
+  { to: "/pronunciacion", icon: "pronunciacion", es: "Pronunciación", zh: "发音" },
+  { to: "/memoria", icon: "repaso", es: "Repaso", zh: "记忆" },
 ];
 
 export function LightShell({ children, legacy = false, stage = false }) {
@@ -47,34 +44,30 @@ export function LightShell({ children, legacy = false, stage = false }) {
           </Link>
           {MAIN.map((m) => (
             <Link key={m.to} to={m.to} className={`side-link ${active(m.to) ? "on" : ""}`}>
-              <Emoji3D emoji={m.emoji} size={32} />
+              <NavIcon name={m.icon} size={38} />
               <span>
                 {m.es}
                 <small>{m.zh}</small>
               </span>
             </Link>
           ))}
-          <details className="side-sub" open={MORE.some(([to]) => pathname.startsWith(to))}>
-            <summary>Más herramientas · 更多</summary>
-            {MORE.map(([to, e, label]) => (
-              <Link key={to} to={to} className={pathname.startsWith(to) ? "on" : ""}>
-                <Emoji3D emoji={e} size={22} /> {label}
-              </Link>
-            ))}
-            <a href="#/" onClick={(e) => (e.preventDefault(), logout())}>
-              Salir · 退出
-            </a>
-          </details>
+          <a href="#/" className="side-exit" onClick={(e) => (e.preventDefault(), logout())}>
+            Salir · 退出
+          </a>
         </nav>
         <main ref={mainRef} className={pathname.startsWith("/juegos/") ? "game-bg" : ""} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
       </div>
-      <nav className="bottom-nav" aria-label="Navegación móvil">
-        {MAIN.map((m) => (
-          <Link key={m.to} to={m.to} className={active(m.to) ? "on" : ""} aria-label={m.es}>
-            <Emoji3D emoji={m.emoji} size={34} />
-          </Link>
-        ))}
-      </nav>
+      {createPortal(
+        <nav className="bottom-nav" aria-label="Navegación móvil">
+          {MAIN.map((m) => (
+            <Link key={m.to} to={m.to} className={active(m.to) ? "on" : ""} aria-label={m.es}>
+              <NavIcon name={m.icon} size={30} />
+              <small>{m.es}</small>
+            </Link>
+          ))}
+        </nav>,
+        document.body,
+      )}
     </div>
   );
 }

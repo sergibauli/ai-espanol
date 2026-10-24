@@ -22,6 +22,18 @@
      {
       "es": "balón",
       "zh": "球"
+     },
+     {
+      "es": "bata",
+      "zh": "浴袍"
+     },
+     {
+      "es": "bahía",
+      "zh": "海湾"
+     },
+     {
+      "es": "bailar",
+      "zh": "跳舞"
      }
     ],
     "frases": [
@@ -51,6 +63,18 @@
      {
       "es": "beber",
       "zh": "喝"
+     },
+     {
+      "es": "bello",
+      "zh": "美丽的"
+     },
+     {
+      "es": "berenjena",
+      "zh": "茄子"
+     },
+     {
+      "es": "besar",
+      "zh": "亲吻"
      }
     ],
     "frases": [
@@ -80,6 +104,18 @@
      {
       "es": "biblioteca",
       "zh": "图书馆"
+     },
+     {
+      "es": "birra",
+      "zh": "啤酒"
+     },
+     {
+      "es": "bicho",
+      "zh": "虫子"
+     },
+     {
+      "es": "bien",
+      "zh": "好"
      }
     ],
     "frases": [
@@ -109,6 +145,18 @@
      {
       "es": "botella",
       "zh": "瓶子"
+     },
+     {
+      "es": "bola",
+      "zh": "球"
+     },
+     {
+      "es": "bolso",
+      "zh": "包"
+     },
+     {
+      "es": "boda",
+      "zh": "婚礼"
      }
     ],
     "frases": [
@@ -138,6 +186,18 @@
      {
       "es": "burbuja",
       "zh": "泡泡"
+     },
+     {
+      "es": "bufanda",
+      "zh": "围巾"
+     },
+     {
+      "es": "burro",
+      "zh": "驴"
+     },
+     {
+      "es": "buque",
+      "zh": "船"
      }
     ],
     "frases": [
@@ -176,6 +236,18 @@
      {
       "es": "café",
       "zh": "咖啡"
+     },
+     {
+      "es": "calle",
+      "zh": "街道"
+     },
+     {
+      "es": "carne",
+      "zh": "肉"
+     },
+     {
+      "es": "cabeza",
+      "zh": "头"
      }
     ],
     "frases": [
@@ -205,6 +277,18 @@
      {
       "es": "pequeño",
       "zh": "小的"
+     },
+     {
+      "es": "querido",
+      "zh": "亲爱的"
+     },
+     {
+      "es": "queja",
+      "zh": "抱怨"
+     },
+     {
+      "es": "quemar",
+      "zh": "燃烧"
      }
     ],
     "frases": [
@@ -234,6 +318,18 @@
      {
       "es": "esquina",
       "zh": "角落"
+     },
+     {
+      "es": "quilo",
+      "zh": "公斤"
+     },
+     {
+      "es": "química",
+      "zh": "化学"
+     },
+     {
+      "es": "quiosco",
+      "zh": "报刊亭"
      }
     ],
     "frases": [
@@ -263,6 +359,18 @@
      {
       "es": "cola",
       "zh": "尾巴"
+     },
+     {
+      "es": "color",
+      "zh": "颜色"
+     },
+     {
+      "es": "corazón",
+      "zh": "心脏"
+     },
+     {
+      "es": "codo",
+      "zh": "肘"
      }
     ],
     "frases": [
@@ -292,6 +400,18 @@
      {
       "es": "cuna",
       "zh": "摇篮"
+     },
+     {
+      "es": "cuerpo",
+      "zh": "身体"
+     },
+     {
+      "es": "cubierto",
+      "zh": "餐具"
+     },
+     {
+      "es": "cuello",
+      "zh": "脖子"
      }
     ],
     "frases": [
@@ -330,6 +450,18 @@
      {
       "es": "cerveza",
       "zh": "啤酒"
+     },
+     {
+      "es": "cepillo",
+      "zh": "刷子"
+     },
+     {
+      "es": "cereza",
+      "zh": "樱桃"
+     },
+     {
+      "es": "ceja",
+      "zh": "眉毛"
      }
     ],
     "frases": [
@@ -359,6 +491,18 @@
      {
       "es": "cinturón",
       "zh": "腰带"
+     },
+     {
+      "es": "cima",
+      "zh": "山顶"
+     },
+     {
+      "es": "circo",
+      "zh": "马戏团"
+     },
+     {
+      "es": "cita",
+      "zh": "约会"
      }
     ],
     "frases": [
@@ -388,6 +532,18 @@
      {
       "es": "taza",
       "zh": "杯子"
+     },
+     {
+      "es": "zafiro",
+      "zh": "蓝宝石"
+     },
+     {
+      "es": "zarpa",
+      "zh": "爪子"
+     },
+     {
+      "es": "zambomba",
+      "zh": "鼓"
      }
     ],
     "frases": [
@@ -417,6 +573,14 @@
      {
       "es": "pozo",
       "zh": "井"
+     },
+     {
+      "es": "zócalo",
+      "zh": "底座"
+     },
+     {
+      "es": "zoológico",
+      "zh": "动物园"
      }
     ],
     "frases": [
@@ -446,6 +610,10 @@
      {
       "es": "zurdo",
       "zh": "左撇子"
+     },
+     {
+      "es": "azúcar",
+      "zh": "糖"
      }
     ],
     "frases": [
@@ -484,6 +652,18 @@
      {
       "es": "charla",
       "zh": "聊天"
+     },
+     {
+      "es": "chatarra",
+      "zh": "废铁"
+     },
+     {
+      "es": "cháchara",
+      "zh": "闲聊"
+     },
+     {
+      "es": "chamarra",
+      "zh": "夹克"
      }
     ],
     "frases": [
@@ -513,6 +693,18 @@
      {
       "es": "coche",
       "zh": "汽车"
+     },
+     {
+      "es": "checo",
+      "zh": "捷克人"
+     },
+     {
+      "es": "chef",
+      "zh": "厨师"
+     },
+     {
+      "es": "chequeo",
+      "zh": "检查"
      }
     ],
     "frases": [
@@ -538,6 +730,22 @@
      {
       "es": "chicle",
       "zh": "口香糖"
+     },
+     {
+      "es": "china",
+      "zh": "中国"
+     },
+     {
+      "es": "chispa",
+      "zh": "火花"
+     },
+     {
+      "es": "chiste",
+      "zh": "笑话"
+     },
+     {
+      "es": "chicharra",
+      "zh": "蝉"
      }
     ],
     "frases": [
@@ -567,6 +775,18 @@
      {
       "es": "mucho",
       "zh": "很多"
+     },
+     {
+      "es": "chocolate",
+      "zh": "巧克力"
+     },
+     {
+      "es": "chopo",
+      "zh": "杨树"
+     },
+     {
+      "es": "chocar",
+      "zh": "碰撞"
      }
     ],
     "frases": [
@@ -596,6 +816,18 @@
      {
       "es": "churro",
       "zh": "油炸条"
+     },
+     {
+      "es": "chuleta",
+      "zh": "排骨"
+     },
+     {
+      "es": "chucho",
+      "zh": "狗"
+     },
+     {
+      "es": "churrasco",
+      "zh": "烤肉"
      }
     ],
     "frases": [
@@ -634,6 +866,18 @@
      {
       "es": "danza",
       "zh": "舞蹈"
+     },
+     {
+      "es": "dar",
+      "zh": "给"
+     },
+     {
+      "es": "daño",
+      "zh": "伤害"
+     },
+     {
+      "es": "data",
+      "zh": "数据"
      }
     ],
     "frases": [
@@ -663,6 +907,18 @@
      {
       "es": "deporte",
       "zh": "运动"
+     },
+     {
+      "es": "debajo",
+      "zh": "下面"
+     },
+     {
+      "es": "delgado",
+      "zh": "瘦的"
+     },
+     {
+      "es": "demás",
+      "zh": "其余"
      }
     ],
     "frases": [
@@ -692,6 +948,18 @@
      {
       "es": "dibujo",
       "zh": "画"
+     },
+     {
+      "es": "diente",
+      "zh": "牙齿"
+     },
+     {
+      "es": "diciembre",
+      "zh": "十二月"
+     },
+     {
+      "es": "disco",
+      "zh": "唱片"
      }
     ],
     "frases": [
@@ -721,6 +989,18 @@
      {
       "es": "donde",
       "zh": "哪里"
+     },
+     {
+      "es": "doce",
+      "zh": "十二"
+     },
+     {
+      "es": "doblar",
+      "zh": "折叠"
+     },
+     {
+      "es": "dormir",
+      "zh": "睡觉"
      }
     ],
     "frases": [
@@ -750,6 +1030,14 @@
      {
       "es": "ducha",
       "zh": "淋浴"
+     },
+     {
+      "es": "duende",
+      "zh": "精灵"
+     },
+     {
+      "es": "duque",
+      "zh": "公爵"
      }
     ],
     "frases": [
@@ -788,6 +1076,18 @@
      {
       "es": "fábrica",
       "zh": "工厂"
+     },
+     {
+      "es": "faro",
+      "zh": "灯塔"
+     },
+     {
+      "es": "fama",
+      "zh": "名声"
+     },
+     {
+      "es": "falda",
+      "zh": "裙子"
      }
     ],
     "frases": [
@@ -817,6 +1117,14 @@
      {
       "es": "feria",
       "zh": "集市"
+     },
+     {
+      "es": "feo",
+      "zh": "丑的"
+     },
+     {
+      "es": "febrero",
+      "zh": "二月"
      }
     ],
     "frases": [
@@ -846,6 +1154,18 @@
      {
       "es": "final",
       "zh": "结尾"
+     },
+     {
+      "es": "ficha",
+      "zh": "筹码"
+     },
+     {
+      "es": "fino",
+      "zh": "细的"
+     },
+     {
+      "es": "firma",
+      "zh": "签名"
      }
     ],
     "frases": [
@@ -875,6 +1195,14 @@
      {
       "es": "foco",
       "zh": "灯"
+     },
+     {
+      "es": "foca",
+      "zh": "海豹"
+     },
+     {
+      "es": "fósforo",
+      "zh": "火柴"
      }
     ],
     "frases": [
@@ -904,6 +1232,18 @@
      {
       "es": "fuera",
       "zh": "外面"
+     },
+     {
+      "es": "fumar",
+      "zh": "吸烟"
+     },
+     {
+      "es": "futuro",
+      "zh": "未来"
+     },
+     {
+      "es": "fuente",
+      "zh": "喷泉"
      }
     ],
     "frases": [
@@ -942,6 +1282,18 @@
      {
       "es": "ganar",
       "zh": "赢"
+     },
+     {
+      "es": "gancho",
+      "zh": "钩子"
+     },
+     {
+      "es": "galleta",
+      "zh": "饼干"
+     },
+     {
+      "es": "garganta",
+      "zh": "喉咙"
      }
     ],
     "frases": [
@@ -971,6 +1323,10 @@
      {
       "es": "manguera",
       "zh": "水管"
+     },
+     {
+      "es": "gueto",
+      "zh": "贫民区"
      }
     ],
     "frases": [
@@ -1000,6 +1356,18 @@
      {
       "es": "águila",
       "zh": "鹰"
+     },
+     {
+      "es": "guinda",
+      "zh": "樱桃"
+     },
+     {
+      "es": "guiso",
+      "zh": "炖菜"
+     },
+     {
+      "es": "guino",
+      "zh": "眨眼"
      }
     ],
     "frases": [
@@ -1029,6 +1397,18 @@
      {
       "es": "gota",
       "zh": "水滴"
+     },
+     {
+      "es": "goma",
+      "zh": "橡皮"
+     },
+     {
+      "es": "golpe",
+      "zh": "打击"
+     },
+     {
+      "es": "gorra",
+      "zh": "帽子"
      }
     ],
     "frases": [
@@ -1058,6 +1438,18 @@
      {
       "es": "guapo",
       "zh": "帅的"
+     },
+     {
+      "es": "guante",
+      "zh": "手套"
+     },
+     {
+      "es": "guerra",
+      "zh": "战争"
+     },
+     {
+      "es": "guitarra",
+      "zh": "吉他"
      }
     ],
     "frases": [
@@ -1092,6 +1484,18 @@
      {
       "es": "jardín",
       "zh": "花园"
+     },
+     {
+      "es": "viajar",
+      "zh": "旅行"
+     },
+     {
+      "es": "bajar",
+      "zh": "下来"
+     },
+     {
+      "es": "caja",
+      "zh": "盒子"
      }
     ],
     "frases": [
@@ -1121,6 +1525,18 @@
      {
       "es": "ejemplo",
       "zh": "例子"
+     },
+     {
+      "es": "jerez",
+      "zh": "雪莉酒"
+     },
+     {
+      "es": "ejercicio",
+      "zh": "练习"
+     },
+     {
+      "es": "ejército",
+      "zh": "军队"
      }
     ],
     "frases": [
@@ -1150,6 +1566,10 @@
      {
       "es": "ají",
       "zh": "辣椒"
+     },
+     {
+      "es": "jitomate",
+      "zh": "西红柿"
      }
     ],
     "frases": [
@@ -1179,6 +1599,18 @@
      {
       "es": "rojo",
       "zh": "红色的"
+     },
+     {
+      "es": "jornada",
+      "zh": "工作日"
+     },
+     {
+      "es": "cojo",
+      "zh": "瘸的"
+     },
+     {
+      "es": "mejor",
+      "zh": "更好的"
      }
     ],
     "frases": [
@@ -1208,6 +1640,18 @@
      {
       "es": "julio",
       "zh": "七月"
+     },
+     {
+      "es": "justo",
+      "zh": "公平的"
+     },
+     {
+      "es": "juez",
+      "zh": "法官"
+     },
+     {
+      "es": "juventud",
+      "zh": "青春"
      }
     ],
     "frases": [
@@ -1246,6 +1690,18 @@
      {
       "es": "lápiz",
       "zh": "铅笔"
+     },
+     {
+      "es": "lana",
+      "zh": "羊毛"
+     },
+     {
+      "es": "lata",
+      "zh": "罐头"
+     },
+     {
+      "es": "labor",
+      "zh": "劳动"
      }
     ],
     "frases": [
@@ -1275,6 +1731,18 @@
      {
       "es": "lejos",
       "zh": "远"
+     },
+     {
+      "es": "león",
+      "zh": "狮子"
+     },
+     {
+      "es": "letra",
+      "zh": "字母"
+     },
+     {
+      "es": "leña",
+      "zh": "柴火"
      }
     ],
     "frases": [
@@ -1304,6 +1772,18 @@
      {
       "es": "lista",
       "zh": "名单"
+     },
+     {
+      "es": "limpio",
+      "zh": "干净的"
+     },
+     {
+      "es": "libre",
+      "zh": "自由的"
+     },
+     {
+      "es": "lindo",
+      "zh": "漂亮的"
      }
     ],
     "frases": [
@@ -1333,6 +1813,18 @@
      {
       "es": "loco",
       "zh": "疯狂的"
+     },
+     {
+      "es": "lodo",
+      "zh": "泥"
+     },
+     {
+      "es": "logro",
+      "zh": "成就"
+     },
+     {
+      "es": "lotería",
+      "zh": "彩票"
      }
     ],
     "frases": [
@@ -1362,6 +1854,18 @@
      {
       "es": "luz",
       "zh": "光"
+     },
+     {
+      "es": "lugar",
+      "zh": "地方"
+     },
+     {
+      "es": "lucha",
+      "zh": "斗争"
+     },
+     {
+      "es": "lujo",
+      "zh": "奢侈"
      }
     ],
     "frases": [
@@ -1396,6 +1900,18 @@
      {
       "es": "llama",
       "zh": "火焰"
+     },
+     {
+      "es": "llano",
+      "zh": "平坦的"
+     },
+     {
+      "es": "llamada",
+      "zh": "电话"
+     },
+     {
+      "es": "llanta",
+      "zh": "轮胎"
      }
     ],
     "frases": [
@@ -1425,6 +1941,18 @@
      {
       "es": "valle",
       "zh": "山谷"
+     },
+     {
+      "es": "llenar",
+      "zh": "填满"
+     },
+     {
+      "es": "llevar",
+      "zh": "带走"
+     },
+     {
+      "es": "lleno",
+      "zh": "满的"
      }
     ],
     "frases": [
@@ -1450,6 +1978,10 @@
      {
       "es": "tortillita",
       "zh": "小玉米饼"
+     },
+     {
+      "es": "martillito",
+      "zh": "小锤子"
      }
     ],
     "frases": [
@@ -1479,6 +2011,10 @@
      {
       "es": "sello",
       "zh": "邮票"
+     },
+     {
+      "es": "llover",
+      "zh": "下雨"
      }
     ],
     "frases": [
@@ -1546,6 +2082,18 @@
      {
       "es": "mañana",
       "zh": "明天"
+     },
+     {
+      "es": "mapa",
+      "zh": "地图"
+     },
+     {
+      "es": "marca",
+      "zh": "品牌"
+     },
+     {
+      "es": "máquina",
+      "zh": "机器"
      }
     ],
     "frases": [
@@ -1574,6 +2122,18 @@
      },
      {
       "es": "mes"
+     },
+     {
+      "es": "mercado",
+      "zh": "市场"
+     },
+     {
+      "es": "mermelada",
+      "zh": "果酱"
+     },
+     {
+      "es": "mecánico",
+      "zh": "机械师"
      }
     ],
     "frases": [
@@ -1603,6 +2163,18 @@
      {
       "es": "miga",
       "zh": "面包屑"
+     },
+     {
+      "es": "militar",
+      "zh": "军人"
+     },
+     {
+      "es": "mímica",
+      "zh": "哑剧"
+     },
+     {
+      "es": "miedo",
+      "zh": "害怕"
      }
     ],
     "frases": [
@@ -1632,6 +2204,18 @@
      {
       "es": "moda",
       "zh": "时尚"
+     },
+     {
+      "es": "moneda",
+      "zh": "硬币"
+     },
+     {
+      "es": "montaña",
+      "zh": "山"
+     },
+     {
+      "es": "mosca",
+      "zh": "苍蝇"
      }
     ],
     "frases": [
@@ -1661,6 +2245,18 @@
      {
       "es": "música",
       "zh": "音乐"
+     },
+     {
+      "es": "mujer",
+      "zh": "女人"
+     },
+     {
+      "es": "museo",
+      "zh": "博物馆"
+     },
+     {
+      "es": "murciélago",
+      "zh": "蝙蝠"
      }
     ],
     "frases": [
@@ -1699,6 +2295,18 @@
      {
       "es": "nave",
       "zh": "船"
+     },
+     {
+      "es": "nación",
+      "zh": "国家"
+     },
+     {
+      "es": "nadar",
+      "zh": "游泳"
+     },
+     {
+      "es": "naturaleza",
+      "zh": "自然"
      }
     ],
     "frases": [
@@ -1728,6 +2336,18 @@
      {
       "es": "nevera",
       "zh": "冰箱"
+     },
+     {
+      "es": "necesario",
+      "zh": "必要的"
+     },
+     {
+      "es": "nervioso",
+      "zh": "紧张的"
+     },
+     {
+      "es": "nena",
+      "zh": "小女孩"
      }
     ],
     "frases": [
@@ -1757,6 +2377,18 @@
      {
       "es": "nieve",
       "zh": "雪"
+     },
+     {
+      "es": "nivel",
+      "zh": "水平"
+     },
+     {
+      "es": "nitrógeno",
+      "zh": "氮"
+     },
+     {
+      "es": "nicho",
+      "zh": "壁龛"
      }
     ],
     "frases": [
@@ -1786,6 +2418,18 @@
      {
       "es": "nota",
       "zh": "笔记"
+     },
+     {
+      "es": "nombre",
+      "zh": "名字"
+     },
+     {
+      "es": "novio",
+      "zh": "男朋友"
+     },
+     {
+      "es": "noción",
+      "zh": "概念"
      }
     ],
     "frases": [
@@ -1815,6 +2459,18 @@
      {
       "es": "nuez",
       "zh": "核桃"
+     },
+     {
+      "es": "número",
+      "zh": "数字"
+     },
+     {
+      "es": "nudo",
+      "zh": "结"
+     },
+     {
+      "es": "nuca",
+      "zh": "后颈"
      }
     ],
     "frases": [
@@ -1853,6 +2509,18 @@
      {
       "es": "mañana",
       "zh": "明天/早晨"
+     },
+     {
+      "es": "piraña",
+      "zh": "食人鱼"
+     },
+     {
+      "es": "uña",
+      "zh": "指甲"
+     },
+     {
+      "es": "leña",
+      "zh": "柴火"
      }
     ],
     "frases": [
@@ -1878,6 +2546,18 @@
      {
       "es": "muñeco",
       "zh": "玩偶"
+     },
+     {
+      "es": "señera",
+      "zh": "地标"
+     },
+     {
+      "es": "muñequera",
+      "zh": "护腕"
+     },
+     {
+      "es": "riñe",
+      "zh": "责备"
      }
     ],
     "frases": [
@@ -1903,6 +2583,10 @@
      {
       "es": "cariñito",
       "zh": "亲爱的"
+     },
+     {
+      "es": "pequeñín",
+      "zh": "小不点"
      }
     ],
     "frases": [
@@ -1932,6 +2616,14 @@
      {
       "es": "sueño",
       "zh": "梦"
+     },
+     {
+      "es": "otoño",
+      "zh": "秋天"
+     },
+     {
+      "es": "dueño",
+      "zh": "主人"
      }
     ],
     "frases": [
@@ -1991,6 +2683,18 @@
      {
       "es": "papel",
       "zh": "纸"
+     },
+     {
+      "es": "palo",
+      "zh": "棍子"
+     },
+     {
+      "es": "pared",
+      "zh": "墙"
+     },
+     {
+      "es": "paloma",
+      "zh": "鸽子"
      }
     ],
     "frases": [
@@ -2020,6 +2724,18 @@
      {
       "es": "pelota",
       "zh": "球"
+     },
+     {
+      "es": "peso",
+      "zh": "重量"
+     },
+     {
+      "es": "pelo",
+      "zh": "头发"
+     },
+     {
+      "es": "pecho",
+      "zh": "胸部"
      }
     ],
     "frases": [
@@ -2049,6 +2765,18 @@
      {
       "es": "pizarra",
       "zh": "黑板"
+     },
+     {
+      "es": "pino",
+      "zh": "松树"
+     },
+     {
+      "es": "pipa",
+      "zh": "烟斗"
+     },
+     {
+      "es": "pirata",
+      "zh": "海盗"
      }
     ],
     "frases": [
@@ -2078,6 +2806,18 @@
      {
       "es": "poder",
       "zh": "能够"
+     },
+     {
+      "es": "polo",
+      "zh": "极/马球"
+     },
+     {
+      "es": "por",
+      "zh": "通过"
+     },
+     {
+      "es": "polvo",
+      "zh": "灰尘"
      }
     ],
     "frases": [
@@ -2107,6 +2847,18 @@
      {
       "es": "pulpo",
       "zh": "章鱼"
+     },
+     {
+      "es": "pulso",
+      "zh": "脉搏"
+     },
+     {
+      "es": "puma",
+      "zh": "美洲狮"
+     },
+     {
+      "es": "puño",
+      "zh": "拳头"
      }
     ],
     "frases": [
@@ -2145,6 +2897,18 @@
      {
       "es": "ramo",
       "zh": "花束"
+     },
+     {
+      "es": "radio",
+      "zh": "收音机"
+     },
+     {
+      "es": "rama",
+      "zh": "树枝"
+     },
+     {
+      "es": "rapaz",
+      "zh": "猛禽"
      }
     ],
     "frases": [
@@ -2174,6 +2938,18 @@
      {
       "es": "red",
       "zh": "网"
+     },
+     {
+      "es": "resto",
+      "zh": "剩余"
+     },
+     {
+      "es": "recto",
+      "zh": "直的"
+     },
+     {
+      "es": "regalo",
+      "zh": "礼物"
      }
     ],
     "frases": [
@@ -2203,6 +2979,18 @@
      {
       "es": "rico",
       "zh": "好吃的；富有的"
+     },
+     {
+      "es": "ritmo",
+      "zh": "节奏"
+     },
+     {
+      "es": "rinoceronte",
+      "zh": "犀牛"
+     },
+     {
+      "es": "ribera",
+      "zh": "河岸"
      }
     ],
     "frases": [
@@ -2232,6 +3020,18 @@
      {
       "es": "rojo",
       "zh": "红色的"
+     },
+     {
+      "es": "roble",
+      "zh": "橡树"
+     },
+     {
+      "es": "rodilla",
+      "zh": "膝盖"
+     },
+     {
+      "es": "romper",
+      "zh": "打破"
      }
     ],
     "frases": [
@@ -2261,6 +3061,18 @@
      {
       "es": "ruso",
       "zh": "俄罗斯的"
+     },
+     {
+      "es": "rubio",
+      "zh": "金发的"
+     },
+     {
+      "es": "rugir",
+      "zh": "吼叫"
+     },
+     {
+      "es": "rumba",
+      "zh": "伦巴舞"
      }
     ],
     "frases": [
@@ -2299,6 +3111,14 @@
      {
       "es": "gorra",
       "zh": "帽子"
+     },
+     {
+      "es": "cerrado",
+      "zh": "关闭的"
+     },
+     {
+      "es": "guerra",
+      "zh": "战争"
      }
     ],
     "frases": [
@@ -2328,6 +3148,10 @@
      {
       "es": "torre",
       "zh": "塔"
+     },
+     {
+      "es": "arreglar",
+      "zh": "修理"
      }
     ],
     "frases": [
@@ -2386,6 +3210,10 @@
      {
       "es": "barro",
       "zh": "泥"
+     },
+     {
+      "es": "gorro",
+      "zh": "帽子"
      }
     ],
     "frases": [
@@ -2415,6 +3243,18 @@
      {
       "es": "arrugado",
       "zh": "皱的"
+     },
+     {
+      "es": "corrupción",
+      "zh": "腐败"
+     },
+     {
+      "es": "carruaje",
+      "zh": "马车"
+     },
+     {
+      "es": "arruinar",
+      "zh": "毁坏"
      }
     ],
     "frases": [
@@ -2453,6 +3293,18 @@
      {
       "es": "sábado",
       "zh": "星期六"
+     },
+     {
+      "es": "salir",
+      "zh": "出去"
+     },
+     {
+      "es": "saco",
+      "zh": "袋子"
+     },
+     {
+      "es": "sabor",
+      "zh": "味道"
      }
     ],
     "frases": [
@@ -2482,6 +3334,18 @@
      {
       "es": "seis",
       "zh": "六"
+     },
+     {
+      "es": "sed",
+      "zh": "口渴"
+     },
+     {
+      "es": "seco",
+      "zh": "干的"
+     },
+     {
+      "es": "seguro",
+      "zh": "安全的"
      }
     ],
     "frases": [
@@ -2511,6 +3375,18 @@
      {
       "es": "siesta",
       "zh": "午睡"
+     },
+     {
+      "es": "sirena",
+      "zh": "美人鱼"
+     },
+     {
+      "es": "sistema",
+      "zh": "系统"
+     },
+     {
+      "es": "silencio",
+      "zh": "安静"
      }
     ],
     "frases": [
@@ -2540,6 +3416,18 @@
      {
       "es": "sombrero",
       "zh": "帽子"
+     },
+     {
+      "es": "sobre",
+      "zh": "信封"
+     },
+     {
+      "es": "sordo",
+      "zh": "聋的"
+     },
+     {
+      "es": "socio",
+      "zh": "合伙人"
      }
     ],
     "frases": [
@@ -2569,6 +3457,18 @@
      {
       "es": "suerte",
       "zh": "运气"
+     },
+     {
+      "es": "subir",
+      "zh": "上去"
+     },
+     {
+      "es": "sudo",
+      "zh": "汗"
+     },
+     {
+      "es": "suelo",
+      "zh": "地面"
      }
     ],
     "frases": [
@@ -2607,6 +3507,18 @@
      {
       "es": "taller",
       "zh": "车间"
+     },
+     {
+      "es": "taco",
+      "zh": "墨西哥卷饼"
+     },
+     {
+      "es": "talón",
+      "zh": "脚后跟"
+     },
+     {
+      "es": "tambor",
+      "zh": "鼓"
      }
     ],
     "frases": [
@@ -2636,6 +3548,18 @@
      {
       "es": "techo",
       "zh": "屋顶"
+     },
+     {
+      "es": "tesoro",
+      "zh": "宝藏"
+     },
+     {
+      "es": "tela",
+      "zh": "布料"
+     },
+     {
+      "es": "temor",
+      "zh": "恐惧"
      }
     ],
     "frases": [
@@ -2665,6 +3589,18 @@
      {
       "es": "tijeras",
       "zh": "剪刀"
+     },
+     {
+      "es": "tigre",
+      "zh": "老虎"
+     },
+     {
+      "es": "tinta",
+      "zh": "墨水"
+     },
+     {
+      "es": "tiburón",
+      "zh": "鲨鱼"
      }
     ],
     "frases": [
@@ -2694,6 +3630,18 @@
      {
       "es": "todo",
       "zh": "全部"
+     },
+     {
+      "es": "tocar",
+      "zh": "触摸"
+     },
+     {
+      "es": "torre",
+      "zh": "塔"
+     },
+     {
+      "es": "toalla",
+      "zh": "毛巾"
      }
     ],
     "frases": [
@@ -2723,6 +3671,18 @@
      {
       "es": "turista",
       "zh": "游客"
+     },
+     {
+      "es": "tubo",
+      "zh": "管子"
+     },
+     {
+      "es": "tumbar",
+      "zh": "推倒"
+     },
+     {
+      "es": "tulipán",
+      "zh": "郁金香"
      }
     ],
     "frases": [
@@ -2761,6 +3721,18 @@
      {
       "es": "vapor",
       "zh": "蒸汽"
+     },
+     {
+      "es": "valle",
+      "zh": "山谷"
+     },
+     {
+      "es": "valla",
+      "zh": "栅栏"
+     },
+     {
+      "es": "vacío",
+      "zh": "空的"
      }
     ],
     "frases": [
@@ -2790,6 +3762,18 @@
      {
       "es": "ventana",
       "zh": "窗户"
+     },
+     {
+      "es": "vecino",
+      "zh": "邻居"
+     },
+     {
+      "es": "verdad",
+      "zh": "真相"
+     },
+     {
+      "es": "veneno",
+      "zh": "毒药"
      }
     ],
     "frases": [
@@ -2819,6 +3803,18 @@
      {
       "es": "viernes",
       "zh": "星期五"
+     },
+     {
+      "es": "violín",
+      "zh": "小提琴"
+     },
+     {
+      "es": "viga",
+      "zh": "横梁"
+     },
+     {
+      "es": "virgen",
+      "zh": "处女"
      }
     ],
     "frases": [
@@ -2848,6 +3844,18 @@
      {
       "es": "nuevo",
       "zh": "新的"
+     },
+     {
+      "es": "voto",
+      "zh": "选票"
+     },
+     {
+      "es": "volar",
+      "zh": "飞"
+     },
+     {
+      "es": "volumen",
+      "zh": "音量"
      }
     ],
     "frases": [
@@ -2877,6 +3885,14 @@
      {
       "es": "vuestro",
       "zh": "你们的"
+     },
+     {
+      "es": "vuelo",
+      "zh": "航班"
+     },
+     {
+      "es": "vudú",
+      "zh": "巫毒"
      }
     ],
     "frases": [
@@ -2915,6 +3931,18 @@
      {
       "es": "xantina",
       "zh": "黄嘌呤"
+     },
+     {
+      "es": "exacto",
+      "zh": "准确的"
+     },
+     {
+      "es": "exagerar",
+      "zh": "夸大"
+     },
+     {
+      "es": "exaltar",
+      "zh": "赞扬"
      }
     ],
     "frases": [
@@ -2944,6 +3972,14 @@
      {
       "es": "xenofobia",
       "zh": "排外"
+     },
+     {
+      "es": "exento",
+      "zh": "免除的"
+     },
+     {
+      "es": "exequias",
+      "zh": "葬礼"
      }
     ],
     "frases": [
@@ -2973,6 +4009,18 @@
      {
       "es": "xilema",
       "zh": "木质部"
+     },
+     {
+      "es": "éxito",
+      "zh": "成功"
+     },
+     {
+      "es": "exigir",
+      "zh": "要求"
+     },
+     {
+      "es": "exiliar",
+      "zh": "流放"
      }
     ],
     "frases": [
@@ -3031,6 +4079,18 @@
      {
       "es": "xuglar",
       "zh": "游吟诗人"
+     },
+     {
+      "es": "exuberante",
+      "zh": "茂盛的"
+     },
+     {
+      "es": "exudar",
+      "zh": "渗出"
+     },
+     {
+      "es": "exultar",
+      "zh": "欢欣鼓舞"
      }
     ],
     "frases": [
@@ -3065,6 +4125,18 @@
      {
       "es": "zanahoria",
       "zh": "胡萝卜"
+     },
+     {
+      "es": "zafiro",
+      "zh": "蓝宝石"
+     },
+     {
+      "es": "zarpa",
+      "zh": "爪子"
+     },
+     {
+      "es": "zambomba",
+      "zh": "鼓"
      }
     ],
     "frases": [
@@ -3090,6 +4162,10 @@
      {
       "es": "zepelín",
       "zh": "飞艇"
+     },
+     {
+      "es": "zeugma",
+      "zh": "轭式修辞"
      }
     ],
     "frases": [
@@ -3148,6 +4224,10 @@
      {
       "es": "zócalo",
       "zh": "踢脚线"
+     },
+     {
+      "es": "zoológico",
+      "zh": "动物园"
      }
     ],
     "frases": [
