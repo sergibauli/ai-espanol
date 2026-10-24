@@ -52,22 +52,54 @@ function WordCard({ v, color }) {
   );
 }
 
-// Guía rápida: parte la teoría en introducción, puntos «término = explicación», nota y error común
+// Guía rápida: convierte el texto de teoría en bloques ordenados (títulos, listas, tablas, párrafos y notas)
+const SPECIAL = [[/^📌/, "note"], [/^❌/, "error"], [/^(💡|✅\s*CONSEJO)/, "tip"]];
+const BULLET = /^([•\-–*→✅]|\d+[.º)]|\p{Extended_Pictographic})\s*/u;
+function splitItem(text) {
+  const m = text.match(/^(.+?)\s(?:=|→|–|-)\s(.+)$/) || text.match(/^([^:]{2,40}):\s(.+)$/);
+  return m ? { term: m[1].trim(), def: m[2].trim() } : { term: text, def: "" };
+}
 function parseTeoria(text) {
-  const out = { intro: [], points: [], nota: [], error: [] };
-  for (const block of String(text || "").split(/\n\s*\n/)) {
-    const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
-    if (!lines.length) continue;
-    if (/^📌/.test(lines[0])) out.nota.push(...lines.slice(1).map((l) => l.replace(/^[•\-–]\s*/, "")));
-    else if (/^❌/.test(lines[0])) out.error.push(...lines.slice(1).map((l) => l.replace(/^[•\-–]\s*/, "")));
-    else if (lines.every((l) => /^[•\-–]/.test(l)))
-      out.points.push(...lines.map((l) => {
-        const [term, ...rest] = l.replace(/^[•\-–]\s*/, "").split(/\s=\s/);
-        return { term: term.trim(), def: rest.join(" = ").trim() };
-      }));
-    else out.intro.push(lines.join(" "));
+  const blocks = [];
+  let cur = null;
+  const close = () => (cur = null);
+  for (const raw of String(text || "").split("\n")) {
+    const l = raw.trim();
+    if (!l) {
+      if (cur && cur.type !== "list" && cur.type !== "table") close();
+      continue;
+    }
+    if (l.startsWith("|")) {
+      if (/^\|[\s|:-]+\|?$/.test(l)) continue;
+      const cells = l.split("|").map((c) => c.trim()).filter(Boolean);
+      if (cur?.type !== "table") blocks.push((cur = { type: "table", rows: [] }));
+      cur.rows.push(cells);
+      continue;
+    }
+    const sp = SPECIAL.find(([re]) => re.test(l));
+    if (sp) {
+      const rest = l.replace(/^\S+\s*[^:]*:?\s*/, "").trim();
+      blocks.push((cur = { type: sp[1], lines: rest ? [rest] : [] }));
+      continue;
+    }
+    if (cur && ["note", "error", "tip"].includes(cur.type)) {
+      cur.lines.push(l.replace(BULLET, ""));
+      continue;
+    }
+    if (/:$/.test(l) && l.length <= 70) {
+      blocks.push({ type: "h", text: l.replace(/^\p{Extended_Pictographic}\s*/u, "").replace(/:$/, "") });
+      close();
+      continue;
+    }
+    if (BULLET.test(l)) {
+      if (cur?.type !== "list") blocks.push((cur = { type: "list", items: [] }));
+      cur.items.push(splitItem(l.replace(BULLET, "")));
+      continue;
+    }
+    blocks.push({ type: "p", text: l });
+    close();
   }
-  return out;
+  return blocks;
 }
 
 function GuideScroll({ teoria, numero }) {
@@ -84,7 +116,11 @@ function GuideScroll({ teoria, numero }) {
   if (!t) return null;
   const es = parseTeoria(t.descripcion);
   const zh = parseTeoria(t.descripcionChino);
-  const plaques = es.points.length ? es.points.map((p) => p.term) : (t.ejemplos || []).map((e) => e.espanol);
+  const zhOf = (i) => (zh[i] && zh[i].type === es[i].type ? zh[i] : null);
+  const main = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => !["note", "error", "tip"].includes(b.type));
+  const extras = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => ["note", "error", "tip"].includes(b.type));
+  const terms = es.flatMap((b) => (b.type === "list" ? b.items.map((x) => x.term) : [])).filter((x) => x.length <= 40);
+  const plaques = terms.length ? terms : (t.ejemplos || []).map((e) => e.espanol);
   const toggleSeen = () => {
     const n = new Set(seen);
     n.has(sel) ? n.delete(sel) : n.add(sel);
@@ -107,19 +143,39 @@ function GuideScroll({ teoria, numero }) {
         <img className="gd-deco" src={`${THEME}sello-monedas.png`} alt="" />
         <div className="gd-body">
           <div className="gd-text">
-            {es.intro.slice(0, 2).map((p, i) => (
-              <p key={i} className="gd-intro">
-                {p}
-                {zh.intro[i] && <small>{zh.intro[i]}</small>}
-              </p>
-            ))}
-            {es.points.slice(0, 6).map((p, i) => (
-              <div key={i} className="gd-point">
-                <b>{p.term}</b>
-                {p.def && <span>{p.def}</span>}
-                {zh.points[i]?.def && <small>{zh.points[i].def}</small>}
-              </div>
-            ))}
+            {main.map(([b, z], i) =>
+              b.type === "h" ? (
+                <h4 key={i} className="gd-h">
+                  {b.text}
+                  {z && <small>{z.text}</small>}
+                </h4>
+              ) : b.type === "p" ? (
+                <p key={i} className="gd-intro">
+                  {b.text}
+                  {z && <small>{z.text}</small>}
+                </p>
+              ) : b.type === "table" ? (
+                <div key={i} className="gd-table">
+                  <table>
+                    <tbody>
+                      {b.rows.map((r, k) => (
+                        <tr key={k}>{r.map((c, n) => (k === 0 ? <th key={n}>{c}</th> : <td key={n}>{c}</td>))}</tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div key={i} className="gd-items">
+                  {b.items.map((p, k) => (
+                    <div key={k} className="gd-point">
+                      <b>{p.term}</b>
+                      {p.def && <span>{p.def}</span>}
+                      {z?.items?.[k] && <small>{z.items[k].def || z.items[k].term}</small>}
+                    </div>
+                  ))}
+                </div>
+              ),
+            )}
           </div>
           {plaques.length > 0 && (
             <div className="gd-plaques">
@@ -133,30 +189,19 @@ function GuideScroll({ teoria, numero }) {
           )}
         </div>
       </div>
-      {(es.nota.length > 0 || es.error.length > 0) && (
+      {extras.length > 0 && (
         <div className="gd-notes">
-          {es.nota.length > 0 && (
-            <div className="gd-note">
-              <b>📌 Nota importante · 重要提示</b>
-              {es.nota.slice(0, 4).map((n, i) => (
-                <p key={i}>
+          {extras.map(([b, z], i) => (
+            <div key={i} className={b.type === "error" ? "gd-error" : "gd-note"}>
+              <b>{b.type === "error" ? "❌ Error común · 常见错误" : b.type === "tip" ? "💡 Consejo · 小贴士" : "📌 Nota importante · 重要提示"}</b>
+              {b.lines.slice(0, 5).map((n, k) => (
+                <p key={k}>
                   {n}
-                  {zh.nota[i] && <small>{zh.nota[i]}</small>}
+                  {z?.lines?.[k] && <small>{z.lines[k]}</small>}
                 </p>
               ))}
             </div>
-          )}
-          {es.error.length > 0 && (
-            <div className="gd-error">
-              <b>❌ Error común · 常见错误</b>
-              {es.error.slice(0, 3).map((n, i) => (
-                <p key={i}>
-                  {n}
-                  {zh.error[i] && <small>{zh.error[i]}</small>}
-                </p>
-              ))}
-            </div>
-          )}
+          ))}
         </div>
       )}
       {(t.ejemplos || []).length > 0 && (

@@ -702,3 +702,9 @@ main.game-bg .gm-ruleta-root > canvas:nth-of-type(2) { display: none; }
 .lp-key-btn.wide { max-width: 260px; flex: 4; font-size: 13px; }
 .lp-key-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #c4ae80; }
 @media (max-width: 520px) { .lp-key-btn { height: 38px; font-size: 15px; } .lp-kbd { padding: 6px; gap: 5px; } .lp-kbd-row { gap: 3px; } }
+.gd-h { margin: 14px 0 8px; padding: 5px 12px; font: 800 14.5px var(--ui-font); letter-spacing: .04em; text-transform: uppercase; color: #8f0c21; background: linear-gradient(90deg, rgba(242,193,78,.35), transparent); border-left: 3px solid #c8961e; border-radius: 2px; }
+.gd-h small { display: block; text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 13px; color: #8a6a48; }
+.gd-text > :first-child { margin-top: 0; }
+.gd-items .gd-point:last-child { border-bottom: 0; }
+.gd-table { overflow-x: auto; margin: 6px 0 14px; } .gd-table table { width: 100%; border-collapse: collapse; font-size: 14px; background: rgba(255,252,242,.7); }
+.gd-table th, .gd-table td { padding: 7px 10px; border: 1px solid #e2cfa6; text-align: left; color: #3b2416; } .gd-table th { background: rgba(242,193,78,.3); font-weight: 800; }
