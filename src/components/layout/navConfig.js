@@ -153,7 +153,6 @@ const NAV_GROUPS = [
       },
     ],
   },
-  CAMPUS_GROUP,
   {
     key: "ia",
     label: "IA Lab",
@@ -231,14 +230,6 @@ const NAV_LINKS = [
     icon: RouteIcon,
     color: "#58cc02",
     glow: "#7ee32a",
-  },
-  {
-    path: "/campus",
-    label: "Clases",
-    labelZh: "直播课",
-    icon: VideoIcon,
-    color: "#34d399",
-    glow: "#6ee7b7",
   },
   {
     path: "/examenes/generador",

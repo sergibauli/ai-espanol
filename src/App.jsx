@@ -10,9 +10,10 @@ import { TutorChat } from "./components/TutorChat.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
 import { CampusProvider } from "./lib/campus.jsx";
+import { LIGHT_ROUTES } from "./components/layout/LightShell.jsx";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
-const DashboardPage = React.lazy(() => import("./pages/HomePage.jsx"));
+const DashboardPage = React.lazy(() => import("./pages/RutaPage.jsx"));
 const ExamenesNivelPage = React.lazy(() => import("./pages/dele/ExamenesNivelPage.jsx"));
 const ExamDetailPage = React.lazy(() => import("./pages/dele/ExamDetailPage.jsx"));
 const OficialPage = React.lazy(() => import("./pages/dele/OficialPage.jsx"));
@@ -81,9 +82,8 @@ const WordChainPage = React.lazy(() => import("./pages/juegos/WordChainPage.jsx"
 const TicTacToePage = React.lazy(() => import("./pages/juegos/TicTacToePage.jsx"));
 const UnoPage = React.lazy(() => import("./pages/juegos/UnoPage.jsx"));
 const ExamGeneratorPage = React.lazy(() => import("./pages/ExamGeneratorPage.jsx"));
-const CampusPage = React.lazy(() => import("./pages/CampusPage.jsx"));
 const RutaPage = React.lazy(() => import("./pages/RutaPage.jsx"));
-const ProfesoresPage = React.lazy(() => import("./pages/ProfesoresPage.jsx"));
+const UnitPage = React.lazy(() => import("./pages/UnitPage.jsx"));
 function PageLoader() {
   return (
     <StarfieldBackground>
@@ -253,17 +253,18 @@ function AppRoutes() {
       document.documentElement.classList.remove("app-is-hidden");
     };
   }, []);
-  const u = pathname === "/login" || pathname === "/sign-in" || pathname.startsWith("/juegos");
+  const light = LIGHT_ROUTES(pathname);
+  const u = pathname === "/login" || pathname === "/sign-in" || pathname.startsWith("/juegos") || light;
   return (
     <>
       <CursorTrail />
       <SwipeNavigation />
-      {isAuthenticated && <TopNav />}
+      {isAuthenticated && !light && <TopNav />}
       <React.Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/sign-in" element={<SignInPage />} />
-          <Route path="/profesores" element={<ProfesoresPage />} />
+          <Route path="/profesores" element={<Navigate to="/dashboard" replace />} />
           <Route
             path="/examenes/generador"
             element={
@@ -280,14 +281,7 @@ function AppRoutes() {
               </RequireAuth>
             }
           />
-          <Route
-            path="/campus"
-            element={
-              <RequireAuth>
-                <CampusPage />
-              </RequireAuth>
-            }
-          />
+          <Route path="/campus" element={<Navigate to="/dashboard" replace />} />
           <Route
             path="/dashboard"
             element={
@@ -348,7 +342,7 @@ function AppRoutes() {
             path="/modulos/:moduloId"
             element={
               <RequireAuth>
-                <ModulosPage />
+                <UnitPage />
               </RequireAuth>
             }
           />
@@ -524,7 +518,7 @@ function AppRoutes() {
               </RequireAuth>
             }
           />
-          <Route path="/clases" element={<Navigate to="/campus" replace />} />
+          <Route path="/clases" element={<Navigate to="/dashboard" replace />} />
           <Route path="/clase" element={<ClasePage />} />
           <Route path="/promo" element={<PromoPage />} />
           <Route

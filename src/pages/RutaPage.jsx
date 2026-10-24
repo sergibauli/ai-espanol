@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, useSearchParams } from "react-router";
 import { BookOpenIcon, LockIcon, CheckIcon, StarIcon } from "lucide-react";
-import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
+import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { GameStats, GoalRing } from "../components/ui/GameStats.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
@@ -29,6 +29,13 @@ export default function RutaPage() {
   const [lesson, setLesson] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const currentRef = React.useRef(null);
+  const [onboarded, setOnboarded] = React.useState(() => {
+    try {
+      return localStorage.getItem("ai-espanol:onboarded") === "1" || Object.keys(game.lessons).length > 0;
+    } catch {
+      return true;
+    }
+  });
 
   // Estado de cada nodo: hecho, disponible (el siguiente) o bloqueado
   const done = (m, i) => Boolean(game.lessons[lessonId(m, i)]);
@@ -60,7 +67,7 @@ export default function RutaPage() {
   const levelDone = (l) => CATALOG.filter((m) => m.nivel === l.key).reduce((n, m) => n + [0, 1, 2, 3, 4].filter((i) => done(m.numero, i)).length, 0);
 
   return (
-    <StarfieldBackground>
+    <LightShell>
       <div className="ruta-layout">
         <main className="ruta-main">
           <div className="ruta-levels">
@@ -91,7 +98,10 @@ export default function RutaPage() {
                   <BookOpenIcon size={18} /> Guía
                 </Link>
               </div>
-              <div className="ruta-path">
+              <div className="ruta-path" style={{ position: "relative" }}>
+                <span className="ruta-mascot" style={{ [idx % 2 ? "left" : "right"]: "6%" }}>
+                  <Emoji3D emoji={["🐵", "👩‍🦰", "👨", "🧔", "👧", "👵"][idx % 6]} size={110} float />
+                </span>
                 {LESSON_META.map((meta, i) => {
                   const isDone = done(m.numero, i);
                   const isOpen = unlocked(idx, i);
@@ -180,17 +190,11 @@ export default function RutaPage() {
               })}
             </div>
           </div>
-          <Link to="/profesores" className="ui-card is-link ruta-promo">
-            <Emoji3D emoji="👩‍🏫" size={54} float />
-            <div>
-              <b>Clase con profesor</b>
-              <div className="ui-muted" style={{ fontSize: 13 }}>Nativos y chinos · 免费试听</div>
-            </div>
-          </Link>
         </aside>
       </div>
+      {!onboarded && <Onboarding onDone={(lvl) => { setOnboarded(true); setParams({ nivel: lvl }); }} />}
       {lesson && <LessonPlayer lesson={lesson} onClose={() => setLesson(null)} />}
-    </StarfieldBackground>
+    </LightShell>
   );
 }
 
@@ -200,4 +204,91 @@ function firstOpenLevel(lessons) {
     if (mods.some((m) => [0, 1, 2, 3, 4].some((i) => !lessons[lessonId(m.numero, i)]))) return l.key;
   }
   return "A1";
+}
+
+// Bienvenida de la primera vez (motivo, nivel y meta diaria), como en las apps de idiomas
+const REASONS = [
+  ["🎓", "Aprobar el DELE", "通过DELE考试"],
+  ["💼", "Trabajo", "工作"],
+  ["✈️", "Viajar", "旅行"],
+  ["🏫", "Estudiar en España", "去西班牙留学"],
+  ["🎵", "Cultura y ocio", "文化娱乐"],
+  ["🧠", "Ejercitar la mente", "锻炼大脑"],
+];
+const START = [
+  ["🌱", "Empiezo de cero", "零基础", "A1"],
+  ["📖", "Conozco algunas palabras", "会一些单词", "A1"],
+  ["💬", "Puedo tener conversaciones básicas", "能进行简单对话", "A2"],
+  ["🗣️", "Hablo con soltura sobre muchos temas", "能流利交流", "B1"],
+  ["🏆", "Preparo el DELE B2", "准备DELE B2", "B2"],
+];
+const GOALS = [
+  [10, "Casual · 5 min/día", "轻松"],
+  [20, "Normal · 10 min/día", "普通"],
+  [30, "Serio · 15 min/día", "认真"],
+  [50, "Intenso · 20 min/día", "高强度"],
+];
+
+function Onboarding({ onDone }) {
+  const [step, setStep] = React.useState(0);
+  const [pick, setPick] = React.useState(null);
+  const [level, setLevel] = React.useState("A1");
+  const questions = [
+    ["¿Para qué aprendes español?", "你为什么学西班牙语？"],
+    ["¿Cuánto español sabes?", "你的西班牙语水平如何？"],
+    ["¿Cuál es tu meta diaria?", "你的每日目标是什么？"],
+  ];
+  const opts = step === 0 ? REASONS : step === 1 ? START : GOALS;
+  const next = () => {
+    if (step === 1) setLevel(START[pick][3]);
+    if (step === 2) {
+      setDailyGoal(GOALS[pick][0]);
+      try {
+        localStorage.setItem("ai-espanol:onboarded", "1");
+      } catch {}
+      return onDone(level);
+    }
+    setStep((s) => s + 1);
+    setPick(null);
+  };
+  return (
+    <div className="onb">
+      <header className="lp-top">
+        <div className="lp-bar" style={{ background: "#e5e5e5" }}>
+          <i style={{ width: `${((step + 1) / 3) * 100}%` }} />
+        </div>
+      </header>
+      <main className="onb-main">
+        <div className="onb-q">
+          <Emoji3D emoji="🐵" size={110} float />
+          <div className="lp-char-bubble" style={{ fontSize: 20 }}>
+            <span>
+              {questions[step][0]}
+              <br />
+              <small style={{ color: "#777", fontWeight: 600 }}>{questions[step][1]}</small>
+            </span>
+          </div>
+        </div>
+        <div className={`onb-opts ${step === 0 ? "grid2" : ""}`}>
+          {opts.map((o, i) => (
+            <button key={i} className={`lp-option ${pick === i ? "picked" : ""}`} style={{ background: pick === i ? "#ddf4ff" : "#fff", borderColor: pick === i ? "#84d8ff" : "#e5e5e5", color: "#4b4b4b" }} onClick={() => setPick(i)}>
+              {typeof o[0] === "number" ? <Emoji3D emoji={["🌱", "🔥", "⚡", "🚀"][i]} size={36} /> : <Emoji3D emoji={o[0]} size={36} />}
+              <span>
+                {o[1]}
+                <br />
+                <small style={{ color: "#777", fontWeight: 600 }}>{o[2]}</small>
+              </span>
+            </button>
+          ))}
+        </div>
+      </main>
+      <footer className="lp-foot" style={{ background: "#fff", borderColor: "#e5e5e5" }}>
+        <div className="lp-foot-inner">
+          <button className="lp-btn" disabled={pick === null} onClick={next} style={pick === null ? { "--c": "#e5e5e5", "--d": "#cecece", color: "#afafaf" } : undefined}>
+            Continuar · 继续
+          </button>
+        </div>
+      </footer>
+    </div>
+  );
 }

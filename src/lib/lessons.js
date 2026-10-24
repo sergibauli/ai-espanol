@@ -1,6 +1,10 @@
 // Micro-lecciones tipo Duolingo generadas a partir del contenido existente de cada módulo.
 // 5 lecciones por módulo (3–5 min): palabras I, palabras II, idea clave, frases en acción, repaso final.
 import { rng } from "./examGenerator.js";
+import VOCAB_EMOJI from "../data/vocab-emoji.json";
+
+const CHARS = ["lucia", "liwei", "carlos", "mei", "carmen"];
+const pic = (w) => VOCAB_EMOJI[String(w || "").trim()];
 
 export const LESSONS_PER_MODULE = 5;
 export const LESSON_META = [
@@ -38,17 +42,21 @@ function vocabSteps(mod, vocab, rand) {
   // Presentación: 2 palabras, practicar, 2 más, practicar…
   for (let i = 0; i < vocab.length; i += 2) {
     const pair = vocab.slice(i, i + 2);
-    pair.forEach((v) => steps.push({ type: "learn", es: v.espanol, zh: v.chino, example: v.ejemplo, emoji: mod.icono }));
+    pair.forEach((v) => steps.push({ type: "learn", es: v.espanol, zh: v.chino, example: v.ejemplo, emoji: pic(v.espanol) || mod.icono }));
     pair.forEach((v, k) => {
       const kind = (i + k) % 3;
-      if (kind === 0) steps.push(choice(rand, v.chino, pool(v, "chino"), { type: "choice", prompt: `¿Qué significa «${v.espanol}»?`, promptZh: "选择正确的意思", speak: v.espanol }));
+      const withPic = all.filter((o) => o.espanol !== v.espanol && pic(o.espanol));
+      if (kind === 0 && pic(v.espanol) && withPic.length >= 2) {
+        const opts = shuffle([v, ...shuffle(withPic, rand).slice(0, 2)], rand);
+        steps.push({ type: "pictures", prompt: `哪一个是「${v.chino}」？`, promptZh: `¿Cuál de estos es «${v.chino}»?`, options: opts.map((o) => o.espanol), pics: opts.map((o) => pic(o.espanol)), answer: opts.indexOf(v), speakOptions: true });
+      } else if (kind === 0) steps.push(choice(rand, v.chino, pool(v, "chino"), { type: "choice", prompt: `¿Qué significa «${v.espanol}»?`, promptZh: "选择正确的意思", speak: v.espanol }));
       else if (kind === 1) steps.push(choice(rand, v.espanol, pool(v, "espanol"), { type: "listen", prompt: "Escucha y elige · 听音选择", speak: v.espanol }));
       else steps.push(choice(rand, v.espanol, pool(v, "espanol"), { type: "choice", prompt: `¿Cómo se dice «${v.chino}»?`, promptZh: "选择正确的西班牙语" }));
     });
   }
   if (vocab.length >= 4) steps.push({ type: "match", prompt: "Une las parejas · 连线配对", pairs: shuffle(vocab, rand).slice(0, 5).map((v) => ({ a: v.espanol, b: v.chino })) });
   const typed = vocab.filter((v) => words(v.espanol).length === 1 && v.espanol.length <= 12)[0];
-  if (typed) steps.push({ type: "type", prompt: `Escribe en español: ${typed.chino}`, promptZh: "用西班牙语写出", answer: typed.espanol, hint: `${typed.espanol[0]}${"_".repeat(Math.max(0, typed.espanol.length - 1))}` });
+  if (typed) steps.push({ character: CHARS[Math.floor(rand() * CHARS.length)], type: "type", prompt: `Escribe en español: ${typed.chino}`, promptZh: "用西班牙语写出", answer: typed.espanol, hint: `${typed.espanol[0]}${"_".repeat(Math.max(0, typed.espanol.length - 1))}` });
   return steps;
 }
 
@@ -93,7 +101,7 @@ function ideaSteps(mod, rand) {
 function buildStep(rand, sentence, zh) {
   const tokens = words(sentence.replace(/[¿?¡!.,;:]/g, " "));
   if (tokens.length < 3 || tokens.length > 9) return null;
-  return { type: "build", prompt: zh || "Ordena la frase · 排列句子", tiles: shuffle(tokens, rand), answer: tokens.join(" ") };
+  return { type: "build", character: CHARS[Math.floor(rand() * CHARS.length)], prompt: zh || "Ordena la frase · 排列句子", tiles: shuffle(tokens, rand), answer: tokens.join(" ") };
 }
 
 function phraseSteps(mod, plus, rand) {

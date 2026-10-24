@@ -135,44 +135,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {(nextClass || pendingHw.length > 0) && (
-          <section className="ui-section ui-grid cols-2" style={{ alignItems: "start" }}>
-            <div>
-              <div className="ui-between" style={{ marginBottom: 12 }}>
-                <h2 className="ui-h2">
-                  <VideoIcon size={20} style={{ display: "inline", marginRight: 6 }} />
-                  Próxima clase · 下节课
-                </h2>
-                <Link to="/campus" className="ui-btn sm">
-                  Campus
-                </Link>
-              </div>
-              {nextClass ? <ClassCard c={nextClass} data={campus.data} /> : <div className="ui-empty">Sin clases programadas</div>}
-            </div>
-            <div>
-              <div className="ui-between" style={{ marginBottom: 12 }}>
-                <h2 className="ui-h2">
-                  <ClipboardListIcon size={20} style={{ display: "inline", marginRight: 6 }} />
-                  Deberes · 作业
-                </h2>
-                <Link to="/campus?tab=deberes" className="ui-btn sm">
-                  Ver todos
-                </Link>
-              </div>
-              <div className="ui-stack">
-                {pendingHw.slice(0, 3).map((h) => (
-                  <Link key={h.id} to="/campus?tab=deberes" className="ui-card is-link" style={{ padding: 14 }}>
-                    <div className="ui-between">
-                      <b>{h.titulo}</b>
-                      <span className="ui-chip warn">{new Date(h.fechaEntrega).toLocaleDateString("es-ES", { weekday: "short", day: "numeric" })}</span>
-                    </div>
-                  </Link>
-                ))}
-                {!pendingHw.length && <div className="ui-empty">¡Todo entregado! 🎉 · 全部完成</div>}
-              </div>
-            </div>
-          </section>
-        )}
 
         <section className="ui-section">
           <div className="ui-between">
@@ -227,18 +189,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="ui-section">
-          <Link to="/profesores" className="ui-card is-link is-hero" style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ fontSize: 46 }}>👩🏻‍🏫👨🏻‍💼</div>
-            <div style={{ flex: 1, minWidth: 240 }}>
-              <div className="ui-h2">Clases en directo con profesores nativos y chinos</div>
-              <div className="ui-zh" style={{ marginTop: 4 }}>外教 + 中文老师 · 腾讯会议一对一 · 免费试听</div>
-            </div>
-            <span className="ui-btn primary">
-              Clase de prueba gratis <ArrowRightIcon size={16} />
-            </span>
-          </Link>
-        </section>
       </div>
     </StarfieldBackground>
   );

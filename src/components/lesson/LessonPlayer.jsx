@@ -4,6 +4,7 @@ import { XIcon, HeartIcon, Volume2Icon, SnailIcon, CheckIcon, ZapIcon, TargetIco
 import { Emoji3D } from "../ui/Emoji3D.jsx";
 import { sfx, speak, confetti } from "./fx.js";
 import { addXp, loseHeart, refillHearts, getGame } from "../../lib/gamification.js";
+import { CAST } from "./StoryPlayer.jsx";
 
 const TEACH = new Set(["learn", "tip", "dialog"]);
 const norm = (s) =>
@@ -166,12 +167,61 @@ function TrueFalse({ step, value, onChange, locked }) {
   );
 }
 
+function Character({ who, text, speakText }) {
+  const c = CAST[who] || CAST.lucia;
+  return (
+    <div className="lp-char">
+      <Emoji3D emoji={c.emoji} size={86} float />
+      <div className="lp-char-bubble">
+        {speakText && (
+          <button className="lp-speak" style={{ width: 36, height: 36, borderRadius: 11 }} onClick={() => speak(speakText)} aria-label="Escuchar">
+            <Volume2Icon size={16} />
+          </button>
+        )}
+        {text}
+      </div>
+    </div>
+  );
+}
+
+function Pictures({ step, value, onChange, locked }) {
+  return (
+    <div>
+      <div className="lp-eyebrow">✨ Palabra nueva · 新词</div>
+      <h2 className="lp-title">{step.prompt}</h2>
+      <div className="lp-zh">{step.promptZh}</div>
+      <div className="lp-pics">
+        {step.options.map((o, i) => (
+          <button
+            key={i}
+            disabled={locked}
+            className={`lp-pic ${value === i ? "picked" : ""} ${locked && i === step.answer ? "right" : ""} ${locked && value === i && i !== step.answer ? "wrong" : ""}`}
+            onClick={() => {
+              sfx("tap");
+              speak(o, 1);
+              onChange(i);
+            }}
+          >
+            <span className="art">
+              <Emoji3D emoji={step.pics[i]} size={84} />
+            </span>
+            <span className="cap">
+              {o}
+              <span className="lp-key">{i + 1}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Build({ step, value = [], onChange, locked }) {
   const used = new Set(value);
   return (
     <div>
-      <div className="lp-eyebrow">Construye la frase · 组句</div>
-      <h2 className="lp-title" style={{ fontSize: 20 }}>{step.prompt}</h2>
+      <h2 className="lp-title">Traduce esta frase · 翻译</h2>
+      <Character who={step.character} text={step.prompt} />
       <div className="lp-answer-line">
         {value.map((ti) => (
           <button key={ti} className="lp-tile" disabled={locked} onClick={() => onChange(value.filter((x) => x !== ti))}>
@@ -202,8 +252,8 @@ function Build({ step, value = [], onChange, locked }) {
 function TypeIt({ step, value = "", onChange, locked, onEnter }) {
   return (
     <div>
-      <div className="lp-eyebrow">Escribe · 输入</div>
-      <h2 className="lp-title">{step.prompt}</h2>
+      <h2 className="lp-title">Escribe en español · 用西语写</h2>
+      {step.character ? <Character who={step.character} text={step.prompt} /> : <div className="lp-title" style={{ fontSize: 19 }}>{step.prompt}</div>}
       {step.promptZh && <div className="lp-zh">{step.promptZh}</div>}
       <input
         className="lp-input"
@@ -278,7 +328,7 @@ function Match({ step, onDone }) {
 }
 
 function checkAnswer(step, value) {
-  if (step.type === "choice" || step.type === "listen") return { ok: value === step.answer, solution: step.options[step.answer] };
+  if (step.type === "choice" || step.type === "listen" || step.type === "pictures") return { ok: value === step.answer, solution: step.options[step.answer] };
   if (step.type === "tf") return { ok: value === step.answer, solution: step.answer ? "Verdadero" : "Falso" };
   if (step.type === "build") {
     const built = (value || []).map((i) => step.tiles[i]).join(" ");
@@ -416,6 +466,8 @@ export function LessonPlayer({ lesson, onClose }) {
     <Build key={queue[pos] + "-" + pos} step={step} value={value} onChange={setValue} locked={!!feedback} />
   ) : step.type === "type" ? (
     <TypeIt key={pos} step={step} value={value} onChange={setValue} locked={!!feedback} onEnter={() => canCheck && check()} />
+  ) : step.type === "pictures" ? (
+    <Pictures key={pos} step={step} value={value} onChange={setValue} locked={!!feedback} />
   ) : step.type === "match" ? (
     <Match key={pos} step={step} onDone={next} />
   ) : (
