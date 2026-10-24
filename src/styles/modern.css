@@ -629,3 +629,23 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 @media (max-width: 1000px) { .light-page .ruta-levels { top: 62px; } .light-page .ruta-layout, .light-page .unit-page { padding-bottom: 110px; } }
 
 @media (max-width: 700px) { .ruta-mascot { display: none; } }
+.unidades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+.unidad-card { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 22px; border: 2px solid #e5e5e5; border-bottom-width: 6px; background: #fff; color: #3c3c3c; text-decoration: none; transition: transform .1s; }
+.unidad-card:hover { border-color: var(--c); }
+.unidad-card:active { transform: translateY(4px); border-bottom-width: 2px; }
+.unidad-art { position: relative; width: 84px; height: 84px; border-radius: 24px; background: color-mix(in srgb, var(--c) 18%, #fff); display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+.unidad-crown { position: absolute; top: -10px; right: -10px; font-size: 26px; }
+.unidad-card small { font-weight: 900; font-size: 11px; color: var(--c); letter-spacing: .06em; }
+.unidad-card b { font-size: 16px; line-height: 1.25; }
+.unidad-bar { display: block; height: 10px; border-radius: 99px; background: #e5e5e5; margin-top: 10px; overflow: hidden; }
+.unidad-bar i { display: block; height: 100%; background: var(--c); border-radius: inherit; }
+.quest { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-top: 2px solid #f0f0f0; }
+.quest:first-of-type { border-top: 0; }
+.quest-bar { height: 14px; border-radius: 99px; background: #e5e5e5; overflow: hidden; margin-top: 6px; position: relative; }
+.quest-bar i { display: block; height: 100%; background: #ffc800; border-radius: inherit; }
+.quest-bar em { position: absolute; inset: 0; text-align: center; font-size: 11px; font-style: normal; font-weight: 900; color: #a07d00; line-height: 14px; }
+
+.light-page .ui-input, .light-page .ui-select, .light-page .ui-textarea { background: #f7f7f7; border: 2px solid #e5e5e5; color: #3c3c3c; }
+.light-page .ui-tabs { background: #fff; border: 2px solid #e5e5e5; }
+.light-page .ui-tabs button.is-on { background: #ddf4ff; color: #1899d6; }
+.light-page .ui-option { background: #fff; border: 2px solid #e5e5e5; color: #4b4b4b; }

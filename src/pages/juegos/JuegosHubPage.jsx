@@ -45,7 +45,7 @@ import {
 import * as React from "react";
 import { Link, useNavigate } from "react-router";
 import { SectionHero } from "../../components/ui/SectionHero.jsx";
-import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
+import { LightShell } from "../../components/layout/LightShell.jsx";
 import { useLanguage } from "../../lib/i18n.jsx";
 const i = [
   {
@@ -955,7 +955,7 @@ function JuegosHubPage() {
   const list = i.filter((g) => cat.test(g) && (!q || normalize(searchText(g)).includes(q)));
 
   return (
-    <StarfieldBackground>
+    <LightShell>
       <div className="ui-page">
         <SectionHero
           icon={Gamepad2Icon}
@@ -1043,7 +1043,7 @@ function JuegosHubPage() {
           )}
         </section>
       </div>
-    </StarfieldBackground>
+    </LightShell>
   );
 }
 export { JuegosHubPage as default };

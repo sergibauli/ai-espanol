@@ -20,6 +20,7 @@ const OficialPage = React.lazy(() => import("./pages/dele/OficialPage.jsx"));
 const OficialNivelPage = React.lazy(() => import("./pages/dele/OficialNivelPage.jsx"));
 const OficialExamPage = React.lazy(() => import("./pages/dele/OficialExamPage.jsx"));
 const ModulosPage = React.lazy(() => import("./pages/ModulosPage.jsx"));
+const UnidadesPage = React.lazy(() => import("./pages/UnidadesPage.jsx"));
 const PronunciacionPage = React.lazy(() => import("./pages/PronunciacionPage.jsx"));
 const JuegosHubPage = React.lazy(() => import("./pages/juegos/JuegosHubPage.jsx"));
 const RuletaPage = React.lazy(() => import("./pages/juegos/RuletaPage.jsx"));
@@ -334,7 +335,7 @@ function AppRoutes() {
             path="/modulos"
             element={
               <RequireAuth>
-                <ModulosPage />
+                <UnidadesPage />
               </RequireAuth>
             }
           />

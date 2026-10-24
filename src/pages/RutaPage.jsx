@@ -166,6 +166,24 @@ export default function RutaPage() {
             </div>
           </div>
           <div className="ui-card">
+            <div className="ui-h3" style={{ marginBottom: 6 }}>Desafíos del día · 每日挑战</div>
+            {dailyQuests(game).map((qq) => (
+              <div key={qq.es} className="quest">
+                <Emoji3D emoji={qq.emoji} size={40} />
+                <div style={{ flex: 1 }}>
+                  <b style={{ fontSize: 14 }}>{qq.es}</b>
+                  <div className="quest-bar">
+                    <i style={{ width: `${Math.min(100, (qq.have / qq.need) * 100)}%` }} />
+                    <em>
+                      {Math.min(qq.have, qq.need)} / {qq.need}
+                    </em>
+                  </div>
+                </div>
+                <Emoji3D emoji={qq.have >= qq.need ? "🏆" : "🎁"} size={30} />
+              </div>
+            ))}
+          </div>
+          <div className="ui-card">
             <div className="ui-between" style={{ marginBottom: 10 }}>
               <div className="ui-h3">Nivel {game.level}</div>
               <span className="ui-muted" style={{ fontSize: 13 }}>
@@ -291,4 +309,18 @@ function Onboarding({ onDone }) {
       </footer>
     </div>
   );
+}
+
+// Desafíos diarios calculados a partir de la actividad de hoy
+function dailyQuests(game) {
+  const today = new Date().toDateString();
+  const todayLessons = Object.entries(game.lessons).filter(([, v]) => new Date(v.at).toDateString() === today);
+  const stories = todayLessons.filter(([k]) => k.startsWith("story-")).length;
+  const perfect = todayLessons.filter(([k, v]) => !k.startsWith("story-") && v.score === 100).length;
+  return [
+    { emoji: "⚡", es: `Gana ${game.goal} XP · 获得${game.goal}经验`, have: game.dailyXp, need: game.goal },
+    { emoji: "🎯", es: "Completa 2 lecciones · 完成2课", have: todayLessons.length - stories, need: 2 },
+    { emoji: "💎", es: "Haz 1 lección perfecta · 1次满分", have: perfect, need: 1 },
+    { emoji: "📖", es: "Lee 1 historia · 读1个故事", have: stories, need: 1 },
+  ];
 }

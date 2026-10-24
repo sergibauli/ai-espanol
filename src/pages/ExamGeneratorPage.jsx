@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSearchParams, Link } from "react-router";
 import { SparklesIcon, Share2Icon, ClipboardCheckIcon, HistoryIcon, ShuffleIcon, Wand2Icon, CheckIcon } from "lucide-react";
-import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
+import { LightShell } from "../components/layout/LightShell.jsx";
 import { ExamRunner } from "../components/exam/ExamRunner.jsx";
 import { generateExam, SKILLS, encodeExamConfig, decodeExamConfig, loadExamHistory, saveExamResult } from "../lib/examGenerator.js";
 import { getModuleProgress } from "../lib/progress.js";
@@ -104,7 +104,7 @@ export default function ExamGeneratorPage() {
 
   if (exam) {
     return (
-      <StarfieldBackground>
+      <LightShell>
         <div className="ui-page">
           <div className="ui-between no-print" style={{ marginBottom: 18 }}>
             <div>
@@ -145,12 +145,12 @@ export default function ExamGeneratorPage() {
             }}
           />
         </div>
-      </StarfieldBackground>
+      </LightShell>
     );
   }
 
   return (
-    <StarfieldBackground>
+    <LightShell>
       <div className="ui-page">
         <div className="ui-card is-hero">
           <div className="ui-eyebrow">
@@ -316,6 +316,6 @@ export default function ExamGeneratorPage() {
           <Link to="/examenes" style={{ color: "var(--ui-accent)" }}>Exámenes de práctica</Link>
         </p>
       </div>
-    </StarfieldBackground>
+    </LightShell>
   );
 }

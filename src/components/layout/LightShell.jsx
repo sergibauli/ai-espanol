@@ -73,4 +73,4 @@ export function LightShell({ children }) {
   );
 }
 
-export const LIGHT_ROUTES = (p) => p === "/ruta" || p === "/dashboard" || /^\/modulos\/[^/]+/.test(p);
+export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador"].includes(p) || /^\/modulos\/[^/]+/.test(p);
