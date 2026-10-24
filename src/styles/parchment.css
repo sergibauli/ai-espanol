@@ -81,3 +81,31 @@
 /* Textos secundarios en tinta marrón (solo dentro del pergamino, no en menú ni cabeceras) */
 .light-page :is(.unit-page, .ruta-main, .tutor-chat) :is(.ui-muted, .ui-zh, .lp-zh) { color: #6b4a2b !important; }
 .light-page :is(.ui-card, .unit-lesson, .unidad-card, .unit-dialog, .dele-mode, .dele-level, .pron-word, .unit-ptype, .unit-game) small { color: #6b4a2b !important; }
+
+/* ===== Ajustes para igualar las maquetas ===== */
+/* Textura de papel con dibujos de mapa (montañas y ruta) */
+:root { --paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cg fill='none' stroke='%23b08850' stroke-opacity='.22' stroke-width='1.4'%3E%3Cpath d='M20 330 l40-60 30 40 35-70 40 80 30-40 45 50'/%3E%3Cpath d='M230 120 l30-45 25 30 30-55 35 65'/%3E%3Cpath d='M40 120 q60 40 120 10 t130 30 t110 -20' stroke-dasharray='6 7'/%3E%3Ccircle cx='330' cy='300' r='26'/%3E%3Cpath d='M318 300 h24 M330 288 v24'/%3E%3C/g%3E%3C/svg%3E"); }
+.unit-page, .ruta-main, .tutor-chat, .light-legacy main > * { background-image: var(--paper), radial-gradient(ellipse at center, transparent 55%, rgba(139,94,52,.18)), linear-gradient(145deg, #f6e7c8 0%, #ead2a2 100%) !important; }
+/* Cabeceras de sección como pergamino rasgado con sello rojo (SectionHero) */
+.light-page .ui-card.is-hero { background: var(--paper), linear-gradient(145deg, #fbf1dc, #efd9ad) !important; border: 2px solid #d4a64a !important; clip-path: polygon(0 2%, 3% 0, 20% 1.5%, 40% 0, 60% 2%, 80% 0, 97% 1.5%, 100% 4%, 99% 30%, 100% 60%, 99% 96%, 96% 100%, 70% 98.5%, 45% 100%, 20% 98.5%, 2% 100%, 0 96%, 1% 60%, 0 30%); box-shadow: none !important; }
+.light-page .ui-card.is-hero .ui-h1 { color: #3b2416; }
+.light-page .ui-card.is-hero .ui-h1::after { content: "学"; display: inline-block; margin-left: 12px; font-size: .5em; vertical-align: middle; color: #fff6dc; background: #c8102e; border: 2px solid #f2c14e; border-radius: 6px; padding: 2px 6px; transform: rotate(-6deg); }
+/* Ruta: rollo de papiro con cilindro a la izquierda y marco rojo de grecas */
+.ruta-main { border: 0 !important; outline: 3px double #b3122e; outline-offset: -10px; }
+.ruta-main::before { content: ""; position: absolute; left: -16px; top: -6px; bottom: -6px; width: 30px; border-radius: 16px; background: linear-gradient(90deg, #a8742f, #f1d39a 40%, #fff3d6 55%, #c8964a 80%, #8a5a22); box-shadow: 0 6px 16px rgba(0,0,0,.35); z-index: 3; }
+.ruta-main::after { content: ""; position: absolute; inset: 6px; pointer-events: none; border: 2px solid #c8102e; border-radius: 12px; -webkit-mask: linear-gradient(#000 0 0) top/100% 26px no-repeat, linear-gradient(#000 0 0) bottom/100% 26px no-repeat; mask: linear-gradient(#000 0 0) top/100% 26px no-repeat, linear-gradient(#000 0 0) bottom/100% 26px no-repeat; }
+.ruta-path::before { border-left-color: rgba(139,94,52,.4) !important; }
+/* Lecciones dentro de la app, sobre pergamino (el menú rojo sigue visible) */
+@media (min-width: 1001px) { .lp-root { left: 250px; } .lp-foot { left: 250px !important; } }
+.lp-root { background: var(--paper), radial-gradient(ellipse at center, transparent 55%, rgba(139,94,52,.22)), linear-gradient(145deg, #f6e7c8, #ead2a2) !important; color: #3b2416; }
+.lp-root .lp-bar { background: rgba(139,94,52,.18); }
+.lp-root .lp-option, .lp-root .lp-tile, .lp-root .lp-pic, .lp-root .lp-char-bubble, .lp-root .story-bubble { background: #fbf1dc !important; border-color: #d9b97a !important; color: #3b2416 !important; box-shadow: 0 0 0 1px #f2d38a inset; }
+.lp-root .lp-option.picked, .lp-root .lp-pic.picked { background: #fff3c9 !important; border-color: #c8961e !important; }
+.lp-root .lp-option.right, .lp-root .lp-pic.right { background: #e3f6c9 !important; border-color: #58cc02 !important; color: #3d7d00 !important; }
+.lp-root .lp-option.wrong, .lp-root .lp-pic.wrong { background: #ffe0dc !important; border-color: #c8102e !important; color: #a00d24 !important; }
+.lp-root .lp-title { color: #3b2416; }
+.lp-root .lp-foot { background: rgba(246,231,200,.96) !important; border-top: 2px solid #d4a64a !important; }
+.lp-root .lp-btn:not(:disabled):not(.bad):not(.ghost) { --c: #c8102e; --d: #8f0c21; box-shadow: 0 5px 0 var(--d), 0 0 0 2px #f2c14e; }
+/* Juegos: tablero de pergamino con brillo dorado */
+.game-bg .app-stage, .light-legacy.has-stage .app-stage { background: transparent !important; }
+.game-bg [style*="background: rgb(251, 241, 220)"] { box-shadow: 0 0 0 2px #e7c873, 0 0 28px rgba(242,193,78,.45) !important; }
