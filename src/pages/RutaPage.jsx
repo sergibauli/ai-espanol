@@ -100,7 +100,7 @@ export default function RutaPage() {
               </div>
               <div className="ruta-path" style={{ position: "relative" }}>
                 <span className="ruta-mascot" style={{ [idx % 2 ? "left" : "right"]: "6%" }}>
-                  <Emoji3D emoji={["🐵", "👩‍🦰", "👨", "🧔", "👧", "👵"][idx % 6]} size={110} float />
+                  {idx % 6 === 0 ? <img src="./mono-face.png" alt="" className="mono-big e3d-float" style={{ width: 120, height: 120 }} /> : <Emoji3D emoji={["🐵", "👩‍🦰", "👨", "🧔", "👧", "👵"][idx % 6]} size={110} float />}
                 </span>
                 {LESSON_META.map((meta, i) => {
                   const isDone = done(m.numero, i);
@@ -278,7 +278,7 @@ function Onboarding({ onDone }) {
       </header>
       <main className="onb-main">
         <div className="onb-q">
-          <Emoji3D emoji="🐵" size={110} float />
+          <img src="./mono-face.png" alt="" className="mono-big e3d-float" style={{ width: 120, height: 120 }} />
           <div className="lp-char-bubble" style={{ fontSize: 20 }}>
             <span>
               {questions[step][0]}

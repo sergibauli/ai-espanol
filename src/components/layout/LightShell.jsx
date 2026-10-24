@@ -30,14 +30,14 @@ export function LightShell({ children, legacy = false }) {
     <div className={`light-page ${legacy ? "light-legacy" : ""}`}>
       <div className="light-top">
         <Link to="/ruta" className="side-brand" style={{ padding: 0, fontSize: 20 }}>
-          <Emoji3D emoji="🐵" size={34} /> AI Español
+          <img src="./mono-face.png" alt="" className="mono-logo" style={{ width: 34, height: 34 }} /> AI Español
         </Link>
         <GameStats compact />
       </div>
       <div className="light-shell">
         <nav className="side-nav" aria-label="Navegación principal">
           <Link to="/ruta" className="side-brand">
-            <Emoji3D emoji="🐵" size={44} float /> AI Español
+            <img src="./mono-face.png" alt="" className="mono-logo e3d-float" /> AI Español
           </Link>
           {MAIN.map((m) => (
             <Link key={m.to} to={m.to} className={`side-link ${active(m.to) ? "on" : ""}`}>
@@ -54,7 +54,7 @@ export function LightShell({ children, legacy = false }) {
                 {label}
               </Link>
             ))}
-            <a href="#/login" onClick={(e) => (e.preventDefault(), logout())}>
+            <a href="#/" onClick={(e) => (e.preventDefault(), logout())}>
               Salir · 退出
             </a>
           </div>

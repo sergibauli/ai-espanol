@@ -15,7 +15,7 @@ if (!ev) {
     <ErrorBoundary>
       <ClerkProvider
         publishableKey={CLERK_PUBLISHABLE_KEY}
-        afterSignOutUrl={`${location.origin + location.pathname}#/login`}
+        afterSignOutUrl={`${location.origin + location.pathname}#/`}
         signInForceRedirectUrl={`${location.origin + location.pathname}#/dashboard`}
         signUpForceRedirectUrl={`${location.origin + location.pathname}#/dashboard`}
         signInFallbackRedirectUrl={`${location.origin + location.pathname}#/dashboard`}

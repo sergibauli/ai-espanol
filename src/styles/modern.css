@@ -666,3 +666,27 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 .light-legacy .fx-title { -webkit-text-fill-color: currentColor; color: #3c3c3c; filter: none; }
 .light-legacy input, .light-legacy textarea, .light-legacy select { color: #3c3c3c !important; }
 .light-legacy [class*="rounded"][style*="linear-gradient"] .text-white, .light-legacy button[style*="linear-gradient"], .light-legacy button[style*="linear-gradient"] * { color: #fff !important; }
+
+/* ====================== Portada / logo del Rey Mono ====================== */
+.mono-logo { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 3px solid #ffc800; box-shadow: 0 4px 0 #e0a800; flex-shrink: 0; }
+.mono-big { border-radius: 50%; object-fit: cover; border: 5px solid #ffc800; box-shadow: 0 8px 0 #e0a800, 0 18px 40px rgba(0,0,0,.15); }
+.welcome { min-height: 100vh; background: #fff; color: #3c3c3c; font-family: var(--ui-font); display: flex; flex-direction: column; }
+.welcome-top { display: flex; justify-content: space-between; align-items: center; padding: 18px max(20px, calc(50% - 540px)); border-bottom: 2px solid #f0f0f0; }
+.welcome-lang { color: #afafaf; font-weight: 800; font-size: 14px; }
+.welcome-main { flex: 1; display: flex; align-items: center; justify-content: center; gap: clamp(30px, 6vw, 90px); padding: 40px 20px; flex-wrap: wrap; }
+.welcome-art { position: relative; width: min(380px, 80vw); aspect-ratio: 1; }
+.welcome-art video { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 8px solid #ffc800; box-shadow: 0 12px 0 #e0a800, 0 30px 60px rgba(0,0,0,.18); }
+.welcome-float { position: absolute; }
+.welcome-float.f1 { left: -24px; top: 12%; } .welcome-float.f2 { right: -20px; top: 4%; } .welcome-float.f3 { right: 0; bottom: 6%; }
+.welcome-text { max-width: 440px; display: flex; flex-direction: column; gap: 14px; text-align: center; }
+.welcome-text h1 { font-family: var(--ui-display); font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 0; color: #4b4b4b; }
+.welcome-text h1 span { color: #58cc02; }
+.welcome-text p { color: #777; line-height: 1.6; margin: 0 0 10px; }
+.welcome-btn { width: 100%; flex: none; }
+.welcome-admin { color: #afafaf; font-size: 12px; text-decoration: none; margin-top: 4px; }
+.welcome-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 26px max(20px, calc(50% - 540px)) 40px; border-top: 2px solid #f0f0f0; }
+.welcome-strip div { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.welcome-strip small { color: #777; }
+@media (max-width: 700px) { .welcome-strip { grid-template-columns: 1fr 1fr; } .welcome-main { padding-top: 24px; } }
+
+@media (max-width: 520px) { .welcome-btn { font-size: 14px; padding: 0 12px; } }

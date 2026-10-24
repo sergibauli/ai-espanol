@@ -84,6 +84,7 @@ const TicTacToePage = React.lazy(() => import("./pages/juegos/TicTacToePage.jsx"
 const UnoPage = React.lazy(() => import("./pages/juegos/UnoPage.jsx"));
 const ExamGeneratorPage = React.lazy(() => import("./pages/ExamGeneratorPage.jsx"));
 const RutaPage = React.lazy(() => import("./pages/RutaPage.jsx"));
+const WelcomePage = React.lazy(() => import("./pages/WelcomePage.jsx"));
 const UnitPage = React.lazy(() => import("./pages/UnitPage.jsx"));
 function PageLoader() {
   return (
@@ -111,7 +112,7 @@ function RequireAuth({ children }) {
   if (isAuthenticated) {
     return <>{children}</>;
   }
-  return <Navigate to="/login" replace />;
+  return <Navigate to="/" replace />;
 }
 function PageTransition({ children }) {
   const tRef = React.useRef(null);
@@ -256,7 +257,7 @@ function AppRoutes() {
   }, []);
   const legacyLight = isAuthenticated && LEGACY_LIGHT(pathname);
   const light = LIGHT_ROUTES(pathname) || legacyLight;
-  const u = pathname === "/login" || pathname === "/sign-in" || pathname.startsWith("/juegos") || light;
+  const u = pathname === "/login" || pathname === "/" || pathname === "/sign-in" || pathname.startsWith("/juegos") || light;
   return (
     <>
       <CursorTrail />
@@ -915,7 +916,7 @@ function AppRoutes() {
               </RequireAuth>
             }
           />
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<WelcomePage />} />
         </Routes>
       </React.Suspense>
         );

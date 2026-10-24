@@ -104,7 +104,7 @@ function AuthProvider({ children }) {
     if (window_Clerk?.signOut) {
       window_Clerk.signOut().catch(() => {});
     }
-    window.location.href = `${location.pathname}#/login`;
+    window.location.href = `${location.pathname}#/`;
   }, []);
   return (
     <AuthContext.Provider
