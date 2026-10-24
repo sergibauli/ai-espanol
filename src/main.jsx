@@ -1,4 +1,5 @@
 import { ClerkProvider } from "@clerk/clerk-react";
+import { esES } from "@clerk/localizations";
 import * as ReactDOM from "react-dom/client";
 import { ErrorBoundary, App } from "./App.jsx";
 import "./styles/app.css";
@@ -15,6 +16,7 @@ if (!ev) {
     <ErrorBoundary>
       <ClerkProvider
         publishableKey={CLERK_PUBLISHABLE_KEY}
+        localization={esES}
         afterSignOutUrl={`${location.origin + location.pathname}#/`}
         signInForceRedirectUrl={`${location.origin + location.pathname}#/dashboard`}
         signUpForceRedirectUrl={`${location.origin + location.pathname}#/dashboard`}

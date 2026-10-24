@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "5.61.9",
+    "@clerk/localizations": "^3.37.10",
     "lucide-react": "0.577.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
