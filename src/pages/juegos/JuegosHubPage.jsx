@@ -896,6 +896,7 @@ function GameIcon({ game, size = 52 }) {
   const Icon = game.icon;
   return (
     <span
+      className="fx-game-icon"
       style={{
         width: size,
         height: size,
@@ -913,9 +914,14 @@ function GameIcon({ game, size = 52 }) {
   );
 }
 
-function GameCard({ game }) {
+function GameCard({ game, index = 0 }) {
   return (
-    <Link to={game.path} onClick={() => rememberGame(game.id)} className="ui-card is-link" style={{ display: "flex", flexDirection: "column", gap: 12, padding: 16 }}>
+    <Link
+      to={game.path}
+      onClick={() => rememberGame(game.id)}
+      className="ui-card is-link fx-game"
+      style={{ display: "flex", flexDirection: "column", gap: 12, padding: 16, ["--fx-game-glow"]: game.glow, animationDelay: `${Math.min(index, 12) * 45}ms` }}
+    >
       <div className="ui-row" style={{ flexWrap: "nowrap", gap: 12 }}>
         <GameIcon game={game} />
         <div style={{ minWidth: 0 }}>
@@ -935,7 +941,7 @@ function GameCard({ game }) {
             </span>
           ))}
         </div>
-        <span style={{ color: game.color, fontWeight: 900, fontSize: 13 }}>Jugar →</span>
+        <span className="fx-play" style={{ color: game.color, fontWeight: 900, fontSize: 13 }}>Jugar</span>
       </div>
     </Link>
   );
@@ -972,7 +978,7 @@ function JuegosHubPage() {
           ]}
           actions={
             <button
-              className="ui-btn primary"
+              className="ui-btn primary fx-shiny"
               onClick={() => {
                 const g = i[Math.floor(Math.random() * i.length)];
                 rememberGame(g.id);
@@ -988,13 +994,13 @@ function JuegosHubPage() {
           <Link
             to={featured.path}
             onClick={() => rememberGame(featured.id)}
-            className="ui-card is-link"
+            className="ui-card is-link fx-featured"
             style={{ display: "flex", gap: 18, alignItems: "center", background: `radial-gradient(120% 140% at 0% 0%, ${featured.color}33, transparent 60%), var(--ui-surface)` }}
           >
             <GameIcon game={featured} size={78} />
             <div style={{ minWidth: 0 }}>
               <div className="ui-eyebrow" style={{ color: featured.color }}>
-                <SparklesIcon size={13} /> Juego del día · 今日推荐
+                <SparklesIcon size={13} className="fx-sparkle" /> Juego del día · 今日推荐
               </div>
               <div className="ui-h2" style={{ marginTop: 6 }}>{featured.name}</div>
               <div className="ui-zh">{featured.nameCn}</div>
@@ -1034,8 +1040,8 @@ function JuegosHubPage() {
           </div>
           {list.length ? (
             <div className="ui-grid auto" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))" }}>
-              {list.map((g) => (
-                <GameCard key={g.id} game={g} />
+              {list.map((g, idx) => (
+                <GameCard key={g.id} game={g} index={idx} />
               ))}
             </div>
           ) : (

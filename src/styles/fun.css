@@ -1,0 +1,184 @@
+/* AI Español · capa "fun" — animaciones y gamificación para Inicio y Juegos.
+   Tema claro estilo app. Se aplica con clases fx-*: no rompe nada si un elemento no las lleva.
+   Las animaciones fuertes solo se disparan al interactuar (hover/toque), no de forma constante. */
+
+/* ===== Animaciones base ===== */
+@keyframes fx-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes fx-wiggle {
+  0%, 100% { transform: rotate(-5deg) scale(1); }
+  50% { transform: rotate(5deg) scale(1.08); }
+}
+@keyframes fx-pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 150, 0, 0.35)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 12px rgba(255, 150, 0, 0.55)); transform: scale(1.06); }
+}
+@keyframes fx-shine {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(320%); }
+}
+@keyframes fx-stripes {
+  from { background-position: 0 0; }
+  to { background-position: 28px 0; }
+}
+@keyframes fx-pop-in {
+  from { opacity: 0; transform: scale(0.85) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes fx-gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes fx-sparkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.95); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* ===== Hero del Inicio ===== */
+.fx-hero { position: relative; overflow: hidden; }
+/* borde degradado sutil en reposo, animado solo al pasar el ratón */
+.fx-hero::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(120deg, #58cc02, #1cb0f6, #ff9600, #ffc800, #ce82ff);
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.4;
+}
+.fx-hero:hover::before { animation: fx-gradient-move 6s linear infinite; opacity: 0.7; }
+.fx-hero::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  width: 60px;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.fx-hero:hover::after { opacity: 1; animation: fx-shine 1.2s ease-in-out; }
+
+/* emojis flotantes decorativos */
+.fx-floaters { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.fx-floaters span {
+  position: absolute;
+  font-size: 26px;
+  opacity: 0.35;
+  animation: fx-float 8s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+}
+.fx-floaters span:nth-child(1) { top: 12%; right: 6%; animation-delay: 0s; }
+.fx-floaters span:nth-child(2) { top: 58%; right: 2%; font-size: 20px; animation-delay: 1.4s; }
+.fx-floaters span:nth-child(3) { bottom: 8%; left: 42%; font-size: 22px; animation-delay: 2.6s; }
+.fx-floaters span:nth-child(4) { top: 6%; left: 36%; font-size: 18px; animation-delay: 3.4s; }
+.fx-hero > *:not(.fx-floaters) { position: relative; z-index: 1; }
+
+/* racha: llama que late suave */
+.fx-flame { animation: fx-pulse-glow 2.2s ease-in-out infinite; display: inline-flex; }
+
+/* puntos de la semana: pop al aparecer */
+.fx-week-dot { animation: fx-pop-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
+.fx-week-dot.is-active { box-shadow: 0 0 0 3px rgba(255, 150, 0, 0.35); }
+
+/* ===== Tarjetas de nivel (A1–B2) ===== */
+.fx-level {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #e5e5e5;
+  border-bottom-width: 4px;
+  border-bottom-color: #d8d8d8;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.fx-level:hover { transform: translateY(-3px); border-color: #58cc02; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08); }
+.fx-level .ui-progress { height: 10px; border-radius: 999px; background: #e5e5e5; overflow: hidden; }
+.fx-level .ui-progress i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.35) 25%, transparent 25%,
+    transparent 50%, rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.35) 75%, transparent 75%
+  );
+  background-size: 28px 28px;
+  animation: fx-stripes 1.8s linear infinite;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fx-level.is-done::after { content: "🏆"; position: absolute; top: 10px; right: 12px; font-size: 20px; }
+.fx-level.is-done:hover::after { animation: fx-wiggle 0.5s ease-in-out; }
+
+/* ===== Tarjetas de herramientas ===== */
+.fx-tool {
+  border: 2px solid #e5e5e5;
+  border-bottom-width: 4px;
+  border-bottom-color: #d8d8d8;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.fx-tool .ui-icon { transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.fx-tool:hover { transform: translateY(-4px); border-color: #1cb0f6; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08); }
+.fx-tool:hover .ui-icon { transform: rotate(-8deg) scale(1.2); }
+
+/* ===== Botón principal: brillo que pasa solo al hover ===== */
+.ui-btn.primary.fx-shiny { position: relative; overflow: hidden; background-size: 200% 200%; transition: transform 0.2s ease, box-shadow 0.25s ease; }
+.ui-btn.primary.fx-shiny:hover { animation: fx-gradient-move 4s ease infinite; transform: translateY(-1px); }
+.ui-btn.primary.fx-shiny::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  bottom: -50%;
+  width: 40px;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  opacity: 0;
+}
+.ui-btn.primary.fx-shiny:hover::after { opacity: 1; animation: fx-shine 1.2s ease-in-out; }
+
+/* ===== Juegos ===== */
+.fx-game-icon { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.fx-game:hover .fx-game-icon { animation: fx-wiggle 0.6s ease-in-out; }
+.fx-game {
+  position: relative;
+  border: 2px solid #e5e5e5;
+  border-bottom-width: 4px;
+  border-bottom-color: #d8d8d8;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  animation: fx-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+.fx-game:hover {
+  transform: translateY(-3px);
+  border-color: var(--fx-game-glow, #84d8ff);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+/* "Jugar →" con flecha que se desliza */
+.fx-play { display: inline-flex; align-items: center; gap: 4px; }
+.fx-play::after { content: "→"; transition: transform 0.25s ease; }
+.fx-game:hover .fx-play::after { transform: translateX(5px); }
+/* juego del día: destello solo al hover */
+.fx-featured { position: relative; overflow: hidden; }
+.fx-featured::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  width: 70px;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.fx-featured:hover::after { opacity: 1; animation: fx-shine 1.5s ease-in-out; }
+.fx-sparkle { animation: fx-sparkle 3.5s ease-in-out infinite; }
+
+/* ===== Accesibilidad: menos movimiento (solo afecta a la capa fx-*) ===== */
+@media (prefers-reduced-motion: reduce) {
+  [class*="fx-"], [class*="fx-"]::before, [class*="fx-"]::after { animation: none !important; transition: none !important; }
+  .fx-game:hover, .fx-tool:hover, .fx-level:hover, .ui-btn.primary.fx-shiny:hover, .fx-tool:hover .ui-icon { transform: none !important; }
+}

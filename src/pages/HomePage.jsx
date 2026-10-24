@@ -85,7 +85,13 @@ export default function HomePage() {
   return (
     <StarfieldBackground>
       <div className="ui-page">
-        <section className="ui-card is-hero" style={{ padding: "clamp(22px, 4vw, 36px)" }}>
+        <section className="ui-card is-hero fx-hero" style={{ padding: "clamp(22px, 4vw, 36px)" }}>
+          <div className="fx-floaters" aria-hidden="true">
+            <span>🇪🇸</span>
+            <span>🎉</span>
+            <span>💬</span>
+            <span>⭐</span>
+          </div>
           <div className="ui-grid cols-2" style={{ alignItems: "center" }}>
             <div>
               <div className="ui-eyebrow">
@@ -98,7 +104,7 @@ export default function HomePage() {
                 Tu nivel actual: <b>{currentLevel.key}</b> · {currentLevel.es} <span className="ui-zh">{currentLevel.zh}</span>
               </p>
               <div className="ui-row">
-                <Link className="ui-btn primary lg" to="/ruta">
+                <Link className="ui-btn primary lg fx-shiny" to="/ruta">
                   {nextMod.icono} {lastMod ? "Continuar mi ruta" : "Empezar mi ruta"} · 学习路线 <ArrowRightIcon size={18} />
                 </Link>
                 <Link className="ui-btn lg" to="/examenes/generador">
@@ -109,13 +115,15 @@ export default function HomePage() {
             <div className="ui-grid cols-2 keep" style={{ gap: 12 }}>
               <div className="ui-card" style={{ background: "rgba(0,0,0,0.2)" }}>
                 <div className="ui-row" style={{ gap: 8 }}>
-                  <FlameIcon size={22} style={{ color: "#ff7a1a" }} />
+                  <span className="fx-flame">
+                    <FlameIcon size={22} style={{ color: "#ff7a1a" }} />
+                  </span>
                   <b style={{ fontFamily: "var(--ui-display)", fontSize: 28 }}>{streak}</b>
                 </div>
                 <div className="ui-muted" style={{ fontSize: 12, fontWeight: 700, marginTop: 4 }}>días seguidos · 连续天数</div>
                 <div className="ui-row" style={{ gap: 4, marginTop: 10 }}>
                   {week.map((d, i) => (
-                    <span key={i} title={d.date.toLocaleDateString("es-ES")} style={{ width: 16, height: 16, borderRadius: 5, background: d.active ? "linear-gradient(135deg,#ff7a1a,#ff3d8b)" : "rgba(255,255,255,0.08)" }} />
+                    <span key={i} title={d.date.toLocaleDateString("es-ES")} className={`fx-week-dot${d.active ? " is-active" : ""}`} style={{ width: 16, height: 16, borderRadius: 5, background: d.active ? "linear-gradient(135deg,#ff7a1a,#ff3d8b)" : "rgba(255,255,255,0.08)", animationDelay: `${i * 60}ms` }} />
                   ))}
                 </div>
               </div>
@@ -148,7 +156,7 @@ export default function HomePage() {
           </div>
           <div className="ui-grid cols-4" style={{ marginTop: 14 }}>
             {levelStats.map((l) => (
-              <Link key={l.key} to="/modulos" className="ui-card is-link" style={{ borderTop: `3px solid ${l.color}` }}>
+              <Link key={l.key} to="/modulos" className={`ui-card is-link fx-level${l.pct >= 100 ? " is-done" : ""}`} style={{ borderTop: `3px solid ${l.color}` }}>
                 <div className="ui-between">
                   <b style={{ fontFamily: "var(--ui-display)", fontSize: 26, color: l.color }}>{l.key}</b>
                   <span className="ui-chip">
@@ -173,7 +181,7 @@ export default function HomePage() {
             {TOOLS.map((t) => {
               const Icon = t.icon;
               return (
-                <Link key={t.to} to={t.to} className="ui-card is-link" style={{ display: "flex", gap: 14, alignItems: "center", padding: 16 }}>
+                <Link key={t.to} to={t.to} className="ui-card is-link fx-tool" style={{ display: "flex", gap: 14, alignItems: "center", padding: 16 }}>
                   <span className="ui-icon" style={{ color: t.color, background: `${t.color}1c`, borderColor: `${t.color}44` }}>
                     <Icon size={20} />
                   </span>
