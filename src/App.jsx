@@ -38,7 +38,7 @@ const AyudasPage = React.lazy(() => import("./pages/AyudasPage.jsx"));
 const KaraokePage = React.lazy(() => import("./pages/KaraokePage.jsx"));
 const MemoriaPage = React.lazy(() => import("./pages/MemoriaPage.jsx"));
 const GeneradorPage = React.lazy(() => import("./pages/GeneradorPage.jsx"));
-const TutorVozPage = React.lazy(() => import("./pages/TutorVozPage.jsx"));
+const TutorVozPage = React.lazy(() => import("./pages/TutorIAPage.jsx"));
 const VideosPage = React.lazy(() => import("./pages/VideosPage.jsx"));
 const EnjambrePage = React.lazy(() => import("./pages/juegos/EnjambrePage.jsx"));
 const ClasePage = React.lazy(() => import("./pages/ClasePage.jsx"));
@@ -918,7 +918,7 @@ function AppRoutes() {
       })()}
       {!u && <Pizarra />}
       {!u && <FavoritesPanel />}
-      {isAuthenticated && !pathname.startsWith("/juegos") && (
+      {isAuthenticated && !pathname.startsWith("/juegos") && pathname !== "/tutor-voz" && pathname !== "/" && (
         <div className={pathname === "/dashboard" ? "dashboard-ai-mobile-hidden" : ""}>
           <TutorChat />
         </div>

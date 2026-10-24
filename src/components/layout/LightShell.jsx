@@ -11,6 +11,7 @@ const MAIN = [
   { to: "/examenes/generador", emoji: "📝", es: "Exámenes", zh: "考试" },
   { to: "/oficial", emoji: "🏆", es: "DELE", zh: "官方真题" },
   { to: "/juegos", emoji: "🎮", es: "Juegos", zh: "游戏" },
+  { to: "/tutor-voz", emoji: "🐵", es: "Tutor IA", zh: "AI导师" },
 ];
 const MORE = [
   ["/gramatica", "Gramática · 语法"],
@@ -19,7 +20,6 @@ const MORE = [
   ["/memoria", "Repaso · 记忆"],
   ["/examenes", "DELE práctica · DELE练习"],
   ["/videos", "Vídeos · 视频"],
-  ["/tutor-voz", "Tutor IA · AI导师"],
 ];
 
 export function LightShell({ children, legacy = false, stage = false }) {
@@ -73,10 +73,10 @@ export function LightShell({ children, legacy = false, stage = false }) {
   );
 }
 
-export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador", "/oficial"].includes(p) || /^\/modulos\/[^/]+/.test(p);
+export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz"].includes(p) || /^\/modulos\/[^/]+/.test(p);
 
 // Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
-export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|tutor-voz|examenes)(\/|$)/.test(p) && p !== "/examenes/generador";
+export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|examenes)(\/|$)/.test(p) && p !== "/examenes/generador";
 
 // Páginas inmersivas (DELE oficial, pronunciación, karaoke, juegos): marco de app con su contenido en una "pantalla"
 export const STAGE_ROUTES = (p) => /^\/(oficial\/|pronunciacion|diccionarios|examenes-nivel)/.test(p) || /^\/examenes\/[^/]+\/[^/]+/.test(p) || /^\/juegos\/.+/.test(p);
