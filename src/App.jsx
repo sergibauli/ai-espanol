@@ -16,7 +16,7 @@ const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
 const DashboardPage = React.lazy(() => import("./pages/RutaPage.jsx"));
 const ExamenesNivelPage = React.lazy(() => import("./pages/dele/ExamenesNivelPage.jsx"));
 const ExamDetailPage = React.lazy(() => import("./pages/dele/ExamDetailPage.jsx"));
-const OficialPage = React.lazy(() => import("./pages/dele/OficialPage.jsx"));
+const OficialPage = React.lazy(() => import("./pages/dele/OficialHubPage.jsx"));
 const OficialNivelPage = React.lazy(() => import("./pages/dele/OficialNivelPage.jsx"));
 const OficialExamPage = React.lazy(() => import("./pages/dele/OficialExamPage.jsx"));
 const ModulosPage = React.lazy(() => import("./pages/ModulosPage.jsx"));

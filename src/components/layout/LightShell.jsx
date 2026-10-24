@@ -73,10 +73,10 @@ export function LightShell({ children, legacy = false, stage = false }) {
   );
 }
 
-export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador"].includes(p) || /^\/modulos\/[^/]+/.test(p);
+export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador", "/oficial"].includes(p) || /^\/modulos\/[^/]+/.test(p);
 
 // Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
 export const LEGACY_LIGHT = (p) => /^\/(gramatica|diccionarios|memoria|videos|consejos|ayudas|generador|tutor-voz|examenes)(\/|$)/.test(p) && p !== "/examenes/generador";
 
 // Páginas inmersivas (DELE oficial, pronunciación, karaoke, juegos): marco de app con su contenido en una "pantalla"
-export const STAGE_ROUTES = (p) => /^\/(oficial|pronunciacion|karaoke|examenes-nivel)(\/|$)/.test(p) || /^\/examenes\/[^/]+\/[^/]+/.test(p) || /^\/juegos\/.+/.test(p);
+export const STAGE_ROUTES = (p) => /^\/(oficial\/|pronunciacion|karaoke|examenes-nivel)/.test(p) || /^\/examenes\/[^/]+\/[^/]+/.test(p) || /^\/juegos\/.+/.test(p);

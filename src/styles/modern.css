@@ -698,3 +698,15 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 @media (max-width: 1000px) {
   .app-stage { margin: 8px 8px 84px; border-radius: 22px; min-height: calc(100vh - 150px); }
 }
+.dele-levels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.dele-level { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 24px; border: 2px solid #e5e5e5; border-bottom-width: 6px; background: #fff; color: #3c3c3c; text-decoration: none; transition: transform .1s; }
+.dele-level:hover { border-color: var(--c); }
+.dele-level:active { transform: translateY(4px); border-bottom-width: 2px; }
+.dele-level-head { display: flex; gap: 14px; align-items: center; }
+.dele-level-head b { display: block; font-family: var(--ui-display); font-size: 34px; color: var(--c); line-height: 1; }
+.dele-level-head span { font-weight: 800; color: #777; }
+.dele-pruebas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dele-pruebas > div { display: flex; gap: 8px; align-items: center; font-weight: 700; font-size: 13px; }
+.dele-pruebas small { display: block; color: #777; font-weight: 600; font-size: 11px; }
+.dele-go { padding: 12px; text-align: center; font-size: 15px; }
+@media (max-width: 700px) { .dele-levels { grid-template-columns: 1fr; } }
