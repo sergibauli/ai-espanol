@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link, useParams } from "react-router";
-import { ArrowLeftIcon, Volume2Icon, ChevronDownIcon, PlayIcon, LockIcon, CheckIcon } from "lucide-react";
+import { ArrowLeftIcon, Volume2Icon, ChevronDownIcon, PlayIcon, CheckIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
@@ -90,6 +90,9 @@ function GuideCard({ t, index, color }) {
   );
 }
 
+// Piezas 3D recortadas de las maquetas (public/theme)
+const THEME = `${import.meta.env.BASE_URL}theme/`;
+
 export default function UnitPage() {
   const { moduloId } = useParams();
   const numero = Number(String(moduloId).replace(/\D/g, ""));
@@ -155,10 +158,13 @@ export default function UnitPage() {
               <PlayIcon size={20} fill="currentColor" /> {!mod ? "Cargando…" : nextIdx === -1 ? "Repasar · 复习" : `${nextIdx === 0 ? "Empezar" : "Continuar"} · ${LESSON_META[nextIdx].es}`}
             </button>
           </div>
-          <div className="unit-hero-art">
+          <div className="unit-hero-art jade-plinth">
             <Emoji3D emoji={meta.icono} size={150} float />
           </div>
         </section>
+        <span className="unit-stamp" aria-hidden="true">
+          第<span className="tcy">{numero}</span>单元
+        </span>
 
         <nav className="unit-jump" aria-label="Secciones">
           {[["lecciones", "🎯 Lecciones"], ["historia", "📖 Historia"], ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"], ["guia", "💡 Guía"]].map(([id, label]) => (
@@ -174,7 +180,10 @@ export default function UnitPage() {
             const open = i === 0 || done[i - 1] || done[i];
             return (
               <button key={l.key} className={`unit-lesson ${done[i] ? "done" : ""} ${open ? "" : "locked"} ${i === nextIdx ? "current" : ""}`} style={{ "--c": c1, "--d": c2 }} disabled={!mod} onClick={() => start(i)}>
-                <span className="unit-lesson-icon">{done[i] ? <CheckIcon size={26} strokeWidth={3.5} /> : open ? <Emoji3D emoji={i === 0 ? meta.icono : l.emoji} size={38} /> : <LockIcon size={22} />}</span>
+                <span className="unit-lesson-icon disc">
+                  <img src={`${THEME}${done[i] ? "lazo-oro" : open ? "disco-jade" : "disco-cerrado"}.png`} alt="" />
+                  {done[i] && <CheckIcon className="disc-check" size={16} strokeWidth={4} />}
+                </span>
                 <b>{l.es}</b>
                 <small>{l.zh}</small>
                 <em>{done[i] ? "Hecha ✓" : "+10 XP"}</em>

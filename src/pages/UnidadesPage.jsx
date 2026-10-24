@@ -20,13 +20,13 @@ export default function UnidadesPage() {
   const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   return (
     <LightShell>
-      <div className="unit-page" style={{ maxWidth: 1040 }}>
+      <div className="unit-page unidades-sheet" style={{ maxWidth: 1040 }}>
         <div className="ui-between" style={{ marginBottom: 6 }}>
           <div>
             <h1 className="unit-h2" style={{ fontSize: 30, margin: "6px 0" }}>Unidades · 单元</h1>
             <div className="ui-muted">{CATALOG.length} unidades de A1 a B2 · 5 lecciones + historia + examen en cada una</div>
           </div>
-          <input className="ui-input" style={{ maxWidth: 280, background: "#f7f7f7", borderColor: "#e5e5e5", color: "#3c3c3c" }} placeholder="Buscar · 搜索" value={q} onChange={(e) => setQ(e.target.value)} />
+          <input className="ui-input" style={{ maxWidth: 280 }} placeholder="Buscar unidad · 搜索" value={q} onChange={(e) => setQ(e.target.value)} />
         </div>
         {LEVELS.map(([lv, name, c, d]) => {
           const mods = CATALOG.filter((m) => m.nivel === lv && (!q || norm(m.titulo + m.tituloChino).includes(norm(q))));
@@ -42,9 +42,9 @@ export default function UnidadesPage() {
                   return (
                     <Link key={m.numero} to={`/modulos/modulo-${m.numero}`} className="unidad-card" style={{ "--c": c, "--d": d }}>
                       <span className="unidad-art">
-                        <Emoji3D emoji={m.icono} size={64} />
-                        {n === 5 && <span className="unidad-crown">👑</span>}
+                        <Emoji3D emoji={m.icono} size={60} />
                       </span>
+                      {n === 5 && <span className="unidad-done">Completada</span>}
                       <small>UNIDAD {m.numero}</small>
                       <b>{m.titulo.split(" - ")[0]}</b>
                       <span className="ui-muted" style={{ fontSize: 13 }}>{m.tituloChino.split(" - ")[0]}</span>

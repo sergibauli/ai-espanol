@@ -21,7 +21,7 @@ export default function OficialHubPage() {
   return (
     <LightShell>
       <div className="unit-page" style={{ maxWidth: 1000 }}>
-        <section className="imperial-hero">
+        <section className="imperial-hero dele-hero">
           <span className="imperial-cloud c1" />
           <span className="imperial-cloud c2" />
           <div className="imperial-hero-text">
@@ -35,9 +35,7 @@ export default function OficialHubPage() {
               </Link>
             </div>
           </div>
-          <div className="imperial-hero-art">
-            <Emoji3D emoji="🐉" size={130} float />
-          </div>
+          <img className="dele-dragon" src={`${import.meta.env.BASE_URL}theme/dragon.png`} alt="" />
         </section>
 
         <div className="dele-modes">
@@ -69,7 +67,9 @@ export default function OficialHubPage() {
           {LEVELS.map((l) => (
             <Link key={l.key} to={`/oficial/${l.key}`} className="dele-level" style={{ "--c": l.c, "--d": l.d }}>
               <div className="dele-level-head">
-                <Emoji3D emoji={l.emoji} size={70} float />
+                <span className="dele-medal">
+                  <Emoji3D emoji={l.emoji} size={40} />
+                </span>
                 <div>
                   <b>{l.key}</b>
                   <span>
