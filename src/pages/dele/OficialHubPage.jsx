@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Emoji3D } from "../../components/ui/Emoji3D.jsx";
 
-// Portada de los modelos oficiales DELE (estilo app). Duraciones de las pruebas según el Instituto Cervantes.
+// Portada de los modelos oficiales DELE (estilo app). Cada modelo muestra la duración real de sus pruebas.
 const LEVELS = [
   { key: "A1", name: "Acceso", zh: "入门级", emoji: "🌱", c: "#58cc02", d: "#46a302", t: [45, 20, 25, 15] },
   { key: "A2", name: "Plataforma", zh: "基础级", emoji: "🚀", c: "#1cb0f6", d: "#1899d6", t: [60, 35, 50, 15] },
@@ -57,9 +57,7 @@ export default function OficialHubPage() {
                     <Emoji3D emoji={e} size={30} />
                     <span>
                       {es}
-                      <small>
-                        {zh} · {l.t[i]} min
-                      </small>
+                      <small>{zh}</small>
                     </span>
                   </div>
                 ))}

@@ -793,3 +793,6 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
   .tutor-avatar { width: 150px; height: 150px; }
   .tutor-chat { height: 70vh; }
 }
+.light-legacy .fixed.inset-y-0, .light-legacy aside.fixed { background: #fff !important; }
+.light-legacy .app-stage { background: #fff; border-color: #e5e5e5; box-shadow: none; margin: 0; border-radius: 0; border: 0; }
+.light-legacy input::placeholder { color: #9aa4ab !important; }

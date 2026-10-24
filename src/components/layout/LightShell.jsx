@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router";
 import { Emoji3D } from "../ui/Emoji3D.jsx";
 import { GameStats } from "../ui/GameStats.jsx";
 import { useAppAuth } from "../../lib/auth.jsx";
+import { attachLightAdapter } from "./lightAdapter.js";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
 const MAIN = [
@@ -25,9 +26,12 @@ const MORE = [
 export function LightShell({ children, legacy = false, stage = false }) {
   const { pathname } = useLocation();
   const { logout } = useAppAuth();
+  const mainRef = React.useRef(null);
+  const adapt = legacy || pathname.startsWith("/pronunciacion");
+  React.useEffect(() => (adapt ? attachLightAdapter(mainRef.current) : undefined), [adapt, pathname]);
   const active = (to) => pathname === to || (to !== "/ruta" && pathname.startsWith(to)) || (to === "/ruta" && pathname === "/dashboard");
   return (
-    <div className={`light-page ${legacy ? "light-legacy" : ""} ${stage ? "has-stage" : ""}`}>
+    <div className={`light-page ${legacy || adapt ? "light-legacy" : ""} ${stage ? "has-stage" : ""}`}>
       <div className="light-top">
         <Link to="/ruta" className="side-brand" style={{ padding: 0, fontSize: 20 }}>
           <img src="./mono-face.png" alt="" className="mono-logo" style={{ width: 34, height: 34 }} /> AI Español
@@ -59,7 +63,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
             </a>
           </div>
         </nav>
-        <main style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
+        <main ref={mainRef} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
       </div>
       <nav className="bottom-nav" aria-label="Navegación móvil">
         {MAIN.map((m) => (
@@ -76,7 +80,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
 export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz"].includes(p) || /^\/modulos\/[^/]+/.test(p);
 
 // Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
-export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|examenes)(\/|$)/.test(p) && p !== "/examenes/generador";
+export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|examenes|examenes-nivel|oficial)(\/|$)/.test(p) && p !== "/oficial" && p !== "/examenes/generador";
 
 // Páginas inmersivas (DELE oficial, pronunciación, karaoke, juegos): marco de app con su contenido en una "pantalla"
-export const STAGE_ROUTES = (p) => /^\/(oficial\/|pronunciacion|diccionarios|examenes-nivel)/.test(p) || /^\/examenes\/[^/]+\/[^/]+/.test(p) || /^\/juegos\/.+/.test(p);
+export const STAGE_ROUTES = (p) => /^\/(diccionarios|pronunciacion)/.test(p) || /^\/juegos\/.+/.test(p);
