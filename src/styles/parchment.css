@@ -1,0 +1,83 @@
+/* ===== Tema "pergamino imperial" (según las maquetas de diseño): fondo azul noche con mapa y
+   destellos dorados, contenido sobre pergamino, marcos dorados y acentos rojo laca.
+   Base escrita por DeepSeek y revisada (clases activas y alcance de los textos secundarios). ===== */
+
+/* Fondo general azul noche con grano de mapa antiguo y destellos */
+.light-page {
+  position: relative;
+  isolation: isolate;
+  background-color: #0e1a33 !important;
+  background-image:
+    radial-gradient(circle at 18% 20%, rgba(242,193,78,0.12) 0 2px, transparent 3px),
+    radial-gradient(circle at 78% 30%, rgba(242,193,78,0.14) 0 3px, transparent 4px),
+    radial-gradient(circle at 40% 70%, rgba(242,193,78,0.10) 0 2px, transparent 3px),
+    radial-gradient(circle at 85% 65%, rgba(242,193,78,0.14) 0 3px, transparent 4px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+    radial-gradient(1200px 700px at 70% -10%, rgba(242,193,78,0.10), transparent 60%),
+    linear-gradient(160deg, #0e1a33 0%, #13264a 100%) !important;
+  background-attachment: fixed !important;
+}
+/* Destellos dorados que parpadean */
+.light-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(242,193,78,0.7) 0 2px, transparent 3px),
+    radial-gradient(circle at 83% 12%, rgba(242,193,78,0.55) 0 3px, transparent 4px),
+    radial-gradient(circle at 55% 80%, rgba(242,193,78,0.6) 0 2px, transparent 3px),
+    radial-gradient(circle at 30% 45%, rgba(242,193,78,0.45) 0 3px, transparent 4px),
+    radial-gradient(circle at 70% 55%, rgba(242,193,78,0.5) 0 2px, transparent 3px),
+    radial-gradient(circle at 92% 88%, rgba(242,193,78,0.55) 0 2px, transparent 3px);
+  animation: destellos 6s ease-in-out infinite;
+}
+@keyframes destellos { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.85; } }
+@media (prefers-reduced-motion: reduce) { .light-page::before { animation: none; opacity: 0.4; } }
+.light-shell, .light-top, .bottom-nav { position: relative; z-index: 1; }
+.bottom-nav { position: fixed; }
+
+/* Hojas de pergamino principales */
+.unit-page, .ruta-main, .tutor-chat {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(145deg, #f6e7c8 0%, #ead2a2 100%) !important;
+  border: 2px solid #d4a64a !important;
+  border-radius: 18px !important;
+  box-shadow: 0 0 25px rgba(242,193,78,0.25), inset 0 0 40px rgba(139,94,52,0.28) !important;
+  color: #3b2416;
+}
+.unit-page { margin: 16px auto !important; padding: 22px !important; }
+.light-legacy main > * { background: linear-gradient(145deg, #f6e7c8 0%, #ead2a2 100%); border-radius: 18px; margin: 16px; }
+@media (max-width: 700px) { .unit-page { margin: 8px !important; padding: 14px !important; } }
+
+/* Tarjetas internas: papel más claro */
+.light-page :is(.ui-card, .unit-lesson, .unidad-card, .unit-more-card, .unit-dialog, .unit-practice, .unit-game, .dict2-front, .dele-mode, .dele-level, .imperial-level, .pron-panel, .pron-word, .lp-option, .unit-guide, .unit-ptype, .pron-fam:not(.on), .imperial-seal:not(.on), .imperial-search, .unit-word .front, .unit-nav-btn) {
+  background: #fbf1dc !important;
+  border-color: #d9b97a !important;
+  border-bottom-color: #b8904a !important;
+  box-shadow: 0 2px 6px rgba(139,94,52,0.15) !important;
+  color: #3b2416;
+}
+.light-page :is(.ui-card, .unit-lesson, .unidad-card, .unit-more-card, .unit-dialog, .unit-game, .dele-mode, .dele-level, .imperial-level, .pron-word, .unit-ptype):hover { border-color: #c8961e !important; }
+.light-page .imperial-search input { color: #3b2416; }
+
+/* Títulos de sección con cinta roja→oro */
+.light-page .unit-h2 { color: #3b2416 !important; }
+.light-page .unit-h2::before { background: linear-gradient(180deg, #c8102e 0%, #f2c14e 100%) !important; }
+
+/* Cabeceras con marco y brillo dorado */
+.imperial-hero, .unit-hero { border: 3px solid #d4a64a !important; box-shadow: 0 0 30px rgba(242,193,78,0.35), 0 8px 0 #9c7426 !important; }
+
+/* Barra de saltos y chips de papel; activo en rojo laca */
+.light-page :is(.unit-jump, .ui-chip, .imperial-themes button, .pron-filter button, .unit-jump button) { background: #f6e7c8 !important; color: #3b2416 !important; border-color: #d4a64a !important; }
+.light-page :is(.ui-chip.is-on, .imperial-themes button.on, .pron-filter button.on) { background: #c8102e !important; color: #fff6dc !important; border-color: #8f0c21 !important; }
+
+/* Juegos: mismo fondo azul noche, tarjetas de papel */
+.game-bg { background: transparent !important; }
+.game-bg .ui-card { background: #fbf1dc !important; border-color: #d9b97a !important; }
+
+/* Textos secundarios en tinta marrón (solo dentro del pergamino, no en menú ni cabeceras) */
+.light-page :is(.unit-page, .ruta-main, .tutor-chat) :is(.ui-muted, .ui-zh, .lp-zh) { color: #6b4a2b !important; }
+.light-page :is(.ui-card, .unit-lesson, .unidad-card, .unit-dialog, .dele-mode, .dele-level, .pron-word, .unit-ptype, .unit-game) small { color: #6b4a2b !important; }
