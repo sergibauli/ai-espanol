@@ -261,7 +261,7 @@ function PeComponent({ ch, index, total }) {
   const m = index * 0.15;
   return (
     <div
-      className="w-16 h-20 flex items-center justify-center text-3xl font-black rounded-2xl relative"
+      className="gm-tile w-16 h-20 flex items-center justify-center text-3xl font-black rounded-2xl relative"
       style={{
         background:
           "linear-gradient(135deg, rgba(255,211,107,.2), rgba(255,211,107,.08), rgba(255,56,96,.06))",
@@ -888,7 +888,7 @@ function HeComponent() {
           </div>
         </div>
         <div
-          className="rounded-3xl p-8 relative overflow-hidden"
+          className="gm-scroll gm-scramble rounded-3xl p-8 relative overflow-hidden"
           style={{
             background: "linear-gradient(180deg,rgba(14,22,64,.6),rgba(5,8,27,.45))",
             border: "1px solid rgba(255,255,255,.12)",
@@ -989,7 +989,7 @@ function HeComponent() {
               onKeyDown={onKeyDown}
               disabled={l !== "playing"}
               placeholder="Escribe la palabra / 输入单词..."
-              className="w-full px-5 py-4 rounded-2xl text-center text-xl font-black tracking-widest uppercase transition-all outline-none"
+              className="gm-input w-full px-5 py-4 rounded-2xl text-center text-xl font-black tracking-widest uppercase transition-all outline-none"
               style={{
                 background:
                   l === "correct"

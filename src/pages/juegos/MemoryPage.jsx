@@ -461,7 +461,7 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
         }}
       >
         <div
-          className="absolute inset-0 flex items-center justify-center rounded-2xl"
+          className="gm-card-back absolute inset-0 flex items-center justify-center rounded-2xl"
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
@@ -542,7 +542,7 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
           />
         </div>
         <div
-          className="absolute inset-0 flex items-center justify-center rounded-2xl overflow-hidden"
+          className="gm-card-front absolute inset-0 flex items-center justify-center rounded-2xl overflow-hidden"
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
@@ -1425,7 +1425,7 @@ function PtComponent() {
         ))}
         <div className="flex justify-center">
           <div
-            className="grid gap-3 p-6 rounded-3xl relative"
+            className="gm-scroll gm-memory grid gap-3 p-6 rounded-3xl relative"
             style={{
               gridTemplateColumns: `repeat(${K.cols}, minmax(0, 1fr))`,
               maxWidth: `${K.cols * (l === "6x6" ? 85 : 110) + 60}px`,

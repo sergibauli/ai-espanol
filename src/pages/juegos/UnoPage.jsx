@@ -345,7 +345,7 @@ function Ge1Component({
   if (isHidden) {
     return (
       <div
-        className={`relative rounded-2xl cursor-pointer ${j} ${N}`}
+        className={`gm-uno-back relative rounded-2xl cursor-pointer ${j} ${N}`}
         style={{
           background: "linear-gradient(135deg, #1a1a2e, #0d0d1a)",
           border: "2px solid rgba(255,255,255,0.15)",
@@ -429,7 +429,7 @@ function Ge1Component({
   const ae = dealing ? "dealDrop 0.6s ease-out forwards" : "none";
   return (
     <div
-      className={`relative rounded-2xl cursor-pointer overflow-hidden ${j} ${N}`}
+      className={`gm-uno-card relative rounded-2xl cursor-pointer overflow-hidden ${j} ${N}`}
       style={{
         background,
         border: `3px solid ${I}`,
@@ -1597,6 +1597,7 @@ function HtComponent() {
             <ClockIcon size={10} /> {Fe[0] || "¡Comienza el juego!"}
           </div>
         </div>
+        <div className="gm-uno-table">
         <div className="flex flex-col items-center mb-4">
           <div className="flex items-center gap-2 mb-2">
             <BotIcon
@@ -1788,6 +1789,7 @@ function HtComponent() {
               );
             })}
           </div>
+        </div>
         </div>
         <div className="text-center mt-4">
           <p className="text-[10px] text-white/30 font-medium">

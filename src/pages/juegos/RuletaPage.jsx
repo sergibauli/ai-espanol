@@ -2001,7 +2001,7 @@ function YtComponent() {
   }
   return (
     <div
-      className="min-h-screen relative overflow-hidden"
+      className="gm-ruleta-root min-h-screen relative overflow-hidden"
       style={{
         background: "#030411",
         color: "#fff",
@@ -2152,6 +2152,7 @@ function YtComponent() {
             animation: "rlHeaderAppear2 1s ease-out",
           }}
         >
+          <div className="gm-ribbon-wrap">
           <h1
             className="font-black"
             style={{
@@ -2172,6 +2173,7 @@ function YtComponent() {
             />
             Ruleta de Palabras
           </h1>
+          </div>
           <p
             className="mt-2 font-medium tracking-wider"
             style={{
@@ -2391,7 +2393,7 @@ function YtComponent() {
             )}
           </div>
           <div
-            className="rounded-3xl p-7 relative overflow-hidden"
+            className="gm-panel rounded-3xl p-7 relative overflow-hidden"
             style={{
               background: "linear-gradient(180deg,rgba(14,22,64,.8),rgba(5,8,27,.65))",
               border: "1px solid rgba(255,255,255,.2)",
@@ -2429,7 +2431,7 @@ function YtComponent() {
             </div>
             {l && (
               <div
-                className="mb-4 p-4 rounded-2xl text-center relative overflow-hidden"
+                className="gm-word mb-4 p-4 rounded-2xl text-center relative overflow-hidden"
                 style={{
                   background: "linear-gradient(135deg, rgba(255,42,109,.2), rgba(188,19,254,.15))",
                   border: "2px solid rgba(255,42,109,.4)",
