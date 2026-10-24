@@ -109,3 +109,13 @@
 /* Juegos: tablero de pergamino con brillo dorado */
 .game-bg .app-stage, .light-legacy.has-stage .app-stage { background: transparent !important; }
 .game-bg [style*="background: rgb(251, 241, 220)"] { box-shadow: 0 0 0 2px #e7c873, 0 0 28px rgba(242,193,78,.45) !important; }
+
+/* ===== Texturas reales extraídas de las maquetas ===== */
+.light-page { background: linear-gradient(rgba(10,20,45,.25), rgba(10,20,45,.25)), url("../../public/theme/noche-tile.jpg") repeat center top / auto 100vh fixed, #0e1a33 !important; }
+.unit-page, .ruta-main, .tutor-chat, .light-legacy main > *, .light-page .ui-card.is-hero, .lp-root {
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(120,80,40,.28)), url("../../public/theme/papel.jpg") center / cover, #f2e3c2 !important;
+}
+.light-page :is(.ui-card:not(.is-hero), .unit-lesson, .unidad-card, .unit-more-card, .unit-dialog, .unit-practice, .unit-game, .dict2-front, .dele-mode, .dele-level, .imperial-level, .pron-panel, .pron-word, .unit-guide, .unit-ptype) {
+  background: linear-gradient(rgba(255,250,235,.55), rgba(255,250,235,.55)), url("../../public/theme/papel.jpg") center / 260% auto, #fbf1dc !important;
+  box-shadow: 0 0 0 1px #e9cf8e, 0 0 18px rgba(242,193,78,.35), 0 3px 0 #b8904a !important;
+}
