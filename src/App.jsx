@@ -24,6 +24,7 @@ const OficialExamPage = React.lazy(() => import("./pages/dele/OficialExamPage.js
 const ModulosPage = React.lazy(() => import("./pages/ModulosPage.jsx"));
 const UnidadesPage = React.lazy(() => import("./pages/UnidadesPage.jsx"));
 const PronunciacionPage = React.lazy(() => import("./pages/PronunciacionPage.jsx"));
+const PronunciacionNuevaPage = React.lazy(() => import("./pages/PronunciacionNuevaPage.jsx"));
 const JuegosHubPage = React.lazy(() => import("./pages/juegos/JuegosHubPage.jsx"));
 const RuletaPage = React.lazy(() => import("./pages/juegos/RuletaPage.jsx"));
 const AhorcadoPage = React.lazy(() => import("./pages/juegos/AhorcadoPage.jsx"));
@@ -380,6 +381,14 @@ function AppRoutes() {
           />
           <Route
             path="/pronunciacion"
+            element={
+              <RequireAuth>
+                <PronunciacionNuevaPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/pronunciacion/templo"
             element={
               <RequireAuth>
                 <PronunciacionPage />

@@ -964,3 +964,33 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 
 .imperial-seal.on small { color: var(--imp-gold); }
 @media (max-width: 700px) { .dict2-hint { display: none; } .imperial-hero p { display: none; } .imperial-hero h1 { font-size: 24px; } .dict2-front h3 { font-size: 19px; } }
+/* Pronunciación imperial */
+.pron-filter { display: flex; gap: 8px; margin: 18px 0; flex-wrap: wrap; }
+.pron-filter button { padding: 10px 16px; border-radius: 99px; border: 2px solid #e5e5e5; border-bottom-width: 4px; background: #fff; font-weight: 800; color: #4b4b4b; cursor: pointer; font-family: var(--ui-font); }
+.pron-filter button.on { background: var(--imp-red); border-color: var(--imp-red-d); color: #fff6dc; }
+.pron-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 18px; align-items: start; }
+.pron-families { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; position: sticky; top: 16px; }
+.pron-fam { position: relative; display: flex; flex-direction: column; align-items: center; padding: 12px 4px; border-radius: 16px; border: 2px solid #e5e5e5; border-bottom-width: 5px; background: #fff; cursor: pointer; font-family: var(--ui-font); color: #3c3c3c; }
+.pron-fam b { font-family: var(--ui-display); font-size: 22px; }
+.pron-fam small { font-size: 11px; color: #5f6b73; text-align: center; line-height: 1.2; }
+.pron-fam i { position: absolute; top: -8px; right: -6px; font-style: normal; font-size: 18px; }
+.pron-fam.hard { border-color: #ffd0d6; }
+.pron-fam.on { background: var(--imp-red); border-color: var(--imp-gold-d); color: #fff6dc; box-shadow: 0 0 0 3px var(--imp-gold); }
+.pron-fam.on small { color: var(--imp-gold); }
+.pron-panel { padding: 20px; border-radius: 24px; border: 3px solid var(--imp-gold); background: linear-gradient(180deg, #fffaf0, #fff); box-shadow: 0 6px 0 #ecd9a8; }
+.pron-badge { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 800; color: var(--imp-red); background: #fff1f1; border-radius: 99px; padding: 4px 12px; }
+.pron-tip { display: flex; gap: 12px; align-items: center; margin: 16px 0; padding: 14px 16px; border-radius: 16px; background: #fff6dc; border: 2px solid #f2d38a; }
+.pron-tip p { margin: 0; font-size: 16px; line-height: 1.5; color: #5a3b00; }
+.pron-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.pron-card { display: flex; flex-direction: column; gap: 6px; }
+.pron-syl { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 18px 6px; border-radius: 18px; border: 0; background: var(--imp-red); color: #fff6dc; font-family: var(--ui-display); font-size: 28px; cursor: pointer; box-shadow: 0 6px 0 var(--imp-red-d); }
+.pron-syl:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--imp-red-d); }
+.pron-card.heard .pron-syl { background: #58cc02; box-shadow: 0 6px 0 #46a302; }
+.pron-word { display: flex; flex-direction: column; align-items: center; padding: 8px 4px; border-radius: 14px; border: 2px solid #e5e5e5; background: #fff; cursor: pointer; font-family: var(--ui-font); color: #3c3c3c; }
+.pron-word small { color: #5f6b73; }
+.pron-all { width: 100%; margin-top: 16px; padding: 14px; font-size: 16px; }
+@media (max-width: 900px) {
+  .pron-layout { grid-template-columns: 1fr; }
+  .pron-families { position: static; grid-template-columns: repeat(4, 1fr); }
+  .pron-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
