@@ -7,7 +7,7 @@ import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { StoryPlayer, CAST } from "../components/lesson/StoryPlayer.jsx";
 import { speak } from "../components/lesson/fx.js";
 import { useGame } from "../lib/gamification.js";
-import { buildLesson, lessonId, LESSON_META } from "../lib/lessons.js";
+import { buildLesson, lessonId, LESSON_META, buildPractice, PRACTICE_TYPES, dialogToStory } from "../lib/lessons.js";
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import { markModuleVisited } from "../lib/progress.js";
 import CATALOG from "../data/modulos/catalog.json";
@@ -98,6 +98,8 @@ export default function UnitPage() {
   const [story, setStory] = React.useState(undefined);
   const [lesson, setLesson] = React.useState(null);
   const [playStory, setPlayStory] = React.useState(false);
+  const [dialog, setDialog] = React.useState(null);
+  const [types, setTypes] = React.useState(PRACTICE_TYPES.map((t) => t.key));
   const [extra, setExtra] = React.useState(() => new URLSearchParams(window.location.hash.split("?")[1] || "").get("tab"));
   const game = useGame();
   const [c1, c2] = LEVEL_COLORS[meta?.nivel] || LEVEL_COLORS.A1;
@@ -192,8 +194,54 @@ export default function UnitPage() {
           </>
         )}
 
+        {mod?.dialogos?.length > 0 && (
+          <>
+            <h2 className="unit-h2">Diálogos · 对话 <small>({mod.dialogos.length} conversaciones con voz)</small></h2>
+            <div className="unit-dialogs">
+              {mod.dialogos.map((d, i) => (
+                <button key={d.id || i} className="unit-dialog" onClick={() => setDialog(dialogToStory(d, numero, story?.escena))}>
+                  <span className="unit-dialog-faces">
+                    <Emoji3D emoji={["👩‍🦰", "🧔", "👧", "👨", "👵"][i % 5]} size={44} />
+                    <Emoji3D emoji={["👨", "👧", "👵", "👩‍🦰", "🧔"][i % 5]} size={44} />
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0, textAlign: "left" }}>
+                    <b>{d.titulo}</b>
+                    <small>
+                      {d.tituloChino} · {(d.lineas || []).length} frases
+                    </small>
+                  </span>
+                  <PlayIcon size={20} fill="currentColor" />
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
         {mod && (
           <>
+            <h2 className="unit-h2">Ejercicios · 练习 <small>(elige los tipos; cambian de orden en cada intento)</small></h2>
+            <div className="unit-practice">
+              <div className="unit-practice-types">
+                {PRACTICE_TYPES.filter((t) => (mod.ejercicios?.[t.key] || []).length).map((t) => {
+                  const on = types.includes(t.key);
+                  return (
+                    <button key={t.key} className={`unit-ptype ${on ? "on" : ""}`} style={{ "--c": c1 }} onClick={() => setTypes((ts) => (on ? ts.filter((x) => x !== t.key) : [...ts, t.key]))}>
+                      <Emoji3D emoji={t.emoji} size={30} />
+                      <span>
+                        {t.es}
+                        <small>
+                          {t.zh} · {(mod.ejercicios?.[t.key] || []).length}
+                        </small>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              <button className="btn3d unit-practice-go" style={{ "--c": c1, "--d": c2 }} disabled={!types.length} onClick={() => setLesson(buildPractice(mod, types))}>
+                💪 Practicar ahora · 开始练习
+              </button>
+            </div>
+
             <h2 className="unit-h2">Palabras · 词汇 <small>(toca para girar y escuchar)</small></h2>
             <div className="unit-words">
               {(mod.vocabulario || []).slice(0, 24).map((v) => (
@@ -251,6 +299,7 @@ export default function UnitPage() {
       </div>
       {lesson && <LessonPlayer lesson={lesson} onClose={() => setLesson(null)} />}
       {playStory && story && <StoryPlayer story={story} onClose={() => setPlayStory(false)} />}
+      {dialog && <StoryPlayer story={dialog} onClose={() => setDialog(null)} />}
     </LightShell>
   );
 }

@@ -736,3 +736,18 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 .onb-opts .lp-option { padding: 10px 14px; font-size: 16px; }
 .onb .lp-foot { position: static; }
 @media (max-width: 520px) { .onb-opts.grid2 { grid-template-columns: 1fr; } .onb-q .lp-char-bubble { font-size: 16px !important; } }
+.unit-dialogs { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.unit-dialog { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 20px; border: 2px solid #e5e5e5; border-bottom-width: 5px; background: #fff; color: #3c3c3c; cursor: pointer; font-family: var(--ui-font); }
+.unit-dialog:hover { border-color: #84d8ff; }
+.unit-dialog:active { transform: translateY(3px); border-bottom-width: 2px; }
+.unit-dialog b { display: block; font-size: 16px; }
+.unit-dialog small { color: #5f6b73; }
+.unit-dialog svg { color: #1cb0f6; }
+.unit-dialog-faces { display: flex; }
+.unit-dialog-faces > :last-child { margin-left: -14px; }
+.unit-practice { padding: 18px; border-radius: 24px; border: 2px solid #e5e5e5; background: #fff; }
+.unit-practice-types { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin-bottom: 16px; }
+.unit-ptype { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 16px; border: 2px solid #e5e5e5; border-bottom-width: 4px; background: #fff; color: #4b4b4b; font-weight: 800; font-size: 15px; cursor: pointer; text-align: left; font-family: var(--ui-font); opacity: .55; }
+.unit-ptype.on { opacity: 1; border-color: var(--c); background: color-mix(in srgb, var(--c) 10%, #fff); }
+.unit-ptype small { display: block; color: #5f6b73; font-weight: 600; font-size: 12px; }
+.unit-practice-go { width: 100%; padding: 15px; font-size: 17px; }

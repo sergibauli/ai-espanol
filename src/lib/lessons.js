@@ -163,3 +163,58 @@ export function buildLesson(mod, plus, index, seed = Date.now()) {
   if (steps.filter((s) => !["learn", "tip", "dialog"].includes(s.type)).length < 3) steps = [...steps, ...vocabSteps(mod, shuffle(vocab, rand).slice(0, 4), rand)];
   return { id: lessonId(mod.numero, index), modulo: mod.numero, index, ...LESSON_META[index], steps: steps.slice(0, 16) };
 }
+
+// Práctica libre con los ejercicios originales del módulo: tipos elegidos, orden aleatorio en cada intento
+export const PRACTICE_TYPES = [
+  { key: "seleccionar", es: "Elegir", zh: "选择", emoji: "🎯" },
+  { key: "verdaderoFalso", es: "Verdadero o falso", zh: "判断", emoji: "✅" },
+  { key: "completar", es: "Completar", zh: "填空", emoji: "✍️" },
+  { key: "ordenar", es: "Ordenar frases", zh: "排序", emoji: "🧩" },
+  { key: "traducir", es: "Traducir", zh: "翻译", emoji: "🗣️" },
+  { key: "emparejar", es: "Emparejar", zh: "配对", emoji: "🔗" },
+];
+
+export function buildPractice(mod, types, seed = Date.now()) {
+  const rand = rng(seed);
+  const ej = mod.ejercicios || {};
+  const steps = [];
+  const pick = (k) => types.includes(k);
+  if (pick("seleccionar"))
+    (ej.seleccionar || []).filter((q) => q.opciones?.includes(q.respuestaCorrecta)).forEach((q) =>
+      steps.push(choice(rand, q.respuestaCorrecta, q.opciones, { type: "choice", prompt: q.pregunta, promptZh: q.preguntaChino !== q.pregunta ? q.preguntaChino : "", explain: q.explicacion })),
+    );
+  if (pick("verdaderoFalso"))
+    (ej.verdaderoFalso || []).forEach((q) => steps.push({ type: "tf", prompt: q.pregunta, promptZh: q.preguntaChino !== q.pregunta ? q.preguntaChino : "", answer: !!q.respuestaCorrecta, explain: q.explicacion }));
+  if (pick("completar"))
+    (ej.completar || []).filter((c) => c.respuestaCorrecta).forEach((c) =>
+      steps.push({ type: "type", character: CHARS[Math.floor(rand() * CHARS.length)], prompt: c.pregunta, promptZh: c.preguntaChino !== c.pregunta ? c.preguntaChino : "", answer: c.respuestaCorrecta, hint: c.pista, explain: c.explicacion }),
+    );
+  if (pick("ordenar"))
+    (ej.ordenar || []).forEach((o) => {
+      const s = buildStep(rand, o.respuestaCorrecta, "Ordena la frase · 排列句子");
+      if (s) steps.push({ ...s, explain: o.explicacion });
+    });
+  if (pick("traducir"))
+    (ej.traducir || []).forEach((t) => {
+      const s = buildStep(rand, t.respuestaEsperada, t.fraseChino);
+      if (s) steps.push(s);
+    });
+  if (pick("emparejar"))
+    (ej.emparejar || []).forEach((e) => e.pares?.length >= 4 && steps.push({ type: "match", prompt: "Une las parejas · 连线配对", pairs: shuffle(e.pares, rand).slice(0, 5).map((p) => ({ a: p.izquierda, b: p.derecha })) }));
+  return { id: `m${mod.numero}-practice`, modulo: mod.numero, index: 9, es: "Práctica", zh: "练习", emoji: "💪", steps: shuffle(steps, rand).slice(0, 15) };
+}
+
+// Convierte un diálogo original del módulo en una historia con el reparto de la app
+export function dialogToStory(d, numero, escena = "💬") {
+  const people = [...new Set((d.lineas || []).map((l) => l.personaje))];
+  const cast = ["lucia", "liwei", "carlos", "mei", "carmen"];
+  const who = Object.fromEntries(people.map((p, i) => [p, cast[i % cast.length]]));
+  return {
+    modulo: `${numero}-${d.id}`,
+    titulo: d.titulo,
+    tituloZh: d.tituloChino,
+    escena,
+    lineas: (d.lineas || []).map((l, i) => ({ quien: who[l.personaje], emocion: i === 0 ? "feliz" : "neutral", es: l.texto, zh: l.traduccion })),
+    preguntas: [],
+  };
+}
