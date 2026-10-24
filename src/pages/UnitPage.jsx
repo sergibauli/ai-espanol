@@ -12,6 +12,7 @@ import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import { markModuleVisited } from "../lib/progress.js";
 import CATALOG from "../data/modulos/catalog.json";
 
+import { GAMES } from "./juegos/JuegosHubPage.jsx";
 const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
 const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
@@ -242,6 +243,22 @@ export default function UnitPage() {
               </button>
             </div>
 
+            <h2 className="unit-h2">Juegos · 游戏 <small>(con las palabras de esta unidad)</small></h2>
+            <div className="unit-games">
+              {GAMES.map((g) => {
+                const Icon = g.icon;
+                return (
+                  <Link key={g.id} to={`${g.path}?m=${numero}`} className="unit-game">
+                    <span className="unit-game-icon" style={{ background: g.gradient }}>
+                      <Icon size={24} color="#fff" />
+                    </span>
+                    <b>{g.name}</b>
+                    <small>{g.nameCn}</small>
+                  </Link>
+                );
+              })}
+            </div>
+
             <h2 className="unit-h2">Palabras · 词汇 <small>(toca para girar y escuchar)</small></h2>
             <div className="unit-words">
               {(mod.vocabulario || []).slice(0, 24).map((v) => (
@@ -262,7 +279,6 @@ export default function UnitPage() {
         <div className="unit-more">
           {[
             ["descubre", "📖", "Lectura y cultura", "阅读与文化"],
-            ["juegos", "🎮", "Juegos", "游戏"],
             ["examen", "📝", "Examen del módulo", "模块考试"],
           ].map(([k, e, es, zh]) => (
             <button key={k} className={`unit-more-card ${extra === k ? "on" : ""}`} style={{ "--c": c1 }} onClick={() => setExtra(extra === k ? null : k)}>

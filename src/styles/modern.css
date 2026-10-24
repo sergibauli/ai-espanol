@@ -796,3 +796,10 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 .light-legacy .fixed.inset-y-0, .light-legacy aside.fixed { background: #fff !important; }
 .light-legacy .app-stage { background: #fff; border-color: #e5e5e5; box-shadow: none; margin: 0; border-radius: 0; border: 0; }
 .light-legacy input::placeholder { color: #9aa4ab !important; }
+.unit-games { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
+.unit-game { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px; border-radius: 18px; border: 2px solid #e5e5e5; border-bottom-width: 5px; background: #fff; color: #3c3c3c; text-decoration: none; text-align: center; }
+.unit-game:hover { border-color: #84d8ff; }
+.unit-game:active { transform: translateY(3px); border-bottom-width: 2px; }
+.unit-game-icon { width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 0 rgba(0,0,0,.15); margin-bottom: 4px; }
+.unit-game b { font-size: 13px; line-height: 1.2; }
+.unit-game small { font-size: 11px; color: #5f6b73; }

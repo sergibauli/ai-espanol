@@ -1046,4 +1046,4 @@ function JuegosHubPage() {
     </LightShell>
   );
 }
-export { JuegosHubPage as default };
+export { JuegosHubPage as default, i as GAMES };

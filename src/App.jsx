@@ -10,6 +10,8 @@ import { TutorChat } from "./components/TutorChat.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
 import { CampusProvider } from "./lib/campus.jsx";
+import MODULE_CATALOG from "./data/modulos/catalog.json";
+const MODULE_TITLES = Object.fromEntries(MODULE_CATALOG.map((m) => [m.numero, m.titulo]));
 import { LIGHT_ROUTES, LEGACY_LIGHT, STAGE_ROUTES, LightShell } from "./components/layout/LightShell.jsx";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
@@ -116,6 +118,30 @@ function RequireAuth({ children }) {
 }
 function PageTransition({ children }) {
   const tRef = React.useRef(null);
+  // Desde una unidad (?m=N): pulsa sola la tarjeta del módulo en el menú del juego
+  React.useEffect(() => {
+    const m = Number(new URLSearchParams(window.location.hash.split("?")[1] || "").get("m"));
+    if (!m || !tRef.current) return;
+    const titulo = MODULE_TITLES[m];
+    if (!titulo) return;
+    let done = false;
+    const tryPick = () => {
+      if (done || !tRef.current) return;
+      const btn = [...tRef.current.querySelectorAll("button, [role=button], a")].find((b) => (b.textContent || "").includes(titulo));
+      if (btn) {
+        done = true;
+        btn.click();
+      }
+    };
+    const mo = new MutationObserver(tryPick);
+    mo.observe(tRef.current, { childList: true, subtree: true });
+    tryPick();
+    const t = setTimeout(() => mo.disconnect(), 8000);
+    return () => {
+      mo.disconnect();
+      clearTimeout(t);
+    };
+  }, []);
   React.useEffect(() => {
     const tRef_current = tRef.current;
     if (!tRef_current) {
