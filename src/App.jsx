@@ -476,14 +476,7 @@ function AppRoutes() {
               </RequireAuth>
             }
           />
-          <Route
-            path="/karaoke"
-            element={
-              <RequireAuth>
-                <KaraokePage />
-              </RequireAuth>
-            }
-          />
+          <Route path="/karaoke" element={<Navigate to="/ruta" replace />} />
           <Route
             path="/memoria"
             element={

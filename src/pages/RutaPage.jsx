@@ -31,7 +31,9 @@ export default function RutaPage() {
   const currentRef = React.useRef(null);
   const [onboarded, setOnboarded] = React.useState(() => {
     try {
-      return localStorage.getItem("ai-espanol:onboarded") === "1" || Object.keys(game.lessons).length > 0;
+      const created = window.Clerk?.user?.createdAt ? new Date(window.Clerk.user.createdAt).getTime() : 0;
+      const isNewAccount = created && Date.now() - created < 30 * 60 * 1000;
+      return !isNewAccount || localStorage.getItem("ai-espanol:onboarded") === "1" || Object.keys(game.lessons).length > 0;
     } catch {
       return true;
     }

@@ -710,3 +710,29 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 .dele-pruebas small { display: block; color: #777; font-weight: 600; font-size: 11px; }
 .dele-go { padding: 12px; text-align: center; font-size: 15px; }
 @media (max-width: 700px) { .dele-levels { grid-template-columns: 1fr; } }
+
+/* ====================== Tanda 1: fondo, legibilidad y bienvenida a pantalla ====================== */
+.light-page { background:
+  radial-gradient(900px 500px at 100% -10%, rgba(28,176,246,.10), transparent 60%),
+  radial-gradient(800px 500px at -10% 110%, rgba(88,204,2,.10), transparent 60%),
+  radial-gradient(circle at 1px 1px, rgba(0,0,0,.06) 1px, transparent 0) 0 0 / 22px 22px,
+  #fbfcff; }
+.light-page .side-nav { background: rgba(255,255,255,.92); backdrop-filter: blur(6px); }
+.light-page .ui-zh, .light-page .lp-zh, .lp-root .lp-zh { color: #5f6b73; font-size: 15px; }
+.light-page small, .lp-root small { color: #5f6b73; }
+.light-page .ui-muted { color: #5f6b73; }
+.light-page .unit-lesson small, .light-page .unidad-card .ui-muted, .light-page .dele-pruebas small { color: #5f6b73; font-size: 13px; }
+.light-page .unidad-card b, .light-page .unit-lesson b { font-size: 16px; }
+.side-link { font-size: 16px; }
+.side-link small { font-size: 12px; }
+.side-sub a { font-size: 15px; color: #5f6b73; }
+.lp-root .lp-option { font-size: 18px; }
+/* Bienvenida: todo cabe en la pantalla, botón siempre visible */
+.onb { height: 100dvh; }
+.onb-main { padding-top: 8px; padding-bottom: 8px; }
+.onb-q { margin: 10px 0 14px; }
+.onb-q img { width: 84px !important; height: 84px !important; }
+.onb-opts { gap: 8px; }
+.onb-opts .lp-option { padding: 10px 14px; font-size: 16px; }
+.onb .lp-foot { position: static; }
+@media (max-width: 520px) { .onb-opts.grid2 { grid-template-columns: 1fr; } .onb-q .lp-char-bubble { font-size: 16px !important; } }

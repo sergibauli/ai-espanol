@@ -13,12 +13,6 @@
   function redirectDele() {
     var h = location.hash || '';
     var m;
-    if (h === '#/examenes' || h === '#/examenes/') {
-      location.replace('#/oficial');
-      return;
-    }
-    m = h.match(/^#\/examenes-nivel\/(A1|A2|B1|B2)\/?$/i);
-    if (m) location.replace('#/oficial/' + m[1].toUpperCase());
   }
   window.addEventListener('hashchange', redirectDele);
   redirectDele();
