@@ -21,20 +21,22 @@ export default function OficialHubPage() {
   return (
     <LightShell>
       <div className="unit-page" style={{ maxWidth: 1000 }}>
-        <section className="unit-hero" style={{ "--c": "#ff4b4b", "--d": "#d33131" }}>
-          <div className="unit-hero-text">
+        <section className="imperial-hero">
+          <span className="imperial-cloud c1" />
+          <span className="imperial-cloud c2" />
+          <div className="imperial-hero-text">
             <small>DELE · INSTITUTO CERVANTES · 官方真题</small>
             <h1>Exámenes DELE oficiales</h1>
             <p>80 modelos completos con las 4 pruebas, cronómetro y corrección.</p>
             <span className="unit-zh">80套完整模拟题 · 四项考试 · 计时与批改</span>
             <div className="ui-row" style={{ marginTop: 18 }}>
-              <Link to="/examenes/generador" className="btn3d unit-cta" style={{ "--c": "#fff", "--d": "rgba(0,0,0,.25)", color: "#d33131", textDecoration: "none" }}>
+              <Link to="/examenes/generador" className="btn3d unit-cta" style={{ "--c": "#f2c14e", "--d": "#c8961e", color: "#5a0a16", textDecoration: "none" }}>
                 ⚡ Examen rápido · 快速测试
               </Link>
             </div>
           </div>
-          <div className="unit-hero-art">
-            <Emoji3D emoji="🎓" size={150} float />
+          <div className="imperial-hero-art">
+            <Emoji3D emoji="🐉" size={130} float />
           </div>
         </section>
 

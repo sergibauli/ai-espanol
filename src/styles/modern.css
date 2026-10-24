@@ -994,3 +994,21 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
   .pron-families { position: static; grid-template-columns: repeat(4, 1fr); }
   .pron-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+/* Imperial: DELE, práctica y unidades */
+.imperial-skills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+.imperial-skills span { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 99px; background: #fff6dc; border: 2px solid #f2d38a; font-weight: 800; color: #5a3b00; }
+.imperial-levels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.imperial-level { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 26px 12px 18px; border-radius: 24px; border: 3px solid var(--imp-gold); border-bottom-width: 7px; border-bottom-color: var(--imp-gold-d); background: linear-gradient(180deg, #fffaf0, #fff); color: #3c3c3c; text-decoration: none; text-align: center; transition: transform .15s; }
+.imperial-level:hover { transform: translateY(-4px); }
+.imperial-level b { font-size: 15px; }
+.imperial-level-seal { position: absolute; top: -14px; left: 50%; transform: translateX(-50%) rotate(-4deg); background: var(--imp-red); color: #fff6dc; font-family: var(--ui-display); font-size: 18px; padding: 4px 14px; border-radius: 10px; border: 2px solid var(--imp-gold); }
+.dele-mode { border-color: #f2d38a; background: linear-gradient(180deg, #fffaf0, #fff); }
+.dele-level { border-color: #f2d38a; }
+.dele-level:hover { border-color: var(--imp-gold-d); }
+.imperial-frame { position: relative; overflow: hidden; border: 4px solid var(--imp-gold); }
+.imperial-frame .unit-hero-text, .imperial-frame .unit-hero-art { position: relative; z-index: 1; }
+.unit-seal { position: absolute; top: 14px; right: 16px; z-index: 2; background: var(--imp-red); color: #fff6dc; border: 3px solid var(--imp-gold); border-radius: 12px; padding: 6px 10px; font-weight: 900; font-size: 14px; line-height: 1.1; text-align: center; transform: rotate(6deg); box-shadow: 0 4px 0 var(--imp-red-d); }
+.unit-lesson.current { border-color: var(--imp-gold) !important; box-shadow: 0 0 0 3px #fff1c7; }
+.unit-h2 { position: relative; padding-left: 16px; }
+.unit-h2::before { content: ""; position: absolute; left: 0; top: 3px; bottom: 3px; width: 6px; border-radius: 3px; background: linear-gradient(180deg, var(--imp-red), var(--imp-gold)); }
+@media (max-width: 800px) { .imperial-levels { grid-template-columns: 1fr 1fr; } }

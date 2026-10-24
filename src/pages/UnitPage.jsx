@@ -130,7 +130,14 @@ export default function UnitPage() {
           <ArrowLeftIcon size={16} /> Ruta {meta.nivel} · 学习路线
         </Link>
 
-        <section className="unit-hero" style={{ "--c": c1, "--d": c2 }}>
+        <section className="unit-hero imperial-frame" style={{ "--c": c1, "--d": c2 }}>
+          <span className="imperial-cloud c1" />
+          <span className="imperial-cloud c2" />
+          <span className="unit-seal">
+            第{numero}
+            <br />
+            单元
+          </span>
           <div className="unit-hero-text">
             <small>
               {meta.nivel} · UNIDAD {numero} · 第{numero}单元
