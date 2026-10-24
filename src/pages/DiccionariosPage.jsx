@@ -13,6 +13,8 @@ import {
   RotateCcwIcon,
 } from "lucide-react";
 import * as React from "react";
+import VOCAB_EMOJI from "../data/vocab-emoji.json";
+import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
@@ -185,63 +187,54 @@ function QComponent({ word, index, levelCfg, favorite, themeLabel, onToggleFavor
     }
     dRef.current = r;
   };
+  const pic = VOCAB_EMOJI[String(word.es || "").trim()];
   return (
     <div
-      className="dictionary-flip-shell"
+      className={`dict2 ${y ? "flip" : ""}`}
       role="button"
       tabIndex={0}
       aria-label={`${word.es}. ${hint}`}
       aria-pressed={y}
-      onDoubleClick={(o) => b(o.target)}
-      onTouchEnd={onTouchEnd}
+      style={{ "--c": levelCfg.color }}
+      onClick={(o) => {
+        if (o.target.closest("button")) return;
+        setY((f) => !f);
+        if (!y) J(word.es);
+      }}
       onKeyDown={(o) => {
         if (o.key === "Enter" || o.key === " ") {
           o.preventDefault();
           setY((r) => !r);
         }
       }}
-      style={{
-        "--dictionary-color": levelCfg.color,
-        "--dictionary-glow": levelCfg.glow,
-      }}
     >
-      <div className={`dictionary-flip-card ${y ? "is-flipped" : ""}`}>
-        <section className="dictionary-face dictionary-face-front">
-          <div className="dictionary-card-aurora" />
-          <div className="dictionary-card-topline">
-            <span className="dictionary-word-number">{index + 1}</span>
-            <div className="dictionary-word-actions">
-              <button onClick={() => J(word.es)} aria-label="Escuchar" title="Escuchar / 听">
+      <div className="dict2-in">
+        <section className="dict2-face dict2-front">
+          <div className="dict2-top">
+            <span className="dict2-n">{index + 1}</span>
+            <span>
+              <button onClick={() => J(word.es)} aria-label="Escuchar">
                 <Volume2Icon size={16} />
               </button>
-              <button onClick={onToggleFavorite} aria-label="Favorito" title="Favorito / 收藏">
+              <button onClick={onToggleFavorite} aria-label="Favorito">
                 <HeartIcon size={15} className={favorite ? "fill-pink-400 text-pink-400" : ""} />
               </button>
-            </div>
+            </span>
           </div>
-          <div className="dictionary-word-core">
-            <span className="dictionary-word-level">{word.level}</span>
-            <h3>{word.es}</h3>
-            <span className="dictionary-theme-chip">{themeLabel}</span>
-          </div>
-          <div className="dictionary-flip-hint">
-            <RotateCcwIcon size={13} /> {hint}
-          </div>
+          <div className="dict2-art">{pic ? <Emoji3D emoji={pic} size={64} /> : <span className="dict2-letter">{String(word.es || "?").trim()[0]?.toUpperCase()}</span>}</div>
+          <h3>{word.es}</h3>
+          <span className="dict2-chip">{themeLabel}</span>
+          <small className="dict2-hint">👆 Toca para ver la traducción · 点击翻转</small>
         </section>
-        <section className="dictionary-face dictionary-face-back">
-          <div className="dictionary-card-aurora" />
-          <div className="dictionary-back-header">
-            <span>{word.es}</span>
-            <button onClick={() => setY(false)} aria-label="Volver">
-              <RotateCcwIcon size={15} />
-            </button>
-          </div>
+        <section className="dict2-face dict2-back">
+          <span className="dict2-es">{word.es}</span>
           <h3>{word.zh}</h3>
-          <p className="dictionary-explanation">{word.explanation}</p>
-          <div className="dictionary-example">
-            <p>“{word.exampleEs}”</p>
-            <span>{word.exampleZh}</span>
-          </div>
+          {word.explanation && <p>{word.explanation}</p>}
+          {word.exampleEs && (
+            <button className="dict2-ex" onClick={() => J(word.exampleEs)}>
+              <Volume2Icon size={14} /> “{word.exampleEs}”<small>{word.exampleZh}</small>
+            </button>
+          )}
         </section>
       </div>
     </div>

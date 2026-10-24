@@ -7,11 +7,11 @@ import { addXp } from "../../lib/gamification.js";
 
 // Reparto fijo de personajes de las historias
 export const CAST = {
-  lucia: { name: "Lucía", emoji: "👩‍🦰", color: "#ff7a1a", from: "Madrid" },
+  lucia: { voice: "f", name: "Lucía", emoji: "👩‍🦰", color: "#ff7a1a", from: "Madrid" },
   liwei: { name: "Li Wei", emoji: "👨", color: "#1cb0f6", from: "上海" },
   carlos: { name: "Carlos", emoji: "🧔", color: "#58cc02", from: "México" },
-  mei: { name: "Mei", emoji: "👧", color: "#ce82ff", from: "北京" },
-  carmen: { name: "Carmen", emoji: "👵", color: "#ff4b8b", from: "Sevilla" },
+  mei: { voice: "f", name: "Mei", emoji: "👧", color: "#ce82ff", from: "北京" },
+  carmen: { voice: "f", name: "Carmen", emoji: "👵", color: "#ff4b8b", from: "Sevilla" },
   narrador: { name: "Narrador", emoji: "🐵", color: "#ffc800", from: "" },
 };
 const MOOD = { feliz: "😄", sorpresa: "😮", duda: "🤔", triste: "😢", risa: "😅", neutral: "🙂" };
@@ -42,7 +42,7 @@ export function StoryPlayer({ story, onClose }) {
     };
   }, []);
   React.useEffect(() => {
-    if (last?.kind === "line") speak(last.es, 0.92);
+    if (last?.kind === "line") speak(last.es, 0.92, CAST[last.quien]?.voice);
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [shown, last]);
 
@@ -93,7 +93,7 @@ export function StoryPlayer({ story, onClose }) {
                   </span>
                   <small>{CAST[it.quien]?.name}</small>
                 </div>
-                <button className="story-bubble" onClick={() => speak(it.es, 0.85)}>
+                <button className="story-bubble" onClick={() => speak(it.es, 0.85, CAST[it.quien]?.voice)}>
                   <span>{it.es}</span>
                   {showZh && <span className="lp-zh">{it.zh}</span>}
                   <Volume2Icon size={15} className="story-spk" />

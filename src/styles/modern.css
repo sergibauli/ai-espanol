@@ -803,3 +803,27 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
 .unit-game-icon { width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 0 rgba(0,0,0,.15); margin-bottom: 4px; }
 .unit-game b { font-size: 13px; line-height: 1.2; }
 .unit-game small { font-size: 11px; color: #5f6b73; }
+/* Diccionario: tarjetas estilo app que giran con un toque */
+.dict2 { height: 250px; perspective: 900px; cursor: pointer; outline: none; }
+.dict2-in { position: relative; width: 100%; height: 100%; transition: transform .5s cubic-bezier(.3,1.3,.5,1); transform-style: preserve-3d; }
+.dict2.flip .dict2-in { transform: rotateY(180deg); }
+.dict2-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 22px; border: 2px solid #e5e5e5; border-bottom-width: 6px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 14px; gap: 6px; color: #3c3c3c; font-family: var(--ui-font); }
+.dict2:hover .dict2-front { border-color: var(--c); }
+.dict2-top { position: absolute; top: 10px; left: 12px; right: 10px; display: flex; justify-content: space-between; align-items: center; }
+.dict2-top button { width: 32px; height: 32px; border-radius: 10px; border: 2px solid #e5e5e5; background: #fff; color: #1cb0f6; margin-left: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.dict2-n { font-weight: 900; font-size: 12px; color: #afafaf; }
+.dict2-art { width: 84px; height: 84px; border-radius: 26px; background: color-mix(in srgb, var(--c) 14%, #fff); display: flex; align-items: center; justify-content: center; margin-top: 14px; }
+.dict2-letter { font-family: var(--ui-display); font-size: 40px; color: var(--c); }
+.dict2-front h3 { font-family: var(--ui-display); font-size: 22px; margin: 4px 0 0; line-height: 1.15; }
+.dict2-chip { font-size: 11px; font-weight: 800; color: var(--c); background: color-mix(in srgb, var(--c) 12%, #fff); padding: 3px 10px; border-radius: 99px; }
+.dict2-hint { position: absolute; bottom: 10px; font-size: 11px; color: #9aa4ab; font-weight: 700; }
+.dict2-back { transform: rotateY(180deg); background: var(--c); border-color: color-mix(in srgb, var(--c) 70%, #000); color: #fff; }
+.dict2-back .dict2-es { font-weight: 800; opacity: .9; }
+.dict2-back h3 { font-size: 30px; margin: 2px 0; }
+.dict2-back p { margin: 0; font-size: 13px; line-height: 1.4; opacity: .95; }
+.dict2-ex { margin-top: 6px; border: 0; border-radius: 14px; background: rgba(255,255,255,.2); color: #fff; padding: 8px 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: var(--ui-font); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.dict2-ex small { font-weight: 600; opacity: .9; }
+.dict2-face, .dict2-face * { color: inherit; }
+
+.light-legacy .dict2-back, .light-legacy .dict2-back * { color: #fff !important; }
+.light-legacy .dict2-front h3 { color: #3c3c3c !important; }

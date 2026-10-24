@@ -34,9 +34,11 @@ export function sfx(kind) {
 }
 
 import AUDIO_INDEX from "../../data/audio-index.json";
+import AUDIO_INDEX_F from "../../data/audio-index-f.json";
 
 // Audios pregrabados con la voz del profesor (Fish Audio): mismo hash FNV-1a que scripts de generación
 const AUDIO = new Set(AUDIO_INDEX);
+const AUDIO_F = new Set(AUDIO_INDEX_F);
 function fnv(t) {
   let h = 0x811c9dc5;
   for (const b of new TextEncoder().encode(t)) {
@@ -47,9 +49,12 @@ function fnv(t) {
 }
 let current = null;
 
-export function speak(text, rate = 0.9) {
-  const key = fnv(String(text || "").trim());
-  if (AUDIO.has(key)) {
+// voice: "m" (voz del profesor) o "f" (voz femenina para Lucía, Mei y Carmen)
+export function speak(text, rate = 0.9, voice = "m") {
+  const t = String(text || "").trim();
+  const fk = fnv("F|" + t);
+  const key = voice === "f" && AUDIO_F.has(fk) ? fk : fnv(t);
+  if (AUDIO.has(key) || AUDIO_F.has(key)) {
     try {
       current?.pause();
       speechSynthesis?.cancel?.();
