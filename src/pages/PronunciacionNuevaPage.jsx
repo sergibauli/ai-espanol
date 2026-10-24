@@ -1,16 +1,19 @@
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router";
 import { Volume2Icon, PlayIcon, SkipBackIcon, SkipForwardIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { speak } from "../components/lesson/fx.js";
 import FAMILIAS from "../data/pronunciacion.json";
+import PracticePlayer from "../components/pron/PracticePlayer.jsx";
 
 // Pronunciación: familias de sílabas del español con ejemplo, consejo en chino y audio
 export default function PronunciacionNuevaPage() {
   const [solo, setSolo] = React.useState(false);
   const [open, setOpen] = React.useState(() => FAMILIAS.find((f) => f.dificil)?.id);
   const [heard, setHeard] = React.useState(() => new Set());
+  const [practice, setPractice] = React.useState(null);
   const list = FAMILIAS.filter((f) => !solo || f.dificil);
   const fam = FAMILIAS.find((f) => f.id === open) || list[0];
   const play = (t) => {
@@ -85,6 +88,12 @@ export default function PronunciacionNuevaPage() {
                       <b>{s.ej}</b>
                       <small>{s.ejZh}</small>
                     </button>
+                    <button className="pron-practice" onClick={() => setPractice(s)}>
+                      🎤 Practicar · 练习
+                      <small>
+                        {(s.palabras || []).length} palabras · {(s.frases || []).length} frases
+                      </small>
+                    </button>
                   </div>
                 ))}
               </div>
@@ -107,6 +116,7 @@ export default function PronunciacionNuevaPage() {
           </button>
         </div>
       </div>
+      {practice && fam && createPortal(<PracticePlayer item={practice} familia={fam} onClose={() => setPractice(null)} />, document.body)}
     </LightShell>
   );
 }

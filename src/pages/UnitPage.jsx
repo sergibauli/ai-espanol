@@ -52,31 +52,117 @@ function WordCard({ v, color }) {
   );
 }
 
-function GuideCard({ t, index, color }) {
-  const [open, setOpen] = React.useState(index === 0);
-  const es = bullets(t.descripcion);
-  const zh = bullets(t.descripcionChino);
-  const same = es.length === zh.length;
+// Guía rápida: parte la teoría en introducción, puntos «término = explicación», nota y error común
+function parseTeoria(text) {
+  const out = { intro: [], points: [], nota: [], error: [] };
+  for (const block of String(text || "").split(/\n\s*\n/)) {
+    const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+    if (!lines.length) continue;
+    if (/^📌/.test(lines[0])) out.nota.push(...lines.slice(1).map((l) => l.replace(/^[•\-–]\s*/, "")));
+    else if (/^❌/.test(lines[0])) out.error.push(...lines.slice(1).map((l) => l.replace(/^[•\-–]\s*/, "")));
+    else if (lines.every((l) => /^[•\-–]/.test(l)))
+      out.points.push(...lines.map((l) => {
+        const [term, ...rest] = l.replace(/^[•\-–]\s*/, "").split(/\s=\s/);
+        return { term: term.trim(), def: rest.join(" = ").trim() };
+      }));
+    else out.intro.push(lines.join(" "));
+  }
+  return out;
+}
+
+function GuideScroll({ teoria, numero }) {
+  const [sel, setSel] = React.useState(0);
+  const key = `dele_guia_visto_${numero}`;
+  const [seen, setSeen] = React.useState(() => {
+    try {
+      return new Set(JSON.parse(localStorage.getItem(key) || "[]"));
+    } catch {
+      return new Set();
+    }
+  });
+  const t = teoria[sel];
+  if (!t) return null;
+  const es = parseTeoria(t.descripcion);
+  const zh = parseTeoria(t.descripcionChino);
+  const plaques = es.points.length ? es.points.map((p) => p.term) : (t.ejemplos || []).map((e) => e.espanol);
+  const toggleSeen = () => {
+    const n = new Set(seen);
+    n.has(sel) ? n.delete(sel) : n.add(sel);
+    setSeen(n);
+    try {
+      localStorage.setItem(key, JSON.stringify([...n]));
+    } catch {}
+  };
   return (
-    <div className={`unit-guide ${open ? "open" : ""}`} style={{ "--c": color }}>
-      <button className="unit-guide-head" onClick={() => setOpen((o) => !o)}>
-        <span className="unit-guide-n">{index + 1}</span>
-        <span style={{ flex: 1, textAlign: "left" }}>
-          <b>{t.titulo}</b>
-          <small>{t.tituloChino}</small>
-        </span>
-        <ChevronDownIcon size={20} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" }} />
+    <section className="gd" id="u-guia">
+      <div className="gd-ribbon">Guía rápida · 语法要点</div>
+      <button className={`gd-visto ${seen.has(sel) ? "on" : ""}`} onClick={toggleSeen} title="Marcar como leído · 标记为已读">
+        Visto
       </button>
-      {open && (
-        <div className="unit-guide-body">
-          {(es.length ? es.slice(0, 6) : [String(t.descripcion).split("\n").find(Boolean)]).map((p, i) => (
-            <div key={i} className="lp-point" style={{ animationDelay: `${i * 60}ms` }}>
-              <b>{p}</b>
-              {same && zh[i] && <span>{zh[i]}</span>}
+      <div className="gd-head">
+        <h3>{t.titulo}</h3>
+        <p>{t.tituloChino}</p>
+      </div>
+      <div className="gd-scroll">
+        <img className="gd-deco" src={`${THEME}sello-monedas.png`} alt="" />
+        <div className="gd-body">
+          <div className="gd-text">
+            {es.intro.slice(0, 2).map((p, i) => (
+              <p key={i} className="gd-intro">
+                {p}
+                {zh.intro[i] && <small>{zh.intro[i]}</small>}
+              </p>
+            ))}
+            {es.points.slice(0, 6).map((p, i) => (
+              <div key={i} className="gd-point">
+                <b>{p.term}</b>
+                {p.def && <span>{p.def}</span>}
+                {zh.points[i]?.def && <small>{zh.points[i].def}</small>}
+              </div>
+            ))}
+          </div>
+          {plaques.length > 0 && (
+            <div className="gd-plaques">
+              <span className="gd-plaques-tag">Escucha · 听</span>
+              {plaques.slice(0, 5).map((w, i) => (
+                <button key={i} className="gd-plaque" onClick={() => speak(w)}>
+                  {w}
+                </button>
+              ))}
             </div>
-          ))}
-          {(t.ejemplos || []).slice(0, 3).map((e, i) => (
-            <button key={i} className="unit-example" onClick={() => speak(e.espanol)}>
+          )}
+        </div>
+      </div>
+      {(es.nota.length > 0 || es.error.length > 0) && (
+        <div className="gd-notes">
+          {es.nota.length > 0 && (
+            <div className="gd-note">
+              <b>📌 Nota importante · 重要提示</b>
+              {es.nota.slice(0, 4).map((n, i) => (
+                <p key={i}>
+                  {n}
+                  {zh.nota[i] && <small>{zh.nota[i]}</small>}
+                </p>
+              ))}
+            </div>
+          )}
+          {es.error.length > 0 && (
+            <div className="gd-error">
+              <b>❌ Error común · 常见错误</b>
+              {es.error.slice(0, 3).map((n, i) => (
+                <p key={i}>
+                  {n}
+                  {zh.error[i] && <small>{zh.error[i]}</small>}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+      {(t.ejemplos || []).length > 0 && (
+        <div className="gd-examples">
+          {t.ejemplos.slice(0, 4).map((e, i) => (
+            <button key={i} className="gd-ex" onClick={() => speak(e.espanol)}>
               <Volume2Icon size={16} />
               <span>
                 <b>{e.espanol}</b>
@@ -86,7 +172,21 @@ function GuideCard({ t, index, color }) {
           ))}
         </div>
       )}
-    </div>
+      {teoria.length > 1 && (
+        <div className="gd-list">
+          {teoria.map((x, i) => (
+            <button key={i} className={`gd-row ${i === sel ? "on" : ""}`} onClick={() => setSel(i)}>
+              <span className={`gd-tick ${seen.has(i) ? "on" : ""}`}>{seen.has(i) ? "✓" : i + 1}</span>
+              <span>
+                <b>{x.titulo}</b>
+                <small>{x.tituloChino}</small>
+              </span>
+              <ChevronDownIcon size={16} style={{ transform: "rotate(-90deg)" }} />
+            </button>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -167,12 +267,14 @@ export default function UnitPage() {
         </span>
 
         <nav className="unit-jump" aria-label="Secciones">
-          {[["lecciones", "🎯 Lecciones"], ["historia", "📖 Historia"], ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"], ["guia", "💡 Guía"]].map(([id, label]) => (
+          {[["guia", "💡 Guía"], ["lecciones", "🎯 Lecciones"], ["historia", "📖 Historia"], ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"]].map(([id, label]) => (
             <button key={id} onClick={() => document.getElementById(`u-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}>
               {label}
             </button>
           ))}
         </nav>
+
+        {mod && (mod.teoria || []).length > 0 && <GuideScroll teoria={mod.teoria} numero={numero} />}
 
         <h2 className="unit-h2" id="u-lecciones">Lecciones · 课程</h2>
         <div className="unit-lessons">
@@ -290,12 +392,6 @@ export default function UnitPage() {
               ))}
             </div>
 
-            <h2 className="unit-h2" id="u-guia">Guía rápida · 语法要点</h2>
-            <div className="unit-guides">
-              {(mod.teoria || []).map((t, i) => (
-                <GuideCard key={i} t={t} index={i} color={c1} />
-              ))}
-            </div>
           </>
         )}
 

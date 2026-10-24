@@ -1,1 +1,3195 @@
-[{"id": "b", "titulo": "B", "tituloZh": "b音", "dificil": true, "consejoZh": "双唇闭合后爆破，声带振动，像汉语拼音b但更浊。", "silabas": [{"s": "ba", "ej": "baño", "ejZh": "洗澡"}, {"s": "be", "ej": "bebé", "ejZh": "婴儿"}, {"s": "bi", "ej": "biblioteca", "ejZh": "图书馆"}, {"s": "bo", "ej": "boca", "ejZh": "嘴"}, {"s": "bu", "ej": "bueno", "ejZh": "好的"}]}, {"id": "c-qu", "titulo": "C / QU", "tituloZh": "c与qu", "dificil": false, "consejoZh": "ca co cu中c像汉语k；que qui的u不发音，只发k音。", "silabas": [{"s": "ca", "ej": "casa", "ejZh": "房子"}, {"s": "que", "ej": "queso", "ejZh": "奶酪"}, {"s": "qui", "ej": "quiero", "ejZh": "我想要"}, {"s": "co", "ej": "comer", "ejZh": "吃"}, {"s": "cu", "ej": "cubo", "ejZh": "桶"}]}, {"id": "ce-ci-z", "titulo": "CE / CI (Z)", "tituloZh": "ce ci与z", "dificil": true, "consejoZh": "西班牙ce、ci发咬舌的θ音，舌尖轻伸上下齿间；拉美读s。", "silabas": [{"s": "ce", "ej": "cena", "ejZh": "晚饭"}, {"s": "ci", "ej": "cine", "ejZh": "电影院"}, {"s": "za", "ej": "zapato", "ejZh": "鞋子"}, {"s": "zo", "ej": "zorro", "ejZh": "狐狸"}, {"s": "zu", "ej": "azul", "ejZh": "蓝色"}]}, {"id": "ch", "titulo": "CH", "tituloZh": "ch音", "dificil": false, "consejoZh": "舌面前部贴上腭后放开，类似汉语拼音ch但更短。", "silabas": [{"s": "cha", "ej": "chaqueta", "ejZh": "外套"}, {"s": "che", "ej": "leche", "ejZh": "牛奶"}, {"s": "chi", "ej": "chico", "ejZh": "男孩"}, {"s": "cho", "ej": "ocho", "ejZh": "八"}, {"s": "chu", "ej": "chubasquero", "ejZh": "雨衣"}]}, {"id": "d", "titulo": "D", "tituloZh": "d音", "dificil": true, "consejoZh": "词首d舌尖抵上齿背爆破；元音之间d很轻，接近咬舌的ð。", "silabas": [{"s": "da", "ej": "dama", "ejZh": "女士"}, {"s": "de", "ej": "dedo", "ejZh": "手指"}, {"s": "di", "ej": "día", "ejZh": "日子"}, {"s": "do", "ej": "donde", "ejZh": "哪里"}, {"s": "du", "ej": "duro", "ejZh": "硬的"}]}, {"id": "f", "titulo": "F", "tituloZh": "f音", "dificil": false, "consejoZh": "上齿轻触下唇吹气，声带不振动，像汉语拼音f。", "silabas": [{"s": "fa", "ej": "familia", "ejZh": "家庭"}, {"s": "fe", "ej": "fecha", "ejZh": "日期"}, {"s": "fi", "ej": "fiesta", "ejZh": "聚会"}, {"s": "fo", "ej": "foto", "ejZh": "照片"}, {"s": "fu", "ej": "fuego", "ejZh": "火"}]}, {"id": "g-gu", "titulo": "G / GU", "tituloZh": "g与gu", "dificil": true, "consejoZh": "ga go gu的g像汉语g（更浊）；gue gui的u不发音。", "silabas": [{"s": "ga", "ej": "gato", "ejZh": "猫"}, {"s": "gue", "ej": "guerra", "ejZh": "战争"}, {"s": "gui", "ej": "guitarra", "ejZh": "吉他"}, {"s": "go", "ej": "gordo", "ejZh": "胖的"}, {"s": "gu", "ej": "gusto", "ejZh": "喜欢"}]}, {"id": "ge-gi-j", "titulo": "GE / GI / J", "tituloZh": "ge gi与j", "dificil": true, "consejoZh": "西班牙j、ge、gi发喉音x，像轻微咳痰，比汉语h更靠后。", "silabas": [{"s": "ja", "ej": "jamón", "ejZh": "火腿"}, {"s": "je", "ej": "jefe", "ejZh": "老板"}, {"s": "ji", "ej": "jirafa", "ejZh": "长颈鹿"}, {"s": "jo", "ej": "joven", "ejZh": "年轻的"}, {"s": "ju", "ej": "jugar", "ejZh": "玩"}]}, {"id": "l", "titulo": "L", "tituloZh": "l音", "dificil": true, "consejoZh": "舌尖抵上齿龈，舌面平，不要卷舌；结尾l要清晰。", "silabas": [{"s": "la", "ej": "lado", "ejZh": "旁边"}, {"s": "le", "ej": "leer", "ejZh": "阅读"}, {"s": "li", "ej": "libro", "ejZh": "书"}, {"s": "lo", "ej": "loco", "ejZh": "疯狂的"}, {"s": "lu", "ej": "luna", "ejZh": "月亮"}]}, {"id": "ll-y", "titulo": "LL / Y", "tituloZh": "ll与y", "dificil": true, "consejoZh": "多数地区发y音，舌面抬向上腭，像汉语拼音y但摩擦更强。", "silabas": [{"s": "lla", "ej": "llave", "ejZh": "钥匙"}, {"s": "lle", "ej": "llegar", "ejZh": "到达"}, {"s": "lli", "ej": "lluvia", "ejZh": "雨"}, {"s": "llo", "ej": "llorar", "ejZh": "哭"}, {"s": "llu", "ej": "llueve", "ejZh": "下雨"}]}, {"id": "m", "titulo": "M", "tituloZh": "m音", "dificil": false, "consejoZh": "双唇闭合，气流从鼻腔出，声带振动，像汉语拼音m。", "silabas": [{"s": "ma", "ej": "mano", "ejZh": "手"}, {"s": "me", "ej": "mesa", "ejZh": "桌子"}, {"s": "mi", "ej": "misa", "ejZh": "弥撒"}, {"s": "mo", "ej": "mochila", "ejZh": "背包"}, {"s": "mu", "ej": "muro", "ejZh": "墙"}]}, {"id": "n", "titulo": "N", "tituloZh": "n音", "dificil": false, "consejoZh": "舌尖抵上齿龈，气流从鼻腔出，像汉语拼音n。", "silabas": [{"s": "na", "ej": "naranja", "ejZh": "橙子"}, {"s": "ne", "ej": "negro", "ejZh": "黑色"}, {"s": "ni", "ej": "niño", "ejZh": "孩子"}, {"s": "no", "ej": "noche", "ejZh": "夜晚"}, {"s": "nu", "ej": "nuevo", "ejZh": "新的"}]}, {"id": "ñ", "titulo": "Ñ", "tituloZh": "ñ音", "dificil": true, "consejoZh": "舌面贴硬腭，像汉语拼音ny连读（类似“尼”加“呀”）。", "silabas": [{"s": "ña", "ej": "mañana", "ejZh": "明天"}, {"s": "ñe", "ej": "muñeca", "ejZh": "娃娃"}, {"s": "ñi", "ej": "niña", "ejZh": "女孩"}, {"s": "ño", "ej": "año", "ejZh": "年"}, {"s": "ñu", "ej": "ñu", "ejZh": "角马"}]}, {"id": "p", "titulo": "P", "tituloZh": "p音", "dificil": false, "consejoZh": "双唇闭合后爆破，不送气，比汉语p更干短。", "silabas": [{"s": "pa", "ej": "pan", "ejZh": "面包"}, {"s": "pe", "ej": "perro", "ejZh": "狗"}, {"s": "pi", "ej": "piel", "ejZh": "皮肤"}, {"s": "po", "ej": "poco", "ejZh": "少"}, {"s": "pu", "ej": "puerta", "ejZh": "门"}]}, {"id": "r-suave", "titulo": "R suave", "tituloZh": "单击r", "dificil": true, "consejoZh": "舌尖轻弹上齿龈一次，像快速说“啦”的起音，别卷舌。", "silabas": [{"s": "ra", "ej": "cara", "ejZh": "脸"}, {"s": "re", "ej": "pera", "ejZh": "梨"}, {"s": "ri", "ej": "arisa", "ejZh": "（arisa）"}, {"s": "ro", "ej": "caro", "ejZh": "贵的"}, {"s": "ru", "ej": "peruano", "ejZh": "秘鲁的"}]}, {"id": "rr", "titulo": "RR", "tituloZh": "多击rr", "dificil": true, "consejoZh": "舌尖快速多次弹上齿龈，像摩托车声“rrr”，词首r也这样读。", "silabas": [{"s": "rra", "ej": "perro", "ejZh": "狗"}, {"s": "rre", "ej": "tierra", "ejZh": "土地"}, {"s": "rri", "ej": "arriba", "ejZh": "上面"}, {"s": "rro", "ej": "carro", "ejZh": "车"}, {"s": "rru", "ej": "burro", "ejZh": "驴"}]}, {"id": "s", "titulo": "S", "tituloZh": "s音", "dificil": false, "consejoZh": "舌尖靠近上齿龈，气流摩擦而出，像汉语拼音s。", "silabas": [{"s": "sa", "ej": "sala", "ejZh": "客厅"}, {"s": "se", "ej": "seis", "ejZh": "六"}, {"s": "si", "ej": "silla", "ejZh": "椅子"}, {"s": "so", "ej": "sol", "ejZh": "太阳"}, {"s": "su", "ej": "sumo", "ejZh": "果汁"}]}, {"id": "t", "titulo": "T", "tituloZh": "t音", "dificil": false, "consejoZh": "舌尖抵上齿背爆破，不送气，比汉语t更短。", "silabas": [{"s": "ta", "ej": "taza", "ejZh": "杯子"}, {"s": "te", "ej": "techo", "ejZh": "屋顶"}, {"s": "ti", "ej": "tipo", "ejZh": "类型"}, {"s": "to", "ej": "tomate", "ejZh": "西红柿"}, {"s": "tu", "ej": "tus", "ejZh": "你的（复数）"}]}, {"id": "v", "titulo": "V", "tituloZh": "v音", "dificil": true, "consejoZh": "西班牙语v与b发音相同：双唇爆破，不要用汉语v（唇齿）。", "silabas": [{"s": "va", "ej": "vaca", "ejZh": "奶牛"}, {"s": "ve", "ej": "verde", "ejZh": "绿色"}, {"s": "vi", "ej": "vida", "ejZh": "生活"}, {"s": "vo", "ej": "volver", "ejZh": "返回"}, {"s": "vu", "ej": "uvas", "ejZh": "葡萄"}]}, {"id": "x", "titulo": "X", "tituloZh": "x音", "dificil": false, "consejoZh": "x在词中多读ks；练习用ex-开头词，注意k与s连读。", "silabas": [{"s": "xa", "ej": "examen", "ejZh": "考试"}, {"s": "xe", "ej": "excelente", "ejZh": "优秀的"}, {"s": "xi", "ej": "taxi", "ejZh": "出租车"}, {"s": "xo", "ej": "boxeo", "ejZh": "拳击"}, {"s": "xu", "ej": "exuso", "ejZh": "（exuso）"}]}, {"id": "z", "titulo": "Z", "tituloZh": "z音", "dificil": true, "consejoZh": "西班牙z发咬舌θ音，舌尖轻伸齿间；拉美读s。", "silabas": [{"s": "za", "ej": "zapato", "ejZh": "鞋子"}, {"s": "ze", "ej": "cereza", "ejZh": "樱桃"}, {"s": "zi", "ej": "cocina", "ejZh": "厨房"}, {"s": "zo", "ej": "zorro", "ejZh": "狐狸"}, {"s": "zu", "ej": "azúcar", "ejZh": "糖"}]}]
+[
+ {
+  "id": "b",
+  "titulo": "B",
+  "tituloZh": "b音",
+  "dificil": true,
+  "consejoZh": "双唇闭合后爆破，声带振动，像汉语拼音b但更浊。",
+  "silabas": [
+   {
+    "s": "ba",
+    "ej": "baño",
+    "ejZh": "洗澡",
+    "palabras": [
+     {
+      "es": "banco",
+      "zh": "银行"
+     },
+     {
+      "es": "barco",
+      "zh": "船"
+     },
+     {
+      "es": "balón",
+      "zh": "球"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El banco está cerca.",
+      "zh": "银行很近。"
+     },
+     {
+      "es": "Mi barco es pequeño.",
+      "zh": "我的船很小。"
+     }
+    ]
+   },
+   {
+    "s": "be",
+    "ej": "bebé",
+    "ejZh": "婴儿",
+    "palabras": [
+     {
+      "es": "bebé",
+      "zh": "婴儿"
+     },
+     {
+      "es": "beso",
+      "zh": "吻"
+     },
+     {
+      "es": "beber",
+      "zh": "喝"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El bebé duerme mucho.",
+      "zh": "婴儿睡得多。"
+     },
+     {
+      "es": "Quiero beber agua.",
+      "zh": "我想喝水。"
+     }
+    ]
+   },
+   {
+    "s": "bi",
+    "ej": "biblioteca",
+    "ejZh": "图书馆",
+    "palabras": [
+     {
+      "es": "bicicleta",
+      "zh": "自行车"
+     },
+     {
+      "es": "billete",
+      "zh": "票"
+     },
+     {
+      "es": "biblioteca",
+      "zh": "图书馆"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi bicicleta es nueva.",
+      "zh": "我的自行车是新的。"
+     },
+     {
+      "es": "Voy a la biblioteca.",
+      "zh": "我去图书馆。"
+     }
+    ]
+   },
+   {
+    "s": "bo",
+    "ej": "boca",
+    "ejZh": "嘴",
+    "palabras": [
+     {
+      "es": "boca",
+      "zh": "嘴"
+     },
+     {
+      "es": "bonito",
+      "zh": "漂亮的"
+     },
+     {
+      "es": "botella",
+      "zh": "瓶子"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Tu perro es bonito.",
+      "zh": "你的狗很漂亮。"
+     },
+     {
+      "es": "La botella está vacía.",
+      "zh": "瓶子是空的。"
+     }
+    ]
+   },
+   {
+    "s": "bu",
+    "ej": "bueno",
+    "ejZh": "好的",
+    "palabras": [
+     {
+      "es": "bueno",
+      "zh": "好的"
+     },
+     {
+      "es": "bus",
+      "zh": "公交车"
+     },
+     {
+      "es": "burbuja",
+      "zh": "泡泡"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El bus llega tarde.",
+      "zh": "公交车晚点了。"
+     },
+     {
+      "es": "Es un libro bueno.",
+      "zh": "这是一本好书。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "c-qu",
+  "titulo": "C / QU",
+  "tituloZh": "c与qu",
+  "dificil": false,
+  "consejoZh": "ca co cu中c像汉语k；que qui的u不发音，只发k音。",
+  "silabas": [
+   {
+    "s": "ca",
+    "ej": "casa",
+    "ejZh": "房子",
+    "palabras": [
+     {
+      "es": "casa",
+      "zh": "房子"
+     },
+     {
+      "es": "cama",
+      "zh": "床"
+     },
+     {
+      "es": "café",
+      "zh": "咖啡"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi casa es grande.",
+      "zh": "我的房子很大。"
+     },
+     {
+      "es": "Bebo café por la mañana.",
+      "zh": "我早上喝咖啡。"
+     }
+    ]
+   },
+   {
+    "s": "que",
+    "ej": "queso",
+    "ejZh": "奶酪",
+    "palabras": [
+     {
+      "es": "queso",
+      "zh": "奶酪"
+     },
+     {
+      "es": "querer",
+      "zh": "想要"
+     },
+     {
+      "es": "pequeño",
+      "zh": "小的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Me gusta el queso.",
+      "zh": "我喜欢奶酪。"
+     },
+     {
+      "es": "El niño es pequeño.",
+      "zh": "这个男孩很小。"
+     }
+    ]
+   },
+   {
+    "s": "qui",
+    "ej": "quiero",
+    "ejZh": "我想要",
+    "palabras": [
+     {
+      "es": "quince",
+      "zh": "十五"
+     },
+     {
+      "es": "quitar",
+      "zh": "脱掉"
+     },
+     {
+      "es": "esquina",
+      "zh": "角落"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Tengo quince años.",
+      "zh": "我十五岁。"
+     },
+     {
+      "es": "La tienda está en la esquina.",
+      "zh": "商店在拐角处。"
+     }
+    ]
+   },
+   {
+    "s": "co",
+    "ej": "comer",
+    "ejZh": "吃",
+    "palabras": [
+     {
+      "es": "coche",
+      "zh": "汽车"
+     },
+     {
+      "es": "comer",
+      "zh": "吃"
+     },
+     {
+      "es": "cola",
+      "zh": "尾巴"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi coche es rojo.",
+      "zh": "我的车是红色的。"
+     },
+     {
+      "es": "Vamos a comer arroz.",
+      "zh": "我们去吃米饭。"
+     }
+    ]
+   },
+   {
+    "s": "cu",
+    "ej": "cubo",
+    "ejZh": "桶",
+    "palabras": [
+     {
+      "es": "cuchara",
+      "zh": "勺子"
+     },
+     {
+      "es": "cuatro",
+      "zh": "四"
+     },
+     {
+      "es": "cuna",
+      "zh": "摇篮"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Necesito una cuchara.",
+      "zh": "我需要一把勺子。"
+     },
+     {
+      "es": "Tengo cuatro libros.",
+      "zh": "我有四本书。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ce-ci-z",
+  "titulo": "CE / CI (Z)",
+  "tituloZh": "ce ci与z",
+  "dificil": true,
+  "consejoZh": "西班牙ce、ci发咬舌的θ音，舌尖轻伸上下齿间；拉美读s。",
+  "silabas": [
+   {
+    "s": "ce",
+    "ej": "cena",
+    "ejZh": "晚饭",
+    "palabras": [
+     {
+      "es": "cebolla",
+      "zh": "洋葱"
+     },
+     {
+      "es": "cena",
+      "zh": "晚餐"
+     },
+     {
+      "es": "cerveza",
+      "zh": "啤酒"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La cena está lista.",
+      "zh": "晚饭准备好了。"
+     },
+     {
+      "es": "No me gusta la cebolla.",
+      "zh": "我不喜欢洋葱。"
+     }
+    ]
+   },
+   {
+    "s": "ci",
+    "ej": "cine",
+    "ejZh": "电影院",
+    "palabras": [
+     {
+      "es": "cine",
+      "zh": "电影院"
+     },
+     {
+      "es": "ciudad",
+      "zh": "城市"
+     },
+     {
+      "es": "cinturón",
+      "zh": "腰带"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Vamos al cine hoy.",
+      "zh": "我们今天去电影院。"
+     },
+     {
+      "es": "Esta ciudad es bonita.",
+      "zh": "这座城市很美。"
+     }
+    ]
+   },
+   {
+    "s": "za",
+    "ej": "zapato",
+    "ejZh": "鞋子",
+    "palabras": [
+     {
+      "es": "zapato",
+      "zh": "鞋"
+     },
+     {
+      "es": "zanahoria",
+      "zh": "胡萝卜"
+     },
+     {
+      "es": "taza",
+      "zh": "杯子"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi zapato es nuevo.",
+      "zh": "我的鞋是新的。"
+     },
+     {
+      "es": "Como una zanahoria.",
+      "zh": "我吃一根胡萝卜。"
+     }
+    ]
+   },
+   {
+    "s": "zo",
+    "ej": "zorro",
+    "ejZh": "狐狸",
+    "palabras": [
+     {
+      "es": "zorro",
+      "zh": "狐狸"
+     },
+     {
+      "es": "zona",
+      "zh": "区域"
+     },
+     {
+      "es": "pozo",
+      "zh": "井"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El zorro es pequeño.",
+      "zh": "狐狸很小。"
+     },
+     {
+      "es": "Vivo en esta zona.",
+      "zh": "我住在这个区域。"
+     }
+    ]
+   },
+   {
+    "s": "zu",
+    "ej": "azul",
+    "ejZh": "蓝色",
+    "palabras": [
+     {
+      "es": "zumo",
+      "zh": "果汁"
+     },
+     {
+      "es": "azul",
+      "zh": "蓝色"
+     },
+     {
+      "es": "zurdo",
+      "zh": "左撇子"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Bebo zumo de naranja.",
+      "zh": "我喝橙汁。"
+     },
+     {
+      "es": "Mi coche es azul.",
+      "zh": "我的车是蓝色的。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ch",
+  "titulo": "CH",
+  "tituloZh": "ch音",
+  "dificil": false,
+  "consejoZh": "舌面前部贴上腭后放开，类似汉语拼音ch但更短。",
+  "silabas": [
+   {
+    "s": "cha",
+    "ej": "chaqueta",
+    "ejZh": "外套",
+    "palabras": [
+     {
+      "es": "chaval",
+      "zh": "小伙子"
+     },
+     {
+      "es": "chaqueta",
+      "zh": "夹克"
+     },
+     {
+      "es": "charla",
+      "zh": "聊天"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi chaqueta es negra.",
+      "zh": "我的夹克是黑色的。"
+     },
+     {
+      "es": "Ese chaval es mi amigo.",
+      "zh": "那个小伙子是我朋友。"
+     }
+    ]
+   },
+   {
+    "s": "che",
+    "ej": "leche",
+    "ejZh": "牛奶",
+    "palabras": [
+     {
+      "es": "cheque",
+      "zh": "支票"
+     },
+     {
+      "es": "leche",
+      "zh": "牛奶"
+     },
+     {
+      "es": "coche",
+      "zh": "汽车"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Bebo leche por la noche.",
+      "zh": "我晚上喝牛奶。"
+     },
+     {
+      "es": "Bebo leche cada mañana.",
+      "zh": "我每天早上喝牛奶。"
+     }
+    ]
+   },
+   {
+    "s": "chi",
+    "ej": "chico",
+    "ejZh": "男孩",
+    "palabras": [
+     {
+      "es": "chico",
+      "zh": "男孩"
+     },
+     {
+      "es": "chicle",
+      "zh": "口香糖"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El chico es mi vecino.",
+      "zh": "这个男孩是我邻居。"
+     },
+     {
+      "es": "Quiero un chicle.",
+      "zh": "我想要一块口香糖。"
+     }
+    ]
+   },
+   {
+    "s": "cho",
+    "ej": "ocho",
+    "ejZh": "八",
+    "palabras": [
+     {
+      "es": "chorizo",
+      "zh": "香肠"
+     },
+     {
+      "es": "ocho",
+      "zh": "八"
+     },
+     {
+      "es": "mucho",
+      "zh": "很多"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Tengo ocho perros.",
+      "zh": "我有八只狗。"
+     },
+     {
+      "es": "Tengo mucho trabajo hoy.",
+      "zh": "我今天有很多工作。"
+     }
+    ]
+   },
+   {
+    "s": "chu",
+    "ej": "chubasquero",
+    "ejZh": "雨衣",
+    "palabras": [
+     {
+      "es": "chubasco",
+      "zh": "阵雨"
+     },
+     {
+      "es": "chupar",
+      "zh": "吸"
+     },
+     {
+      "es": "churro",
+      "zh": "油炸条"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El niño quiere chupar.",
+      "zh": "孩子想吸吮。"
+     },
+     {
+      "es": "El muchacho come un churro.",
+      "zh": "这个男孩吃一根油炸条。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "d",
+  "titulo": "D",
+  "tituloZh": "d音",
+  "dificil": true,
+  "consejoZh": "词首d舌尖抵上齿背爆破；元音之间d很轻，接近咬舌的ð。",
+  "silabas": [
+   {
+    "s": "da",
+    "ej": "dama",
+    "ejZh": "女士",
+    "palabras": [
+     {
+      "es": "dado",
+      "zh": "骰子"
+     },
+     {
+      "es": "dama",
+      "zh": "女士"
+     },
+     {
+      "es": "danza",
+      "zh": "舞蹈"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Es un dado rojo.",
+      "zh": "这是一个红色骰子。"
+     },
+     {
+      "es": "La dama lee un libro.",
+      "zh": "这位女士在读书。"
+     }
+    ]
+   },
+   {
+    "s": "de",
+    "ej": "dedo",
+    "ejZh": "手指",
+    "palabras": [
+     {
+      "es": "dedo",
+      "zh": "手指"
+     },
+     {
+      "es": "dentro",
+      "zh": "里面"
+     },
+     {
+      "es": "deporte",
+      "zh": "运动"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Me duele un dedo.",
+      "zh": "我一根手指疼。"
+     },
+     {
+      "es": "El deporte es bueno.",
+      "zh": "运动很好。"
+     }
+    ]
+   },
+   {
+    "s": "di",
+    "ej": "día",
+    "ejZh": "日子",
+    "palabras": [
+     {
+      "es": "día",
+      "zh": "天"
+     },
+     {
+      "es": "dinero",
+      "zh": "钱"
+     },
+     {
+      "es": "dibujo",
+      "zh": "画"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Hoy es un día bonito.",
+      "zh": "今天是美好的一天。"
+     },
+     {
+      "es": "No tengo dinero.",
+      "zh": "我没有钱。"
+     }
+    ]
+   },
+   {
+    "s": "do",
+    "ej": "donde",
+    "ejZh": "哪里",
+    "palabras": [
+     {
+      "es": "domingo",
+      "zh": "星期日"
+     },
+     {
+      "es": "dolor",
+      "zh": "疼痛"
+     },
+     {
+      "es": "donde",
+      "zh": "哪里"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El domingo descanso.",
+      "zh": "星期日我休息。"
+     },
+     {
+      "es": "Tengo dolor de cabeza.",
+      "zh": "我头疼。"
+     }
+    ]
+   },
+   {
+    "s": "du",
+    "ej": "duro",
+    "ejZh": "硬的",
+    "palabras": [
+     {
+      "es": "duda",
+      "zh": "疑问"
+     },
+     {
+      "es": "dulce",
+      "zh": "甜的"
+     },
+     {
+      "es": "ducha",
+      "zh": "淋浴"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El pastel es dulce.",
+      "zh": "蛋糕是甜的。"
+     },
+     {
+      "es": "Tengo una duda.",
+      "zh": "我有一个疑问。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "f",
+  "titulo": "F",
+  "tituloZh": "f音",
+  "dificil": false,
+  "consejoZh": "上齿轻触下唇吹气，声带不振动，像汉语拼音f。",
+  "silabas": [
+   {
+    "s": "fa",
+    "ej": "familia",
+    "ejZh": "家庭",
+    "palabras": [
+     {
+      "es": "familia",
+      "zh": "家庭"
+     },
+     {
+      "es": "fácil",
+      "zh": "容易的"
+     },
+     {
+      "es": "fábrica",
+      "zh": "工厂"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi familia es grande.",
+      "zh": "我的家庭很大。"
+     },
+     {
+      "es": "El examen es fácil.",
+      "zh": "考试很容易。"
+     }
+    ]
+   },
+   {
+    "s": "fe",
+    "ej": "fecha",
+    "ejZh": "日期",
+    "palabras": [
+     {
+      "es": "fecha",
+      "zh": "日期"
+     },
+     {
+      "es": "feliz",
+      "zh": "幸福的"
+     },
+     {
+      "es": "feria",
+      "zh": "集市"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Estoy muy feliz hoy.",
+      "zh": "我今天很开心。"
+     },
+     {
+      "es": "¿Cuál es la fecha?",
+      "zh": "日期是哪天？"
+     }
+    ]
+   },
+   {
+    "s": "fi",
+    "ej": "fiesta",
+    "ejZh": "聚会",
+    "palabras": [
+     {
+      "es": "fiesta",
+      "zh": "聚会"
+     },
+     {
+      "es": "fila",
+      "zh": "队"
+     },
+     {
+      "es": "final",
+      "zh": "结尾"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Hay una fiesta hoy.",
+      "zh": "今天有一个聚会。"
+     },
+     {
+      "es": "Estoy en la fila.",
+      "zh": "我在排队。"
+     }
+    ]
+   },
+   {
+    "s": "fo",
+    "ej": "foto",
+    "ejZh": "照片",
+    "palabras": [
+     {
+      "es": "foto",
+      "zh": "照片"
+     },
+     {
+      "es": "fondo",
+      "zh": "底部"
+     },
+     {
+      "es": "foco",
+      "zh": "灯"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Esta foto es bonita.",
+      "zh": "这张照片很美。"
+     },
+     {
+      "es": "Hay un foco aquí.",
+      "zh": "这里有一盏灯。"
+     }
+    ]
+   },
+   {
+    "s": "fu",
+    "ej": "fuego",
+    "ejZh": "火",
+    "palabras": [
+     {
+      "es": "fuego",
+      "zh": "火"
+     },
+     {
+      "es": "fuerte",
+      "zh": "强壮的"
+     },
+     {
+      "es": "fuera",
+      "zh": "外面"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El fuego es peligroso.",
+      "zh": "火很危险。"
+     },
+     {
+      "es": "Mi padre es fuerte.",
+      "zh": "我爸爸很强壮。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "g-gu",
+  "titulo": "G / GU",
+  "tituloZh": "g与gu",
+  "dificil": true,
+  "consejoZh": "ga go gu的g像汉语g（更浊）；gue gui的u不发音。",
+  "silabas": [
+   {
+    "s": "ga",
+    "ej": "gato",
+    "ejZh": "猫",
+    "palabras": [
+     {
+      "es": "gato",
+      "zh": "猫"
+     },
+     {
+      "es": "gafas",
+      "zh": "眼镜"
+     },
+     {
+      "es": "ganar",
+      "zh": "赢"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi gato es negro.",
+      "zh": "我的猫是黑色的。"
+     },
+     {
+      "es": "Quiero ganar el juego.",
+      "zh": "我想赢得比赛。"
+     }
+    ]
+   },
+   {
+    "s": "gue",
+    "ej": "guerra",
+    "ejZh": "战争",
+    "palabras": [
+     {
+      "es": "guerra",
+      "zh": "战争"
+     },
+     {
+      "es": "guerrero",
+      "zh": "战士"
+     },
+     {
+      "es": "manguera",
+      "zh": "水管"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La guerra es triste.",
+      "zh": "战争是悲伤的。"
+     },
+     {
+      "es": "Necesito una manguera.",
+      "zh": "我需要一根水管。"
+     }
+    ]
+   },
+   {
+    "s": "gui",
+    "ej": "guitarra",
+    "ejZh": "吉他",
+    "palabras": [
+     {
+      "es": "guitarra",
+      "zh": "吉他"
+     },
+     {
+      "es": "guía",
+      "zh": "向导"
+     },
+     {
+      "es": "águila",
+      "zh": "鹰"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Toco la guitarra.",
+      "zh": "我弹吉他。"
+     },
+     {
+      "es": "El águila vuela alto.",
+      "zh": "鹰飞得高。"
+     }
+    ]
+   },
+   {
+    "s": "go",
+    "ej": "gordo",
+    "ejZh": "胖的",
+    "palabras": [
+     {
+      "es": "gordo",
+      "zh": "胖的"
+     },
+     {
+      "es": "gol",
+      "zh": "进球"
+     },
+     {
+      "es": "gota",
+      "zh": "水滴"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi perro es gordo.",
+      "zh": "我的狗很胖。"
+     },
+     {
+      "es": "¡Es un gol bonito!",
+      "zh": "这是一个漂亮的进球！"
+     }
+    ]
+   },
+   {
+    "s": "gu",
+    "ej": "gusto",
+    "ejZh": "喜欢",
+    "palabras": [
+     {
+      "es": "gusto",
+      "zh": "喜好"
+     },
+     {
+      "es": "gusano",
+      "zh": "虫子"
+     },
+     {
+      "es": "guapo",
+      "zh": "帅的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Me gusta el café.",
+      "zh": "我喜欢咖啡。"
+     },
+     {
+      "es": "Tu hermano es guapo.",
+      "zh": "你的哥哥很帅。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ge-gi-j",
+  "titulo": "GE / GI / J",
+  "tituloZh": "ge gi与j",
+  "dificil": true,
+  "consejoZh": "西班牙j、ge、gi发喉音x，像轻微咳痰，比汉语h更靠后。",
+  "silabas": [
+   {
+    "s": "ja",
+    "ej": "jamón",
+    "ejZh": "火腿",
+    "palabras": [
+     {
+      "es": "jamón",
+      "zh": "火腿"
+     },
+     {
+      "es": "jardín",
+      "zh": "花园"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El jamón está muy rico.",
+      "zh": "火腿很好吃。"
+     },
+     {
+      "es": "Mi jardín es pequeño.",
+      "zh": "我的花园很小。"
+     }
+    ]
+   },
+   {
+    "s": "je",
+    "ej": "jefe",
+    "ejZh": "老板",
+    "palabras": [
+     {
+      "es": "jefe",
+      "zh": "老板"
+     },
+     {
+      "es": "jersey",
+      "zh": "毛衣"
+     },
+     {
+      "es": "ejemplo",
+      "zh": "例子"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi jefe es muy amable.",
+      "zh": "我的老板很和善。"
+     },
+     {
+      "es": "Este es un buen ejemplo.",
+      "zh": "这是一个好例子。"
+     }
+    ]
+   },
+   {
+    "s": "ji",
+    "ej": "jirafa",
+    "ejZh": "长颈鹿",
+    "palabras": [
+     {
+      "es": "jirafa",
+      "zh": "长颈鹿"
+     },
+     {
+      "es": "jinete",
+      "zh": "骑手"
+     },
+     {
+      "es": "ají",
+      "zh": "辣椒"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La jirafa es muy alta.",
+      "zh": "长颈鹿很高。"
+     },
+     {
+      "es": "El jinete monta el caballo.",
+      "zh": "骑手骑着马。"
+     }
+    ]
+   },
+   {
+    "s": "jo",
+    "ej": "joven",
+    "ejZh": "年轻的",
+    "palabras": [
+     {
+      "es": "joven",
+      "zh": "年轻的"
+     },
+     {
+      "es": "ojo",
+      "zh": "眼睛"
+     },
+     {
+      "es": "rojo",
+      "zh": "红色的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi hermano es muy joven.",
+      "zh": "我哥哥很年轻。"
+     },
+     {
+      "es": "Tengo los ojos rojos.",
+      "zh": "我的眼睛是红的。"
+     }
+    ]
+   },
+   {
+    "s": "ju",
+    "ej": "jugar",
+    "ejZh": "玩",
+    "palabras": [
+     {
+      "es": "jugar",
+      "zh": "玩"
+     },
+     {
+      "es": "jugo",
+      "zh": "果汁"
+     },
+     {
+      "es": "julio",
+      "zh": "七月"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Me gusta jugar al fútbol.",
+      "zh": "我喜欢踢足球。"
+     },
+     {
+      "es": "Quiero un jugo de naranja.",
+      "zh": "我想要一杯橙汁。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "l",
+  "titulo": "L",
+  "tituloZh": "l音",
+  "dificil": true,
+  "consejoZh": "舌尖抵上齿龈，舌面平，不要卷舌；结尾l要清晰。",
+  "silabas": [
+   {
+    "s": "la",
+    "ej": "lado",
+    "ejZh": "旁边",
+    "palabras": [
+     {
+      "es": "lado",
+      "zh": "侧面"
+     },
+     {
+      "es": "lago",
+      "zh": "湖"
+     },
+     {
+      "es": "lápiz",
+      "zh": "铅笔"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El lago es muy bonito.",
+      "zh": "这个湖很美。"
+     },
+     {
+      "es": "Necesito un lápiz nuevo.",
+      "zh": "我需要一支新铅笔。"
+     }
+    ]
+   },
+   {
+    "s": "le",
+    "ej": "leer",
+    "ejZh": "阅读",
+    "palabras": [
+     {
+      "es": "leche",
+      "zh": "牛奶"
+     },
+     {
+      "es": "leer",
+      "zh": "读"
+     },
+     {
+      "es": "lejos",
+      "zh": "远"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Bebo leche cada día.",
+      "zh": "我每天喝牛奶。"
+     },
+     {
+      "es": "Me gusta leer libros.",
+      "zh": "我喜欢读书。"
+     }
+    ]
+   },
+   {
+    "s": "li",
+    "ej": "libro",
+    "ejZh": "书",
+    "palabras": [
+     {
+      "es": "libro",
+      "zh": "书"
+     },
+     {
+      "es": "limón",
+      "zh": "柠檬"
+     },
+     {
+      "es": "lista",
+      "zh": "名单"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Este libro es muy bueno.",
+      "zh": "这本书很好。"
+     },
+     {
+      "es": "El limón es ácido.",
+      "zh": "柠檬是酸的。"
+     }
+    ]
+   },
+   {
+    "s": "lo",
+    "ej": "loco",
+    "ejZh": "疯狂的",
+    "palabras": [
+     {
+      "es": "loco",
+      "zh": "疯狂的"
+     },
+     {
+      "es": "lobo",
+      "zh": "狼"
+     },
+     {
+      "es": "loco",
+      "zh": "疯狂的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El lobo vive en el bosque.",
+      "zh": "狼住在森林里。"
+     },
+     {
+      "es": "Mi perro está un poco loco.",
+      "zh": "我的狗有点疯。"
+     }
+    ]
+   },
+   {
+    "s": "lu",
+    "ej": "luna",
+    "ejZh": "月亮",
+    "palabras": [
+     {
+      "es": "luna",
+      "zh": "月亮"
+     },
+     {
+      "es": "lunes",
+      "zh": "星期一"
+     },
+     {
+      "es": "luz",
+      "zh": "光"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La luna brilla esta noche.",
+      "zh": "今晚月亮很亮。"
+     },
+     {
+      "es": "Hoy es lunes.",
+      "zh": "今天是星期一。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ll-y",
+  "titulo": "LL / Y",
+  "tituloZh": "ll与y",
+  "dificil": true,
+  "consejoZh": "多数地区发y音，舌面抬向上腭，像汉语拼音y但摩擦更强。",
+  "silabas": [
+   {
+    "s": "lla",
+    "ej": "llave",
+    "ejZh": "钥匙",
+    "palabras": [
+     {
+      "es": "llave",
+      "zh": "钥匙"
+     },
+     {
+      "es": "llama",
+      "zh": "火焰"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Tengo la llave de casa.",
+      "zh": "我有家里的钥匙。"
+     },
+     {
+      "es": "La llama es muy caliente.",
+      "zh": "火焰很热。"
+     }
+    ]
+   },
+   {
+    "s": "lle",
+    "ej": "llegar",
+    "ejZh": "到达",
+    "palabras": [
+     {
+      "es": "llegar",
+      "zh": "到达"
+     },
+     {
+      "es": "calle",
+      "zh": "街道"
+     },
+     {
+      "es": "valle",
+      "zh": "山谷"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Vivo en esta calle.",
+      "zh": "我住在这条街。"
+     },
+     {
+      "es": "El valle es verde.",
+      "zh": "山谷是绿色的。"
+     }
+    ]
+   },
+   {
+    "s": "lli",
+    "ej": "pollito",
+    "ejZh": "小鸡",
+    "palabras": [
+     {
+      "es": "pollito",
+      "zh": "小鸡"
+     },
+     {
+      "es": "tortillita",
+      "zh": "小玉米饼"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El pollito es amarillo.",
+      "zh": "小鸡是黄色的。"
+     },
+     {
+      "es": "Quiero una tortillita, por favor.",
+      "zh": "请给我一个小玉米饼。"
+     }
+    ]
+   },
+   {
+    "s": "llo",
+    "ej": "llorar",
+    "ejZh": "哭",
+    "palabras": [
+     {
+      "es": "caballo",
+      "zh": "马"
+     },
+     {
+      "es": "cuchillo",
+      "zh": "刀"
+     },
+     {
+      "es": "sello",
+      "zh": "邮票"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El caballo corre rápido.",
+      "zh": "马跑得很快。"
+     },
+     {
+      "es": "Necesito un cuchillo.",
+      "zh": "我需要一把刀。"
+     }
+    ]
+   },
+   {
+    "s": "llu",
+    "ej": "llueve",
+    "ejZh": "下雨",
+    "palabras": [
+     {
+      "es": "lluvia",
+      "zh": "雨"
+     },
+     {
+      "es": "llueve",
+      "zh": "下雨"
+     },
+     {
+      "es": "lluvioso",
+      "zh": "多雨的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La lluvia es fría.",
+      "zh": "雨很冷。"
+     },
+     {
+      "es": "Hoy llueve mucho.",
+      "zh": "今天下雨很多。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "m",
+  "titulo": "M",
+  "tituloZh": "m音",
+  "dificil": false,
+  "consejoZh": "双唇闭合，气流从鼻腔出，声带振动，像汉语拼音m。",
+  "silabas": [
+   {
+    "s": "ma",
+    "ej": "mano",
+    "ejZh": "手",
+    "palabras": [
+     {
+      "es": "madre",
+      "zh": "母亲"
+     },
+     {
+      "es": "mano",
+      "zh": "手"
+     },
+     {
+      "es": "mañana",
+      "zh": "明天"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi madre cocina bien.",
+      "zh": "我妈妈做饭很好。"
+     },
+     {
+      "es": "Lavo mi mano.",
+      "zh": "我洗手。"
+     }
+    ]
+   },
+   {
+    "s": "me",
+    "ej": "mesa",
+    "ejZh": "桌子",
+    "palabras": [
+     {
+      "es": "mesa",
+      "zh": "桌子"
+     },
+     {
+      "es": "médico",
+      "zh": "医生"
+     },
+     {
+      "es": "mes"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El libro está en la mesa.",
+      "zh": "书在桌子上。"
+     },
+     {
+      "es": "Mi padre es médico.",
+      "zh": "我爸爸是医生。"
+     }
+    ]
+   },
+   {
+    "s": "mi",
+    "ej": "misa",
+    "ejZh": "弥撒",
+    "palabras": [
+     {
+      "es": "misa",
+      "zh": "弥撒"
+     },
+     {
+      "es": "miel",
+      "zh": "蜂蜜"
+     },
+     {
+      "es": "miga",
+      "zh": "面包屑"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La miel es dulce.",
+      "zh": "蜂蜜是甜的。"
+     },
+     {
+      "es": "Hay una miga en la mesa.",
+      "zh": "桌上有一块面包屑。"
+     }
+    ]
+   },
+   {
+    "s": "mo",
+    "ej": "mochila",
+    "ejZh": "背包",
+    "palabras": [
+     {
+      "es": "moto",
+      "zh": "摩托车"
+     },
+     {
+      "es": "mono",
+      "zh": "猴子"
+     },
+     {
+      "es": "moda",
+      "zh": "时尚"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi padre tiene una moto.",
+      "zh": "我爸爸有一辆摩托车。"
+     },
+     {
+      "es": "El mono come fruta.",
+      "zh": "猴子吃水果。"
+     }
+    ]
+   },
+   {
+    "s": "mu",
+    "ej": "muro",
+    "ejZh": "墙",
+    "palabras": [
+     {
+      "es": "mundo",
+      "zh": "世界"
+     },
+     {
+      "es": "muro",
+      "zh": "墙"
+     },
+     {
+      "es": "música",
+      "zh": "音乐"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El mundo es grande.",
+      "zh": "世界很大。"
+     },
+     {
+      "es": "Me gusta la música.",
+      "zh": "我喜欢音乐。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "n",
+  "titulo": "N",
+  "tituloZh": "n音",
+  "dificil": false,
+  "consejoZh": "舌尖抵上齿龈，气流从鼻腔出，像汉语拼音n。",
+  "silabas": [
+   {
+    "s": "na",
+    "ej": "naranja",
+    "ejZh": "橙子",
+    "palabras": [
+     {
+      "es": "naranja",
+      "zh": "橙子"
+     },
+     {
+      "es": "nariz",
+      "zh": "鼻子"
+     },
+     {
+      "es": "nave",
+      "zh": "船"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La naranja es dulce.",
+      "zh": "橙子很甜。"
+     },
+     {
+      "es": "Me duele la nariz.",
+      "zh": "我鼻子疼。"
+     }
+    ]
+   },
+   {
+    "s": "ne",
+    "ej": "negro",
+    "ejZh": "黑色",
+    "palabras": [
+     {
+      "es": "negro",
+      "zh": "黑色的"
+     },
+     {
+      "es": "nene",
+      "zh": "小孩"
+     },
+     {
+      "es": "nevera",
+      "zh": "冰箱"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi gato es negro.",
+      "zh": "我的猫是黑色的。"
+     },
+     {
+      "es": "La leche está en la nevera.",
+      "zh": "牛奶在冰箱里。"
+     }
+    ]
+   },
+   {
+    "s": "ni",
+    "ej": "niño",
+    "ejZh": "孩子",
+    "palabras": [
+     {
+      "es": "niño",
+      "zh": "男孩"
+     },
+     {
+      "es": "nido",
+      "zh": "巢"
+     },
+     {
+      "es": "nieve",
+      "zh": "雪"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El niño juega en el parque.",
+      "zh": "男孩在公园玩。"
+     },
+     {
+      "es": "Me gusta la nieve.",
+      "zh": "我喜欢雪。"
+     }
+    ]
+   },
+   {
+    "s": "no",
+    "ej": "noche",
+    "ejZh": "夜晚",
+    "palabras": [
+     {
+      "es": "noche",
+      "zh": "夜晚"
+     },
+     {
+      "es": "norte",
+      "zh": "北方"
+     },
+     {
+      "es": "nota",
+      "zh": "笔记"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La noche es tranquila.",
+      "zh": "夜晚很安静。"
+     },
+     {
+      "es": "Escribo una nota.",
+      "zh": "我写一个笔记。"
+     }
+    ]
+   },
+   {
+    "s": "nu",
+    "ej": "nuevo",
+    "ejZh": "新的",
+    "palabras": [
+     {
+      "es": "nube",
+      "zh": "云"
+     },
+     {
+      "es": "nuevo",
+      "zh": "新的"
+     },
+     {
+      "es": "nuez",
+      "zh": "核桃"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La nube es blanca.",
+      "zh": "云是白色的。"
+     },
+     {
+      "es": "Tengo un libro nuevo.",
+      "zh": "我有一本新书。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ñ",
+  "titulo": "Ñ",
+  "tituloZh": "ñ音",
+  "dificil": true,
+  "consejoZh": "舌面贴硬腭，像汉语拼音ny连读（类似“尼”加“呀”）。",
+  "silabas": [
+   {
+    "s": "ña",
+    "ej": "mañana",
+    "ejZh": "明天",
+    "palabras": [
+     {
+      "es": "niña",
+      "zh": "女孩"
+     },
+     {
+      "es": "caña",
+      "zh": "甘蔗"
+     },
+     {
+      "es": "mañana",
+      "zh": "明天/早晨"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La niña canta bien.",
+      "zh": "女孩唱歌很好。"
+     },
+     {
+      "es": "Hasta mañana, amigos.",
+      "zh": "明天见，朋友们。"
+     }
+    ]
+   },
+   {
+    "s": "ñe",
+    "ej": "muñeca",
+    "ejZh": "娃娃",
+    "palabras": [
+     {
+      "es": "muñeca",
+      "zh": "娃娃"
+     },
+     {
+      "es": "muñeco",
+      "zh": "玩偶"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La muñeca es bonita.",
+      "zh": "娃娃很漂亮。"
+     },
+     {
+      "es": "El niño tiene un muñeco.",
+      "zh": "这个男孩有一个玩偶。"
+     }
+    ]
+   },
+   {
+    "s": "ñi",
+    "ej": "niñito",
+    "ejZh": "小男孩",
+    "palabras": [
+     {
+      "es": "niñito",
+      "zh": "小男孩"
+     },
+     {
+      "es": "cariñito",
+      "zh": "亲爱的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El niñito duerme en casa.",
+      "zh": "小男孩在家睡觉。"
+     },
+     {
+      "es": "Buenas noches, cariñito.",
+      "zh": "晚安，亲爱的。"
+     }
+    ]
+   },
+   {
+    "s": "ño",
+    "ej": "año",
+    "ejZh": "年",
+    "palabras": [
+     {
+      "es": "señor",
+      "zh": "先生"
+     },
+     {
+      "es": "año",
+      "zh": "年"
+     },
+     {
+      "es": "sueño",
+      "zh": "梦"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Buenos días, señor.",
+      "zh": "早上好，先生。"
+     },
+     {
+      "es": "Tengo mucho sueño.",
+      "zh": "我很困。"
+     }
+    ]
+   },
+   {
+    "s": "ñu",
+    "ej": "ñu",
+    "ejZh": "角马",
+    "palabras": [
+     {
+      "es": "ñu",
+      "zh": "角马"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El ñu vive en África.",
+      "zh": "角马生活在非洲。"
+     },
+     {
+      "es": "Veo un ñu en el zoo.",
+      "zh": "我在动物园看到一头角马。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "p",
+  "titulo": "P",
+  "tituloZh": "p音",
+  "dificil": false,
+  "consejoZh": "双唇闭合后爆破，不送气，比汉语p更干短。",
+  "silabas": [
+   {
+    "s": "pa",
+    "ej": "pan",
+    "ejZh": "面包",
+    "palabras": [
+     {
+      "es": "padre",
+      "zh": "父亲"
+     },
+     {
+      "es": "pan",
+      "zh": "面包"
+     },
+     {
+      "es": "papel",
+      "zh": "纸"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi padre trabaja mucho.",
+      "zh": "我爸爸工作很忙。"
+     },
+     {
+      "es": "Como pan por la mañana.",
+      "zh": "我早上吃面包。"
+     }
+    ]
+   },
+   {
+    "s": "pe",
+    "ej": "perro",
+    "ejZh": "狗",
+    "palabras": [
+     {
+      "es": "perro",
+      "zh": "狗"
+     },
+     {
+      "es": "pescado",
+      "zh": "鱼"
+     },
+     {
+      "es": "pelota",
+      "zh": "球"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El perro es muy fiel.",
+      "zh": "狗很忠诚。"
+     },
+     {
+      "es": "Juego con la pelota.",
+      "zh": "我玩球。"
+     }
+    ]
+   },
+   {
+    "s": "pi",
+    "ej": "piel",
+    "ejZh": "皮肤",
+    "palabras": [
+     {
+      "es": "pie",
+      "zh": "脚"
+     },
+     {
+      "es": "pizza",
+      "zh": "披萨"
+     },
+     {
+      "es": "pizarra",
+      "zh": "黑板"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Me duele el pie.",
+      "zh": "我脚疼。"
+     },
+     {
+      "es": "Me gusta la pizza.",
+      "zh": "我喜欢披萨。"
+     }
+    ]
+   },
+   {
+    "s": "po",
+    "ej": "poco",
+    "ejZh": "少",
+    "palabras": [
+     {
+      "es": "poco",
+      "zh": "少"
+     },
+     {
+      "es": "pollo",
+      "zh": "鸡肉"
+     },
+     {
+      "es": "poder",
+      "zh": "能够"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Hablo un poco de español.",
+      "zh": "我会说一点西班牙语。"
+     },
+     {
+      "es": "Quiero comer pollo.",
+      "zh": "我想吃鸡肉。"
+     }
+    ]
+   },
+   {
+    "s": "pu",
+    "ej": "puerta",
+    "ejZh": "门",
+    "palabras": [
+     {
+      "es": "puerta",
+      "zh": "门"
+     },
+     {
+      "es": "puro",
+      "zh": "纯的"
+     },
+     {
+      "es": "pulpo",
+      "zh": "章鱼"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Abre la puerta, por favor.",
+      "zh": "请开门。"
+     },
+     {
+      "es": "El pulpo vive en el mar.",
+      "zh": "章鱼生活在海里。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "r-suave",
+  "titulo": "R suave",
+  "tituloZh": "单击r",
+  "dificil": true,
+  "consejoZh": "舌尖轻弹上齿龈一次，像快速说“啦”的起音，别卷舌。",
+  "silabas": [
+   {
+    "s": "ra",
+    "ej": "cara",
+    "ejZh": "脸",
+    "palabras": [
+     {
+      "es": "rana",
+      "zh": "青蛙"
+     },
+     {
+      "es": "ratón",
+      "zh": "老鼠"
+     },
+     {
+      "es": "ramo",
+      "zh": "花束"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La rana es verde.",
+      "zh": "青蛙是绿色的。"
+     },
+     {
+      "es": "Veo un ratón pequeño.",
+      "zh": "我看到一只小老鼠。"
+     }
+    ]
+   },
+   {
+    "s": "re",
+    "ej": "pera",
+    "ejZh": "梨",
+    "palabras": [
+     {
+      "es": "reloj",
+      "zh": "钟表"
+     },
+     {
+      "es": "rey",
+      "zh": "国王"
+     },
+     {
+      "es": "red",
+      "zh": "网"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El reloj es nuevo.",
+      "zh": "这块表是新的。"
+     },
+     {
+      "es": "El rey come pan.",
+      "zh": "国王吃面包。"
+     }
+    ]
+   },
+   {
+    "s": "ri",
+    "ej": "arisa",
+    "ejZh": "（arisa）",
+    "palabras": [
+     {
+      "es": "risa",
+      "zh": "笑声"
+     },
+     {
+      "es": "río",
+      "zh": "河流"
+     },
+     {
+      "es": "rico",
+      "zh": "好吃的；富有的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Su risa es alegre.",
+      "zh": "她的笑声很开心。"
+     },
+     {
+      "es": "El río es muy largo.",
+      "zh": "这条河很长。"
+     }
+    ]
+   },
+   {
+    "s": "ro",
+    "ej": "caro",
+    "ejZh": "贵的",
+    "palabras": [
+     {
+      "es": "ropa",
+      "zh": "衣服"
+     },
+     {
+      "es": "rosa",
+      "zh": "玫瑰；粉色"
+     },
+     {
+      "es": "rojo",
+      "zh": "红色的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La ropa está limpia.",
+      "zh": "衣服是干净的。"
+     },
+     {
+      "es": "Me gusta la rosa roja.",
+      "zh": "我喜欢那朵红玫瑰。"
+     }
+    ]
+   },
+   {
+    "s": "ru",
+    "ej": "peruano",
+    "ejZh": "秘鲁的",
+    "palabras": [
+     {
+      "es": "ruta",
+      "zh": "路线"
+     },
+     {
+      "es": "rueda",
+      "zh": "轮子"
+     },
+     {
+      "es": "ruso",
+      "zh": "俄罗斯的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La ruta es corta.",
+      "zh": "这条路很短。"
+     },
+     {
+      "es": "La rueda es grande.",
+      "zh": "轮子很大。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rr",
+  "titulo": "RR",
+  "tituloZh": "多击rr",
+  "dificil": true,
+  "consejoZh": "舌尖快速多次弹上齿龈，像摩托车声“rrr”，词首r也这样读。",
+  "silabas": [
+   {
+    "s": "rra",
+    "ej": "perro",
+    "ejZh": "狗",
+    "palabras": [
+     {
+      "es": "barra",
+      "zh": "横杠；柜台"
+     },
+     {
+      "es": "tierra",
+      "zh": "土地"
+     },
+     {
+      "es": "gorra",
+      "zh": "帽子"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La barra es de pan.",
+      "zh": "这条是面包。"
+     },
+     {
+      "es": "La tierra es marrón.",
+      "zh": "土地是棕色的。"
+     }
+    ]
+   },
+   {
+    "s": "rre",
+    "ej": "correr",
+    "ejZh": "跑",
+    "palabras": [
+     {
+      "es": "carretera",
+      "zh": "公路"
+     },
+     {
+      "es": "correr",
+      "zh": "跑"
+     },
+     {
+      "es": "torre",
+      "zh": "塔"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La carretera es larga.",
+      "zh": "公路很长。"
+     },
+     {
+      "es": "Me gusta correr por la mañana.",
+      "zh": "我喜欢早上跑步。"
+     }
+    ]
+   },
+   {
+    "s": "rri",
+    "ej": "arriba",
+    "ejZh": "上面",
+    "palabras": [
+     {
+      "es": "arriba",
+      "zh": "上面"
+     },
+     {
+      "es": "barril",
+      "zh": "桶"
+     },
+     {
+      "es": "carrito",
+      "zh": "小推车"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El libro está arriba.",
+      "zh": "书在上面。"
+     },
+     {
+      "es": "El barril es de madera.",
+      "zh": "桶是木头的。"
+     }
+    ]
+   },
+   {
+    "s": "rro",
+    "ej": "carro",
+    "ejZh": "车",
+    "palabras": [
+     {
+      "es": "perro",
+      "zh": "狗"
+     },
+     {
+      "es": "carro",
+      "zh": "车"
+     },
+     {
+      "es": "barro",
+      "zh": "泥"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El carro es rojo.",
+      "zh": "车是红色的。"
+     },
+     {
+      "es": "Hay barro en el zapato.",
+      "zh": "鞋上有泥。"
+     }
+    ]
+   },
+   {
+    "s": "rru",
+    "ej": "arruga",
+    "ejZh": "皱纹",
+    "palabras": [
+     {
+      "es": "arruga",
+      "zh": "皱纹"
+     },
+     {
+      "es": "carrusel",
+      "zh": "旋转木马"
+     },
+     {
+      "es": "arrugado",
+      "zh": "皱的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Subimos al carrusel.",
+      "zh": "我们坐旋转木马。"
+     },
+     {
+      "es": "Mi camisa está arrugada.",
+      "zh": "我的衬衫皱了。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "s",
+  "titulo": "S",
+  "tituloZh": "s音",
+  "dificil": false,
+  "consejoZh": "舌尖靠近上齿龈，气流摩擦而出，像汉语拼音s。",
+  "silabas": [
+   {
+    "s": "sa",
+    "ej": "sala",
+    "ejZh": "客厅",
+    "palabras": [
+     {
+      "es": "sala",
+      "zh": "客厅"
+     },
+     {
+      "es": "sal",
+      "zh": "盐"
+     },
+     {
+      "es": "sábado",
+      "zh": "星期六"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La sala es grande.",
+      "zh": "客厅很大。"
+     },
+     {
+      "es": "Hoy es sábado.",
+      "zh": "今天是星期六。"
+     }
+    ]
+   },
+   {
+    "s": "se",
+    "ej": "seis",
+    "ejZh": "六",
+    "palabras": [
+     {
+      "es": "semana",
+      "zh": "星期"
+     },
+     {
+      "es": "selva",
+      "zh": "丛林"
+     },
+     {
+      "es": "seis",
+      "zh": "六"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La semana es corta.",
+      "zh": "这周很短。"
+     },
+     {
+      "es": "Tengo seis libros.",
+      "zh": "我有六本书。"
+     }
+    ]
+   },
+   {
+    "s": "si",
+    "ej": "silla",
+    "ejZh": "椅子",
+    "palabras": [
+     {
+      "es": "silla",
+      "zh": "椅子"
+     },
+     {
+      "es": "siete",
+      "zh": "七"
+     },
+     {
+      "es": "siesta",
+      "zh": "午睡"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La silla es cómoda.",
+      "zh": "椅子很舒服。"
+     },
+     {
+      "es": "Hay siete mesas.",
+      "zh": "有七张桌子。"
+     }
+    ]
+   },
+   {
+    "s": "so",
+    "ej": "sol",
+    "ejZh": "太阳",
+    "palabras": [
+     {
+      "es": "sopa",
+      "zh": "汤"
+     },
+     {
+      "es": "sol",
+      "zh": "太阳"
+     },
+     {
+      "es": "sombrero",
+      "zh": "帽子"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La sopa está caliente.",
+      "zh": "汤是热的。"
+     },
+     {
+      "es": "El sol es amarillo.",
+      "zh": "太阳是黄色的。"
+     }
+    ]
+   },
+   {
+    "s": "su",
+    "ej": "sumo",
+    "ejZh": "果汁",
+    "palabras": [
+     {
+      "es": "suma",
+      "zh": "加法"
+     },
+     {
+      "es": "sur",
+      "zh": "南方"
+     },
+     {
+      "es": "suerte",
+      "zh": "运气"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La suma es fácil.",
+      "zh": "加法很简单。"
+     },
+     {
+      "es": "Buena suerte en el examen.",
+      "zh": "考试好运。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "t",
+  "titulo": "T",
+  "tituloZh": "t音",
+  "dificil": false,
+  "consejoZh": "舌尖抵上齿背爆破，不送气，比汉语t更短。",
+  "silabas": [
+   {
+    "s": "ta",
+    "ej": "taza",
+    "ejZh": "杯子",
+    "palabras": [
+     {
+      "es": "taza",
+      "zh": "杯子"
+     },
+     {
+      "es": "tarde",
+      "zh": "下午"
+     },
+     {
+      "es": "taller",
+      "zh": "车间"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La taza es blanca.",
+      "zh": "杯子是白色的。"
+     },
+     {
+      "es": "Buenas tardes, señor.",
+      "zh": "下午好，先生。"
+     }
+    ]
+   },
+   {
+    "s": "te",
+    "ej": "techo",
+    "ejZh": "屋顶",
+    "palabras": [
+     {
+      "es": "té",
+      "zh": "茶"
+     },
+     {
+      "es": "teléfono",
+      "zh": "电话"
+     },
+     {
+      "es": "techo",
+      "zh": "屋顶"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Quiero un té caliente.",
+      "zh": "我要一杯热茶。"
+     },
+     {
+      "es": "Mi teléfono es nuevo.",
+      "zh": "我的电话是新的。"
+     }
+    ]
+   },
+   {
+    "s": "ti",
+    "ej": "tipo",
+    "ejZh": "类型",
+    "palabras": [
+     {
+      "es": "tía",
+      "zh": "姑姑；阿姨"
+     },
+     {
+      "es": "tiempo",
+      "zh": "时间；天气"
+     },
+     {
+      "es": "tijeras",
+      "zh": "剪刀"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi tía vive aquí.",
+      "zh": "我姑姑住在这里。"
+     },
+     {
+      "es": "No tengo tiempo hoy.",
+      "zh": "我今天没有时间。"
+     }
+    ]
+   },
+   {
+    "s": "to",
+    "ej": "tomate",
+    "ejZh": "西红柿",
+    "palabras": [
+     {
+      "es": "tomate",
+      "zh": "西红柿"
+     },
+     {
+      "es": "toro",
+      "zh": "公牛"
+     },
+     {
+      "es": "todo",
+      "zh": "全部"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El tomate es rojo.",
+      "zh": "西红柿是红色的。"
+     },
+     {
+      "es": "Todo está bien.",
+      "zh": "一切都好。"
+     }
+    ]
+   },
+   {
+    "s": "tu",
+    "ej": "tus",
+    "ejZh": "你的（复数）",
+    "palabras": [
+     {
+      "es": "tumba",
+      "zh": "坟墓"
+     },
+     {
+      "es": "tutor",
+      "zh": "导师"
+     },
+     {
+      "es": "turista",
+      "zh": "游客"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El turista es chino.",
+      "zh": "这位游客是中国人。"
+     },
+     {
+      "es": "Mi tutor es amable.",
+      "zh": "我的导师很友好。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "v",
+  "titulo": "V",
+  "tituloZh": "v音",
+  "dificil": true,
+  "consejoZh": "西班牙语v与b发音相同：双唇爆破，不要用汉语v（唇齿）。",
+  "silabas": [
+   {
+    "s": "va",
+    "ej": "vaca",
+    "ejZh": "奶牛",
+    "palabras": [
+     {
+      "es": "vaca",
+      "zh": "奶牛"
+     },
+     {
+      "es": "vaso",
+      "zh": "杯子"
+     },
+     {
+      "es": "vapor",
+      "zh": "蒸汽"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La vaca come hierba.",
+      "zh": "奶牛吃草。"
+     },
+     {
+      "es": "El vaso está lleno.",
+      "zh": "杯子是满的。"
+     }
+    ]
+   },
+   {
+    "s": "ve",
+    "ej": "verde",
+    "ejZh": "绿色",
+    "palabras": [
+     {
+      "es": "verde",
+      "zh": "绿色的"
+     },
+     {
+      "es": "vela",
+      "zh": "蜡烛"
+     },
+     {
+      "es": "ventana",
+      "zh": "窗户"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La hoja es verde.",
+      "zh": "叶子是绿色的。"
+     },
+     {
+      "es": "La ventana está abierta.",
+      "zh": "窗户是开着的。"
+     }
+    ]
+   },
+   {
+    "s": "vi",
+    "ej": "vida",
+    "ejZh": "生活",
+    "palabras": [
+     {
+      "es": "vida",
+      "zh": "生活"
+     },
+     {
+      "es": "vino",
+      "zh": "葡萄酒"
+     },
+     {
+      "es": "viernes",
+      "zh": "星期五"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La vida es bonita.",
+      "zh": "生活很美好。"
+     },
+     {
+      "es": "Hoy es viernes.",
+      "zh": "今天是星期五。"
+     }
+    ]
+   },
+   {
+    "s": "vo",
+    "ej": "volver",
+    "ejZh": "返回",
+    "palabras": [
+     {
+      "es": "voz",
+      "zh": "声音"
+     },
+     {
+      "es": "volcán",
+      "zh": "火山"
+     },
+     {
+      "es": "nuevo",
+      "zh": "新的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Tu voz es suave.",
+      "zh": "你的声音很温柔。"
+     },
+     {
+      "es": "Tengo un libro nuevo.",
+      "zh": "我有一本新书。"
+     }
+    ]
+   },
+   {
+    "s": "vu",
+    "ej": "uvas",
+    "ejZh": "葡萄",
+    "palabras": [
+     {
+      "es": "vuelta",
+      "zh": "一圈；返回"
+     },
+     {
+      "es": "vulgar",
+      "zh": "粗俗的"
+     },
+     {
+      "es": "vuestro",
+      "zh": "你们的"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Damos una vuelta.",
+      "zh": "我们转一圈。"
+     },
+     {
+      "es": "Este libro es vuestro.",
+      "zh": "这本书是你们的。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "x",
+  "titulo": "X",
+  "tituloZh": "x音",
+  "dificil": false,
+  "consejoZh": "x在词中多读ks；练习用ex-开头词，注意k与s连读。",
+  "silabas": [
+   {
+    "s": "xa",
+    "ej": "examen",
+    "ejZh": "考试",
+    "palabras": [
+     {
+      "es": "xaxó",
+      "zh": "一种小蛋糕"
+     },
+     {
+      "es": "xantato",
+      "zh": "黄原酸盐"
+     },
+     {
+      "es": "xantina",
+      "zh": "黄嘌呤"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El xaxó es dulce.",
+      "zh": "这种蛋糕是甜的。"
+     },
+     {
+      "es": "La xantina es natural.",
+      "zh": "黄嘌呤是天然的。"
+     }
+    ]
+   },
+   {
+    "s": "xe",
+    "ej": "excelente",
+    "ejZh": "优秀的",
+    "palabras": [
+     {
+      "es": "xenón",
+      "zh": "氙气"
+     },
+     {
+      "es": "xerox",
+      "zh": "复印"
+     },
+     {
+      "es": "xenofobia",
+      "zh": "排外"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El xenón es un gas.",
+      "zh": "氙是一种气体。"
+     },
+     {
+      "es": "Hago una xerox.",
+      "zh": "我复印一份。"
+     }
+    ]
+   },
+   {
+    "s": "xi",
+    "ej": "taxi",
+    "ejZh": "出租车",
+    "palabras": [
+     {
+      "es": "xilófono",
+      "zh": "木琴"
+     },
+     {
+      "es": "xileno",
+      "zh": "二甲苯"
+     },
+     {
+      "es": "xilema",
+      "zh": "木质部"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El xilófono suena bien.",
+      "zh": "木琴听起来不错。"
+     },
+     {
+      "es": "El xilema es de la planta.",
+      "zh": "木质部属于植物。"
+     }
+    ]
+   },
+   {
+    "s": "xo",
+    "ej": "boxeo",
+    "ejZh": "拳击",
+    "palabras": [
+     {
+      "es": "xocolatl",
+      "zh": "巧克力（古语）"
+     },
+     {
+      "es": "xochil",
+      "zh": "花（墨西哥用语）"
+     },
+     {
+      "es": "xoloitzcuintle",
+      "zh": "墨西哥无毛犬"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El xoloitzcuintle es un perro.",
+      "zh": "墨西哥无毛犬是一种狗。"
+     },
+     {
+      "es": "Xochil es una flor.",
+      "zh": "Xochil 是一种花。"
+     }
+    ]
+   },
+   {
+    "s": "xu",
+    "ej": "exuso",
+    "ejZh": "（exuso）",
+    "palabras": [
+     {
+      "es": "xupé",
+      "zh": "一种甜点"
+     },
+     {
+      "es": "xucro",
+      "zh": "未驯服的"
+     },
+     {
+      "es": "xuglar",
+      "zh": "游吟诗人"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El xupé es muy dulce.",
+      "zh": "这种甜点很甜。"
+     },
+     {
+      "es": "El caballo es xucro.",
+      "zh": "这匹马未驯服。"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "z",
+  "titulo": "Z",
+  "tituloZh": "z音",
+  "dificil": true,
+  "consejoZh": "西班牙z发咬舌θ音，舌尖轻伸齿间；拉美读s。",
+  "silabas": [
+   {
+    "s": "za",
+    "ej": "zapato",
+    "ejZh": "鞋子",
+    "palabras": [
+     {
+      "es": "zapato",
+      "zh": "鞋子"
+     },
+     {
+      "es": "zanahoria",
+      "zh": "胡萝卜"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Mi zapato es negro.",
+      "zh": "我的鞋是黑色的。"
+     },
+     {
+      "es": "La zanahoria es naranja.",
+      "zh": "胡萝卜是橙色的。"
+     }
+    ]
+   },
+   {
+    "s": "ze",
+    "ej": "zeta",
+    "ejZh": "字母Z",
+    "palabras": [
+     {
+      "es": "zeta",
+      "zh": "字母Z"
+     },
+     {
+      "es": "zepelín",
+      "zh": "飞艇"
+     }
+    ],
+    "frases": [
+     {
+      "es": "La zeta es una letra.",
+      "zh": "Z是一个字母。"
+     },
+     {
+      "es": "Veo un zepelín en el cielo.",
+      "zh": "我看到天上有一艘飞艇。"
+     }
+    ]
+   },
+   {
+    "s": "zi",
+    "ej": "cocina",
+    "ejZh": "厨房",
+    "palabras": [
+     {
+      "es": "zinc",
+      "zh": "锌"
+     },
+     {
+      "es": "zigzag",
+      "zh": "之字形"
+     },
+     {
+      "es": "zipizape",
+      "zh": "混乱"
+     }
+    ],
+    "frases": [
+     {
+      "es": "El zinc es un metal.",
+      "zh": "锌是一种金属。"
+     },
+     {
+      "es": "El camino hace zigzag.",
+      "zh": "这条路呈之字形。"
+     }
+    ]
+   },
+   {
+    "s": "zo",
+    "ej": "zorro",
+    "ejZh": "狐狸",
+    "palabras": [
+     {
+      "es": "zoo",
+      "zh": "动物园"
+     },
+     {
+      "es": "zona",
+      "zh": "区域"
+     },
+     {
+      "es": "zócalo",
+      "zh": "踢脚线"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Vamos al zoo hoy.",
+      "zh": "我们今天去动物园。"
+     },
+     {
+      "es": "Esta zona es tranquila.",
+      "zh": "这个区域很安静。"
+     }
+    ]
+   },
+   {
+    "s": "zu",
+    "ej": "azúcar",
+    "ejZh": "糖",
+    "palabras": [
+     {
+      "es": "zumo",
+      "zh": "果汁"
+     },
+     {
+      "es": "azul",
+      "zh": "蓝色的"
+     },
+     {
+      "es": "zurdo",
+      "zh": "左撇子"
+     }
+    ],
+    "frases": [
+     {
+      "es": "Bebo zumo de naranja.",
+      "zh": "我喝橙汁。"
+     },
+     {
+      "es": "Mi cuaderno es azul.",
+      "zh": "我的本子是蓝色的。"
+     }
+    ]
+   }
+  ]
+ }
+]
