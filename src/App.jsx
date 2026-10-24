@@ -34,7 +34,7 @@ const ScramblePage = React.lazy(() => import("./pages/juegos/ScramblePage.jsx"))
 const AudicionPage = React.lazy(() => import("./pages/AudicionPage.jsx"));
 const ConsejosPage = React.lazy(() => import("./pages/ConsejosPage.jsx"));
 const GramaticaPage = React.lazy(() => import("./pages/GramaticaPage.jsx"));
-const DiccionariosPage = React.lazy(() => import("./pages/DiccionariosPage.jsx"));
+const DiccionariosPage = React.lazy(() => import("./pages/DiccionarioPage.jsx"));
 const ExamenesPage = React.lazy(() => import("./pages/dele/ExamenesPage.jsx"));
 const AyudasPage = React.lazy(() => import("./pages/AyudasPage.jsx"));
 const KaraokePage = React.lazy(() => import("./pages/KaraokePage.jsx"));

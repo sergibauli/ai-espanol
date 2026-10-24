@@ -7,18 +7,18 @@ import { attachLightAdapter } from "./lightAdapter.js";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
 const MAIN = [
-  { to: "/ruta", emoji: "🏠", es: "Aprender", zh: "学习" },
-  { to: "/modulos", emoji: "📚", es: "Unidades", zh: "单元" },
-  { to: "/oficial", emoji: "🏆", es: "DELE", zh: "考试" },
-  { to: "/juegos", emoji: "🎮", es: "Juegos", zh: "游戏" },
+  { to: "/ruta", emoji: "🏯", es: "Aprender", zh: "学习" },
+  { to: "/modulos", emoji: "📜", es: "Unidades", zh: "单元" },
+  { to: "/oficial", emoji: "🐉", es: "DELE", zh: "考试" },
+  { to: "/juegos", emoji: "🏮", es: "Juegos", zh: "游戏" },
   { to: "/tutor-voz", emoji: "🐵", es: "Tutor IA", zh: "AI导师" },
 ];
 const MORE = [
-  ["/gramatica", "📖", "Gramática · 语法"],
-  ["/diccionarios", "🔤", "Diccionario · 词典"],
+  ["/gramatica", "🖌️", "Gramática · 语法"],
+  ["/diccionarios", "🀄", "Diccionario · 词典"],
   ["/pronunciacion", "🗣️", "Pronunciación · 发音"],
   ["/memoria", "🧠", "Repaso · 记忆"],
-  ["/videos", "🎬", "Vídeos · 视频"],
+  ["/videos", "🎐", "Vídeos · 视频"],
 ];
 
 export function LightShell({ children, legacy = false, stage = false }) {
@@ -79,10 +79,10 @@ export function LightShell({ children, legacy = false, stage = false }) {
   );
 }
 
-export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz"].includes(p) || /^\/modulos\/[^/]+/.test(p);
+export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz", "/diccionarios"].includes(p) || /^\/modulos\/[^/]+/.test(p);
 
 // Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
-export const LEGACY_LIGHT = (p) => /^\/(gramatica|diccionarios|memoria|videos|consejos|ayudas|generador|examenes|examenes-nivel|oficial)(\/|$)/.test(p) && p !== "/oficial" && p !== "/examenes/generador";
+export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|examenes|examenes-nivel|oficial)(\/|$)/.test(p) && p !== "/oficial" && p !== "/examenes/generador";
 
 // Páginas inmersivas (DELE oficial, pronunciación, karaoke, juegos): marco de app con su contenido en una "pantalla"
 export const STAGE_ROUTES = (p) => /^\/(pronunciacion)/.test(p) || /^\/juegos\/.+/.test(p);
