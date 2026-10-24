@@ -884,3 +884,30 @@ button.ui-chip { cursor: pointer; font-family: var(--ui-font); }
   .unit-hero-progress { margin: 10px auto; }
   .unit-cta { padding: 12px 16px; font-size: 15px; }
 }
+
+/* ====================== Viaje por China (Ruta) ====================== */
+.ruta-main { border-radius: 28px; padding: 0 14px 30px; }
+.map-A1 { background: radial-gradient(500px 300px at 20% 30%, rgba(255,75,75,.08), transparent 70%), radial-gradient(500px 300px at 80% 70%, rgba(255,200,0,.10), transparent 70%); }
+.map-A2 { background: radial-gradient(600px 300px at 30% 40%, rgba(255,150,0,.12), transparent 70%), repeating-linear-gradient(170deg, rgba(222,184,135,.07) 0 40px, transparent 40px 80px); }
+.map-B1 { background: radial-gradient(600px 300px at 70% 30%, rgba(28,176,246,.12), transparent 70%), repeating-radial-gradient(circle at 10% 90%, rgba(28,176,246,.06) 0 6px, transparent 6px 26px); }
+.map-B2 { background: radial-gradient(600px 300px at 30% 60%, rgba(88,204,2,.12), transparent 70%), radial-gradient(500px 300px at 80% 20%, rgba(206,130,255,.10), transparent 70%); }
+.ruta-region-title { display: flex; gap: 10px; align-items: center; padding: 14px 4px 0; }
+.ruta-region-title b { font-family: var(--ui-display); font-size: 20px; }
+.ruta-region-title small { display: block; color: #5f6b73; font-size: 13px; }
+.ruta-region { display: block; font-style: normal; font-size: 10px; font-weight: 800; opacity: .85; font-family: var(--ui-font); }
+.ruta-stop-art { flex-shrink: 0; width: 70px; height: 70px; border-radius: 20px; background: rgba(255,255,255,.22); display: flex; align-items: center; justify-content: center; }
+.ruta-stop { display: block; font-size: 12px; font-weight: 900; letter-spacing: .02em; opacity: .95; }
+.ruta-stop i { font-style: normal; opacity: .85; margin-left: 6px; }
+.ruta-path::before { content: ""; position: absolute; left: 50%; top: 40px; bottom: 30px; border-left: 4px dotted rgba(0,0,0,.12); transform: translateX(-2px); z-index: 0; }
+.ruta-node-wrap, .ruta-chest { position: relative; z-index: 1; }
+.ruta-stamps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 12px; }
+.ruta-stamp { aspect-ratio: 1; border-radius: 12px; border: 2px dashed #d0d7dc; display: flex; align-items: center; justify-content: center; filter: grayscale(1); opacity: .45; }
+.ruta-stamp.got { border: 2px solid #ff4b4b; background: #fff1f1; filter: none; opacity: 1; transform: rotate(-6deg); }
+@media (max-width: 700px) {
+  .ruta-stop-art { width: 52px; height: 52px; }
+  .ruta-stop-art img { width: 42px !important; height: 42px !important; }
+  .ruta-stop i { display: none; }
+  .ruta-guide { padding: 8px 10px; font-size: 13px; }
+}
+
+@media (max-width: 700px) { .ruta-region { display: none; } .ruta-region-title small { display: none; } }

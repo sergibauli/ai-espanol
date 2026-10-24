@@ -9,6 +9,9 @@ import { useGame, BADGES, setDailyGoal } from "../lib/gamification.js";
 import { buildLesson, lessonId, LESSON_META, LESSONS_PER_MODULE } from "../lib/lessons.js";
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
+import STOPS from "../data/china-stops.json";
+const STOP = Object.fromEntries(STOPS.map((s) => [s.n, s]));
+const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
 
 const LEVELS = [
   { key: "A1", es: "Principiante", zh: "入门", color: "#58cc02", dark: "#46a302" },
@@ -71,13 +74,21 @@ export default function RutaPage() {
   return (
     <LightShell>
       <div className="ruta-layout">
-        <main className="ruta-main">
+        <main className={`ruta-main map-${lv.key}`}>
+          <div className="ruta-region-title">
+            <Emoji3D emoji="🗺️" size={34} />
+            <span>
+              <b>{REGION[lv.key][0]}</b> · {REGION[lv.key][1]}
+              <small>Viaja parada a parada: cada unidad es un lugar de China · 每个单元都是中国的一站</small>
+            </span>
+          </div>
           <div className="ruta-levels">
             {LEVELS.map((l) => {
               const total = CATALOG.filter((m) => m.nivel === l.key).length * LESSONS_PER_MODULE;
               return (
                 <button key={l.key} className={`ruta-level ${l.key === lv.key ? "on" : ""}`} style={{ "--c": l.color, "--d": l.dark }} onClick={() => setParams({ nivel: l.key })}>
                   <b>{l.key}</b>
+                  <em className="ruta-region">{REGION[l.key][0]}</em>
                   <small>
                     {levelDone(l)}/{total}
                   </small>
@@ -89,7 +100,13 @@ export default function RutaPage() {
           {mods.map((m, idx) => (
             <section key={m.numero} className="ruta-unit">
               <div className="ruta-banner" style={{ "--c": lv.color, "--d": lv.dark }}>
-                <div style={{ minWidth: 0 }}>
+                <span className="ruta-stop-art">
+                  <Emoji3D emoji={STOP[m.numero]?.emoji || m.icono} size={58} />
+                </span>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <span className="ruta-stop">
+                    📍 {STOP[m.numero]?.ciudad} · {STOP[m.numero]?.lugar} <i>{STOP[m.numero]?.ciudadZh}·{STOP[m.numero]?.lugarZh}</i>
+                  </span>
                   <small>
                     {lv.key} · UNIDAD {m.numero} · 第{m.numero}单元
                   </small>
@@ -102,7 +119,7 @@ export default function RutaPage() {
               </div>
               <div className="ruta-path" style={{ position: "relative" }}>
                 <span className="ruta-mascot" style={{ [idx % 2 ? "left" : "right"]: "6%" }}>
-                  {idx % 6 === 0 ? <img src="./mono-face.png" alt="" className="mono-big e3d-float" style={{ width: 120, height: 120 }} /> : <Emoji3D emoji={["🐵", "👩‍🦰", "👨", "🧔", "👧", "👵"][idx % 6]} size={110} float />}
+                  {idx % 3 === 0 ? <img src="./mono-face.png" alt="" className="mono-big e3d-float" style={{ width: 110, height: 110 }} /> : <Emoji3D emoji={STOP[m.numero]?.emoji || "🏯"} size={120} float />}
                 </span>
                 {LESSON_META.map((meta, i) => {
                   const isDone = done(m.numero, i);
@@ -165,6 +182,27 @@ export default function RutaPage() {
                   </button>
                 ))}
               </div>
+            </div>
+          </div>
+          <div className="ui-card ruta-passport">
+            <div className="ui-row" style={{ gap: 10, flexWrap: "nowrap" }}>
+              <Emoji3D emoji="🛂" size={42} />
+              <div>
+                <div className="ui-h3">Pasaporte del viaje · 旅行护照</div>
+                <small>
+                  {CATALOG.filter((m) => [0, 1, 2, 3, 4].every((i) => done(m.numero, i))).length}/80 sellos · 印章
+                </small>
+              </div>
+            </div>
+            <div className="ruta-stamps">
+              {CATALOG.filter((m) => m.nivel === lv.key).map((m) => {
+                const got = [0, 1, 2, 3, 4].every((i) => done(m.numero, i));
+                return (
+                  <span key={m.numero} className={`ruta-stamp ${got ? "got" : ""}`} title={`${STOP[m.numero]?.ciudad} · ${STOP[m.numero]?.lugar}`}>
+                    <Emoji3D emoji={STOP[m.numero]?.emoji || "🏯"} size={24} />
+                  </span>
+                );
+              })}
             </div>
           </div>
           <div className="ui-card">
