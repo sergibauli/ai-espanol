@@ -27,7 +27,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
   const { pathname } = useLocation();
   const { logout } = useAppAuth();
   const mainRef = React.useRef(null);
-  const adapt = legacy || pathname.startsWith("/pronunciacion");
+  const adapt = legacy || ADAPT_ROUTES(pathname);
   React.useEffect(() => (adapt ? attachLightAdapter(mainRef.current) : undefined), [adapt, pathname]);
   const active = (to) => pathname === to || (to !== "/ruta" && pathname.startsWith(to)) || (to === "/ruta" && pathname === "/dashboard");
   return (
@@ -84,3 +84,4 @@ export const LEGACY_LIGHT = (p) => /^\/(gramatica|diccionarios|memoria|videos|co
 
 // Páginas inmersivas (DELE oficial, pronunciación, karaoke, juegos): marco de app con su contenido en una "pantalla"
 export const STAGE_ROUTES = (p) => /^\/(pronunciacion)/.test(p) || /^\/juegos\/.+/.test(p);
+export const ADAPT_ROUTES = (p) => /^\/(pronunciacion|juegos\/.+)/.test(p);
