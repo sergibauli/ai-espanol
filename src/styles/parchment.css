@@ -276,3 +276,70 @@ main.game-bg h1 {
 .light-page .dele-levels .dele-level-head b { color: #ffd86e !important; }
 .light-page .dele-levels :is(.dele-level-head span, .dele-pruebas span, .dele-pruebas small) { color: #e8d6ae !important; }
 .dele-medal { width: 58px; height: 58px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 40% 35%, #d8343f, #8f0c21); box-shadow: 0 0 0 3px #f2c14e, 0 0 0 5px #7a4a14, 0 0 14px rgba(242,193,78,.6); }
+
+/* ===== v6.7 · Ruta (rodillo de papel, marco rojo con grecas, montañas a tinta) ===== */
+.ruta-main { isolation: isolate; outline: 0 !important; }
+.ruta-ink {
+  position: absolute; inset: 230px 26px 40px; z-index: -1; pointer-events: none; opacity: .9;
+  background: url("../../public/theme/montes-tinta.png") right -30px top 0 / 440px auto repeat-y, url("../../public/theme/montes-tinta.png") left -50px top 520px / 470px auto repeat-y;
+}
+.ruta-main::before {
+  left: -30px !important; top: -20px !important; bottom: -20px !important; width: 44px !important; border-radius: 0 !important; box-shadow: none !important; background: none !important;
+  border-style: solid; border-width: 24px 0; border-image: url("../../public/theme/rodillo.png") 52 0 fill / 24px 0 stretch;
+  filter: drop-shadow(6px 6px 8px rgba(0,0,0,.4));
+}
+.ruta-main::after {
+  inset: 10px !important; border: 4px double #b3122e !important; border-radius: 3px !important; -webkit-mask: none !important; mask: none !important; z-index: 2;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Crect x='1.5' y='1.5' width='31' height='31' fill='%23f1e2c2' stroke='%23b3122e' stroke-width='2.4'/%3E%3Cpath d='M7 27V7h20v20H12V12h10v10h-5v-5' fill='none' stroke='%23b3122e' stroke-width='2.4'/%3E%3C/svg%3E") left top / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Crect x='1.5' y='1.5' width='31' height='31' fill='%23f1e2c2' stroke='%23b3122e' stroke-width='2.4'/%3E%3Cpath d='M7 27V7h20v20H12V12h10v10h-5v-5' fill='none' stroke='%23b3122e' stroke-width='2.4'/%3E%3C/svg%3E") right top / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Crect x='1.5' y='1.5' width='31' height='31' fill='%23f1e2c2' stroke='%23b3122e' stroke-width='2.4'/%3E%3Cpath d='M7 27V7h20v20H12V12h10v10h-5v-5' fill='none' stroke='%23b3122e' stroke-width='2.4'/%3E%3C/svg%3E") left bottom / 34px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Crect x='1.5' y='1.5' width='31' height='31' fill='%23f1e2c2' stroke='%23b3122e' stroke-width='2.4'/%3E%3Cpath d='M7 27V7h20v20H12V12h10v10h-5v-5' fill='none' stroke='%23b3122e' stroke-width='2.4'/%3E%3C/svg%3E") right bottom / 34px no-repeat;
+  background-origin: border-box;
+}
+.light-page .ruta-levels { background: linear-gradient(180deg, rgba(241,226,194,.97) 78%, rgba(241,226,194,0)) !important; margin: 0 8px; }
+.light-page .ruta-level {
+  background: linear-gradient(rgba(255,250,236,.35), rgba(255,250,236,.35)), url("../../public/theme/papel.jpg") center / 300% auto, #efe2c6 !important;
+  border: 1.5px solid #cdb487 !important; border-bottom-width: 4px !important; border-radius: 10px !important; color: #5b3a1e !important;
+  box-shadow: inset 0 0 0 3px rgba(255,250,236,.6), 0 3px 6px rgba(90,60,20,.18) !important;
+}
+.light-page .ruta-level.on { border-color: #c8961e !important; color: #8f0c21 !important; box-shadow: inset 0 0 0 3px rgba(255,250,236,.7), 0 0 0 2px #f2c14e, 0 0 16px rgba(242,193,78,.6) !important; }
+.light-page .ruta-level :is(small, .ruta-region) { color: #7a5a3a !important; opacity: 1; }
+.light-page .path-node.locked {
+  background: radial-gradient(circle at 40% 32%, #fffaf0, #ece2cd 58%, #cdbf9f) !important; color: #8a7a60 !important;
+  box-shadow: 0 6px 0 #b9a782, 0 10px 16px rgba(90,60,20,.28) !important;
+}
+.light-page .ruta-banner { border: 2px solid #d9ae4c; box-shadow: inset 0 0 0 4px var(--c), inset 0 0 0 5px rgba(255,232,170,.9), 0 0 18px rgba(242,193,78,.35), 0 5px 0 var(--d) !important; }
+
+/* ===== v6.7 · Pronunciación «El templo de los sonidos» ===== */
+.light-page .unit-page.pron-sheet { background: transparent !important; border: 0 !important; box-shadow: none !important; isolation: isolate; }
+.pron-sheet::before {
+  content: ""; position: absolute; left: -20px; top: -10px; width: 64%; height: 720px; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at 30% 30%, transparent 55%, rgba(120,80,40,.25)), url("../../public/theme/papel.jpg") center / cover, #f2e3c2;
+  clip-path: polygon(0 0, 100% 0, 96% 6%, 92% 14%, 88% 20%, 80% 30%, 74% 37%, 63% 47%, 55% 53%, 44% 60%, 34% 66%, 22% 72%, 10% 78%, 0 82%);
+  filter: drop-shadow(0 0 12px rgba(242,193,78,.4));
+}
+.light-page .pron-hero { max-width: 660px; margin: 6px auto 18px; border-radius: 10px !important; box-shadow: 0 0 0 1px #fff3c4, 0 0 30px rgba(242,193,78,.6), 0 8px 0 #9c7426 !important; }
+.pron-hero h1 { color: #fff3d6 !important; }
+.pron-hero .imperial-hero-art { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.pron-hero-zh { font: 700 26px/1 "STKaiti", "KaiTi", "Kaiti SC", serif; color: #ffd86e; letter-spacing: 3px; text-shadow: 0 2px 0 #5a0a16; white-space: nowrap; }
+.light-page .pron-sheet .pron-fam {
+  background: linear-gradient(#fffdf6, #eee4cf) !important; border: 1px solid #d9cba8 !important; border-bottom: 5px solid #c4b088 !important; border-radius: 10px !important;
+  color: #2b1d10 !important; box-shadow: 0 6px 12px rgba(0,0,0,.3) !important;
+}
+.light-page .pron-sheet .pron-fam.hard { box-shadow: inset 0 0 0 2px rgba(200,16,46,.55), 0 6px 12px rgba(0,0,0,.3) !important; }
+.light-page .pron-sheet .pron-fam.on { box-shadow: 0 0 0 3px #f2c14e, 0 0 20px rgba(242,193,78,.85) !important; }
+.light-page .pron-sheet .pron-fam :is(small) { color: #6b5a44 !important; }
+.pron-dot { position: absolute; top: 5px !important; right: 5px !important; width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff3c4, #f2c14e 55%, #a8741e); box-shadow: 0 0 0 1px #8f5a1e; }
+.light-page .pron-sheet .pron-panel {
+  background: linear-gradient(160deg, rgba(240,244,252,.86), rgba(214,224,242,.74)) !important; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 2px solid #e3c06a !important; border-radius: 14px !important; box-shadow: 0 0 26px rgba(242,193,78,.45) !important; color: #1f2a44;
+}
+.light-page .pron-sheet .pron-tip { background: rgba(255,248,226,.9); border: 1.5px solid #e3c06a; }
+.light-page .pron-sheet .pron-syl { background: linear-gradient(#fbf7ee, #e4ddcc); color: #7a2a1a; border: 1px solid #d7c49a; box-shadow: 0 4px 0 #b9a77e; }
+.light-page .pron-sheet .pron-card.heard .pron-syl { background: linear-gradient(#fff6d6, #f2d27e); box-shadow: 0 4px 0 #c8961e, 0 0 14px rgba(242,193,78,.6); }
+.light-page .pron-sheet .pron-word { background: rgba(255,255,255,.62) !important; border: 1px solid #d3c5a6 !important; }
+.light-page .pron-sheet .pron-all { background: rgba(255,255,255,.55) !important; color: #5a3a1e !important; border: 1.5px solid #d9c08a !important; box-shadow: 0 3px 0 #c4ae80 !important; }
+.pron-player { position: relative; display: flex; align-items: center; gap: 26px; width: fit-content; margin: 30px auto 0; padding: 8px 28px; border-radius: 40px; background: linear-gradient(#3a2414, #1b1009); border: 2px solid #c8961e; box-shadow: 0 0 0 4px rgba(27,16,9,.6), 0 0 22px rgba(242,193,78,.4); }
+.pron-player::before { content: ""; position: absolute; left: -40vw; right: -40vw; top: 50%; height: 2px; z-index: -1; background: linear-gradient(90deg, transparent, #c8961e 30%, #f2c14e 50%, #c8961e 70%, transparent); }
+.pron-player button { border: 0; background: none; color: #f2c14e; cursor: pointer; display: grid; place-items: center; padding: 6px; }
+.pron-player button.play { width: 48px; height: 48px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff3c4, #f2c14e 55%, #a8741e); color: #3a2414; box-shadow: 0 0 14px rgba(242,193,78,.7); }
+@media (max-width: 700px) { .pron-sheet::before { width: 100%; height: 420px; } .pron-hero-zh { font-size: 20px; } }
+.pron-hero h1 { font-size: clamp(22px, 2.6vw, 32px) !important; white-space: nowrap; }
+.pron-hero .imperial-hero-art { flex-shrink: 0; } .pron-hero .imperial-hero-text { min-width: 0; } @media (max-width: 700px) { .pron-hero h1 { white-space: normal; } }

@@ -75,6 +75,7 @@ export default function RutaPage() {
     <LightShell>
       <div className="ruta-layout">
         <main className={`ruta-main map-${lv.key}`}>
+          <span className="ruta-ink" aria-hidden="true" />
           <div className="ruta-region-title">
             <Emoji3D emoji="🗺️" size={34} />
             <span>

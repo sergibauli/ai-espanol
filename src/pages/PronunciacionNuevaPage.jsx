@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { Volume2Icon } from "lucide-react";
+import { Volume2Icon, PlayIcon, SkipBackIcon, SkipForwardIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { speak } from "../components/lesson/fx.js";
@@ -20,8 +20,8 @@ export default function PronunciacionNuevaPage() {
 
   return (
     <LightShell>
-      <div className="unit-page" style={{ maxWidth: 1080 }}>
-        <section className="imperial-hero">
+      <div className="unit-page pron-sheet" style={{ maxWidth: 1080 }}>
+        <section className="imperial-hero pron-hero">
           <span className="imperial-cloud c1" />
           <span className="imperial-cloud c2" />
           <div className="imperial-hero-text">
@@ -35,7 +35,8 @@ export default function PronunciacionNuevaPage() {
             </div>
           </div>
           <div className="imperial-hero-art">
-            <Emoji3D emoji="🗣️" size={110} float />
+            <Emoji3D emoji="🗣️" size={84} float />
+            <span className="pron-hero-zh">声音殿堂</span>
           </div>
         </section>
 
@@ -54,7 +55,7 @@ export default function PronunciacionNuevaPage() {
               <button key={f.id} className={`pron-fam ${fam?.id === f.id ? "on" : ""} ${f.dificil ? "hard" : ""}`} onClick={() => setOpen(f.id)}>
                 <b>{f.silabas.map((s) => s.s)[0].replace(/[aeiou]+$/, "") || f.id}</b>
                 <small>{f.titulo}</small>
-                {f.dificil && <i>🐉</i>}
+                {f.dificil && <i className="pron-dot" title="Difícil para hablantes de chino" />}
               </button>
             ))}
           </div>
@@ -92,6 +93,18 @@ export default function PronunciacionNuevaPage() {
               </button>
             </section>
           )}
+        </div>
+
+        <div className="pron-player" aria-label="Reproductor de familias">
+          <button aria-label="Familia anterior" onClick={() => setOpen(list[(list.indexOf(fam) - 1 + list.length) % list.length].id)}>
+            <SkipBackIcon size={20} fill="currentColor" />
+          </button>
+          <button className="play" aria-label="Escuchar toda la familia" onClick={() => fam.silabas.forEach((s, i) => setTimeout(() => play(s.s), i * 1100))}>
+            <PlayIcon size={26} fill="currentColor" />
+          </button>
+          <button aria-label="Familia siguiente" onClick={() => setOpen(list[(list.indexOf(fam) + 1) % list.length].id)}>
+            <SkipForwardIcon size={20} fill="currentColor" />
+          </button>
         </div>
       </div>
     </LightShell>
