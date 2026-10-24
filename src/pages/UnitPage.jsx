@@ -153,7 +153,15 @@ export default function UnitPage() {
           </div>
         </section>
 
-        <h2 className="unit-h2">Lecciones · 课程</h2>
+        <nav className="unit-jump" aria-label="Secciones">
+          {[["lecciones", "🎯 Lecciones"], ["historia", "📖 Historia"], ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"], ["guia", "💡 Guía"]].map(([id, label]) => (
+            <button key={id} onClick={() => document.getElementById(`u-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}>
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        <h2 className="unit-h2" id="u-lecciones">Lecciones · 课程</h2>
         <div className="unit-lessons">
           {LESSON_META.map((l, i) => {
             const open = i === 0 || done[i - 1] || done[i];
@@ -170,7 +178,7 @@ export default function UnitPage() {
 
         {story && (
           <>
-            <h2 className="unit-h2">Historia · 故事</h2>
+            <h2 className="unit-h2" id="u-historia">Historia · 故事</h2>
             <button className="unit-story" onClick={() => setPlayStory(true)}>
               <Emoji3D emoji={story.escena} size={96} float />
               <span style={{ flex: 1, minWidth: 0, textAlign: "left" }}>
@@ -197,7 +205,7 @@ export default function UnitPage() {
 
         {mod?.dialogos?.length > 0 && (
           <>
-            <h2 className="unit-h2">Diálogos · 对话 <small>({mod.dialogos.length} conversaciones con voz)</small></h2>
+            <h2 className="unit-h2" id="u-dialogos">Diálogos · 对话 <small>({mod.dialogos.length} conversaciones con voz)</small></h2>
             <div className="unit-dialogs">
               {mod.dialogos.map((d, i) => (
                 <button key={d.id || i} className="unit-dialog" onClick={() => setDialog(dialogToStory(d, numero, story?.escena))}>
@@ -220,7 +228,7 @@ export default function UnitPage() {
 
         {mod && (
           <>
-            <h2 className="unit-h2">Ejercicios · 练习 <small>(elige los tipos; cambian de orden en cada intento)</small></h2>
+            <h2 className="unit-h2" id="u-ejercicios">Ejercicios · 练习 <small>(elige los tipos; cambian de orden en cada intento)</small></h2>
             <div className="unit-practice">
               <div className="unit-practice-types">
                 {PRACTICE_TYPES.filter((t) => (mod.ejercicios?.[t.key] || []).length).map((t) => {
@@ -243,7 +251,7 @@ export default function UnitPage() {
               </button>
             </div>
 
-            <h2 className="unit-h2">Juegos · 游戏 <small>(con las palabras de esta unidad)</small></h2>
+            <h2 className="unit-h2" id="u-juegos">Juegos · 游戏 <small>(con las palabras de esta unidad)</small></h2>
             <div className="unit-games">
               {GAMES.map((g) => {
                 const Icon = g.icon;
@@ -259,14 +267,14 @@ export default function UnitPage() {
               })}
             </div>
 
-            <h2 className="unit-h2">Palabras · 词汇 <small>(toca para girar y escuchar)</small></h2>
+            <h2 className="unit-h2" id="u-palabras">Palabras · 词汇 <small>(toca para girar y escuchar)</small></h2>
             <div className="unit-words">
               {(mod.vocabulario || []).slice(0, 24).map((v) => (
                 <WordCard key={v.id || v.espanol} v={v} color={c1} />
               ))}
             </div>
 
-            <h2 className="unit-h2">Guía rápida · 语法要点</h2>
+            <h2 className="unit-h2" id="u-guia">Guía rápida · 语法要点</h2>
             <div className="unit-guides">
               {(mod.teoria || []).map((t, i) => (
                 <GuideCard key={i} t={t} index={i} color={c1} />

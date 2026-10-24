@@ -38,7 +38,31 @@ export default function OficialHubPage() {
           </div>
         </section>
 
-        <h2 className="unit-h2">Elige tu nivel · 选择级别</h2>
+        <div className="dele-modes">
+          {[
+            ["⚡", "Simulacro automático", "自动模拟考", "Un examen nuevo cada vez, con nota al momento", "/examenes/generador", "#ff9600", "#e08600"],
+            ["🎯", "Practicar por destrezas", "分项练习", "Lectura, audición, escritura y oral por niveles", "/examenes", "#1cb0f6", "#1899d6"],
+            ["📜", "Modelos oficiales", "官方真题", "80 exámenes completos con cronómetro", "#niveles", "#58cc02", "#46a302"],
+          ].map(([e, es, zh, d, to, c, dk]) =>
+            to.startsWith("#") ? (
+              <a key={es} href="#" onClick={(ev) => { ev.preventDefault(); document.getElementById("niveles")?.scrollIntoView({ behavior: "smooth" }); }} className="dele-mode" style={{ "--c": c, "--d": dk }}>
+                <Emoji3D emoji={e} size={54} />
+                <b>{es}</b>
+                <small>{zh}</small>
+                <span>{d}</span>
+              </a>
+            ) : (
+              <Link key={es} to={to} className="dele-mode" style={{ "--c": c, "--d": dk }}>
+                <Emoji3D emoji={e} size={54} />
+                <b>{es}</b>
+                <small>{zh}</small>
+                <span>{d}</span>
+              </Link>
+            ),
+          )}
+        </div>
+
+        <h2 className="unit-h2" id="niveles">Modelos oficiales por nivel · 选择级别</h2>
         <div className="dele-levels">
           {LEVELS.map((l) => (
             <Link key={l.key} to={`/oficial/${l.key}`} className="dele-level" style={{ "--c": l.c, "--d": l.d }}>
