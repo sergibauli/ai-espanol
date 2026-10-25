@@ -4,3 +4,9 @@ dist
 .env.local
 .DS_Store
 .claude/skills/*/scripts/node_modules
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
