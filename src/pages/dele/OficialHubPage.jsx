@@ -30,7 +30,7 @@ export default function OficialHubPage() {
           <span className="imperial-cloud c1" />
           <span className="imperial-cloud c2" />
           <div className="imperial-hero-text">
-            <small>DELE · INSTITUTO CERVANTES · 官方真题</small>
+            <small>DELE · 官方真题</small>
             <h1>Exámenes DELE oficiales</h1>
             <p>80 modelos completos con las 4 pruebas, cronómetro y corrección.</p>
             <span className="unit-zh">80套完整模拟题 · 四项考试 · 计时与批改</span>
@@ -43,6 +43,22 @@ export default function OficialHubPage() {
           <img className="dele-dragon" src={`${import.meta.env.BASE_URL}theme/dragon.webp`} alt="" />
         </section>
 
+        <h2 className="unit-h2" id="niveles">Modelos oficiales por nivel · 选择级别</h2>
+        <div className="dele-levels">
+          {LEVELS.map((l) => (
+            <TarjetaExamen
+              key={l.key}
+              nivel={l.key}
+              titulo={`DELE ${l.key} · ${l.name}`}
+              tituloZh={l.zh}
+              datos={[...["Lectura", "Audición", "Escritura", "Oral"].map((p, i) => `${p} ${l.t[i]} min`), ...(NUEVOS[l.key].length ? [`✨ ${NUEVOS[l.key].length} nuevo${NUEVOS[l.key].length > 1 ? "s" : ""}`] : [])]}
+              accion={`Ver ${20 + NUEVOS[l.key].length} modelos · 查看${20 + NUEVOS[l.key].length}套`}
+              onAccion={() => navigate(`/oficial/${l.key}`)}
+            />
+          ))}
+        </div>
+
+        <h2 className="unit-h2">Más formas de prepararte · 更多备考方式</h2>
         <div className="dele-modes">
           {[
             ["⚡", "Simulacro automático", "自动模拟考", "Un examen nuevo cada vez, con nota al momento", "/examenes/generador", "#ff9600", "#e08600"],
@@ -67,21 +83,6 @@ export default function OficialHubPage() {
               </Link>
             ),
           )}
-        </div>
-
-        <h2 className="unit-h2" id="niveles">Modelos oficiales por nivel · 选择级别</h2>
-        <div className="dele-levels">
-          {LEVELS.map((l) => (
-            <TarjetaExamen
-              key={l.key}
-              nivel={l.key}
-              titulo={`DELE ${l.key} · ${l.name}`}
-              tituloZh={l.zh}
-              datos={[...["Lectura", "Audición", "Escritura", "Oral"].map((p, i) => `${p} ${l.t[i]} min`), ...(NUEVOS[l.key].length ? [`✨ ${NUEVOS[l.key].length} nuevo${NUEVOS[l.key].length > 1 ? "s" : ""}`] : [])]}
-              accion={`Ver ${20 + NUEVOS[l.key].length} modelos · 查看${20 + NUEVOS[l.key].length}套`}
-              onAccion={() => navigate(`/oficial/${l.key}`)}
-            />
-          ))}
         </div>
 
         <h2 className="unit-h2">Cómo aprobar · 通过秘诀</h2>

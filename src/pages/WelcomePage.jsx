@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Navigate, Link } from "react-router";
+import { Navigate } from "react-router";
 import { useClerk } from "@clerk/clerk-react";
 import { useAppAuth } from "../lib/auth.jsx";
 import { Logo, PanelJade } from "../../packages/imperial/src/index.js";
@@ -58,9 +58,6 @@ export default function WelcomePage() {
           <button className="wel2-btn jade" onClick={signIn}>
             Ya tengo una cuenta · 我已有账号
           </button>
-          <Link to="/login" className="wel-admin">
-            Acceso administrador
-          </Link>
         </PanelJade>
         <span className="wel2-nube" aria-hidden="true" />
       </main>

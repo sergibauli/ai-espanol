@@ -168,23 +168,36 @@ function Tip({ step, level }) {
   );
 }
 
-function Dialog({ step, level }) {
+// Diálogo sobre pergamino: medallón de jade por personaje y bocadillos de jade con marco de oro
+function Dialog({ step, level, emoji }) {
+  const caras = {};
+  const cara = (who) => (caras[who] ??= Object.keys(caras).length % 2 ? "👨" : "👩");
   return (
-    <div className="lp-tip">
-      <div className="lp-eyebrow">💬 Diálogo · 对话</div>
-      <h2 className="lp-title">{step.title}</h2>
-      <div className="lp-zh">{step.titleZh}</div>
+    <div className="lp-tip lp-dialogo">
+      {emoji && <Emoji3D emoji={emoji} size={92} float className="lp-dialogo__icono" />}
+      <h2 className="lp-title">
+        {step.title}
+        <span className="lp-dialogo__sello" aria-hidden="true">对话</span>
+      </h2>
+      {step.titleZh && <div className="lp-dialogo__zh">{step.titleZh}</div>}
       <div className="lp-chat">
         {step.lines.map((l, i) => (
-          <div key={i} className={`lp-bubble ${i % 2 ? "right" : ""}`} style={{ animationDelay: `${i * 160}ms` }}>
-            <small>{l.who}</small>
-            <div className="ui-row" style={{ gap: 8, flexWrap: "nowrap", alignItems: "flex-start" }}>
-              <SpeakButtons text={l.es} />
-              <Pronunciar texto={l.es} level={level} pequeno />
-              <div>
-                <div style={{ fontWeight: 700 }}>{l.es}</div>
-                <div className="lp-zh">{l.zh}</div>
+          <div key={i} className="lp-linea" style={{ animationDelay: `${i * 160}ms` }}>
+            <span className="lp-linea__cara">
+              <span className="lp-linea__disco">
+                <Emoji3D emoji={cara(l.who)} size={40} />
+              </span>
+              <small>{l.who}</small>
+            </span>
+            <div className="lp-bubble">
+              <div className="lp-bubble__texto">
+                <div className="lp-bubble__es">{l.es}</div>
+                {l.zh && <div className="lp-zh">{l.zh}</div>}
               </div>
+              <span className="lp-bubble__voz">
+                <SpeakButtons text={l.es} />
+                <Pronunciar texto={l.es} level={level} pequeno />
+              </span>
             </div>
           </div>
         ))}
@@ -459,9 +472,13 @@ export function LessonPlayer({ lesson, onClose }) {
   const step = lesson.steps[queue[pos]];
 
   React.useEffect(() => {
+    // Con la página arriba, el menú lateral se ve entero junto a la lección; al cerrar se vuelve donde estaba
+    const y = window.scrollY;
+    window.scrollTo(0, 0);
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
+      window.scrollTo(0, y);
       speechSynthesis?.cancel?.();
     };
   }, []);
@@ -579,7 +596,7 @@ export function LessonPlayer({ lesson, onClose }) {
   ) : step.type === "tip" ? (
     <Tip step={step} level={levelOf(lesson.modulo)} />
   ) : step.type === "dialog" ? (
-    <Dialog step={step} level={levelOf(lesson.modulo)} />
+    <Dialog step={step} level={levelOf(lesson.modulo)} emoji={lesson.emoji} />
   ) : step.type === "tf" ? (
     <TrueFalse step={step} value={value} onChange={setValue} locked={!!feedback} />
   ) : step.type === "build" ? (
@@ -595,7 +612,7 @@ export function LessonPlayer({ lesson, onClose }) {
   );
 
   return createPortal(
-    <div className="lp-root" role="dialog" aria-modal="true" aria-label={lesson.es}>
+    <div className={`lp-root ${!result && ["dialog", "tip"].includes(step?.type) ? "lp-fondo-pergamino" : "lp-fondo-paisaje"} lp-paso-${result ? "fin" : step?.type}`} role="dialog" aria-modal="true" aria-label={lesson.es}>
       <header className="lp-top">
         <button className="lp-close" onClick={() => onClose(null)} aria-label="Salir">
           <XIcon size={22} />
