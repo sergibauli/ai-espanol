@@ -8,10 +8,10 @@ const limpiar = (g) => String(g || "").replace(/\[[^\]]*\]/g, " ").replace(/\s+/
 
 // Todo lo que el alumno ve en la tarea: texto(s), guion, banco de opciones (bloques, enunciados, fragmentos, parejas, clips)
 const plano = (v) => (v == null ? "" : typeof v === "string" ? v : Array.isArray(v) ? v.map(plano).join(" \n ") : typeof v === "object" ? Object.entries(v).filter(([k]) => !["tipo", "sobrantes", "correcta", "justificacion", "fraseSoporte"].includes(k)).map(([k, x]) => (/^(letra|id)$/.test(k) ? `${x})` : plano(x))).join(" ") : String(v));
-export function resumenParaExaminar(m) {
-  return (m.pruebas || []).slice(0, 2).map((p) => ({
+export function resumenParaExaminar(m, soloTareas = null) {
+  return (m.pruebas || []).slice(0, 2).map((p, pi) => ({
     prueba: p.nombre,
-    tareas: (p.tareas || []).map((t) => ({
+    tareas: (p.tareas || []).filter((t) => !soloTareas || soloTareas.has(`${pi}-${t.num}`)).map((t) => ({
       tarea: t.num,
       tipo: t.tipo,
       texto: limpiar(plano(t.texto)).slice(0, 6000),
@@ -22,9 +22,9 @@ export function resumenParaExaminar(m) {
   }));
 }
 
-export function examinar(m, req, deepseek, ficheroTmp) {
+export function examinar(m, req, deepseek, ficheroTmp, soloTareas = null) {
   const fs = globalThis.__fs;
-  fs.writeFileSync(ficheroTmp, JSON.stringify(resumenParaExaminar(m), null, 1));
+  fs.writeFileSync(ficheroTmp, JSON.stringify(resumenParaExaminar(m, soloTareas), null, 1));
   const r = deepseek(`Eres examinador jefe del DELE (Instituto Cervantes) y revisas un simulacro de nivel ${m.nivel} antes de publicarlo. NO lo has escrito tú: sé crítico.
 Requisitos oficiales del nivel ${m.nivel}: ${JSON.stringify(req)}
 Para el JSON adjunto (pruebas de comprensión de lectura y auditiva; en las tareas de relacionar y huecos las opciones A, B, C… están en «bancoDeOpciones» y «correcta» es el índice 0-based de la letra elegida):

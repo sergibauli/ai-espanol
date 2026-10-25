@@ -1,0 +1,1 @@
+- Datos oficiales: el modelo A2-13 tiene en P3T2.situacion un texto de corrector («Usted es Timoteo… modelo de respuesta…»); no lo copies en simulacros nuevos.

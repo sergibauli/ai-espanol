@@ -43,6 +43,11 @@ export function validar(m, p) {
       if (Array.isArray(pt.puntosGuia)) ok(mt.puntosGuia?.length === pt.puntosGuia.length, `${tag}: ${mt.puntosGuia?.length} puntos guía ≠ ${pt.puntosGuia.length}`);
     });
   });
+  // Relacionar: las correctas no pueden ir en orden consecutivo (A, B, C…), se resolvería sin comprender
+  m.pruebas?.slice(0, 2).forEach((pr, i) => pr.tareas?.forEach((t, j) => {
+    const pos = (t.items || []).map((x) => x.correcta);
+    if (pos.length >= 4 && pos.every((v, k) => k === 0 || v === pos[k - 1] + 1)) err.push(`P${i + 1}T${j + 1}: las respuestas van en orden consecutivo (${pos.join(",")}); mezcla el banco de opciones`);
+  }));
   // Posición de la correcta: no siempre la misma en una tarea
   m.pruebas?.slice(0, 2).forEach((pr, i) => pr.tareas?.forEach((t, j) => {
     const pos = (t.items || []).map((x) => x.correcta);

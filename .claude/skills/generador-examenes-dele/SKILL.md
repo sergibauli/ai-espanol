@@ -32,6 +32,13 @@ node .claude/skills/generador-examenes-dele/scripts/validar.mjs src/data/oficial
 ```
 Ejecuta siempre `ds.py` y estos scripts con la entrada cerrada (el script ya lo hace). Cada modelo tarda 10-30 minutos (unas 15-25 llamadas según las rondas de corrección).
 
+## Coste y variedad
+- **Redacción de tareas con `deepseek-chat`** (sin razonamiento): unas 5 veces menos tokens de salida que `deepseek-v4-pro`, que gasta ~80 % de su salida en razonar. `v4-pro` solo para el plan y el examinador; si `deepseek-chat` falla, el script recurre a `v4-pro`.
+- **Rondas baratas:** solo se rehacen las tareas culpables; si falla solo la literalidad, se reescriben los ítems sin tocar el texto; el examinador solo revisa lo que cambió desde la ronda 2.
+- **Variedad:** el plan rota el ámbito menos usado (personal, público, profesional, académico), evita los nombres de personajes ya usados y, en B1–B2, alterna voces de España e Hispanoamérica.
+- **Aprende de su rendimiento:** `historial.json` guarda por nivel el modelo que redactó, las rondas, si aprobó y las llamadas. Si `deepseek-chat` falla 2 veces seguidas en un nivel, ese nivel pasa a redactarse con `deepseek-v4-pro` automáticamente. Revisa el historial al dar el resumen.
+- **Claude:** la tarea programada arranca siempre en sesión nueva y Claude solo lee la hoja compacta (`resumen.mjs`), nunca el JSON entero.
+
 ## Reparto de trabajo: DeepSeek genera, Claude decide
 - **DeepSeek (API del usuario)** hace todo lo masivo: plan, textos, guiones, ítems, regeneraciones y el examinador automático. Es lo barato.
 - **Los controles de formato y dificultad** son cálculos locales: no gastan tokens.
@@ -41,8 +48,9 @@ Después de generar (obligatorio para cada simulacro nuevo):
 1. `node .claude/skills/generador-examenes-dele/scripts/resumen.mjs src/data/oficial/nuevos/<CODIGO>.json` → hoja de 3-5 mil tokens con medidas, arranque de cada texto y **todos** los ítems con la correcta marcada `*así*` y su frase de apoyo.
 2. Claude revisa TODOS los ítems: una sola respuesta defendible con la frase de apoyo; distractores plausibles pero falsos; gramática y léxico del nivel (busca en los textos estructuras de `noEsperado` de `src/data/requisitos-dele.json`, p. ej. imperfecto de subjuntivo en A1/A2); temas y nombres adecuados; nada sensible.
 3. Si algo falla: `node .claude/skills/generador-examenes-dele/scripts/generar.mjs <NIVEL> --rehacer <CODIGO> --tareas P1T2,P2T3 --motivo "qué corregir exactamente"` (DeepSeek rehace solo esas tareas y vuelven a pasar todos los controles). Repite la revisión de esas tareas. Si un simulacro no queda bien tras 2 intentos, bórralo y regenera el índice con otro nivel.
-4. `npm run build` sin errores.
-5. Despliega con la skill `desplegar` (GitHub Pages). **No publiques la web en Cloudflare.**
+4. **Aprendizaje:** por cada problema que rechaces, añade una regla accionable de una frase en `aprendizajes.json` (en el nivel o en «todos»). DeepSeek no tiene memoria: así el sistema aprende y la siguiente generación ya no lo repite. No dupliques reglas; si una regla no sirve, reescríbela.
+5. `npm run build` sin errores.
+6. Despliega con la skill `desplegar` (GitHub Pages). **No publiques la web en Cloudflare.**
 
 ## Tarea programada
 Hay una tarea programada quincenal («Simulacros DELE nuevos») que genera uno por nivel, revisa, compila y despliega. Si falla la validación de un nivel, deja ese nivel para la siguiente vez y lo anota en el resumen.

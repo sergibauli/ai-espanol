@@ -1,0 +1,29 @@
+[
+ {
+  "fecha": "2026-10-25T15:38",
+  "nivel": "B2",
+  "codigo": null,
+  "escritor": "deepseek-chat",
+  "rondas": 4,
+  "aprobado": false,
+  "llamadas": 19
+ },
+ {
+  "fecha": "2026-10-25T15:52",
+  "nivel": "B2",
+  "codigo": null,
+  "escritor": "deepseek-chat",
+  "rondas": 4,
+  "aprobado": false,
+  "llamadas": 13
+ },
+ {
+  "fecha": "2026-10-25T15:57",
+  "nivel": "A2",
+  "codigo": "A2-21",
+  "escritor": "deepseek-chat",
+  "rondas": 1,
+  "aprobado": true,
+  "llamadas": 5
+ }
+]

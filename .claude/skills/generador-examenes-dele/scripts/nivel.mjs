@@ -62,15 +62,15 @@ export function medir(m) {
 }
 
 // Qué medidas se comprueban y con qué margen sobre el rango de los oficiales (p10–p90)
+// tol: tolerancia relativa sobre la media oficial (los 20 oficiales de cada nivel son muy homogéneos)
 export const CONTROLES = {
-  palabrasPorFrase: { margen: 0.2, texto: "palabras por frase" },
-  largoPalabra: { margen: 0.3, texto: "longitud media de palabra" },
-  variedad: { margen: 0.5, texto: "variedad de vocabulario" },
-  palabrasLargas: { margen: 0.3, texto: "% de palabras largas (vocabulario complejo)" },
+  palabrasPorFrase: { margen: 0.2, tol: 0.1, texto: "palabras por frase" },
+  largoPalabra: { margen: 0.3, tol: 0.03, texto: "longitud media de palabra" },
+  palabrasLargas: { margen: 0.3, tol: 0.15, texto: "% de palabras largas (vocabulario complejo)" },
   subjuntivo: { margen: 0.5, abs: 1.5, texto: "subjuntivos por 1000 palabras" },
   condicional: { margen: 0.5, abs: 1.5, texto: "condicionales por 1000 palabras" },
   pluscuamperfecto: { margen: 0.5, abs: 0.8, texto: "pluscuamperfectos por 1000 palabras" },
-  literalidad: { margen: 0.2, inversa: true, texto: "literalidad de las respuestas (A1 copia el texto, B2 parafrasea)" },
+  literalidad: { margen: 0.2, tol: 0.08, inversa: true, texto: "literalidad de las respuestas (A1 copia el texto, B2 parafrasea)" },
 };
 
 export function comprobarNivel(medidas, calib) {
@@ -79,12 +79,59 @@ export function comprobarNivel(medidas, calib) {
     const r = calib?.[k];
     if (!r) continue;
     const ancho = Math.max(r.p90 - r.p10, Math.abs(r.media) * 0.1);
-    const min = r.p10 - ancho * c.margen - (c.abs || 0);
-    const max = r.p90 + ancho * c.margen + (c.abs || 0);
+    const extra = Math.max(ancho * c.margen, Math.abs(r.media) * (c.tol || 0)) + (c.abs || 0);
+    const min = r.p10 - extra;
+    const max = r.p90 + extra;
     const v = medidas[k];
     const [bajo, alto] = c.inversa ? ["DIFÍCIL", "FÁCIL"] : ["FÁCIL", "DIFÍCIL"];
     if (v < min) err.push(`dificultad: ${c.texto} = ${v.toFixed(2)} (oficiales ${r.p10.toFixed(2)}–${r.p90.toFixed(2)}): demasiado ${bajo} para el nivel`);
     if (v > max) err.push(`dificultad: ${c.texto} = ${v.toFixed(2)} (oficiales ${r.p10.toFixed(2)}–${r.p90.toFixed(2)}): demasiado ${alto} para el nivel`);
   }
   return err;
+}
+
+// Medidas de una sola tarea (para rehacer solo las culpables)
+export function medirTarea(t) {
+  return medir({ pruebas: [{ tareas: [t] }, { tareas: [] }] });
+}
+
+// Instrucción concreta para DeepSeek según la medida que falla y su dirección
+export function instruccion(k, dir, cal, nivel) {
+  const obj = (x, d = 0) => ((cal[x].p10 + cal[x].p90) / 2).toFixed(d);
+  const pct = Math.round(((cal.literalidad.p10 + cal.literalidad.p90) / 2) * 100);
+  const I = {
+    literalidad: {
+      bajo: `Las opciones correctas parafrasean demasiado para ${nivel}. Reescribe cada opción correcta reutilizando aproximadamente el ${pct} % de las palabras (de 3 letras o más) de su fraseSoporte; la fraseSoporte debe ser la frase literal del texto. Los distractores usan palabras del texto pero con otro dato.`,
+      alto: `Las opciones correctas copian demasiado el texto para ${nivel}. Reescríbelas con sinónimos y otra estructura: solo deben compartir alrededor del ${pct} % de las palabras con su fraseSoporte.`,
+    },
+    palabrasPorFrase: {
+      bajo: `Las frases de los textos son demasiado cortas. Media objetivo: ${obj("palabrasPorFrase")} palabras por frase; une ideas con subordinadas y conectores propios de ${nivel}.`,
+      alto: `Las frases de los textos son demasiado largas. Media objetivo: ${obj("palabrasPorFrase")} palabras por frase; divide las frases largas.`,
+    },
+    palabrasLargas: {
+      alto: `Vocabulario demasiado culto o técnico para ${nivel}: usa palabras más frecuentes y cortas (objetivo ${obj("palabrasLargas", 1)} % de palabras de 9 letras o más).`,
+      bajo: `Vocabulario demasiado básico para ${nivel}: incluye más léxico propio del nivel (objetivo ${obj("palabrasLargas", 1)} % de palabras de 9 letras o más).`,
+    },
+    largoPalabra: { alto: `Vocabulario demasiado culto para ${nivel}: prefiere palabras frecuentes y cortas.`, bajo: `Vocabulario demasiado básico para ${nivel}: usa léxico más variado y propio del nivel.` },
+    variedad: { bajo: `Vocabulario repetitivo: varía el léxico y no repitas las mismas palabras.`, alto: `Demasiada variedad léxica para ${nivel}: repite el vocabulario clave como en un texto real del nivel.` },
+    subjuntivo: { alto: `Demasiados subjuntivos para ${nivel}: usa indicativo salvo en los casos propios del nivel.`, bajo: `Incluye algún subjuntivo en los usos propios de ${nivel} (deseos, recomendaciones, finalidad).` },
+    condicional: { alto: `Demasiados condicionales para ${nivel}.`, bajo: `Incluye algún condicional en usos propios de ${nivel} (cortesía, consejos).` },
+    pluscuamperfecto: { alto: `Quita los pluscuamperfectos (no son de ${nivel}).`, bajo: `Incluye algún pluscuamperfecto en la narración, propio de ${nivel}.` },
+  };
+  return I[k]?.[dir] || "";
+}
+
+// Fallos estructurados: medida, dirección (bajo/alto respecto al rango) y mensaje
+export function fallosNivel(medidas, calib) {
+  const out = [];
+  for (const [k, c] of Object.entries(CONTROLES)) {
+    const r = calib?.[k];
+    if (!r) continue;
+    const ancho = Math.max(r.p90 - r.p10, Math.abs(r.media) * 0.1);
+    const v = medidas[k];
+    const extra = Math.max(ancho * c.margen, Math.abs(r.media) * (c.tol || 0)) + (c.abs || 0);
+    if (v < r.p10 - extra) out.push({ k, dir: "bajo" });
+    if (v > r.p90 + extra) out.push({ k, dir: "alto" });
+  }
+  return out;
 }

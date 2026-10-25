@@ -1,0 +1,29 @@
+{
+  "_uso": "Reglas aprendidas en las revisiones de Claude. generar.mjs las añade a las instrucciones de DeepSeek en cada generación del nivel (y «todos» en todos los niveles). Añade una regla cada vez que rechaces algo en la revisión, en una frase accionable.",
+  "todos": [
+    "La opción correcta debe poder justificarse con una frase literal del texto (fraseSoporte copiada tal cual, sin resumirla).",
+    "En las tareas de relacionar, el banco de opciones (enunciados/fragmentos/parejas) debe tener exactamente las letras que aparecen en las opciones de los ítems; no inventes letras sin texto.",
+    "No pongas dos opciones que sean ambas gramaticalmente posibles en un hueco; si dudas, cambia el distractor.",
+    "En las tareas de relacionar, las respuestas correctas NO pueden seguir el orden de las opciones (A, B, C…) ni el orden del texto o del audio: mezcla el banco para que haya que comprender.",
+    "Moneda, país y ciudad coherentes en todo el modelo (si la historia ocurre en México, todos los precios en pesos; en España, en euros).",
+    "Si el enunciado habla de imágenes, debe haber descripciones de imágenes en el banco; si no hay imágenes, no las menciones.",
+    "En la prueba oral, la instrucción de cada tarea debe coincidir con sus puntos guía (mismo tema).",
+    "Los enunciados de los ítems nunca nombran el texto o la opción que es la respuesta (prohibido «En el texto A se dice…» si la respuesta es A).",
+    "Comprueba cada clave contra el texto o guion: si un personaje menciona algo, la respuesta no puede ser «Ninguno de los dos».",
+    "Las dos tareas de expresión escrita deben ser situaciones y géneros distintos (la tarea 2 nunca repite la situación de la tarea 1).",
+    "En la prueba oral, las tareas que se refieren a una fotografía deben describir el mismo lugar que la fotografía (no cambies de escenario entre instrucción y puntos)."
+  ],
+  "A1": [
+    "Nada de subjuntivo ni condicional en los textos (rechazado: «me gustaría que vinieras»); usa «¿quieres venir?».",
+    "Las frases de A1 no son telegráficas: unas 12 palabras de media con «y», «pero», «porque»."
+  ],
+  "A2": [
+    "La respuesta correcta repite el texto con, como mucho, un sinónimo frecuente; no la parafrasees entera."
+  ],
+  "B1": [
+    "Los textos de B1 tienen frases de unas 17 palabras con subordinadas; no los simplifiques a frases de A2."
+  ],
+  "B2": [
+    "Evita el léxico técnico o académico: B2 es abstracto pero frecuente (artículos de prensa, no ensayos especializados)."
+  ]
+}
