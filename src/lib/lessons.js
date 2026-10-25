@@ -205,16 +205,23 @@ export function buildPractice(mod, types, seed = Date.now()) {
 }
 
 // Convierte un diálogo original del módulo en una historia con el reparto de la app
+// Personajes femeninos de los diálogos (el resto, hombres o neutros, usan la voz del profesor)
+const FEMENINOS = /^(ana|sofía|laura|maría|elena|marta|madre|candidata|profesora|lucía|señora|directora|invitada|redactora|mei|zhang min|chen jing|investigadora|experta|amiga|viajera|carmen|vecina|secretaria|hija|sara|azafata|yuki|niña|abuela|doctora|camarera|dependienta|clienta|vendedora|enfermera|jefa|cajera|recepcionista femenina)\b/i;
+export const esMujer = (nombre) => FEMENINOS.test(String(nombre || "").trim());
+
 export function dialogToStory(d, numero, escena = "💬") {
   const people = [...new Set((d.lineas || []).map((l) => l.personaje))];
-  const cast = ["lucia", "liwei", "carlos", "mei", "carmen"];
-  const who = Object.fromEntries(people.map((p, i) => [p, cast[i % cast.length]]));
+  const female = ["lucia", "mei", "carmen"];
+  const male = ["carlos", "liwei"];
+  let nf = 0;
+  let nm = 0;
+  const who = Object.fromEntries(people.map((p) => [p, esMujer(p) ? female[nf++ % female.length] : male[nm++ % male.length]]));
   return {
     modulo: `${numero}-${d.id}`,
     titulo: d.titulo,
     tituloZh: d.tituloChino,
     escena,
-    lineas: (d.lineas || []).map((l, i) => ({ quien: who[l.personaje], emocion: i === 0 ? "feliz" : "neutral", es: l.texto, zh: l.traduccion })),
+    lineas: (d.lineas || []).map((l, i) => ({ quien: who[l.personaje], nombre: l.personaje, emocion: i === 0 ? "feliz" : "neutral", es: l.texto, zh: l.traduccion })),
     preguntas: [],
   };
 }

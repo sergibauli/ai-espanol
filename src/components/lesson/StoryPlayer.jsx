@@ -91,7 +91,7 @@ export function StoryPlayer({ story, onClose }) {
                   <span className="story-mood">
                     <Emoji3D emoji={MOOD[it.emocion] || "🙂"} size={24} />
                   </span>
-                  <small>{CAST[it.quien]?.name}</small>
+                  <small>{it.nombre || CAST[it.quien]?.name}</small>
                 </div>
                 <button className="story-bubble" onClick={() => speak(it.es, 0.85, CAST[it.quien]?.voice)}>
                   <span>{it.es}</span>

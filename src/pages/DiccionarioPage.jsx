@@ -3,7 +3,6 @@ import { Volume2Icon, SearchIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { speak } from "../components/lesson/fx.js";
-import VOCAB_EMOJI from "../data/vocab-emoji.json";
 
 // Diccionario español–chino con estética imperial (tarjetas que giran, audio con la voz del profesor)
 const LEVELS = [
@@ -17,7 +16,6 @@ const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-
 
 function Card({ w, color, i }) {
   const [flip, setFlip] = React.useState(false);
-  const pic = VOCAB_EMOJI[String(w.es).trim()];
   return (
     <div
       className={`dict2 ${flip ? "flip" : ""}`}
@@ -39,7 +37,11 @@ function Card({ w, color, i }) {
               <Volume2Icon size={16} />
             </button>
           </div>
-          <div className="dict2-art">{pic ? <Emoji3D emoji={pic} size={64} /> : <span className="dict2-letter">{String(w.es).trim()[0]?.toUpperCase()}</span>}</div>
+          <div className="dict2-art">
+            <span className="dict2-scroll">
+              <b>{String(w.es).trim()[0]?.toUpperCase()}</b>
+            </span>
+          </div>
           <h3>{w.es}</h3>
           <span className="dict2-chip">{w.theme}</span>
           <small className="dict2-hint">👆 Toca · 点击翻转</small>

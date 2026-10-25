@@ -101,23 +101,9 @@ const SFX = {
     setTimeout(() => playTone(1800, "sine", 0.5, 0.03, 0), 150);
   },
 };
-function C1(i, t) {
-  if (!t) {
-    return;
-  }
-  const c = [262, 294, 330, 349, 392, 440, 494, 523];
-  const u = [0, 2, 4, 2, 0, 3, 5, 4, 2, 0, 4, 5, 7, 5, 4, 2];
-  let s = 0;
-  const d = setInterval(() => {
-    if (!t) {
-      clearInterval(d);
-      return;
-    }
-    const m = c[u[s % u.length]];
-    playTone(m, "triangle", 0.4, 0.025, 0);
-    s++;
-  }, 400);
-  return () => clearInterval(d);
+// Música de fondo desactivada: solo quedan los efectos de acierto y error
+function C1() {
+  return undefined;
 }
 function SoundProvider({ children }) {
   const [t, setT] = React.useState(() => {
