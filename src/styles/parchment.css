@@ -904,3 +904,12 @@ button[title="Música / Music"] { display: none !important; }
 .au-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
 .au-item { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px; text-align: left; color: #3b2416; background: linear-gradient(#fffdf8, #f2ead8); border: 1.5px solid #e2cfa6; border-radius: 12px; box-shadow: 0 6px 12px rgba(110,80,30,.18); cursor: pointer; }
 .au-item b { font-size: 16px; } .au-item small { color: #8a6a48; }
+.oe-link { display: inline-flex; align-items: center; gap: 6px; margin: 10px 0; padding: 9px 16px; font-weight: 800; font-size: 14px; color: #fff3d6 !important; background: linear-gradient(#d0343f, #8f0c21); border: 2px solid #f2c14e; border-radius: 22px; text-decoration: none; box-shadow: 0 3px 0 #5a0a16; }
+.unit-prod { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+.unit-prod-task { padding: 18px; border-radius: 12px; color: #3b2416; background: linear-gradient(#fffdf8, #f2ead8); border: 1.5px solid #e2cfa6; box-shadow: inset 0 0 0 4px #fffdf8, inset 0 0 0 5px rgba(214,180,110,.45), 0 8px 16px rgba(110,80,30,.18); }
+.unit-prod-task h3 { margin: 0 0 8px; color: #8f0c21; font: 800 18px var(--ui-display); } .unit-prod-task ul { margin: 8px 0 12px 18px; color: #5b3e22; font-size: 14px; }
+.unit-prod-task textarea { width: 100%; padding: 12px; font: 16px/1.6 Georgia, serif; color: #2a1608; background: #fffdf6; border: 2px solid #d9b465; border-radius: 10px; }
+.unit-prod-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; } .unit-prod-foot .wel-btn { padding: 0 20px; height: 44px; }
+.unit-prod-foot span { font-weight: 800; font-size: 13px; } .unit-prod-foot span.ok { color: #23893f; } .unit-prod-foot span.fuera { color: #b3122e; }
+.unit-prod-task.oral { display: flex; flex-direction: column; justify-content: center; text-align: center; background: linear-gradient(rgba(255,250,236,.7), rgba(255,250,236,.7)), url("../../public/mono/serio.png") right -10px bottom / 120px auto no-repeat, #f6ecd6; }
+@media (max-width: 860px) { .unit-prod { grid-template-columns: 1fr; } }

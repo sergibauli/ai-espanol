@@ -2449,6 +2449,9 @@ function IaComponent() {
                         {isCorrecting ? t_1("Corrigiendo…", "批改中…") : t_1("Corregir con IA", "AI 批改")}
                       </button>
                     </div>
+                    <a className="oe-link" href={`#/examinador-oral?nivel=${encodeURIComponent(nivel || "")}&tema=${encodeURIComponent(a.titulo || "")}&tarea=${encodeURIComponent(a.instrucciones || "")}&puntos=${encodeURIComponent(JSON.stringify(a.puntosGuia || []))}`}>
+                        🎙️ Hacer esta tarea con el examinador IA · 用AI考官模拟
+                      </a>
                     {K[o] && <C_2 data={K[o]} />}
                     {a.entrevistador && (
                       <div className="mt-4">

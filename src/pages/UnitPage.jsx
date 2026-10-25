@@ -13,6 +13,7 @@ import { markModuleVisited } from "../lib/progress.js";
 import CATALOG from "../data/modulos/catalog.json";
 
 import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
+import { u as useCorrection, C as CorrectionCard } from "../components/CorrectionDisplay.jsx";
 const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
 const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
@@ -235,6 +236,53 @@ function GuideScroll({ teoria, numero }) {
   );
 }
 
+// Producción de la unidad: redacción corregida como en el DELE y tarea oral con el examinador IA
+const PALABRAS = { A1: [30, 50], A2: [60, 80], B1: [100, 150], B2: [150, 180] };
+function ProduccionUnidad({ mod, nivel }) {
+  const { correctText, isCorrecting } = useCorrection();
+  const [txt, setTxt] = React.useState("");
+  const [res, setRes] = React.useState(null);
+  const tema = String(mod.titulo || "").split(" - ")[0];
+  const puntos = [...(mod.teoria || []).slice(0, 3).map((t) => `Usa: ${t.titulo}`), "Usa al menos 5 palabras del vocabulario de la unidad"];
+  const [min, max] = PALABRAS[nivel] || PALABRAS.A2;
+  const enunciado = `Escribe un texto sobre «${tema}» con lo que has aprendido en esta unidad (${min}-${max} palabras).`;
+  const palabras = (txt.match(/[\p{L}\p{N}]+/gu) || []).length;
+  const corregir = async () => {
+    const r = await correctText(txt, "escritura", nivel, `${tema}. ${enunciado}`, { nivel, puntosGuia: puntos, minPalabras: min, maxPalabras: max });
+    setRes(r?.data || null);
+  };
+  return (
+    <div className="unit-prod">
+      <div className="unit-prod-task">
+        <h3>✍️ Expresión escrita · 写作</h3>
+        <p>{enunciado}</p>
+        <ul>
+          {puntos.map((p) => (
+            <li key={p}>{p}</li>
+          ))}
+        </ul>
+        <textarea value={txt} onChange={(e) => setTxt(e.target.value)} rows={7} placeholder="Escribe aquí · 在这里写" />
+        <div className="unit-prod-foot">
+          <span className={palabras < min || palabras > max ? "fuera" : "ok"}>
+            {palabras} / {min}–{max} palabras · 字数
+          </span>
+          <button className="wel-btn red" disabled={isCorrecting || !txt.trim()} onClick={corregir}>
+            {isCorrecting ? "Corrigiendo… · 批改中…" : "Corregir como en el DELE · 批改"}
+          </button>
+        </div>
+        {res && <CorrectionCard data={res} />}
+      </div>
+      <div className="unit-prod-task oral">
+        <h3>🎙️ Expresión oral · 口语</h3>
+        <p>Habla sobre «{tema}»: preparación, monólogo y preguntas del entrevistador, corregido con los criterios del DELE.</p>
+        <a className="oe-link" href={`#/examinador-oral?nivel=${nivel}&tema=${encodeURIComponent(tema)}&tarea=${encodeURIComponent(`Monólogo sobre la unidad «${tema}»`)}&puntos=${encodeURIComponent(JSON.stringify(puntos))}`}>
+          Empezar con el examinador IA · 开始口语练习
+        </a>
+      </div>
+    </div>
+  );
+}
+
 // Piezas 3D recortadas de las maquetas (public/theme)
 const THEME = `${import.meta.env.BASE_URL}theme/`;
 
@@ -313,7 +361,7 @@ export default function UnitPage() {
         </span>
 
         <nav className="unit-jump" aria-label="Secciones">
-          {[["guia", "💡 Guía"], ["lecciones", "🎯 Lecciones"], ["historia", "📖 Historia"], ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"]].map(([id, label]) => (
+          {[["guia", "💡 Guía"], ["lecciones", "🎯 Lecciones"], ["historia", "📖 Historia"], ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["produccion", "✍️ Producción"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"]].map(([id, label]) => (
             <button key={id} onClick={() => document.getElementById(`u-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}>
               {label}
             </button>
@@ -427,6 +475,9 @@ export default function UnitPage() {
                 {reto ? "Creando preguntas… · 生成中…" : "✨ Reto nuevo con IA · AI新挑战"}
               </button>
             </div>
+
+            <h2 className="unit-h2" id="u-produccion">Producción · 写作与口语 <small>(corregida con los criterios del DELE)</small></h2>
+            <ProduccionUnidad mod={mod} nivel={meta.nivel} />
 
             <h2 className="unit-h2" id="u-juegos">Juegos · 游戏 <small>(con las palabras de esta unidad)</small></h2>
             <div className="unit-games">

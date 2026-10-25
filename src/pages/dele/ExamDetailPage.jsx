@@ -815,6 +815,9 @@ function contextoEscrita(op, nivel) {
     maxPalabras: m ? Number(m[2]) : undefined,
   };
 }
+// Tarea oral de práctica: los puntos a tratar son sus preguntas guía
+const tareaOral = (t) => [t?.title, t?.description].filter(Boolean).join(". ");
+const contextoOral = (t, nivel) => (t ? { nivel, puntosGuia: (t.guideQuestions || []).slice(0, 5) } : undefined);
 // Cada vez que se abre un examen de práctica las opciones cambian de orden (se recoloca la respuesta correcta)
 function barajarOpciones(exam) {
   if (!exam) return exam;
@@ -4280,7 +4283,7 @@ function WaComponent() {
                           </span>
                         </div>
                         <button
-                          onClick={() => pe(Le, "monologo", setQe, n?.monologue?.topic1?.title)}
+                          onClick={() => pe(Le, "monologo", setQe, tareaOral(n?.monologue?.topic1), contextoOral(n?.monologue?.topic1, n?.level))}
                           disabled={isCorrecting || !Le.trim() || C}
                           className="flex items-center gap-2 px-6 py-3 rounded-2xl text-white font-bold transition-all hover:scale-105 disabled:opacity-40"
                           style={{
@@ -4297,6 +4300,9 @@ function WaComponent() {
                             ? t_1("Corrigiendo...", "批改中...")
                             : t_1("Corregir con IA", "AI批改")}
                         </button>
+                        <a className="oe-link" href={`#/examinador-oral?nivel=${encodeURIComponent(n?.level || "")}&tema=${encodeURIComponent(n?.monologue?.topic1?.title || "")}&tarea=${encodeURIComponent(n?.monologue?.topic1?.description || "")}&puntos=${encodeURIComponent(JSON.stringify(n?.monologue?.topic1?.guideQuestions || []))}`}>
+                        🎙️ Hacer esta tarea con el examinador IA · 用AI考官模拟
+                      </a>
                       </div>
                     </div>
                   ) : (
@@ -4351,7 +4357,7 @@ function WaComponent() {
                             <p className="text-white/75 text-sm">{Je}</p>
                           </div>
                           <button
-                            onClick={() => pe(Je, "monologo", setQe, n?.monologue?.topic1?.title)}
+                            onClick={() => pe(Je, "monologo", setQe, tareaOral(n?.monologue?.topic1), contextoOral(n?.monologue?.topic1, n?.level))}
                             disabled={isCorrecting}
                             className="mt-3 flex items-center gap-2 px-5 py-2 rounded-xl text-white text-sm font-medium disabled:opacity-40 transition-all hover:scale-105"
                             style={{

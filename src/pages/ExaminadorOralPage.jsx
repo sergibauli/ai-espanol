@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useSearchParams } from "react-router";
 import { MicIcon, SquareIcon, PlayIcon, Volume2Icon, ClockIcon, RotateCcwIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
@@ -66,9 +67,20 @@ function fmt(seg) {
 
 export default function ExaminadorOralPage() {
   const { correctText, isCorrecting } = useCorrection();
+  // Tarea que llega desde un examen o una unidad (?nivel=&tema=&tarea=&puntos=[…])
+  const [params] = useSearchParams();
+  const pNivel = TASKS[params.get("nivel")] ? params.get("nivel") : null;
+  const pPuntos = (() => {
+    try {
+      return JSON.parse(params.get("puntos") || "[]").filter(Boolean).slice(0, 6);
+    } catch {
+      return [];
+    }
+  })();
+  const tareaExterna = params.get("tarea") || "";
   const [fase, setFase] = React.useState("elegir");
-  const [nivel, setNivel] = React.useState("B1");
-  const [tema, setTema] = React.useState(TASKS.B1.temas[0]);
+  const [nivel, setNivel] = React.useState(pNivel || "B1");
+  const [tema, setTema] = React.useState(params.get("tema") || TASKS[pNivel || "B1"].temas[0]);
   const [rapido, setRapido] = React.useState(true);
   const [puntos, setPuntos] = React.useState([]);
   const [notas, setNotas] = React.useState("");
@@ -191,6 +203,12 @@ export default function ExaminadorOralPage() {
 
   // pide puntos guía a la IA (o usa fallback)
   const cargarPuntos = async () => {
+    // Tarea que viene de un examen o de una unidad: se respetan sus puntos
+    if (pPuntos.length && tema === params.get("tema")) {
+      setPuntos(pPuntos.map((p) => ({ es: p, zh: "" })));
+      return;
+    }
+
     if (!isAIAvailable()) {
       setPuntos(PUNTOS_FALLBACK.map((p) => ({ es: p, zh: "" })));
       return;
@@ -336,7 +354,7 @@ export default function ExaminadorOralPage() {
         texto,
         "monologo",
         nivel,
-        `Prueba oral DELE ${nivel}: ${task.tarea}. Tema: ${tema}`,
+        `Prueba oral DELE ${nivel}: ${tareaExterna || task.tarea}. Tema: ${tema}`,
         { nivel, puntosGuia: puntos.map((p) => p.es) }
       );
       if (r?.limitReached) setLimitReached(true);
@@ -391,7 +409,7 @@ export default function ExaminadorOralPage() {
                   >{n}</button>
                 ))}
               </div>
-              <p className="oe-task"><strong>{task.tarea}</strong> · {task.zh}</p>
+              <p className="oe-task"><strong>{tareaExterna || task.tarea}</strong> · {task.zh}</p>
               <h4>Tema · 话题</h4>
               <div className="oe-temas">
                 {task.temas.map((t) => (
