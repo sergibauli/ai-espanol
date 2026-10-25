@@ -12,13 +12,29 @@ const MAIN = [
   { to: "/modulos", icon: "unidades", es: "Unidades", zh: "单元" },
   { to: "/oficial", icon: "dele", es: "DELE", zh: "考试" },
   { to: "/juegos", icon: "juegos", es: "Juegos", zh: "游戏" },
-  { to: "/tutor-voz", icon: "tutor", es: "Tutor IA", zh: "AI导师" },
   { to: "/diccionarios", icon: "diccionario", es: "Diccionario", zh: "词典" },
   { to: "/pronunciacion", icon: "pronunciacion", es: "Pronunciación", zh: "发音" },
   { to: "/memoria", icon: "repaso", es: "Repaso", zh: "记忆" },
+  { to: "/tutor-voz", icon: "tutor", es: "Tutor IA", zh: "AI导师" },
 ];
 
+// Cielo según la hora de China (UTC+8): noche, amanecer/atardecer o día de pergamino
+function skyNow() {
+  try {
+    const forced = localStorage.getItem("ai-espanol:cielo");
+    if (forced) return forced;
+  } catch {}
+  const h = (new Date().getUTCHours() + 8) % 24;
+  return h >= 20 || h < 5 ? "noche" : (h >= 5 && h < 8) || (h >= 17 && h < 20) ? "amanecer" : "dia";
+}
+
 export function LightShell({ children, legacy = false, stage = false }) {
+  React.useEffect(() => {
+    const set = () => document.documentElement.setAttribute("data-cielo", skyNow());
+    set();
+    const iv = setInterval(set, 5 * 60 * 1000);
+    return () => clearInterval(iv);
+  }, []);
   const { pathname } = useLocation();
   const { logout } = useAppAuth();
   const mainRef = React.useRef(null);

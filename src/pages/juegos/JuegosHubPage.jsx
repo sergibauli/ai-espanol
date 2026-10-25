@@ -915,6 +915,21 @@ function GameIcon({ game, size = 52 }) {
 }
 
 function GameCard({ game, index = 0 }) {
+  if (!isReadyGame(game))
+    return (
+      <div className="ui-card fx-game gm-locked" aria-disabled="true" title="Próximamente · 即将推出" style={{ display: "flex", flexDirection: "column", gap: 12, padding: 16 }}>
+        <div className="ui-row" style={{ flexWrap: "nowrap", gap: 12 }}>
+          <GameIcon game={game} />
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontWeight: 800, fontSize: 15 }}>{game.name}</div>
+            <div className="ui-zh" style={{ fontSize: 12 }}>{game.nameCn}</div>
+          </div>
+        </div>
+        <span className="gm-lock-badge">
+          <LockIcon size={14} /> Próximamente · 即将推出
+        </span>
+      </div>
+    );
   return (
     <Link
       to={game.path}
@@ -955,10 +970,11 @@ function JuegosHubPage() {
     .map((id) => i.find((g) => g.id === id))
     .filter(Boolean);
   const daySeed = Math.floor(Date.now() / 86400000);
-  const featured = i[daySeed % i.length];
+  const ready = i.filter(isReadyGame);
+  const featured = ready[daySeed % ready.length];
   const cat = p.find((c) => c.key === category) || p[0];
   const q = normalize(query.trim());
-  const list = i.filter((g) => cat.test(g) && (!q || normalize(searchText(g)).includes(q)));
+  const list = i.filter((g) => cat.test(g) && (!q || normalize(searchText(g)).includes(q))).sort((a, b) => isReadyGame(b) - isReadyGame(a));
 
   return (
     <LightShell>
@@ -980,7 +996,7 @@ function JuegosHubPage() {
             <button
               className="ui-btn primary fx-shiny"
               onClick={() => {
-                const g = i[Math.floor(Math.random() * i.length)];
+                const g = ready[Math.floor(Math.random() * ready.length)];
                 rememberGame(g.id);
                 navigate(g.path);
               }}
@@ -1053,3 +1069,6 @@ function JuegosHubPage() {
   );
 }
 export { JuegosHubPage as default, i as GAMES };
+// Juegos ya rediseñados con la estética imperial; el resto se muestra bloqueado hasta adaptarlo
+export const READY_GAMES = new Set(["/juegos/scramble", "/juegos/memory", "/juegos/ruleta", "/juegos/uno", "/juegos/kahoot"]);
+export const isReadyGame = (g) => READY_GAMES.has(g.path);

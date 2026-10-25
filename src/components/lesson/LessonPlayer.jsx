@@ -385,7 +385,11 @@ export function LessonPlayer({ lesson, onClose }) {
     const r = addXp(xp, { lessonId: lesson.id, score: accuracy, perfect });
     sfx("win");
     confetti();
-    setResult({ xp, accuracy, perfect, seconds: Math.round((Date.now() - startedAt) / 1000), ...r });
+    // ¿Con esta lección se completa la unidad entera? (las 5 lecciones hechas)
+    const unit = String(lesson.id).match(/^m(\d+)-l\d+$/)?.[1];
+    const lessons = getGame().lessons || {};
+    const unitDone = Boolean(unit) && [0, 1, 2, 3, 4].every((i) => lessons[`m${unit}-l${i}`]);
+    setResult({ xp, accuracy, perfect, unit, unitDone, seconds: Math.round((Date.now() - startedAt) / 1000), ...r });
   }, [lesson, mistakes, startedAt]);
 
   const next = () => {
@@ -425,11 +429,20 @@ export function LessonPlayer({ lesson, onClose }) {
   const outOfHearts = hearts <= 0 && !result && feedback && !feedback.ok;
 
   const body = result ? (
-    <div className="lp-center lp-end">
-      <Emoji3D emoji={result.perfect ? "🏆" : "🎉"} size={140} float />
-      <h2 className="lp-word" style={{ fontSize: 34 }}>{result.perfect ? "¡Lección perfecta!" : "¡Lección completada!"}</h2>
-      <div className="lp-zh-big">{result.perfect ? "满分完成！" : "课程完成！"}</div>
-      <div className="lp-stats">
+    <div className={`lp-center lp-end ${result.unitDone ? "unit-done" : ""}`}>
+      <div className="lp-reward">
+        <span className="lp-reward-rays" />
+        <img className="lp-reward-mono" src={`./mono/${result.unitDone || result.perfect ? "trofeo" : "feliz"}.png`} alt="" />
+        <span className="lp-reward-seal">{result.unitDone ? "单元" : result.perfect ? "满分" : "完成"}</span>
+        {Array.from({ length: Math.min(6, Math.round(result.xp / 3)) }, (_, i) => (
+          <i key={i} className="lp-coin" style={{ "--i": i }} />
+        ))}
+      </div>
+      <h2 className="lp-word" style={{ fontSize: 34 }}>
+        {result.unitDone ? `¡Unidad ${result.unit} completada!` : result.perfect ? "¡Lección perfecta!" : "¡Lección completada!"}
+      </h2>
+      <div className="lp-zh-big">{result.unitDone ? "单元完成！获得印章" : result.perfect ? "满分完成！" : "课程完成！"}</div>
+      <div className="lp-stats lp-scroll-stats">
         <div className="lp-stat xp">
           <small>XP</small>
           <b>
@@ -506,7 +519,7 @@ export function LessonPlayer({ lesson, onClose }) {
         <div className="lp-foot-inner">
           {feedback && !result && !outOfHearts && (
             <div className="lp-feedback">
-              <Emoji3D emoji={feedback.ok ? "🌟" : "💡"} size={46} />
+              <img className="lp-mono" src={`./mono/${feedback.ok ? (pos % 2 ? "guino" : "feliz") : "serio"}.png`} alt="" />
               <div>
                 <b>{feedback.ok ? (feedback.accent ? "¡Bien! Ojo con la tilde · 注意重音" : "¡Correcto! · 正确！") : "Solución correcta · 正确答案"}</b>
                 {(!feedback.ok || feedback.accent) && <div className="lp-solution">{feedback.solution}</div>}

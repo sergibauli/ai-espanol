@@ -52,6 +52,19 @@ const PATHS = {
       <path d="M8 19c-2.5 4-2.5 8 0 12M40 19c2.5 4 2.5 8 0 12" stroke={R} strokeWidth="2.4" fill="none" strokeLinecap="round" />
     </>
   ),
+  tutor: (
+    <>
+      <circle cx="11" cy="24" r="5" fill={R} />
+      <circle cx="37" cy="24" r="5" fill={R} />
+      <circle cx="24" cy="25" r="13" fill={R} />
+      <path d="M15 27c0-5 4-8 9-8s9 3 9 8-4 9-9 9-9-4-9-9Z" fill="#fff6dc" />
+      <circle cx="20" cy="26" r="1.8" fill={R} />
+      <circle cx="28" cy="26" r="1.8" fill={R} />
+      <path d="M21 31c2 1.6 4 1.6 6 0" stroke={R} strokeWidth="1.8" fill="none" strokeLinecap="round" />
+      <path d="M12 15c4-4 20-4 24 0" stroke="#f2c14e" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="m24 11 2 3h-4Z" fill="#f2c14e" />
+    </>
+  ),
   repaso: (
     <>
       <circle cx="24" cy="24" r="14" fill="#fff6dc" stroke={R} strokeWidth="2.4" />
@@ -63,7 +76,6 @@ const PATHS = {
 };
 
 export function NavIcon({ name, size = 40 }) {
-  if (name === "tutor") return <img className="nav-ic img" src="./mono-face.png" alt="" style={{ width: size, height: size }} />;
   return (
     <svg className="nav-ic" viewBox="0 0 48 48" width={size} height={size} aria-hidden="true">
       {PATHS[name]}

@@ -12,7 +12,7 @@ import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import { markModuleVisited } from "../lib/progress.js";
 import CATALOG from "../data/modulos/catalog.json";
 
-import { GAMES } from "./juegos/JuegosHubPage.jsx";
+import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
 const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
 const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
@@ -416,8 +416,18 @@ export default function UnitPage() {
 
             <h2 className="unit-h2" id="u-juegos">Juegos · 游戏 <small>(con las palabras de esta unidad)</small></h2>
             <div className="unit-games">
-              {GAMES.map((g) => {
+              {[...GAMES].sort((a, b) => isReadyGame(b) - isReadyGame(a)).map((g) => {
                 const Icon = g.icon;
+                if (!isReadyGame(g))
+                  return (
+                    <div key={g.id} className="unit-game gm-locked" aria-disabled="true" title="Próximamente · 即将推出">
+                      <span className="unit-game-icon" style={{ background: g.gradient }}>
+                        <Icon size={24} color="#fff" />
+                      </span>
+                      <b>{g.name}</b>
+                      <small>🔒 Próximamente</small>
+                    </div>
+                  );
                 return (
                   <Link key={g.id} to={`${g.path}?m=${numero}`} className="unit-game">
                     <span className="unit-game-icon" style={{ background: g.gradient }}>
