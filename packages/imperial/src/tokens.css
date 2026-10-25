@@ -1,0 +1,60 @@
+/* Imperial · tokens del sistema de diseño de AI Español
+   Laca roja, oro, papel de pergamino, tinta y noche azul con destellos. */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700&display=swap");
+
+:root {
+  /* Laca */
+  --im-laca-300: #e0485a;
+  --im-laca-500: #b81c2e;
+  --im-laca-700: #8f0c21;
+  --im-laca-900: #5e0614;
+  /* Oro */
+  --im-oro-100: #fff3cf;
+  --im-oro-300: #f6d77e;
+  --im-oro-500: #f2c14e;
+  --im-oro-600: #d9ae4c;
+  --im-oro-800: #8a5a1e;
+  /* Papel y tinta */
+  --im-papel-50: #fffaf0;
+  --im-papel-100: #fbf1dc;
+  --im-papel-200: #f6e7c8;
+  --im-papel-300: #ead2a2;
+  --im-papel-borde: #d9b97a;
+  --im-tinta-900: #2b190e;
+  --im-tinta-700: #3b2416;
+  --im-tinta-500: #6b4a2e;
+  --im-tinta-300: #9c7a55;
+  /* Noche */
+  --im-noche-950: #08111f;
+  --im-noche-900: #0e1a33;
+  --im-noche-800: #13264a;
+  --im-noche-700: #1d3768;
+  /* Jade y apoyo */
+  --im-jade-300: #7fd1a0;
+  --im-jade-500: #2f8f52;
+  --im-jade-700: #1d6339;
+  --im-azul-500: #2f6fd6;
+  --im-purpura-500: #7a4fc4;
+  /* Estados */
+  --im-ok: var(--im-jade-500);
+  --im-error: var(--im-laca-500);
+  /* Tipografía */
+  --im-font-display: "Cinzel", "Times New Roman", Georgia, serif;
+  --im-font-ui: "Plus Jakarta Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --im-font-letra: Georgia, "Times New Roman", serif;
+  --im-font-zh: "Noto Serif SC", "Songti SC", "STSong", serif;
+  /* Radios, sombras, espacios */
+  --im-radio-sm: 8px;
+  --im-radio-md: 14px;
+  --im-radio-lg: 20px;
+  --im-radio-pill: 999px;
+  --im-sombra-papel: 0 2px 6px rgba(139, 94, 52, .18), 0 10px 24px rgba(60, 35, 10, .14);
+  --im-sombra-oro: 0 0 0 1px rgba(242, 193, 78, .55), 0 0 24px rgba(242, 193, 78, .35);
+  --im-brillo-oro: 0 0 22px rgba(242, 193, 78, .55);
+  --im-esp-1: 4px;
+  --im-esp-2: 8px;
+  --im-esp-3: 12px;
+  --im-esp-4: 16px;
+  --im-esp-5: 24px;
+  --im-esp-6: 32px;
+}

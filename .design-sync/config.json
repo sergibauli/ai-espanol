@@ -1,0 +1,14 @@
+{
+  "projectId": "efec6750-2c95-4a1c-a823-246e6d447173",
+  "shape": "package",
+  "pkg": "@ai-espanol/imperial",
+  "globalName": "Imperial",
+  "buildCmd": "cd packages/imperial && node build.mjs",
+  "entry": "./packages/imperial/dist/index.js",
+  "cssEntry": "dist/index.css",
+  "docsDir": "docs",
+  "readmeHeader": ".design-sync/conventions.md",
+  "guidelinesGlob": [
+    "guidelines/**/*.md"
+  ]
+}
