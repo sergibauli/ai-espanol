@@ -941,3 +941,71 @@ main.game-bg .relative.flex-1.rounded-2xl:is([class*="max-w-[220px]"]) * { color
 /* Títulos de nivel de Unidades: el disco InsigniaNivel sustituye a la barra roja */
 .light-page .unit-h2.unidades-nivel { display: flex; align-items: center; gap: 12px; padding-left: 0; }
 .light-page .unit-h2.unidades-nivel::before { display: none !important; }
+
+/* ===== v9.2 · Logo imperial (sello Ñ + nube) en portada y menú ===== */
+.side-brand { gap: 0; padding: 4px 6px 22px !important; }
+.light-top .side-brand .im-logo__texto b { font-size: 17px; }
+.wel-lang { padding: 6px 12px; border-radius: 99px; color: #8a5a1e; background: rgba(242,193,78,.14); box-shadow: inset 0 0 0 1px rgba(217,174,76,.55); }
+.wel-paper .wel-sello { position: absolute; top: 7%; right: 8%; z-index: 2; }
+@media (max-width: 760px) { .wel-paper .wel-sello { display: none; } }
+
+/* ===== v9.2 · Mapa de Aprender: camino dorado, nodos imperiales, farolillos y el Rey Mono en su nube ===== */
+.ruta-camino-wrap { position: relative; margin: 6px -10px 0; overflow: visible;
+  background:
+    url("../../public/theme/montes-tinta.png") left -40px bottom 10px / 300px auto no-repeat,
+    url("../../public/theme/montes-tinta.png") right -60px top 40% / 260px auto no-repeat; }
+.ruta-camino-wrap::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
+  background-image: radial-gradient(circle at 14% 22%, rgba(214,160,40,.7) 0 1.4px, transparent 2.4px), radial-gradient(circle at 86% 30%, rgba(214,160,40,.6) 0 1.8px, transparent 2.8px), radial-gradient(circle at 22% 70%, rgba(214,160,40,.6) 0 1.4px, transparent 2.4px), radial-gradient(circle at 78% 82%, rgba(214,160,40,.7) 0 1.6px, transparent 2.6px), radial-gradient(circle at 50% 50%, rgba(214,160,40,.4) 0 1.2px, transparent 2.2px);
+  animation: destellos 5s ease-in-out infinite; }
+.ruta-camino { position: relative; margin: 0 auto; }
+.ruta-carretera { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+.ruta-carretera path { fill: none; stroke-linecap: round; }
+.ruta-carretera .borde { stroke: rgba(92,58,24,.28); stroke-width: 26; }
+.ruta-carretera .piedra { stroke: #e9d9b4; stroke-width: 18; stroke-dasharray: 2 14; filter: drop-shadow(0 1px 0 rgba(255,255,255,.7)); }
+.ruta-carretera .oro { stroke: #f2c14e; stroke-width: 10; filter: drop-shadow(0 0 6px rgba(242,193,78,.9)) drop-shadow(0 0 14px rgba(242,193,78,.55)); }
+.ruta-medida { position: absolute; }
+.ruta-camino .ruta-node-wrap { position: absolute; z-index: 3; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; }
+.ruta-camino .ruta-node-wrap.abierto { z-index: 12; }
+.ruta-camino .path-node { width: 74px; height: 74px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; transition: transform .15s; outline: 0; animation: none; }
+.ruta-camino .path-node:hover { transform: translateY(-3px) scale(1.04); }
+.ruta-camino .path-node.done { color: #8f0c21; background: radial-gradient(circle at 35% 28%, #fff7d6, #f2c14e 45%, #c8901e 80%); box-shadow: 0 0 0 3px #fff3cf, 0 0 0 5px #b07a1a, 0 7px 0 #8a5a1e, 0 0 22px rgba(242,193,78,.7); }
+.ruta-camino .path-node.open { background: radial-gradient(circle at 35% 28%, #b8f0c9, #3fae68 45%, #1d6339 85%); box-shadow: 0 0 0 3px #fff3cf, 0 0 0 5px #b07a1a, 0 7px 0 #134a2a, 0 0 16px rgba(63,174,104,.55); }
+.ruta-camino .path-node.locked { color: #8d7c62; background: radial-gradient(circle at 35% 28%, #f3ead6, #d8c8a6 55%, #b3a07c); box-shadow: inset 0 -4px 0 rgba(0,0,0,.08), 0 0 0 3px rgba(255,250,236,.9), 0 6px 0 #9c8a68, 0 8px 14px rgba(60,35,10,.22); }
+.ruta-camino .path-node.current { animation: rutaLatido 2.2s ease-in-out infinite; }
+.ruta-camino .path-node.current::before, .ruta-camino .path-node.current::after { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 3px solid rgba(242,193,78,.85); animation: rutaOnda 2.2s ease-out infinite; pointer-events: none; }
+.ruta-camino .path-node.current::after { animation-delay: 1.1s; }
+@keyframes rutaOnda { from { transform: scale(.85); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+@keyframes rutaLatido { 50% { transform: scale(1.06); } }
+.ruta-camino .ruta-start { bottom: 100%; margin-bottom: 14px; padding: 7px 16px; border-radius: 99px; font: 800 12px var(--im-font-ui); letter-spacing: .08em; color: #fff3d6; background: linear-gradient(#c92436, #8f0c21); box-shadow: 0 0 0 2px #f2c14e, 0 6px 14px rgba(60,5,10,.35); animation: im-flota 2.4s ease-in-out infinite; }
+.ruta-camino .ruta-start::after { border-top-color: #8f0c21; }
+.ruta-camino .ruta-pop { left: 50%; transform: translateX(-50%); background: linear-gradient(160deg, var(--c), #2b190e); box-shadow: 0 0 0 2px #f2c14e, 0 14px 30px rgba(0,0,0,.35); }
+.ruta-camino .ruta-chest { position: absolute; z-index: 3; transform: translate(-50%, -50%); display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%; background: radial-gradient(circle, rgba(242,193,78,.35), transparent 65%); }
+.ruta-camino .ruta-chest.ganado { background: radial-gradient(circle, rgba(242,193,78,.7), transparent 68%); }
+.ruta-viajero { position: absolute !important; z-index: 5; transform: translate(-50%, -50%); pointer-events: none; }
+/* Farolillos rojos colgando que se mecen */
+.ruta-farol { position: absolute; top: 0; width: 34px; height: 44px; border-radius: 45% 45% 40% 40%; transform-origin: 50% -46px; animation: rutaMece 4s ease-in-out infinite;
+  background: radial-gradient(circle at 40% 35%, #ff8a6a, #d0202f 45%, #8f0c21); box-shadow: 0 0 24px rgba(255,90,60,.55), inset 0 0 0 2px rgba(242,193,78,.6);
+  margin-top: 54px; }
+.ruta-farol::before { content: ""; position: absolute; left: 50%; bottom: 100%; width: 2px; height: 50px; background: #8a5a1e; transform: translateX(-50%); box-shadow: 0 46px 0 6px #f2c14e; }
+.ruta-farol::after { content: ""; position: absolute; left: 50%; top: 100%; width: 4px; height: 16px; transform: translateX(-50%); border-radius: 2px; background: linear-gradient(#f2c14e, #c8901e); }
+.ruta-farol.izq { left: 6%; }
+.ruta-farol.der { right: 6%; animation-delay: -2s; }
+.ruta-farol.peq { width: 24px; height: 32px; top: 140px; animation-duration: 5s; opacity: .85; }
+@keyframes rutaMece { 0%, 100% { rotate: -5deg; } 50% { rotate: 5deg; } }
+/* Nubes de la suerte que se desplazan */
+.ruta-nube { position: absolute; width: 120px; height: 48px; opacity: .55; pointer-events: none; animation: rutaNube 26s linear infinite;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 48'%3E%3Cpath d='M10 40c-9 0-9-12 2-12 0-9 13-12 18-4 5-11 23-11 26 0 7-8 23-6 23 5 11-5 22 2 18 11 11 0 11 11 0 11H14c-6 0-8-8-4-11Z' fill='%23fffaf0' stroke='%23c8a25a' stroke-width='1.6'/%3E%3Cpath d='M34 36a6 6 0 1 1 9 5M68 34a7 7 0 1 0-11 5' fill='none' stroke='%23c8a25a' stroke-width='1.6'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ruta-nube.n1 { top: 30%; left: -10%; }
+.ruta-nube.n2 { top: 68%; left: 60%; animation-duration: 34s; animation-delay: -12s; transform: scale(.75); }
+@keyframes rutaNube { from { translate: 0 0; } 50% { translate: 120px -10px; } to { translate: 0 0; } }
+@media (max-width: 700px) {
+  .ruta-camino-wrap { background-size: 200px auto, 170px auto; }
+  .ruta-farol:not(.peq) { display: none; } .ruta-farol.izq { left: 2%; } .ruta-farol.der { right: 2%; }
+  .ruta-viajero { --im-mn: 92px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .ruta-farol, .ruta-nube, .ruta-camino .path-node.current, .ruta-camino .path-node.current::before, .ruta-camino .path-node.current::after, .ruta-camino .ruta-start { animation: none; } }
+/* Cabecera de unidad: laca imperial del color del nivel con marco dorado */
+.light-page .ruta-banner { background: radial-gradient(420px 160px at 10% 0%, rgba(255,255,255,.18), transparent 70%), linear-gradient(150deg, var(--c), var(--d)) !important; color: #fff3d6 !important; }
+.light-page .ruta-banner h2 { font-family: var(--im-font-display); letter-spacing: .02em; text-shadow: 0 2px 0 rgba(0,0,0,.25); }
+.light-page .ruta-banner .ruta-guide { color: #5e0614 !important; background: linear-gradient(#fff0b8, #f2c14e 55%, #c8901e) !important; border: 2px solid #fff3cf !important; box-shadow: 0 0 0 2px #b07a1a, 0 4px 10px rgba(0,0,0,.25) !important; }
+.light-page .ruta-banner small { color: #f6d77e !important; opacity: 1 !important; }

@@ -263,3 +263,26 @@ button.im-tarjeta { cursor: pointer; }
 
 /* ---------- Icono ---------- */
 .im-icono { display: inline-block; vertical-align: middle; }
+
+/* ---------- Logo ---------- */
+.im-logo { display: inline-flex; align-items: center; gap: calc(var(--im-lg) * .22); text-decoration: none; }
+.im-sello-logo { flex: none; filter: drop-shadow(0 3px 6px rgba(60,5,10,.35)); }
+.im-logo__texto { display: grid; line-height: 1; }
+.im-logo__texto b { font: 900 calc(var(--im-lg) * .46) / 1 var(--im-font-display); letter-spacing: .03em; white-space: nowrap; }
+.im-logo__texto i { font-style: normal; font-size: .78em; letter-spacing: .08em; }
+.im-logo__texto small { margin-top: calc(var(--im-lg) * .1); font: 500 calc(var(--im-lg) * .22) / 1 var(--im-font-zh); letter-spacing: .32em; }
+.im-logo--oscuro b { background: linear-gradient(#fff3cf, #f2c14e 55%, #d9a43a); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 0 rgba(60,5,10,.45)); }
+.im-logo--oscuro small { color: var(--im-oro-300); }
+.im-logo--claro b { color: var(--im-laca-700); text-shadow: 0 1px 0 #fff; }
+.im-logo--claro i { color: #b07a1a; }
+.im-logo--claro small { color: var(--im-oro-800); }
+
+/* ---------- Mono en la nube ---------- */
+.im-mononube { position: relative; display: inline-grid; justify-items: center; width: var(--im-mn); animation: im-flota 3.4s ease-in-out infinite; }
+.im-mononube img { position: relative; z-index: 1; width: 72%; margin-bottom: calc(var(--im-mn) * -.34); filter: drop-shadow(0 8px 10px rgba(0,0,0,.35)); }
+.im-mononube__nube { position: relative; z-index: 2; width: 128%; margin-left: -14%; height: auto; filter: drop-shadow(0 0 12px rgba(242,193,78,.65)); }
+.im-mononube--estela::after { content: ""; position: absolute; z-index: 0; left: -40%; bottom: 6%; width: 70%; height: 30%; pointer-events: none;
+  background-image: radial-gradient(circle at 20% 50%, rgba(246,215,126,.9) 0 2px, transparent 3px), radial-gradient(circle at 45% 30%, rgba(246,215,126,.7) 0 1.6px, transparent 2.6px), radial-gradient(circle at 70% 70%, rgba(255,255,255,.8) 0 1.4px, transparent 2.4px), radial-gradient(circle at 90% 40%, rgba(246,215,126,.8) 0 2px, transparent 3px);
+  animation: im-destellos 1.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .im-mononube, .im-mascota--flota img { animation: none; } }
+.im-mononube:is([data-pose="feliz"], [data-pose="trofeo"]) img { margin-bottom: calc(var(--im-mn) * -.46); }

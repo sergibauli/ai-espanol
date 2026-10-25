@@ -10,17 +10,71 @@ import { buildLesson, lessonId, LESSON_META, LESSONS_PER_MODULE } from "../lib/l
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
+import { MonoNube } from "../../packages/imperial/src/index.js";
 const STOP = Object.fromEntries(STOPS.map((s) => [s.n, s]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
 
 const LEVELS = [
-  { key: "A1", es: "Principiante", zh: "入门", color: "#58cc02", dark: "#46a302" },
-  { key: "A2", es: "Elemental", zh: "初级", color: "#1cb0f6", dark: "#1899d6" },
-  { key: "B1", es: "Intermedio", zh: "中级", color: "#ff9600", dark: "#e08600" },
-  { key: "B2", es: "Avanzado", zh: "中高级", color: "#ce82ff", dark: "#a568cc" },
+  { key: "A1", es: "Principiante", zh: "入门", color: "#b81c2e", dark: "#8f0c21" },
+  { key: "A2", es: "Elemental", zh: "初级", color: "#2f8f52", dark: "#1d6339" },
+  { key: "B1", es: "Intermedio", zh: "中级", color: "#c8901e", dark: "#8a5a1e" },
+  { key: "B2", es: "Avanzado", zh: "中高级", color: "#7a4fc4", dark: "#4f2f8a" },
 ];
 // Desplazamiento horizontal en zigzag (como un camino)
-const OFFSETS = [0, 52, 78, 52, 0, -52, -78, -52];
+const OFFSETS = [0, 48, 70, 48, 0, -48, -70, -48];
+// Geometría del camino dorado: 5 lecciones + cofre, en un carril de ancho fijo
+const TRACK_W = 300;
+const ROW = 142;
+const TOP = 100;
+const puntosCamino = (idx) => Array.from({ length: LESSONS_PER_MODULE + 1 }, (_, i) => [TRACK_W / 2 + OFFSETS[(idx * 5 + i) % OFFSETS.length], TOP + i * ROW]);
+const curva = ([fx, fy], [tx, ty]) => `C${fx} ${fy + (ty - fy) / 2} ${tx} ${ty - (ty - fy) / 2} ${tx} ${ty}`;
+// Trazado desde la entrada (arriba, bajo la cabecera) hasta el punto `hasta`
+const trazado = (pts, hasta = pts.length - 1) => {
+  const inicio = [TRACK_W / 2, 0];
+  let d = `M${inicio[0]} ${inicio[1]} ${curva(inicio, pts[0])}`;
+  for (let i = 1; i <= hasta; i++) d += ` ${curva(pts[i - 1], pts[i])}`;
+  return d;
+};
+
+// El Rey Mono en su nube viaja por la curva del camino hasta la lección actual
+function MonoViajero({ desde, hasta, pose }) {
+  const ref = React.useRef(null);
+  const lado = hasta[0] > TRACK_W / 2 ? -1 : 1;
+  const [pos, setPos] = React.useState(desde);
+  const [viajando, setViajando] = React.useState(false);
+  React.useEffect(() => {
+    const path = ref.current;
+    if (!path || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return setPos(hasta);
+    const total = path.getTotalLength();
+    let raf;
+    let t0;
+    const paso = (t) => {
+      t0 ??= t;
+      const k = Math.min(1, (t - t0) / 1900);
+      const e = k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
+      const p = path.getPointAtLength(total * e);
+      setPos([p.x, p.y]);
+      if (k < 1) raf = requestAnimationFrame(paso);
+      else setViajando(false);
+    };
+    const inicio = setTimeout(() => {
+      setViajando(true);
+      raf = requestAnimationFrame(paso);
+    }, 700);
+    return () => {
+      clearTimeout(inicio);
+      cancelAnimationFrame(raf);
+    };
+  }, [desde[0], desde[1], hasta[0], hasta[1]]);
+  return (
+    <>
+      <svg className="ruta-medida" width="0" height="0" aria-hidden="true">
+        <path ref={ref} d={`M${desde[0]} ${desde[1]} ${curva(desde, hasta)}`} />
+      </svg>
+      <MonoNube pose={pose} tamano={118} estela={viajando} className="ruta-viajero" style={{ left: pos[0] + lado * 100, top: pos[1] - 34 }} />
+    </>
+  );
+}
 
 export default function RutaPage() {
   const game = useGame();
@@ -118,49 +172,66 @@ export default function RutaPage() {
                   <BookOpenIcon size={18} /> Guía
                 </Link>
               </div>
-              <div className="ruta-path" style={{ position: "relative" }}>
-                <span className="ruta-mascot" style={{ [idx % 2 ? "left" : "right"]: "6%" }}>
-                  <img src={`./mono/${["saluda", "poder", "feliz", "guino"][idx % 4]}.png`} alt="" className="ruta-mono e3d-float" />
-                </span>
-                {LESSON_META.map((meta, i) => {
-                  const isDone = done(m.numero, i);
-                  const isOpen = unlocked(idx, i);
-                  const isCurrent = current === `${m.numero}-${i}`;
-                  const key = `${m.numero}-${i}`;
-                  const best = game.lessons[lessonId(m.numero, i)]?.best;
-                  return (
-                    <div key={key} className="ruta-node-wrap" style={{ transform: `translateX(${OFFSETS[(idx * 5 + i) % OFFSETS.length]}px)` }} ref={isCurrent ? currentRef : null}>
-                      {isCurrent && <div className="ruta-start">EMPEZAR · 开始</div>}
-                      <button
-                        className={`path-node ${isDone ? "done" : isOpen ? "open" : "locked"} ${isCurrent ? "current" : ""}`}
-                        style={{ "--c": lv.color, "--d": lv.dark }}
-                        onClick={() => setOpen(open === key ? null : key)}
-                        aria-label={`${meta.es} · módulo ${m.numero}`}
-                      >
-                        {isDone ? best === 100 ? <StarIcon size={30} fill="currentColor" /> : <CheckIcon size={32} strokeWidth={3.5} /> : isOpen ? <Emoji3D emoji={i === 0 ? m.icono : meta.emoji} size={38} /> : <LockIcon size={26} />}
-                      </button>
-                      {open === key && (
-                        <div className="ruta-pop" style={{ "--c": isOpen ? lv.color : "#37464f" }}>
-                          <b>{meta.es}</b>
-                          <span>
-                            {meta.zh} · Lección {i + 1} de 5
-                          </span>
-                          {isOpen ? (
-                            <button className="btn3d" style={{ "--c": "#fff", "--d": "rgba(0,0,0,.25)", color: lv.dark, padding: "12px 16px" }} disabled={loading} onClick={() => start(m.numero, i)}>
-                              {loading ? "Cargando…" : isDone ? "Practicar otra vez · +10 XP" : "Empezar · +10 XP"}
+              {(() => {
+                const pts = puntosCamino(idx);
+                const hechas = [0, 1, 2, 3, 4].filter((i) => done(m.numero, i)).length;
+                const alcanzada = unlocked(idx, 0);
+                const iCur = LESSON_META.findIndex((_, i) => current === `${m.numero}-${i}`);
+                const alto = TOP + LESSONS_PER_MODULE * ROW + 70;
+                return (
+                  <div className="ruta-camino-wrap" style={{ height: alto }}>
+                    <span className={`ruta-farol ${idx % 2 ? "izq" : "der"}`} aria-hidden="true" />
+                    <span className={`ruta-farol peq ${idx % 2 ? "der" : "izq"}`} aria-hidden="true" />
+                    <span className="ruta-nube n1" aria-hidden="true" />
+                    <span className="ruta-nube n2" aria-hidden="true" />
+                    <div className="ruta-camino" style={{ width: TRACK_W, height: alto }}>
+                      <svg className="ruta-carretera" width={TRACK_W} height={alto} aria-hidden="true">
+                        <path className="borde" d={trazado(pts)} />
+                        <path className="piedra" d={trazado(pts)} />
+                        {alcanzada && <path className="oro" d={trazado(pts, Math.min(hechas, LESSONS_PER_MODULE))} />}
+                      </svg>
+                      {LESSON_META.map((meta, i) => {
+                        const isDone = done(m.numero, i);
+                        const isOpen = unlocked(idx, i);
+                        const isCurrent = current === `${m.numero}-${i}`;
+                        const key = `${m.numero}-${i}`;
+                        const best = game.lessons[lessonId(m.numero, i)]?.best;
+                        return (
+                          <div key={key} className={`ruta-node-wrap ${open === key ? "abierto" : ""}`} style={{ left: pts[i][0], top: pts[i][1] }} ref={isCurrent ? currentRef : null}>
+                            {isCurrent && <div className="ruta-start">EMPEZAR · 开始</div>}
+                            <button
+                              className={`path-node ${isDone ? "done" : isOpen ? "open" : "locked"} ${isCurrent ? "current" : ""}`}
+                              onClick={() => setOpen(open === key ? null : key)}
+                              aria-label={`${meta.es} · módulo ${m.numero}`}
+                            >
+                              {isDone ? best === 100 ? <StarIcon size={30} fill="currentColor" /> : <CheckIcon size={32} strokeWidth={3.5} /> : isOpen ? <Emoji3D emoji={i === 0 ? m.icono : meta.emoji} size={38} /> : <LockIcon size={24} />}
                             </button>
-                          ) : (
-                            <span style={{ opacity: 0.9 }}>🔒 Completa la lección anterior para desbloquearla.</span>
-                          )}
-                        </div>
-                      )}
+                            {open === key && (
+                              <div className="ruta-pop" style={{ "--c": isOpen ? lv.color : "#4a3a2a" }}>
+                                <b>{meta.es}</b>
+                                <span>
+                                  {meta.zh} · Lección {i + 1} de 5
+                                </span>
+                                {isOpen ? (
+                                  <button className="btn3d" style={{ "--c": "#fff", "--d": "rgba(0,0,0,.25)", color: lv.dark, padding: "12px 16px" }} disabled={loading} onClick={() => start(m.numero, i)}>
+                                    {loading ? "Cargando…" : isDone ? "Practicar otra vez · +10 XP" : "Empezar · +10 XP"}
+                                  </button>
+                                ) : (
+                                  <span style={{ opacity: 0.9 }}>🔒 Completa la lección anterior para desbloquearla.</span>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                      <Link to={`/modulos/modulo-${m.numero}?tab=examen`} className={`ruta-chest ${done(m.numero, 4) ? "ganado" : ""}`} style={{ left: pts[5][0], top: pts[5][1] }} title="Examen del módulo">
+                        <Emoji3D emoji={done(m.numero, 4) ? "🏆" : "🎁"} size={60} float={done(m.numero, 4)} />
+                      </Link>
+                      {iCur >= 0 && <MonoViajero desde={iCur ? pts[iCur - 1] : [TRACK_W / 2, 0]} hasta={pts[iCur]} pose={["saluda", "poder", "feliz", "guino"][idx % 4]} />}
                     </div>
-                  );
-                })}
-                <Link to={`/modulos/modulo-${m.numero}?tab=examen`} className="ruta-chest" style={{ transform: `translateX(${OFFSETS[(idx * 5 + 5) % OFFSETS.length]}px)` }} title="Examen del módulo">
-                  <Emoji3D emoji={done(m.numero, 4) ? "🏆" : "🎁"} size={64} float={done(m.numero, 4)} />
-                </Link>
-              </div>
+                  </div>
+                );
+              })()}
             </section>
           ))}
         </main>

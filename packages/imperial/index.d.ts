@@ -249,3 +249,37 @@ export interface PanelCorreccionProps {
 }
 /** Panel de corrección DELE: nota en anillo, sello APTO/NO APTO, criterios y comentario. */
 export declare function PanelCorreccion(props: PanelCorreccionProps): React.JSX.Element;
+
+export interface SelloLogoProps {
+  /** Lado en px (por defecto 48) */
+  tamano?: number;
+  className?: string;
+}
+/** Sello del logo solo: laca con marco de oro, Ñ tallada con tilde de nube (祥云) y moneda «AI». Para favicon, avatar o espacios pequeños. */
+export declare function SelloLogo(props: SelloLogoProps): React.JSX.Element;
+
+export interface LogoProps {
+  /** completo = sello + «AI Español» + subtítulo; sello = solo el sello */
+  variante?: "completo" | "sello";
+  /** oscuro = texto oro (sobre laca o noche); claro = texto laca (sobre papel) */
+  tono?: "oscuro" | "claro";
+  /** Tamaño del sello en px; el texto escala con él (por defecto 48) */
+  tamano?: number;
+  /** Muestra «西班牙语 · DELE» bajo el nombre */
+  subtitulo?: boolean;
+  className?: string;
+}
+/** Logo de AI Español. Úsalo en la cabecera de la portada, el menú lateral y la barra móvil. */
+export declare function Logo(props: LogoProps): React.JSX.Element;
+
+export interface MonoNubeProps {
+  pose?: PoseMono;
+  /** Ancho en px del conjunto (por defecto 140) */
+  tamano?: number;
+  /** Estela de destellos detrás de la nube (para cuando viaja) */
+  estela?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}
+/** Rey Mono sobre su nube dorada voladora (筋斗云); marca la posición del alumno en el mapa de Aprender. */
+export declare function MonoNube(props: MonoNubeProps): React.JSX.Element;

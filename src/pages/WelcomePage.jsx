@@ -3,6 +3,7 @@ import { Navigate, Link } from "react-router";
 import { useClerk } from "@clerk/clerk-react";
 import { useAppAuth } from "../lib/auth.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
+import { Logo, Sello } from "../../packages/imperial/src/index.js";
 
 const HERE = () => `${location.origin}${location.pathname}#/ruta`;
 
@@ -18,9 +19,7 @@ export default function WelcomePage() {
   return (
     <div className="wel">
       <header className="wel-top">
-        <span className="wel-brand">
-          <img src="./mono-face.png" alt="" /> AI Español
-        </span>
+        <Logo tono="claro" tamano={46} />
         <span className="wel-lang">中文 · Español</span>
       </header>
       <main className="wel-main">
@@ -31,6 +30,7 @@ export default function WelcomePage() {
         </div>
         <div className="wel-paper">
           <span className="wel-ribbon" aria-hidden="true" />
+          <Sello className="wel-sello" texto="DELE A1–B2" sub="西班牙语考试" giro={-10} />
           <div className="wel-text">
             <h1>
               La forma divertida y eficaz de aprender <span>español</span>

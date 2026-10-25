@@ -5,6 +5,7 @@ import { NavIcon } from "../ui/NavIcon.jsx";
 import { GameStats } from "../ui/GameStats.jsx";
 import { useAppAuth } from "../../lib/auth.jsx";
 import { attachLightAdapter } from "./lightAdapter.js";
+import { Logo } from "../../../packages/imperial/src/index.js";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
 const MAIN = [
@@ -49,15 +50,15 @@ export function LightShell({ children, legacy = false, stage = false }) {
   return (
     <div className={`light-page ${legacy || adapt ? "light-legacy" : ""} ${stage ? "has-stage" : ""}`}>
       <div className="light-top">
-        <Link to="/ruta" className="side-brand" style={{ padding: 0, fontSize: 20 }}>
-          <img src="./mono-face.png" alt="" className="mono-logo" style={{ width: 34, height: 34 }} /> AI Español
+        <Link to="/ruta" className="side-brand" style={{ padding: 0 }} aria-label="AI Español">
+          <Logo tamano={36} subtitulo={false} />
         </Link>
         <GameStats compact />
       </div>
       <div className="light-shell">
         <nav className="side-nav" aria-label="Navegación principal">
-          <Link to="/ruta" className="side-brand">
-            <img src="./mono-face.png" alt="" className="mono-logo e3d-float" /> AI Español
+          <Link to="/ruta" className="side-brand" aria-label="AI Español">
+            <Logo tamano={50} />
           </Link>
           {MAIN.map((m) => (
             <Link key={m.to} to={m.to} className={`side-link ${active(m.to) ? "on" : ""}`}>

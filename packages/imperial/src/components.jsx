@@ -302,3 +302,83 @@ export function PanelCorreccion({ puntuacion = 0, apto, nivel, criterios = [], c
     </Pergamino>
   );
 }
+
+let uid = 0;
+const useUid = (p) => React.useMemo(() => `${p}${++uid}`, [p]);
+
+/** Sello del logo: laca con marco de oro, Ñ tallada con tilde de nube (祥云) y moneda «AI». */
+export function SelloLogo({ tamano = 48, className }) {
+  const id = useUid("im-lg");
+  return (
+    <svg className={cx("im-sello-logo", className)} viewBox="0 0 74 74" width={tamano} height={tamano} role="img" aria-label="AI Español">
+      <defs>
+        <linearGradient id={`${id}l`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#d6293d" />
+          <stop offset=".55" stopColor="#a5112a" />
+          <stop offset="1" stopColor="#6e0717" />
+        </linearGradient>
+        <linearGradient id={`${id}o`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff0b8" />
+          <stop offset=".5" stopColor="#f2c14e" />
+          <stop offset="1" stopColor="#c8901e" />
+        </linearGradient>
+      </defs>
+      <rect x="3" y="8" width="62" height="62" rx="13" fill={`url(#${id}l)`} stroke={`url(#${id}o)`} strokeWidth="2.6" />
+      <rect x="8.5" y="13.5" width="51" height="51" rx="8.5" fill="none" stroke="#f6d77e" strokeOpacity=".65" strokeWidth="1" />
+      <path d="M12.5 25v-7.5H20M55.5 25v-7.5H48M12.5 53v7.5H20M55.5 53v7.5H48" fill="none" stroke="#f6d77e" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M22 59V35.5h6.6l12.4 15.6V35.5h6.4V59h-6.4L28.4 43.4V59Z" fill="#fff3d6" />
+      <path d="M22.5 30.5c2.6-5.4 8.6-6 11.6-2.2s8.6 3.6 11.4-2" fill="none" stroke={`url(#${id}o)`} strokeWidth="3.4" strokeLinecap="round" />
+      <circle cx="21.6" cy="27.6" r="2.3" fill="none" stroke="#f2c14e" strokeWidth="1.6" />
+      <circle cx="46.6" cy="23.6" r="2.3" fill="none" stroke="#f2c14e" strokeWidth="1.6" />
+      <circle cx="61" cy="13" r="11" fill={`url(#${id}o)`} stroke="#8a5a1e" strokeWidth="1.3" />
+      <circle cx="61" cy="13" r="8.2" fill="none" stroke="#a5112a" strokeOpacity=".55" strokeWidth=".9" />
+      <text x="61" y="16.6" textAnchor="middle" fontFamily="Cinzel, Georgia, serif" fontWeight="900" fontSize="10" fill="#8f0c21">AI</text>
+    </svg>
+  );
+}
+
+/** Logo de AI Español: sello imperial y nombre en Cinzel; tono oscuro (sobre laca o noche) o claro (sobre papel). */
+export function Logo({ variante = "completo", tono = "oscuro", tamano = 48, subtitulo = true, className }) {
+  return (
+    <span className={cx("im-root im-logo", `im-logo--${tono}`, className)} style={{ "--im-lg": `${tamano}px` }}>
+      <SelloLogo tamano={tamano} />
+      {variante === "completo" && (
+        <span className="im-logo__texto">
+          <b>
+            <i>AI</i> Español
+          </b>
+          {subtitulo && <small>西班牙语 · DELE</small>}
+        </span>
+      )}
+    </span>
+  );
+}
+
+/** Nube dorada (筋斗云) del Rey Mono. */
+function NubeDorada({ id }) {
+  return (
+    <svg className="im-mononube__nube" viewBox="-24 0 184 70" aria-hidden="true">
+      <defs>
+        <linearGradient id={`${id}n`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff7d6" />
+          <stop offset=".45" stopColor="#f6d77e" />
+          <stop offset="1" stopColor="#d9a43a" />
+        </linearGradient>
+      </defs>
+      <path d="M12 56C-2 60-12 52-22 57M10 64C-4 68-10 62-20 66" fill="none" stroke="#f2c14e" strokeOpacity=".7" strokeWidth="3" strokeLinecap="round" />
+      <path d="M14 50C4 50 4 36 16 35c0-11 16-15 22-5 6-14 28-14 32 0 8-10 28-8 28 6 14-6 28 2 22 12 14 0 14 14 0 14H22c-12 0-14-10-8-12Z" fill={`url(#${id}n)`} stroke="#b07a1a" strokeWidth="2" />
+      <path d="M38 47a8 8 0 1 1 12 6M82 44a9 9 0 1 0-14 7M104 51a6 6 0 1 1 9 4" fill="none" stroke="#fffaf0" strokeWidth="2.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Rey Mono sobre su nube dorada voladora; flota y puede dejar estela de destellos. */
+export function MonoNube({ pose = "saluda", tamano = 140, estela = false, className, style }) {
+  const id = useUid("im-mn");
+  return (
+    <div className={cx("im-root im-mononube", estela && "im-mononube--estela", className)} data-pose={pose} style={{ "--im-mn": `${tamano}px`, ...style }}>
+      <img src={MONO[pose] || MONO.saluda} alt="Rey Mono" />
+      <NubeDorada id={id} />
+    </div>
+  );
+}
