@@ -24,6 +24,14 @@ export default function WelcomePage() {
       </header>
       <main className="wel-main">
         <div className="wel-art" role="img" aria-label="Rey Mono, la mascota de AI Español">
+          <span className="wel-capa" aria-hidden="true">
+            <span className="wel-fondo" />
+            <span className="wel-halo" />
+            <span className="wel-mono" />
+          </span>
+          {Array.from({ length: 10 }, (_, i) => (
+            <span key={i} className="wel-chispa" style={{ "--x": `${8 + ((i * 37) % 86)}%`, "--d": `${(i * 0.9) % 6}s`, "--t": `${5 + (i % 4)}s` }} aria-hidden="true" />
+          ))}
           <span className="wel-twinkle t1" />
           <span className="wel-twinkle t2" />
           <span className="wel-twinkle t3" />

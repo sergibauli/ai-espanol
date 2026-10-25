@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Volume2Icon, SearchIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
-import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { speak } from "../components/lesson/fx.js";
+import { Boton, HeroSeccion, InsigniaNivel } from "../../packages/imperial/src/index.js";
 
 // Diccionario español–chino con estética imperial (tarjetas que giran, audio con la voz del profesor)
 const LEVELS = [
-  { key: "A1", name: "入门", c: "#58cc02", load: () => import("../data/diccionarios/a1Dictionary.js").then((m) => m.a1Dictionary) },
-  { key: "A2", name: "初级", c: "#1cb0f6", load: () => import("../data/diccionarios/a2Dictionary.js").then((m) => m.a2Dictionary) },
-  { key: "B1", name: "中级", c: "#ff9600", load: () => import("../data/diccionarios/b1Dictionary.js").then((m) => m.b1Dictionary) },
-  { key: "B2", name: "高级", c: "#ce82ff", load: () => import("../data/diccionarios/b2Dictionary.js").then((m) => m.b2Dictionary) },
+  { key: "A1", name: "入门", c: "#b81c2e", load: () => import("../data/diccionarios/a1Dictionary.js").then((m) => m.a1Dictionary) },
+  { key: "A2", name: "初级", c: "#2f8f52", load: () => import("../data/diccionarios/a2Dictionary.js").then((m) => m.a2Dictionary) },
+  { key: "B1", name: "中级", c: "#c8901e", load: () => import("../data/diccionarios/b1Dictionary.js").then((m) => m.b1Dictionary) },
+  { key: "B2", name: "高级", c: "#7a4fc4", load: () => import("../data/diccionarios/b2Dictionary.js").then((m) => m.b2Dictionary) },
 ];
 const PAGE = 36;
 const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -83,26 +83,23 @@ export default function DiccionarioPage() {
   return (
     <LightShell>
       <div className="unit-page" style={{ maxWidth: 1080 }}>
-        <section className="imperial-hero">
-          <span className="imperial-cloud c1" />
-          <span className="imperial-cloud c2" />
-          <div className="imperial-hero-text">
-            <small>词典 · DICCIONARIO</small>
-            <h1>Diccionario español–chino</h1>
-            <p>
-              {words ? `${words.length.toLocaleString("es-ES")} palabras de nivel ${level}` : "Cargando…"} · toca una tarjeta para ver la traducción y escucharla
-            </p>
-          </div>
-          <div className="imperial-hero-art">
-            <Emoji3D emoji="📜" size={120} float />
-          </div>
-        </section>
+        <HeroSeccion
+          ceja="词典 · Diccionario"
+          titulo="Diccionario español–chino"
+          tituloZh="西汉词典 · 每个词都有真人发音"
+          descripcion={words ? `${words.length.toLocaleString("es-ES")} palabras de nivel ${level}. Toca una ficha para darle la vuelta: traducción, explicación y un ejemplo con audio.` : "Abriendo el diccionario…"}
+          descripcionZh="点击卡片翻面，查看中文、讲解和带语音的例句。"
+          mascota="guino"
+        />
 
-        <div className="imperial-seals">
+        <div className="dic-niveles" role="tablist" aria-label="Nivel">
           {LEVELS.map((l) => (
-            <button key={l.key} className={`imperial-seal ${level === l.key ? "on" : ""}`} style={{ "--c": l.c }} onClick={() => setLevel(l.key)}>
-              <b>{l.key}</b>
-              <small>{l.name}</small>
+            <button key={l.key} role="tab" aria-selected={level === l.key} className={level === l.key ? "on" : ""} onClick={() => setLevel(l.key)}>
+              <InsigniaNivel nivel={l.key} tamano="sm" />
+              <span>
+                {l.key}
+                <small>{l.name}</small>
+              </span>
             </button>
           ))}
         </div>
@@ -134,9 +131,9 @@ export default function DiccionarioPage() {
               ))}
             </div>
             {limit < list.length && (
-              <button className="btn3d dict-more" style={{ "--c": lv.c, "--d": "rgba(0,0,0,.25)" }} onClick={() => setLimit((l) => l + PAGE)}>
-                Ver más palabras ({list.length - limit}) · 更多
-              </button>
+              <Boton variante="oro" className="dict-more" zh="更多" onClick={() => setLimit((l) => l + PAGE)}>
+                Ver más palabras ({list.length - limit})
+              </Boton>
             )}
           </>
         )}

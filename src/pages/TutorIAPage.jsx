@@ -4,6 +4,7 @@ import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { deepseekFetch } from "../lib/deepseekClient.js";
 import { addXp } from "../lib/gamification.js";
+import { CintaTitulo, InsigniaNivel } from "../../packages/imperial/src/index.js";
 
 const LEVELS = ["A1", "A2", "B1", "B2"];
 const TOPICS = [
@@ -99,20 +100,30 @@ export default function TutorIAPage() {
     r.start();
   };
 
+  const estado = listening ? ["escucha", "Te escucho… · 我在听"] : busy ? ["piensa", "Pensando… · 思考中"] : talking ? ["habla", "Hablando… · 说话中"] : ["turno", "Tu turno · 轮到你了"];
   return (
     <LightShell>
-      <div className="tutor">
+      <div className="tutor tutor-imp">
         <aside className="tutor-stage">
           <div className={`tutor-avatar ${talking ? "talking" : ""} ${busy ? "thinking" : ""} ${listening ? "listening" : ""}`}>
+            <span className="tutor-halo" aria-hidden="true" />
             <video ref={videoRef} src="./mascota-reymono.mp4" poster="./mono-full.jpg" muted loop playsInline />
             <span className="tutor-ring" />
           </div>
-          <div className="tutor-status">{listening ? "🎤 Te escucho… 我在听" : busy ? "🤔 Pensando… 思考中" : talking ? "🗣️ Hablando… 说话中" : "😊 Tu turno · 轮到你了"}</div>
-          <div className="tutor-levels">
+          <div className="tutor-nombre">
+            <b>Rey Mono</b>
+            <small>AI老师 · tutor de español</small>
+          </div>
+          <div className={`tutor-status ${estado[0]}`}>
+            <i aria-hidden="true" />
+            {estado[1]}
+          </div>
+          <div className="tutor-levels" role="group" aria-label="Nivel">
             {LEVELS.map((l) => (
               <button
                 key={l}
-                className={`ui-chip ${level === l ? "is-on" : ""}`}
+                className={level === l ? "on" : ""}
+                aria-pressed={level === l}
                 onClick={() => {
                   setLevel(l);
                   try {
@@ -120,14 +131,16 @@ export default function TutorIAPage() {
                   } catch {}
                 }}
               >
-                {l}
+                <InsigniaNivel nivel={l} tamano="sm" />
               </button>
             ))}
           </div>
           <div className="tutor-topics">
             {TOPICS.map(([e, es, zh, prompt]) => (
               <button key={es} className="tutor-topic" onClick={() => send(prompt)} disabled={busy}>
-                <Emoji3D emoji={e} size={30} />
+                <span className="tutor-topic-ic">
+                  <Emoji3D emoji={e} size={26} />
+                </span>
                 <span>
                   {es}
                   <small>{zh}</small>
@@ -137,11 +150,18 @@ export default function TutorIAPage() {
           </div>
         </aside>
         <section className="tutor-chat">
+          <header className="tutor-head">
+            <CintaTitulo texto="Tutor IA" zh="AI 西语老师" tono="laca" />
+            <span className="tutor-head-sub">
+              Habla o escribe: te contesto a tu nivel <InsigniaNivel nivel={level} tamano="sm" />
+            </span>
+          </header>
           <div className="tutor-msgs">
             {msgs.map((m, i) => (
               <div key={i} className={`tutor-msg ${m.role}`}>
-                {m.role === "assistant" && <img src="./mono-face.png" alt="" className="mono-logo" style={{ width: 38, height: 38 }} />}
+                {m.role === "assistant" && <img src="./mono-face.png" alt="" className="tutor-cara" />}
                 <div className="tutor-bubble">
+                  {m.role === "assistant" && <span className="tutor-quien">Rey Mono</span>}
                   {m.content.split("\n").map((line, k) => (
                     <p key={k} className={line.startsWith("✏️") ? "fix" : ""}>
                       {line}
@@ -157,7 +177,7 @@ export default function TutorIAPage() {
             ))}
             {busy && (
               <div className="tutor-msg assistant">
-                <img src="./mono-face.png" alt="" className="mono-logo" style={{ width: 38, height: 38 }} />
+                <img src="./mono-face.png" alt="" className="tutor-cara" />
                 <div className="tutor-bubble typing">
                   <i />
                   <i />
@@ -178,10 +198,10 @@ export default function TutorIAPage() {
               <MicIcon size={22} />
             </button>
             <input className="ui-input" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Escribe en español (o en chino) · 用西语或中文输入" />
-            <button className="btn3d tutor-send" disabled={!input.trim() || busy} aria-label="Enviar">
+            <button className="tutor-send" disabled={!input.trim() || busy} aria-label="Enviar">
               <SendIcon size={20} />
             </button>
-            <button type="button" className="tutor-mic" title="Nueva conversación" onClick={() => setMsgs(msgs.slice(0, 1))} aria-label="Reiniciar">
+            <button type="button" className="tutor-mic tutor-reset" title="Nueva conversación" onClick={() => setMsgs(msgs.slice(0, 1))} aria-label="Reiniciar">
               <RotateCcwIcon size={18} />
             </button>
           </form>

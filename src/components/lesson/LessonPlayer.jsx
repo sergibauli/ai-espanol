@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { XIcon, HeartIcon, Volume2Icon, SnailIcon, CheckIcon, ZapIcon, TargetIcon, ClockIcon } from "lucide-react";
+import { XIcon, HeartIcon, Volume2Icon, SnailIcon, CheckIcon, ZapIcon, TargetIcon, ClockIcon, MicIcon } from "lucide-react";
+import { MonoNube } from "../../../packages/imperial/src/index.js";
 import { Emoji3D } from "../ui/Emoji3D.jsx";
 import { sfx, speak, confetti } from "./fx.js";
 import { addXp, loseHeart, refillHearts, getGame } from "../../lib/gamification.js";
@@ -34,24 +35,85 @@ function SpeakButtons({ text, big = false }) {
   );
 }
 
-function Learn({ step }) {
-  React.useEffect(() => {
-    const t = setTimeout(() => speak(step.es), 350);
-    return () => clearTimeout(t);
-  }, [step]);
+// Pronunciación con el reconocimiento de voz del navegador: se compara lo oído con la palabra (sin tildes ni signos)
+const SR = typeof window !== "undefined" ? window.SpeechRecognition || window.webkitSpeechRecognition : null;
+function parecido(a, b) {
+  const x = noAccents(a);
+  const y = noAccents(b);
+  if (!x || !y) return 0;
+  const d = Array.from({ length: x.length + 1 }, (_, i) => [i, ...Array(y.length).fill(0)]);
+  for (let j = 1; j <= y.length; j++) d[0][j] = j;
+  for (let i = 1; i <= x.length; i++) for (let j = 1; j <= y.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (x[i - 1] === y[j - 1] ? 0 : 1));
+  return 1 - d[x.length][y.length] / Math.max(x.length, y.length);
+}
+
+function Pronunciar({ texto, level, onExito, pequeno = false }) {
+  const [estado, setEstado] = React.useState("listo");
+  const [oido, setOido] = React.useState("");
+  if (!SR) return null;
+  const escuchar = () => {
+    if (estado === "escucha") return;
+    speechSynthesis?.cancel?.();
+    const r = new SR();
+    r.lang = "es-ES";
+    r.interimResults = false;
+    r.maxAlternatives = 4;
+    r.onstart = () => setEstado("escucha");
+    r.onerror = () => setEstado("listo");
+    r.onend = () => setEstado((e) => (e === "escucha" ? "listo" : e));
+    r.onresult = (e) => {
+      const alts = Array.from(e.results[0], (a) => a.transcript);
+      const ok = Math.max(...alts.map((a) => parecido(a, texto))) >= 0.72;
+      setOido(alts[0] || "");
+      setEstado(ok ? "bien" : "mal");
+      sfx(ok ? "ok" : "bad");
+      recordAnswer({ skill: "oral", level, ok, src: "pronunciación", error: ok ? undefined : { prompt: texto, given: alts[0], correct: texto, speak: texto, type: "speak" } });
+      if (ok) onExito?.();
+    };
+    r.start();
+  };
   return (
-    <div className="lp-center">
-      <div className="lp-eyebrow">Palabra nueva · 新词</div>
-      <Emoji3D emoji={step.emoji} size={96} float />
-      <div className="lp-word">{step.es}</div>
-      <div className="lp-zh-big">{step.zh}</div>
-      <SpeakButtons text={step.es} big />
-      {step.example && <div className="lp-example">{step.example}</div>}
+    <div className={`lp-pron ${estado} ${pequeno ? "peq" : ""}`}>
+      <button className="lp-pron-btn" onClick={escuchar} aria-label="Pronunciar">
+        <MicIcon size={pequeno ? 16 : 22} />
+        {!pequeno && <span>{estado === "escucha" ? "Te escucho… · 我在听" : "Pronuncia · 跟读"}</span>}
+      </button>
+      {estado === "bien" && <span className="lp-pron-sello">¡Bien dicho! · 说得好</span>}
+      {estado === "mal" && !pequeno && (
+        <span className="lp-pron-oido">
+          He oído «{oido}» · 再试一次
+        </span>
+      )}
     </div>
   );
 }
 
-function Tip({ step }) {
+function Learn({ step, level, onNext }) {
+  React.useEffect(() => {
+    const t = setTimeout(() => speak(step.es), 350);
+    return () => clearTimeout(t);
+  }, [step]);
+  const avance = React.useRef(null);
+  React.useEffect(() => () => clearTimeout(avance.current), []);
+  return (
+    <div className="lp-center">
+      <div className="lp-eyebrow">Palabra nueva · 新词</div>
+      <div className="lp-rollo">
+        <Emoji3D emoji={step.emoji} size={96} float />
+        <div className="lp-word">{step.es}</div>
+        <div className="lp-zh-big">{step.zh}</div>
+        <div className="lp-acciones">
+          <SpeakButtons text={step.es} big />
+          <Pronunciar texto={step.es} level={level} onExito={() => (avance.current = setTimeout(onNext, 1400))} />
+        </div>
+        {step.example && <div className="lp-example">{step.example}</div>}
+      </div>
+      {SR && <div className="lp-pista">Di la palabra en voz alta para pasar a la siguiente · 读出这个词就能继续</div>}
+    </div>
+  );
+}
+
+function Tip({ step, level }) {
   return (
     <div className="lp-tip">
       <div className="lp-eyebrow">💡 Idea clave · 要点</div>
@@ -74,6 +136,7 @@ function Tip({ step }) {
       {step.examples?.map((e, i) => (
         <div key={i} className="lp-example-row">
           <SpeakButtons text={e.espanol} />
+          <Pronunciar texto={e.espanol} level={level} pequeno />
           <div>
             <div style={{ fontWeight: 800 }}>{e.espanol}</div>
             <div className="lp-zh">{e.chino}</div>
@@ -84,7 +147,7 @@ function Tip({ step }) {
   );
 }
 
-function Dialog({ step }) {
+function Dialog({ step, level }) {
   return (
     <div className="lp-tip">
       <div className="lp-eyebrow">💬 Diálogo · 对话</div>
@@ -96,6 +159,7 @@ function Dialog({ step }) {
             <small>{l.who}</small>
             <div className="ui-row" style={{ gap: 8, flexWrap: "nowrap", alignItems: "flex-start" }}>
               <SpeakButtons text={l.es} />
+              <Pronunciar texto={l.es} level={level} pequeno />
               <div>
                 <div style={{ fontWeight: 700 }}>{l.es}</div>
                 <div className="lp-zh">{l.zh}</div>
@@ -488,11 +552,11 @@ export function LessonPlayer({ lesson, onClose }) {
       </p>
     </div>
   ) : step.type === "learn" ? (
-    <Learn step={step} />
+    <Learn step={step} level={levelOf(lesson.modulo)} onNext={next} />
   ) : step.type === "tip" ? (
-    <Tip step={step} />
+    <Tip step={step} level={levelOf(lesson.modulo)} />
   ) : step.type === "dialog" ? (
-    <Dialog step={step} />
+    <Dialog step={step} level={levelOf(lesson.modulo)} />
   ) : step.type === "tf" ? (
     <TrueFalse step={step} value={value} onChange={setValue} locked={!!feedback} />
   ) : step.type === "build" ? (
@@ -513,8 +577,11 @@ export function LessonPlayer({ lesson, onClose }) {
         <button className="lp-close" onClick={() => onClose(null)} aria-label="Salir">
           <XIcon size={22} />
         </button>
-        <div className="lp-bar">
-          <i style={{ width: `${progress}%` }} />
+        <div className="lp-bar-wrap">
+          <div className="lp-bar">
+            <i style={{ width: `${progress}%` }} />
+          </div>
+          <MonoNube pose={result ? "trofeo" : "poder"} tamano={54} className="lp-bar-mono" style={{ left: `${progress}%` }} />
         </div>
         <div className="lp-hearts">
           <HeartIcon size={20} fill="currentColor" /> {hearts}
