@@ -1,0 +1,83 @@
+{
+  "_fuente": "Especificaciones DELE del Instituto Cervantes, Plan Curricular (PCIC) y mediciones de los 20 modelos oficiales de cada nivel de AI Español (.claude/skills/generador-examenes-dele/calibracion-niveles.json). Lo usan el generador de simulacros y la corrección con IA de la app.",
+  "A1": {
+    "mcer": "Usuario básico: comprende y usa expresiones cotidianas y frases muy sencillas sobre necesidades inmediatas, sí mismo y su entorno.",
+    "textos": "Textos breves y muy previsibles (correos personales, anuncios, carteles, menús, horarios, mensajes). Frases cortas y simples (media de 11-13 palabras), conectores básicos (y, pero, porque, también). Temas: identidad, familia, casa, comida, compras, tiempo libre, horarios, ciudad.",
+    "preguntas": "Respuesta casi literal: la opción correcta repite las palabras del texto (literalidad 0,88-0,99). Información explícita y localizable en una sola frase. Distractores claramente distintos que aparecen en el texto con otro dato (otra hora, otro día, otro lugar).",
+    "gramatica": "Presente de indicativo (regulares e irregulares frecuentes), ser/estar/tener/hay, gustar, ir a + infinitivo, querer/poder + infinitivo, artículos, concordancia, posesivos, demostrativos, preposiciones básicas, interrogativos, números y horas. Pretérito perfecto solo en fórmulas muy frecuentes.",
+    "noEsperado": "Subjuntivo (salvo fórmulas fijas), condicional, pluscuamperfecto, futuro simple productivo, perífrasis complejas, oraciones subordinadas encadenadas.",
+    "lexico": "Unas 1000-1500 palabras de alta frecuencia; vocabulario concreto y de uso diario; pocas palabras de 9 letras o más (5-6 %).",
+    "audio": "Habla lenta y clara, pausas, pronunciación estándar de España, diálogos de 2-3 turnos, la información clave se dice una sola vez y sin ironía.",
+    "escritura": [
+      { "tarea": 1, "genero": "formulario", "palabras": "datos breves", "pide": "Completar datos personales y respuestas muy breves." },
+      { "tarea": 2, "genero": "correo/nota personal", "min": 30, "max": 40, "pide": "Mensaje sencillo que trate todos los puntos de la tarea con frases simples y conectores básicos." }
+    ],
+    "oral": "Presentación personal (1-2 min), exposición de un tema (2-3 min) y conversación con el entrevistador (3-4 min); 10 min de preparación.",
+    "corregir": {
+      "adecuacion": "Apto si trata los puntos pedidos de forma comprensible aunque muy simple.",
+      "coherencia": "Apto si enlaza ideas con y, pero, porque, también; listas de frases cortas son aceptables.",
+      "correccion": "Apto si los errores no impiden entender; se toleran errores de concordancia y de ser/estar. No penalices la ausencia de estructuras superiores.",
+      "alcance": "Apto con léxico básico y repetitivo pero adecuado al tema."
+    }
+  },
+  "A2": {
+    "mcer": "Usuario básico: comprende frases y expresiones frecuentes de ámbitos de relevancia inmediata y se comunica en tareas sencillas y habituales.",
+    "textos": "Textos cotidianos algo más largos (correos, anuncios, noticias breves, biografías sencillas, folletos). Frases de 13-15 palabras de media, algunas subordinadas simples (cuando, que, porque, si + presente).",
+    "preguntas": "Mayoría literales con paráfrasis sencilla (literalidad 0,71-0,79): la opción correcta cambia alguna palabra por un sinónimo frecuente. Puede exigir relacionar dos frases cercanas. Distractores que mencionan datos reales del texto que no responden a la pregunta.",
+    "gramatica": "Pretérito perfecto, indefinido de verbos frecuentes, imperfecto para describir, contraste básico perfecto/indefinido, futuro con ir a, imperativo afirmativo frecuente, pronombres de objeto directo e indirecto, comparativos, estar + gerundio, ya/todavía.",
+    "noEsperado": "Subjuntivo productivo (salvo ojalá/quiero que en fórmulas), pluscuamperfecto, condicional compuesto, estilo indirecto complejo.",
+    "lexico": "Unas 2000-2500 palabras; vida cotidiana, trabajo, estudios, viajes, salud básica, compras; 5-10 % de palabras largas.",
+    "audio": "Habla clara a velocidad algo menor que la natural; anuncios, diálogos y mensajes de contestador; puede aparecer alguna variedad hispanoamericana estándar.",
+    "escritura": [
+      { "tarea": 1, "genero": "correo electrónico", "min": 60, "max": 70, "pide": "Responder a un correo tratando todos los puntos, registro adecuado (informal/formal básico)." },
+      { "tarea": 2, "genero": "texto narrativo/biográfico", "min": 70, "max": 80, "pide": "Narrar o describir experiencias pasadas con pasados básicos y conectores temporales." }
+    ],
+    "oral": "Monólogo (2-3 min), descripción de fotografía (2-3 min) y diálogo simulado (3-4 min); 12 min de preparación.",
+    "corregir": {
+      "adecuacion": "Apto si cumple la tarea y el registro con información suficiente en cada punto.",
+      "coherencia": "Apto si organiza el texto con conectores temporales y causales básicos (primero, después, cuando, porque, por eso).",
+      "correccion": "Apto si controla presente y pasados frecuentes; errores en tiempos menos frecuentes no impiden la comunicación.",
+      "alcance": "Apto con léxico suficiente para temas cotidianos aunque recurra a perífrasis."
+    }
+  },
+  "B1": {
+    "mcer": "Usuario independiente: comprende las ideas principales de textos claros sobre temas conocidos y produce textos sencillos y coherentes; describe experiencias, deseos y opiniones.",
+    "textos": "Textos auténticos o semiauténticos de extensión media (artículos divulgativos, relatos, reseñas, correos formales, entrevistas). Frases de 16-18 palabras de media, subordinación frecuente, conectores argumentativos básicos (sin embargo, además, por un lado).",
+    "preguntas": "Paráfrasis e inferencia sencilla (literalidad 0,51-0,60): la correcta reformula el texto con otras palabras; hay que comprender la intención o la idea principal. Distractores con léxico del texto que afirman algo que el texto no dice o dice parcialmente.",
+    "gramatica": "Todos los pasados (incluido pluscuamperfecto), futuro y condicional, presente de subjuntivo en deseos, recomendaciones, finalidad y oraciones temporales con cuando, imperativo, estilo indirecto en presente/pasado, relativos, perífrasis frecuentes.",
+    "noEsperado": "Imperfecto de subjuntivo productivo en condicionales irreales complejas, matices de registro muy cultos.",
+    "lexico": "Unas 3500-4000 palabras; trabajo, sociedad, medio ambiente, ocio, salud, tecnología; 8-10 % de palabras largas.",
+    "audio": "Velocidad natural en habla estándar, entrevistas, noticias y conversaciones con varios turnos; variedades de España e Hispanoamérica.",
+    "escritura": [
+      { "tarea": 1, "genero": "correo/carta", "min": 100, "max": 120, "pide": "Responder a un texto de entrada tratando todos los puntos, con expresión de opiniones, sentimientos o planes." },
+      { "tarea": 2, "genero": "composición/narración", "min": 130, "max": 150, "pide": "Texto narrativo o de opinión estructurado en párrafos con conectores." }
+    ],
+    "oral": "Monólogo (2-3 min), conversación (3-4 min), descripción de fotografía (2-3 min) y diálogo simulado (2-3 min); 15 min de preparación.",
+    "corregir": {
+      "adecuacion": "Apto si trata todos los puntos con desarrollo y registro adecuado; un punto no tratado impide el apto.",
+      "coherencia": "Apto si estructura en párrafos y usa conectores variados (sin embargo, además, por eso, en cambio).",
+      "correccion": "Apto si controla pasados y subjuntivo frecuente; los errores en estructuras complejas son ocasionales.",
+      "alcance": "Apto con léxico variado sobre temas generales y algunas expresiones idiomáticas frecuentes."
+    }
+  },
+  "B2": {
+    "mcer": "Usuario independiente avanzado: comprende textos complejos, concretos y abstractos, incluso de carácter técnico de su especialidad; argumenta y defiende puntos de vista con fluidez y precisión.",
+    "textos": "Textos auténticos largos (artículos de opinión, ensayos divulgativos, textos literarios, informes, normativa). Frases de 18-20 palabras de media, subordinación compleja, ironía o actitud del autor, conectores argumentativos variados.",
+    "preguntas": "Inferencia y paráfrasis completa (literalidad 0,41-0,49): la correcta no repite palabras del texto; exige comprender actitud, intención, opinión implícita y relaciones entre ideas. Distractores muy cercanos que son ciertos en parte o atribuyen la opinión a otra persona.",
+    "gramatica": "Todo el sistema verbal: imperfecto y pluscuamperfecto de subjuntivo, condicionales irreales, concesivas (aunque + subjuntivo), estilo indirecto completo, voz pasiva, perífrasis de matiz, relativos con preposición.",
+    "noEsperado": "Registros muy cultos o arcaicos, terminología técnica sin contexto.",
+    "lexico": "Más de 5000 palabras; léxico abstracto, matices, colocaciones y expresiones idiomáticas; 8,5-11 % de palabras largas.",
+    "audio": "Velocidad natural, conferencias, debates y programas de radio; varias voces y variedades del español; parte de la información es implícita.",
+    "escritura": [
+      { "tarea": 1, "genero": "carta formal/reclamación", "min": 150, "max": 180, "pide": "Carta o correo formal a partir de un audio o texto de entrada, con argumentos y propuestas." },
+      { "tarea": 2, "genero": "artículo de opinión/reseña/informe", "min": 150, "max": 180, "pide": "Texto argumentativo a partir de datos (gráficos, encuestas) o de una situación, con postura clara y argumentos." }
+    ],
+    "oral": "Valoración de propuestas (6-7 min), descripción de una situación desde imágenes (5-6 min) y comentario de encuestas o datos (3-4 min); 20 min de preparación.",
+    "corregir": {
+      "adecuacion": "Apto si cumple la tarea con argumentos desarrollados, ejemplos y registro formal mantenido.",
+      "coherencia": "Apto si el texto progresa con claridad, párrafos bien delimitados y conectores argumentativos variados y precisos.",
+      "correccion": "Apto si controla el subjuntivo (incluido el imperfecto) y la concordancia temporal; los errores son escasos y no sistemáticos.",
+      "alcance": "Apto con léxico preciso y variado, sin repeticiones, y capacidad de matizar."
+    }
+  }
+}

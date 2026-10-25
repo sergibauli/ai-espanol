@@ -1,11 +1,22 @@
 // Corrección DELE: encargo para la IA y penalizaciones calculadas por el sistema.
 // Lo usan la app (CorrectionDisplay) y el banco de calibración (skill corrector-dele), para medir exactamente lo mismo.
+import REQUISITOS from "../data/requisitos-dele.json" with { type: "json" };
+
 export function construirPrompt(t, a, s) {
   const i = (s?.nivel || t || "A2").toUpperCase();
   const r = [];
   r.push(
     `Eres corrector oficial de exámenes DELE del Instituto Cervantes. Corriges una prueba de producción del nivel ${i} (MCER).`,
   );
+  // Qué corresponde a este nivel (mismos requisitos que usa el generador de simulacros)
+  const q = REQUISITOS[i];
+  if (q) {
+    r.push(`NIVEL ${i}: ${q.mcer}`);
+    r.push(`GRAMÁTICA ESPERADA EN ${i}: ${q.gramatica}`);
+    r.push(`PROPIO DE NIVELES SUPERIORES (no lo exijas; si aparece bien usado, valóralo en «Alcance»): ${q.noEsperado}`);
+    r.push(`LÉXICO DE ${i}: ${q.lexico}`);
+    r.push(`QUÉ NECESITA CADA CRITERIO PARA SER APTO EN ${i}: Adecuación — ${q.corregir.adecuacion} Coherencia — ${q.corregir.coherencia} Corrección — ${q.corregir.correccion} Alcance — ${q.corregir.alcance}`);
+  }
   if (a) {
     r.push(`TAREA: ${a}`);
   }

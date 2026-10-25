@@ -9,10 +9,17 @@ Crea modelos nuevos que el alumno ve en **DELE → Modelos oficiales por nivel**
 
 ## Cómo funciona
 1. `scripts/generar.mjs <NIVEL>` elige al azar un modelo oficial del nivel como plantilla y la lista de temas ya usados (oficiales + nuevos).
-2. DeepSeek (`deepseek-v4-pro`, vía la skill `deepseek`, clave en su `.env`) crea primero el plan (tema central nuevo y matriz) y después cada prueba por separado con la prueba equivalente de la plantilla como molde.
-3. Las claves de lectura y audición se calculan a partir de los ítems (`correcta`, `justificacion`, `fraseSoporte`), así nunca descuadran.
-4. `scripts/validar.mjs` rechaza el modelo si cambia algo del formato: número de pruebas, tareas, ítems u opciones, tipos, duración, claves que faltan, textos fuera del ±25 % de palabras, textos copiados, guiones sin marcas de voz, respuestas correctas siempre en la misma posición u opciones repetidas.
-5. Si es válido se guarda en `src/data/oficial/nuevos/<NIVEL>-<NN>.json` y se regenera `nuevos/index.js`. `src/lib/oficial-loader.js` los añade detrás de los oficiales.
+2. **Requisitos del nivel** (`src/data/requisitos-dele.json`, compartido con la corrección de la app): descriptor MCER, tipo y longitud de textos, gramática esperada y la que NO corresponde al nivel, léxico, audio, cómo deben ser las preguntas y distractores, tareas de escritura con su extensión, oral y qué necesita cada criterio para ser apto.
+3. **Cifras medidas** (`calibracion-niveles.json`, generado por `scripts/calibrar.mjs` con los 80 oficiales): rango p10–p90 por nivel de palabras por frase (A1 ≈ 12 → B2 ≈ 19,5), % de palabras largas, variedad léxica, subjuntivo/condicional/pluscuamperfecto por 1000 palabras y **literalidad** de la respuesta correcta respecto a su frase del texto (A1 ≈ 0,93 casi literal → B2 ≈ 0,45 paráfrasis e inferencia).
+4. DeepSeek (`deepseek-v4-pro`, vía la skill `deepseek`) recibe requisitos + cifras objetivo y genera el plan y cada tarea por separado con la tarea equivalente de la plantilla como molde. Las claves se calculan a partir de los ítems.
+5. **Control de calidad en hasta 3 rondas**:
+   - `validar.mjs`: formato idéntico al oficial (tareas, ítems, opciones, duración, extensión, guiones con voces, posiciones de la correcta).
+   - `nivel.mjs`: dificultad medida dentro del rango de los oficiales del nivel; si es más fácil o más difícil, se rechaza indicando qué medida falla.
+   - `examinar.mjs`: un segundo examinador de IA, independiente, valora el nivel MCER real de cada texto y revisa cada ítem (una sola respuesta defendible, ningún distractor correcto, dificultad del ítem adecuada).
+   - Solo se regeneran las tareas con problemas, diciéndole al generador qué corregir. Si tras 3 rondas no aprueba, no se guarda nada.
+6. Si aprueba se guarda en `src/data/oficial/nuevos/<NIVEL>-<NN>.json` y se regenera `nuevos/index.js`; `src/lib/oficial-loader.js` los añade detrás de los oficiales.
+
+Si cambian los modelos oficiales, recalibra: `node .claude/skills/generador-examenes-dele/scripts/calibrar.mjs`.
 
 ## Pasos
 ```bash
@@ -20,14 +27,22 @@ cd "<raíz del repo>"
 node .claude/skills/generador-examenes-dele/scripts/generar.mjs A1        # uno por nivel: A1, A2, B1, B2
 node .claude/skills/generador-examenes-dele/scripts/generar.mjs B1 --tema "Un intercambio de casas"
 node .claude/skills/generador-examenes-dele/scripts/generar.mjs A2 --dry  # genera y valida sin guardar
+node .claude/skills/generador-examenes-dele/scripts/generar.mjs A1 --reemplazar A1-21  # rehace un simulacro concreto
 node .claude/skills/generador-examenes-dele/scripts/validar.mjs src/data/oficial/nuevos/A1-21.json
 ```
-Ejecuta siempre `ds.py` y estos scripts con la entrada cerrada (el script ya lo hace). Cada modelo tarda unos minutos (5 llamadas).
+Ejecuta siempre `ds.py` y estos scripts con la entrada cerrada (el script ya lo hace). Cada modelo tarda 10-30 minutos (unas 15-25 llamadas según las rondas de corrección).
 
-Después de generar:
-1. **Revisión de calidad (Claude):** lee el plan y una tarea de cada prueba del JSON nuevo. Comprueba que el nivel de lengua es el del nivel (no más difícil), que cada ítem tiene una sola respuesta defendible con la `fraseSoporte` y que no hay contenido sensible. Si algo falla, borra el JSON, vuelve a generar y regenera el índice ejecutando de nuevo el script.
-2. `npm run build` sin errores.
-3. Despliega con la skill `desplegar` (GitHub Pages). **No publiques la web en Cloudflare.**
+## Reparto de trabajo: DeepSeek genera, Claude decide
+- **DeepSeek (API del usuario)** hace todo lo masivo: plan, textos, guiones, ítems, regeneraciones y el examinador automático. Es lo barato.
+- **Los controles de formato y dificultad** son cálculos locales: no gastan tokens.
+- **Claude es el cerebro y el último filtro**, pero sin leer el JSON entero ni reescribir textos: revisa la hoja compacta y, si algo falla, **manda rehacer a DeepSeek** diciendo qué corregir. Nunca escribe a mano textos o ítems (gastaría sus tokens); su trabajo es juzgar y dirigir.
+
+Después de generar (obligatorio para cada simulacro nuevo):
+1. `node .claude/skills/generador-examenes-dele/scripts/resumen.mjs src/data/oficial/nuevos/<CODIGO>.json` → hoja de 3-5 mil tokens con medidas, arranque de cada texto y **todos** los ítems con la correcta marcada `*así*` y su frase de apoyo.
+2. Claude revisa TODOS los ítems: una sola respuesta defendible con la frase de apoyo; distractores plausibles pero falsos; gramática y léxico del nivel (busca en los textos estructuras de `noEsperado` de `src/data/requisitos-dele.json`, p. ej. imperfecto de subjuntivo en A1/A2); temas y nombres adecuados; nada sensible.
+3. Si algo falla: `node .claude/skills/generador-examenes-dele/scripts/generar.mjs <NIVEL> --rehacer <CODIGO> --tareas P1T2,P2T3 --motivo "qué corregir exactamente"` (DeepSeek rehace solo esas tareas y vuelven a pasar todos los controles). Repite la revisión de esas tareas. Si un simulacro no queda bien tras 2 intentos, bórralo y regenera el índice con otro nivel.
+4. `npm run build` sin errores.
+5. Despliega con la skill `desplegar` (GitHub Pages). **No publiques la web en Cloudflare.**
 
 ## Tarea programada
 Hay una tarea programada quincenal («Simulacros DELE nuevos») que genera uno por nivel, revisa, compila y despliega. Si falla la validación de un nivel, deja ese nivel para la siguiente vez y lo anota en el resumen.
