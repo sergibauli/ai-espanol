@@ -3,6 +3,7 @@ import { MicIcon, SendIcon, Volume2Icon, RotateCcwIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { deepseekFetch } from "../lib/deepseekClient.js";
+import { historyWindow } from "../lib/historial.js";
 import { addXp } from "../lib/gamification.js";
 import { CintaTitulo, InsigniaNivel } from "../../packages/imperial/src/index.js";
 
@@ -74,7 +75,7 @@ export default function TutorIAPage() {
     try {
       const res = await deepseekFetch("", {
         method: "POST",
-        body: JSON.stringify({ messages: [{ role: "system", content: systemPrompt(level) }, ...next.slice(-10)], temperature: 0.7, max_tokens: 400 }),
+        body: JSON.stringify({ messages: [{ role: "system", content: systemPrompt(level) }, ...historyWindow(next)], temperature: 0.7, max_tokens: 400 }),
       });
       const data = await res.json();
       const reply = data?.choices?.[0]?.message?.content?.trim() || "Perdona, no te he entendido. ¿Puedes repetirlo? 请再说一遍。";
@@ -159,7 +160,7 @@ export default function TutorIAPage() {
           <div className="tutor-msgs">
             {msgs.map((m, i) => (
               <div key={i} className={`tutor-msg ${m.role}`}>
-                {m.role === "assistant" && <img src="./mono-face.png" alt="" className="tutor-cara" />}
+                {m.role === "assistant" && <img src="./mono-face.webp" alt="" className="tutor-cara" />}
                 <div className="tutor-bubble">
                   {m.role === "assistant" && <span className="tutor-quien">Rey Mono</span>}
                   {m.content.split("\n").map((line, k) => (
@@ -177,7 +178,7 @@ export default function TutorIAPage() {
             ))}
             {busy && (
               <div className="tutor-msg assistant">
-                <img src="./mono-face.png" alt="" className="tutor-cara" />
+                <img src="./mono-face.webp" alt="" className="tutor-cara" />
                 <div className="tutor-bubble typing">
                   <i />
                   <i />

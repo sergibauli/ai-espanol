@@ -279,7 +279,7 @@ export async function buildAIChallenge(mod) {
   try {
     const prompt = `Unidad de español nivel ${mod.nivel || "A1"}: «${mod.titulo}». Temas: ${temas.join("; ")}. Vocabulario: ${vocab.map((v) => `${v.espanol}=${v.chino}`).join(", ")}.
 Crea 8 preguntas NUEVAS de opción múltiple para estudiantes chinos sobre esta unidad (variadas: significado, completar la frase, respuesta adecuada en un diálogo, gramática del tema). Devuelve SOLO JSON: {"preguntas":[{"pregunta":"en español","preguntaZh":"traducción china","opciones":["a","b","c","d"],"correcta":"texto exacto de la opción correcta","explicacion":"breve, en chino"}]}. Una sola opción correcta, sin ambigüedad.`;
-    const res = await deepseekFetch("", { body: JSON.stringify({ messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 900, response_format: { type: "json_object" } }) });
+    const res = await deepseekFetch("", { body: JSON.stringify({ messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 1800, response_format: { type: "json_object" } }) });
     const data = await res.json();
     const qs = JSON.parse(data?.choices?.[0]?.message?.content || "{}").preguntas || [];
     const steps = qs

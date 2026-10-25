@@ -1,5 +1,6 @@
 import { ClerkProvider } from "@clerk/clerk-react";
-import { esES } from "@clerk/localizations";
+// Solo el español (el índice del paquete arrastra todos los idiomas)
+import { esES } from "@clerk/localizations/es-ES";
 import * as ReactDOM from "react-dom/client";
 import { ErrorBoundary, App } from "./App.jsx";
 import "./styles/app.css";
@@ -29,16 +30,12 @@ if (!ev) {
       </ClerkProvider>
     </ErrorBoundary>,
   );
-  const i = () => {
+  // Respaldo: si la primera pantalla tarda, el cargador de index.html se quita igualmente (lo normal es que lo quite App)
+  setTimeout(() => {
     const t = document.getElementById("initial-loader");
     if (t) {
       t.classList.add("hidden");
-      setTimeout(() => t.remove(), 600);
+      setTimeout(() => t.remove(), 320);
     }
-  };
-  if (document.readyState === "complete") {
-    setTimeout(i, 300);
-  } else {
-    window.addEventListener("load", () => setTimeout(i, 300));
-  }
+  }, 6000);
 }

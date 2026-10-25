@@ -14,7 +14,7 @@ export function Emoji3D({ emoji, size = 48, float = false, className = "", style
   }
   return (
     <img
-      src={`./3d/${file}.png`}
+      src={`./3d/${file}.webp`}
       width={size}
       height={size}
       alt={alt || ""}

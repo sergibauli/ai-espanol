@@ -400,7 +400,7 @@ function Onboarding({ onDone }) {
       </header>
       <main className="onb-main">
         <div className="onb-q">
-          <img src="./mono-face.png" alt="" className="mono-big e3d-float" style={{ width: 120, height: 120 }} />
+          <img src="./mono-face.webp" alt="" className="mono-big e3d-float" style={{ width: 120, height: 120 }} />
           <div className="lp-char-bubble" style={{ fontSize: 20 }}>
             <span>
               {questions[step][0]}

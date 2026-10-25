@@ -1,35 +1,33 @@
 import * as React from "react";
 import { Navigate, useLocation, useNavigate, Routes, Route, HashRouter } from "react-router";
-import { FavoritesPanel } from "./components/FavoritesPanel.jsx";
 import { CursorTrail } from "./components/fx/CursorTrail.jsx";
-import { StarfieldBackground } from "./components/fx/StarfieldBackground.jsx";
 import { TopNav } from "./components/layout/TopNav.jsx";
 import { MascotProvider } from "./components/Mascot.jsx";
-import { Pizarra } from "./components/Pizarra.jsx";
-import { TutorChat } from "./components/TutorChat.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
 import { CampusProvider } from "./lib/campus.jsx";
 import MODULE_CATALOG from "./data/modulos/catalog.json";
 const MODULE_TITLES = Object.fromEntries(MODULE_CATALOG.map((m) => [m.numero, m.titulo]));
 import { LIGHT_ROUTES, LEGACY_LIGHT, STAGE_ROUTES, LightShell } from "./components/layout/LightShell.jsx";
+import WelcomePage from "./pages/WelcomePage.jsx";
+import { SECCIONES } from "./lib/precarga.js";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
-const DashboardPage = React.lazy(() => import("./pages/RutaPage.jsx"));
+const DashboardPage = React.lazy(SECCIONES["/ruta"]);
 const ExamenesNivelPage = React.lazy(() => import("./pages/dele/ExamenesNivelPage.jsx"));
 const ExamDetailPage = React.lazy(() => import("./pages/dele/ExamDetailPage.jsx"));
-const OficialPage = React.lazy(() => import("./pages/dele/OficialHubPage.jsx"));
-const MiDelePage = React.lazy(() => import("./pages/MiDelePage.jsx"));
+const OficialPage = React.lazy(SECCIONES["/oficial"]);
+const MiDelePage = React.lazy(SECCIONES["/mi-dele"]);
 const DiagnosticoPage = React.lazy(() => import("./pages/DiagnosticoPage.jsx"));
 const ExaminadorOralPage = React.lazy(() => import("./pages/ExaminadorOralPage.jsx"));
 const AudicionAcentosPage = React.lazy(() => import("./pages/AudicionAcentosPage.jsx"));
 const OficialNivelPage = React.lazy(() => import("./pages/dele/OficialNivelPage.jsx"));
 const OficialExamPage = React.lazy(() => import("./pages/dele/OficialExamPage.jsx"));
 const ModulosPage = React.lazy(() => import("./pages/ModulosPage.jsx"));
-const UnidadesPage = React.lazy(() => import("./pages/UnidadesPage.jsx"));
+const UnidadesPage = React.lazy(SECCIONES["/modulos"]);
 const PronunciacionPage = React.lazy(() => import("./pages/PronunciacionPage.jsx"));
-const PronunciacionNuevaPage = React.lazy(() => import("./pages/PronunciacionNuevaPage.jsx"));
-const JuegosHubPage = React.lazy(() => import("./pages/juegos/JuegosHubPage.jsx"));
+const PronunciacionNuevaPage = React.lazy(SECCIONES["/pronunciacion"]);
+const JuegosHubPage = React.lazy(SECCIONES["/juegos"]);
 const RuletaPage = React.lazy(() => import("./pages/juegos/RuletaPage.jsx"));
 const AhorcadoPage = React.lazy(() => import("./pages/juegos/AhorcadoPage.jsx"));
 const MemoryPage = React.lazy(() => import("./pages/juegos/MemoryPage.jsx"));
@@ -39,13 +37,13 @@ const ScramblePage = React.lazy(() => import("./pages/juegos/ScramblePage.jsx"))
 const AudicionPage = React.lazy(() => import("./pages/AudicionPage.jsx"));
 const ConsejosPage = React.lazy(() => import("./pages/ConsejosPage.jsx"));
 const GramaticaPage = React.lazy(() => import("./pages/GramaticaPage.jsx"));
-const DiccionariosPage = React.lazy(() => import("./pages/DiccionarioPage.jsx"));
+const DiccionariosPage = React.lazy(SECCIONES["/diccionarios"]);
 const ExamenesPage = React.lazy(() => import("./pages/dele/PracticaHubPage.jsx"));
 const AyudasPage = React.lazy(() => import("./pages/AyudasPage.jsx"));
 const KaraokePage = React.lazy(() => import("./pages/KaraokePage.jsx"));
-const MemoriaPage = React.lazy(() => import("./pages/MemoriaPage.jsx"));
+const MemoriaPage = React.lazy(SECCIONES["/memoria"]);
 const GeneradorPage = React.lazy(() => import("./pages/GeneradorPage.jsx"));
-const TutorVozPage = React.lazy(() => import("./pages/TutorIAPage.jsx"));
+const TutorVozPage = React.lazy(SECCIONES["/tutor-voz"]);
 const VideosPage = React.lazy(() => import("./pages/VideosPage.jsx"));
 const EnjambrePage = React.lazy(() => import("./pages/juegos/EnjambrePage.jsx"));
 const ClasePage = React.lazy(() => import("./pages/ClasePage.jsx"));
@@ -90,32 +88,36 @@ const WordChainPage = React.lazy(() => import("./pages/juegos/WordChainPage.jsx"
 const TicTacToePage = React.lazy(() => import("./pages/juegos/TicTacToePage.jsx"));
 const UnoPage = React.lazy(() => import("./pages/juegos/UnoPage.jsx"));
 const ExamGeneratorPage = React.lazy(() => import("./pages/ExamGeneratorPage.jsx"));
-const RutaPage = React.lazy(() => import("./pages/RutaPage.jsx"));
-const WelcomePage = React.lazy(() => import("./pages/WelcomePage.jsx"));
+const RutaPage = React.lazy(SECCIONES["/ruta"]);
+
 const UnitPage = React.lazy(() => import("./pages/UnitPage.jsx"));
+// Paneles flotantes: se cargan aparte, cuando hacen falta, para que la primera pantalla pese menos
+const FavoritesPanel = React.lazy(() => import("./components/FavoritesPanel.jsx").then((m) => ({ default: m.FavoritesPanel })));
+const Pizarra = React.lazy(() => import("./components/Pizarra.jsx").then((m) => ({ default: m.Pizarra })));
+const TutorChat = React.lazy(() => import("./components/TutorChat.jsx").then((m) => ({ default: m.TutorChat })));
 function PageLoader() {
   return (
-    <StarfieldBackground>
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-orange-400/20 border-t-orange-400 rounded-full animate-spin" />
-          <p className="text-white/40 font-bold text-sm animate-pulse">Cargando...</p>
-        </div>
-      </div>
-    </StarfieldBackground>
+    <div className="carga-seccion" role="status" aria-live="polite">
+      <span className="carga-seccion__moneda" />
+      <span>Cargando · 加载中…</span>
+    </div>
   );
+}
+// Quita el cargador de index.html cuando la primera pantalla real ya está pintada
+function QuitaCargadorInicial() {
+  React.useEffect(() => {
+    const t = document.getElementById("initial-loader");
+    if (!t) return;
+    requestAnimationFrame(() => {
+      t.classList.add("hidden");
+      setTimeout(() => t.remove(), 320);
+    });
+  }, []);
+  return null;
 }
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAppAuth();
-  if (isLoading) {
-    return (
-      <StarfieldBackground>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="w-12 h-12 border-4 border-orange-400/20 border-t-orange-400 rounded-full animate-spin" />
-        </div>
-      </StarfieldBackground>
-    );
-  }
+  if (isLoading) return <PageLoader />;
   if (isAuthenticated) {
     return <>{children}</>;
   }
@@ -295,9 +297,10 @@ function AppRoutes() {
       <CursorTrail />
       <SwipeNavigation />
       {isAuthenticated && !light && <TopNav />}
+      <React.Suspense fallback={<PageLoader />}>
+      <QuitaCargadorInicial />
       {(() => {
         const routes = (
-      <React.Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/sign-in" element={<SignInPage />} />
@@ -650,15 +653,19 @@ function AppRoutes() {
           />
           <Route path="/" element={<WelcomePage />} />
         </Routes>
-      </React.Suspense>
         );
         return legacyLight ? <LightShell legacy>{routes}</LightShell> : stage ? <LightShell stage>{routes}</LightShell> : routes;
       })()}
-      {!u && <Pizarra />}
-      {!u && <FavoritesPanel />}
+      </React.Suspense>
+      <React.Suspense fallback={null}>
+        {!u && <Pizarra />}
+        {!u && <FavoritesPanel />}
+      </React.Suspense>
       {isAuthenticated && !pathname.startsWith("/juegos") && pathname !== "/tutor-voz" && pathname !== "/" && (
         <div className={pathname === "/dashboard" ? "dashboard-ai-mobile-hidden" : ""}>
-          <TutorChat />
+          <React.Suspense fallback={null}>
+            <TutorChat />
+          </React.Suspense>
         </div>
       )}
     </>

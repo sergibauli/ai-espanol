@@ -4,13 +4,13 @@ import { copyFileSync, mkdirSync } from "node:fs";
 
 mkdirSync("dist", { recursive: true });
 await build({
-  entryPoints: ["src/index.js"],
+  entryPoints: ["src/paquete.js"],
   outfile: "dist/index.js",
   bundle: true,
   format: "esm",
   jsx: "automatic",
   external: ["react", "react-dom", "react/jsx-runtime"],
-  loader: { ".png": "dataurl", ".jpg": "dataurl", ".jsx": "jsx" },
+  loader: { ".png": "dataurl", ".jpg": "dataurl", ".webp": "dataurl", ".jsx": "jsx" },
   logLevel: "warning",
 });
 copyFileSync("index.d.ts", "dist/index.d.ts");

@@ -281,11 +281,11 @@ main.game-bg h1 {
 .ruta-main { isolation: isolate; outline: 0 !important; }
 .ruta-ink {
   position: absolute; inset: 230px 26px 40px; z-index: -1; pointer-events: none; opacity: .9;
-  background: url("../../public/theme/montes-tinta.png") right -30px top 0 / 440px auto repeat-y, url("../../public/theme/montes-tinta.png") left -50px top 520px / 470px auto repeat-y;
+  background: url("../../public/theme/montes-tinta.webp") right -30px top 0 / 440px auto repeat-y, url("../../public/theme/montes-tinta.webp") left -50px top 520px / 470px auto repeat-y;
 }
 .ruta-main::before {
   left: -30px !important; top: -20px !important; bottom: -20px !important; width: 44px !important; border-radius: 0 !important; box-shadow: none !important; background: none !important;
-  border-style: solid; border-width: 24px 0; border-image: url("../../public/theme/rodillo.png") 52 0 fill / 24px 0 stretch;
+  border-style: solid; border-width: 24px 0; border-image: url("../../public/theme/rodillo.webp") 52 0 fill / 24px 0 stretch;
   filter: drop-shadow(6px 6px 8px rgba(0,0,0,.4));
 }
 .ruta-main::after {
@@ -470,7 +470,7 @@ main.game-bg .gm-scroll {
 }
 main.game-bg .gm-scroll::before, main.game-bg .gm-scroll::after {
   content: ""; position: absolute; top: -22px; bottom: -22px; width: 34px; z-index: 3; pointer-events: none;
-  border-style: solid; border-width: 22px 0; border-image: url("../../public/theme/rodillo.png") 52 0 fill / 22px 0 stretch;
+  border-style: solid; border-width: 22px 0; border-image: url("../../public/theme/rodillo.webp") 52 0 fill / 22px 0 stretch;
   filter: drop-shadow(4px 4px 6px rgba(0,0,0,.4));
 }
 main.game-bg .gm-scroll::before { left: -24px; } main.game-bg .gm-scroll::after { right: -24px; }
@@ -519,7 +519,7 @@ main.game-bg .gm-panel .mobile-letter-key:not(:disabled) { background: linear-gr
 /* UNO: mesa ovalada con marco de bronce y oro sobre pergamino */
 main.game-bg .gm-uno-table {
   position: relative; max-width: 980px; margin: 18px auto 0; padding: 46px clamp(20px, 6vw, 80px) 50px; border-radius: 50%;
-  background: radial-gradient(ellipse at center, transparent 52%, rgba(90,60,20,.38)), url("../../public/theme/montes-tinta.png") right 8% top 30px / 300px auto no-repeat, url("../../public/theme/papel.jpg") center / cover, #efe0bf;
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(90,60,20,.38)), url("../../public/theme/montes-tinta.webp") right 8% top 30px / 300px auto no-repeat, url("../../public/theme/papel.jpg") center / cover, #efe0bf;
   box-shadow: 0 0 0 6px #6b4a1e, 0 0 0 10px #c8961e, 0 0 0 17px #2e2212, 0 0 0 20px #d9ae4c, 0 0 46px 22px rgba(242,193,78,.4), inset 0 0 34px rgba(90,60,20,.55);
 }
 main.game-bg .gm-uno-table :is(.text-white, [class*="text-white/"]) { color: #5b3e22 !important; }
@@ -591,7 +591,7 @@ main.game-bg .gm-ruleta-root > canvas:nth-of-type(2) { display: none; }
 .gd-head h3 { margin: 0; font: 800 clamp(20px, 2.6vw, 26px) var(--ui-display); color: #3b2416; }
 .gd-head p { margin: 4px 0 0; font-size: 17px; color: #b07a1c; font-weight: 700; }
 .gd-scroll { position: relative; margin-left: 70px; padding: 26px 28px; border-radius: 4px; background: linear-gradient(rgba(255,252,242,.55), rgba(255,252,242,.55)), url("../../public/theme/papel.jpg") center / cover; border: 1.5px solid #d9b465; box-shadow: inset 0 0 0 6px rgba(255,252,242,.55), inset 0 0 0 7px rgba(200,150,30,.45), 0 10px 26px rgba(110,80,30,.25); }
-.gd-scroll::before { content: ""; position: absolute; left: -20px; top: -14px; bottom: -14px; width: 30px; border-style: solid; border-width: 22px 0; border-image: url("../../public/theme/rodillo.png") 52 0 fill / 22px 0 stretch; filter: drop-shadow(4px 4px 5px rgba(0,0,0,.3)); }
+.gd-scroll::before { content: ""; position: absolute; left: -20px; top: -14px; bottom: -14px; width: 30px; border-style: solid; border-width: 22px 0; border-image: url("../../public/theme/rodillo.webp") 52 0 fill / 22px 0 stretch; filter: drop-shadow(4px 4px 5px rgba(0,0,0,.3)); }
 .gd-deco { position: absolute; left: -96px; top: 50%; width: 132px; transform: translateY(-40%); z-index: 2; filter: drop-shadow(0 8px 10px rgba(0,0,0,.35)); pointer-events: none; }
 .gd-body { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 26px; align-items: start; padding-left: 20px; }
 .gd-intro { margin: 0 0 12px; font-size: 15.5px; line-height: 1.6; color: #3b2416; }
@@ -952,8 +952,8 @@ main.game-bg .relative.flex-1.rounded-2xl:is([class*="max-w-[220px]"]) * { color
 /* ===== v9.2 · Mapa de Aprender: camino dorado, nodos imperiales, farolillos y el Rey Mono en su nube ===== */
 .ruta-camino-wrap { position: relative; margin: 6px -10px 0; overflow: visible;
   background:
-    url("../../public/theme/montes-tinta.png") left -40px bottom 10px / 300px auto no-repeat,
-    url("../../public/theme/montes-tinta.png") right -60px top 40% / 260px auto no-repeat; }
+    url("../../public/theme/montes-tinta.webp") left -40px bottom 10px / 300px auto no-repeat,
+    url("../../public/theme/montes-tinta.webp") right -60px top 40% / 260px auto no-repeat; }
 .ruta-camino-wrap::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
   background-image: radial-gradient(circle at 14% 22%, rgba(214,160,40,.7) 0 1.4px, transparent 2.4px), radial-gradient(circle at 86% 30%, rgba(214,160,40,.6) 0 1.8px, transparent 2.8px), radial-gradient(circle at 22% 70%, rgba(214,160,40,.6) 0 1.4px, transparent 2.4px), radial-gradient(circle at 78% 82%, rgba(214,160,40,.7) 0 1.6px, transparent 2.6px), radial-gradient(circle at 50% 50%, rgba(214,160,40,.4) 0 1.2px, transparent 2.2px);
   animation: destellos 5s ease-in-out infinite; }
@@ -1337,3 +1337,9 @@ main.game-bg .relative.flex-1.rounded-2xl:is([class*="max-w-[220px]"]) * { color
 .ruta-camino-wrap::after { content: ""; position: absolute; inset: 0 6%; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 46% 58% at 50% 50%, rgba(255,204,96,.26), transparent 72%); mix-blend-mode: screen; }
 .ruta-camino { z-index: 1; }
 .ruta-side .ruta-badge { filter: grayscale(.9) brightness(1.15); opacity: .62; } .ruta-side .ruta-badge.got { filter: none; opacity: 1; }
+
+/* ===== v9.8 · Rendimiento: carga de sección discreta y sin fondos que ya no se ven ===== */
+.carga-seccion { min-height: 60vh; display: grid; place-content: center; justify-items: center; gap: 12px; font: 700 14px var(--im-font-ui, system-ui); color: #8a6a48; }
+.carga-seccion__moneda { width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff3c4, #f2c14e 55%, #a8741e); box-shadow: 0 0 0 3px rgba(242,193,78,.35), 0 0 22px rgba(242,193,78,.55); animation: cargaGira 1.1s ease-in-out infinite; }
+@keyframes cargaGira { 50% { transform: scaleX(.15); filter: brightness(1.3); } }
+.light-page .ruta-camino-wrap { background: none; }

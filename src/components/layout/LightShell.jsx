@@ -7,6 +7,7 @@ import { GameStats } from "../ui/GameStats.jsx";
 import { useAppAuth } from "../../lib/auth.jsx";
 import { attachLightAdapter } from "./lightAdapter.js";
 import { Logo } from "../../../packages/imperial/src/index.js";
+import { precargar, precargarSecciones } from "../../lib/precarga.js";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
 const MAIN = [
@@ -40,6 +41,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
   }, []);
   const { pathname } = useLocation();
   const { logout } = useAppAuth();
+  React.useEffect(precargarSecciones, []);
   const mainRef = React.useRef(null);
   const adapt = legacy || ADAPT_ROUTES(pathname);
   React.useEffect(() => (adapt ? attachLightAdapter(mainRef.current) : undefined), [adapt, pathname]);
@@ -68,7 +70,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
             <Logo tamano={50} />
           </Link>
           {MAIN.map((m) => (
-            <Link key={m.to} to={m.to} className={`side-link ${active(m.to) ? "on" : ""}`}>
+            <Link key={m.to} to={m.to} className={`side-link ${active(m.to) ? "on" : ""}`} onPointerEnter={() => precargar(m.to)} onFocus={() => precargar(m.to)}>
               <NavIcon name={m.icon} size={38} />
               <span>
                 {m.es}
@@ -85,7 +87,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
       {createPortal(
         <nav className="bottom-nav" aria-label="Navegación móvil">
           {MAIN.map((m) => (
-            <Link key={m.to} to={m.to} className={active(m.to) ? "on" : ""} aria-label={m.es}>
+            <Link key={m.to} to={m.to} className={active(m.to) ? "on" : ""} aria-label={m.es} onTouchStart={() => precargar(m.to)} onPointerEnter={() => precargar(m.to)}>
               <NavIcon name={m.icon} size={30} />
               <small>{m.es}</small>
             </Link>

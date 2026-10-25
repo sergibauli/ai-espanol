@@ -4,7 +4,8 @@ import {
   getCachedAnswer,
   speakSpanish,
   buildTutorSystemPrompt,
-  CHAT_HISTORY_TURNS,
+  buildTutorUserMessage,
+  historyWindow,
   cacheAnswer,
 } from "../lib/aiTutor.js";
 import { deepseekFetch } from "../lib/deepseekClient.js";
@@ -26,19 +27,12 @@ function TutorAvatar({ size, talking }) {
           animation: talking ? "mascotTalk 0.35s ease-in-out infinite" : "none",
         }}
       >
-        <video
-          src="./mascota-reymono.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block",
-          }}
-        />
+        {/* El vídeo solo se descarga mientras el mono habla; en reposo basta su retrato */}
+        {talking ? (
+          <video src="./mascota-reymono.mp4" autoPlay loop muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        ) : (
+          <img src="./mono-face.webp" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        )}
         <div
           style={{
             position: "absolute",
@@ -140,22 +134,20 @@ function TutorChat() {
           messages: [
             {
               role: "system",
-              content: buildTutorSystemPrompt(Q.content),
+              content: buildTutorSystemPrompt(),
             },
-            ...c
-              .filter((ce) => ce.role !== "system")
-              .slice(-CHAT_HISTORY_TURNS)
+            ...historyWindow(c.filter((ce) => ce.role !== "system"))
               .map((ce) => ({
                 role: ce.role,
                 content: ce.content,
               })),
             {
               role: "user",
-              content: Q.content,
+              content: buildTutorUserMessage(Q.content),
             },
           ],
           temperature: 0.7,
-          max_tokens: 2000,
+          max_tokens: 900,
         }),
       });
       if (!X.ok) {

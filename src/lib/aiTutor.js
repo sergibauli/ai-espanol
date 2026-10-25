@@ -1,5 +1,6 @@
 import { buildStudentProfile } from "../data/modulos/profile.js";
 import { getKnowledgeContext } from "./search.js";
+export { historyWindow } from "./historial.js";
 const CHAT_CACHE_KEY = "dele_chat_cache_v1";
 const CHAT_CACHE_MAX = 60;
 const CHAT_HISTORY_TURNS = 8;
@@ -41,21 +42,25 @@ Reglas de estilo (MUY importantes):
 - Usa emojis con moderación (1-2 máximo).
 - Si el usuario escribe en chino, responde en chino con las palabras clave en español. Si escribe en español, responde en español sencillo y claro.
 - Corrige con amabilidad los errores de español del usuario.`;
-function buildTutorSystemPrompt(content) {
-  const t = getKnowledgeContext(content);
-  const c = buildStudentProfile();
-  const u = [
+// El mensaje de sistema no cambia entre turnos (DeepSeek cachea el prefijo repetido y lo cobra mucho más barato);
+// el contexto que depende de cada pregunta viaja con el mensaje del alumno.
+function buildTutorSystemPrompt() {
+  return [
     TUTOR_SYSTEM_PROMPT,
     `PERFIL DEL ESTUDIANTE (progreso real en la app — adáptate a su nivel y repasa lo que ya estudió):
-${c}`,
-  ];
-  if (t) {
-    u.push(`CONTEXTO DE LA APLICACIÓN (datos reales de AI Español — úsalos para responder con precisión, en español y chino):
-${t}`);
-  }
-  return u.join(`
+${buildStudentProfile()}`,
+  ].join(`
 
 `);
+}
+function buildTutorUserMessage(content) {
+  const t = getKnowledgeContext(content);
+  if (!t) return content;
+  return `CONTEXTO DE LA APLICACIÓN (datos reales de AI Español — úsalos para responder con precisión, en español y chino):
+${t}
+
+PREGUNTA DEL ALUMNO:
+${content}`;
 }
 function speakSpanish(i) {
   const window_speechSynthesis = window.speechSynthesis;
@@ -72,6 +77,7 @@ export {
   getCachedAnswer,
   speakSpanish,
   buildTutorSystemPrompt,
+  buildTutorUserMessage,
   CHAT_HISTORY_TURNS,
   cacheAnswer,
 };

@@ -1629,7 +1629,7 @@ function IaComponent() {
         @keyframes ofIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
         .of-in { animation: ofIn .4s cubic-bezier(.16,1,.3,1) both; }
       `}</style>
-      <img className="ofe-dragon" src={`${import.meta.env.BASE_URL}theme/dragon-enroscado.png`} alt="" aria-hidden="true" />
+      <img className="ofe-dragon" src={`${import.meta.env.BASE_URL}theme/dragon-enroscado.webp`} alt="" aria-hidden="true" />
       <div className="ofe max-w-5xl mx-auto px-4 py-8">
         <Link
           to={`/oficial/${nivel}`}

@@ -350,7 +350,10 @@ async function aiChat(req, env) {
   const used = Number(await env.CAMPUS.get(key)) || 0;
   if (used >= limit) return fail(429, "Has llegado al límite diario de IA. Vuelve mañana. 今天的AI次数已用完。");
   const b = await req.json().catch(() => ({}));
-  const messages = Array.isArray(b.messages) ? b.messages.slice(-30).map((m) => ({ role: ["system", "user", "assistant"].includes(m.role) ? m.role : "user", content: str(m.content, 12000) })) : [];
+  // Historial: los mensajes de sistema iniciales y, como mucho, los 12 últimos de la conversación
+  const todos = Array.isArray(b.messages) ? b.messages.map((m) => ({ role: ["system", "user", "assistant"].includes(m.role) ? m.role : "user", content: str(m.content, 12000) })) : [];
+  const nSistema = todos.findIndex((m) => m.role !== "system");
+  const messages = nSistema < 0 ? todos : [...todos.slice(0, nSistema), ...todos.slice(nSistema).slice(-12)];
   if (!messages.length) return fail(400, "Faltan mensajes.");
   await env.CAMPUS.put(key, String(used + 1), { expirationTtl: 172800 });
   const r = await fetch("https://api.deepseek.com/chat/completions", {
@@ -360,7 +363,8 @@ async function aiChat(req, env) {
       model: "deepseek-chat",
       messages,
       temperature: Math.min(1.5, Math.max(0, Number(b.temperature ?? 0.7))),
-      max_tokens: Math.min(2000, Number(b.max_tokens) || 1200),
+      // Tope alto solo si se pide (generador de exámenes): con 2000 el JSON largo salía cortado y se repetía la llamada
+      max_tokens: Math.min(8000, Math.max(64, Number(b.max_tokens) || 1200)),
       ...(b.response_format?.type === "json_object" ? { response_format: { type: "json_object" } } : {}),
     }),
   });

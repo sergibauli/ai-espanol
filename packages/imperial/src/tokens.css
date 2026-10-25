@@ -1,6 +1,5 @@
 /* Imperial · tokens del sistema de diseño de AI Español
    Laca roja, oro, papel de pergamino, tinta y noche azul con destellos. */
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700&display=swap");
 
 :root {
   /* Laca */
@@ -42,7 +41,7 @@
   --im-font-display: "Cinzel", "Times New Roman", Georgia, serif;
   --im-font-ui: "Plus Jakarta Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   --im-font-letra: Georgia, "Times New Roman", serif;
-  --im-font-zh: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --im-font-zh: "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", serif;
   /* Radios, sombras, espacios */
   --im-radio-sm: 8px;
   --im-radio-md: 14px;

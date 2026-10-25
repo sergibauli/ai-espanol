@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#050714" />
+    <meta name="theme-color" content="#8f0c21" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -13,48 +13,30 @@
     <link rel="apple-touch-icon" href="./app-icon.svg" />
     <title>AI Español - DELE Prep</title>
     <style>
+      html, body { background: #0e1a33; }
       #initial-loader {
-        position: fixed; inset: 0;
-        background: #050714;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        z-index: 9999;
-        transition: opacity 0.5s ease;
+        position: fixed; inset: 0; z-index: 9999;
+        display: flex; align-items: center; justify-content: center; flex-direction: column;
+        background: radial-gradient(circle at 50% 42%, rgba(242,193,78,.22), transparent 45%), linear-gradient(160deg, #13264a, #0e1a33 60%, #08111f);
+        transition: opacity .3s ease;
       }
       #initial-loader.hidden { opacity: 0; pointer-events: none; }
-      #initial-loader .spinner {
-        width: 48px; height: 48px;
-        border: 4px solid rgba(255,138,42,0.2);
-        border-top-color: #ff8a2a;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-      #initial-loader h2 {
-        color: #fff;
-        font-family: system-ui, sans-serif;
-        margin-top: 16px;
-        font-size: 1.2rem;
-      }
-      #initial-loader p {
-        color: rgba(255,255,255,0.4);
-        font-family: system-ui, sans-serif;
-        font-size: 0.85rem;
-        margin-top: 8px;
-      }
+      #initial-loader .spinner { width: 46px; height: 46px; border: 4px solid rgba(242,193,78,.2); border-top-color: #f2c14e; border-radius: 50%; animation: spin 1s linear infinite; }
+      #initial-loader h2 { margin: 14px 0 0; color: #f6d77e; font: 700 1.25rem Georgia, "Songti SC", serif; letter-spacing: .06em; }
+      #initial-loader p { margin: 6px 0 0; color: rgba(255,243,214,.55); font: .85rem system-ui, "PingFang SC", sans-serif; }
       @keyframes spin { to { transform: rotate(360deg); } }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" />
-  <script defer src="./overrides.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Sin bloquear el primer pintado: si Google Fonts no responde (China), se ve con las fuentes del sistema -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Unbounded:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" media="print" onload="this.media='all'" />
 </head>
   <body>
     <!-- Loader OUTSIDE #root so React never touches it -->
     <div id="initial-loader">
       <div class="spinner"></div>
       <h2>AI Español</h2>
-      <p>Cargando aplicación...</p>
+      <p>Cargando · 加载中…</p>
     </div>
 
     <div id="root"></div>

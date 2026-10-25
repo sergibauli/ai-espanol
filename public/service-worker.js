@@ -1,5 +1,5 @@
 // Rutas relativas al scope: la app vive en /ai-espanol/, no en la raíz del dominio
-const CACHE_NAME = 'ai-espanol-shell-v34';
+const CACHE_NAME = 'ai-espanol-shell-v35';
 const SCOPE = self.registration.scope;
 const APP_SHELL = [SCOPE, `${SCOPE}manifest.webmanifest`, `${SCOPE}app-icon.svg`];
 

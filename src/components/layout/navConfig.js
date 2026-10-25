@@ -249,8 +249,8 @@ const NAV_LINKS = [
   },
   {
     path: "/oficial",
-    label: "Oficiales",
-    labelZh: "官方",
+    label: "DELE",
+    labelZh: "考试",
     icon: AwardIcon,
     color: "#e0b566",
     glow: "#f6dfa8",

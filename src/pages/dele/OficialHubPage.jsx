@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Emoji3D } from "../../components/ui/Emoji3D.jsx";
 import { TarjetaExamen } from "../../../packages/imperial/src/index.js";
-import { NUEVOS } from "../../data/oficial/nuevos/index.js";
+// Solo cuenta los simulacros nuevos por el nombre del archivo (A1-21.json…), sin descargar su contenido
+const NUEVOS = { A1: [], A2: [], B1: [], B2: [] };
+for (const ruta of Object.keys(import.meta.glob("../../data/oficial/nuevos/*.json"))) NUEVOS[ruta.split("/").pop().slice(0, 2)]?.push(ruta);
 
 // Portada de los modelos oficiales DELE (estilo app). Cada modelo muestra la duración real de sus pruebas.
 const LEVELS = [
@@ -38,7 +40,7 @@ export default function OficialHubPage() {
               </Link>
             </div>
           </div>
-          <img className="dele-dragon" src={`${import.meta.env.BASE_URL}theme/dragon.png`} alt="" />
+          <img className="dele-dragon" src={`${import.meta.env.BASE_URL}theme/dragon.webp`} alt="" />
         </section>
 
         <div className="dele-modes">
