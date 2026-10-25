@@ -218,3 +218,30 @@ export function dialogToStory(d, numero, escena = "💬") {
     preguntas: [],
   };
 }
+
+// Reto nuevo: 8 preguntas inéditas generadas por IA sobre la unidad (validadas); sin IA, reto mezclado local
+export async function buildAIChallenge(mod) {
+  const { deepseekFetch, isAIAvailable } = await import("./deepseekClient.js");
+  const rand = rng(Date.now());
+  const vocab = shuffle((mod.vocabulario || []).filter((v) => v.espanol && v.chino), rand).slice(0, 18);
+  const temas = (mod.teoria || []).map((t) => t.titulo).slice(0, 4);
+  const local = () => {
+    const steps = shuffle([...vocabSteps(mod, vocab.slice(0, 6), rand), ...ideaSteps(mod, rand)], rand).slice(0, 10);
+    return { id: `m${mod.numero}-reto`, modulo: mod.numero, index: 9, es: "Reto nuevo", zh: "新挑战", emoji: "🎲", steps };
+  };
+  if (!isAIAvailable()) return local();
+  try {
+    const prompt = `Unidad de español nivel ${mod.nivel || "A1"}: «${mod.titulo}». Temas: ${temas.join("; ")}. Vocabulario: ${vocab.map((v) => `${v.espanol}=${v.chino}`).join(", ")}.
+Crea 8 preguntas NUEVAS de opción múltiple para estudiantes chinos sobre esta unidad (variadas: significado, completar la frase, respuesta adecuada en un diálogo, gramática del tema). Devuelve SOLO JSON: {"preguntas":[{"pregunta":"en español","preguntaZh":"traducción china","opciones":["a","b","c","d"],"correcta":"texto exacto de la opción correcta","explicacion":"breve, en chino"}]}. Una sola opción correcta, sin ambigüedad.`;
+    const res = await deepseekFetch("", { body: JSON.stringify({ messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 900, response_format: { type: "json_object" } }) });
+    const data = await res.json();
+    const qs = JSON.parse(data?.choices?.[0]?.message?.content || "{}").preguntas || [];
+    const steps = qs
+      .filter((q) => q?.pregunta && Array.isArray(q.opciones) && new Set(q.opciones).size === q.opciones.length && q.opciones.length >= 3 && q.opciones.includes(q.correcta))
+      .map((q) => choice(rand, q.correcta, q.opciones, { type: "choice", prompt: q.pregunta, promptZh: q.preguntaZh || "", explain: q.explicacion || "" }));
+    if (steps.length < 4) return local();
+    return { id: `m${mod.numero}-reto`, modulo: mod.numero, index: 9, es: "Reto nuevo", zh: "新挑战", emoji: "✨", steps };
+  } catch {
+    return local();
+  }
+}

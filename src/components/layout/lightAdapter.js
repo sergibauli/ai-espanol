@@ -29,7 +29,7 @@ function adapt(root) {
   const els = root.querySelectorAll("*:not([data-la])");
   for (const el of els) {
     el.setAttribute("data-la", "1");
-    if (el.closest(".side-nav, .bottom-nav, .light-top, svg, video, img")) continue;
+    if (el.closest(".side-nav, .bottom-nav, .light-top, .gm-no-adapt, svg, video, img")) continue;
     const cs = getComputedStyle(el);
     if (isDarkPanel(cs)) {
       // Papel de pergamino: el fondo real lo pone la clase .la-paper en parchment.css
@@ -39,7 +39,7 @@ function adapt(root) {
   }
   // Segunda pasada: textos claros sobre fondo ya claro
   for (const el of els) {
-    if (el.closest("svg")) continue;
+    if (el.closest("svg, .gm-no-adapt")) continue;
     const c = parse(getComputedStyle(el).color);
     if (!c || lum(c) < 0.72) continue;
     let p = el;

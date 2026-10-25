@@ -8956,6 +8956,8 @@ const aa = [
     glow: "rgba(255,214,0,0.25)",
   },
 ];
+const KAHOOT_TILES = [["#d0343f", "#8f0c21", "#fff"], ["#2f6fd6", "#173f8a", "#fff"], ["#f2c14e", "#c8961e", "#3b2416"], ["#36a35a", "#1e6338", "#fff"]];
+
 function JComponent({ expression, bounce }) {
   const c = React.useMemo(() => {
     switch (expression) {
@@ -9472,7 +9474,7 @@ function IaComponent({ timeLeft, maxTime }) {
             }}
           />
         </svg>
-        <div className="flex flex-col items-center">
+        <div className="gm-timer-face flex flex-col items-center">
           <span
             className="text-3xl md:text-4xl font-black"
             style={{
@@ -10542,6 +10544,8 @@ function AComponent() {
         >
           {f.allAnswers.map((i, s) => {
             const o = aa[s];
+            // Fichas de respuesta lacadas y legibles (rojo, azul, oro, verde)
+            const k = KAHOOT_TILES[s % KAHOOT_TILES.length];
             const b = i === f.correcta;
             const u = w === i;
             let p = {};
@@ -10549,10 +10553,10 @@ function AComponent() {
             if (g) {
               if (b) {
                 p = {
-                  background: `linear-gradient(135deg,${o.color},${o.color}ee)`,
-                  border: `2px solid ${o.color}`,
+                  background: "linear-gradient(180deg, #4cc76a, #23893f)",
+                  border: "3px solid #fff3c4",
                   boxShadow: `0 0 50px ${o.shadow}, 0 0 100px ${o.glow}, 0 0 150px ${o.glow}88, inset 0 0 30px rgba(255,255,255,0.15)`,
-                  color: "#000",
+                  color: "#fff",
                   transform: "scale(1.05) translateZ(60px)",
                   animation:
                     "answerCorrectBurst 0.6s ease-out forwards, correctAnswerGlow 2s ease-in-out infinite",
@@ -10579,10 +10583,11 @@ function AComponent() {
               }
             } else {
               p = {
-                background: `${o.color}18`,
-                border: `2px solid ${o.color}50`,
-                color: o.color,
-                boxShadow: `0 0 18px ${o.shadow}25, 0 8px 20px rgba(0,0,0,0.2)`,
+                background: `linear-gradient(180deg, ${k[0]}, ${k[1]})`,
+                border: "2px solid #f2c14e",
+                color: k[2],
+                textShadow: k[2] === "#fff" ? "0 1px 2px rgba(0,0,0,.45)" : "none",
+                boxShadow: "0 5px 0 rgba(0,0,0,.35), 0 0 14px rgba(242,193,78,.35)",
                 animation: `buttonAppear 0.5s ${s * 0.1}s ease-out both, answerHoverGlow 3s ease-in-out infinite`,
                 "--shadow-color": o.shadow,
               };
@@ -10590,7 +10595,7 @@ function AComponent() {
             return (
               <div
                 key={i}
-                className="relative"
+                className="relative gm-no-adapt"
                 style={{
                   perspective: "1000px",
                 }}

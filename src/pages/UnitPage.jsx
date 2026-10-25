@@ -7,7 +7,7 @@ import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { StoryPlayer, CAST } from "../components/lesson/StoryPlayer.jsx";
 import { speak } from "../components/lesson/fx.js";
 import { useGame } from "../lib/gamification.js";
-import { buildLesson, lessonId, LESSON_META, buildPractice, PRACTICE_TYPES, dialogToStory } from "../lib/lessons.js";
+import { buildLesson, lessonId, LESSON_META, buildPractice, PRACTICE_TYPES, dialogToStory, buildAIChallenge } from "../lib/lessons.js";
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import { markModuleVisited } from "../lib/progress.js";
 import CATALOG from "../data/modulos/catalog.json";
@@ -247,6 +247,7 @@ export default function UnitPage() {
   const [story, setStory] = React.useState(undefined);
   const [lesson, setLesson] = React.useState(null);
   const [playStory, setPlayStory] = React.useState(false);
+  const [reto, setReto] = React.useState(false);
   const [dialog, setDialog] = React.useState(null);
   const [types, setTypes] = React.useState(PRACTICE_TYPES.map((t) => t.key));
   const [extra, setExtra] = React.useState(() => new URLSearchParams(window.location.hash.split("?")[1] || "").get("tab"));
@@ -411,6 +412,19 @@ export default function UnitPage() {
               </div>
               <button className="btn3d unit-practice-go" style={{ "--c": c1, "--d": c2 }} disabled={!types.length} onClick={() => setLesson(buildPractice(mod, types))}>
                 💪 Practicar ahora · 开始练习
+              </button>
+              <button
+                className="btn3d unit-practice-go unit-reto"
+                style={{ "--c": "#c8102e", "--d": "#8f0c21" }}
+                disabled={reto}
+                onClick={async () => {
+                  setReto(true);
+                  const l = await buildAIChallenge(mod);
+                  setReto(false);
+                  setLesson(l);
+                }}
+              >
+                {reto ? "Creando preguntas… · 生成中…" : "✨ Reto nuevo con IA · AI新挑战"}
               </button>
             </div>
 

@@ -794,6 +794,24 @@ function DsComponent({ exercises }) {
     </div>
   );
 }
+// Cada vez que se abre un examen de práctica las opciones cambian de orden (se recoloca la respuesta correcta)
+function barajarOpciones(exam) {
+  if (!exam) return exam;
+  const out = { ...exam };
+  for (const k of Object.keys(out)) {
+    const sec = out[k];
+    if (!sec || !Array.isArray(sec.questions)) continue;
+    out[k] = {
+      ...sec,
+      questions: sec.questions.map((q) => {
+        if (!Array.isArray(q.options) || typeof q.correctAnswer !== "number" || !q.options[q.correctAnswer]) return q;
+        const order = H(q.options.map((_, i) => i));
+        return { ...q, options: order.map((i) => q.options[i]), correctAnswer: order.indexOf(q.correctAnswer) };
+      }),
+    };
+  }
+  return out;
+}
 function H(i) {
   const c = [...i];
   for (let s = c.length - 1; s > 0; s--) {
@@ -1430,7 +1448,7 @@ function WaComponent() {
     a(De, Number(examId))
       .then((a) => {
         if (!t) {
-          setN(a);
+          setN(barajarOpciones(a));
         }
       })
       .catch((a) => {
