@@ -28,7 +28,8 @@ import { Escena, MenuLacado, HeroSeccion, Pergamino, TarjetaUnidad, Boton } from
 - Corrección: acierto en jade (`Opcion estado="correcta"`, `Sello tono="jade"`), error en laca. Resultado de examen = `PanelCorreccion`.
 - Niveles siempre con `InsigniaNivel` (A1 laca, A2 jade, B1 oro, B2 púrpura).
 - El menú usa solo `Icono` (nombres: ruta, unidades, dele, juegos, diccionario, pronunciacion, repaso, progreso, tutor). Nunca emojis en el menú; sí se permiten emojis dentro de `TarjetaUnidad` y `TarjetaJuego`.
-- La mascota es el Rey Mono (`Mascota`, poses: saluda, guino, serio, poder, feliz, trofeo): para bienvenida, ánimo y recompensas.
+- La mascota es el Rey Mono (`Mascota`, poses: saluda, guino, serio, poder, feliz, trofeo): para bienvenida, ánimo y recompensas. Para marcar dónde está el alumno en un mapa o recorrido usa `MonoNube` (el mono sobre su nube dorada 筋斗云), solo uno por pantalla.
+- La marca es `Logo` (sello lacado con Ñ y tilde-nube + «AI Español»): `tono="oscuro"` sobre laca o noche, `tono="claro"` sobre papel. `SelloLogo` es el sello solo, para espacios pequeños. No escribas «AI Español» como texto suelto en cabeceras.
 
 ## Estilo propio (maquetación y pegamento)
 No hay clases utilitarias: para tu maquetación usa `style` con CSS grid/flex y los tokens `var(--im-*)`:
