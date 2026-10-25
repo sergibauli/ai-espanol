@@ -8,7 +8,7 @@ binding = "CAMPUS"
 id = "c107aa1fe2284a9c8ad63f04d0d9aa0e"
 
 [vars]
-ALLOWED_ORIGINS = "https://sergibauli.github.io,http://localhost:5173"
+ALLOWED_ORIGINS = "https://sergibauli.github.io,https://ai-espanol.pages.dev,http://localhost:5173"
 # Instancia de Clerk (sale de la publishable key). En producción, la de la instancia pk_live.
 CLERK_ISSUER = "https://composed-kitten-70.clerk.accounts.dev"
 # Secretos (no van aquí, el repositorio es público):

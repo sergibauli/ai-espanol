@@ -47,7 +47,9 @@ import { Link, useNavigate } from "react-router";
 import { SectionHero } from "../../components/ui/SectionHero.jsx";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { useLanguage } from "../../lib/i18n.jsx";
-const i = [
+// Los 8 juegos de la app (el resto se retiró para quedarnos solo con los mejores)
+export const READY_GAMES = new Set(["/juegos/kahoot", "/juegos/memory", "/juegos/ruleta", "/juegos/uno", "/juegos/scramble", "/juegos/sopa", "/juegos/ahorcado", "/juegos/apalabrados"]);
+const TODOS = [
   {
     id: "kahoot",
     name: "Kahoot Quiz",
@@ -831,6 +833,7 @@ const i = [
     category: "Palabras",
   },
 ];
+const i = TODOS.filter((g) => READY_GAMES.has(g.path));
 const p = [
   {
     key: "todos",
@@ -1070,5 +1073,4 @@ function JuegosHubPage() {
 }
 export { JuegosHubPage as default, i as GAMES };
 // Juegos ya rediseñados con la estética imperial; el resto se muestra bloqueado hasta adaptarlo
-export const READY_GAMES = new Set(["/juegos/scramble", "/juegos/memory", "/juegos/ruleta", "/juegos/uno", "/juegos/kahoot"]);
 export const isReadyGame = (g) => READY_GAMES.has(g.path);

@@ -1626,7 +1626,7 @@ function CtComponent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 flex justify-center">
             <div
-              className="rounded-3xl p-4 md:p-5 select-none relative"
+              className="gm-scroll gm-sopa rounded-3xl p-4 md:p-5 select-none relative"
               style={{
                 background: "linear-gradient(180deg, rgba(14,22,64,.8), rgba(5,8,27,.6))",
                 border: "2px solid transparent",
@@ -1694,7 +1694,7 @@ function CtComponent() {
                         onMouseDown={(S) => Se(s, l, S)}
                         onMouseEnter={() => Ae(s, l)}
                         onTouchStart={(S) => Se(s, l, S)}
-                        className="flex items-center justify-center font-bold text-sm transition-all duration-150 relative overflow-hidden group"
+                        className={`gm-sopa-cell ${f ? "sel" : c ? "found" : ""} flex items-center justify-center font-bold text-sm transition-all duration-150 relative overflow-hidden group`}
                         style={{
                           width: "min(44px, 7.5vw)",
                           height: "min(44px, 7.5vw)",

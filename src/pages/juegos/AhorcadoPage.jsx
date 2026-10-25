@@ -89,7 +89,7 @@ function HeComponent({ mood }) {
     [stroke],
   );
   return (
-    <div style={c}>
+    <div className="gm-mascota" style={c}>
       <div
         style={{
           position: "relative",
@@ -1503,7 +1503,7 @@ function OtComponent() {
             <LightbulbIcon size={12} /> {A.length} letras / {A.length} 字母
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+        <div className="gm-scroll gm-ahorcado grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
           <div className="flex flex-col items-center justify-center gap-4">
             <VeComponent wrongCount={j} gameStatus={w} />
             <div className="flex items-center gap-1.5">

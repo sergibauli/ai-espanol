@@ -469,16 +469,7 @@ function AppRoutes() {
               </RequireAuth>
             }
           />
-          <Route
-            path="/juegos/crucigrama"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <CrucigramaPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
+          <Route path="/juegos/crucigrama" element={<Navigate to="/juegos" replace />} />
           <Route
             path="/juegos/sopa"
             element={
@@ -601,346 +592,40 @@ function AppRoutes() {
               </RequireAuth>
             }
           />
-          <Route
-            path="/juegos/flashcards"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <FlashcardsPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/typing-race"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <TypingRacePage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-snake"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordSnakePage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/vocab-blast"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <VocabBlastPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-quiz"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordQuizPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/fill-blanks"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <FillBlanksPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-pairs"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordPairsPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-tower"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordTowerPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/spell-it"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <SpellItPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-maze"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordMazePage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-dash"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordDashPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-puzzle"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordPuzzlePage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-drop"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordDropPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-rush"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordRushPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-pop"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordPopPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-orbit"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordOrbitPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-fusion"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordFusionPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-grid"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordGridPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-storm"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordStormPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-stack"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordStackPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-cipher"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordCipherPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-trivia"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordTriviaPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-pinball"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordPinballPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-tetris"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordTetrisPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-pacman"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordPacManPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-shooter"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordShooterPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-match-3d"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordMatch3DPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-racer"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordRacerPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-defender"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordDefenderPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-slinger"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordSlingerPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-ninja"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordNinjaPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-quest"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordQuestPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-archer"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordArcherPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/word-candy"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordCandyPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
+          <Route path="/juegos/flashcards" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/typing-race" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-snake" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/vocab-blast" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-quiz" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/fill-blanks" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-pairs" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-tower" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/spell-it" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-maze" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-dash" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-puzzle" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-drop" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-rush" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-pop" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-orbit" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-fusion" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-grid" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-storm" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-stack" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-cipher" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-trivia" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-pinball" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-tetris" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-pacman" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-shooter" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-match-3d" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-racer" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-defender" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-slinger" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-ninja" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-quest" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-archer" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/word-candy" element={<Navigate to="/juegos" replace />} />
           <Route
             path="/juegos/apalabrados"
             element={
@@ -951,26 +636,8 @@ function AppRoutes() {
               </RequireAuth>
             }
           />
-          <Route
-            path="/juegos/word-chain"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <WordChainPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/juegos/tic-tac-toe"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <TicTacToePage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
+          <Route path="/juegos/word-chain" element={<Navigate to="/juegos" replace />} />
+          <Route path="/juegos/tic-tac-toe" element={<Navigate to="/juegos" replace />} />
           <Route
             path="/juegos/uno"
             element={

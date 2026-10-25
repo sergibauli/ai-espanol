@@ -776,9 +776,9 @@ main.game-bg .gm-timer-face span:last-child { color: #8a6a48 !important; }
 main.game-bg .gm-no-adapt button { font-size: clamp(17px, 2.2vw, 22px) !important; }
 main.game-bg .gm-no-adapt button > * { color: inherit; }
 /* Mascota de los juegos: el Rey Mono en lugar del muñeco rosa */
-main.game-bg :is(.fixed.bottom-6.right-6, .fixed.bottom-2.right-2).z-50.pointer-events-none { width: 120px; height: 168px; background: url("../../public/mono/poder.png") center bottom / contain no-repeat; filter: drop-shadow(0 8px 12px rgba(0,0,0,.45)); animation: fx-float 3.2s ease-in-out infinite; }
-main.game-bg :is(.fixed.bottom-6.right-6, .fixed.bottom-2.right-2).z-50.pointer-events-none > * { visibility: hidden; }
-@media (max-width: 700px) { main.game-bg :is(.fixed.bottom-6.right-6, .fixed.bottom-2.right-2).z-50.pointer-events-none { width: 72px; height: 100px; bottom: 84px !important; } }
+main.game-bg :is(.fixed.bottom-6.right-6, .fixed.bottom-2.right-2, .fixed.bottom-4.right-4).z-50.pointer-events-none, main.game-bg .gm-mascota { width: 120px; height: 168px; background: url("../../public/mono/poder.png") center bottom / contain no-repeat; filter: drop-shadow(0 8px 12px rgba(0,0,0,.45)); animation: fx-float 3.2s ease-in-out infinite; }
+main.game-bg :is(.fixed.bottom-6.right-6, .fixed.bottom-2.right-2, .fixed.bottom-4.right-4).z-50.pointer-events-none > *, main.game-bg .gm-mascota > * { visibility: hidden; }
+@media (max-width: 700px) { main.game-bg :is(.fixed.bottom-6.right-6, .fixed.bottom-2.right-2, .fixed.bottom-4.right-4).z-50.pointer-events-none, main.game-bg .gm-mascota { width: 72px; height: 100px; bottom: 84px !important; } }
 
 /* ===== v7.7 · Móvil: nada tapa el botón Continuar; unidades compactas ===== */
 body:has(.lp-root, .pp-overlay) .bottom-nav { display: none !important; }
@@ -913,3 +913,18 @@ button[title="Música / Music"] { display: none !important; }
 .unit-prod-foot span { font-weight: 800; font-size: 13px; } .unit-prod-foot span.ok { color: #23893f; } .unit-prod-foot span.fuera { color: #b3122e; }
 .unit-prod-task.oral { display: flex; flex-direction: column; justify-content: center; text-align: center; background: linear-gradient(rgba(255,250,236,.7), rgba(255,250,236,.7)), url("../../public/mono/serio.png") right -10px bottom / 120px auto no-repeat, #f6ecd6; }
 @media (max-width: 860px) { .unit-prod { grid-template-columns: 1fr; } }
+
+/* ===== v8.3 · Sopa de letras, Ahorcado y Apalabrados con la estética imperial ===== */
+main.game-bg .gm-sopa > .absolute.-z-10 { display: none; }
+main.game-bg .gm-sopa-cell:not(.sel):not(.found) { background: linear-gradient(#fffdf6, #ece3cf) !important; border: 1px solid #d9c7a0 !important; color: #5a3a1e !important; text-shadow: none !important; box-shadow: 0 2px 0 #c4ae80 !important; border-radius: 8px !important; font-family: Georgia, serif; }
+main.game-bg .gm-sopa-cell.found { border-radius: 8px !important; }
+main.game-bg .gm-ahorcado { padding: 28px 34px !important; }
+main.game-bg .gm-ahorcado .flex.gap-2.justify-center.flex-wrap > * { background: linear-gradient(#fffdf6, #ece3cf) !important; border: 2px solid #e3c06a !important; color: #5a3a1e !important; box-shadow: 0 0 10px rgba(242,193,78,.5), 0 3px 0 #c4ae80 !important; border-radius: 8px !important; text-shadow: none !important; }
+main.game-bg .gm-ahorcado .px-5.py-3.rounded-xl.text-center { background: linear-gradient(#d0343f, #a50f25) !important; border: 2px solid #f2c14e !important; box-shadow: inset 0 0 0 3px #a50f25, inset 0 0 0 4px rgba(242,193,78,.6) !important; }
+main.game-bg .gm-ahorcado .px-5.py-3.rounded-xl.text-center * { color: #fff3d6 !important; -webkit-text-fill-color: #fff3d6 !important; text-shadow: none !important; }
+main.game-bg .gm-ahorcado .mobile-letter-key:not(:disabled) { background: linear-gradient(#fffdf6, #ece3cf) !important; border: 1px solid #d9c7a0 !important; color: #3b2416 !important; box-shadow: 0 3px 0 #c4ae80 !important; text-shadow: none !important; }
+main.game-bg .gm-ahorcado svg { filter: sepia(1) saturate(2) hue-rotate(-10deg) brightness(.6); }
+main.game-bg .board.la-paper { border: 3px solid #d9ae4c !important; box-shadow: inset 0 0 0 4px rgba(255,250,236,.6), 0 0 0 4px #8f5a1e, 0 0 36px rgba(242,193,78,.6), 0 20px 40px rgba(0,0,0,.45) !important; }
+main.game-bg .flex.items-center.rounded-2xl:has(> button.relative.flex.flex-col) { background: linear-gradient(180deg, #7a4a24, #4a2a12) !important; border: 2px solid #d9ae4c !important; box-shadow: inset 0 2px 0 rgba(255,220,150,.3), 0 0 18px rgba(242,193,78,.45), 0 8px 14px rgba(0,0,0,.4) !important; }
+main.game-bg .relative.flex-1.rounded-2xl:is([class*="max-w-[220px]"]) { background: linear-gradient(#fffdf6, #efe2c6) !important; border: 2px solid #d9b465 !important; color: #3b2416 !important; box-shadow: 0 4px 0 #b8904a !important; }
+main.game-bg .relative.flex-1.rounded-2xl:is([class*="max-w-[220px]"]) * { color: #3b2416; }
