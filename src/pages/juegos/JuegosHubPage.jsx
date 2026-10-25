@@ -45,6 +45,7 @@ import {
 import * as React from "react";
 import { Link, useNavigate } from "react-router";
 import { SectionHero } from "../../components/ui/SectionHero.jsx";
+import { TarjetaJuego } from "../../../packages/imperial/src/index.js";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { useLanguage } from "../../lib/i18n.jsx";
 // Los 8 juegos de la app (el resto se retiró para quedarnos solo con los mejores)
@@ -917,51 +918,23 @@ function GameIcon({ game, size = 52 }) {
   );
 }
 
-function GameCard({ game, index = 0 }) {
-  if (!isReadyGame(game))
-    return (
-      <div className="ui-card fx-game gm-locked" aria-disabled="true" title="Próximamente · 即将推出" style={{ display: "flex", flexDirection: "column", gap: 12, padding: 16 }}>
-        <div className="ui-row" style={{ flexWrap: "nowrap", gap: 12 }}>
-          <GameIcon game={game} />
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontWeight: 800, fontSize: 15 }}>{game.name}</div>
-            <div className="ui-zh" style={{ fontSize: 12 }}>{game.nameCn}</div>
-          </div>
-        </div>
-        <span className="gm-lock-badge">
-          <LockIcon size={14} /> Próximamente · 即将推出
-        </span>
-      </div>
-    );
+// Tarjeta de juego del sistema Imperial: medallón nocturno con el icono en oro; los no adaptados van con candado
+function GameCard({ game }) {
+  const navigate = useNavigate();
+  const Icon = game.icon;
   return (
-    <Link
-      to={game.path}
-      onClick={() => rememberGame(game.id)}
-      className="ui-card is-link fx-game"
-      style={{ display: "flex", flexDirection: "column", gap: 12, padding: 16, ["--fx-game-glow"]: game.glow, animationDelay: `${Math.min(index, 12) * 45}ms` }}
-    >
-      <div className="ui-row" style={{ flexWrap: "nowrap", gap: 12 }}>
-        <GameIcon game={game} />
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontWeight: 800, fontSize: 15 }}>{game.name}</div>
-          <div className="ui-zh" style={{ fontSize: 12 }}>{game.nameCn}</div>
-        </div>
-      </div>
-      <div style={{ fontSize: 13, color: "var(--ui-text-2)", lineHeight: 1.45, flex: 1 }}>
-        {game.desc}
-        <div className="ui-zh" style={{ fontSize: 12, marginTop: 2 }}>{game.descCn}</div>
-      </div>
-      <div className="ui-between">
-        <div className="ui-row" style={{ gap: 4 }}>
-          {(game.tags || []).slice(0, 2).map((t) => (
-            <span key={t} className="ui-chip" style={{ fontSize: 11, padding: "2px 8px" }}>
-              {t}
-            </span>
-          ))}
-        </div>
-        <span className="fx-play" style={{ color: game.color, fontWeight: 900, fontSize: 13 }}>Jugar</span>
-      </div>
-    </Link>
+    <TarjetaJuego
+      titulo={game.name}
+      tituloZh={game.nameCn}
+      descripcion={game.desc}
+      icono={<Icon size={30} color="#f6d77e" />}
+      etiqueta={(game.tags || [])[0]}
+      bloqueado={!isReadyGame(game)}
+      onClick={() => {
+        rememberGame(game.id);
+        navigate(game.path);
+      }}
+    />
   );
 }
 
@@ -1058,9 +1031,9 @@ function JuegosHubPage() {
             </label>
           </div>
           {list.length ? (
-            <div className="ui-grid auto" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))" }}>
-              {list.map((g, idx) => (
-                <GameCard key={g.id} game={g} index={idx} />
+            <div className="ui-grid auto" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}>
+              {list.map((g) => (
+                <GameCard key={g.id} game={g} />
               ))}
             </div>
           ) : (

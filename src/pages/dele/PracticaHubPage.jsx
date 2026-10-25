@@ -1,14 +1,15 @@
 import * as React from "react";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Emoji3D } from "../../components/ui/Emoji3D.jsx";
+import { TarjetaExamen } from "../../../packages/imperial/src/index.js";
 
 // Portada de "DELE práctica" con estética imperial: cada nivel abre sus exámenes por destrezas
 const LEVELS = [
-  { key: "A1", name: "Acceso · 入门", emoji: "🏮", c: "#58cc02" },
-  { key: "A2", name: "Plataforma · 初级", emoji: "🎐", c: "#1cb0f6" },
-  { key: "B1", name: "Umbral · 中级", emoji: "🐉", c: "#ff9600" },
-  { key: "B2", name: "Avanzado · 高级", emoji: "🏯", c: "#ce82ff" },
+  { key: "A1", name: "Acceso", zh: "入门" },
+  { key: "A2", name: "Plataforma", zh: "初级" },
+  { key: "B1", name: "Umbral", zh: "中级" },
+  { key: "B2", name: "Avanzado", zh: "高级" },
 ];
 const SKILLS = [
   ["📖", "Lectura", "阅读"],
@@ -18,6 +19,7 @@ const SKILLS = [
 ];
 
 export default function PracticaHubPage() {
+  const navigate = useNavigate();
   return (
     <LightShell>
       <div className="unit-page" style={{ maxWidth: 1000 }}>
@@ -40,16 +42,17 @@ export default function PracticaHubPage() {
             </span>
           ))}
         </div>
-        <div className="imperial-levels">
+        <div className="dele-levels">
           {LEVELS.map((l) => (
-            <Link key={l.key} to={`/examenes-nivel/${l.key}`} className="imperial-level" style={{ "--c": l.c }}>
-              <span className="imperial-level-seal">{l.key}</span>
-              <Emoji3D emoji={l.emoji} size={70} float />
-              <b>{l.name}</b>
-              <span className="btn3d" style={{ "--c": "var(--imp-red)", "--d": "var(--imp-red-d)", padding: "10px 14px", fontSize: 14 }}>
-                Practicar · 开始练习
-              </span>
-            </Link>
+            <TarjetaExamen
+              key={l.key}
+              nivel={l.key}
+              titulo={`DELE ${l.key} · ${l.name}`}
+              tituloZh={l.zh}
+              datos={SKILLS.map(([, es]) => es)}
+              accion="Practicar · 开始练习"
+              onAccion={() => navigate(`/examenes-nivel/${l.key}`)}
+            />
           ))}
         </div>
       </div>

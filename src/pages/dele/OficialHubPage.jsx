@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Emoji3D } from "../../components/ui/Emoji3D.jsx";
+import { TarjetaExamen } from "../../../packages/imperial/src/index.js";
 
 // Portada de los modelos oficiales DELE (estilo app). Cada modelo muestra la duración real de sus pruebas.
 const LEVELS = [
@@ -18,6 +19,7 @@ const PRUEBAS = [
 ];
 
 export default function OficialHubPage() {
+  const navigate = useNavigate();
   return (
     <LightShell>
       <div className="unit-page" style={{ maxWidth: 1000 }}>
@@ -67,33 +69,15 @@ export default function OficialHubPage() {
         <h2 className="unit-h2" id="niveles">Modelos oficiales por nivel · 选择级别</h2>
         <div className="dele-levels">
           {LEVELS.map((l) => (
-            <Link key={l.key} to={`/oficial/${l.key}`} className="dele-level" style={{ "--c": l.c, "--d": l.d }}>
-              <div className="dele-level-head">
-                <span className="dele-medal">
-                  <Emoji3D emoji={l.emoji} size={40} />
-                </span>
-                <div>
-                  <b>{l.key}</b>
-                  <span>
-                    {l.name} · {l.zh}
-                  </span>
-                </div>
-              </div>
-              <div className="dele-pruebas">
-                {PRUEBAS.map(([e, es, zh], i) => (
-                  <div key={es}>
-                    <Emoji3D emoji={e} size={30} />
-                    <span>
-                      {es}
-                      <small>{zh}</small>
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <span className="btn3d dele-go" style={{ "--c": l.c, "--d": l.d }}>
-                Ver 20 modelos · 查看20套
-              </span>
-            </Link>
+            <TarjetaExamen
+              key={l.key}
+              nivel={l.key}
+              titulo={`DELE ${l.key} · ${l.name}`}
+              tituloZh={l.zh}
+              datos={["Lectura", "Audición", "Escritura", "Oral"].map((p, i) => `${p} ${l.t[i]} min`)}
+              accion="Ver 20 modelos · 查看20套"
+              onAccion={() => navigate(`/oficial/${l.key}`)}
+            />
           ))}
         </div>
 

@@ -938,3 +938,6 @@ main.game-bg .relative.flex-1.rounded-2xl:is([class*="max-w-[220px]"]) * { color
 /* Acciones de páginas antiguas dentro del héroe imperial: botón dorado del sistema */
 .im-hero__acciones :is(.ui-btn, a.ui-btn):not(.im-boton) { height: 46px; padding: 0 22px; border-radius: 999px; font: 800 13px var(--im-font-ui); letter-spacing: .05em; text-transform: uppercase; color: var(--im-laca-900) !important; background: linear-gradient(#fff0b8, var(--im-oro-500) 50%, #c8901e) !important; border: 2px solid #fff3cf !important; box-shadow: 0 0 0 3px #b07a1a, 0 6px 14px rgba(60,5,10,.35) !important; }
 .im-hero__acciones .ui-btn:not(.primary):not(.im-boton) { color: #fff3d6 !important; background: transparent !important; border: 2px solid rgba(255,243,214,.8) !important; box-shadow: none !important; }
+/* Títulos de nivel de Unidades: el disco InsigniaNivel sustituye a la barra roja */
+.light-page .unit-h2.unidades-nivel { display: flex; align-items: center; gap: 12px; padding-left: 0; }
+.light-page .unit-h2.unidades-nivel::before { display: none !important; }

@@ -1,21 +1,23 @@
 import * as React from "react";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { useGame } from "../lib/gamification.js";
 import { lessonId } from "../lib/lessons.js";
 import CATALOG from "../data/modulos/catalog.json";
+import { InsigniaNivel, TarjetaUnidad } from "../../packages/imperial/src/index.js";
 
 const LEVELS = [
-  ["A1", "Principiante · 入门", "#58cc02", "#46a302"],
-  ["A2", "Elemental · 初级", "#1cb0f6", "#1899d6"],
-  ["B1", "Intermedio · 中级", "#ff9600", "#e08600"],
-  ["B2", "Avanzado · 中高级", "#ce82ff", "#a568cc"],
+  ["A1", "Principiante · 入门"],
+  ["A2", "Elemental · 初级"],
+  ["B1", "Intermedio · 中级"],
+  ["B2", "Avanzado · 中高级"],
 ];
 
 // Todas las unidades del curso, agrupadas por nivel
 export default function UnidadesPage() {
   const game = useGame();
+  const navigate = useNavigate();
   const [q, setQ] = React.useState("");
   const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   return (
@@ -28,30 +30,28 @@ export default function UnidadesPage() {
           </div>
           <input className="ui-input" style={{ maxWidth: 280 }} placeholder="Buscar unidad · 搜索" value={q} onChange={(e) => setQ(e.target.value)} />
         </div>
-        {LEVELS.map(([lv, name, c, d]) => {
+        {LEVELS.map(([lv, name]) => {
           const mods = CATALOG.filter((m) => m.nivel === lv && (!q || norm(m.titulo + m.tituloChino).includes(norm(q))));
           if (!mods.length) return null;
           return (
             <section key={lv}>
-              <h2 className="unit-h2">
-                <span style={{ color: c }}>{lv}</span> · {name}
+              <h2 className="unit-h2 unidades-nivel">
+                <InsigniaNivel nivel={lv} tamano="sm" /> {name}
               </h2>
               <div className="unidades-grid">
                 {mods.map((m) => {
                   const n = [0, 1, 2, 3, 4].filter((i) => game.lessons[lessonId(m.numero, i)]).length;
                   return (
-                    <Link key={m.numero} to={`/modulos/modulo-${m.numero}`} className="unidad-card" style={{ "--c": c, "--d": d }}>
-                      <span className="unidad-art">
-                        <Emoji3D emoji={m.icono} size={60} />
-                      </span>
-                      {n === 5 && <span className="unidad-done">Completada</span>}
-                      <small>UNIDAD {m.numero}</small>
-                      <b>{m.titulo.split(" - ")[0]}</b>
-                      <span className="ui-muted" style={{ fontSize: 13 }}>{m.tituloChino.split(" - ")[0]}</span>
-                      <span className="unidad-bar">
-                        <i style={{ width: `${n * 20}%` }} />
-                      </span>
-                    </Link>
+                    <TarjetaUnidad
+                      key={m.numero}
+                      numero={m.numero}
+                      titulo={m.titulo.split(" - ")[0]}
+                      tituloZh={m.tituloChino.split(" - ")[0]}
+                      icono={<Emoji3D emoji={m.icono} size={44} />}
+                      progreso={n / 5}
+                      estado={n === 5 ? "completada" : n > 0 ? "en-curso" : "nuevo"}
+                      onClick={() => navigate(`/modulos/modulo-${m.numero}`)}
+                    />
                   );
                 })}
               </div>
