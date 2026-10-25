@@ -794,6 +794,18 @@ function DsComponent({ exercises }) {
     </div>
   );
 }
+// Enunciado y requisitos de la tarea escrita de práctica, para que la corrección sea tan exigente como en los oficiales
+const tareaEscrita = (op) => [op?.title, op?.description].filter(Boolean).join(". ");
+function contextoEscrita(op, nivel) {
+  if (!op) return undefined;
+  const m = String(op.wordCount || "").match(/(\d+)\D+(\d+)/);
+  return {
+    nivel,
+    puntosGuia: Object.values(op.structure || {}).filter(Boolean),
+    minPalabras: m ? Number(m[1]) : undefined,
+    maxPalabras: m ? Number(m[2]) : undefined,
+  };
+}
 // Cada vez que se abre un examen de práctica las opciones cambian de orden (se recoloca la respuesta correcta)
 function barajarOpciones(exam) {
   if (!exam) return exam;
@@ -1634,12 +1646,12 @@ function WaComponent() {
     set_t(false);
     setXt(true);
   };
-  const pe = async (t, a, x, l) => {
+  const pe = async (t, a, x, l, ctx) => {
     if (!t.trim()) {
       return;
     }
     x(null);
-    const d = await correctText(t, a, n?.level, l);
+    const d = await correctText(t, a, n?.level, l, ctx);
     if (d.limitReached) {
       setH(true);
       return;
@@ -4012,7 +4024,8 @@ function WaComponent() {
                                 Re,
                                 "escritura",
                                 setKe,
-                                Te === "A" ? n?.writing?.optionA?.title : n?.writing?.optionB?.title,
+                                tareaEscrita(Te === "A" ? n?.writing?.optionA : n?.writing?.optionB),
+                                contextoEscrita(Te === "A" ? n?.writing?.optionA : n?.writing?.optionB, n?.level),
                               )
                             }
                             disabled={isCorrecting || !Re.trim() || C}

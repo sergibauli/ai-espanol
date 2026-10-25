@@ -46,15 +46,16 @@ function $(t, a, s) {
     r.push(`PROPÓSITO: ${s.proposito}`);
   }
   if (s?.puntosGuia && s.puntosGuia.length) {
-    r.push(`DEBE TRATAR: ${s.puntosGuia.join(" · ")}`);
+    r.push(`DEBE TRATAR (puntos obligatorios del enunciado): ${s.puntosGuia.join(" · ")}`);
+    r.push("Para CADA punto obligatorio indica en «puntos» si está «tratado», «incompleto» o «no tratado». Un punto no tratado es un fallo grave de adecuación.");
   }
   if (s?.minPalabras || s?.maxPalabras) {
     r.push(
-      `EXTENSIÓN EXIGIDA: ${s.minPalabras ?? "—"}-${s.maxPalabras ?? "—"} palabras. Cuéntalas y, si no cumple, dilo en «sugerencias»: la falta de extensión penaliza.`,
+      `EXTENSIÓN EXIGIDA: ${s.minPalabras ?? "—"}-${s.maxPalabras ?? "—"} palabras (el sistema te da el recuento exacto; no lo recalcules). Si no cumple, dilo en «sugerencias».`,
     );
   }
   if (s?.rubrica && s.rubrica.length) {
-    r.push("RÚBRICA OFICIAL DE ESTA TAREA — valora CADA criterio en su banda, no con criterios inventados:");
+    r.push("RÚBRICA OFICIAL DE ESTA TAREA — valora CADA criterio en su banda, no con criterios inventados, y devuélvelo en «criterios»:");
     for (const n of s.rubrica) {
       const m = n.bandas.map((l) => `${l.banda}: ${l.descriptor}`).join(" || ");
       r.push(`- ${n.criterio} → ${m}`);
@@ -63,10 +64,16 @@ function $(t, a, s) {
   r.push(
     `CALIFICACIÓN: la puntuación final (0-100) es la nota ponderada de los criterios anteriores. Un criterio cuenta como logrado solo si alcanza su banda «Apto». El nivel de referencia es ${i}: NO exijas estructuras propias de un nivel superior, y valora como logro lo que corresponde a ${i}.`,
   );
-  r.push(`FORMATO DE SALIDA: SOLO un objeto JSON válido, sin texto alrededor:
-{"puntuacion":0-100,"errores":[{"original":"","correccion":"","explicacion":""}],"sugerencias":[""],"fortalezas":[""],"nivelCERL":"${i}","textoCorregido":""}`);
+  if (!(s?.rubrica && s.rubrica.length)) {
+    r.push("Sin rúbrica específica: usa los criterios DELE «Adecuación a la tarea», «Coherencia y cohesión», «Corrección gramatical y léxica» y «Alcance», cada uno de 0 a 3.");
+  }
   r.push(
-    "Las explicaciones, sugerencias y fortalezas van en chino (中文) y breves. Máximo 5 errores, 3 sugerencias y 2 fortalezas.",
+    "Sé tan exigente como un examinador oficial: no regales puntos. Un texto que no responde a la tarea, que se sale del tema o que tiene errores que impiden entenderlo no puede aprobar. Apto = 60 o más.",
+  );
+  r.push(`FORMATO DE SALIDA: SOLO un objeto JSON válido, sin texto alrededor:
+{"puntuacion":0-100,"apto":true,"criterios":[{"criterio":"","banda":"","nota":0,"comentario":""}],"puntos":[{"punto":"","estado":"tratado"}],"errores":[{"original":"","correccion":"","tipo":"gramática|vocabulario|ortografía|registro|coherencia","explicacion":""}],"sugerencias":[""],"fortalezas":[""],"nivelCERL":"${i}","textoCorregido":""}`);
+  r.push(
+    "Comentarios, explicaciones, sugerencias y fortalezas en chino (中文) y breves. Hasta 10 errores (los más importantes, de más a menos grave), 3 sugerencias y 2 fortalezas.",
   );
   if (s?.modeloRespuesta) {
     r.push(
@@ -76,22 +83,11 @@ function $(t, a, s) {
   return r.join(`
 `);
 }
+// Si la IA falla no se inventa una nota: se muestra «no corregido»
 function D(t, a) {
-  return {
-    puntuacion: 60,
-    errores: [
-      {
-        original: "—",
-        correccion: "—",
-        explicacion: a || "无法连接到AI批改服务，请稍后再试。",
-      },
-    ],
-    sugerencias: ["检查你的网络连接", "稍后重试"],
-    fortalezas: ["文本已提交"],
-    nivelCERL: t || "A2",
-    textoCorregido: "（无法获取批改结果）",
-  };
+  return { fallo: true, mensaje: a || "无法连接到AI批改服务，请稍后再试。", nivelCERL: t || "A2" };
 }
+const contarPalabras = (txt) => (String(txt || "").match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu) || []).length;
 function L(t) {
   const a = t.indexOf("{");
   const s = t.lastIndexOf("}");
@@ -114,7 +110,8 @@ export function u() {
         setIsCorrecting(true);
         consumeTokens();
         try {
-          const d = $(l, f, b);
+          const palabras = contarPalabras(n);
+          const d = `${$(l, f, b)}\nPALABRAS DEL TEXTO (contadas por el sistema, exactas): ${palabras}`;
           const c = await deepseekFetch(T, {
             method: "POST",
             headers: {
@@ -132,8 +129,8 @@ export function u() {
                   content: n,
                 },
               ],
-              temperature: 0.3,
-              max_tokens: 800,
+              temperature: 0.2,
+              max_tokens: 1600,
             }),
           });
           if (!c.ok) {
@@ -157,9 +154,39 @@ export function u() {
           if (!o) {
             throw new Error("Failed to parse JSON response");
           }
+          if (typeof o.puntuacion !== "number") {
+            throw new Error("Respuesta sin nota");
+          }
+          // Penalizaciones calculadas por el sistema (no dependen de la IA)
+          const pen = [];
+          let menos = 0;
+          if (b?.minPalabras && palabras < b.minPalabras) {
+            const p = Math.min(30, Math.round(((b.minPalabras - palabras) / b.minPalabras) * 40));
+            menos += p;
+            pen.push(`Extensión insuficiente: ${palabras}/${b.minPalabras} palabras (−${p}) · 字数不足`);
+          }
+          if (b?.maxPalabras && palabras > b.maxPalabras * 1.15) {
+            menos += 10;
+            pen.push(`Demasiado largo: ${palabras}/${b.maxPalabras} palabras (−10) · 字数超出`);
+          }
+          const puntos = Array.isArray(o.puntos) ? o.puntos.filter((x) => x && x.punto) : [];
+          const noTratados = puntos.filter((x) => /no tratado/i.test(x.estado)).length;
+          const incompletos = puntos.filter((x) => /incompleto/i.test(x.estado)).length;
+          if (noTratados || incompletos) {
+            const p = Math.min(35, noTratados * 10 + incompletos * 4);
+            menos += p;
+            pen.push(`Puntos del enunciado: ${noTratados} sin tratar, ${incompletos} incompletos (−${p}) · 题目要点未完成`);
+          }
+          const puntuacion = Math.max(0, Math.min(100, Math.round(o.puntuacion - menos)));
           const data = {
-            puntuacion: typeof o.puntuacion === "number" ? o.puntuacion : 60,
-            errores: Array.isArray(o.errores) ? o.errores : [],
+            puntuacion,
+            apto: puntuacion >= 60 && noTratados === 0,
+            palabras,
+            rango: b?.minPalabras || b?.maxPalabras ? `${b?.minPalabras ?? "—"}–${b?.maxPalabras ?? "—"}` : "",
+            penalizaciones: pen,
+            criterios: Array.isArray(o.criterios) ? o.criterios.filter((x) => x && x.criterio) : [],
+            puntos,
+            errores: Array.isArray(o.errores) ? o.errores.slice(0, 10) : [],
             sugerencias: Array.isArray(o.sugerencias) ? o.sugerencias : [],
             fortalezas: Array.isArray(o.fortalezas) ? o.fortalezas : [],
             nivelCERL: o.nivelCERL || l || "A2",
@@ -184,6 +211,14 @@ export function u() {
   };
 }
 function MComponent({ data }) {
+  if (data?.fallo)
+    return (
+      <div className="corr-fallo">
+        <b>No se ha podido corregir · 暂时无法批改</b>
+        <p>{data.mensaje}</p>
+        <small>No se ha puesto ninguna nota. Inténtalo de nuevo en unos minutos. · 未给出分数，请稍后重试。</small>
+      </div>
+    );
   const data_puntuacion = data.puntuacion;
   const color = data_puntuacion >= 80 ? "#22c55e" : data_puntuacion >= 60 ? "#f59e0b" : "#ef4444";
   const background =
@@ -248,6 +283,47 @@ function MComponent({ data }) {
             </span>
           </div>
         </div>
+        <div className="corr-resumen">
+          <span className={`corr-apto ${data.apto ? "si" : "no"}`}>{data.apto ? "APTO · 通过" : "NO APTO · 未通过"}</span>
+          {data.palabras != null && (
+            <span className="corr-chip">
+              {data.palabras} palabras{data.rango ? ` (exigidas ${data.rango})` : ""} · 字数
+            </span>
+          )}
+        </div>
+        {(data.penalizaciones || []).length > 0 && (
+          <ul className="corr-pen">
+            {data.penalizaciones.map((t, k) => (
+              <li key={k}>{t}</li>
+            ))}
+          </ul>
+        )}
+        {(data.criterios || []).length > 0 && (
+          <div className="corr-criterios">
+            <h4>Criterios DELE · 评分标准</h4>
+            {data.criterios.map((c, k) => (
+              <div key={k} className="corr-crit">
+                <span>
+                  <b>{c.criterio}</b>
+                  {c.comentario && <small>{c.comentario}</small>}
+                </span>
+                <em className={`n${Math.max(0, Math.min(3, Number(c.nota) || 0))}`}>
+                  {c.banda || `${c.nota}/3`}
+                </em>
+              </div>
+            ))}
+          </div>
+        )}
+        {(data.puntos || []).length > 0 && (
+          <div className="corr-puntos">
+            <h4>Puntos del enunciado · 题目要点</h4>
+            {data.puntos.map((pt, k) => (
+              <div key={k} className={`corr-punto ${/no tratado/i.test(pt.estado) ? "no" : /incompleto/i.test(pt.estado) ? "medio" : "si"}`}>
+                <i>{/no tratado/i.test(pt.estado) ? "✗" : /incompleto/i.test(pt.estado) ? "◐" : "✓"}</i> {pt.punto}
+              </div>
+            ))}
+          </div>
+        )}
         {data.textoCorregido && (
           <div
             className="mb-5 rounded-2xl p-4 relative overflow-hidden"
@@ -298,6 +374,7 @@ function MComponent({ data }) {
                 >
                   <p className="text-red-400/60 text-xs line-through mb-1">{r.original}</p>
                   <p className="text-green-400 text-sm font-bold">{r.correccion}</p>
+                  {r.tipo && <span className="corr-tipo">{r.tipo}</span>}
                   <p className="text-white/30 text-xs mt-1">{r.explicacion}</p>
                 </div>
               ))}

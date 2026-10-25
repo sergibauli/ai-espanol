@@ -802,3 +802,20 @@ body:has(.lp-root, .pp-overlay) .bottom-nav { display: none !important; }
 .dict2-scroll::before { top: -5px; } .dict2-scroll::after { bottom: -5px; }
 .dict2-scroll b { font: 700 32px/1 Georgia, "Times New Roman", serif; color: #8f0c21; text-shadow: 0 1px 0 #fff6dc; }
 button[title="Música / Music"] { display: none !important; }
+
+/* ===== v7.8 · Corrección DELE más exigente ===== */
+.corr-fallo { margin-top: 16px; padding: 16px 18px; border-radius: 12px; background: #fdecea; border: 1.5px solid #e9a0a0; color: #7a1c1c; }
+.corr-fallo p { margin: 6px 0; font-size: 13px; } .corr-fallo small { color: #9a4a4a; }
+.corr-resumen { display: flex; flex-wrap: wrap; gap: 8px; margin: -8px 0 14px; }
+.corr-apto { padding: 5px 14px; border-radius: 20px; font-weight: 900; letter-spacing: .04em; }
+.corr-apto.si { color: #fff; background: linear-gradient(#4cc76a, #23893f); } .corr-apto.no { color: #fff; background: linear-gradient(#d0343f, #8f0c21); }
+.corr-chip { padding: 5px 12px; border-radius: 20px; font-size: 12.5px; font-weight: 700; background: rgba(242,193,78,.2); color: #6b4a2b; border: 1px solid rgba(200,150,30,.4); }
+.corr-pen { margin: 0 0 14px; padding: 10px 14px 10px 30px; border-radius: 10px; background: #fff3dc; border: 1px solid #e3c06a; font-size: 13px; color: #7a3a10; }
+.corr-criterios, .corr-puntos { margin-bottom: 16px; } .corr-criterios h4, .corr-puntos h4 { margin: 0 0 8px; font-size: 14px; font-weight: 800; color: #8f0c21; }
+.corr-crit { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 10px; border-bottom: 1px dashed rgba(176,122,28,.4); }
+.corr-crit b { display: block; font-size: 13.5px; color: #3b2416; } .corr-crit small { display: block; font-size: 12px; color: #8a6a48; }
+.corr-crit em { flex-shrink: 0; font-style: normal; font-weight: 800; font-size: 12px; padding: 3px 10px; border-radius: 12px; color: #fff; background: #9a8a70; }
+.corr-crit em.n3 { background: #23893f; } .corr-crit em.n2 { background: #c8961e; } .corr-crit em.n1, .corr-crit em.n0 { background: #b3263a; }
+.corr-punto { display: flex; gap: 8px; padding: 5px 0; font-size: 13.5px; color: #3b2416; } .corr-punto i { font-style: normal; font-weight: 900; width: 18px; }
+.corr-punto.si i { color: #23893f; } .corr-punto.medio i { color: #c8961e; } .corr-punto.no i { color: #b3263a; }
+.corr-tipo { display: inline-block; margin-top: 4px; padding: 1px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; color: #8f0c21; background: rgba(200,16,46,.1); }

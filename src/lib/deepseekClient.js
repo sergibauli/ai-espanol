@@ -54,7 +54,7 @@ export async function deepseekFetch(_url, init = {}) {
   try {
     const b = JSON.parse(init.body || "{}");
     b.model = "deepseek-chat";
-    b.max_tokens = Math.min(Number(b.max_tokens) || 700, 900);
+    b.max_tokens = Math.min(Number(b.max_tokens) || 700, 1600);
     if (Array.isArray(b.messages) && b.messages.length > 9) b.messages = [b.messages[0], ...b.messages.slice(-8)];
     init = { ...init, body: JSON.stringify(b) };
   } catch {}

@@ -1,0 +1,10 @@
+import puppeteer from 'puppeteer-core';
+const [url, out, w='1366', h='900', full=''] = process.argv.slice(2);
+const b = await puppeteer.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless:'new', args:['--no-sandbox']});
+const p = await b.newPage(); await p.setViewport({width:+w,height:+h});
+const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
+await p.goto(url.split('#')[0]); await p.evaluate(()=>{sessionStorage.setItem('dele_auth','true');sessionStorage.setItem('dele_expiry',String(Date.now()+864e5));});
+await p.goto('about:blank'); await p.goto(url,{waitUntil:'networkidle2'}); await new Promise(r=>setTimeout(r,+(process.env.WAIT||2500)));
+await p.screenshot({path:out, fullPage:!!full});
+console.log('errors:', errs.slice(0,8).join('\n'));
+await b.close();
