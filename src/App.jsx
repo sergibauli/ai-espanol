@@ -19,6 +19,10 @@ const DashboardPage = React.lazy(() => import("./pages/RutaPage.jsx"));
 const ExamenesNivelPage = React.lazy(() => import("./pages/dele/ExamenesNivelPage.jsx"));
 const ExamDetailPage = React.lazy(() => import("./pages/dele/ExamDetailPage.jsx"));
 const OficialPage = React.lazy(() => import("./pages/dele/OficialHubPage.jsx"));
+const MiDelePage = React.lazy(() => import("./pages/MiDelePage.jsx"));
+const DiagnosticoPage = React.lazy(() => import("./pages/DiagnosticoPage.jsx"));
+const ExaminadorOralPage = React.lazy(() => import("./pages/ExaminadorOralPage.jsx"));
+const AudicionAcentosPage = React.lazy(() => import("./pages/AudicionAcentosPage.jsx"));
 const OficialNivelPage = React.lazy(() => import("./pages/dele/OficialNivelPage.jsx"));
 const OficialExamPage = React.lazy(() => import("./pages/dele/OficialExamPage.jsx"));
 const ModulosPage = React.lazy(() => import("./pages/ModulosPage.jsx"));
@@ -336,6 +340,38 @@ function AppRoutes() {
             element={
               <RequireAuth>
                 <ExamDetailPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/mi-dele"
+            element={
+              <RequireAuth>
+                <MiDelePage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/audicion"
+            element={
+              <RequireAuth>
+                <AudicionAcentosPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/examinador-oral"
+            element={
+              <RequireAuth>
+                <ExaminadorOralPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/diagnostico"
+            element={
+              <RequireAuth>
+                <DiagnosticoPage />
               </RequireAuth>
             }
           />

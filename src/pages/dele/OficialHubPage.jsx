@@ -43,6 +43,8 @@ export default function OficialHubPage() {
             ["⚡", "Simulacro automático", "自动模拟考", "Un examen nuevo cada vez, con nota al momento", "/examenes/generador", "#ff9600", "#e08600"],
             ["🎯", "Practicar por destrezas", "分项练习", "Lectura, audición, escritura y oral por niveles", "/examenes", "#1cb0f6", "#1899d6"],
             ["📜", "Modelos oficiales", "官方真题", "80 exámenes completos con cronómetro", "#niveles", "#58cc02", "#46a302"],
+            ["🎙️", "Examinador oral IA", "AI口语考官", "Prueba oral con preparación, monólogo y entrevistador", "/examinador-oral", "#c8102e", "#8f0c21"],
+            ["🎧", "Acentos del español", "口音听力", "Audiciones con voces de España, México y Argentina", "/audicion", "#2f6fd6", "#173f8a"],
           ].map(([e, es, zh, d, to, c, dk]) =>
             to.startsWith("#") ? (
               <a key={es} href="#" onClick={(ev) => { ev.preventDefault(); document.getElementById("niveles")?.scrollIntoView({ behavior: "smooth" }); }} className="dele-mode" style={{ "--c": c, "--d": dk }}>

@@ -1,3 +1,4 @@
+import { recordAnswer } from "../../lib/progresoDele.js";
 import {
   XIcon,
   SparklesIcon,
@@ -793,6 +794,14 @@ function DsComponent({ exercises }) {
       ) : null}
     </div>
   );
+}
+// Primera respuesta de cada pregunta → progreso por destreza y cuaderno de errores
+const respondidas = new Set();
+function registrarUnaVez(skill, level, q, choice) {
+  const k = `${skill}|${q.id}|${q.question}`;
+  if (respondidas.has(k)) return;
+  respondidas.add(k);
+  recordAnswer({ skill, level: level || "A1", ok: choice === q.correctAnswer, src: "examen de práctica", error: { prompt: q.question, given: q.options?.[choice], correct: q.options?.[q.correctAnswer], explain: q.explanation, options: q.options, answer: q.correctAnswer, type: "choice" } });
 }
 // Enunciado y requisitos de la tarea escrita de práctica, para que la corrección sea tan exigente como en los oficiales
 const tareaEscrita = (op) => [op?.title, op?.description].filter(Boolean).join(". ");
@@ -2489,6 +2498,7 @@ function WaComponent() {
                                   key={R}
                                   onClick={() => {
                                     if (!u) {
+                                      registrarUnaVez("lectura", n?.level, t, R);
                                       setZ((us) => ({
                                         ...us,
                                         [t.id]: R,
@@ -3241,6 +3251,7 @@ function WaComponent() {
                                       key={l}
                                       onClick={() => {
                                         if (!$) {
+                                          registrarUnaVez("audicion", n?.level, t, l);
                                           setY((u) => ({
                                             ...u,
                                             [t.id]: l,
@@ -3323,6 +3334,7 @@ function WaComponent() {
                                     key={p}
                                     onClick={() => {
                                       if (!$) {
+                                        registrarUnaVez("audicion", n?.level, t, p);
                                         setY((me) => ({
                                           ...me,
                                           [t.id]: p,

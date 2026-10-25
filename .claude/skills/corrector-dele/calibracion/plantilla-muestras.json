@@ -1,0 +1,15 @@
+[
+  {
+    "id": "A2-001",
+    "nivel": "A2",
+    "tarea": "Expresión escrita · Tarea 1",
+    "enunciado": "Escribe un correo a un amigo para invitarle a tu cumpleaños.",
+    "puntosGuia": ["Saluda", "Di cuándo y dónde es la fiesta", "Explica qué vais a hacer", "Pide que confirme"],
+    "minPalabras": 60,
+    "maxPalabras": 80,
+    "texto": "PEGA AQUÍ LA REDACCIÓN REAL DEL ALUMNO",
+    "notaExaminador": null,
+    "aptoExaminador": null,
+    "examinador": "nombre del examinador acreditado (no se publica)"
+  }
+]

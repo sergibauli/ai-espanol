@@ -52,6 +52,27 @@ async function route(req, env, url) {
   const db = await loadDb(env);
   const me = await identify(env, db, token);
 
+  // Calibración del banco de preguntas: aciertos y respuestas por ítem, de todos los alumnos
+  if (path === "/items/answers" && req.method === "POST") {
+    const body = await req.json().catch(() => ({}));
+    const answers = (Array.isArray(body.answers) ? body.answers : []).filter((a) => /^[A-B][12]-\d{3}$/.test(a?.id)).slice(0, 50);
+    for (const a of answers) {
+      const k = `item:${a.id}`;
+      const cur = (await env.CAMPUS.get(k, "json")) || { n: 0, ok: 0 };
+      await env.CAMPUS.put(k, JSON.stringify({ n: cur.n + 1, ok: cur.ok + (a.ok ? 1 : 0) }));
+    }
+    return json({ saved: answers.length });
+  }
+  if (path === "/items/stats" && req.method === "GET") {
+    const out = {};
+    let cursor;
+    do {
+      const page = await env.CAMPUS.list({ prefix: "item:", cursor });
+      for (const k of page.keys) out[k.name.slice(5)] = await env.CAMPUS.get(k.name, "json");
+      cursor = page.list_complete ? undefined : page.cursor;
+    } while (cursor);
+    return json({ items: out });
+  }
   if (path === "/campus/data" && req.method === "GET") {
     return json({ me: { role: me.role, profileId: me.profileId }, data: filterFor(db, me) });
   }

@@ -22,3 +22,12 @@ La nota es orientativa: no sustituye a un examinador acreditado (dilo siempre). 
 
 ## En la app
 La corrección de los exámenes oficiales vive en `src/pages/dele/OficialExamPage.jsx` (IA vía `deepseekFetch` de `src/lib/deepseekClient.js`, que limita tokens). Si se mejora el encargo de corrección, mantén este formato y valida que la respuesta sea JSON antes de mostrarla.
+
+## Calibrar la nota de la IA (antes de prometer «corrige como un examinador»)
+1. Reúne unas 30 redacciones reales por nivel puntuadas por un examinador DELE acreditado (0–100 y APTO/NO APTO). Usa `calibracion/plantilla-muestras.json` como formato. Nunca inventes notas de examinador.
+2. Ejecuta desde la raíz del repo:
+   ```bash
+   DEEPSEEK_API_KEY=… node .claude/skills/corrector-dele/calibracion/calibrar.mjs muestras.json informe.json
+   ```
+   Usa el mismo encargo y las mismas penalizaciones que la app (`src/lib/correccionDele.js`).
+3. Criterio: error medio ≤ 8 puntos y acuerdo en APTO ≥ 85 % (kappa ≥ 0,6). Si la IA es sistemáticamente más generosa (sesgo positivo) o más dura, ajusta el encargo en `correccionDele.js` y repite hasta que pase. Guarda cada informe para ver la evolución.

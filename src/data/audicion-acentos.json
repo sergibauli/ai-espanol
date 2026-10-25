@@ -1,0 +1,1019 @@
+[
+ {
+  "id": "a2-es",
+  "nivel": "A2",
+  "acento": "España",
+  "titulo": "Quedamos para ir al cine",
+  "tituloZh": "约好一起去看电影",
+  "contexto": "Dos amigos hablan por teléfono para organizar una salida al cine.",
+  "contextoZh": "两个朋友打电话商量去看电影。",
+  "lineas": [
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "¿Diga? Hola, Javier. ¿Qué tal?",
+    "zh": "喂？你好，哈维尔。你怎么样？",
+    "audio": "audio/acentos/a2-es-0.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Muy bien, Marta, gracias. ¿Y tú?",
+    "zh": "很好，玛尔塔，谢谢。你呢？",
+    "audio": "audio/acentos/a2-es-1.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Bien. Oye, ¿queréis ir al cine el sábado por la tarde?",
+    "zh": "挺好的。哎，你们周六下午想去看电影吗？",
+    "audio": "audio/acentos/a2-es-2.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "¡Buena idea! ¿A qué hora?",
+    "zh": "好主意！几点？",
+    "audio": "audio/acentos/a2-es-3.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Hay una película a las cinco y otra a las ocho.",
+    "zh": "五点钟有一场，八点钟还有一场。",
+    "audio": "audio/acentos/a2-es-4.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Prefiero la de las ocho, ¿vale? Por la tarde tengo que estudiar.",
+    "zh": "我更喜欢八点那场，行吗？下午我得学习。",
+    "audio": "audio/acentos/a2-es-5.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Vale. ¿Compráis vosotros las entradas por internet?",
+    "zh": "行。你们在网上买票吗？",
+    "audio": "audio/acentos/a2-es-6.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Sí, yo las compro. ¿Dónde nos vemos?",
+    "zh": "对，我来买。我们在哪儿见？",
+    "audio": "audio/acentos/a2-es-7.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "En la puerta del cine, a las siete y media.",
+    "zh": "在电影院门口，七点半。",
+    "audio": "audio/acentos/a2-es-8.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Perfecto. ¡Hasta el sábado!",
+    "zh": "太好了。周六见！",
+    "audio": "audio/acentos/a2-es-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿Qué quieren hacer el sábado?",
+    "preguntaZh": "他们周六想做什么？",
+    "opciones": [
+     "Ir al cine",
+     "Estudiar juntos",
+     "Ir de compras"
+    ],
+    "correcta": 0
+   },
+   {
+    "pregunta": "¿A qué hora es la película que prefieren?",
+    "preguntaZh": "他们更喜欢的那场电影几点开始？",
+    "opciones": [
+     "A las cinco",
+     "A las siete y media",
+     "A las ocho"
+    ],
+    "correcta": 2
+   },
+   {
+    "pregunta": "¿Quién compra las entradas?",
+    "preguntaZh": "谁买票？",
+    "opciones": [
+     "Marta",
+     "Javier",
+     "La madre de Javier"
+    ],
+    "correcta": 1
+   }
+  ]
+ },
+ {
+  "id": "a2-mx",
+  "nivel": "A2",
+  "acento": "México",
+  "titulo": "En el mercado",
+  "tituloZh": "在市场里",
+  "contexto": "Una señora compra fruta a un vendedor en un mercado mexicano.",
+  "contextoZh": "一位女士在墨西哥市场向小贩买水果。",
+  "lineas": [
+   {
+    "quien": "Señora",
+    "genero": "f",
+    "es": "Buenos días, ¿cuánto cuestan los mangos?",
+    "zh": "早上好，芒果多少钱？",
+    "audio": "audio/acentos/a2-mx-0.mp3"
+   },
+   {
+    "quien": "Vendedor",
+    "genero": "m",
+    "es": "Buenos días, señora. Ahorita están a treinta pesos el kilo.",
+    "zh": "早上好，女士。现在一公斤三十比索。",
+    "audio": "audio/acentos/a2-mx-1.mp3"
+   },
+   {
+    "quien": "Señora",
+    "genero": "f",
+    "es": "¡Ay, qué caro! ¿Y los plátanos?",
+    "zh": "哎呀，好贵！香蕉呢？",
+    "audio": "audio/acentos/a2-mx-2.mp3"
+   },
+   {
+    "quien": "Vendedor",
+    "genero": "m",
+    "es": "Los plátanos están más baratos, a veinte pesos.",
+    "zh": "香蕉便宜些，二十比索。",
+    "audio": "audio/acentos/a2-mx-3.mp3"
+   },
+   {
+    "quien": "Señora",
+    "genero": "f",
+    "es": "Bueno, deme un kilo de plátanos y medio de mangos.",
+    "zh": "好吧，给我一公斤香蕉和半公斤芒果。",
+    "audio": "audio/acentos/a2-mx-4.mp3"
+   },
+   {
+    "quien": "Vendedor",
+    "genero": "m",
+    "es": "¿Algo más? Tenemos aguacate muy rico.",
+    "zh": "还要别的吗？我们有很好吃的牛油果。",
+    "audio": "audio/acentos/a2-mx-5.mp3"
+   },
+   {
+    "quien": "Señora",
+    "genero": "f",
+    "es": "No, gracias. ¿Cuánto es en total?",
+    "zh": "不用了，谢谢。一共多少钱？",
+    "audio": "audio/acentos/a2-mx-6.mp3"
+   },
+   {
+    "quien": "Vendedor",
+    "genero": "m",
+    "es": "Son cuarenta pesos, señora.",
+    "zh": "一共四十比索，女士。",
+    "audio": "audio/acentos/a2-mx-7.mp3"
+   },
+   {
+    "quien": "Señora",
+    "genero": "f",
+    "es": "Tenga. ¿Me da un bolsa, por favor?",
+    "zh": "给你。请给我一个袋子好吗？",
+    "audio": "audio/acentos/a2-mx-8.mp3"
+   },
+   {
+    "quien": "Vendedor",
+    "genero": "m",
+    "es": "Claro que sí. ¡Que tenga buen día!",
+    "zh": "当然可以。祝您今天愉快！",
+    "audio": "audio/acentos/a2-mx-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿Qué fruta está más barata?",
+    "preguntaZh": "哪种水果更便宜？",
+    "opciones": [
+     "El mango",
+     "El plátano",
+     "El aguacate"
+    ],
+    "correcta": 1
+   },
+   {
+    "pregunta": "¿Cuánto paga la señora en total?",
+    "preguntaZh": "女士一共付多少钱？",
+    "opciones": [
+     "Veinte pesos",
+     "Treinta pesos",
+     "Cuarenta pesos"
+    ],
+    "correcta": 2
+   },
+   {
+    "pregunta": "¿Qué compra la señora?",
+    "preguntaZh": "女士买了什么？",
+    "opciones": [
+     "Plátanos y mangos",
+     "Solo aguacate",
+     "Mangos y aguacate"
+    ],
+    "correcta": 0
+   }
+  ]
+ },
+ {
+  "id": "a2-ar",
+  "nivel": "A2",
+  "acento": "Argentina",
+  "titulo": "¿Vamos a la cancha?",
+  "tituloZh": "我们去看球赛吗？",
+  "contexto": "Dos amigos hablan por teléfono para organizar el fin de semana en Buenos Aires.",
+  "contextoZh": "两个朋友在布宜诺斯艾利斯打电话商量周末的安排。",
+  "lineas": [
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "¿Hola? ¿Qué hacés, Nico?",
+    "zh": "喂？你在干嘛呢，尼科？",
+    "audio": "audio/acentos/a2-ar-0.mp3"
+   },
+   {
+    "quien": "Nico",
+    "genero": "m",
+    "es": "Nada, acá mirando tele. ¿Vos qué contás?",
+    "zh": "没干嘛，在这儿看电视呢。你怎么样？",
+    "audio": "audio/acentos/a2-ar-1.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "¿Tenés ganas de ir a la cancha el domingo? Juega Boca.",
+    "zh": "你星期天想去看球赛吗？博卡队有比赛。",
+    "audio": "audio/acentos/a2-ar-2.mp3"
+   },
+   {
+    "quien": "Nico",
+    "genero": "m",
+    "es": "¡Dale! Me re copa. ¿A qué hora arranca el partido?",
+    "zh": "好啊！我特别想去。比赛几点开始？",
+    "audio": "audio/acentos/a2-ar-3.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "A las cuatro de la tarde. ¿Nos encontramos en la esquina de tu casa?",
+    "zh": "下午四点。我们在你家街角碰头好吗？",
+    "audio": "audio/acentos/a2-ar-4.mp3"
+   },
+   {
+    "quien": "Nico",
+    "genero": "m",
+    "es": "Bueno. Pero llevá plata para la entrada, ¿eh?",
+    "zh": "行。不过你带点钱买门票，啊？",
+    "audio": "audio/acentos/a2-ar-5.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Sí, obvio. ¿Vamos a tomar algo después?",
+    "zh": "当然啦。我们之后去喝点什么吗？",
+    "audio": "audio/acentos/a2-ar-6.mp3"
+   },
+   {
+    "quien": "Nico",
+    "genero": "m",
+    "es": "Sí, conozco un bar re lindo cerca del estadio.",
+    "zh": "好啊，我知道球场附近有个特别好的酒吧。",
+    "audio": "audio/acentos/a2-ar-7.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Buenísimo. Entonces nos vemos el domingo.",
+    "zh": "太好了。那我们星期天见。",
+    "audio": "audio/acentos/a2-ar-8.mp3"
+   },
+   {
+    "quien": "Nico",
+    "genero": "m",
+    "es": "Listo, nos vemos. ¡Chau!",
+    "zh": "好，再见。拜拜！",
+    "audio": "audio/acentos/a2-ar-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿Qué quieren hacer el domingo?",
+    "preguntaZh": "他们星期天想做什么？",
+    "opciones": [
+     "Ir a la cancha",
+     "Ir al bar primero",
+     "Ver tele en casa"
+    ],
+    "correcta": 0
+   },
+   {
+    "pregunta": "¿A qué hora empieza el partido?",
+    "preguntaZh": "比赛几点开始？",
+    "opciones": [
+     "A las cuatro",
+     "A las cinco",
+     "Después de tomar algo"
+    ],
+    "correcta": 0
+   },
+   {
+    "pregunta": "¿Qué tiene que llevar Sofía?",
+    "preguntaZh": "索菲娅必须带什么？",
+    "opciones": [
+     "Comida",
+     "Plata para la entrada",
+     "Un regalo"
+    ],
+    "correcta": 1
+   }
+  ]
+ },
+ {
+  "id": "b1-es",
+  "nivel": "B1",
+  "acento": "España",
+  "titulo": "Cambiar el billete de tren",
+  "tituloZh": "改签火车票",
+  "contexto": "Una mujer quiere cambiar la fecha de su billete de tren en la taquilla de la estación.",
+  "contextoZh": "一名女子在车站售票处想改签火车票的日期。",
+  "lineas": [
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Buenos días, mire, tengo un billete para Valencia mañana, pero me ha surgido un problema en el trabajo y necesito irme el viernes.",
+    "zh": "早上好，您看，我有一张明天去瓦伦西亚的车票，但工作上出了点问题，我需要周五走。",
+    "audio": "audio/acentos/b1-es-0.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "A ver, déjeme el billete... Sí, aquí está. El cambio tiene un recargo de cinco euros, ¿lo sabe?",
+    "zh": "让我看看，把票给我……对，在这儿。改签要收五欧元的手续费，您知道吗？",
+    "audio": "audio/acentos/b1-es-1.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Sí, me lo imaginaba. ¿Y hay plazas para el viernes por la mañana? Preferiría salir temprano.",
+    "zh": "是的，我料到了。那周五上午还有座位吗？我比较想早点出发。",
+    "audio": "audio/acentos/b1-es-2.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Pues a las ocho y media está completo, pero a las diez y cuarto le queda sitio en el vagón de turista.",
+    "zh": "八点半那趟满了，不过十点一刻那趟在普通车厢还有位置。",
+    "audio": "audio/acentos/b1-es-3.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Vale, esa me sirve. ¿Puedo elegir asiento? Me gustaría ir en el pasillo, que así puedo estirar las piernas.",
+    "zh": "好，那趟可以。我能选座位吗？我想坐过道，这样能伸伸腿。",
+    "audio": "audio/acentos/b1-es-4.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Claro, aquí tiene una en el pasillo. Eso sí, le recuerdo que el recargo se paga ahora con tarjeta o en efectivo.",
+    "zh": "当然，这里有个过道的。不过提醒您，手续费现在就要付，刷卡或现金都行。",
+    "audio": "audio/acentos/b1-es-5.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Sin problema, pago con tarjeta. Oiga, y una cosa más: ¿el tren llega a la estación del Norte o a la nueva?",
+    "zh": "没问题，我刷卡。对了，还有一件事：火车是到北站还是到新站？",
+    "audio": "audio/acentos/b1-es-6.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "A la del Norte, no se preocupe. Y si va con tiempo, hay un bar muy bueno en la misma estación donde ponen unos bocadillos estupendos.",
+    "zh": "到北站，别担心。要是您时间充裕，车站里有个很不错的酒吧，卖的三明治特别棒。",
+    "audio": "audio/acentos/b1-es-7.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "¡Qué bien! Muchas gracias por todo, muy amable.",
+    "zh": "太好了！非常感谢您，您人真好。",
+    "audio": "audio/acentos/b1-es-8.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "De nada, que tenga buen viaje.",
+    "zh": "不客气，祝您旅途愉快。",
+    "audio": "audio/acentos/b1-es-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿Por qué quiere Marta cambiar su billete?",
+    "preguntaZh": "玛尔塔为什么想改签车票？",
+    "opciones": [
+     "Porque se ha puesto enferma",
+     "Porque tiene un problema en el trabajo",
+     "Porque no le gusta viajar sola"
+    ],
+    "correcta": 1
+   },
+   {
+    "pregunta": "¿Qué asiento elige Marta?",
+    "preguntaZh": "玛尔塔选了什么样的座位？",
+    "opciones": [
+     "Uno en el pasillo",
+     "Uno junto a la ventanilla",
+     "Uno en el vagón de primera"
+    ],
+    "correcta": 0
+   },
+   {
+    "pregunta": "¿Qué hace Javier al final de la conversación?",
+    "preguntaZh": "哈维尔在对话最后做了什么？",
+    "opciones": [
+     "Le cobra el doble del recargo",
+     "Le recomienda un bar de la estación",
+     "Le cambia el destino del viaje"
+    ],
+    "correcta": 1
+   }
+  ]
+ },
+ {
+  "id": "b1-mx",
+  "nivel": "B1",
+  "acento": "México",
+  "titulo": "Una fiesta de cumpleaños",
+  "tituloZh": "生日聚会",
+  "contexto": "Un hombre invita a su amiga a una fiesta de cumpleaños y hablan de lo que hay que llevar.",
+  "contextoZh": "一名男子邀请他的朋友参加生日聚会，并商量要带什么。",
+  "lineas": [
+   {
+    "quien": "Diego",
+    "genero": "m",
+    "es": "Oye, ¿ya sabes lo de la fiesta de Lupita el sábado? Va a ser en su casa, en el patio.",
+    "zh": "嘿，你知道露皮塔周六的聚会吗？在她家院子里办。",
+    "audio": "audio/acentos/b1-mx-0.mp3"
+   },
+   {
+    "quien": "Ana",
+    "genero": "f",
+    "es": "Ay, no, no me habían dicho nada. ¿Y qué hay que llevar? ¿Le llevamos un regalo entre todos o cada quien?",
+    "zh": "哎呀，没人跟我说。要带什么呀？咱们一起送个礼物还是各送各的？",
+    "audio": "audio/acentos/b1-mx-1.mp3"
+   },
+   {
+    "quien": "Diego",
+    "genero": "m",
+    "es": "Mejor cada quien, así no hay problemas. Pero si quieres, tú y yo le podemos comprar algo juntos, ¿qué dices?",
+    "zh": "还是各送各的好，这样没麻烦。不过你要是愿意，咱俩可以一起买点什么，怎么样？",
+    "audio": "audio/acentos/b1-mx-2.mp3"
+   },
+   {
+    "quien": "Ana",
+    "genero": "f",
+    "es": "Sale, me late. ¿Y de comer? ¿Ella prepara todo o pedimos algo por ahí?",
+    "zh": "行，我挺喜欢这主意。那吃的呢？她自己做还是咱们在外面点些东西？",
+    "audio": "audio/acentos/b1-mx-3.mp3"
+   },
+   {
+    "quien": "Diego",
+    "genero": "m",
+    "es": "Ella va a hacer pozole, pero nos pidió que lleváramos refrescos y botanas para compartir.",
+    "zh": "她要煮波索莱汤，但她让我们带汽水和零食来一起分享。",
+    "audio": "audio/acentos/b1-mx-4.mp3"
+   },
+   {
+    "quien": "Ana",
+    "genero": "f",
+    "es": "Perfecto, yo llevo unas botellas y unas papas. ¿A qué hora empieza? Porque salgo de trabajar a las seis.",
+    "zh": "太好了，我带几瓶汽水还有薯片。几点开始呀？因为我六点才下班。",
+    "audio": "audio/acentos/b1-mx-5.mp3"
+   },
+   {
+    "quien": "Diego",
+    "genero": "m",
+    "es": "A las siete, así que te da tiempo. Eso sí, avísale a Lupita si vas, porque quiere saber cuántos van a ir.",
+    "zh": "七点，所以你来得及。不过，你要去的话得告诉露皮塔，因为她想知道有多少人去。",
+    "audio": "audio/acentos/b1-mx-6.mp3"
+   },
+   {
+    "quien": "Ana",
+    "genero": "f",
+    "es": "Va, le mando un mensaje ahora mismo. ¿Y tú qué le vas a regalar?",
+    "zh": "好，我现在就给她发消息。你打算送她什么？",
+    "audio": "audio/acentos/b1-mx-7.mp3"
+   },
+   {
+    "quien": "Diego",
+    "genero": "m",
+    "es": "No sé todavía. Igual le compro un libro o unos aretes. Algo sencillo, ¿no? Lo importante es pasarla bien.",
+    "zh": "我还不知道。也许给她买本书或者一对耳环。简单点的，对吧？重要的是玩得开心。",
+    "audio": "audio/acentos/b1-mx-8.mp3"
+   },
+   {
+    "quien": "Ana",
+    "genero": "f",
+    "es": "Sí, tienes razón. ¡Nos vemos el sábado entonces!",
+    "zh": "对，你说得对。那咱们周六见！",
+    "audio": "audio/acentos/b1-mx-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿Qué planes tienen Diego y Ana sobre el regalo?",
+    "preguntaZh": "迭戈和安娜对礼物有什么打算？",
+    "opciones": [
+     "Que todos compren uno solo",
+     "Que puede que compren algo juntos Ana y Diego",
+     "Que Lupita elija su propio regalo"
+    ],
+    "correcta": 1
+   },
+   {
+    "pregunta": "¿Qué pidió Lupita que llevaran los invitados?",
+    "preguntaZh": "露皮塔让客人们带什么？",
+    "opciones": [
+     "El pozole y la carne",
+     "Refrescos y botanas",
+     "Los platos y los vasos"
+    ],
+    "correcta": 1
+   },
+   {
+    "pregunta": "¿Por qué es importante avisarle a Lupita?",
+    "preguntaZh": "为什么一定要告诉露皮塔？",
+    "opciones": [
+     "Porque quiere saber cuántos van a ir",
+     "Porque necesita comprar más sillas",
+     "Porque va a cambiar la hora de la fiesta"
+    ],
+    "correcta": 0
+   }
+  ]
+ },
+ {
+  "id": "b1-ar",
+  "nivel": "B1",
+  "acento": "Argentina",
+  "titulo": "Buscar un departamento",
+  "tituloZh": "找公寓",
+  "contexto": "Una mujer le cuenta a un amigo que está buscando departamento en Buenos Aires y hablan de los problemas.",
+  "contextoZh": "一名女子向朋友讲述她在布宜诺斯艾利斯找公寓的事，并聊到其中的困难。",
+  "lineas": [
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Che, ¿sabés que estoy buscando departamento? Hace dos semanas que vengo mirando avisos y no encuentro nada que me cierre.",
+    "zh": "喂，你知道吗，我正在找公寓。我这两个星期一直在看广告，没找到满意的。",
+    "audio": "audio/acentos/b1-ar-0.mp3"
+   },
+   {
+    "quien": "Martín",
+    "genero": "m",
+    "es": "¿En serio? ¿Y qué buscás, algo cerca del centro? Porque por esa zona está todo carísimo.",
+    "zh": "真的吗？你想找什么样的，市中心的？因为那一带贵得要命。",
+    "audio": "audio/acentos/b1-ar-1.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Claro, pero tampoco puedo irme al fin del mundo. Necesito estar cerca del laburo, si no me paso dos horas en el colectivo.",
+    "zh": "当然，但我也不能跑到天涯海角去。我得离上班的地方近，不然要在公交车上花两个小时。",
+    "audio": "audio/acentos/b1-ar-2.mp3"
+   },
+   {
+    "quien": "Martín",
+    "genero": "m",
+    "es": "Mirá, mi hermana alquiló uno en Palermo el mes pasado. No es tan caro y está bien conectado. ¿Querés que te pase el contacto del dueño?",
+    "zh": "你看，我姐姐上个月在巴勒莫租了一个。不算太贵，交通也方便。要不要我把房东的联系方式给你？",
+    "audio": "audio/acentos/b1-ar-3.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Dale, me re sirve. ¿Y sabés si piden muchos requisitos? Porque yo no tengo recibo de sueldo fijo.",
+    "zh": "行啊，太有帮助了。你知道他们要求多吗？因为我没固定工资单。",
+    "audio": "audio/acentos/b1-ar-4.mp3"
+   },
+   {
+    "quien": "Martín",
+    "genero": "m",
+    "es": "Uh, eso puede ser un problema. Algunos piden garantía y recibo, pero otros te aceptan un depósito más alto.",
+    "zh": "哎，这可能会是个问题。有些人要求担保和工资单，但也有人接受交更高的押金。",
+    "audio": "audio/acentos/b1-ar-5.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Bueno, voy a averiguar. Igual lo que más me molesta es que muchos avisos son de inmobiliarias y te cobran comisión.",
+    "zh": "好吧，我去打听打听。不过最让我烦的是很多广告都是中介的，还要收佣金。",
+    "audio": "audio/acentos/b1-ar-6.mp3"
+   },
+   {
+    "quien": "Martín",
+    "genero": "m",
+    "es": "Sí, es un garrón. Pero buscá en grupos de gente que alquila directo, sin intermediarios. Hay menos oferta, pero te ahorrás un montón de plata.",
+    "zh": "是啊，真够烦人的。不过你可以在那种房东直租的群里找，没有中间人。房源少，但能省一大笔钱。",
+    "audio": "audio/acentos/b1-ar-7.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "¡Buena idea! ¿Y vos me podés ayudar a mirar alguno este fin de semana? Así no me equivoco sola.",
+    "zh": "好主意！你周末能帮我一起看看房吗？这样我一个人就不会看走眼。",
+    "audio": "audio/acentos/b1-ar-8.mp3"
+   },
+   {
+    "quien": "Martín",
+    "genero": "m",
+    "es": "Obvio, contá conmigo. El sábado a la mañana estoy libre.",
+    "zh": "那还用说，算我一个。周六上午我有空。",
+    "audio": "audio/acentos/b1-ar-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿Por qué quiere Sofía vivir cerca del centro?",
+    "preguntaZh": "索菲娅为什么想住在市中心附近？",
+    "opciones": [
+     "Porque le gustan los barrios céntricos",
+     "Porque quiere estar cerca de su trabajo",
+     "Porque su familia vive allí"
+    ],
+    "correcta": 1
+   },
+   {
+    "pregunta": "¿Qué problema tiene Sofía con los requisitos?",
+    "preguntaZh": "索菲娅在租房要求上有什么问题？",
+    "opciones": [
+     "No tiene recibo de sueldo fijo",
+     "No tiene mascotas",
+     "No habla con los dueños"
+    ],
+    "correcta": 0
+   },
+   {
+    "pregunta": "¿Qué le recomienda Martín para ahorrar dinero?",
+    "preguntaZh": "马丁建议她怎样省钱？",
+    "opciones": [
+     "Alquilar por medio de una inmobiliaria",
+     "Buscar alquileres directos, sin intermediarios",
+     "Compartir departamento con su hermana"
+    ],
+    "correcta": 1
+   }
+  ]
+ },
+ {
+  "id": "b2-es",
+  "nivel": "B2",
+  "acento": "España",
+  "titulo": "Una mudanza complicada",
+  "tituloZh": "一次麻烦的搬家",
+  "contexto": "Dos amigos hablan sobre la mudanza de piso de uno de ellos.",
+  "contextoZh": "两个朋友谈论其中一人搬公寓的事。",
+  "lineas": [
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "¿Ya has terminado de installarte en el piso nuevo?",
+    "zh": "你已经在新公寓安顿好了吗？",
+    "audio": "audio/acentos/b2-es-0.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Qué va, todavía tengo cajas por todas partes. La verdad es que no me imaginaba que fuera tan agotador.",
+    "zh": "哪儿啊，到处都是箱子。说实话，我没想到会这么累。",
+    "audio": "audio/acentos/b2-es-1.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Ya te lo advertí. ¿Y qué tal el barrio? ¿Os habéis adaptado bien?",
+    "zh": "我早就提醒过你。那街区怎么样？你们适应得好吗？",
+    "audio": "audio/acentos/b2-es-2.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "El barrio nos encanta, hay mucha vida y todo está a mano. Lo único malo es que el ascensor no funciona desde el martes.",
+    "zh": "我们很喜欢这个街区，很有生活气息，什么都方便。唯一不好的是电梯从周二起就坏了。",
+    "audio": "audio/acentos/b2-es-3.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "¡No me digas! ¿Y habéis llamado al administrador?",
+    "zh": "不是吧！你们给物业管理员打电话了吗？",
+    "audio": "audio/acentos/b2-es-4.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Sí, varias veces, pero dice que hasta la semana que viene no viene el técnico. Imagínate subir al quinto con la compra.",
+    "zh": "打了，打了好几次，但他说下星期技术员才来。你想想提着买的东西爬五楼。",
+    "audio": "audio/acentos/b2-es-5.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Pues yo, si fuera tú, le mandaría una queja por escrito. Así al menos queda constancia.",
+    "zh": "要是我的话，我会给他发一封书面投诉。这样至少留有记录。",
+    "audio": "audio/acentos/b2-es-6.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Tienes razón, voy a hacerlo esta tarde. Oye, ¿y por qué no te pasas el sábado a verlo? Te invito a cenar.",
+    "zh": "你说得对，我今天下午就去做。对了，你周六为什么不过来看看？我请你吃晚饭。",
+    "audio": "audio/acentos/b2-es-7.mp3"
+   },
+   {
+    "quien": "Marta",
+    "genero": "f",
+    "es": "Me apetece mucho, pero tendré que subir andando, ¿eh?",
+    "zh": "我很想去，但我得爬楼梯上去，是吧？",
+    "audio": "audio/acentos/b2-es-8.mp3"
+   },
+   {
+    "quien": "Javier",
+    "genero": "m",
+    "es": "Me temo que sí. Eso sí, la cena te la vas a merecer.",
+    "zh": "恐怕是的。不过，这顿晚饭你肯定当之无愧。",
+    "audio": "audio/acentos/b2-es-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿Por qué está cansado Javier?",
+    "preguntaZh": "哈维尔为什么累？",
+    "opciones": [
+     "Porque el barrio es muy ruidoso.",
+     "Porque aún no ha terminado la mudanza.",
+     "Porque ha discutido con el administrador."
+    ],
+    "correcta": 1
+   },
+   {
+    "pregunta": "¿Cuál es el problema del edificio?",
+    "preguntaZh": "这栋楼的问题是什么？",
+    "opciones": [
+     "El ascensor está averiado.",
+     "No hay técnico en la ciudad.",
+     "El quinto piso no tiene luz."
+    ],
+    "correcta": 0
+   },
+   {
+    "pregunta": "¿Qué decide hacer Javier al final?",
+    "preguntaZh": "哈维尔最后决定做什么？",
+    "opciones": [
+     "Cambiarse de barrio.",
+     "Enviar una queja por escrito.",
+     "Cancelar la cena del sábado."
+    ],
+    "correcta": 1
+   }
+  ]
+ },
+ {
+  "id": "b2-mx",
+  "nivel": "B2",
+  "acento": "México",
+  "titulo": "El plan del fin de semana",
+  "tituloZh": "周末计划",
+  "contexto": "Una pareja mexicana organiza una salida para el sábado.",
+  "contextoZh": "一对墨西哥情侣安排周六的外出活动。",
+  "lineas": [
+   {
+    "quien": "Daniela",
+    "genero": "f",
+    "es": "Oye, ¿qué se te antoja hacer el sábado? Quiero salir y no quedarme encerrada.",
+    "zh": "哎，星期六你想做什么？我想出去，不想闷在家里。",
+    "audio": "audio/acentos/b2-mx-0.mp3"
+   },
+   {
+    "quien": "Emilio",
+    "genero": "m",
+    "es": "Pues podríamos ir al centro, hay una exposición de foto muy padre en el museo.",
+    "zh": "我们可以去市中心，博物馆有个很棒的摄影展。",
+    "audio": "audio/acentos/b2-mx-1.mp3"
+   },
+   {
+    "quien": "Daniela",
+    "genero": "f",
+    "es": "Suena bien, pero a mí me late más algo al aire libre. Últimamente paso demasiadas horas en la oficina.",
+    "zh": "听起来不错，但我更喜欢户外活动。最近我在办公室待太久了。",
+    "audio": "audio/acentos/b2-mx-2.mp3"
+   },
+   {
+    "quien": "Emilio",
+    "genero": "m",
+    "es": "Entonces vamos a Xochimilco. Podemos rentar una trajinera y llevar algo de comer.",
+    "zh": "那我们去霍奇米尔科吧。我们可以租一条船，带点吃的。",
+    "audio": "audio/acentos/b2-mx-3.mp3"
+   },
+   {
+    "quien": "Daniela",
+    "genero": "f",
+    "es": "¡Qué buena idea! Aunque hay mucho tráfico los sábados, así que mejor salimos temprano.",
+    "zh": "好主意！不过星期六很堵车，所以最好早点出发。",
+    "audio": "audio/acentos/b2-mx-4.mp3"
+   },
+   {
+    "quien": "Emilio",
+    "genero": "m",
+    "es": "Va, te paso por ti a las ocho. ¿Quieres que invite a mi carnal?",
+    "zh": "行，我八点去接你。你要不要我叫上我哥们儿？",
+    "audio": "audio/acentos/b2-mx-5.mp3"
+   },
+   {
+    "quien": "Daniela",
+    "genero": "f",
+    "es": "Mejor no, así podemos platicar tranquilos. Además, luego se la pasa con el celular todo el tiempo.",
+    "zh": "最好别，这样我们可以安静地聊天。再说，他老是玩手机。",
+    "audio": "audio/acentos/b2-mx-6.mp3"
+   },
+   {
+    "quien": "Emilio",
+    "genero": "m",
+    "es": "Tienes razón. Entonces llevo unos sándwiches y tú encárgate de las bebidas, ¿sale?",
+    "zh": "你说得对。那我带三明治，你负责饮料，行吗？",
+    "audio": "audio/acentos/b2-mx-7.mp3"
+   },
+   {
+    "quien": "Daniela",
+    "genero": "f",
+    "es": "Sale. Y si se nos hace tarde, comemos por ahí, ¿te parece?",
+    "zh": "行啊。要是太晚了，我们就在外面吃，怎么样？",
+    "audio": "audio/acentos/b2-mx-8.mp3"
+   },
+   {
+    "quien": "Emilio",
+    "genero": "m",
+    "es": "Perfecto, ahí la llevamos.",
+    "zh": "完美，就这么办。",
+    "audio": "audio/acentos/b2-mx-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿Por qué prefiere Daniela estar al aire libre?",
+    "preguntaZh": "丹妮拉为什么更喜欢户外活动？",
+    "opciones": [
+     "Porque el museo está cerrado.",
+     "Porque pasa demasiadas horas en la oficina.",
+     "Porque no le gusta la fotografía."
+    ],
+    "correcta": 1
+   },
+   {
+    "pregunta": "¿Qué van a hacer el sábado?",
+    "preguntaZh": "他们星期六要做什么？",
+    "opciones": [
+     "Rentar una trajinera en Xochimilco.",
+     "Visitar a la familia de Emilio.",
+     "Ir juntos a la oficina de Daniela."
+    ],
+    "correcta": 0
+   },
+   {
+    "pregunta": "¿Por qué no quieren invitar al amigo de Emilio?",
+    "preguntaZh": "他们为什么不想邀请埃米利奥的朋友？",
+    "opciones": [
+     "Porque no cabe en el auto.",
+     "Porque siempre está con el celular.",
+     "Porque ya tiene otros planes."
+    ],
+    "correcta": 1
+   }
+  ]
+ },
+ {
+  "id": "b2-ar",
+  "nivel": "B2",
+  "acento": "Argentina",
+  "titulo": "Una salida en Buenos Aires",
+  "tituloZh": "在布宜诺斯艾利斯的一次外出",
+  "contexto": "Dos amigos porteños acuerdan qué hacer un día libre.",
+  "contextoZh": "两个布宜诺斯艾利斯的朋友商量空闲那天做什么。",
+  "lineas": [
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Che, ¿vos tenés libre el viernes por la tarde?",
+    "zh": "嘿，你周五下午有空吗？",
+    "audio": "audio/acentos/b2-ar-0.mp3"
+   },
+   {
+    "quien": "Nicolás",
+    "genero": "m",
+    "es": "Sí, recién salgo del laburo a la una, así que tengo toda la tarde.",
+    "zh": "有，我一点刚下班，所以一下午都有空。",
+    "audio": "audio/acentos/b2-ar-1.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Buenísimo. ¿Vamos a tomar algo a Palermo? Conozco un bar re lindo.",
+    "zh": "太好了。我们去巴勒莫喝点东西？我认识一家特别漂亮的酒吧。",
+    "audio": "audio/acentos/b2-ar-2.mp3"
+   },
+   {
+    "quien": "Nicolás",
+    "genero": "m",
+    "es": "Dale, pero a mí me gustaría ir antes a caminar por la costanera, hace mucho que no voy.",
+    "zh": "行啊，但我想先去滨水区走走，我好久没去了。",
+    "audio": "audio/acentos/b2-ar-3.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Me re copa. Eso sí, si vamos a la costanera, llevate repelente, porque hay mosquitos a montones.",
+    "zh": "我超喜欢。不过，如果去滨水区，你带上驱蚊液，因为蚊子特别多。",
+    "audio": "audio/acentos/b2-ar-4.mp3"
+   },
+   {
+    "quien": "Nicolás",
+    "genero": "m",
+    "es": "Jajá, ¿hablás en serio? Bueno, lo llevo. ¿Y qué tal si después comemos unas pizzas en la zona?",
+    "zh": "哈哈，你说真的？好吧，我带上。那之后我们去那边吃披萨怎么样？",
+    "audio": "audio/acentos/b2-ar-5.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Me parece bárbaro, pero che, no te olvidés de la guita, que ese bar no es barato.",
+    "zh": "我觉得挺好，不过嘿，别忘了带钱，那家酒吧可不便宜。",
+    "audio": "audio/acentos/b2-ar-6.mp3"
+   },
+   {
+    "quien": "Nicolás",
+    "genero": "m",
+    "es": "Tranqui, cobré esta semana. ¿Nos encontramos a las dos en la costanera?",
+    "zh": "放心，我这周发工资了。我们两点在滨水区见？",
+    "audio": "audio/acentos/b2-ar-7.mp3"
+   },
+   {
+    "quien": "Sofía",
+    "genero": "f",
+    "es": "Perfecto. Y si llueve, lo dejamos para otro día, ¿te parece?",
+    "zh": "完美。要是下雨，我们就改天，怎么样？",
+    "audio": "audio/acentos/b2-ar-8.mp3"
+   },
+   {
+    "quien": "Nicolás",
+    "genero": "m",
+    "es": "De una. Nos vemos el viernes.",
+    "zh": "没问题。周五见。",
+    "audio": "audio/acentos/b2-ar-9.mp3"
+   }
+  ],
+  "preguntas": [
+   {
+    "pregunta": "¿A qué hora termina de trabajar Nicolás?",
+    "preguntaZh": "尼古拉斯几点下班？",
+    "opciones": [
+     "A las dos.",
+     "A la una.",
+     "A las tres."
+    ],
+    "correcta": 1
+   },
+   {
+    "pregunta": "¿Qué tiene que llevar Nicolás si van a la costanera?",
+    "preguntaZh": "如果去滨水区，尼古拉斯要带什么？",
+    "opciones": [
+     "Repelente para los mosquitos.",
+     "Una pizza para comer.",
+     "Dinero extra para el bar."
+    ],
+    "correcta": 0
+   },
+   {
+    "pregunta": "¿Qué van a hacer si llueve?",
+    "preguntaZh": "如果下雨他们怎么办？",
+    "opciones": [
+     "Ir al bar igualmente.",
+     "Cambiar la salida para otro día.",
+     "Quedarse en el laburo."
+    ],
+    "correcta": 1
+   }
+  ]
+ }
+]

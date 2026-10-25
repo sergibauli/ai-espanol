@@ -65,6 +65,15 @@ const PATHS = {
       <path d="m24 11 2 3h-4Z" fill="#f2c14e" />
     </>
   ),
+  progreso: (
+    <>
+      <path d="M8 32a16 16 0 0 1 32 0" fill="none" stroke={R} strokeWidth="3.4" strokeLinecap="round" />
+      <path d="M8 32a16 16 0 0 1 9-14.4" fill="none" stroke="#f2c14e" strokeWidth="3.4" strokeLinecap="round" />
+      <path d="m24 32 8-10" stroke={R} strokeWidth="3" strokeLinecap="round" />
+      <circle cx="24" cy="32" r="3.4" fill={R} />
+      <rect x="12" y="36" width="24" height="4" rx="2" fill={R} />
+    </>
+  ),
   repaso: (
     <>
       <circle cx="24" cy="24" r="14" fill="#fff6dc" stroke={R} strokeWidth="2.4" />

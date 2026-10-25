@@ -1,0 +1,437 @@
+[
+ {
+  "id": "B2-000",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "Si no hubiera perdido el autobús, ______ a la reunión a tiempo.",
+  "enunciadoZh": "如果我没有错过公交车，我就会准时到达会议了。",
+  "opciones": [
+   "llegaría",
+   "habría llegado",
+   "llegue"
+  ],
+  "correcta": 1,
+  "explicacion": "与过去事实相反的假设句：si + pluscuamperfecto de subjuntivo, 主句用条件完成时 habría + participio。",
+  "revisado": true
+ },
+ {
+  "id": "B2-001",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "Cuando ______ el informe, avísame para enviarlo al director.",
+  "enunciadoZh": "你完成报告后，通知我一声以便发给主任。",
+  "opciones": [
+   "termines",
+   "terminarás",
+   "terminas"
+  ],
+  "correcta": 0,
+  "explicacion": "cuando 引导指将来的时间从句时用虚拟式 presente de subjuntivo。",
+  "revisado": true
+ },
+ {
+  "id": "B2-002",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "Es posible que mañana no ______ nadie a la oficina por la huelga.",
+  "enunciadoZh": "由于罢工，明天可能没有人来办公室。",
+  "opciones": [
+   "viene",
+   "venga",
+   "vendrá"
+  ],
+  "correcta": 1,
+  "explicacion": "es posible que 表达可能性，后接虚拟式。",
+  "revisado": true
+ },
+ {
+  "id": "B2-003",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "No creo que ese anuncio ______ verdad; parece exagerado.",
+  "enunciadoZh": "我不认为那个广告是真的；看起来很夸张。",
+  "opciones": [
+   "sea",
+   "es",
+   "será"
+  ],
+  "correcta": 0,
+  "explicacion": "no creo que 表否定看法，从句用虚拟式。",
+  "revisado": true
+ },
+ {
+  "id": "B2-004",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "______ terminado el proyecto, podremos tomarnos unas vacaciones.",
+  "enunciadoZh": "一旦完成这个项目，我们就可以去度假了。",
+  "opciones": [
+   "Una vez",
+   "Apenas de",
+   "En cuanto a"
+  ],
+  "correcta": 0,
+  "explicacion": "una vez + participio 表示“一旦……”，符合句意。",
+  "revisado": true
+ },
+ {
+  "id": "B2-005",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "Le pedí que me ______ el documento antes de firmarlo.",
+  "enunciadoZh": "我请他让我在签字前看一下文件。",
+  "opciones": [
+   "mostrara",
+   "mostraba",
+   "mostrará"
+  ],
+  "correcta": 0,
+  "explicacion": "pedir que 引导的从句用 imperfecto de subjuntivo 与主句过去时呼应。",
+  "revisado": true
+ },
+ {
+  "id": "B2-006",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "Por mucho que ______, no conseguirás convencerlo.",
+  "enunciadoZh": "无论你怎么努力，都无法说服他。",
+  "opciones": [
+   "insistes",
+   "insistirás",
+   "insistas"
+  ],
+  "correcta": 2,
+  "explicacion": "por mucho que 引导让步从句，必须用虚拟式。",
+  "revisado": true
+ },
+ {
+  "id": "B2-007",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "El profesor nos dijo que la entrega ______ lugar el viernes.",
+  "enunciadoZh": "老师告诉我们提交会在周五举行。",
+  "opciones": [
+   "tendría",
+   "tiene",
+   "tuviera"
+  ],
+  "correcta": 0,
+  "explicacion": "主句是过去时（dijo），间接引语中的将来需变为条件式 tendría。",
+  "revisado": true
+ },
+ {
+  "id": "B2-009",
+  "nivel": "B2",
+  "destreza": "gramatica",
+  "enunciado": "Aunque ______ cansado, seguirá trabajando hasta terminar.",
+  "enunciadoZh": "即使他很累，他也会一直工作到完成为止。",
+  "opciones": [
+   "esté",
+   "está",
+   "estará"
+  ],
+  "correcta": 0,
+  "explicacion": "aunque 后接虚拟式表示对已知或可能情况的让步。",
+  "revisado": true
+ },
+ {
+  "id": "B2-010",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "El ayuntamiento ha decidido ______ la circulación en el centro histórico los domingos.",
+  "enunciadoZh": "市政府决定周日限制老城区的交通。",
+  "opciones": [
+   "restringir",
+   "rechazar",
+   "rescatar"
+  ],
+  "correcta": 0,
+  "explicacion": "restringir la circulación 意为“限制交通”，符合语境。",
+  "revisado": true
+ },
+ {
+  "id": "B2-011",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "Tras varios meses de negociaciones, ambas empresas llegaron a un ______ beneficioso.",
+  "enunciadoZh": "经过几个月的谈判，两家公司达成了有利的协议。",
+  "opciones": [
+   "acuerdo",
+   "acuse",
+   "acierto"
+  ],
+  "correcta": 0,
+  "explicacion": "llegar a un acuerdo 是固定搭配，意为“达成协议”。",
+  "revisado": true
+ },
+ {
+  "id": "B2-012",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "La empresa va a ______ a diez empleados por la caída de las ventas.",
+  "enunciadoZh": "由于销量下降，公司将解雇十名员工。",
+  "opciones": [
+   "despedir",
+   "desperdiciar",
+   "despegar"
+  ],
+  "correcta": 0,
+  "explicacion": "despedir a alguien 意为“解雇”，符合语境。",
+  "revisado": true
+ },
+ {
+  "id": "B2-013",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "Ese documental ofrece una visión muy ______ de la realidad del país.",
+  "enunciadoZh": "那部纪录片对这个国家的现实提供了非常全面的视角。",
+  "opciones": [
+   "amplia",
+   "ancha",
+   "larga"
+  ],
+  "correcta": 0,
+  "explicacion": "visión amplia 意为“全面的视角”，是抽象意义的正确搭配。",
+  "revisado": true
+ },
+ {
+  "id": "B2-014",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "No me parece justo que ______ toda la culpa a los jóvenes.",
+  "enunciadoZh": "我觉得把所有责任都推给年轻人不公平。",
+  "opciones": [
+   "eches",
+   "eches a perder",
+   "eches de menos"
+  ],
+  "correcta": 0,
+  "explicacion": "echar la culpa a alguien 意为“把责任推给某人”。",
+  "revisado": true
+ },
+ {
+  "id": "B2-015",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "El médico le recomendó ______ el consumo de sal para controlar la tensión.",
+  "enunciadoZh": "医生建议他减少盐的摄入以控制血压。",
+  "opciones": [
+   "reducir",
+   "rebajar de",
+   "retirar"
+  ],
+  "correcta": 0,
+  "explicacion": "reducir el consumo 意为“减少摄入量”，搭配自然。",
+  "revisado": true
+ },
+ {
+  "id": "B2-016",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "A pesar de los problemas, logró ______ su negocio y salir adelante.",
+  "enunciadoZh": "尽管有困难，他还是成功让生意运转起来并挺了过来。",
+  "opciones": [
+   "sacar adelante",
+   "sacar de quicio",
+   "sacar provecho"
+  ],
+  "correcta": 0,
+  "explicacion": "sacar adelante un negocio 意为“使生意维持并发展”，符合语境。",
+  "revisado": true
+ },
+ {
+  "id": "B2-017",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "La conferencia estuvo tan bien organizada que todo transcurrió sin ningún ______.",
+  "enunciadoZh": "会议组织得非常好，一切进行得毫无意外。",
+  "opciones": [
+   "contratiempo",
+   "contrapeso",
+   "contrapunto"
+  ],
+  "correcta": 0,
+  "explicacion": "sin contratiempo 意为“没有意外/阻碍”。",
+  "revisado": true
+ },
+ {
+  "id": "B2-018",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "Me gustaría ______ mi agradecimiento a todo el equipo por su esfuerzo.",
+  "enunciadoZh": "我想向整个团队表达对他们努力的感谢。",
+  "opciones": [
+   "expresar",
+   "explotar",
+   "exponer"
+  ],
+  "correcta": 0,
+  "explicacion": "expresar agradecimiento 是“表达感谢”的固定搭配。",
+  "revisado": true
+ },
+ {
+  "id": "B2-019",
+  "nivel": "B2",
+  "destreza": "vocabulario",
+  "enunciado": "El proyecto quedó ______ porque faltaba financiación.",
+  "enunciadoZh": "由于缺乏资金，项目被搁置了。",
+  "opciones": [
+   "paralizado",
+   "parado",
+   "aparcado"
+  ],
+  "correcta": 0,
+  "explicacion": "quedar paralizado 表示“停滞/无法推进”，符合资金不足的语境。",
+  "revisado": true
+ },
+ {
+  "id": "B2-020",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "Anuncio: «Por obras en la línea 3, del 5 al 12 de mayo el servicio de metro quedará interrumpido entre las estaciones de Sol y Retiro. Los viajeros deberán utilizar los autobuses de sustitución.» ¿Qué deben hacer los viajeros?",
+  "enunciadoZh": "公告：“由于3号线施工，5月5日至12日，Sol站与Retiro站之间的地铁服务将中断。乘客需乘坐替代公交。”乘客应该怎么做？",
+  "opciones": [
+   "Buscar otra forma de transporte en ese tramo.",
+   "Esperar en el andén hasta que se reanude el metro.",
+   "Comprar un billete más caro."
+  ],
+  "correcta": 0,
+  "explicacion": "公告说明该区间地铁中断，需使用替代公交，即换其他交通方式。",
+  "revisado": true
+ },
+ {
+  "id": "B2-021",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "SMS: «Hola, mamá. Hoy saldré del trabajo más tarde, así que no me esperes para cenar. Llegaré sobre las diez. Un beso.» ¿Qué dice el mensaje?",
+  "enunciadoZh": "短信：“妈妈你好。今天我下班会晚点，所以别等我吃晚饭。我大约十点到。吻你。”这条信息说了什么？",
+  "opciones": [
+   "Que la persona llegará tarde y no cenará en casa.",
+   "Que la persona cenará con su madre a las diez.",
+   "Que la persona ha perdido el trabajo."
+  ],
+  "correcta": 0,
+  "explicacion": "短信说下班晚、别等晚饭、约十点到，即回家晚且不在家吃晚饭。",
+  "revisado": true
+ },
+ {
+  "id": "B2-022",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "Nota: «Se ruega a los vecinos no dejar la basura en el portal fuera del horario establecido. El contenedor está en la calle trasera.» ¿Qué se pide?",
+  "enunciadoZh": "通知：“请居民不要在规定时间外把垃圾放在楼门口。垃圾箱在后街。”要求是什么？",
+  "opciones": [
+   "Respetar el horario y usar el contenedor de la calle trasera.",
+   "Dejar la basura siempre en el portal.",
+   "Que los vecinos compren un contenedor nuevo."
+  ],
+  "correcta": 0,
+  "explicacion": "通知要求遵守规定时间并把垃圾放到后街的垃圾箱。",
+  "revisado": true
+ },
+ {
+  "id": "B2-023",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "Correo breve: «Te escribo para confirmar la cita del jueves a las cinco. Si no puedes venir, avísame al menos un día antes.» ¿Qué pide el remitente?",
+  "enunciadoZh": "简短邮件：“我写信确认周四五点的预约。如果你来不了，请至少提前一天通知我。”发信人要求什么？",
+  "opciones": [
+   "Que confirme o avise con tiempo si no puede ir.",
+   "Que cambie la cita al próximo mes.",
+   "Que traiga un documento."
+  ],
+  "correcta": 0,
+  "explicacion": "邮件说确认预约，并且若不能来至少提前一天告知。",
+  "revisado": true
+ },
+ {
+  "id": "B2-024",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "Anuncio: «Curso intensivo de español para extranjeros. 20 horas semanales. Plazas limitadas. Inscripción abierta hasta el 30 de septiembre.» ¿Qué información se ofrece?",
+  "enunciadoZh": "广告：“外国人西班牙语强化课程。每周20小时。名额有限。报名截止9月30日。”广告提供了什么信息？",
+  "opciones": [
+   "Las características del curso y el plazo de inscripción.",
+   "El precio y los horarios del curso.",
+   "El nombre de los profesores."
+  ],
+  "correcta": 0,
+  "explicacion": "广告说明课程特点及报名截止日期，未提价格、教师姓名等。",
+  "revisado": true
+ },
+ {
+  "id": "B2-025",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "SMS: «María, se me ha olvidado el paraguas en tu casa. ¿Puedo pasar mañana a recogerlo?» ¿Qué quiere la persona?",
+  "enunciadoZh": "短信：“玛丽亚，我把伞落在你家了。我明天能去拿吗？”这人想做什么？",
+  "opciones": [
+   "Recuperar un objeto que olvidó en casa de María.",
+   "Devolverle un paraguas a María.",
+   "Comprar un paraguas nuevo con María."
+  ],
+  "correcta": 0,
+  "explicacion": "短信说伞落在对方家，想明天去取回。",
+  "revisado": true
+ },
+ {
+  "id": "B2-026",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "Nota en la puerta: «Estimados clientes: por inventario, la tienda permanecerá cerrada el lunes 8. Disculpen las molestias.» ¿Por qué está cerrada la tienda?",
+  "enunciadoZh": "门上通知：“尊敬的顾客：因盘点，本店8日周一暂停营业。给您带来不便敬请谅解。”商店为什么关门？",
+  "opciones": [
+   "Porque van a hacer inventario.",
+   "Porque es un día festivo nacional.",
+   "Porque están de vacaciones todo el mes."
+  ],
+  "correcta": 0,
+  "explicacion": "通知明确说明因盘点（inventario）停业。",
+  "revisado": true
+ },
+ {
+  "id": "B2-027",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "Anuncio: «Se busca persona responsable para trabajar en recepción. Imprescindible inglés. Jornada parcial. Interesados enviar currículum por correo.» ¿Qué requisito es obligatorio?",
+  "enunciadoZh": "广告：“招聘有责任心的前台工作人员。必须具备英语能力。兼职。有意者请通过邮件发送简历。”哪项是强制性要求？",
+  "opciones": [
+   "Saber inglés.",
+   "Tener experiencia en hoteles.",
+   "Trabajar a jornada completa."
+  ],
+  "correcta": 0,
+  "explicacion": "广告写 imprescindible inglés，即英语是必备条件。",
+  "revisado": true
+ },
+ {
+  "id": "B2-028",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "Correo breve: «Hola, Javier: el vuelo se ha retrasado dos horas, así que no podré estar en la reunión de las nueve. ¿Puedes empezar sin mí?» ¿Qué le pide al destinatario?",
+  "enunciadoZh": "简短邮件：“哈维，航班延误了两个小时，所以我无法参加九点的会议。你能先开始吗？”发信人请收信人做什么？",
+  "opciones": [
+   "Comenzar la reunión sin él.",
+   "Cancelar la reunión.",
+   "Reprogramar su vuelo."
+  ],
+  "correcta": 0,
+  "explicacion": "因为航班延误，他请对方不带他也先开始会议。",
+  "revisado": true
+ },
+ {
+  "id": "B2-029",
+  "nivel": "B2",
+  "destreza": "lectura",
+  "enunciado": "Nota: «Recuerda que mañana hay que entregar el trabajo de historia. No olvides imprimirlo y numerar las páginas.» ¿Qué debe hacer la persona?",
+  "enunciadoZh": "便条：“记得明天要交历史作业。别忘了打印并给页面编号。”这个人应该做什么？",
+  "opciones": [
+   "Imprimir el trabajo y numerar las páginas.",
+   "Escribir el trabajo a mano.",
+   "Entregar el trabajo sin imprimir."
+  ],
+  "correcta": 0,
+  "explicacion": "便条提醒打印作业并给页面编号。",
+  "revisado": true
+ }
+]

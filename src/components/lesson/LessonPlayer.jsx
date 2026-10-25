@@ -4,6 +4,10 @@ import { XIcon, HeartIcon, Volume2Icon, SnailIcon, CheckIcon, ZapIcon, TargetIco
 import { Emoji3D } from "../ui/Emoji3D.jsx";
 import { sfx, speak, confetti } from "./fx.js";
 import { addXp, loseHeart, refillHearts, getGame } from "../../lib/gamification.js";
+import { recordAnswer } from "../../lib/progresoDele.js";
+import CATALOG from "../../data/modulos/catalog.json";
+
+const levelOf = (n) => CATALOG.find((m) => m.numero === Number(n))?.nivel || "A1";
 import { CAST } from "./StoryPlayer.jsx";
 
 const TEACH = new Set(["learn", "tip", "dialog"]);
@@ -401,6 +405,10 @@ export function LessonPlayer({ lesson, onClose }) {
 
   const check = () => {
     const res = checkAnswer(step, value);
+    // Progreso por destreza y cuaderno de errores
+    const skill = step.type === "listen" ? "audicion" : ["build", "type"].includes(step.type) ? "gramatica" : step.type === "tf" ? "lectura" : "vocabulario";
+    const given = Array.isArray(value) ? value.join(" ") : step.options ? step.options[value] : String(value ?? "");
+    recordAnswer({ skill, level: levelOf(lesson.modulo), ok: res.ok, src: `lección ${lesson.modulo}`, error: { prompt: step.prompt || step.speak, given, correct: res.solution, explain: step.explain, options: step.options, answer: step.answer, speak: step.speak, type: step.type } });
     if (res.ok) sfx("ok");
     else {
       sfx("bad");

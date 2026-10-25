@@ -1,0 +1,422 @@
+[
+ {
+  "id": "A1-000",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "Me llamo Li y ____ de China.",
+  "enunciadoZh": "我叫李，来自中国。",
+  "opciones": [
+   "soy",
+   "estoy",
+   "tengo"
+  ],
+  "correcta": 0,
+  "explicacion": "表示国籍或来源用动词 ser：soy de China。",
+  "revisado": true
+ },
+ {
+  "id": "A1-001",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "—¿Dónde ____ tú? —En Pekín.",
+  "enunciadoZh": "——你住在哪里？——在北京。",
+  "opciones": [
+   "vives",
+   "vivo",
+   "vivir"
+  ],
+  "correcta": 0,
+  "explicacion": "主语是 tú，动词 vivir 变位为 vives。",
+  "revisado": true
+ },
+ {
+  "id": "A1-002",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "Mi hermana ____ veinte años.",
+  "enunciadoZh": "我姐姐二十岁。",
+  "opciones": [
+   "es",
+   "está",
+   "tiene"
+  ],
+  "correcta": 2,
+  "explicacion": "表示年龄用 tener：tiene veinte años。",
+  "revisado": true
+ },
+ {
+  "id": "A1-003",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "En mi mochila ____ tres libros.",
+  "enunciadoZh": "我的书包里有三本书。",
+  "opciones": [
+   "hay",
+   "están",
+   "son"
+  ],
+  "correcta": 0,
+  "explicacion": "表示某处存在某物用 hay。",
+  "revisado": true
+ },
+ {
+  "id": "A1-004",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "Este es Pedro, ____ amigo de Juan.",
+  "enunciadoZh": "这是佩德罗，胡安的朋友。",
+  "opciones": [
+   "un",
+   "una",
+   "unos"
+  ],
+  "correcta": 0,
+  "explicacion": "amigo 是阳性单数名词，用不定冠词 un。",
+  "revisado": true
+ },
+ {
+  "id": "A1-005",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "Me gusta ____ café con leche.",
+  "enunciadoZh": "我喜欢加奶的咖啡。",
+  "opciones": [
+   "el",
+   "la",
+   "los"
+  ],
+  "correcta": 0,
+  "explicacion": "café 是阳性单数名词，用定冠词 el。",
+  "revisado": true
+ },
+ {
+  "id": "A1-006",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "—¿____ es tu cumpleaños? —El cinco de mayo.",
+  "enunciadoZh": "——你的生日是什么时候？——五月五日。",
+  "opciones": [
+   "Qué",
+   "Cuándo",
+   "Cómo"
+  ],
+  "correcta": 1,
+  "explicacion": "询问时间用 Cuándo。",
+  "revisado": true
+ },
+ {
+  "id": "A1-007",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "Los lunes ____ a clase de español.",
+  "enunciadoZh": "每周一我去上西班牙语课。",
+  "opciones": [
+   "voy",
+   "vas",
+   "va"
+  ],
+  "correcta": 0,
+  "explicacion": "主语是 yo，ir 变位为 voy。",
+  "revisado": true
+ },
+ {
+  "id": "A1-008",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "No me gusta el té, ____ me gusta el café.",
+  "enunciadoZh": "我不喜欢茶，但是我喜欢咖啡。",
+  "opciones": [
+   "pero",
+   "porque",
+   "y"
+  ],
+  "correcta": 0,
+  "explicacion": "表示转折用 pero。",
+  "revisado": true
+ },
+ {
+  "id": "A1-009",
+  "nivel": "A1",
+  "destreza": "gramatica",
+  "enunciado": "Ana y Luis ____ estudiantes de español.",
+  "enunciadoZh": "安娜和路易斯是西班牙语学生。",
+  "opciones": [
+   "son",
+   "es",
+   "está"
+  ],
+  "correcta": 0,
+  "explicacion": "主语是复数 ellos，ser 变位为 son。",
+  "revisado": true
+ },
+ {
+  "id": "A1-010",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "Para escribir necesito un bolígrafo y un ____.",
+  "enunciadoZh": "写字我需要一支笔和一个笔记本。",
+  "opciones": [
+   "cuaderno",
+   "tenedor",
+   "zapato"
+  ],
+  "correcta": 0,
+  "explicacion": "在学校的语境中，写字用 cuaderno（笔记本）。",
+  "revisado": true
+ },
+ {
+  "id": "A1-011",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "Mi padre trabaja en un hospital. Es ____.",
+  "enunciadoZh": "我父亲在医院工作。他是医生。",
+  "opciones": [
+   "médico",
+   "camarero",
+   "policía"
+  ],
+  "correcta": 0,
+  "explicacion": "在医院工作的职业通常是 médico（医生）。",
+  "revisado": true
+ },
+ {
+  "id": "A1-012",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "Tengo sed. Quiero beber ____.",
+  "enunciadoZh": "我渴了。我想喝水。",
+  "opciones": [
+   "agua",
+   "pan",
+   "arroz"
+  ],
+  "correcta": 0,
+  "explicacion": "渴了喝 agua（水）。",
+  "revisado": true
+ },
+ {
+  "id": "A1-013",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "En invierno hace mucho ____ en el norte.",
+  "enunciadoZh": "冬天北方很冷。",
+  "opciones": [
+   "frío",
+   "calor",
+   "sol"
+  ],
+  "correcta": 0,
+  "explicacion": "invierno（冬天）配 frío（冷）。",
+  "revisado": true
+ },
+ {
+  "id": "A1-015",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "Para ir al centro tomo el ____ número 5.",
+  "enunciadoZh": "去市中心我坐5路公交车。",
+  "opciones": [
+   "autobús",
+   "avión",
+   "barco"
+  ],
+  "correcta": 0,
+  "explicacion": "城市里带线路号的交通工具是 autobús（公交车）。",
+  "revisado": true
+ },
+ {
+  "id": "A1-016",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "Me duele la ____. No puedo hablar bien.",
+  "enunciadoZh": "我喉咙疼。我说不好话。",
+  "opciones": [
+   "garganta",
+   "mano",
+   "rodilla"
+  ],
+  "correcta": 0,
+  "explicacion": "不能好好说话是因为 garganta（喉咙）疼。",
+  "revisado": true
+ },
+ {
+  "id": "A1-017",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "Mi habitación es pequeña, pero muy ____: hay mucha luz.",
+  "enunciadoZh": "我的房间很小，但很明亮：光线很好。",
+  "opciones": [
+   "luminosa",
+   "ruidosa",
+   "cara"
+  ],
+  "correcta": 0,
+  "explicacion": "hay mucha luz 说明房间 luminosa（明亮）。",
+  "revisado": true
+ },
+ {
+  "id": "A1-018",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "Los lunes el supermercado está ____; abre a las diez.",
+  "enunciadoZh": "周一超市关门；十点开门。",
+  "opciones": [
+   "cerrado",
+   "abierto",
+   "limpio"
+  ],
+  "correcta": 0,
+  "explicacion": "十点才开门，说明当时是 cerrado（关着的）。",
+  "revisado": true
+ },
+ {
+  "id": "A1-019",
+  "nivel": "A1",
+  "destreza": "vocabulario",
+  "enunciado": "Quiero comprar un libro. Voy a la ____.",
+  "enunciadoZh": "我想买一本书。我去书店。",
+  "opciones": [
+   "librería",
+   "panadería",
+   "farmacia"
+  ],
+  "correcta": 0,
+  "explicacion": "买书去 librería（书店）。",
+  "revisado": true
+ },
+ {
+  "id": "A1-020",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'Hola, Ana: Esta tarde no puedo ir al cine. Trabajo hasta las ocho. Lo siento. Marta.' ¿Qué dice Marta?",
+  "enunciadoZh": "“你好，安娜：今天下午我不能去看电影。我工作到八点。对不起。玛尔塔。”玛尔塔说了什么？",
+  "opciones": [
+   "No puede ir al cine porque trabaja.",
+   "No le gusta el cine.",
+   "Quiere ir al cine a las ocho."
+  ],
+  "correcta": 0,
+  "explicacion": "她说工作到八点，所以不能去电影院。",
+  "revisado": true
+ },
+ {
+  "id": "A1-021",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'CERRADO POR VACACIONES. Abrimos el 1 de agosto.' ¿Cuándo abre la tienda?",
+  "enunciadoZh": "“休假停业。八月一日开门。”商店什么时候开门？",
+  "opciones": [
+   "El 1 de agosto.",
+   "Hoy.",
+   "Por la noche."
+  ],
+  "correcta": 0,
+  "explicacion": "文告写明 Abrimos el 1 de agosto。",
+  "revisado": true
+ },
+ {
+  "id": "A1-022",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'Piso en el centro, dos habitaciones, cocina grande. 600 euros al mes. Llamar a Luis: 655 20 10 10.' ¿Qué busca la persona que llama?",
+  "enunciadoZh": "“市中心公寓，两个房间，大厨房。每月600欧元。请联系路易斯：655 20 10 10。”打电话的人想找什么？",
+  "opciones": [
+   "Un piso para vivir.",
+   "Un trabajo en una cocina.",
+   "Un curso de español."
+  ],
+  "correcta": 0,
+  "explicacion": "这是租房广告，对方想租一套公寓。",
+  "revisado": true
+ },
+ {
+  "id": "A1-023",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'Hola, papá: No hay leche en casa. ¿Puedes comprar leche y pan? Gracias. Pablo.' ¿Qué pide Pablo?",
+  "enunciadoZh": "“爸爸你好：家里没有牛奶了。你能买牛奶和面包吗？谢谢。巴勃罗。”巴勃罗请求什么？",
+  "opciones": [
+   "Comprar leche y pan.",
+   "Cocinar la cena.",
+   "Llamar por teléfono."
+  ],
+  "correcta": 0,
+  "explicacion": "短信中明确请求买牛奶和面包。",
+  "revisado": true
+ },
+ {
+  "id": "A1-024",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'Clase de español. Lunes y miércoles, de 6 a 8 de la tarde. Aula 12.' ¿Cuántas horas hay clase cada semana?",
+  "enunciadoZh": "“西班牙语课。周一和周三，下午6点到8点。12号教室。”每周上几小时课？",
+  "opciones": [
+   "Cuatro horas.",
+   "Dos horas.",
+   "Ocho horas."
+  ],
+  "correcta": 0,
+  "explicacion": "两天，每天两小时，共四小时。",
+  "revisado": true
+ },
+ {
+  "id": "A1-025",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'Estimados clientes: el sábado la tienda cierra a las 14:00.' ¿A qué hora cierra la tienda el sábado?",
+  "enunciadoZh": "“尊敬的顾客：星期六商店14:00关门。”星期六商店几点关门？",
+  "opciones": [
+   "A las dos de la tarde.",
+   "A las dos de la mañana.",
+   "A las cuatro de la tarde."
+  ],
+  "correcta": 0,
+  "explicacion": "14:00 即下午两点。",
+  "revisado": true
+ },
+ {
+  "id": "A1-026",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'Hola, soy Chen. Estudio en la universidad y busco un trabajo para los fines de semana. Mi teléfono es 600 111 222.' ¿Qué quiere Chen?",
+  "enunciadoZh": "“你好，我是陈。我在大学学习，想找一份周末的工作。我的电话是600 111 222。”陈想要什么？",
+  "opciones": [
+   "Un trabajo para el fin de semana.",
+   "Una casa para el verano.",
+   "Un profesor de chino."
+  ],
+  "correcta": 0,
+  "explicacion": "他说 busca un trabajo para los fines de semana。",
+  "revisado": true
+ },
+ {
+  "id": "A1-027",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'El examen es el viernes a las nueve en el aula 3. No llegues tarde.' ¿Qué día es el examen?",
+  "enunciadoZh": "“考试是星期五九点在三号教室。不要迟到。”考试是哪天？",
+  "opciones": [
+   "El viernes.",
+   "El jueves.",
+   "El sábado."
+  ],
+  "correcta": 0,
+  "explicacion": "文中写明 el viernes。",
+  "revisado": true
+ },
+ {
+  "id": "A1-028",
+  "nivel": "A1",
+  "destreza": "lectura",
+  "enunciado": "'MENÚ DEL DÍA: sopa, pollo con arroz, pan y fruta. 9 euros.' ¿Qué incluye el menú?",
+  "enunciadoZh": "“今日套餐：汤、鸡肉配米饭、面包和水果。9欧元。”套餐包括什么？",
+  "opciones": [
+   "Sopa, pollo con arroz, pan y fruta.",
+   "Solo pollo con arroz.",
+   "Café y fruta."
+  ],
+  "correcta": 0,
+  "explicacion": "菜单列出了汤、鸡肉米饭、面包和水果。",
+  "revisado": true
+ }
+]

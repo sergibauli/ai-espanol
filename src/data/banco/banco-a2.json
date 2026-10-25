@@ -1,0 +1,407 @@
+[
+ {
+  "id": "A2-000",
+  "nivel": "A2",
+  "destreza": "gramatica",
+  "enunciado": "Ayer mi hermana y yo ___ al cine con nuestros primos.",
+  "enunciadoZh": "昨天我和姐姐跟表兄弟姐妹们去了电影院。",
+  "opciones": [
+   "fuimos",
+   "vamos",
+   "iremos"
+  ],
+  "correcta": 0,
+  "explicacion": "ayer表示过去，用简单过去时fuimos。",
+  "revisado": true
+ },
+ {
+  "id": "A2-001",
+  "nivel": "A2",
+  "destreza": "gramatica",
+  "enunciado": "Normalmente ___ a clase en bicicleta, pero hoy he venido en autobús.",
+  "enunciadoZh": "通常我骑自行车去上课，但今天我坐公交车来的。",
+  "opciones": [
+   "voy",
+   "fui",
+   "iré"
+  ],
+  "correcta": 0,
+  "explicacion": "normalmente表示习惯，用现在时voy。",
+  "revisado": true
+ },
+ {
+  "id": "A2-003",
+  "nivel": "A2",
+  "destreza": "gramatica",
+  "enunciado": "Me gusta mucho ___ libros por la noche antes de dormir.",
+  "enunciadoZh": "我很喜欢睡前在晚上看书。",
+  "opciones": [
+   "leer",
+   "leo",
+   "leí"
+  ],
+  "correcta": 0,
+  "explicacion": "gustar后面接原形动词leer。",
+  "revisado": true
+ },
+ {
+  "id": "A2-006",
+  "nivel": "A2",
+  "destreza": "gramatica",
+  "enunciado": "Cuando era pequeño, ___ mucho en el parque con mis amigos.",
+  "enunciadoZh": "我小时候常和朋友们在公园玩很多。",
+  "opciones": [
+   "jugaba",
+   "jugué",
+   "jugaré"
+  ],
+  "correcta": 0,
+  "explicacion": "描述过去的习惯用未完成过去时jugaba。",
+  "revisado": true
+ },
+ {
+  "id": "A2-007",
+  "nivel": "A2",
+  "destreza": "gramatica",
+  "enunciado": "¿A qué hora ___ el tren para Valencia mañana?",
+  "enunciadoZh": "明天去瓦伦西亚的火车几点出发？",
+  "opciones": [
+   "sale",
+   "salió",
+   "saldría"
+  ],
+  "correcta": 0,
+  "explicacion": "询问固定的时刻表用现在时sale。",
+  "revisado": true
+ },
+ {
+  "id": "A2-008",
+  "nivel": "A2",
+  "destreza": "gramatica",
+  "enunciado": "No he comprado nada porque no ___ dinero suficiente.",
+  "enunciadoZh": "我什么都没买，因为我没有足够的钱。",
+  "opciones": [
+   "tenía",
+   "tengo",
+   "tendré"
+  ],
+  "correcta": 1,
+  "explicacion": "现在原因用现在时tengo。",
+  "revisado": true
+ },
+ {
+  "id": "A2-009",
+  "nivel": "A2",
+  "destreza": "gramatica",
+  "enunciado": "Mi hermano es más alto ___ yo, pero yo soy más rápido.",
+  "enunciadoZh": "我哥哥比我高，但我更快。",
+  "opciones": [
+   "que",
+   "de",
+   "como"
+  ],
+  "correcta": 0,
+  "explicacion": "比较级más... que中，人称比较用que。",
+  "revisado": true
+ },
+ {
+  "id": "A2-010",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "Para pagar la compra en el supermercado, normalmente uso la ___ bancaria.",
+  "enunciadoZh": "在超市付款，我通常用银行卡。",
+  "opciones": [
+   "tarjeta",
+   "cuenta",
+   "factura"
+  ],
+  "correcta": 0,
+  "explicacion": "tarjeta bancaria是银行卡。",
+  "revisado": true
+ },
+ {
+  "id": "A2-011",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "Hoy hace mucho frío; ponte el ___ antes de salir.",
+  "enunciadoZh": "今天很冷，出门前穿上外套。",
+  "opciones": [
+   "abrigo",
+   "traje",
+   "pañuelo"
+  ],
+  "correcta": 0,
+  "explicacion": "abrigo是大衣外套，适合冷天。",
+  "revisado": true
+ },
+ {
+  "id": "A2-012",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "Tengo dolor de cabeza; voy a la farmacia a comprar ___ .",
+  "enunciadoZh": "我头疼，要去药店买药。",
+  "opciones": [
+   "unas pastillas",
+   "unos zapatos",
+   "unas flores"
+  ],
+  "correcta": 0,
+  "explicacion": "pastillas是药片，治疗头疼。",
+  "revisado": true
+ },
+ {
+  "id": "A2-013",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "El desayuno en este hotel está ___ en el precio de la habitación.",
+  "enunciadoZh": "这家酒店的早餐包含在房费里。",
+  "opciones": [
+   "incluido",
+   "abierto",
+   "cerrado"
+  ],
+  "correcta": 0,
+  "explicacion": "incluido表示包含在内。",
+  "revisado": true
+ },
+ {
+  "id": "A2-014",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "Necesito ___ un billete de tren para el lunes, por favor.",
+  "enunciadoZh": "我需要订一张周一的火车票。",
+  "opciones": [
+   "reservar",
+   "gastar",
+   "perder"
+  ],
+  "correcta": 0,
+  "explicacion": "reservar un billete表示预订车票。",
+  "revisado": true
+ },
+ {
+  "id": "A2-015",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "Mi vecino es muy ___ : siempre saluda y ayuda a todos.",
+  "enunciadoZh": "我的邻居很友好：总是打招呼并帮助所有人。",
+  "opciones": [
+   "simpático",
+   "antipático",
+   "tímido"
+  ],
+  "correcta": 0,
+  "explicacion": "simpático表示友善、亲切。",
+  "revisado": true
+ },
+ {
+  "id": "A2-016",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "Para hacer una tortilla necesito huevos, aceite y ___ .",
+  "enunciadoZh": "做煎蛋饼需要鸡蛋、油和土豆。",
+  "opciones": [
+   "patatas",
+   "manzanas",
+   "naranjas"
+  ],
+  "correcta": 0,
+  "explicacion": "tortilla de patatas用patatas土豆。",
+  "revisado": true
+ },
+ {
+  "id": "A2-017",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "El avión sale a las siete, así que tenemos que estar en el ___ a las seis.",
+  "enunciadoZh": "飞机七点起飞，所以我们要六点到机场。",
+  "opciones": [
+   "aeropuerto",
+   "puerto",
+   "mercado"
+  ],
+  "correcta": 0,
+  "explicacion": "aeropuerto是机场。",
+  "revisado": true
+ },
+ {
+  "id": "A2-018",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "No entiendo esta palabra; ¿puedes ___ el diccionario, por favor?",
+  "enunciadoZh": "我不懂这个词，你能查一下词典吗？",
+  "opciones": [
+   "consultar",
+   "cerrar",
+   "romper"
+  ],
+  "correcta": 0,
+  "explicacion": "consultar el diccionario表示查词典。",
+  "revisado": true
+ },
+ {
+  "id": "A2-019",
+  "nivel": "A2",
+  "destreza": "vocabulario",
+  "enunciado": "Mi clase de español empieza a las nueve y ___ a las once.",
+  "enunciadoZh": "我的西班牙语课九点开始，十一点结束。",
+  "opciones": [
+   "termina",
+   "comienza",
+   "abre"
+  ],
+  "correcta": 0,
+  "explicacion": "terminar表示结束，与empieza相对。",
+  "revisado": true
+ },
+ {
+  "id": "A2-020",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "SMS: «Hola Ana, no puedo ir al gimnasio esta tarde porque tengo que estudiar. ¿Vamos mañana a las seis? Un beso, Laura». ¿Qué propone Laura?",
+  "enunciadoZh": "短信：\"你好Ana，今天下午我不能去健身房，因为我要学习。我们明天六点去好吗？一个吻，Laura。\"Laura提议什么？",
+  "opciones": [
+   "Ir al gimnasio mañana por la tarde.",
+   "Estudiar juntas esta tarde.",
+   "No ir nunca más al gimnasio."
+  ],
+  "correcta": 0,
+  "explicacion": "她提议明天六点去健身房。",
+  "revisado": true
+ },
+ {
+  "id": "A2-021",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "Nota en la puerta: «El ascensor está estropeado. Por favor, use las escaleras hasta que lo arreglen mañana». ¿Qué pasa con el ascensor?",
+  "enunciadoZh": "门上的通知：\"电梯坏了。在明天修好之前请使用楼梯。\"电梯怎么了？",
+  "opciones": [
+   "Está roto.",
+   "Está funcionando bien.",
+   "Está de vacaciones."
+  ],
+  "correcta": 0,
+  "explicacion": "estropeado表示坏了，即roto。",
+  "revisado": true
+ },
+ {
+  "id": "A2-022",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "Anuncio: «Se busca camarero para restaurante del centro. Horario de tarde, de 17 a 23 h. Se necesita algo de experiencia. Teléfono 600 123 456». ¿Qué buscan?",
+  "enunciadoZh": "广告：\"市中心餐厅招聘服务员。下午班，17点到23点。需要一些经验。电话600 123 456。\"他们招什么？",
+  "opciones": [
+   "A un camarero con experiencia.",
+   "A un cocinero de mañana.",
+   "A un cliente para cenar."
+  ],
+  "correcta": 0,
+  "explicacion": "广告招有经验的服务员。",
+  "revisado": true
+ },
+ {
+  "id": "A2-023",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "Correo: «Estimado cliente: su pedido número 45 ha sido enviado hoy y llegará a su casa en dos días». ¿Cuándo llegará el pedido?",
+  "enunciadoZh": "邮件：\"尊敬的客户：您的45号订单今天已发货，两天后到家。\"订单什么时候到？",
+  "opciones": [
+   "Dentro de dos días.",
+   "Hoy mismo.",
+   "La semana que viene."
+  ],
+  "correcta": 0,
+  "explicacion": "邮件说两天后到达。",
+  "revisado": true
+ },
+ {
+  "id": "A2-024",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "Nota de tu compañero: «Me he llevado tu paraguas porque llueve mucho. Te lo devuelvo esta tarde en la oficina». ¿Quién tiene el paraguas ahora?",
+  "enunciadoZh": "同事的便条：\"我拿走了你的伞，因为雨很大。今天下午在办公室还给你。\"现在谁拿着伞？",
+  "opciones": [
+   "El compañero.",
+   "El dueño del paraguas.",
+   "Nadie."
+  ],
+  "correcta": 0,
+  "explicacion": "同事承认拿走了伞。",
+  "revisado": true
+ },
+ {
+  "id": "A2-025",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "SMS: «Mamá, llego a casa sobre las ocho porque primero voy al dentista. No me esperes para cenar». ¿Qué hará el hijo antes de llegar a casa?",
+  "enunciadoZh": "短信：\"妈妈，我大概八点到家，因为先去看牙医。别等我吃晚饭。\"儿子到家前要做什么？",
+  "opciones": [
+   "Ir al dentista.",
+   "Cenar con la familia.",
+   "Ir al supermercado."
+  ],
+  "correcta": 0,
+  "explicacion": "他说先去看牙医。",
+  "revisado": true
+ },
+ {
+  "id": "A2-026",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "Anuncio en la biblioteca: «Recordamos a los usuarios que la sala de estudio cierra los domingos. El préstamo de libros sigue abierto los sábados hasta las 14 h». ¿Cuándo se puede sacar un libro?",
+  "enunciadoZh": "图书馆通知：\"提醒用户，自习室周日关闭。图书借阅周六开放到14点。\"什么时候可以借书？",
+  "opciones": [
+   "Los sábados por la mañana.",
+   "Los domingos todo el día.",
+   "Los sábados por la noche."
+  ],
+  "correcta": 0,
+  "explicacion": "周六到14点，即上午可借。",
+  "revisado": true
+ },
+ {
+  "id": "A2-027",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "Nota de la profesora: «Chicos, el examen del viernes será en el aula 12, no en el aula 8. Traed el libro de texto». ¿Dónde será el examen?",
+  "enunciadoZh": "老师的通知：\"同学们，周五的考试在12号教室，不是8号教室。带上课本。\"考试在哪里？",
+  "opciones": [
+   "En el aula 12.",
+   "En el aula 8.",
+   "En la biblioteca."
+  ],
+  "correcta": 0,
+  "explicacion": "通知明确说在12号教室。",
+  "revisado": true
+ },
+ {
+  "id": "A2-028",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "SMS: «Hola, soy Carlos de la farmacia. Tu pedido está listo. Puedes recogerlo hoy hasta las 20 h o mañana desde las 9 h». ¿Qué puede hacer el cliente?",
+  "enunciadoZh": "短信：\"你好，我是药店的Carlos。你的订单准备好了。可以今天20点前或明天9点后取。\"顾客可以做什么？",
+  "opciones": [
+   "Recoger el pedido hoy antes de las 20 h.",
+   "Recoger el pedido solo el domingo.",
+   "Devolver un producto roto."
+  ],
+  "correcta": 0,
+  "explicacion": "短信说今天20点前可以取货。",
+  "revisado": true
+ },
+ {
+  "id": "A2-029",
+  "nivel": "A2",
+  "destreza": "lectura",
+  "enunciado": "Anuncio: «Gimnasio muy cerca del metro. Abierto de 7 a 22 h. Clase de prueba gratuita para nuevos socios». ¿Qué ofrecen a los nuevos socios?",
+  "enunciadoZh": "广告：\"健身房离地铁很近。7点到22点开放。新会员免费试课一次。\"给新会员提供什么？",
+  "opciones": [
+   "Una clase de prueba gratis.",
+   "Un billete de metro.",
+   "Una entrada para el cine."
+  ],
+  "correcta": 0,
+  "explicacion": "广告写免费试课。",
+  "revisado": true
+ }
+]

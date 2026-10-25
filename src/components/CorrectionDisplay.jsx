@@ -1,3 +1,5 @@
+import { recordTask } from "../lib/progresoDele.js";
+import { construirPrompt, contarPalabras, aplicarPenalizaciones } from "../lib/correccionDele.js";
 import { AwardIcon, LightbulbIcon, StarIcon, FileTextIcon, CircleAlertIcon } from "lucide-react";
 import * as React from "react";
 import { deepseekFetch } from "../lib/deepseekClient.js";
@@ -24,70 +26,10 @@ function useO() {
     },
   };
 }
-function $(t, a, s) {
-  const i = (s?.nivel || t || "A2").toUpperCase();
-  const r = [];
-  r.push(
-    `Eres corrector oficial de exámenes DELE del Instituto Cervantes. Corriges una prueba de producción del nivel ${i} (MCER).`,
-  );
-  if (a) {
-    r.push(`TAREA: ${a}`);
-  }
-  if (s?.genero) {
-    r.push(`GÉNERO DISCURSIVO: ${s.genero}`);
-  }
-  if (s?.situacion) {
-    r.push(`SITUACIÓN: ${s.situacion}`);
-  }
-  if (s?.destinatario) {
-    r.push(`DESTINATARIO: ${s.destinatario}`);
-  }
-  if (s?.proposito) {
-    r.push(`PROPÓSITO: ${s.proposito}`);
-  }
-  if (s?.puntosGuia && s.puntosGuia.length) {
-    r.push(`DEBE TRATAR (puntos obligatorios del enunciado): ${s.puntosGuia.join(" · ")}`);
-    r.push("Para CADA punto obligatorio indica en «puntos» si está «tratado», «incompleto» o «no tratado». Un punto no tratado es un fallo grave de adecuación.");
-  }
-  if (s?.minPalabras || s?.maxPalabras) {
-    r.push(
-      `EXTENSIÓN EXIGIDA: ${s.minPalabras ?? "—"}-${s.maxPalabras ?? "—"} palabras (el sistema te da el recuento exacto; no lo recalcules). Si no cumple, dilo en «sugerencias».`,
-    );
-  }
-  if (s?.rubrica && s.rubrica.length) {
-    r.push("RÚBRICA OFICIAL DE ESTA TAREA — valora CADA criterio en su banda, no con criterios inventados, y devuélvelo en «criterios»:");
-    for (const n of s.rubrica) {
-      const m = n.bandas.map((l) => `${l.banda}: ${l.descriptor}`).join(" || ");
-      r.push(`- ${n.criterio} → ${m}`);
-    }
-  }
-  r.push(
-    `CALIFICACIÓN: la puntuación final (0-100) es la nota ponderada de los criterios anteriores. Un criterio cuenta como logrado solo si alcanza su banda «Apto». El nivel de referencia es ${i}: NO exijas estructuras propias de un nivel superior, y valora como logro lo que corresponde a ${i}.`,
-  );
-  if (!(s?.rubrica && s.rubrica.length)) {
-    r.push("Sin rúbrica específica: usa los criterios DELE «Adecuación a la tarea», «Coherencia y cohesión», «Corrección gramatical y léxica» y «Alcance», cada uno de 0 a 3.");
-  }
-  r.push(
-    "Sé tan exigente como un examinador oficial: no regales puntos. Un texto que no responde a la tarea, que se sale del tema o que tiene errores que impiden entenderlo no puede aprobar. Apto = 60 o más.",
-  );
-  r.push(`FORMATO DE SALIDA: SOLO un objeto JSON válido, sin texto alrededor:
-{"puntuacion":0-100,"apto":true,"criterios":[{"criterio":"","banda":"","nota":0,"comentario":""}],"puntos":[{"punto":"","estado":"tratado"}],"errores":[{"original":"","correccion":"","tipo":"gramática|vocabulario|ortografía|registro|coherencia","explicacion":""}],"sugerencias":[""],"fortalezas":[""],"nivelCERL":"${i}","textoCorregido":""}`);
-  r.push(
-    "Comentarios, explicaciones, sugerencias y fortalezas en chino (中文) y breves. Hasta 10 errores (los más importantes, de más a menos grave), 3 sugerencias y 2 fortalezas.",
-  );
-  if (s?.modeloRespuesta) {
-    r.push(
-      `MODELO DE REFERENCIA (solo para orientar tu valoración; no lo devuelvas como corrección): ${s.modeloRespuesta}`,
-    );
-  }
-  return r.join(`
-`);
-}
 // Si la IA falla no se inventa una nota: se muestra «no corregido»
 function D(t, a) {
   return { fallo: true, mensaje: a || "无法连接到AI批改服务，请稍后再试。", nivelCERL: t || "A2" };
 }
-const contarPalabras = (txt) => (String(txt || "").match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu) || []).length;
 function L(t) {
   const a = t.indexOf("{");
   const s = t.lastIndexOf("}");
@@ -111,7 +53,7 @@ export function u() {
         consumeTokens();
         try {
           const palabras = contarPalabras(n);
-          const d = `${$(l, f, b)}\nPALABRAS DEL TEXTO (contadas por el sistema, exactas): ${palabras}`;
+          const d = `${construirPrompt(l, f, b)}\nPALABRAS DEL TEXTO (contadas por el sistema, exactas): ${palabras}`;
           const c = await deepseekFetch(T, {
             method: "POST",
             headers: {
@@ -157,27 +99,7 @@ export function u() {
           if (typeof o.puntuacion !== "number") {
             throw new Error("Respuesta sin nota");
           }
-          // Penalizaciones calculadas por el sistema (no dependen de la IA)
-          const pen = [];
-          let menos = 0;
-          if (b?.minPalabras && palabras < b.minPalabras) {
-            const p = Math.min(30, Math.round(((b.minPalabras - palabras) / b.minPalabras) * 40));
-            menos += p;
-            pen.push(`Extensión insuficiente: ${palabras}/${b.minPalabras} palabras (−${p}) · 字数不足`);
-          }
-          if (b?.maxPalabras && palabras > b.maxPalabras * 1.15) {
-            menos += 10;
-            pen.push(`Demasiado largo: ${palabras}/${b.maxPalabras} palabras (−10) · 字数超出`);
-          }
-          const puntos = Array.isArray(o.puntos) ? o.puntos.filter((x) => x && x.punto) : [];
-          const noTratados = puntos.filter((x) => /no tratado/i.test(x.estado)).length;
-          const incompletos = puntos.filter((x) => /incompleto/i.test(x.estado)).length;
-          if (noTratados || incompletos) {
-            const p = Math.min(35, noTratados * 10 + incompletos * 4);
-            menos += p;
-            pen.push(`Puntos del enunciado: ${noTratados} sin tratar, ${incompletos} incompletos (−${p}) · 题目要点未完成`);
-          }
-          const puntuacion = Math.max(0, Math.min(100, Math.round(o.puntuacion - menos)));
+          const { puntuacion, pen, puntos, noTratados } = aplicarPenalizaciones(o, palabras, b);
           const data = {
             puntuacion,
             apto: puntuacion >= 60 && noTratados === 0,
@@ -191,7 +113,10 @@ export function u() {
             fortalezas: Array.isArray(o.fortalezas) ? o.fortalezas : [],
             nivelCERL: o.nivelCERL || l || "A2",
             textoCorregido: o.textoCorregido || "",
+            original: n,
+            args: [m, l, f, b],
           };
+          recordTask({ skill: /monolog|interacc|oral/i.test(String(m)) ? "oral" : "escritura", level: String(l || "A2").toUpperCase(), score: puntuacion, criterios: data.criterios, src: String(f || "").slice(0, 80), errores: data.errores });
           setIsCorrecting(false);
           return {
             data,
@@ -209,6 +134,63 @@ export function u() {
     isCorrecting,
     remainingTokens,
   };
+}
+// Reescritura guiada: el alumno corrige su texto y ve qué ha mejorado
+function Reescritura({ data }) {
+  const { correctText, isCorrecting } = u();
+  const [txt, setTxt] = React.useState(data.original || "");
+  const [nuevo, setNuevo] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  if (!data.original || !data.args) return null;
+  const arreglados = (data.errores || []).filter((e) => e.original && e.original !== "—" && !txt.includes(e.original));
+  const enviar = async () => {
+    const r = await correctText(txt, ...data.args);
+    if (r?.data) setNuevo(r.data);
+  };
+  return (
+    <div className="corr-rew">
+      {!open ? (
+        <button className="wel-btn red" onClick={() => setOpen(true)}>
+          ✍️ Reescribir con la corrección · 根据批改重写
+        </button>
+      ) : (
+        <>
+          <h4>Reescritura guiada · 修改后重新提交</h4>
+          <p className="corr-rew-tip">
+            Corrige tu texto aquí. Errores ya arreglados: {arreglados.length}/{(data.errores || []).length} · 已改正的错误
+          </p>
+          <textarea value={txt} onChange={(e) => setTxt(e.target.value)} rows={8} />
+          <button className="wel-btn red" disabled={isCorrecting || txt.trim() === data.original.trim()} onClick={enviar}>
+            {isCorrecting ? "Corrigiendo… · 批改中…" : "Volver a corregir · 再次批改"}
+          </button>
+          {nuevo && !nuevo.fallo && (
+            <div className="corr-compare">
+              <div className="corr-delta">
+                <span>Antes · 之前 <b>{data.puntuacion}</b></span>
+                <span>→</span>
+                <span>Ahora · 现在 <b className={nuevo.puntuacion >= data.puntuacion ? "up" : "down"}>{nuevo.puntuacion}</b></span>
+                <span className={`corr-apto ${nuevo.apto ? "si" : "no"}`}>{nuevo.apto ? "APTO" : "NO APTO"}</span>
+              </div>
+              {(nuevo.criterios || []).map((c, k) => {
+                const prev = (data.criterios || []).find((x) => x.criterio === c.criterio);
+                const d = prev ? (Number(c.nota) || 0) - (Number(prev.nota) || 0) : 0;
+                return (
+                  <div key={k} className="corr-crit">
+                    <span><b>{c.criterio}</b></span>
+                    <em className={`n${Math.max(0, Math.min(3, Number(c.nota) || 0))}`}>
+                      {prev ? `${prev.nota} → ` : ""}{c.nota}/3 {d > 0 ? "▲" : d < 0 ? "▼" : ""}
+                    </em>
+                  </div>
+                );
+              })}
+              {(nuevo.errores || []).length > 0 && <p className="corr-rew-tip">Quedan {nuevo.errores.length} errores por corregir · 还有错误需要修改</p>}
+            </div>
+          )}
+          {nuevo?.fallo && <p className="corr-rew-tip">No se ha podido corregir · 暂时无法批改</p>}
+        </>
+      )}
+    </div>
+  );
 }
 function MComponent({ data }) {
   if (data?.fallo)
@@ -429,6 +411,7 @@ function MComponent({ data }) {
             Nivel CERL: <span className="text-white/40 font-bold">{data.nivelCERL}</span>
           </span>
         </div>
+        <Reescritura data={data} />
       </div>
     </div>
   );

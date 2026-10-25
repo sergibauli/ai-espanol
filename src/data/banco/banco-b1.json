@@ -1,0 +1,422 @@
+[
+ {
+  "id": "B1-000",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "Cuando era niño, todos los veranos ______ a la playa con mis abuelos.",
+  "enunciadoZh": "小时候，每年夏天我都和祖父母去海边。",
+  "opciones": [
+   "iba",
+   "fui",
+   "he ido"
+  ],
+  "correcta": 0,
+  "explicacion": "描述过去的习惯动作，用未完成过去时 iba。",
+  "revisado": true
+ },
+ {
+  "id": "B1-001",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "Si mañana ______ tiempo, iremos al cine.",
+  "enunciadoZh": "如果明天有时间，我们就去看电影。",
+  "opciones": [
+   "tenemos",
+   "tengamos",
+   "tendremos"
+  ],
+  "correcta": 0,
+  "explicacion": "si 引导的真实条件句，指将来用现在时 tenemos。",
+  "revisado": true
+ },
+ {
+  "id": "B1-002",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "Este es el museo ______ te hablé la semana pasada.",
+  "enunciadoZh": "这就是我上周跟你说的那个博物馆。",
+  "opciones": [
+   "del que",
+   "que",
+   "el que"
+  ],
+  "correcta": 0,
+  "explicacion": "hablar de 需要介词，先行词是事物，用 del que。",
+  "revisado": true
+ },
+ {
+  "id": "B1-003",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "Ojalá ______ aprobar el examen de conducir.",
+  "enunciadoZh": "但愿我能通过驾照考试。",
+  "opciones": [
+   "pueda",
+   "puedo",
+   "podría"
+  ],
+  "correcta": 0,
+  "explicacion": "ojalá 后接虚拟式，用 pueda。",
+  "revisado": true
+ },
+ {
+  "id": "B1-004",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "No creo que Marta ______ razón en esta discusión.",
+  "enunciadoZh": "我不认为玛尔塔在这场争论中有道理。",
+  "opciones": [
+   "tiene",
+   "tenga",
+   "tendría"
+  ],
+  "correcta": 1,
+  "explicacion": "no creo que 表否定意见，从句用虚拟式 tenga。",
+  "revisado": true
+ },
+ {
+  "id": "B1-005",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "Anoche, mientras ______ la televisión, sonó el teléfono.",
+  "enunciadoZh": "昨晚我正看电视的时候，电话响了。",
+  "opciones": [
+   "veía",
+   "vi",
+   "había visto"
+  ],
+  "correcta": 0,
+  "explicacion": "背景动作正在进行，用未完成过去时 veía。",
+  "revisado": true
+ },
+ {
+  "id": "B1-006",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "¿______ podrías decirme dónde está la estación?",
+  "enunciadoZh": "您能告诉我车站在哪里吗？",
+  "opciones": [
+   "Me",
+   "Te",
+   "Le"
+  ],
+  "correcta": 0,
+  "explicacion": "固定表达 ¿me podrías...? 用与格代词 me。",
+  "revisado": true
+ },
+ {
+  "id": "B1-007",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "Es importante que los niños ______ fruta todos los días.",
+  "enunciadoZh": "重要的是孩子们每天吃水果。",
+  "opciones": [
+   "coman",
+   "comen",
+   "comerán"
+  ],
+  "correcta": 0,
+  "explicacion": "es importante que 后接虚拟式 coman。",
+  "revisado": true
+ },
+ {
+  "id": "B1-008",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "Ayer ______ las llaves en casa y no pude entrar.",
+  "enunciadoZh": "昨天我把钥匙忘在家里，进不了门。",
+  "opciones": [
+   "dejé",
+   "dejaba",
+   "había dejado"
+  ],
+  "correcta": 0,
+  "explicacion": "过去具体一次性动作，用简单过去时 dejé。",
+  "revisado": true
+ },
+ {
+  "id": "B1-009",
+  "nivel": "B1",
+  "destreza": "gramatica",
+  "enunciado": "Dentro de dos años ellos ya ______ terminado la carrera.",
+  "enunciadoZh": "两年后他们就已经完成学业了。",
+  "opciones": [
+   "habrán",
+   "han",
+   "habían"
+  ],
+  "correcta": 0,
+  "explicacion": "指将来某时前完成的动作，用将来完成时 habrán。",
+  "revisado": true
+ },
+ {
+  "id": "B1-010",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "Para abrir una cuenta en el banco, primero tienes que ______ un formulario.",
+  "enunciadoZh": "要在银行开户，首先得填写一张表格。",
+  "opciones": [
+   "rellenar",
+   "romper",
+   "firmar"
+  ],
+  "correcta": 0,
+  "explicacion": "rellenar un formulario 意为“填写表格”。",
+  "revisado": true
+ },
+ {
+  "id": "B1-011",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "Mi hermano ha ______ mucho dinero este mes porque se ha comprado un coche.",
+  "enunciadoZh": "我哥哥这个月花了很多钱，因为他买了一辆车。",
+  "opciones": [
+   "gastado",
+   "ganado",
+   "ahorrado"
+  ],
+  "correcta": 0,
+  "explicacion": "gastar dinero 意为“花钱”，符合语境。",
+  "revisado": true
+ },
+ {
+  "id": "B1-012",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "El tren tenía un ______ de veinte minutos, así que llegué tarde a la reunión.",
+  "enunciadoZh": "火车晚点了二十分钟，所以我开会迟到了。",
+  "opciones": [
+   "retraso",
+   "viaje",
+   "billete"
+  ],
+  "correcta": 0,
+  "explicacion": "retraso 意为“延误”，符合迟到原因。",
+  "revisado": true
+ },
+ {
+  "id": "B1-013",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "Antes de tomar el medicamento, lee bien las ______ del prospecto.",
+  "enunciadoZh": "服药前，请仔细阅读说明书的说明。",
+  "opciones": [
+   "instrucciones",
+   "recetas",
+   "noticias"
+  ],
+  "correcta": 0,
+  "explicacion": "instrucciones 指使用说明，符合药品语境。",
+  "revisado": true
+ },
+ {
+  "id": "B1-014",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "Ana y yo nos conocimos en la universidad, pero ahora solo somos ______.",
+  "enunciadoZh": "安娜和我在大学认识，但现在我们只是普通朋友。",
+  "opciones": [
+   "conocidos",
+   "vecinos",
+   "compañeros"
+  ],
+  "correcta": 0,
+  "explicacion": "conocidos 指“认识的人/熟人”，此处不熟。",
+  "revisado": true
+ },
+ {
+  "id": "B1-015",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "El examen fue bastante difícil; sin embargo, conseguí ______ con buena nota.",
+  "enunciadoZh": "考试相当难，但我还是以好成绩通过了。",
+  "opciones": [
+   "aprobarlo",
+   "suspenderlo",
+   "repetirlo"
+  ],
+  "correcta": 0,
+  "explicacion": "aprobar 意为“通过考试”，符合 sin embargo 语境。",
+  "revisado": true
+ },
+ {
+  "id": "B1-016",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "Si quieres alquilar el piso, tienes que firmar un ______ con el dueño.",
+  "enunciadoZh": "如果你想租这套房子，必须和房主签一份合同。",
+  "opciones": [
+   "contrato",
+   "presupuesto",
+   "horario"
+  ],
+  "correcta": 0,
+  "explicacion": "contrato de alquiler 意为“租赁合同”。",
+  "revisado": true
+ },
+ {
+  "id": "B1-017",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "En la farmacia venden ______ para la tos y también vitaminas.",
+  "enunciadoZh": "药店出售止咳药，还有维生素。",
+  "opciones": [
+   "jarabe",
+   "pan",
+   "detergente"
+  ],
+  "correcta": 0,
+  "explicacion": "jarabe 意为“糖浆药”，治咳嗽。",
+  "revisado": true
+ },
+ {
+  "id": "B1-019",
+  "nivel": "B1",
+  "destreza": "vocabulario",
+  "enunciado": "Mi vecino es muy ______: siempre ayuda a todos en el edificio.",
+  "enunciadoZh": "我的邻居很热心，总是帮助楼里所有人。",
+  "opciones": [
+   "amable",
+   "mentiroso",
+   "perezoso"
+  ],
+  "correcta": 0,
+  "explicacion": "amable 意为“友善、热心”，符合帮助他人的语境。",
+  "revisado": true
+ },
+ {
+  "id": "B1-020",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "Aviso en la lavandería: «Por favor, retire su ropa de la máquina cuando termine. Si viene después de 22:00, use la entrada lateral.» ¿Qué debe hacer el cliente después de las 22:00?",
+  "enunciadoZh": "洗衣房通知：“机器结束后请把衣服取走。如果22点以后来，请走侧门。”顾客22点后应该怎么做？",
+  "opciones": [
+   "Usar la entrada lateral.",
+   "Retirar su ropa por la mañana.",
+   "No puede entrar en la lavandería."
+  ],
+  "correcta": 0,
+  "explicacion": "通知明确说 22:00 后走侧门。",
+  "revisado": true
+ },
+ {
+  "id": "B1-021",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "SMS de Lucía: «Hola, mamá. Me quedo a cenar en casa de Paula. Vuelvo sobre las once. No te preocupes.» ¿A quién va dirigido el mensaje?",
+  "enunciadoZh": "露西亚的短信：“妈妈你好。我在保拉家吃晚饭。大约十一点回来。别担心。”这条短信是写给谁的？",
+  "opciones": [
+   "A su madre.",
+   "A Paula.",
+   "A su hermana."
+  ],
+  "correcta": 0,
+  "explicacion": "短信开头称呼 mamá，是给母亲的。",
+  "revisado": true
+ },
+ {
+  "id": "B1-022",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "Nota en la puerta del médico: «El doctor Ruiz no pasa consulta esta tarde por una urgencia. Disculpen las molestias.» ¿Qué significa la nota?",
+  "enunciadoZh": "医生门上的便条：“鲁伊斯医生今天下午因急诊不接诊。敬请谅解。”这张便条是什么意思？",
+  "opciones": [
+   "Que el doctor no atenderá a pacientes esta tarde.",
+   "Que el doctor llega tarde a la consulta.",
+   "Que el doctor ha cambiado de número de teléfono."
+  ],
+  "correcta": 0,
+  "explicacion": "no pasa consulta 意为“不接诊”。",
+  "revisado": true
+ },
+ {
+  "id": "B1-023",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "Anuncio: «Clases de español para extranjeros. Grupos reducidos. Martes y jueves, de 18:00 a 20:00. Precio: 90 euros al mes.» ¿Qué información NO aparece en el anuncio?",
+  "enunciadoZh": "广告：“面向外国人的西班牙语课。小班。周二和周四18:00到20:00。价格：每月90欧元。”广告中没有出现哪项信息？",
+  "opciones": [
+   "El nombre del profesor.",
+   "El horario de las clases.",
+   "El precio mensual."
+  ],
+  "correcta": 0,
+  "explicacion": "广告没提老师名字，其余信息都有。",
+  "revisado": true
+ },
+ {
+  "id": "B1-024",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "SMS de tu jefe: «Mañana hay una reunión a las 9:30 en la sala grande. Trae el informe del trimestre, por favor.» ¿Qué debes llevar a la reunión?",
+  "enunciadoZh": "老板的短信：“明天9:30在大会议室开会。请带上季度报告。”你开会要带什么？",
+  "opciones": [
+   "El informe del trimestre.",
+   "La sala grande.",
+   "Una nota con la hora."
+  ],
+  "correcta": 0,
+  "explicacion": "短信要求 trae el informe del trimestre。",
+  "revisado": true
+ },
+ {
+  "id": "B1-025",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "Nota de Marta: «Pedro, he dejado las llaves de casa dentro del cajón de tu mesa. Te las dejo porque yo me voy de viaje hoy. Gracias por regar mis plantas.» ¿Por qué Marta deja las llaves a Pedro?",
+  "enunciadoZh": "玛尔塔的便条：“佩德罗，我把家里的钥匙放在你桌子的抽屉里。留给你是因为我今天要出远门。谢谢你帮我浇花。”玛尔塔为什么把钥匙留给佩德罗？",
+  "opciones": [
+   "Porque se va de viaje y Pedro cuidará de sus plantas.",
+   "Porque Pedro ha perdido sus propias llaves.",
+   "Porque quiere cambiar de casa."
+  ],
+  "correcta": 0,
+  "explicacion": "她说去旅行并感谢佩德罗浇花。",
+  "revisado": true
+ },
+ {
+  "id": "B1-026",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "Anuncio en el supermercado: «Oferta: 2x1 en zumo de naranja. Solo hasta el domingo.» ¿Hasta cuándo dura la oferta?",
+  "enunciadoZh": "超市广告：“优惠：橙汁买一送一。仅到周日。”优惠持续到什么时候？",
+  "opciones": [
+   "Hasta el domingo.",
+   "Todo el mes.",
+   "Hasta el martes."
+  ],
+  "correcta": 0,
+  "explicacion": "广告写 Solo hasta el domingo。",
+  "revisado": true
+ },
+ {
+  "id": "B1-027",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "Nota del hotel: «Estimado cliente: el desayuno se sirve en el restaurante de la planta 2, de 7:00 a 10:30. Le recordamos que no está incluido en el precio de la habitación.» ¿Dónde se desayuna?",
+  "enunciadoZh": "酒店便条：“尊敬的客人：早餐在二层餐厅供应，7:00到10:30。提醒您早餐不包含在房费内。”在哪里吃早餐？",
+  "opciones": [
+   "En el restaurante de la planta 2.",
+   "En la habitación.",
+   "En el precio de la habitación."
+  ],
+  "correcta": 0,
+  "explicacion": "便条说明早餐在二层餐厅。",
+  "revisado": true
+ },
+ {
+  "id": "B1-028",
+  "nivel": "B1",
+  "destreza": "lectura",
+  "enunciado": "Correo breve: «Hola, Javier: no puedo asistir a tu cumpleaños porque tengo que trabajar ese día. Te llamo el viernes para felicitarte. Un abrazo, Carlos.» ¿Por qué no va Carlos a la fiesta?",
+  "enunciadoZh": "简短邮件：“哈维尔你好：我不能参加你的生日聚会，因为那天我要工作。周五我打电话祝你生日快乐。拥抱，卡洛斯。”卡洛斯为什么不去聚会？",
+  "opciones": [
+   "Porque tiene que trabajar.",
+   "Porque está enfermo.",
+   "Porque no le gustan las fiestas."
+  ],
+  "correcta": 0,
+  "explicacion": "他说 tengo que trabajar ese día。",
+  "revisado": true
+ }
+]
