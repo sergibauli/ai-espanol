@@ -1,0 +1,2668 @@
+{
+  "nivel": "B1",
+  "modelo": 21,
+  "codigo": "B1-21",
+  "titulo": "DELE B1 · Simulacro nuevo 21",
+  "temaCentral": "La biblioteca pública como espacio de encuentro",
+  "ambito": "publico",
+  "matriz": {
+    "generosLectura": [
+      "aviso",
+      "reportaje",
+      "diario",
+      "instrucciones",
+      "carta al director"
+    ],
+    "tiposAudio": [
+      "anuncio publicitario",
+      "monólogo de experiencias",
+      "programa informativo",
+      "monólogo de experiencias",
+      "conversación informal"
+    ],
+    "variedadesAudio": [
+      "España",
+      "Argentina"
+    ],
+    "situacionEscrita": "Su amigo Tobías Ferreyra, que vive en otro país, le ha escrito para preparar un trabajo escolar sobre los espacios públicos que unen a la comunidad. Usted vive en Santa Eulalia de Oscos y quiere contarle cómo es la biblioteca de su barrio y qué actividades ofrece.",
+    "temaOral": "Monólogo: un espacio público de mi barrio que recomiendo",
+    "fotoOral": "[FOTOGRAFÍA A: Interior amplio de una biblioteca pública. Estanterías de madera llenas de libros rodean la sala. Varias personas están sentadas en mesas largas leyendo y tomando apuntes; un joven con auriculares usa un ordenador y una mujer mayor consulta un periódico. En una zona infantil con alfombra de colores, un grupo de niños escucha a una bibliotecaria que lee un cuento ilustrado. En la pared hay carteles: 'Zona de estudio' y 'Cuentacuentos hoy a las 18:00'. La luz natural entra por grandes ventanales.]\n[FOTOGRAFÍA B: Exterior de un centro cultural de barrio durante una feria del libro. Hay mesas plegables con libros de segunda mano y varias personas hojeándolos. Un pequeño escenario con un micrófono está preparado para una lectura; un hombre con camisa clara ajusta el micrófono mientras una mujer coloca sillas. En otra mesa, niños hacen manualidades con papel y pegamento. Cuelga una pancarta que dice 'Semana del libro' y hay globos de colores atados a las farolas.]"
+  },
+  "pruebas": [
+    {
+      "prueba": 1,
+      "nombre": "Comprensión de lectura",
+      "duracion": 70,
+      "tareas": [
+        {
+          "num": 1,
+          "titulo": "Actividades en la biblioteca de Santa Eulalia",
+          "instrucciones": "Usted va a leer nueve textos breves. Relacione seis de ellos con las seis declaraciones (de la 1 a la 6). HAY TRES TEXTOS QUE NO DEBE RELACIONAR.\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "relacionar",
+          "genero": "aviso",
+          "subgenero": "aviso de asociación",
+          "ambito": "publico",
+          "subtema": "actividades de una biblioteca pública",
+          "texto": null,
+          "tituloTexto": null,
+          "fuente": null,
+          "palabras": 453,
+          "material": {
+            "tipo": "relacionar",
+            "bloques": [
+              {
+                "letra": "A",
+                "titulo": "Club de lectura",
+                "texto": "El club de lectura se reúne el primer martes de cada mes a las seis de la tarde. Los participantes eligen un libro y lo comentan después con un café, en un ambiente tranquilo y agradable. No hace falta inscribirse y la entrada es libre para todos los vecinos de la zona."
+              },
+              {
+                "letra": "B",
+                "titulo": "Taller de poesía",
+                "texto": "El taller de poesía de la biblioteca está pensado para jóvenes que quieren escribir y leer poemas. Se reúne los jueves por la tarde en la sala de actividades, y el monitor corrige los textos en grupo. Las plazas son limitadas y hay que apuntarse en recepción antes del inicio."
+              },
+              {
+                "letra": "C",
+                "titulo": "Cuentacuentos",
+                "texto": "Cada sábado por la mañana hay un cuentacuentos para niños de tres a ocho años en la sala infantil. Una bibliotecaria lee un cuento ilustrado y después los niños hacen un dibujo sobre la historia. Los padres pueden quedarse en la sala o tomar un café, y no se necesita reservar."
+              },
+              {
+                "letra": "D",
+                "titulo": "Exposición de fotos antiguas",
+                "texto": "La sala principal acoge estos días una exposición de fotos antiguas del barrio, en la entrada. Muestra imágenes de calles, plazas y edificios más representativas desde el año mil novecientos cincuenta. Los vecinos pueden traer sus fotos para ampliar la colección, y la exposición se ve de lunes a viernes."
+              },
+              {
+                "letra": "E",
+                "titulo": "Intercambio de libros",
+                "texto": "El último sábado de cada mes se instala un mercadillo de intercambio de libros en la entrada. Solo se admiten libros en buen estado, sin páginas rotas, y no se venden. Cada persona puede llevarse tantos libros como haya traído, y no hay que reservar en el mostrador."
+              },
+              {
+                "letra": "F",
+                "titulo": "Café tertulia",
+                "texto": "La biblioteca organiza una tertulia para hablar sobre temas del barrio cada semana. Se celebra los miércoles a las seis y participan vecinos de todas las edades con ganas de conversar. No hay un tema fijo: cada semana se propone uno nuevo, y la entrada es gratuita para todos."
+              },
+              {
+                "letra": "G",
+                "titulo": "Apoyo escolar",
+                "texto": "Se ofrece apoyo escolar gratuito para estudiantes de primaria y secundaria en la biblioteca. Voluntarios ayudan con los deberes y a preparar los exámenes de cada semana a los alumnos. Las sesiones son de lunes a jueves por la tarde, y solo hay que pedir cita en el mostrador."
+              },
+              {
+                "letra": "H",
+                "titulo": "Cine fórum",
+                "texto": "Los viernes a las siete se proyecta una película en el salón de actos de la biblioteca. Después de la proyección, los asistentes comentan la historia y los personajes con el resto del público. Este mes se ven películas sobre viajes y amistad, y la entrada es libre hasta completar el aforo."
+              },
+              {
+                "letra": "I",
+                "titulo": "Taller de informática",
+                "texto": "El taller de informática básica enseña a los adultos a usar el correo, internet y el móvil. Las clases son los martes y jueves por la mañana, en dos turnos de una hora. Se necesita saber leer y escribir, y hay que inscribirse antes porque las plazas son limitadas en la biblioteca."
+              }
+            ],
+            "enunciados": [
+              "Quiero ir a una tertulia para hablar con los vecinos y no quiero pagar entrada.",
+              "Busco un taller de poesía para mi hija joven; sé que hay pocas plazas.",
+              "Me gusta ver películas y comentarlas con otras personas; prefiero una actividad gratuita.",
+              "Quiero aprender a usar el móvil y el correo con un profesor; tengo las mañanas libres.",
+              "Necesito a alguien que ayude a mis hijos con los deberes por la tarde y no quiero pagar.",
+              "Me interesa ver fotos antiguas del barrio y quizá llevar las mías para la exposición."
+            ],
+            "fragmentos": [],
+            "sobrantes": 3
+          },
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "Declaración 1: «Quiero ir a una tertulia para hablar con los vecinos y no quiero pagar entrada.»",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 5,
+              "justificacion": "La biblioteca organiza una tertulia para hablar sobre temas del barrio y la entrada es gratuita.",
+              "fraseSoporte": "La biblioteca organiza una tertulia para hablar sobre temas del barrio cada semana."
+            },
+            {
+              "num": 2,
+              "enunciado": "Declaración 2: «Busco un taller de poesía para mi hija joven; sé que hay pocas plazas.»",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 1,
+              "justificacion": "El taller de poesía está pensado para jóvenes y las plazas son limitadas.",
+              "fraseSoporte": "El taller de poesía de la biblioteca está pensado para jóvenes que quieren escribir y leer poemas."
+            },
+            {
+              "num": 3,
+              "enunciado": "Declaración 3: «Me gusta ver películas y comentarlas con otras personas; prefiero una actividad gratuita.»",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 7,
+              "justificacion": "El cine fórum proyecta películas y después se comentan con el público; la entrada es libre.",
+              "fraseSoporte": "Después de la proyección, los asistentes comentan la historia y los personajes con el resto del público."
+            },
+            {
+              "num": 4,
+              "enunciado": "Declaración 4: «Quiero aprender a usar el móvil y el correo con un profesor; tengo las mañanas libres.»",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 8,
+              "justificacion": "El taller de informática enseña a usar el móvil y el correo, y las clases son por la mañana.",
+              "fraseSoporte": "El taller de informática básica enseña a los adultos a usar el correo, internet y el móvil."
+            },
+            {
+              "num": 5,
+              "enunciado": "Declaración 5: «Necesito a alguien que ayude a mis hijos con los deberes por la tarde y no quiero pagar.»",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 6,
+              "justificacion": "El apoyo escolar ofrece ayuda con los deberes por la tarde y es gratuito.",
+              "fraseSoporte": "Voluntarios ayudan con los deberes y a preparar los exámenes de cada semana a los alumnos."
+            },
+            {
+              "num": 6,
+              "enunciado": "Declaración 6: «Me interesa ver fotos antiguas del barrio y quizá llevar las mías para la exposición.»",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 3,
+              "justificacion": "La exposición muestra fotos antiguas del barrio y se pueden traer fotos propias.",
+              "fraseSoporte": "La sala principal acoge estos días una exposición de fotos antiguas del barrio, en la entrada."
+            }
+          ],
+          "atomoId": "B1-L1-020"
+        },
+        {
+          "num": 2,
+          "titulo": "La biblioteca que se convirtió en sala de estar del barrio",
+          "instrucciones": "Usted va a leer un texto. Después, debe contestar a las preguntas (de la 1 a la 6). Seleccione la respuesta correcta (a / b / c).\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "opcion_multiple",
+          "genero": "reportaje",
+          "subgenero": "reportaje divulgativo",
+          "ambito": "publico",
+          "subtema": "cómo una biblioteca de barrio se convierte en lugar de encuentro",
+          "texto": "La Biblioteca del Arco abrió en 1995 con una sala pequeña y un mostrador de préstamo. Hoy ocupa un edificio de dos plantas junto al mercado municipal y tiene una entrada amplia con rampa de acceso. El cambio no ha sido únicamente de superficie ni de horarios, sino de la manera de usar el edificio. La directora, Nuria Segura Palacios, lo resume: «Antes la gente entraba y se iba, ahora se queda».\n\nLa biblioteca ha cambiado por completo su organización interna para responder mejor a las necesidades de los visitantes. Por ejemplo, ahora existe una zona social con sofás, una pequeña cafetería y un rincón infantil para leer cuentos. Además, funciona un aula de estudio en silencio y una sala de prensa para leer periódicos y revistas. Según la directora, estas transformaciones responden exactamente a lo que pidieron los propios vecinos durante las reuniones. Nuria Segura lo confirma: «Antes nadie se quedaba mucho tiempo; hoy algunos pasan aquí la tarde entera».\n\nLos talleres de informática y el club de lectura son las actividades que más gente reúnen cada semana. La biblioteca no cobra por la mayoría de sus servicios básicos, como el préstamo y la consulta en sala. Sin embargo, algunas clases especiales tienen un precio simbólico de tres euros solo para cubrir gastos. Maite Aranda, la tesorera, explica que ese dinero sirve para comprar materiales y pagar a los profesores. «Si no cobramos nada, la calidad de los cursos bajará mucho y no podremos traer buenos profesores», asegura.\n\nEl gran debate actual es cuánto ruido puede soportar una biblioteca que también es lugar de encuentro. Algunos usuarios, como Joel Paredes, un estudiante de veinte años, piden silencio total en todas las salas. Otros defienden que las conversaciones y los talleres en grupo forman parte del espíritu del centro. La biblioteca ha buscado un equilibrio con áreas separadas y horarios fijos para cada tipo de actividad.\n\nPara atraer a los jóvenes, la biblioteca ha creado un club de cómic y un taller de creación digital. También organiza un cinefórum mensual y cuentacuentos para niños, y una librería del barrio colabora donando ejemplares para el club de lectura. La cafetería de la esquina ofrece descuentos a quienes presentan el carné de la biblioteca. Así, otros negocios del barrio se benefician del aumento de visitantes y de la vida que genera la biblioteca.\n\nEl resultado es una biblioteca con más visitantes que nunca y también con más normas de convivencia. Nuria Segura lo resume con una imagen muy sencilla y poderosa. «Antes esto era un pasillo por el que la gente pasaba deprisa», recuerda. «Ahora es una plaza cubierta donde todos se paran a charlar», añade.",
+          "tituloTexto": null,
+          "fuente": null,
+          "palabras": 444,
+          "material": null,
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "¿Cómo era la biblioteca cuando abrió en 1995?",
+              "opciones": [
+                "Era un espacio pequeño y solo servía para prestar libros.",
+                "Tenía tres plantas y una cafetería.",
+                "Estaba situada junto al mercado municipal."
+              ],
+              "correcta": 0,
+              "justificacion": "El texto dice que en 1995 la biblioteca abrió con una sala pequeña y un mostrador de préstamo.",
+              "fraseSoporte": "abrió en 1995 con una sala pequeña y un mostrador de préstamo"
+            },
+            {
+              "num": 2,
+              "enunciado": "¿Qué ha hecho la biblioteca para atender mejor a los visitantes?",
+              "opciones": [
+                "Ha cerrado la sala de prensa.",
+                "Ha creado una zona social con sofás y una cafetería.",
+                "Ha reducido el horario de apertura."
+              ],
+              "correcta": 1,
+              "justificacion": "El texto menciona que ahora existe una zona social con sofás y una pequeña cafetería.",
+              "fraseSoporte": "ahora existe una zona social con sofás, una pequeña cafetería y un rincón infantil"
+            },
+            {
+              "num": 3,
+              "enunciado": "¿Para qué se cobran tres euros en algunas clases especiales?",
+              "opciones": [
+                "Para comprar libros nuevos.",
+                "Para pagar la limpieza del edificio.",
+                "Para comprar materiales y pagar a los profesores."
+              ],
+              "correcta": 2,
+              "justificacion": "La tesorera explica que ese dinero sirve para comprar materiales y pagar a los profesores.",
+              "fraseSoporte": "ese dinero sirve para comprar materiales y pagar a los profesores"
+            },
+            {
+              "num": 4,
+              "enunciado": "¿Cuál es uno de los debates actuales según el texto?",
+              "opciones": [
+                "Si es adecuado permitir ruido en la biblioteca.",
+                "Si hay que cerrar la cafetería.",
+                "Si los niños deben entrar en la sala de estudio."
+              ],
+              "correcta": 0,
+              "justificacion": "El texto plantea cuánto ruido puede soportar una biblioteca que también es lugar de encuentro.",
+              "fraseSoporte": "El gran debate actual es cuánto ruido puede soportar una biblioteca que también es lugar de encuentro"
+            },
+            {
+              "num": 5,
+              "enunciado": "¿Cómo colabora una librería del barrio con la biblioteca?",
+              "opciones": [
+                "Organiza sesiones de cuentacuentos.",
+                "Dona ejemplares para el club de lectura.",
+                "Ofrece descuentos a los usuarios del cinefórum."
+              ],
+              "correcta": 1,
+              "justificacion": "El texto dice que una librería del barrio colabora donando ejemplares para el club de lectura.",
+              "fraseSoporte": "Una librería del barrio colabora donando ejemplares para el club de lectura"
+            },
+            {
+              "num": 6,
+              "enunciado": "¿Qué imagen utiliza Nuria Segura para explicar el cambio de la biblioteca?",
+              "opciones": [
+                "Antes era un mercado y ahora es un centro comercial.",
+                "Antes era un café y ahora es un restaurante.",
+                "Antes era un pasillo por el que la gente pasaba deprisa y ahora es una plaza cubierta para charlar."
+              ],
+              "correcta": 2,
+              "justificacion": "La directora dice que antes era un pasillo y ahora es una plaza cubierta donde todos se paran a charlar.",
+              "fraseSoporte": "«Antes esto era un pasillo por el que la gente pasaba deprisa», recuerda. «Ahora es una plaza cubierta donde todos se paran a charlar», añade."
+            }
+          ],
+          "atomoId": "B1-L2-020"
+        },
+        {
+          "num": 3,
+          "titulo": "La biblioteca del barrio en tres voces",
+          "instrucciones": "Usted va a leer tres textos. Relacione las preguntas (de la 1 a la 6) con los textos (A, B o C).\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "relacionar",
+          "genero": "diario",
+          "subgenero": "diario personal",
+          "ambito": "publico",
+          "subtema": "la biblioteca pública como espacio de encuentro",
+          "texto": null,
+          "tituloTexto": null,
+          "fuente": null,
+          "palabras": null,
+          "material": {
+            "tipo": "relacionar",
+            "bloques": [
+              {
+                "letra": "A",
+                "titulo": "Una tarde sorprendente",
+                "texto": "El jueves por la tarde fui con mi hija a la biblioteca del barrio. Había una actividad de cuentos para los más pequeños y la sala se llenó de familias. Me sorprendió ver a tantos vecinos juntos, porque antes este espacio estaba casi vacío durante la semana. Ahora la biblioteca abre también los sábados por la mañana y ofrece talleres de dibujo y de cocina fácil. Mi hija quiere apuntarse a un club de lectura infantil que empieza en octubre. Creo que la biblioteca se ha convertido en un punto de encuentro para todos los vecinos."
+              },
+              {
+                "letra": "B",
+                "titulo": "Un lugar para estudiar y charlar",
+                "texto": "Cuando empecé la universidad, no sabía dónde estudiar porque en mi casa había mucho ruido. Un amigo me habló de la biblioteca del barrio y empecé a ir todas las tardes. Al principio solo usaba una mesa y los ordenadores, pero pronto conocí a otros estudiantes. Nos ayudamos normalmente con los deberes y a veces charlamos un rato en la puerta. Ahora vengo también los sábados para participar en el grupo de juegos de mesa. No pensé que una biblioteca pudiera ser un lugar tan animado y tan útil para conocer gente."
+              },
+              {
+                "letra": "C",
+                "titulo": "La voz de la voluntaria",
+                "texto": "Llevo tres años como voluntaria en la biblioteca de mi barrio. Al principio solo ayudaba a colocar los libros y a prestar ejemplares por las mañanas. Después propuse un club de lectura para adultos y ahora se reúnen doce personas cada mes. También preparamos charlas sobre salud y un taller de memoria para los mayores. Lo que más me gusta es ver cómo la biblioteca junta a personas de distintas edades. Los lunes por la tarde normalmente hay un rincón para conversar en otros idiomas y siempre se llena de vecinos."
+              }
+            ],
+            "enunciados": [
+              "Empezó a ir a la biblioteca porque en su casa no podía estudiar.",
+              "Le sorprendió ver a tantos vecinos juntos en la biblioteca.",
+              "Organiza un club de lectura para personas adultas.",
+              "La biblioteca ha ampliado su horario y ahora abre los sábados por la mañana.",
+              "La biblioteca reúne a personas de distintas edades.",
+              "No esperaba que la biblioteca fuera tan animada para conocer gente."
+            ],
+            "fragmentos": [],
+            "sobrantes": 0
+          },
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "Empezó a ir a la biblioteca porque en su casa no podía estudiar.",
+              "opciones": [
+                "A",
+                "B",
+                "C"
+              ],
+              "correcta": 1,
+              "justificacion": "El estudiante del texto B cuenta que iba a la biblioteca porque en su casa había mucho ruido.",
+              "fraseSoporte": "Cuando empecé la universidad, no sabía dónde estudiar porque en mi casa había mucho ruido."
+            },
+            {
+              "num": 2,
+              "enunciado": "Le sorprendió ver a tantos vecinos juntos en la biblioteca.",
+              "opciones": [
+                "A",
+                "B",
+                "C"
+              ],
+              "correcta": 0,
+              "justificacion": "La narradora del texto A se sorprendió al ver a muchos vecinos reunidos en la biblioteca.",
+              "fraseSoporte": "Me sorprendió ver a tantos vecinos juntos, porque antes este espacio estaba casi vacío durante la semana."
+            },
+            {
+              "num": 3,
+              "enunciado": "Organiza un club de lectura para personas adultas.",
+              "opciones": [
+                "A",
+                "B",
+                "C"
+              ],
+              "correcta": 2,
+              "justificacion": "La voluntaria del texto C propuso un club de lectura para adultos.",
+              "fraseSoporte": "Después propuse un club de lectura para adultos y ahora se reúnen doce personas cada mes."
+            },
+            {
+              "num": 4,
+              "enunciado": "La biblioteca ha ampliado su horario y ahora abre los sábados por la mañana.",
+              "opciones": [
+                "A",
+                "B",
+                "C"
+              ],
+              "correcta": 0,
+              "justificacion": "En el texto A se dice que la biblioteca ahora abre también los sábados por la mañana.",
+              "fraseSoporte": "Ahora la biblioteca abre también los sábados por la mañana y ofrece talleres de dibujo y de cocina fácil."
+            },
+            {
+              "num": 5,
+              "enunciado": "La biblioteca reúne a personas de distintas edades.",
+              "opciones": [
+                "A",
+                "B",
+                "C"
+              ],
+              "correcta": 2,
+              "justificacion": "La voluntaria del texto C destaca que la biblioteca junta a personas de diferentes edades.",
+              "fraseSoporte": "Lo que más me gusta es ver cómo la biblioteca junta a personas de distintas edades."
+            },
+            {
+              "num": 6,
+              "enunciado": "No esperaba que la biblioteca fuera tan animada para conocer gente.",
+              "opciones": [
+                "A",
+                "B",
+                "C"
+              ],
+              "correcta": 1,
+              "justificacion": "El autor del texto B no pensaba que una biblioteca pudiera ser un lugar tan animado y útil para conocer a otras personas.",
+              "fraseSoporte": "No pensé que una biblioteca pudiera ser un lugar tan animado y tan útil para conocer gente."
+            }
+          ],
+          "atomoId": "B1-L3-021"
+        },
+        {
+          "num": 4,
+          "titulo": "Cómo se monta un mercadillo de libros en la biblioteca",
+          "instrucciones": "Lea el siguiente texto, del que se han extraído seis fragmentos. A continuación lea los ocho fragmentos propuestos (A-H) y decida en qué lugar del texto (1-6) hay que colocar cada uno de ellos. HAY DOS FRAGMENTOS QUE NO TIENE QUE ELEGIR.\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "fragmentos",
+          "genero": "instrucciones",
+          "subgenero": "instrucciones de montaje",
+          "ambito": "publico",
+          "subtema": "instrucciones para montar un mercadillo de libros en la biblioteca",
+          "texto": "Organizar el mercadillo de libros de la biblioteca lleva dos semanas de preparación. El montaje del mismo día dura unas cinco horas. Estas instrucciones explican los pasos en orden, tal como se han hecho durante los últimos cinco años en la biblioteca. El montaje empieza siempre un sábado a las ocho de la mañana, antes de que abra la biblioteca al público. ______\n\nAntes de colocar nada, hay que revisar la sala principal y retirar todas las mesas y sillas que haya en el centro. También conviene comprobar que todos los enchufes funcionan, porque se usan varios ordenadores para consultar el catálogo en línea. ______\n\nEl primer paso es colocar las mesas plegables en dos filas paralelas, dejando un pasillo central de un metro y medio de ancho. Las mesas se fijan entre sí con unas abrazaderas especiales que están guardadas en el almacén de la biblioteca. ______\n\nDespués se colocan los expositores de cartón para los libros infantiles, que son los más delicados de transportar. Estos expositores son ligeros, pero se llenan con muchos libros y pueden volcar si alguien los empuja sin querer. ______\n\nA continuación se montan los paneles informativos con el calendario de actividades de la semana cultural. Cada panel lleva un soporte metálico y dos tornillos que se aprietan con una llave inglesa pequeña. ______\n\nEl rincón de lectura se prepara con una alfombra grande y varios cojines de colores. Los cojines están guardados en unas cajas grandes de plástico, así que se necesitan dos personas para bajarlos del estante alto. ______\n\nCuando todo esté montado, se repasa la lista de tareas por escrito y se llama al técnico de sonido del ayuntamiento. El técnico prueba los micrófonos y ajusta el volumen de la megafonía para que se oiga bien en toda la plaza. El último paso es colocar los carteles en la entrada de la biblioteca y en la plaza del pueblo. Los carteles se cuelgan con bridas de plástico resistentes, que se cortan con unas tijeras al desmontar. Antes de abrir, se hace una foto del montaje y se avisa a todo el personal de que ya está todo listo.",
+          "tituloTexto": null,
+          "fuente": null,
+          "palabras": 423,
+          "material": {
+            "tipo": "fragmentos",
+            "bloques": [],
+            "enunciados": [],
+            "fragmentos": [
+              {
+                "letra": "A",
+                "texto": "Los expositores se atan a la pared con dos cuerdas de seguridad."
+              },
+              {
+                "letra": "B",
+                "texto": "El año pasado participaron veinte personas y se terminó en cuatro horas."
+              },
+              {
+                "letra": "C",
+                "texto": "Los cojines se colocan sobre la alfombra, sin amontonarlos."
+              },
+              {
+                "letra": "D",
+                "texto": "Conviene retirar también los maceteros y las papeleras, porque estorban al mover las mesas."
+              },
+              {
+                "letra": "E",
+                "texto": "La biblioteca cierra los domingos por la tarde durante el verano."
+              },
+              {
+                "letra": "F",
+                "texto": "Cada mesa pesa unos diez kilos, así que puede moverla una persona sola."
+              },
+              {
+                "letra": "G",
+                "texto": "Los tornillos que sobresalgan se cubren con cinta adhesiva para evitar arañazos."
+              },
+              {
+                "letra": "H",
+                "texto": "El catálogo en línea se actualiza cada mes con las novedades."
+              }
+            ],
+            "sobrantes": 2
+          },
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "Hueco 1: ¿qué fragmento completa el texto?",
+              "opciones": [
+                "A",
+                "C",
+                "B",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H"
+              ],
+              "correcta": 2,
+              "justificacion": "El fragmento B encaja porque continúa la idea del párrafo: «El año pasado participaron veinte personas y se terminó en cuatro horas.»",
+              "fraseSoporte": "El año pasado participaron veinte personas y se terminó en cuatro horas."
+            },
+            {
+              "num": 2,
+              "enunciado": "Hueco 2: ¿qué fragmento completa el texto?",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "E",
+                "F",
+                "D",
+                "G",
+                "H"
+              ],
+              "correcta": 5,
+              "justificacion": "El fragmento D encaja porque continúa la idea del párrafo: «Conviene retirar también los maceteros y las papeleras, porque estorban al mover las mesas.»",
+              "fraseSoporte": "Conviene retirar también los maceteros y las papeleras, porque estorban al mover las mesas."
+            },
+            {
+              "num": 3,
+              "enunciado": "Hueco 3: ¿qué fragmento completa el texto?",
+              "opciones": [
+                "C",
+                "F",
+                "A",
+                "B",
+                "D",
+                "E",
+                "G",
+                "H"
+              ],
+              "correcta": 1,
+              "justificacion": "El fragmento F encaja porque continúa la idea del párrafo: «Cada mesa pesa unos diez kilos, así que puede moverla una persona sola.»",
+              "fraseSoporte": "Cada mesa pesa unos diez kilos, así que puede moverla una persona sola."
+            },
+            {
+              "num": 4,
+              "enunciado": "Hueco 4: ¿qué fragmento completa el texto?",
+              "opciones": [
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "A"
+              ],
+              "correcta": 7,
+              "justificacion": "El fragmento A encaja porque continúa la idea del párrafo: «Los expositores se atan a la pared con dos cuerdas de seguridad.»",
+              "fraseSoporte": "Los expositores se atan a la pared con dos cuerdas de seguridad."
+            },
+            {
+              "num": 5,
+              "enunciado": "Hueco 5: ¿qué fragmento completa el texto?",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "G",
+                "D",
+                "E",
+                "F",
+                "H"
+              ],
+              "correcta": 3,
+              "justificacion": "El fragmento G encaja porque continúa la idea del párrafo: «Los tornillos que sobresalgan se cubren con cinta adhesiva para evitar arañazos.»",
+              "fraseSoporte": "Los tornillos que sobresalgan se cubren con cinta adhesiva para evitar arañazos."
+            },
+            {
+              "num": 6,
+              "enunciado": "Hueco 6: ¿qué fragmento completa el texto?",
+              "opciones": [
+                "C",
+                "A",
+                "B",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H"
+              ],
+              "correcta": 0,
+              "justificacion": "El fragmento C encaja porque continúa la idea del párrafo: «Los cojines se colocan sobre la alfombra, sin amontonarlos.»",
+              "fraseSoporte": "Los cojines se colocan sobre la alfombra, sin amontonarlos."
+            }
+          ],
+          "atomoId": "B1-L4-021"
+        },
+        {
+          "num": 5,
+          "titulo": "Carta al director: la biblioteca pública de Santa Eulalia necesita más apoyo",
+          "instrucciones": "Lea el siguiente texto, en el que se han suprimido seis palabras o expresiones. Para cada espacio (1-6) elija la opción (a / b / c) que complete correctamente el texto.\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "huecos",
+          "genero": "carta al director",
+          "subgenero": "carta al director",
+          "ambito": "publico",
+          "subtema": "carta sobre la biblioteca pública como espacio de encuentro",
+          "texto": "Señor director:\n\nEscribo esta carta porque la biblioteca pública de mi barrio, la de Santa Eulalia de Oscos, está [1] cada año: hace diez años abría seis días a la semana y ahora solo abre tres.\n\nNo creo que el problema sea la falta de interés. [2] todo, los vecinos siguen acudiendo a las salas de lectura y a los talleres. Lo que ocurre es que faltan voluntarios y personal.\n\nSería una pena que [3] un espacio tan valioso para el barrio. La bibliotecaria, doña Amparo Cifuentes, lleva veinte años organizando actividades y dice que este puede ser su último año si no llega ayuda. Varios comercios de la zona han ofrecido material para los clubes de lectura.\n\nMe gustaría que el ayuntamiento [4] una comisión de vecinos y que [5] a los jóvenes a participar como monitores. No hace falta mucho dinero: solo [6] que coordine y que escuche.\n\nFirmado: una vecina del barrio",
+          "tituloTexto": null,
+          "fuente": null,
+          "palabras": 157,
+          "material": {
+            "tipo": "huecos",
+            "bloques": [],
+            "enunciados": [],
+            "fragmentos": [],
+            "sobrantes": 0
+          },
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "Hueco [1]",
+              "opciones": [
+                "menos frecuentada",
+                "menos frecuentada que",
+                "tan frecuentada"
+              ],
+              "correcta": 0,
+              "justificacion": "Comparación sin segundo término: «está menos frecuentada cada año». Con «que» faltaría el término comparado y «tan» contradice que ahora abre menos días.",
+              "fraseSoporte": "la biblioteca pública de mi barrio, la de Santa Eulalia de Oscos, está menos frecuentada cada año: hace diez años abría seis días a la semana y ahora solo abre tres."
+            },
+            {
+              "num": 2,
+              "enunciado": "Hueco [2]",
+              "opciones": [
+                "Pese",
+                "A pesar de que",
+                "A pesar de"
+              ],
+              "correcta": 2,
+              "justificacion": "La locución concesiva va aquí seguida de un sustantivo, así que no necesita conjunción.",
+              "fraseSoporte": "A pesar de todo, los vecinos siguen acudiendo a las salas de lectura y a los talleres."
+            },
+            {
+              "num": 3,
+              "enunciado": "Hueco [3]",
+              "opciones": [
+                "perdiéramos",
+                "perdemos",
+                "perdimos"
+              ],
+              "correcta": 0,
+              "justificacion": "«Sería una pena que» (condicional) exige imperfecto de subjuntivo: perdiéramos. «Perdemos» y «perdimos» son indicativo.",
+              "fraseSoporte": "Sería una pena que perdiéramos un espacio tan valioso para el barrio."
+            },
+            {
+              "num": 4,
+              "enunciado": "Hueco [4]",
+              "opciones": [
+                "crea",
+                "creara",
+                "creará"
+              ],
+              "correcta": 1,
+              "justificacion": "El verbo de deseo con sujeto distinto exige subjuntivo en la oración subordinada; como el verbo principal está en condicional, se usa imperfecto de subjuntivo.",
+              "fraseSoporte": "Me gustaría que el ayuntamiento creara una comisión de vecinos y que animara a los jóvenes a participar como monitores."
+            },
+            {
+              "num": 5,
+              "enunciado": "Hueco [5]",
+              "opciones": [
+                "animará",
+                "anima",
+                "animara"
+              ],
+              "correcta": 2,
+              "justificacion": "La subordinada coordinada con el mismo verbo de deseo mantiene el imperfecto de subjuntivo.",
+              "fraseSoporte": "y que animara a los jóvenes a participar como monitores."
+            },
+            {
+              "num": 6,
+              "enunciado": "Hueco [6]",
+              "opciones": [
+                "cualquiera",
+                "alguien",
+                "nadie"
+              ],
+              "correcta": 1,
+              "justificacion": "El pronombre indefinido que se refiere a una persona no concreta es el que mantiene el sentido afirmativo de la frase.",
+              "fraseSoporte": "No hace falta mucho dinero: solo alguien que coordine y que escuche."
+            }
+          ],
+          "atomoId": "B1-L5-021"
+        }
+      ]
+    },
+    {
+      "prueba": 2,
+      "nombre": "Comprensión auditiva",
+      "duracion": 40,
+      "tareas": [
+        {
+          "num": 1,
+          "titulo": "",
+          "instrucciones": "Usted va a escuchar seis mensajes breves. Escuchará cada mensaje dos veces. Después debe contestar a las preguntas (1-6). Seleccione la opción correcta (a / b / c).\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "opcion_multiple",
+          "tipoAudio": "anuncio publicitario",
+          "subgenero": "anuncio publicitario",
+          "genero": "anuncio publicitario",
+          "ambito": "publico",
+          "subtema": "la biblioteca pública como espacio de encuentro",
+          "guion": "[AUDIO 1] [VOZ 1 - mujer, 45 años, España] La biblioteca del barrio está en la plaza principal y abre todos los días. De lunes a viernes, de diez a ocho, y los sábados solo por la mañana. Para sacar libros se pide el carnet en la entrada con el DNI. Se pueden tener tres semanas y pedir información en el mostrador. Los domingos permanece cerrada.\n[pausa 2 s]\n[AUDIO 2] [VOZ 2 - mujer, 38 años, España] Este sábado hay cuentos para niños de tres a ocho años. Una mujer contará dos cuentos de animales y después harán un dibujo todos juntos. La actividad es gratuita, pero hay que apuntarse antes del viernes en la biblioteca o por teléfono. Las plazas son pocas y se agotan enseguida.\n[pausa 2 s]\n[AUDIO 3] [VOZ 3 - hombre, 55 años, España] El club de lectura se reúne el primer martes de cada mes a las siete de la tarde. Este mes leen la novela 'El camino'. Los interesados pueden recoger el libro en la biblioteca y participar en el debate. No hace falta tener estudios, solo gustar leer y compartir opiniones.\n[pausa 2 s]\n[AUDIO 4] [VOZ 4 - mujer, 42 años, España] La biblioteca ofrece un curso de informática para personas mayores. Son cuatro clases los martes y jueves por la mañana. Se enseña a usar el correo electrónico, buscar información en internet y hacer llamadas por video. El curso es gratuito y las plazas se dan por orden de llegada.\n[pausa 2 s]\n[AUDIO 5] [VOZ 5 - hombre, 60 años, España] Durante todo el mes se puede visitar la exposición de fotografías antiguas del barrio. Las imágenes muestran calles, plazas y oficios de hace cincuenta años. La entrada es libre y la sala está abierta en el horario de la biblioteca. Al final se pide a los vecinos escribir sus recuerdos en un libro.\n[pausa 2 s]\n[AUDIO 6] [VOZ 6 - mujer, 35 años, España] El viernes por la tarde se celebra la fiesta de los socios de la biblioteca. Habrá un pequeño espectáculo de música, sorteos de libros y merienda para todos. Los niños podrán jugar en la zona infantil con monitores y hacer actividades. La fiesta empieza a las seis y termina a las nueve.",
+          "clips": [
+            {
+              "n": 1,
+              "palabras": 57,
+              "duracionS": 25,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 1 - mujer, 45 años, España] La biblioteca del barrio está en la plaza principal y abre todos los días. De lunes a viernes, de diez a ocho, y los sábados solo por la mañana. Para sacar libros se pide el carnet en la entrada con el DNI. Se pueden tener tres semanas y pedir información en el mostrador. Los domingos permanece cerrada."
+            },
+            {
+              "n": 2,
+              "palabras": 50,
+              "duracionS": 22,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 2 - mujer, 38 años, España] Este sábado hay cuentos para niños de tres a ocho años. Una mujer contará dos cuentos de animales y después harán un dibujo todos juntos. La actividad es gratuita, pero hay que apuntarse antes del viernes en la biblioteca o por teléfono. Las plazas son pocas y se agotan enseguida."
+            },
+            {
+              "n": 3,
+              "palabras": 50,
+              "duracionS": 22,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 3 - hombre, 55 años, España] El club de lectura se reúne el primer martes de cada mes a las siete de la tarde. Este mes leen la novela 'El camino'. Los interesados pueden recoger el libro en la biblioteca y participar en el debate. No hace falta tener estudios, solo gustar leer y compartir opiniones."
+            },
+            {
+              "n": 4,
+              "palabras": 49,
+              "duracionS": 22,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 4 - mujer, 42 años, España] La biblioteca ofrece un curso de informática para personas mayores. Son cuatro clases los martes y jueves por la mañana. Se enseña a usar el correo electrónico, buscar información en internet y hacer llamadas por video. El curso es gratuito y las plazas se dan por orden de llegada."
+            },
+            {
+              "n": 5,
+              "palabras": 53,
+              "duracionS": 24,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 5 - hombre, 60 años, España] Durante todo el mes se puede visitar la exposición de fotografías antiguas del barrio. Las imágenes muestran calles, plazas y oficios de hace cincuenta años. La entrada es libre y la sala está abierta en el horario de la biblioteca. Al final se pide a los vecinos escribir sus recuerdos en un libro."
+            },
+            {
+              "n": 6,
+              "palabras": 52,
+              "duracionS": 23,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 6 - mujer, 35 años, España] El viernes por la tarde se celebra la fiesta de los socios de la biblioteca. Habrá un pequeño espectáculo de música, sorteos de libros y merienda para todos. Los niños podrán jugar en la zona infantil con monitores y hacer actividades. La fiesta empieza a las seis y termina a las nueve."
+            }
+          ],
+          "fichaTecnica": {
+            "duracion": 138,
+            "hablantes": 6,
+            "voces": [
+              {
+                "genero": "mujer",
+                "edad": "45",
+                "variedad": "España"
+              },
+              {
+                "genero": "mujer",
+                "edad": "38",
+                "variedad": "España"
+              },
+              {
+                "genero": "hombre",
+                "edad": "55",
+                "variedad": "España"
+              },
+              {
+                "genero": "mujer",
+                "edad": "42",
+                "variedad": "España"
+              },
+              {
+                "genero": "hombre",
+                "edad": "60",
+                "variedad": "España"
+              },
+              {
+                "genero": "mujer",
+                "edad": "35",
+                "variedad": "España"
+              }
+            ],
+            "variedad": "España",
+            "registro": "formal",
+            "ruidoFondo": "ambiente de biblioteca",
+            "reproducciones": 2
+          },
+          "sobrantes": 0,
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "¿Qué hay que hacer para sacar libros?",
+              "opciones": [
+                "Pagar una cantidad cada mes.",
+                "Se pide un carnet para sacar libros.",
+                "Vivir en el mismo barrio."
+              ],
+              "correcta": 1,
+              "justificacion": "Para sacar libros hay que tener el carnet, que se pide en la entrada con el DNI.",
+              "fraseSoporte": "Para sacar libros se pide el carnet en la entrada con el DNI."
+            },
+            {
+              "num": 2,
+              "enunciado": "¿Qué harán los niños después de escuchar los cuentos?",
+              "opciones": [
+                "Dibujar todos juntos.",
+                "Ver una película.",
+                "Jugar en el patio."
+              ],
+              "correcta": 0,
+              "justificacion": "Después de los cuentos harán un dibujo todos juntos.",
+              "fraseSoporte": "después harán un dibujo todos juntos."
+            },
+            {
+              "num": 3,
+              "enunciado": "¿Cuándo se reúne el club de lectura?",
+              "opciones": [
+                "El último viernes de cada mes.",
+                "Una vez al mes, el primer martes.",
+                "Todos los sábados por la mañana."
+              ],
+              "correcta": 1,
+              "justificacion": "El club de lectura se reúne el primer martes de cada mes a las siete de la tarde.",
+              "fraseSoporte": "El club de lectura se reúne el primer martes de cada mes"
+            },
+            {
+              "num": 4,
+              "enunciado": "¿Qué se enseña en el curso de informática?",
+              "opciones": [
+                "Aprender a usar el correo electrónico y buscar datos en internet.",
+                "A reparar ordenadores.",
+                "A diseñar páginas web."
+              ],
+              "correcta": 0,
+              "justificacion": "Se enseña a usar el correo electrónico, buscar información en internet y hacer llamadas por video.",
+              "fraseSoporte": "Se enseña a usar el correo electrónico, buscar información en internet y hacer llamadas por video."
+            },
+            {
+              "num": 5,
+              "enunciado": "¿Qué muestra la exposición?",
+              "opciones": [
+                "Pinturas de artistas locales.",
+                "Objetos de hace cincuenta años.",
+                "Fotografías antiguas del vecindario."
+              ],
+              "correcta": 2,
+              "justificacion": "La exposición muestra fotografías antiguas del barrio.",
+              "fraseSoporte": "se puede visitar la exposición de fotografías antiguas del barrio"
+            },
+            {
+              "num": 6,
+              "enunciado": "¿A qué hora termina la fiesta?",
+              "opciones": [
+                "A las seis.",
+                "A las diez.",
+                "Termina a las 21:00."
+              ],
+              "correcta": 2,
+              "justificacion": "La fiesta termina a las nueve.",
+              "fraseSoporte": "termina a las nueve"
+            }
+          ],
+          "atomoId": "B1-A1-020"
+        },
+        {
+          "num": 2,
+          "titulo": "",
+          "instrucciones": "Usted va a escuchar un monólogo. Escuchará el monólogo dos veces. Después debe contestar a las preguntas (1-6). Seleccione la opción correcta (a / b / c).\n\nAhora tiene 30 segundos para leer las preguntas.\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "opcion_multiple",
+          "tipoAudio": "monólogo de experiencias",
+          "subgenero": "experiencias personales en un espacio público",
+          "genero": "monólogo de experiencias",
+          "ambito": "publico",
+          "subtema": "cómo la biblioteca municipal se convirtió en el centro de su vida social",
+          "guion": "[AUDIO 1] [VOZ 1 - mujer, 38 años, España] Hace tres años me mudé a este barrio y no conocía a nadie. Un día, buscando un lugar tranquilo para trabajar, entré casi por casualidad en la biblioteca municipal. Al principio solo iba a consultar libros y usar el wifi, pero pronto descubrí que aquello era mucho más que un sitio para estudiar. [pausa breve] La biblioteca organizaba un club de lectura todos los jueves por la tarde. Me apunté sin mucha convicción, pensando que sería aburrido. Sin embargo, desde la primera sesión me sorprendió la variedad de personas que participaban: había estudiantes, jubilados, madres con niños pequeños y hasta un panadero del barrio. Todos hablábamos de los libros con mucha libertad, y yo, que soy bastante tímida, me sentí cómoda desde el principio. Nunca imaginé que un club de lectura pudiera unir a personas tan diferentes. [pausa breve] Poco después me ofrecieron colaborar como voluntaria en la zona infantil. Cada sábado por la mañana ayudo a preparar el cuentacuentos para los más pequeños. Los niños se sientan en una alfombra de colores y escuchan con una atención increíble. A veces vienen padres que no conocían la biblioteca y se quedan sorprendidos de todo lo que se puede hacer aquí. A veces también ayudo a ordenar los libros devueltos y a preparar las mesas antes de abrir. [pausa breve] Una de las cosas que más me gusta es que la biblioteca presta más que libros. Tenemos películas, música, revistas y hasta juegos de mesa. El año pasado empezaron a prestar tabletas para usar dentro del edificio, algo que ha ayudado a muchos mayores a familiarizarse con la tecnología. Mi vecina Carmen, de setenta años, aprendió a mandar correos electrónicos gracias a un taller que daban los sábados. Además, cada trimestre organizan una exposición con los trabajos de los escolares del barrio, y es muy bonito ver a las familias venir a mirarlos. [pausa breve] También hay espacio para el debate. Una vez al mes, un grupo de vecinos nos reunimos para hablar de temas del barrio: la limpieza de las calles, los horarios del mercado, las actividades para jóvenes. La biblioteca nos cede una sala y una pizarra. No siempre llegamos a acuerdos, pero es un lugar donde se escucha a todo el mundo. Yo suelo ir con mi cuaderno para anotar las ideas y luego se las paso al presidente de la asociación. [pausa breve] Lo que empezó siendo una visita casual se ha convertido en el centro de mi vida social. He hecho amigos, he aprendido cosas nuevas y ahora conozco a casi todos los vecinos. Si alguien me pregunta qué es lo mejor del barrio, no lo dudo: la biblioteca pública.",
+          "clips": [
+            {
+              "n": 1,
+              "palabras": 420,
+              "duracionS": 190,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 1 - mujer, 38 años, España] Hace tres años me mudé a este barrio y no conocía a nadie. Un día, buscando un lugar tranquilo para trabajar, entré casi por casualidad en la biblioteca municipal. Al principio solo iba a consultar libros y usar el wifi, pero pronto descubrí que aquello era mucho más que un sitio para estudiar. [pausa breve] La biblioteca organizaba un club de lectura todos los jueves por la tarde. Me apunté sin mucha convicción, pensando que sería aburrido. Sin embargo, desde la primera sesión me sorprendió la variedad de personas que participaban: había estudiantes, jubilados, madres con niños pequeños y hasta un panadero del barrio. Todos hablábamos de los libros con mucha libertad, y yo, que soy bastante tímida, me sentí cómoda desde el principio. Nunca imaginé que un club de lectura pudiera unir a personas tan diferentes. [pausa breve] Poco después me ofrecieron colaborar como voluntaria en la zona infantil. Cada sábado por la mañana ayudo a preparar el cuentacuentos para los más pequeños. Los niños se sientan en una alfombra de colores y escuchan con una atención increíble. A veces vienen padres que no conocían la biblioteca y se quedan sorprendidos de todo lo que se puede hacer aquí. A veces también ayudo a ordenar los libros devueltos y a preparar las mesas antes de abrir. [pausa breve] Una de las cosas que más me gusta es que la biblioteca presta más que libros. Tenemos películas, música, revistas y hasta juegos de mesa. El año pasado empezaron a prestar tabletas para usar dentro del edificio, algo que ha ayudado a muchos mayores a familiarizarse con la tecnología. Mi vecina Carmen, de setenta años, aprendió a mandar correos electrónicos gracias a un taller que daban los sábados. Además, cada trimestre organizan una exposición con los trabajos de los escolares del barrio, y es muy bonito ver a las familias venir a mirarlos. [pausa breve] También hay espacio para el debate. Una vez al mes, un grupo de vecinos nos reunimos para hablar de temas del barrio: la limpieza de las calles, los horarios del mercado, las actividades para jóvenes. La biblioteca nos cede una sala y una pizarra. No siempre llegamos a acuerdos, pero es un lugar donde se escucha a todo el mundo. Yo suelo ir con mi cuaderno para anotar las ideas y luego se las paso al presidente de la asociación. [pausa breve] Lo que empezó siendo una visita casual se ha convertido en el centro de mi vida social. He hecho amigos, he aprendido cosas nuevas y ahora conozco a casi todos los vecinos. Si alguien me pregunta qué es lo mejor del barrio, no lo dudo: la biblioteca pública."
+            }
+          ],
+          "fichaTecnica": {
+            "duracion": 190,
+            "hablantes": 1,
+            "voces": [
+              {
+                "genero": "mujer",
+                "edad": "38",
+                "variedad": "España"
+              }
+            ],
+            "variedad": "España",
+            "registro": "informal",
+            "ruidoFondo": "ambiente tranquilo de biblioteca",
+            "reproducciones": 2
+          },
+          "sobrantes": 0,
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "¿Cómo entró por primera vez en la biblioteca?",
+              "opciones": [
+                "Porque una amiga le habló del club de lectura.",
+                "Entró sin planearlo, al buscar un lugar tranquilo para trabajar.",
+                "Porque vivía en el mismo edificio."
+              ],
+              "correcta": 1,
+              "justificacion": "Entró casi por casualidad mientras buscaba un lugar tranquilo para trabajar.",
+              "fraseSoporte": "buscando un lugar tranquilo para trabajar, entré casi por casualidad en la biblioteca municipal"
+            },
+            {
+              "num": 2,
+              "enunciado": "¿Cómo se sintió en la primera sesión del club de lectura?",
+              "opciones": [
+                "Se aburrió porque los libros eran difíciles.",
+                "Se sintió incómoda por ser tímida.",
+                "Se sintió cómoda desde el inicio."
+              ],
+              "correcta": 2,
+              "justificacion": "Se sintió cómoda desde el principio.",
+              "fraseSoporte": "me sentí cómoda desde el principio"
+            },
+            {
+              "num": 3,
+              "enunciado": "¿Qué hace como voluntaria en la biblioteca?",
+              "opciones": [
+                "Ayuda con la preparación del cuentacuentos para los pequeños.",
+                "Organiza el club de lectura de los jueves.",
+                "Presta tabletas a los usuarios."
+              ],
+              "correcta": 0,
+              "justificacion": "Ayuda a preparar el cuentacuentos para los más pequeños los sábados por la mañana.",
+              "fraseSoporte": "Cada sábado por la mañana ayudo a preparar el cuentacuentos para los más pequeños."
+            },
+            {
+              "num": 4,
+              "enunciado": "¿Qué novedad introdujo la biblioteca el año pasado?",
+              "opciones": [
+                "Empezó a prestar películas y música.",
+                "El año pasado se comenzaron a prestar tabletas de uso interno.",
+                "Empezó a prestar juegos de mesa."
+              ],
+              "correcta": 1,
+              "justificacion": "El año pasado empezaron a prestar tabletas para usar dentro del edificio.",
+              "fraseSoporte": "El año pasado empezaron a prestar tabletas para usar dentro del edificio"
+            },
+            {
+              "num": 5,
+              "enunciado": "¿Qué aprendió su vecina Carmen?",
+              "opciones": [
+                "A usar una tableta.",
+                "A leer libros digitales.",
+                "A mandar correos electrónicos por internet."
+              ],
+              "correcta": 2,
+              "justificacion": "Aprendió a mandar correos electrónicos gracias a un taller.",
+              "fraseSoporte": "aprendió a mandar correos electrónicos gracias a un taller"
+            },
+            {
+              "num": 6,
+              "enunciado": "¿Para qué sirven las reuniones mensuales de vecinos?",
+              "opciones": [
+                "Para conversar sobre temas del barrio.",
+                "Para decidir qué libros comprar.",
+                "Para organizar fiestas en la calle."
+              ],
+              "correcta": 0,
+              "justificacion": "Se reúnen para hablar de temas del barrio.",
+              "fraseSoporte": "un grupo de vecinos nos reunimos para hablar de temas del barrio"
+            }
+          ],
+          "atomoId": "B1-A2-020"
+        },
+        {
+          "num": 3,
+          "titulo": "",
+          "instrucciones": "Usted va a escuchar seis noticias. Escuchará cada noticia dos veces. Después debe contestar a las preguntas (1-6). Seleccione la opción correcta (a / b / c).\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "opcion_multiple",
+          "tipoAudio": "programa informativo",
+          "subgenero": "noticias de educación",
+          "genero": "programa informativo",
+          "ambito": "educativo",
+          "subtema": "noticias sobre tradiciones que se enseñan en los centros",
+          "guion": "[AUDIO 1] [VOZ 1 - mujer, 45 años, España] Educación y tradiciones en Santa Eulalia de Oscos. Los colegios de la zona han empezado a enseñar las costumbres locales en horario de clase. Los alumnos de primaria dedican una hora a la semana a conocer fiestas, oficios y comidas de sus pueblos, con la ayuda de vecinos mayores que vienen como invitados. La experiencia se evaluará al final del curso. Los profesores cuentan con la ayuda de las asociaciones de vecinos. [pausa breve] Los alumnos de secundaria participan en un taller de artesanía. Los artesanos enseñan a trabajar la madera, el barro y la cestería, y cada grupo hace una pieza que se expone en la casa de cultura. El taller es los viernes por la tarde y las plazas se sortean entre todos los centros. [pausa breve] El concurso escolar de dulces típicos ha reunido a noventa participantes. Los alumnos preparan sus recetas en casa y las presentan ante un jurado formado por pasteleros y cocineros del pueblo. Los tres ganadores recibirán un lote de utensilios de cocina y sus recetas se publicarán en el libro de la fiesta de este año. El jurado ha valorado sobre todo el sabor y la presentación. [pausa breve] Dos pueblos de la comarca han organizado un intercambio escolar para conocer sus fiestas. Los alumnos conviven tres días con familias del otro municipio y participan en sus talleres y celebraciones. La idea busca que los jóvenes valoren las tradiciones de otros lugares y que los pueblos pequeños mantengan sus costumbres vivas. [pausa breve] El conservatorio municipal ha abierto un curso de música tradicional para todas las edades. Las clases enseñan a tocar instrumentos populares de la zona y a cantar las canciones de las fiestas, y los grupos actúan después en las celebraciones del pueblo. El curso es gratis para los menores de dieciocho años. Las clases son los sábados por la mañana en el conservatorio. [pausa breve] El museo de tradiciones ofrece visitas guiadas para escolares durante todo el curso. Los alumnos recorren las salas de oficios antiguos, la cocina tradicional y la colección de trajes, y participan en un taller de pan y dulces. Las visitas son gratis y los profesores pueden reservar plaza en la web del museo.",
+          "clips": [
+            {
+              "n": 1,
+              "palabras": 330,
+              "duracionS": 160,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 1 - mujer, 45 años, España] Educación y tradiciones en Santa Eulalia de Oscos. Los colegios de la zona han empezado a enseñar las costumbres locales en horario de clase. Los alumnos de primaria dedican una hora a la semana a conocer fiestas, oficios y comidas de sus pueblos, con la ayuda de vecinos mayores que vienen como invitados. La experiencia se evaluará al final del curso. Los profesores cuentan con la ayuda de las asociaciones de vecinos. [pausa breve] Los alumnos de secundaria participan en un taller de artesanía. Los artesanos enseñan a trabajar la madera, el barro y la cestería, y cada grupo hace una pieza que se expone en la casa de cultura. El taller es los viernes por la tarde y las plazas se sortean entre todos los centros. [pausa breve] El concurso escolar de dulces típicos ha reunido a noventa participantes. Los alumnos preparan sus recetas en casa y las presentan ante un jurado formado por pasteleros y cocineros del pueblo. Los tres ganadores recibirán un lote de utensilios de cocina y sus recetas se publicarán en el libro de la fiesta de este año. El jurado ha valorado sobre todo el sabor y la presentación. [pausa breve] Dos pueblos de la comarca han organizado un intercambio escolar para conocer sus fiestas. Los alumnos conviven tres días con familias del otro municipio y participan en sus talleres y celebraciones. La idea busca que los jóvenes valoren las tradiciones de otros lugares y que los pueblos pequeños mantengan sus costumbres vivas. [pausa breve] El conservatorio municipal ha abierto un curso de música tradicional para todas las edades. Las clases enseñan a tocar instrumentos populares de la zona y a cantar las canciones de las fiestas, y los grupos actúan después en las celebraciones del pueblo. El curso es gratis para los menores de dieciocho años. Las clases son los sábados por la mañana en el conservatorio. [pausa breve] El museo de tradiciones ofrece visitas guiadas para escolares durante todo el curso. Los alumnos recorren las salas de oficios antiguos, la cocina tradicional y la colección de trajes, y participan en un taller de pan y dulces. Las visitas son gratis y los profesores pueden reservar plaza en la web del museo."
+            }
+          ],
+          "fichaTecnica": {
+            "duracion": 160,
+            "hablantes": 1,
+            "voces": [
+              {
+                "genero": "mujer",
+                "edad": "45",
+                "variedad": "España"
+              }
+            ],
+            "variedad": "España",
+            "registro": "formal",
+            "ruidoFondo": "ambiente de estudio",
+            "reproducciones": 2
+          },
+          "sobrantes": 0,
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "¿Cuánto tiempo dedican los alumnos de primaria a las tradiciones?",
+              "opciones": [
+                "Los alumnos de primaria dedican una hora a la semana a esas tradiciones.",
+                "Tres horas al mes.",
+                "Toda la tarde del viernes."
+              ],
+              "correcta": 0,
+              "justificacion": "Los alumnos de primaria dedican una hora a la semana a conocer fiestas, oficios y comidas de sus pueblos.",
+              "fraseSoporte": "Los alumnos de primaria dedican una hora a la semana a conocer fiestas, oficios y comidas de sus pueblos"
+            },
+            {
+              "num": 2,
+              "enunciado": "¿Cómo se reparten las plazas del taller de artesanía?",
+              "opciones": [
+                "Por orden de llegada.",
+                "Se reparten por sorteo entre todos los centros.",
+                "Solo para alumnos de un centro."
+              ],
+              "correcta": 1,
+              "justificacion": "Las plazas del taller se sortean entre todos los centros.",
+              "fraseSoporte": "las plazas se sortean entre todos los centros"
+            },
+            {
+              "num": 3,
+              "enunciado": "¿Quiénes forman el jurado del concurso de dulces?",
+              "opciones": [
+                "Profesores y familias.",
+                "Miembros del ayuntamiento.",
+                "Un jurado compuesto por pasteleros y cocineros locales."
+              ],
+              "correcta": 2,
+              "justificacion": "El jurado está formado por pasteleros y cocineros del pueblo.",
+              "fraseSoporte": "un jurado formado por pasteleros y cocineros del pueblo"
+            },
+            {
+              "num": 4,
+              "enunciado": "¿Cuánto tiempo dura el intercambio escolar?",
+              "opciones": [
+                "Una semana.",
+                "Un mes.",
+                "Conviven tres días con familias de otro pueblo."
+              ],
+              "correcta": 2,
+              "justificacion": "Los alumnos conviven tres días con familias del otro municipio.",
+              "fraseSoporte": "Los alumnos conviven tres días con familias del otro municipio"
+            },
+            {
+              "num": 5,
+              "enunciado": "¿Quiénes no pagan el curso de música tradicional?",
+              "opciones": [
+                "Los menores de dieciocho años no pagan nada.",
+                "Los vecinos del pueblo.",
+                "Los alumnos del conservatorio."
+              ],
+              "correcta": 0,
+              "justificacion": "El curso es gratis para los menores de dieciocho años.",
+              "fraseSoporte": "El curso es gratis para los menores de dieciocho años."
+            },
+            {
+              "num": 6,
+              "enunciado": "¿Qué taller hacen los escolares en el museo?",
+              "opciones": [
+                "Un taller de cerámica.",
+                "Un taller de música.",
+                "Un curso práctico para hacer pan y dulces."
+              ],
+              "correcta": 2,
+              "justificacion": "En el museo los escolares participan en un taller de pan y dulces.",
+              "fraseSoporte": "participan en un taller de pan y dulces"
+            }
+          ],
+          "atomoId": "B1-A3-020"
+        },
+        {
+          "num": 4,
+          "titulo": "",
+          "instrucciones": "Usted va a escuchar seis monólogos o conversaciones breves. Escuchará cada uno dos veces. Relacione a cada hablante (1-6) con el enunciado que le corresponda, de los nueve disponibles (A-I).\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "relacionar",
+          "tipoAudio": "monólogo de experiencias",
+          "subgenero": "experiencias en bibliotecas públicas",
+          "genero": "monólogo de experiencias",
+          "ambito": "publico",
+          "subtema": "la biblioteca como espacio de encuentro",
+          "guion": "[AUDIO 1] [VOZ 1 - hombre, 55 años, España] Hace unos años empecé a ir a la biblioteca de mi barrio porque buscaba un lugar tranquilo para leer el periódico. Allí conocí a un grupo de jubilados que se reunía cada mañana. Ahora organizamos charlas sobre historia local y hasta preparamos una exposición con fotos antiguas. La biblioteca se ha convertido en nuestro punto de encuentro.\n[pausa 2 s]\n[AUDIO 2] [VOZ 2 - mujer, 44 años, Argentina] Cuando me mudé a este barrio no conocía a nadie y me sentía sola. Un día entré en la biblioteca pública para pedir información sobre cursos. La bibliotecaria me invitó a un taller de tejido que se hacía los sábados. Fui sin esperar mucho y al final me hice amiga de varias vecinas. Todas las semanas compartimos mate y charla.\n[pausa 2 s]\n[AUDIO 3] [VOZ 3 - mujer, 35 años, España] Siempre he usado las bibliotecas para estudiar, pero el año pasado descubrí algo nuevo. La biblioteca de mi ciudad organizaba un club de lectura en español fácil para extranjeros. Me apunté como voluntaria y ahora coordino un grupo de diez personas. Leemos cuentos y luego comentamos las historias; es una experiencia muy enriquecedora.\n[pausa 2 s]\n[AUDIO 4] [VOZ 4 - hombre, 39 años, Argentina] De niño pasaba las tardes en la biblioteca del pueblo mientras mis padres trabajaban. Me encantaba el silencio y el olor de los libros. Ahora que soy profesor, llevo a mis alumnos cada mes. La bibliotecaria nos prepara actividades y los chicos descubren que allí hay mucho más que estanterías.\n[pausa 2 s]\n[AUDIO 5] [VOZ 5 - mujer, 47 años, España] En mi biblioteca hay una sala especial para niños, con cuentos y juegos. Al principio solo iba con mi hija pequeña, pero luego me ofrecí para contar cuentos a otros niños. Ahora formo parte del grupo de voluntarios y cada miércoles por la tarde contamos historias a grupos de hasta veinte niños.\n[pausa 2 s]\n[AUDIO 6] [VOZ 6 - hombre, 28 años, España] Necesitaba preparar un examen importante y en casa no podía concentrarme. Probé la biblioteca municipal y me sorprendió: hay salas de estudio silenciosas, conexión wifi y hasta préstamo de ordenadores portátiles. Ahora voy cada tarde y he conocido a otros estudiantes con los que comparto apuntes y descansos.",
+          "clips": [
+            {
+              "n": 1,
+              "palabras": 57,
+              "duracionS": 26,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 1 - hombre, 55 años, España] Hace unos años empecé a ir a la biblioteca de mi barrio porque buscaba un lugar tranquilo para leer el periódico. Allí conocí a un grupo de jubilados que se reunía cada mañana. Ahora organizamos charlas sobre historia local y hasta preparamos una exposición con fotos antiguas. La biblioteca se ha convertido en nuestro punto de encuentro."
+            },
+            {
+              "n": 2,
+              "palabras": 61,
+              "duracionS": 27,
+              "variedad": "Argentina",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 2 - mujer, 44 años, Argentina] Cuando me mudé a este barrio no conocía a nadie y me sentía sola. Un día entré en la biblioteca pública para pedir información sobre cursos. La bibliotecaria me invitó a un taller de tejido que se hacía los sábados. Fui sin esperar mucho y al final me hice amiga de varias vecinas. Todas las semanas compartimos mate y charla."
+            },
+            {
+              "n": 3,
+              "palabras": 54,
+              "duracionS": 24,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 3 - mujer, 35 años, España] Siempre he usado las bibliotecas para estudiar, pero el año pasado descubrí algo nuevo. La biblioteca de mi ciudad organizaba un club de lectura en español fácil para extranjeros. Me apunté como voluntaria y ahora coordino un grupo de diez personas. Leemos cuentos y luego comentamos las historias; es una experiencia muy enriquecedora."
+            },
+            {
+              "n": 4,
+              "palabras": 51,
+              "duracionS": 23,
+              "variedad": "Argentina",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 4 - hombre, 39 años, Argentina] De niño pasaba las tardes en la biblioteca del pueblo mientras mis padres trabajaban. Me encantaba el silencio y el olor de los libros. Ahora que soy profesor, llevo a mis alumnos cada mes. La bibliotecaria nos prepara actividades y los chicos descubren que allí hay mucho más que estanterías."
+            },
+            {
+              "n": 5,
+              "palabras": 53,
+              "duracionS": 24,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 5 - mujer, 47 años, España] En mi biblioteca hay una sala especial para niños, con cuentos y juegos. Al principio solo iba con mi hija pequeña, pero luego me ofrecí para contar cuentos a otros niños. Ahora formo parte del grupo de voluntarios y cada miércoles por la tarde contamos historias a grupos de hasta veinte niños."
+            },
+            {
+              "n": 6,
+              "palabras": 49,
+              "duracionS": 22,
+              "variedad": "España",
+              "numHablantes": 1,
+              "transcripcion": "[VOZ 6 - hombre, 28 años, España] Necesitaba preparar un examen importante y en casa no podía concentrarme. Probé la biblioteca municipal y me sorprendió: hay salas de estudio silenciosas, conexión wifi y hasta préstamo de ordenadores portátiles. Ahora voy cada tarde y he conocido a otros estudiantes con los que comparto apuntes y descansos."
+            }
+          ],
+          "fichaTecnica": {
+            "duracion": 146,
+            "hablantes": 6,
+            "voces": [
+              {
+                "genero": "hombre",
+                "edad": "55",
+                "variedad": "España"
+              },
+              {
+                "genero": "mujer",
+                "edad": "44",
+                "variedad": "Argentina"
+              },
+              {
+                "genero": "mujer",
+                "edad": "35",
+                "variedad": "España"
+              },
+              {
+                "genero": "hombre",
+                "edad": "39",
+                "variedad": "Argentina"
+              },
+              {
+                "genero": "mujer",
+                "edad": "47",
+                "variedad": "España"
+              },
+              {
+                "genero": "hombre",
+                "edad": "28",
+                "variedad": "España"
+              }
+            ],
+            "variedad": "mixta",
+            "registro": "informal",
+            "ruidoFondo": "ninguno",
+            "reproducciones": 2
+          },
+          "parejas": [
+            {
+              "enunciado": "Sala de estudio con wifi y préstamo de portátiles",
+              "corresponde": "A"
+            },
+            {
+              "enunciado": "Encuentro con jubilados para charlas y exposiciones",
+              "corresponde": "B"
+            },
+            {
+              "enunciado": "Taller de tejido que le permitió hacer amigas",
+              "corresponde": "C"
+            },
+            {
+              "enunciado": "Cuentacuentos para niños como voluntaria",
+              "corresponde": "D"
+            },
+            {
+              "enunciado": "Voluntaria en un club de lectura para extranjeros",
+              "corresponde": "E"
+            },
+            {
+              "enunciado": "Profesor que lleva a sus alumnos a la biblioteca",
+              "corresponde": "F"
+            }
+          ],
+          "sobrantes": 3,
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "Audio 1: ¿Con qué enunciado corresponde?",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 1,
+              "justificacion": "Conoció a un grupo de jubilados y ahora organizan charlas y exposiciones.",
+              "fraseSoporte": "conocí a un grupo de jubilados"
+            },
+            {
+              "num": 2,
+              "enunciado": "Audio 2: ¿Con qué enunciado corresponde?",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 2,
+              "justificacion": "Se apuntó a un taller de tejido y conoció amigas.",
+              "fraseSoporte": "me invitó a un taller de tejido"
+            },
+            {
+              "num": 3,
+              "enunciado": "Audio 3: ¿Con qué enunciado corresponde?",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 4,
+              "justificacion": "Es voluntaria en un club de lectura para extranjeros.",
+              "fraseSoporte": "Me apunté como voluntaria"
+            },
+            {
+              "num": 4,
+              "enunciado": "Audio 4: ¿Con qué enunciado corresponde?",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 5,
+              "justificacion": "Es profesor y lleva a sus alumnos a la biblioteca cada mes.",
+              "fraseSoporte": "soy profesor, llevo a mis alumnos"
+            },
+            {
+              "num": 5,
+              "enunciado": "Audio 5: ¿Con qué enunciado corresponde?",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 3,
+              "justificacion": "Se ofreció como voluntaria para contar cuentos a niños.",
+              "fraseSoporte": "me ofrecí para contar cuentos"
+            },
+            {
+              "num": 6,
+              "enunciado": "Audio 6: ¿Con qué enunciado corresponde?",
+              "opciones": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I"
+              ],
+              "correcta": 0,
+              "justificacion": "Encontró salas de estudio con wifi y préstamo de ordenadores.",
+              "fraseSoporte": "salas de estudio silenciosas, conexión wifi y hasta préstamo de ordenadores"
+            }
+          ],
+          "atomoId": "B1-A4-021"
+        },
+        {
+          "num": 5,
+          "titulo": "",
+          "instrucciones": "Usted va a escuchar una conversación entre dos personas. Indique si los enunciados (1-6) se refieren a la primera persona (A), a la segunda (B) o a ninguno de los dos (C). Escuchará la conversación dos veces.\n\nAhora tiene 25 segundos para leer los enunciados.\n\nMarque las opciones elegidas en la Hoja de respuestas.",
+          "tipo": "relacionar",
+          "tipoAudio": "conversación informal",
+          "subgenero": "organización de un evento",
+          "genero": "conversación informal",
+          "ambito": "publico",
+          "subtema": "organizar el club de lectura de la biblioteca del barrio",
+          "guion": "[AUDIO 1] [ruido de fondo: murmullo de biblioteca] [VOZ 1 - mujer, 38 años, Argentina] Tobías, como este año la biblioteca del barrio cumple veinticinco años, quiero que el club de lectura organice algo especial que atraiga a gente nueva. [VOZ 2 - hombre, 41 años, Argentina] ¿Y qué te parece si preparamos una lectura pública de relatos breves escritos por los vecinos, que luego podríamos publicar en un cuadernillo? [VOZ 1 - mujer, 38 años, Argentina] Me gusta la idea, pero necesitamos que los vecinos se animen a escribir y que alguien revise los textos antes de publicarlos. [VOZ 2 - hombre, 41 años, Argentina] Yo puedo encargarme de la revisión, aunque tendríamos que pedir a los participantes que entreguen sus relatos antes del quince de mayo. [VOZ 1 - mujer, 38 años, Argentina] Perfecto, y yo me ocupo de organizar los talleres de escritura, que serán los martes por la tarde en la sala infantil. [VOZ 2 - hombre, 41 años, Argentina] ¿Y has pensado ya en el presupuesto para imprimir el cuadernillo y para comprar los materiales de los talleres? [VOZ 1 - mujer, 38 años, Argentina] He solicitado una pequeña ayuda al ayuntamiento, pero todavía no me han contestado, así que no sé si tendremos suficiente. [VOZ 2 - hombre, 41 años, Argentina] Si no nos dan la ayuda, podemos organizar una rifa entre los comercios del barrio para recaudar fondos. [VOZ 1 - mujer, 38 años, Argentina] Buena idea, pero yo preferiría pedir a los comercios que donen libros para sortearlos en la fiesta de clausura. [VOZ 2 - hombre, 41 años, Argentina] Eso también está bien, aunque tendríamos que decidir quién habla con los comerciantes y cuándo lo hace. [VOZ 1 - mujer, 38 años, Argentina] Yo puedo hablar con ellos la semana que viene, porque conozco a varios dueños que son socios del club. [VOZ 2 - hombre, 41 años, Argentina] Entonces yo me encargo de preparar el cartel anunciador y de difundirlo por las redes sociales del barrio. [VOZ 1 - mujer, 38 años, Argentina] ¿Y qué hacemos con la fecha de la lectura pública, que debería ser un sábado por la mañana para que venga más gente? [VOZ 2 - hombre, 41 años, Argentina] Podríamos hacerla el primer sábado de junio, pero antes tenemos que reservar el salón de actos del centro cívico. [VOZ 1 - mujer, 38 años, Argentina] Voy a llamar al centro cívico mañana mismo para preguntar si está libre ese día y para reservarlo. [VOZ 2 - hombre, 41 años, Argentina] Y yo escribiré a los vecinos que ya han confirmado su participación para recordarles la fecha de entrega. [pausa breve] [VOZ 1 - mujer, 38 años, Argentina] Muy bien, entonces quedamos así: tú te ocupas de los relatos y del cartel, y yo de los talleres y de la reserva.",
+          "clips": [
+            {
+              "n": 1,
+              "palabras": 315,
+              "duracionS": 140,
+              "variedad": "Argentina",
+              "numHablantes": 2,
+              "transcripcion": "[ruido de fondo: murmullo de biblioteca] [VOZ 1 - mujer, 38 años, Argentina] Tobías, como este año la biblioteca del barrio cumple veinticinco años, quiero que el club de lectura organice algo especial que atraiga a gente nueva. [VOZ 2 - hombre, 41 años, Argentina] ¿Y qué te parece si preparamos una lectura pública de relatos breves escritos por los vecinos, que luego podríamos publicar en un cuadernillo? [VOZ 1 - mujer, 38 años, Argentina] Me gusta la idea, pero necesitamos que los vecinos se animen a escribir y que alguien revise los textos antes de publicarlos. [VOZ 2 - hombre, 41 años, Argentina] Yo puedo encargarme de la revisión, aunque tendríamos que pedir a los participantes que entreguen sus relatos antes del quince de mayo. [VOZ 1 - mujer, 38 años, Argentina] Perfecto, y yo me ocupo de organizar los talleres de escritura, que serán los martes por la tarde en la sala infantil. [VOZ 2 - hombre, 41 años, Argentina] ¿Y has pensado ya en el presupuesto para imprimir el cuadernillo y para comprar los materiales de los talleres? [VOZ 1 - mujer, 38 años, Argentina] He solicitado una pequeña ayuda al ayuntamiento, pero todavía no me han contestado, así que no sé si tendremos suficiente. [VOZ 2 - hombre, 41 años, Argentina] Si no nos dan la ayuda, podemos organizar una rifa entre los comercios del barrio para recaudar fondos. [VOZ 1 - mujer, 38 años, Argentina] Buena idea, pero yo preferiría pedir a los comercios que donen libros para sortearlos en la fiesta de clausura. [VOZ 2 - hombre, 41 años, Argentina] Eso también está bien, aunque tendríamos que decidir quién habla con los comerciantes y cuándo lo hace. [VOZ 1 - mujer, 38 años, Argentina] Yo puedo hablar con ellos la semana que viene, porque conozco a varios dueños que son socios del club. [VOZ 2 - hombre, 41 años, Argentina] Entonces yo me encargo de preparar el cartel anunciador y de difundirlo por las redes sociales del barrio. [VOZ 1 - mujer, 38 años, Argentina] ¿Y qué hacemos con la fecha de la lectura pública, que debería ser un sábado por la mañana para que venga más gente? [VOZ 2 - hombre, 41 años, Argentina] Podríamos hacerla el primer sábado de junio, pero antes tenemos que reservar el salón de actos del centro cívico. [VOZ 1 - mujer, 38 años, Argentina] Voy a llamar al centro cívico mañana mismo para preguntar si está libre ese día y para reservarlo. [VOZ 2 - hombre, 41 años, Argentina] Y yo escribiré a los vecinos que ya han confirmado su participación para recordarles la fecha de entrega. [pausa breve] [VOZ 1 - mujer, 38 años, Argentina] Muy bien, entonces quedamos así: tú te ocupas de los relatos y del cartel, y yo de los talleres y de la reserva."
+            }
+          ],
+          "fichaTecnica": {
+            "duracion": 140,
+            "hablantes": 2,
+            "voces": [
+              {
+                "genero": "mujer",
+                "edad": "38",
+                "variedad": "Argentina"
+              },
+              {
+                "genero": "hombre",
+                "edad": "41",
+                "variedad": "Argentina"
+              }
+            ],
+            "variedad": "Argentina",
+            "registro": "informal",
+            "ruidoFondo": "murmullo de biblioteca",
+            "reproducciones": 2
+          },
+          "parejas": [
+            {
+              "enunciado": "¿Quién quiere que el club de lectura organice algo especial por el aniversario?",
+              "corresponde": "Mujer."
+            },
+            {
+              "enunciado": "¿Quién propone publicar un cuadernillo con los relatos de los vecinos?",
+              "corresponde": "Hombre."
+            },
+            {
+              "enunciado": "¿Quién se ofrece a revisar los textos antes de publicarlos?",
+              "corresponde": "Hombre."
+            },
+            {
+              "enunciado": "¿Quién va a organizar los talleres de escritura?",
+              "corresponde": "Mujer."
+            },
+            {
+              "enunciado": "¿Quién se encarga de preparar el cartel anunciador?",
+              "corresponde": "Hombre."
+            },
+            {
+              "enunciado": "¿Quién llama al centro cívico para reservar el salón de actos?",
+              "corresponde": "Mujer."
+            }
+          ],
+          "sobrantes": 0,
+          "items": [
+            {
+              "num": 1,
+              "enunciado": "¿Quién quiere que el club de lectura organice algo especial por el aniversario?",
+              "opciones": [
+                "Hombre.",
+                "Mujer.",
+                "Ninguno de los dos."
+              ],
+              "correcta": 1,
+              "justificacion": "La mujer propone que el club de lectura organice algo especial para atraer a gente nueva.",
+              "fraseSoporte": "quiero que el club de lectura organice algo especial que atraiga a gente nueva"
+            },
+            {
+              "num": 2,
+              "enunciado": "¿Quién propone publicar un cuadernillo con los relatos de los vecinos?",
+              "opciones": [
+                "Ninguno de los dos.",
+                "Mujer.",
+                "Hombre."
+              ],
+              "correcta": 2,
+              "justificacion": "El hombre sugiere preparar una lectura pública y publicar los relatos en un cuadernillo.",
+              "fraseSoporte": "preparamos una lectura pública de relatos breves escritos por los vecinos, que luego podríamos publicar en un cuadernillo"
+            },
+            {
+              "num": 3,
+              "enunciado": "¿Quién se ofrece a revisar los textos antes de publicarlos?",
+              "opciones": [
+                "Hombre.",
+                "Ninguno de los dos.",
+                "Mujer."
+              ],
+              "correcta": 0,
+              "justificacion": "El hombre se ofrece a encargarse de la revisión de los textos.",
+              "fraseSoporte": "Yo puedo encargarme de la revisión"
+            },
+            {
+              "num": 4,
+              "enunciado": "¿Quién va a organizar los talleres de escritura?",
+              "opciones": [
+                "Mujer.",
+                "Hombre.",
+                "Ninguno de los dos."
+              ],
+              "correcta": 0,
+              "justificacion": "La mujer dice que ella se ocupa de organizar los talleres de escritura.",
+              "fraseSoporte": "yo me ocupo de organizar los talleres de escritura"
+            },
+            {
+              "num": 5,
+              "enunciado": "¿Quién se encarga de preparar el cartel anunciador?",
+              "opciones": [
+                "Ninguno de los dos.",
+                "Hombre.",
+                "Mujer."
+              ],
+              "correcta": 1,
+              "justificacion": "El hombre se encarga de preparar el cartel y de difundirlo.",
+              "fraseSoporte": "yo me encargo de preparar el cartel anunciador y de difundirlo por las redes sociales del barrio"
+            },
+            {
+              "num": 6,
+              "enunciado": "¿Quién llama al centro cívico para reservar el salón de actos?",
+              "opciones": [
+                "Hombre.",
+                "Mujer.",
+                "Ninguno de los dos."
+              ],
+              "correcta": 1,
+              "justificacion": "La mujer dice que va a llamar al centro cívico para reservar el salón.",
+              "fraseSoporte": "Voy a llamar al centro cívico mañana mismo para preguntar si está libre ese día y para reservarlo"
+            }
+          ],
+          "atomoId": "B1-A5-020"
+        }
+      ]
+    },
+    {
+      "prueba": 3,
+      "nombre": "Expresión e interacción escritas",
+      "duracion": 60,
+      "tareas": [
+        {
+          "num": 1,
+          "titulo": "Interacción escrita",
+          "tipo": "interacción escrita",
+          "genero": "correo electrónico",
+          "subgenero": "carta a un amigo extranjero",
+          "ambito": "personal",
+          "subtema": "explicar la biblioteca del barrio y sus actividades a un amigo de otro país",
+          "situacion": "Su amigo Tobías Ferreyra, que vive en otro país, le ha escrito para preparar un trabajo escolar sobre los espacios públicos que unen a la comunidad. Usted vive en Santa Eulalia de Oscos y quiere contarle cómo es la biblioteca de su barrio y qué actividades ofrece.",
+          "destinatario": "Su amigo Tobías Ferreyra.",
+          "proposito": "Describir la biblioteca del barrio, explicar qué actividades ofrece y contar cómo ha cambiado con los años, y preguntarle por espacios similares en su país.",
+          "instrucciones": "",
+          "puntosGuia": [
+            "Saludar y agradecer su mensaje",
+            "Describir cómo es la biblioteca y qué servicios ofrece",
+            "Contar qué actividades se organizan y quién participa",
+            "Explicar qué se hacía antes y qué se hace ahora",
+            "Preguntarle por espacios similares en su país y despedirse"
+          ],
+          "minPalabras": 100,
+          "maxPalabras": 120,
+          "material": {
+            "tipo": "texto",
+            "contenido": "¡Hola, Lucía! ¿Cómo estás en Santa Eulalia de Oscos? Te escribo porque en el colegio estamos preparando un trabajo sobre los espacios públicos que unen a la comunidad y quiero incluir tu biblioteca del barrio. ¿Cómo es por dentro? ¿Qué servicios ofrece: préstamo de libros, salas de estudio, acceso a internet? Me interesa saber también qué actividades organizan, si van niños y personas mayores y si la gente joven participa. ¿Podrías contarme cómo era la biblioteca cuando eras pequeña y si ha cambiado algo? Escríbeme cuando puedas. Un abrazo, Tobías.",
+            "palabras": 87,
+            "guionAudio": null
+          },
+          "rubrica": [
+            {
+              "criterio": "adecuación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Contesta al amigo, describe la biblioteca y sus servicios, explica las actividades que ofrece, cuenta qué ha cambiado y le pregunta por espacios similares en su país."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Habla de las bibliotecas en general sin describir la de su barrio ni responder a las preguntas del amigo."
+                }
+              ]
+            },
+            {
+              "criterio": "coherencia y cohesión",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Ordena el correo en saludo, descripción de la biblioteca, actividades, comparación con el pasado y preguntas finales, con marcadores como antes, ahora, además y sin embargo."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Describe la biblioteca sin orden ni cierre, de modo que no se entiende qué actividades se realizan ni qué ha cambiado."
+                }
+              ]
+            },
+            {
+              "criterio": "corrección gramatical y léxica",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Contrasta el imperfecto y el presente para explicar los cambios (antes solo se prestaban libros, ahora se organizan talleres) con errores que no impiden la comprensión."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "El uso incorrecto de los tiempos hace que no se distinga qué se hacía antes y qué se hace ahora."
+                }
+              ]
+            },
+            {
+              "criterio": "alcance",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Cuenta con vocabulario de biblioteca y actividades culturales (préstamo, estanterías, cuentacuentos, taller, sala de estudio, usuarios, voluntarios)."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "No encuentra palabras para describir la biblioteca ni para explicar qué actividades ofrece."
+                }
+              ]
+            }
+          ],
+          "modeloRespuesta": "¡Hola, Tobías!\nMe alegra mucho tu mensaje. La biblioteca de mi barrio es un espacio amplio y luminoso, con estanterías de madera y mesas largas para estudiar. Ofrece préstamo de libros, acceso a internet y una sala infantil con alfombra de colores. Además, organizan cuentacuentos los viernes y talleres de lectura para adultos. Cuando era pequeña, solo se prestaban libros y había que guardar silencio; ahora se hacen clubs de lectura y vienen voluntarios a ayudar. Lo que ha cambiado es que la biblioteca se ha convertido en un punto de encuentro para todas las edades. ¿Cómo son las bibliotecas donde vives? Un abrazo, Lucía.",
+          "atomoId": "B1-E1-020"
+        },
+        {
+          "num": 2,
+          "titulo": "Expresión escrita",
+          "tipo": "expresión escrita",
+          "genero": "composición",
+          "subgenero": "narración de una experiencia",
+          "ambito": "publico",
+          "subtema": "la biblioteca pública como espacio de encuentro",
+          "situacion": "La revista municipal 'La Plaza de mi Barrio', de Santa Eulalia de Oscos, convoca un concurso de relatos sobre espacios públicos que unen a la comunidad. Usted, Carmen Ruiz Peña, va a contar una experiencia vivida en la biblioteca pública de su barrio.",
+          "destinatario": "El jurado del concurso de relatos de la revista municipal 'La Plaza de mi Barrio'.",
+          "proposito": "Narrar una experiencia en la biblioteca pública, describir el lugar y explicar por qué le parece un espacio de encuentro para la comunidad.",
+          "instrucciones": "",
+          "puntosGuia": [
+            "Explicar cómo es la biblioteca de su barrio y cuándo suele ir",
+            "Contar una actividad concreta en la que participó",
+            "Describir a alguna persona que conoció allí",
+            "Explicar por qué ese espacio es importante para el barrio",
+            "Terminar diciendo si recomendaría la biblioteca a otros vecinos"
+          ],
+          "minPalabras": 130,
+          "maxPalabras": 150,
+          "material": {
+            "tipo": "texto",
+            "contenido": "Opción A: Cuente una experiencia en la biblioteca de su barrio: qué hizo, a quién conoció y por qué le marcó. Opción B: Opine sobre si las bibliotecas públicas deben ofrecer más actividades de ocio.",
+            "palabras": 35,
+            "guionAudio": null
+          },
+          "rubrica": [
+            {
+              "criterio": "adecuación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Narra una experiencia concreta en una biblioteca pública, describe la actividad y explica por qué ese espacio une a la comunidad."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Opina sobre las bibliotecas en general sin narrar ninguna experiencia personal ni describir un lugar concreto."
+                }
+              ]
+            },
+            {
+              "criterio": "coherencia y cohesión",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Ordena el relato en presentación del lugar, narración de la actividad y valoración final, con marcadores como al principio, aquel día y desde entonces."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Salta de una idea a otra sin referencias temporales y termina sin conclusión."
+                }
+              ]
+            },
+            {
+              "criterio": "corrección gramatical y léxica",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Combina el indefinido de los hechos con el imperfecto descriptivo del lugar y las costumbres (me apunté, la biblioteca era luminosa) con errores leves."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Los errores de pasados impiden seguir el desarrollo de la experiencia."
+                }
+              ]
+            },
+            {
+              "criterio": "alcance",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Cuenta con vocabulario de espacios públicos y actividades culturales (estanterías, club de lectura, bibliotecaria, vecinos, cafetería, encuentro)."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Su vocabulario no alcanza para describir la biblioteca ni lo que sintió."
+                }
+              ]
+            }
+          ],
+          "modeloRespuesta": "Hace unos meses empecé a ir todos los sábados a la biblioteca de mi barrio, un espacio grande y luminoso con estanterías de madera y una zona infantil muy colorida. Al principio solo iba a estudiar, pero una tarde me apunté a un club de lectura que se reunía los viernes. Aquel día, la bibliotecaria nos presentó a varios vecinos y leímos juntos un capítulo de una novela. Me sorprendió que hubiera tanta gente de edades distintas y que todos quisieran compartir sus opiniones. Después del club, tomamos café en la cafetería de al lado y seguimos hablando de los personajes. Desde entonces, no falto ni un viernes. La biblioteca se ha convertido en un lugar de encuentro para mí, donde he conocido a personas que de otra forma no habría saludado. La recomiendo a todos los vecinos porque une al barrio y ofrece actividades para todas las edades.",
+          "atomoId": "B1-E2-021"
+        }
+      ]
+    },
+    {
+      "prueba": 4,
+      "nombre": "Expresión e interacción orales",
+      "duracion": 15,
+      "preparacion": 15,
+      "tareas": [
+        {
+          "num": 1,
+          "titulo": "Monólogo: un espacio público de mi barrio que recomiendo",
+          "tiempo": "2-3 min",
+          "genero": "exposición de un tema",
+          "subgenero": "recomendar un espacio público del barrio",
+          "ambito": "público",
+          "subtema": "describir y recomendar un espacio de encuentro comunitario",
+          "instrucciones": "Lea los dos temas y elija uno para exponer durante dos o tres minutos. Explique qué espacio o actividad ha elegido, cómo es y por qué lo recomienda a los vecinos. Conviene terminar con una idea clara sobre lo que aporta al barrio.",
+          "opciones": [
+            "Tema A: Un espacio público de mi barrio que recomiendo",
+            "Tema B: Una actividad comunitaria que me gustaría organizar"
+          ],
+          "propuestas": [],
+          "puntosGuia": [
+            "Qué espacio es, dónde está y cómo es físicamente",
+            "Qué actividades y servicios ofrece a los vecinos",
+            "Por qué lo recomienda y a quién puede interesar",
+            "Qué experiencias ha tenido usted allí",
+            "Qué aporta ese espacio al barrio"
+          ],
+          "foto": null,
+          "cuadernilloCandidato": "LÁMINA · B1 · TAREA 1: MONÓLOGO (2-3 minutos)\nLea los dos temas y escoja uno para su exposición.\nTEMA A: UN ESPACIO PÚBLICO DE MI BARRIO QUE RECOMIENDO\n• ¿Qué espacio es y dónde se encuentra?\n• ¿Cómo es y qué actividades ofrece?\n• ¿Por qué lo recomienda?\n• ¿Qué ha hecho usted allí?\n• ¿Qué aporta al barrio?\nTEMA B: UNA ACTIVIDAD COMUNITARIA QUE ME GUSTARÍA ORGANIZAR\n• ¿En qué consiste y dónde se haría?\n• ¿Quién participaría?\n• ¿Qué necesita para llevarla a cabo?\n• ¿Qué beneficios tendría para los vecinos?\nCuando haya elegido, empiece a hablar sin prisa.",
+          "entrevistador": {
+            "fases": [
+              {
+                "fase": "Apertura",
+                "tiempo": "20 s",
+                "queHace": "Confirma la opción elegida por el candidato y le recuerda que dispone de dos o tres minutos. [pausa breve]",
+                "preguntas": [
+                  "¿Se ha decidido ya?",
+                  "Empiece cuando quiera."
+                ]
+              },
+              {
+                "fase": "Exposición",
+                "tiempo": "2-3 min",
+                "queHace": "Escucha con atención y no completa las frases del candidato aunque se detenga brevemente.",
+                "preguntas": []
+              },
+              {
+                "fase": "Cierre",
+                "tiempo": "30 s",
+                "queHace": "Pide una valoración final y da por concluida la tarea. [pausa breve]",
+                "preguntas": [
+                  "¿Por qué cree que ese espacio es importante para el barrio?",
+                  "¿A quién se lo recomendaría primero?"
+                ]
+              }
+            ],
+            "preguntasApoyo": [
+              "¿Con qué frecuencia va usted allí?",
+              "¿Qué es lo que más le gusta de ese lugar?",
+              "¿Ha participado en alguna actividad organizada?",
+              "¿Cree que hace falta mejorar algo?"
+            ],
+            "siSeBloquea": "Se le propone describir una ocasión concreta en la que estuvo en ese espacio, con el lugar y las personas que participaban. Si el silencio persiste, se le formula una de las preguntas de apoyo y se le permiten unos segundos con la lámina.",
+            "tiempos": "Tarea 1: 2-3 min"
+          },
+          "rubrica": [
+            {
+              "criterio": "adecuación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Concreta qué espacio recomienda, dónde está, qué actividades ofrece, por qué le interesa y qué aporta al barrio, cubriendo los puntos pedidos."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Habla de espacios públicos en general sin concretar ninguno de su barrio ni justificar la recomendación."
+                }
+              ]
+            },
+            {
+              "criterio": "coherencia y cohesión",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Ordena la descripción del espacio, las actividades y la recomendación, y enlaza las ideas con conectores de causa y finalidad."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Repite la misma idea sin avanzar y no se distingue una recomendación clara."
+                }
+              ]
+            },
+            {
+              "criterio": "fluidez",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Habla con continuidad durante el tiempo previsto, con vacilaciones breves que no rompen el discurso."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Se bloquea, lee las notas o deja la intervención a medias."
+                }
+              ]
+            },
+            {
+              "criterio": "corrección y alcance",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Expresa recomendaciones, experiencias y opiniones con estructuras adecuadas al nivel y vocabulario relacionado con espacios públicos y actividades comunitarias."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "No logra expresar recomendaciones ni experiencias y comete errores que obligan a reinterpretar lo dicho."
+                }
+              ]
+            },
+            {
+              "criterio": "pronunciación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Se le entiende sin esfuerzo durante toda la intervención: articula con claridad, respeta las pausas y la entonación acompaña lo que cuenta, aunque conserve algún rasgo de acento extranjero."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "La pronunciación o el ritmo dificultan la comprensión de partes de la exposición y obligan al entrevistador a pedir aclaraciones."
+                }
+              ]
+            }
+          ],
+          "ejemploEsperado": "Quiero recomendar la biblioteca pública de mi barrio, que está en la plaza Mayor de Santa Eulalia de Oscos, al lado del mercado. Es un edificio antiguo reformado con grandes ventanales y salas amplias, y tiene una zona infantil con alfombra de colores. Ofrece préstamo de libros y películas, wifi gratuito y talleres de lectura para adultos. Además, los sábados por la mañana hay cuentacuentos para niños y un club de conversación en inglés. Yo voy dos tardes por semana a estudiar y a veces participo en el taller de escritura. Lo recomiendo porque es un lugar tranquilo y acogedor donde conoces a vecinos de todas las edades. Para el barrio es muy importante, ya que se ha convertido en un punto de encuentro que une a la comunidad.",
+          "atomoId": "B1-O1-021"
+        },
+        {
+          "num": 2,
+          "titulo": "Conversación: un espacio público de mi barrio que recomiendo",
+          "tiempo": "3-4 min",
+          "genero": "conversación",
+          "subgenero": "conversación sobre el entorno",
+          "ambito": "público",
+          "subtema": "la biblioteca del barrio como espacio de encuentro y sus actividades",
+          "instrucciones": "Cerramos con una conversación de tres o cuatro minutos sobre los espacios públicos del lugar donde vive. Cuénteme cuáles usa, quién suele ir y cómo han cambiado con los años.",
+          "opciones": [],
+          "propuestas": [],
+          "puntosGuia": [
+            "Qué espacio público recomienda y dónde está",
+            "Qué actividades se pueden hacer allí",
+            "Quién suele ir y por qué",
+            "Cómo ha cambiado ese espacio con los años",
+            "Qué actividad le gustaría añadir"
+          ],
+          "foto": null,
+          "cuadernilloCandidato": "RECTA FINAL · B1 · TAREA 2: CONVERSACIÓN (3-4 minutos)\nÚltima parte de la charla, sobre el tema de la tarea 1.\n• Piense en un espacio público concreto de su barrio.\n• Prepare una actividad que se haga allí y otra que podría hacerse.\n• Puede consultar sus notas previas.",
+          "entrevistador": {
+            "fases": [
+              {
+                "fase": "Apertura",
+                "tiempo": "20 s",
+                "queHace": "Pide al candidato que sitúe la conversación en su barrio y en un espacio público que conozca bien. [pausa breve]",
+                "preguntas": [
+                  "¿Qué espacio público de su barrio recomendaría?",
+                  "¿Va usted a menudo?"
+                ]
+              },
+              {
+                "fase": "Conversación",
+                "tiempo": "3 min",
+                "queHace": "Pregunta por las actividades que se ofrecen, por el tipo de personas que lo usan y por lo que ha cambiado con los años; pide comparaciones entre antes y ahora.",
+                "preguntas": [
+                  "¿Dónde está exactamente?",
+                  "¿Qué actividades se pueden hacer allí?",
+                  "¿Quién suele ir y por qué?",
+                  "¿Cómo ha cambiado ese espacio con los años?",
+                  "¿Qué le gusta más y qué le molesta?",
+                  "¿Qué actividad le gustaría añadir?"
+                ]
+              },
+              {
+                "fase": "Cierre",
+                "tiempo": "30 s",
+                "queHace": "Termina con una pregunta sobre el futuro de ese espacio y agradece la conversación. [pausa breve]",
+                "preguntas": [
+                  "¿Cómo será ese espacio dentro de veinte años?"
+                ]
+              }
+            ],
+            "preguntasApoyo": [
+              "¿Cuántas horas está abierto?",
+              "¿Hay actividades para niños?",
+              "¿Se puede usar internet gratis?",
+              "¿Participan los jóvenes?"
+            ],
+            "siSeBloquea": "Si el candidato no arranca, el entrevistador le pide describir lo que se ve un sábado por la mañana en ese espacio, y desde ahí retoma la pregunta sobre las actividades.",
+            "tiempos": "Tarea 2: 3-4 min"
+          },
+          "rubrica": [
+            {
+              "criterio": "adecuación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Describe un espacio público concreto de su barrio, explica qué actividades ofrece y por qué es importante para la comunidad."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Habla de espacios públicos en general sin referirse a ninguno concreto de su barrio ni a actividades reales."
+                }
+              ]
+            },
+            {
+              "criterio": "coherencia y cohesión",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Organiza la descripción por actividades o por tipos de usuarios y usa marcadores de contraste y de tiempo (antes, ahora, además, sin embargo) con coherencia."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Mezcla las actividades sin orden y no queda claro qué se hace en el espacio ni cómo ha cambiado."
+                }
+              ]
+            },
+            {
+              "criterio": "fluidez",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Habla con naturalidad durante los tres o cuatro minutos y amplía cada respuesta sin que se lo pidan."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Responde con frases muy breves y el entrevistador tiene que sacarle toda la información."
+                }
+              ]
+            },
+            {
+              "criterio": "corrección y alcance",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Contrasta el imperfecto de las descripciones antiguas con el presente y dispone de vocabulario sobre actividades culturales, vecinos y servicios."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Confunde los tiempos al hablar del pasado y del presente, o carece de léxico para describir el espacio y sus actividades."
+                }
+              ]
+            },
+            {
+              "criterio": "pronunciación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Se le entiende sin esfuerzo y su entonación acompasa la descripción de las actividades."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Su pronunciación o su ritmo impiden seguir partes de la descripción."
+                }
+              ]
+            }
+          ],
+          "ejemploEsperado": "Me llamo Lucía Ferrer Salas y le recomiendo la biblioteca municipal de Santa Eulalia de Oscos, que está en la plaza del Ayuntamiento. Allí se puede leer, estudiar y usar internet gratis, y también hay cuentacuentos para niños los sábados y un club de lectura para adultos los jueves. Antes solo iban estudiantes y personas mayores, pero ahora van también familias y jóvenes que necesitan un sitio tranquilo para trabajar. Lo que ha cambiado es que han ampliado el horario y han creado una zona infantil con alfombra y cojines. A mí me gusta que sea un lugar de encuentro, aunque echo de menos las charlas de autores que se hacían antes. Me gustaría añadir un taller de escritura para adolescentes. Al ayuntamiento le pediría más presupuesto para comprar novedades. Dentro de veinte años me imagino la biblioteca igual, pero con más actividades digitales.",
+          "atomoId": "B1-O2-020"
+        },
+        {
+          "num": 3,
+          "titulo": "Descripción de una fotografía: espacios públicos de encuentro",
+          "tiempo": "2-3 min",
+          "genero": "descripción de fotografía",
+          "subgenero": "escena de biblioteca y feria del libro",
+          "ambito": "publico",
+          "subtema": "describir una biblioteca pública y una feria del libro como espacios de encuentro comunitario",
+          "instrucciones": "Elija una de las dos fotografías y descríbala durante dos o tres minutos. Indique dónde están las personas, quiénes son, qué están haciendo y qué ambiente hay. Después responda a las preguntas del entrevistador y comente qué le sugiere la imagen. Se valorará el orden y la riqueza del vocabulario.",
+          "opciones": [
+            "Fotografía A: El interior de una biblioteca pública con zonas de lectura y cuentacuentos",
+            "Fotografía B: Una feria del libro al aire libre en un centro cultural de barrio"
+          ],
+          "propuestas": [],
+          "puntosGuia": [
+            "Dónde están y cómo está organizado el espacio",
+            "Quiénes participan y qué hace cada grupo de personas",
+            "Qué objetos, carteles y actividades aparecen",
+            "Qué ambiente hay entre los usuarios y los vecinos",
+            "Qué importancia tienen estos espacios para un barrio o una comunidad"
+          ],
+          "foto": "[FOTOGRAFÍA A: Interior amplio de una biblioteca pública. Estanterías de madera llenas de libros rodean la sala. Varias personas están sentadas en mesas largas leyendo y tomando apuntes; un joven con auriculares usa un ordenador y una mujer mayor consulta un periódico. En una zona infantil con alfombra de colores, un grupo de niños escucha a una bibliotecaria que lee un cuento ilustrado. En la pared hay carteles: 'Zona de estudio' y 'Cuentacuentos hoy a las 18:00'. La luz natural entra por grandes ventanales.]\n[FOTOGRAFÍA B: Exterior de un centro cultural de barrio durante una feria del libro. Hay mesas plegables con libros de segunda mano y varias personas hojeándolos. Un pequeño escenario con un micrófono está preparado para una lectura; un hombre con camisa clara ajusta el micrófono mientras una mujer coloca sillas. En otra mesa, niños hacen manualidades con papel y pegamento. Cuelga una pancarta que dice 'Semana del libro' y hay globos de colores atados a las farolas.]",
+          "cuadernilloCandidato": "LÁMINA · B1 · TAREA 3: DESCRIPCIÓN DE UNA FOTOGRAFÍA (2-3 minutos)\nElija una de las dos imágenes y descríbala.\nFOTOGRAFÍA A: BIBLIOTECA PÚBLICA\n• ¿Cómo está organizada la sala y qué zonas se distinguen?\n• ¿Qué hacen las personas que están en las mesas?\n• ¿Qué actividad se ve en la zona infantil y qué carteles hay?\n• ¿Ha visitado alguna vez una biblioteca de barrio?\nFOTOGRAFÍA B: FERIA DEL LIBRO\n• ¿Cómo es el espacio y qué mesas se ven?\n• ¿Qué hacen las personas que hojean los libros?\n• ¿Qué actividad se prepara en el escenario y qué hacen los niños?\n• ¿Qué ambiente hay entre los vecinos?\nCuando acabe su descripción, el entrevistador le hará algunas preguntas.",
+          "entrevistador": {
+            "fases": [
+              {
+                "fase": "Apertura",
+                "tiempo": "20 s",
+                "queHace": "Saluda, enseña la lámina con las dos imágenes y comprueba qué fotografía ha escogido. [pausa breve]",
+                "preguntas": [
+                  "¿Qué imagen prefiere describir?",
+                  "Empiece cuando quiera."
+                ]
+              },
+              {
+                "fase": "Descripción",
+                "tiempo": "2-3 min",
+                "queHace": "Escucha sin interrumpir y anota lo que el candidato no mencione.",
+                "preguntas": []
+              },
+              {
+                "fase": "Cierre",
+                "tiempo": "30 s",
+                "queHace": "Formula preguntas sobre los espacios públicos del candidato y cierra la tarea. [pausa breve]",
+                "preguntas": [
+                  "¿Qué espacio público de su barrio recomendaría?",
+                  "¿Cree que las bibliotecas siguen siendo importantes hoy en día?",
+                  "¿Participa usted en actividades culturales del barrio?"
+                ]
+              }
+            ],
+            "preguntasApoyo": [
+              "¿Qué se está haciendo en la imagen?",
+              "¿Cómo es el espacio y qué objetos se ven?",
+              "¿Quiénes participan y qué hace cada grupo?",
+              "¿Qué carteles o letreros aparecen?",
+              "¿Qué le sugiere esta escena de encuentro comunitario?"
+            ],
+            "siSeBloquea": "Se le invita a empezar por el espacio y los objetos, que son fáciles de describir, y se le recuerda que tiene la imagen delante. Si el silencio persiste, se le pregunta por las personas que aparecen o por las actividades que se ven.",
+            "tiempos": "2-3 min"
+          },
+          "rubrica": [
+            {
+              "criterio": "adecuación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Describe el espacio público elegido con su organización, los participantes, las actividades y los elementos de encuentro, y valora su papel comunitario."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Habla de las bibliotecas o ferias en general sin describir la fotografía o nombra elementos sueltos."
+                }
+              ]
+            },
+            {
+              "criterio": "coherencia y cohesión",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Organiza la descripción por zonas o por grupos de personas y usa conectores de lugar, tiempo y adición."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Presenta la información sin orden y el oyente no reconstruye la escena."
+                }
+              ]
+            },
+            {
+              "criterio": "fluidez",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Describe con continuidad los dos o tres minutos y completa la tarea sin bloquearse."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Respuestas muy breves, silencios largos o tarea abandonada."
+                }
+              ]
+            },
+            {
+              "criterio": "pronunciación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Pronunciación clara y entonación natural que permiten seguir la descripción."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "La pronunciación dificulta la comprensión de forma constante."
+                }
+              ]
+            },
+            {
+              "criterio": "corrección",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Emplea con pocos errores el presente, el gerundio y las estructuras de localización, cantidad y frecuencia."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Errores sistemáticos de concordancia o de tiempos que impiden seguir el mensaje."
+                }
+              ]
+            },
+            {
+              "criterio": "alcance",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Usa léxico variado sobre bibliotecas, libros, actividades culturales, espacios públicos y comunidad."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Vocabulario muy reducido, con repeticiones y términos vagos."
+                }
+              ]
+            }
+          ],
+          "ejemploEsperado": "He elegido la fotografía A. Es el interior de una biblioteca pública amplia, con estanterías de madera llenas de libros alrededor de la sala. En el centro hay mesas largas donde varias personas leen y toman apuntes; un joven con auriculares usa un ordenador y una mujer mayor consulta un periódico. En una zona infantil con alfombra de colores, un grupo de niños escucha a una bibliotecaria que lee un cuento ilustrado. En la pared hay carteles que indican 'Zona de estudio' y 'Cuentacuentos hoy a las 18:00', y la luz natural entra por grandes ventanales. El ambiente es tranquilo y acogedor, y me sugiere que la biblioteca es un lugar donde se mezclan generaciones: estudiantes, mayores y niños comparten el mismo espacio. Creo que es muy importante para el barrio porque ofrece actividades gratuitas y ayuda a que los vecinos se conozcan.",
+          "atomoId": "B1-O3-020"
+        },
+        {
+          "num": 4,
+          "titulo": "Diálogo simulado: reservar una sala en la biblioteca",
+          "tiempo": "2-3 min",
+          "genero": "diálogo en situación simulada",
+          "subgenero": "reserva de espacios en biblioteca pública",
+          "ambito": "publico",
+          "subtema": "reservar una sala para un club de lectura en la biblioteca del barrio",
+          "instrucciones": "Va a organizar un club de lectura en la biblioteca pública de Santa Eulalia de Oscos y necesita reservar una sala para el próximo martes por la tarde. Quiere saber cuántas personas caben, si hay proyector y pizarra, y si puede llevar café y algo de picar para los asistentes. Vive en el barrio y conoce a algunos vecinos que quieren participar. Hable con Rosario Menéndez Álvarez, la bibliotecaria. El entrevistador hace el papel de la bibliotecaria.",
+          "opciones": [],
+          "propuestas": [],
+          "puntosGuia": [
+            "Explicar la actividad, el día y cuántas personas asistirán",
+            "Pedir una sala con capacidad suficiente",
+            "Preguntar si hay proyector o pizarra",
+            "Solicitar permiso para llevar café y preguntar si hay que pagar algo",
+            "Confirmar la hora de entrada y las normas de limpieza"
+          ],
+          "foto": "[IMAGEN DE PARTIDA] Se retoma la fotografía A de la tarea 3: el interior de la biblioteca con la zona de estudio y el cartel de 'Cuentacuentos hoy a las 18:00'.",
+          "cuadernilloCandidato": "LÁMINA · B1 · TAREA 4: DIÁLOGO EN SITUACIÓN SIMULADA (2-3 minutos)\nSITUACIÓN: Usted vive en Santa Eulalia de Oscos y quiere crear un club de lectura en la biblioteca pública de su barrio. Necesita reservar una sala para el próximo martes de 18:00 a 20:00. Calcula que asistirán unas doce personas, entre vecinos y amigos.\nSU PAPEL: vecino que reserva una sala para un club de lectura.\nPAPEL DEL ENTREVISTADOR: Rosario Menéndez Álvarez, bibliotecaria de la biblioteca pública.\n• Cuente qué actividad quiere hacer y cuántos asistirán.\n• Pida una sala con sillas y mesas suficientes.\n• Pregunte si dispone de proyector o pizarra.\n• Solicite llevar café y algo de picar, y aclare si hay que pagar.\n• Confirme la hora de recogida de llaves y las normas de limpieza.",
+          "entrevistador": {
+            "fases": [
+              {
+                "fase": "Apertura",
+                "tiempo": "30 s",
+                "queHace": "Facilita la tarjeta, lee la situación y confirma que el candidato quiere reservar una sala para un club de lectura con vecinos. [pausa breve]",
+                "preguntas": [
+                  "¿Para qué día necesita la sala?",
+                  "¿Cuántas personas van a participar?"
+                ]
+              },
+              {
+                "fase": "Simulación",
+                "tiempo": "2-3 min",
+                "queHace": "Interpreta a Rosario: propone una sala pequeña para ocho personas, explica que el proyector se reserva aparte y que no se permite comida, solo bebidas en envases cerrados. La sala grande y el proyector gratuito solo se ofrecen si el candidato los pide y justifica la necesidad.",
+                "preguntas": []
+              },
+              {
+                "fase": "Cierre",
+                "tiempo": "30 s",
+                "queHace": "Repite las condiciones aceptadas, señala la hora de entrega de llaves y recuerda dejar la sala ordenada. [pausa breve]",
+                "preguntas": [
+                  "¿Le reservo la sala grande para el martes?",
+                  "¿Quiere que le añada el proyector?"
+                ]
+              }
+            ],
+            "preguntasApoyo": [
+              "¿Qué actividad va a realizar?",
+              "¿Cuántos asistentes calcula?",
+              "¿Necesita proyector o pizarra?",
+              "¿Va a traer comida o bebida?",
+              "¿A qué hora quiere entrar?"
+            ],
+            "siSeBloquea": "Si el candidato se queda sin palabras, Rosario le pregunta cuántos vecinos vendrán y qué día quieren reunirse. La bibliotecaria no ofrecerá la sala grande ni el proyector gratuito: solo lo hará si el candidato lo pide y acepta las normas.",
+            "tiempos": "2-3 min"
+          },
+          "rubrica": [
+            {
+              "criterio": "adecuación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Consigue reservar una sala adecuada para el club de lectura, resuelve el proyector y las normas de comida, y cierra las condiciones del encuentro."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Pide una sala sin decir cuántos asistirán ni resolver el equipo o la comida, de modo que la reserva queda abierta."
+                }
+              ]
+            },
+            {
+              "criterio": "coherencia y cohesión",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Explica su plan, pregunta por cada condición y responde a las normas con un orden comprensible."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Mezcla el número de asistentes, el proyector y las normas de limpieza sin terminar de aclarar ninguna."
+                }
+              ]
+            },
+            {
+              "criterio": "fluidez",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Negocia los detalles durante los dos o tres minutos y mantiene el turno cuando le explican una restricción o un coste."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Contesta con dos palabras y deja que la bibliotecaria decida por él."
+                }
+              ]
+            },
+            {
+              "criterio": "pronunciación",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Se entienden los días, las cantidades y los elementos que menciona."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Los días y el número de asistentes no se distinguen y hay que repetirlos."
+                }
+              ]
+            },
+            {
+              "criterio": "corrección",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Usa bien el futuro, el condicional de cortesía y las fórmulas de petición."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Errores en el futuro o en las peticiones que dificultan entender qué sala necesita."
+                }
+              ]
+            },
+            {
+              "criterio": "alcance",
+              "bandas": [
+                {
+                  "banda": "Apto",
+                  "descriptor": "Emplea vocabulario de biblioteca y reservas: capacidad, proyector, pizarra, normas, limpieza, llaves."
+                },
+                {
+                  "banda": "No apto",
+                  "descriptor": "Vocabulario escaso para explicar la actividad o pedir las condiciones."
+                }
+              ]
+            }
+          ],
+          "ejemploEsperado": "Buenos días. Quiero reservar una sala para un club de lectura que estoy organizando con unos vecinos. Será el próximo martes de seis a ocho de la tarde y calculo que asistiremos unas doce personas, así que necesitaríamos una sala con sillas y mesas suficientes. ¿Tienen alguna sala grande disponible? También me gustaría saber si hay proyector o pizarra para mostrar algunos textos. ¿Podemos llevar café y algo de picar o está prohibido? Si hay que pagar algo, dígame cuánto. Y para terminar, ¿a qué hora tenemos que recoger las llaves y qué normas de limpieza debemos seguir?",
+          "atomoId": "B1-O4-021"
+        }
+      ]
+    }
+  ],
+  "claves": {
+    "lectura": [
+      {
+        "tarea": 1,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 5,
+            "justificacion": "La biblioteca organiza una tertulia para hablar sobre temas del barrio y la entrada es gratuita.",
+            "fraseSoporte": "La biblioteca organiza una tertulia para hablar sobre temas del barrio cada semana."
+          },
+          {
+            "num": 2,
+            "correcta": 1,
+            "justificacion": "El taller de poesía está pensado para jóvenes y las plazas son limitadas.",
+            "fraseSoporte": "El taller de poesía de la biblioteca está pensado para jóvenes que quieren escribir y leer poemas."
+          },
+          {
+            "num": 3,
+            "correcta": 7,
+            "justificacion": "El cine fórum proyecta películas y después se comentan con el público; la entrada es libre.",
+            "fraseSoporte": "Después de la proyección, los asistentes comentan la historia y los personajes con el resto del público."
+          },
+          {
+            "num": 4,
+            "correcta": 8,
+            "justificacion": "El taller de informática enseña a usar el móvil y el correo, y las clases son por la mañana.",
+            "fraseSoporte": "El taller de informática básica enseña a los adultos a usar el correo, internet y el móvil."
+          },
+          {
+            "num": 5,
+            "correcta": 6,
+            "justificacion": "El apoyo escolar ofrece ayuda con los deberes por la tarde y es gratuito.",
+            "fraseSoporte": "Voluntarios ayudan con los deberes y a preparar los exámenes de cada semana a los alumnos."
+          },
+          {
+            "num": 6,
+            "correcta": 3,
+            "justificacion": "La exposición muestra fotos antiguas del barrio y se pueden traer fotos propias.",
+            "fraseSoporte": "La sala principal acoge estos días una exposición de fotos antiguas del barrio, en la entrada."
+          }
+        ]
+      },
+      {
+        "tarea": 2,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 0,
+            "justificacion": "El texto dice que en 1995 la biblioteca abrió con una sala pequeña y un mostrador de préstamo.",
+            "fraseSoporte": "abrió en 1995 con una sala pequeña y un mostrador de préstamo"
+          },
+          {
+            "num": 2,
+            "correcta": 1,
+            "justificacion": "El texto menciona que ahora existe una zona social con sofás y una pequeña cafetería.",
+            "fraseSoporte": "ahora existe una zona social con sofás, una pequeña cafetería y un rincón infantil"
+          },
+          {
+            "num": 3,
+            "correcta": 2,
+            "justificacion": "La tesorera explica que ese dinero sirve para comprar materiales y pagar a los profesores.",
+            "fraseSoporte": "ese dinero sirve para comprar materiales y pagar a los profesores"
+          },
+          {
+            "num": 4,
+            "correcta": 0,
+            "justificacion": "El texto plantea cuánto ruido puede soportar una biblioteca que también es lugar de encuentro.",
+            "fraseSoporte": "El gran debate actual es cuánto ruido puede soportar una biblioteca que también es lugar de encuentro"
+          },
+          {
+            "num": 5,
+            "correcta": 1,
+            "justificacion": "El texto dice que una librería del barrio colabora donando ejemplares para el club de lectura.",
+            "fraseSoporte": "Una librería del barrio colabora donando ejemplares para el club de lectura"
+          },
+          {
+            "num": 6,
+            "correcta": 2,
+            "justificacion": "La directora dice que antes era un pasillo y ahora es una plaza cubierta donde todos se paran a charlar.",
+            "fraseSoporte": "«Antes esto era un pasillo por el que la gente pasaba deprisa», recuerda. «Ahora es una plaza cubierta donde todos se paran a charlar», añade."
+          }
+        ]
+      },
+      {
+        "tarea": 3,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 1,
+            "justificacion": "El estudiante del texto B cuenta que iba a la biblioteca porque en su casa había mucho ruido.",
+            "fraseSoporte": "Cuando empecé la universidad, no sabía dónde estudiar porque en mi casa había mucho ruido."
+          },
+          {
+            "num": 2,
+            "correcta": 0,
+            "justificacion": "La narradora del texto A se sorprendió al ver a muchos vecinos reunidos en la biblioteca.",
+            "fraseSoporte": "Me sorprendió ver a tantos vecinos juntos, porque antes este espacio estaba casi vacío durante la semana."
+          },
+          {
+            "num": 3,
+            "correcta": 2,
+            "justificacion": "La voluntaria del texto C propuso un club de lectura para adultos.",
+            "fraseSoporte": "Después propuse un club de lectura para adultos y ahora se reúnen doce personas cada mes."
+          },
+          {
+            "num": 4,
+            "correcta": 0,
+            "justificacion": "En el texto A se dice que la biblioteca ahora abre también los sábados por la mañana.",
+            "fraseSoporte": "Ahora la biblioteca abre también los sábados por la mañana y ofrece talleres de dibujo y de cocina fácil."
+          },
+          {
+            "num": 5,
+            "correcta": 2,
+            "justificacion": "La voluntaria del texto C destaca que la biblioteca junta a personas de diferentes edades.",
+            "fraseSoporte": "Lo que más me gusta es ver cómo la biblioteca junta a personas de distintas edades."
+          },
+          {
+            "num": 6,
+            "correcta": 1,
+            "justificacion": "El autor del texto B no pensaba que una biblioteca pudiera ser un lugar tan animado y útil para conocer a otras personas.",
+            "fraseSoporte": "No pensé que una biblioteca pudiera ser un lugar tan animado y tan útil para conocer gente."
+          }
+        ]
+      },
+      {
+        "tarea": 4,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 2,
+            "justificacion": "El fragmento B encaja porque continúa la idea del párrafo: «El año pasado participaron veinte personas y se terminó en cuatro horas.»",
+            "fraseSoporte": "El año pasado participaron veinte personas y se terminó en cuatro horas."
+          },
+          {
+            "num": 2,
+            "correcta": 5,
+            "justificacion": "El fragmento D encaja porque continúa la idea del párrafo: «Conviene retirar también los maceteros y las papeleras, porque estorban al mover las mesas.»",
+            "fraseSoporte": "Conviene retirar también los maceteros y las papeleras, porque estorban al mover las mesas."
+          },
+          {
+            "num": 3,
+            "correcta": 1,
+            "justificacion": "El fragmento F encaja porque continúa la idea del párrafo: «Cada mesa pesa unos diez kilos, así que puede moverla una persona sola.»",
+            "fraseSoporte": "Cada mesa pesa unos diez kilos, así que puede moverla una persona sola."
+          },
+          {
+            "num": 4,
+            "correcta": 7,
+            "justificacion": "El fragmento A encaja porque continúa la idea del párrafo: «Los expositores se atan a la pared con dos cuerdas de seguridad.»",
+            "fraseSoporte": "Los expositores se atan a la pared con dos cuerdas de seguridad."
+          },
+          {
+            "num": 5,
+            "correcta": 3,
+            "justificacion": "El fragmento G encaja porque continúa la idea del párrafo: «Los tornillos que sobresalgan se cubren con cinta adhesiva para evitar arañazos.»",
+            "fraseSoporte": "Los tornillos que sobresalgan se cubren con cinta adhesiva para evitar arañazos."
+          },
+          {
+            "num": 6,
+            "correcta": 0,
+            "justificacion": "El fragmento C encaja porque continúa la idea del párrafo: «Los cojines se colocan sobre la alfombra, sin amontonarlos.»",
+            "fraseSoporte": "Los cojines se colocan sobre la alfombra, sin amontonarlos."
+          }
+        ]
+      },
+      {
+        "tarea": 5,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 0,
+            "justificacion": "Comparación sin segundo término: «está menos frecuentada cada año». Con «que» faltaría el término comparado y «tan» contradice que ahora abre menos días.",
+            "fraseSoporte": "la biblioteca pública de mi barrio, la de Santa Eulalia de Oscos, está menos frecuentada cada año: hace diez años abría seis días a la semana y ahora solo abre tres."
+          },
+          {
+            "num": 2,
+            "correcta": 2,
+            "justificacion": "La locución concesiva va aquí seguida de un sustantivo, así que no necesita conjunción.",
+            "fraseSoporte": "A pesar de todo, los vecinos siguen acudiendo a las salas de lectura y a los talleres."
+          },
+          {
+            "num": 3,
+            "correcta": 0,
+            "justificacion": "«Sería una pena que» (condicional) exige imperfecto de subjuntivo: perdiéramos. «Perdemos» y «perdimos» son indicativo.",
+            "fraseSoporte": "Sería una pena que perdiéramos un espacio tan valioso para el barrio."
+          },
+          {
+            "num": 4,
+            "correcta": 1,
+            "justificacion": "El verbo de deseo con sujeto distinto exige subjuntivo en la oración subordinada; como el verbo principal está en condicional, se usa imperfecto de subjuntivo.",
+            "fraseSoporte": "Me gustaría que el ayuntamiento creara una comisión de vecinos y que animara a los jóvenes a participar como monitores."
+          },
+          {
+            "num": 5,
+            "correcta": 2,
+            "justificacion": "La subordinada coordinada con el mismo verbo de deseo mantiene el imperfecto de subjuntivo.",
+            "fraseSoporte": "y que animara a los jóvenes a participar como monitores."
+          },
+          {
+            "num": 6,
+            "correcta": 1,
+            "justificacion": "El pronombre indefinido que se refiere a una persona no concreta es el que mantiene el sentido afirmativo de la frase.",
+            "fraseSoporte": "No hace falta mucho dinero: solo alguien que coordine y que escuche."
+          }
+        ]
+      }
+    ],
+    "auditiva": [
+      {
+        "tarea": 1,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 1,
+            "justificacion": "Para sacar libros hay que tener el carnet, que se pide en la entrada con el DNI.",
+            "fraseSoporte": "Para sacar libros se pide el carnet en la entrada con el DNI."
+          },
+          {
+            "num": 2,
+            "correcta": 0,
+            "justificacion": "Después de los cuentos harán un dibujo todos juntos.",
+            "fraseSoporte": "después harán un dibujo todos juntos."
+          },
+          {
+            "num": 3,
+            "correcta": 1,
+            "justificacion": "El club de lectura se reúne el primer martes de cada mes a las siete de la tarde.",
+            "fraseSoporte": "El club de lectura se reúne el primer martes de cada mes"
+          },
+          {
+            "num": 4,
+            "correcta": 0,
+            "justificacion": "Se enseña a usar el correo electrónico, buscar información en internet y hacer llamadas por video.",
+            "fraseSoporte": "Se enseña a usar el correo electrónico, buscar información en internet y hacer llamadas por video."
+          },
+          {
+            "num": 5,
+            "correcta": 2,
+            "justificacion": "La exposición muestra fotografías antiguas del barrio.",
+            "fraseSoporte": "se puede visitar la exposición de fotografías antiguas del barrio"
+          },
+          {
+            "num": 6,
+            "correcta": 2,
+            "justificacion": "La fiesta termina a las nueve.",
+            "fraseSoporte": "termina a las nueve"
+          }
+        ]
+      },
+      {
+        "tarea": 2,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 1,
+            "justificacion": "Entró casi por casualidad mientras buscaba un lugar tranquilo para trabajar.",
+            "fraseSoporte": "buscando un lugar tranquilo para trabajar, entré casi por casualidad en la biblioteca municipal"
+          },
+          {
+            "num": 2,
+            "correcta": 2,
+            "justificacion": "Se sintió cómoda desde el principio.",
+            "fraseSoporte": "me sentí cómoda desde el principio"
+          },
+          {
+            "num": 3,
+            "correcta": 0,
+            "justificacion": "Ayuda a preparar el cuentacuentos para los más pequeños los sábados por la mañana.",
+            "fraseSoporte": "Cada sábado por la mañana ayudo a preparar el cuentacuentos para los más pequeños."
+          },
+          {
+            "num": 4,
+            "correcta": 1,
+            "justificacion": "El año pasado empezaron a prestar tabletas para usar dentro del edificio.",
+            "fraseSoporte": "El año pasado empezaron a prestar tabletas para usar dentro del edificio"
+          },
+          {
+            "num": 5,
+            "correcta": 2,
+            "justificacion": "Aprendió a mandar correos electrónicos gracias a un taller.",
+            "fraseSoporte": "aprendió a mandar correos electrónicos gracias a un taller"
+          },
+          {
+            "num": 6,
+            "correcta": 0,
+            "justificacion": "Se reúnen para hablar de temas del barrio.",
+            "fraseSoporte": "un grupo de vecinos nos reunimos para hablar de temas del barrio"
+          }
+        ]
+      },
+      {
+        "tarea": 3,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 0,
+            "justificacion": "Los alumnos de primaria dedican una hora a la semana a conocer fiestas, oficios y comidas de sus pueblos.",
+            "fraseSoporte": "Los alumnos de primaria dedican una hora a la semana a conocer fiestas, oficios y comidas de sus pueblos"
+          },
+          {
+            "num": 2,
+            "correcta": 1,
+            "justificacion": "Las plazas del taller se sortean entre todos los centros.",
+            "fraseSoporte": "las plazas se sortean entre todos los centros"
+          },
+          {
+            "num": 3,
+            "correcta": 2,
+            "justificacion": "El jurado está formado por pasteleros y cocineros del pueblo.",
+            "fraseSoporte": "un jurado formado por pasteleros y cocineros del pueblo"
+          },
+          {
+            "num": 4,
+            "correcta": 2,
+            "justificacion": "Los alumnos conviven tres días con familias del otro municipio.",
+            "fraseSoporte": "Los alumnos conviven tres días con familias del otro municipio"
+          },
+          {
+            "num": 5,
+            "correcta": 0,
+            "justificacion": "El curso es gratis para los menores de dieciocho años.",
+            "fraseSoporte": "El curso es gratis para los menores de dieciocho años."
+          },
+          {
+            "num": 6,
+            "correcta": 2,
+            "justificacion": "En el museo los escolares participan en un taller de pan y dulces.",
+            "fraseSoporte": "participan en un taller de pan y dulces"
+          }
+        ]
+      },
+      {
+        "tarea": 4,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 1,
+            "justificacion": "Conoció a un grupo de jubilados y ahora organizan charlas y exposiciones.",
+            "fraseSoporte": "conocí a un grupo de jubilados"
+          },
+          {
+            "num": 2,
+            "correcta": 2,
+            "justificacion": "Se apuntó a un taller de tejido y conoció amigas.",
+            "fraseSoporte": "me invitó a un taller de tejido"
+          },
+          {
+            "num": 3,
+            "correcta": 4,
+            "justificacion": "Es voluntaria en un club de lectura para extranjeros.",
+            "fraseSoporte": "Me apunté como voluntaria"
+          },
+          {
+            "num": 4,
+            "correcta": 5,
+            "justificacion": "Es profesor y lleva a sus alumnos a la biblioteca cada mes.",
+            "fraseSoporte": "soy profesor, llevo a mis alumnos"
+          },
+          {
+            "num": 5,
+            "correcta": 3,
+            "justificacion": "Se ofreció como voluntaria para contar cuentos a niños.",
+            "fraseSoporte": "me ofrecí para contar cuentos"
+          },
+          {
+            "num": 6,
+            "correcta": 0,
+            "justificacion": "Encontró salas de estudio con wifi y préstamo de ordenadores.",
+            "fraseSoporte": "salas de estudio silenciosas, conexión wifi y hasta préstamo de ordenadores"
+          }
+        ]
+      },
+      {
+        "tarea": 5,
+        "items": [
+          {
+            "num": 1,
+            "correcta": 1,
+            "justificacion": "La mujer propone que el club de lectura organice algo especial para atraer a gente nueva.",
+            "fraseSoporte": "quiero que el club de lectura organice algo especial que atraiga a gente nueva"
+          },
+          {
+            "num": 2,
+            "correcta": 2,
+            "justificacion": "El hombre sugiere preparar una lectura pública y publicar los relatos en un cuadernillo.",
+            "fraseSoporte": "preparamos una lectura pública de relatos breves escritos por los vecinos, que luego podríamos publicar en un cuadernillo"
+          },
+          {
+            "num": 3,
+            "correcta": 0,
+            "justificacion": "El hombre se ofrece a encargarse de la revisión de los textos.",
+            "fraseSoporte": "Yo puedo encargarme de la revisión"
+          },
+          {
+            "num": 4,
+            "correcta": 0,
+            "justificacion": "La mujer dice que ella se ocupa de organizar los talleres de escritura.",
+            "fraseSoporte": "yo me ocupo de organizar los talleres de escritura"
+          },
+          {
+            "num": 5,
+            "correcta": 1,
+            "justificacion": "El hombre se encarga de preparar el cartel y de difundirlo.",
+            "fraseSoporte": "yo me encargo de preparar el cartel anunciador y de difundirlo por las redes sociales del barrio"
+          },
+          {
+            "num": 6,
+            "correcta": 1,
+            "justificacion": "La mujer dice que va a llamar al centro cívico para reservar el salón.",
+            "fraseSoporte": "Voy a llamar al centro cívico mañana mismo para preguntar si está libre ese día y para reservarlo"
+          }
+        ]
+      }
+    ]
+  },
+  "evaluacion": {
+    "grupo1": {
+      "pruebas": [
+        1,
+        3
+      ],
+      "max": 50,
+      "minimo": 30
+    },
+    "grupo2": {
+      "pruebas": [
+        2,
+        4
+      ],
+      "max": 50,
+      "minimo": 30
+    },
+    "total": 100,
+    "criterio": "APTO si ≥30,00 puntos en cada grupo"
+  },
+  "nuevo": true,
+  "fecha": "2026-10-25",
+  "generadoCon": "plantilla B1-20",
+  "avisosExaminador": [
+    "examinador: Comprensión de lectura tarea 5 ítem 2: La opción correcta es 'A pesar de que' (índice 1), no 'A pesar de' (índice 2). 'A pesar de' requiere un sintagma nominal o infinitivo, no una oración.",
+    "examinador: Comprensión de lectura tarea 5 ítem 3: Exige imperfecto de subjuntivo ('fuéramos a') tras 'Sería una pena que', estructura no prevista en el nivel B1.",
+    "examinador: Comprensión de lectura tarea 5 ítem 4: Exige imperfecto de subjuntivo ('creara') tras 'Me gustaría que', estructura no prevista en el nivel B1.",
+    "examinador: Comprensión de lectura tarea 5 ítem 5: Exige imperfecto de subjuntivo ('animara') tras 'Me gustaría que', estructura no prevista en el nivel B1.",
+    "examinador: Comprensión auditiva tarea 1 ítem 1: Ítem literal: la respuesta correcta repite el audio casi textualmente, sin paráfrasis ni inferencia, por debajo del nivel B1.",
+    "examinador: Comprensión auditiva tarea 1 ítem 2: Ítem literal: la respuesta correcta repite el audio casi textualmente, sin paráfrasis ni inferencia, por debajo del nivel B1.",
+    "examinador: Comprensión auditiva tarea 1 ítem 3: Ítem literal: aunque hay una ligera paráfrasis, sigue siendo demasiado directo para B1; exige bajo esfuerzo inferencial.",
+    "examinador: Comprensión auditiva tarea 1 ítem 4: Ítem literal: la respuesta correcta repite el audio casi textualmente, sin paráfrasis ni inferencia, por debajo del nivel B1.",
+    "examinador: Comprensión auditiva tarea 1 ítem 5: Ítem con leve paráfrasis ('vecindario' por 'barrio'), pero aún demasiado directo para B1.",
+    "examinador: Comprensión auditiva tarea 1 ítem 6: Ítem literal: la respuesta correcta repite el audio casi textualmente, sin paráfrasis ni inferencia, por debajo del nivel B1.",
+    "examinador: Comprensión auditiva tarea 3 ítem 1: Ítem literal: la respuesta correcta es copia casi exacta del audio, sin paráfrasis ni inferencia.",
+    "examinador: Comprensión auditiva tarea 3 ítem 2: Ítem literal: la respuesta correcta es copia casi exacta del audio, sin paráfrasis ni inferencia.",
+    "examinador: Comprensión auditiva tarea 3 ítem 4: Ítem literal: la respuesta correcta es copia casi exacta del audio, sin paráfrasis ni inferencia.",
+    "examinador: Comprensión auditiva tarea 3 ítem 5: Ítem literal: la respuesta correcta es copia casi exacta del audio, sin paráfrasis ni inferencia."
+  ],
+  "rondas": 2
+}

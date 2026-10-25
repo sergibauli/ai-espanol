@@ -11,7 +11,11 @@
     "Los enunciados de los ítems nunca nombran el texto o la opción que es la respuesta (prohibido «En el texto A se dice…» si la respuesta es A).",
     "Comprueba cada clave contra el texto o guion: si un personaje menciona algo, la respuesta no puede ser «Ninguno de los dos».",
     "Las dos tareas de expresión escrita deben ser situaciones y géneros distintos (la tarea 2 nunca repite la situación de la tarea 1).",
-    "En la prueba oral, las tareas que se refieren a una fotografía deben describir el mismo lugar que la fotografía (no cambies de escenario entre instrucción y puntos)."
+    "En la prueba oral, las tareas que se refieren a una fotografía deben describir el mismo lugar que la fotografía (no cambies de escenario entre instrucción y puntos).",
+    "Tareas de huecos gramaticales: verifica cada hueco; exactamente UNA opción es correcta en ese contexto (concordancia de tiempos: «me gustaría que» + imperfecto de subjuntivo) y la forma correcta SIEMPRE está entre las opciones; fraseSoporte = la frase completa con el hueco ya rellenado.",
+    "Las preguntas de tipo «¿Quién…?» con opciones Hombre/Mujer/Ninguno solo preguntan quién dice o hace algo, nunca cifras ni datos.",
+    "Prueba oral: las instrucciones, puntos guía y lámina de cada tarea deben hablar del tema de ESE simulacro; nunca copies frases de la plantilla de otro tema (p. ej. «qué le gustaría aprender», «fiestas», «elementos de la tradición»).",
+    "En huecos verbales, la opción correcta es la forma simple y natural (Sería una pena que perdiéramos), no perífrasis forzadas (fuéramos a perder); y el texto con el hueco rellenado debe sonar natural (está menos frecuentada cada año, no se ha quedado menos frecuentada)."
   ],
   "A1": [
     "Nada de subjuntivo ni condicional en los textos (rechazado: «me gustaría que vinieras»); usa «¿quieres venir?».",
@@ -21,9 +25,11 @@
     "La respuesta correcta repite el texto con, como mucho, un sinónimo frecuente; no la parafrasees entera."
   ],
   "B1": [
-    "Los textos de B1 tienen frases de unas 17 palabras con subordinadas; no los simplifiques a frases de A2."
+    "Los textos de B1 tienen frases de unas 17 palabras con subordinadas; no los simplifiques a frases de A2.",
+    "Tarea 2 de escritura en B1: composición de 130-150 palabras sobre una experiencia u opinión, con situación distinta de la tarea 1."
   ],
   "B2": [
-    "Evita el léxico técnico o académico: B2 es abstracto pero frecuente (artículos de prensa, no ensayos especializados)."
+    "Evita el léxico técnico o académico: B2 es abstracto pero frecuente (artículos de prensa, no ensayos especializados).",
+    "Tarea 2 de escritura en B2: artículo de opinión, reseña o informe a partir de datos (encuesta, gráfico), con tema distinto de la carta de la tarea 1."
   ]
 }

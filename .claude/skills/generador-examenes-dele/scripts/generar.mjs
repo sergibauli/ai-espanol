@@ -5,7 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { validar } from "./validar.mjs";
 import { medir, comprobarNivel, medirTarea, instruccion, fallosNivel } from "./nivel.mjs";
@@ -57,17 +57,31 @@ function apuntar(aprobado, rondas, codigo) {
 }
 // modo «escribir»: deepseek-chat (sin razonamiento, ~5x menos salida) para redactar tareas;
 // modo «pensar»: deepseek-v4-pro (razona) para el plan y el examinador, donde aporta calidad.
-function deepseek(prompt, ficheros = [], maxTokens = 8000, modo = "pensar") {
+// Hasta 8 llamadas a DeepSeek a la vez: las tareas de un examen son independientes y se generan en paralelo
+const PARALELO = 8;
+let activas = 0;
+const cola = [];
+const turno = () => new Promise((r) => (activas < PARALELO ? (activas++, r()) : cola.push(r)));
+const liberar = () => (cola.length ? cola.shift()() : activas--);
+function ejecutar(args) {
+  return new Promise((res) => {
+    const c = spawn("python3", args, { stdio: ["ignore", "ignore", "inherit"] });
+    const t = setTimeout(() => c.kill(), 900000);
+    c.on("close", (code) => (clearTimeout(t), res(code)));
+  });
+}
+async function deepseek(prompt, ficheros = [], maxTokens = 8000, modo = "pensar") {
   const intentos = modo === "escribir"
     ? (ESCRITOR === "deepseek-chat" ? [["deepseek-chat", 8000], ["deepseek-chat", 8000], ["deepseek-v4-pro", 24000]] : [["deepseek-v4-pro", 24000], ["deepseek-v4-pro", 32000], ["deepseek-chat", 8000]])
     : [["deepseek-v4-pro", Math.max(maxTokens, 12000)], ["deepseek-v4-pro", Math.max(maxTokens, 12000) * 2], ["deepseek-chat", 8000]];
   for (const [modelo, tokens] of intentos) {
     llamadas++;
-    const out = path.join(tmp, `r-${Date.now()}.json`);
+    const out = path.join(tmp, `r-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.json`);
     const args = [DS, "-m", modelo, "--json", "--max-tokens", String(tokens), "-t", "0.8", "--out", out, ...ficheros.flatMap((f) => ["-f", f]), prompt];
-    const r = spawnSync("python3", args, { stdio: ["ignore", "ignore", "inherit"], timeout: 900000 });
+    await turno();
+    const code = await ejecutar(args).finally(liberar);
     try {
-      if (r.status !== 0) throw new Error("ds.py falló");
+      if (code !== 0) throw new Error("ds.py falló");
       const txt = fs.readFileSync(out, "utf8").replace(/^```(json)?|```$/gm, "").trim();
       return JSON.parse(txt);
     } catch {
@@ -99,29 +113,29 @@ ${APR.length ? "- Lecciones aprendidas en revisiones anteriores (obligatorias):\
 console.log(`» ${nivel} · simulacro nuevo ${numero} (plantilla ${plantilla.codigo}) · redacta ${ESCRITOR}`);
 // 1. Plan del modelo: tema central nuevo y matriz
 fs.writeFileSync(path.join(tmp, "matriz.json"), JSON.stringify({ temaCentral: plantilla.temaCentral, ambito: plantilla.ambito, matriz: plantilla.matriz }, null, 1));
-const plan = existente ? { temaCentral: existente.temaCentral, ambito: existente.ambito, matriz: existente.matriz } : deepseek(`${REGLAS}
+const plan = existente ? { temaCentral: existente.temaCentral, ambito: existente.ambito, matriz: existente.matriz } : await deepseek(`${REGLAS}
 Temas ya usados (no los repitas ni hagas variantes evidentes): ${usados.join(" | ")}.
 ${arg("--tema") ? `Tema central pedido: ${arg("--tema")}.` : `Elige un tema central nuevo y adecuado al nivel, preferentemente del ámbito «${ambitoMenosUsado}» (el menos usado hasta ahora).`}
 Variedad (para que los simulacros no se parezcan entre sí): no uses estos nombres de personajes ya usados: ${nombresUsados.join(", ") || "—"}; usa nombres variados de España e Hispanoamérica; ciudades y situaciones distintas en cada tarea.${["B1", "B2"].includes(nivel) ? " En la prueba auditiva alterna voces de España y de Hispanoamérica (México, Argentina, Colombia…), como en el DELE real." : ""}
 Devuelve un JSON con las mismas claves que el adjunto (temaCentral, ambito, matriz) para el nuevo modelo: mismos géneros y tipos de audio que la plantilla pero con situaciones nuevas.`, [path.join(tmp, "matriz.json")], 3000);
 
 // 2. Cada tarea por separado con la tarea equivalente de la plantilla (piezas pequeñas: no se cortan)
-function generarTarea(p, t, aviso = "") {
+async function generarTarea(p, t, aviso = "") {
   const f = path.join(tmp, `t-${p.prueba}-${t.num}.json`);
   fs.writeFileSync(f, JSON.stringify(t, null, 1));
   console.log(`  ${p.nombre} · tarea ${t.num}${aviso ? " (corrigiendo)" : ""}…`);
-  const nueva = deepseek(`${REGLAS}
+  const nueva = await deepseek(`${REGLAS}
 Plan del nuevo modelo: ${JSON.stringify(plan)}
 Prueba: "${p.nombre}" (${p.duracion} min). Genera la TAREA ${t.num} del nuevo modelo con EXACTAMENTE la misma estructura JSON que la tarea plantilla adjunta: mismas claves, mismo número de ítems, opciones y bloques de material; mismos valores de "num" y "tipo"${p.prueba <= 2 ? ' e "instrucciones"' : '; escribe unas instrucciones nuevas coherentes con la nueva situación y sus puntos guía'}. Rellena todos los textos con contenido nuevo coherente con el plan.${t.guion ? ' El "guion" sigue el mismo formato con marcas [AUDIO n] y [VOZ n - sexo, edad, país] para poder sintetizarlo.' : ""}${aviso ? `\nLA VERSIÓN ANTERIOR FUE RECHAZADA. Corrige exactamente esto: ${aviso}` : ""}`, [f], 8000, "escribir");
   // Instrucciones oficiales fijas solo en comprensión (lectura y audición); en escritura y oral son contenido de la tarea
   return { ...nueva, num: t.num, tipo: t.tipo, ...(p.prueba <= 2 ? { instrucciones: t.instrucciones } : {}) };
 }
 // Rehace solo los ítems de una tarea (mismo texto/guion/material): para ajustar la literalidad sin tocar los textos
-function rehacerItems(p, actual, aviso) {
+async function rehacerItems(p, actual, aviso) {
   const f = path.join(tmp, `items-${p.prueba}-${actual.num}.json`);
   fs.writeFileSync(f, JSON.stringify(actual, null, 1));
   console.log(`  ${p.nombre} · tarea ${actual.num} (solo ítems)…`);
-  const nueva = deepseek(`${REGLAS}
+  const nueva = await deepseek(`${REGLAS}
 Te adjunto una tarea ya escrita. NO cambies el texto, el guion ni el material: reescribe SOLO el array "items" (mismo número de ítems y de opciones; claves num, enunciado, opciones, correcta, justificacion, fraseSoporte). Devuelve el JSON completo de la tarea.
 Corrige exactamente esto: ${aviso}`, [f], 8000, "escribir");
   return { ...actual, items: Array.isArray(nueva.items) && nueva.items.length === (actual.items || []).length ? nueva.items : actual.items };
@@ -130,13 +144,13 @@ let pruebas;
 if (existente) {
   pruebas = existente.pruebas;
   const motivo = arg("--motivo") || "revisión de Claude";
-  for (const cod of String(arg("--tareas") || "").split(",").filter(Boolean)) {
+  await Promise.all(String(arg("--tareas") || "").split(",").filter(Boolean).map(async (cod) => {
     const [, pi, tj] = cod.match(/P(\d)T(\d)/i) || [];
-    if (!pi) continue;
+    if (!pi) return;
     const p = plantilla.pruebas[pi - 1];
-    pruebas[pi - 1].tareas[tj - 1] = generarTarea(p, p.tareas[tj - 1], motivo);
-  }
-} else pruebas = plantilla.pruebas.map((p) => ({ ...p, tareas: p.tareas.map((t) => generarTarea(p, t)) }));
+    pruebas[pi - 1].tareas[tj - 1] = await generarTarea(p, p.tareas[tj - 1], motivo);
+  }));
+} else pruebas = await Promise.all(plantilla.pruebas.map(async (p) => ({ ...p, tareas: await Promise.all(p.tareas.map((t) => generarTarea(p, t))) })));
 
 // Arreglos mecánicos (sin gastar tokens): metadatos que faltan y respuestas correctas siempre en la misma posición
 function arreglar(t, pt) {
@@ -173,7 +187,7 @@ for (let ronda = 1; ; ronda++) {
   const formato = validar(modelo, plantilla);
   const medidas = medir(modelo);
   const dificultad = comprobarNivel(medidas, CAL);
-  const examen = formato.length ? { graves: [], avisos: [], problemas: [] } : examinar(modelo, REQ, deepseek, path.join(tmp, `examinar-${ronda}.json`), cambiadas);
+  const examen = formato.length ? { graves: [], avisos: [], problemas: [] } : await examinar(modelo, REQ, deepseek, path.join(tmp, `examinar-${ronda}.json`), cambiadas);
   const bloqueantes = [...formato, ...dificultad, ...examen.graves];
   const problemas = [...bloqueantes, ...examen.avisos];
   console.log(`  ronda ${ronda}: ${problemas.length ? `${bloqueantes.length} bloqueante(s), ${examen.avisos.length} aviso(s) del examinador` : "aprobado"} · frase ${medidas.palabrasPorFrase.toFixed(1)} palabras · literalidad ${medidas.literalidad.toFixed(2)}`);
@@ -207,12 +221,12 @@ for (let ronda = 1; ; ronda++) {
     }
   }
   cambiadas = new Set(rehacer.keys());
-  for (const [k, msgs] of rehacer) {
+  await Promise.all([...rehacer].map(async ([k, msgs]) => {
     const [pi, num] = k.split("-").map(Number);
     const p = plantilla.pruebas[pi];
     const j = p.tareas.findIndex((t) => t.num === num);
-    if (j >= 0) pruebas[pi].tareas[j] = soloItems.get(k) ? rehacerItems(p, pruebas[pi].tareas[j], msgs.join(" | ")) : generarTarea(p, p.tareas[j], msgs.join(" | "));
-  }
+    if (j >= 0) pruebas[pi].tareas[j] = soloItems.get(k) ? await rehacerItems(p, pruebas[pi].tareas[j], msgs.join(" | ")) : await generarTarea(p, p.tareas[j], msgs.join(" | "));
+  }));
 }
 apuntar(true, modelo.rondas, `${nivel}-${String(numero).padStart(2, "0")}`);
 if (process.argv.includes("--dry")) { console.log("✓ aprobado (dry run, no se guarda)"); process.exit(0); }

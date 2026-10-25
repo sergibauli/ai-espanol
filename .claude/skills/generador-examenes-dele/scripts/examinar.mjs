@@ -22,10 +22,10 @@ export function resumenParaExaminar(m, soloTareas = null) {
   }));
 }
 
-export function examinar(m, req, deepseek, ficheroTmp, soloTareas = null) {
+export async function examinar(m, req, deepseek, ficheroTmp, soloTareas = null) {
   const fs = globalThis.__fs;
   fs.writeFileSync(ficheroTmp, JSON.stringify(resumenParaExaminar(m, soloTareas), null, 1));
-  const r = deepseek(`Eres examinador jefe del DELE (Instituto Cervantes) y revisas un simulacro de nivel ${m.nivel} antes de publicarlo. NO lo has escrito tú: sé crítico.
+  const r = await deepseek(`Eres examinador jefe del DELE (Instituto Cervantes) y revisas un simulacro de nivel ${m.nivel} antes de publicarlo. NO lo has escrito tú: sé crítico.
 Requisitos oficiales del nivel ${m.nivel}: ${JSON.stringify(req)}
 Para el JSON adjunto (pruebas de comprensión de lectura y auditiva; en las tareas de relacionar y huecos las opciones A, B, C… están en «bancoDeOpciones» y «correcta» es el índice 0-based de la letra elegida):
 1. Para cada tarea indica el nivel MCER real del texto (A1, A2, B1, B2 o C1) según su gramática, léxico, longitud de frase y grado de inferencia necesario.
