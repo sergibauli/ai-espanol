@@ -1674,7 +1674,15 @@ function IaComponent() {
                 </div>
                 <h1 className="text-white font-black text-xl md:text-2xl leading-tight">{n.temaCentral}</h1>
                 <div className="ofe-ribbon-zh">
-                  官方试卷 <span className="ofe-seal">真题</span>
+                  {/Simulacro nuevo/.test(n.titulo || "") ? (
+                    <>
+                      模拟题 <span className="ofe-seal">新</span>
+                    </>
+                  ) : (
+                    <>
+                      官方试卷 <span className="ofe-seal">真题</span>
+                    </>
+                  )}
                 </div>
                 <p className="text-white/35 text-[12px] font-bold mt-0.5">{n.titulo}</p>
               </div>

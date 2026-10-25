@@ -118,7 +118,7 @@ export default function RutaPage() {
     setLoading(true);
     const [all, plus] = await Promise.all([loadAllModules(), loadModulePlus(numero)]);
     const mod = all.find((m) => m.numero === numero);
-    setLesson(buildLesson(mod, plus, index));
+    setLesson(buildLesson(mod, plus, index, Date.now(), Boolean(game.lessons[lessonId(numero, index)])));
     setLoading(false);
     setOpen(null);
   };

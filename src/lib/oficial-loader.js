@@ -444,11 +444,13 @@ function tt(t) {
   return !!t && (r(t.fases).length > 0 || n(t).length > 0 || !!N(t));
 }
 const R = ["A1", "A2", "B1", "B2"];
+// Modelos oficiales + simulacros nuevos generados con el mismo formato (.claude/skills/generador-examenes-dele)
+const nuevos = (nivel) => import("../data/oficial/nuevos/index.js").then((t) => t.NUEVOS[nivel] || []).catch(() => []);
 const j = {
-  A1: () => import("../data/oficial/oficial-a1.js").then((t) => t.oficiala1),
-  A2: () => import("../data/oficial/oficial-a2.js").then((t) => t.oficiala2),
-  B1: () => import("../data/oficial/oficial-b1.js").then((t) => t.oficialb1),
-  B2: () => import("../data/oficial/oficial-b2.js").then((t) => t.oficialb2),
+  A1: () => Promise.all([import("../data/oficial/oficial-a1.js").then((t) => t.oficiala1), nuevos("A1")]).then(([a, b]) => [...a, ...b]),
+  A2: () => Promise.all([import("../data/oficial/oficial-a2.js").then((t) => t.oficiala2), nuevos("A2")]).then(([a, b]) => [...a, ...b]),
+  B1: () => Promise.all([import("../data/oficial/oficial-b1.js").then((t) => t.oficialb1), nuevos("B1")]).then(([a, b]) => [...a, ...b]),
+  B2: () => Promise.all([import("../data/oficial/oficial-b2.js").then((t) => t.oficialb2), nuevos("B2")]).then(([a, b]) => [...a, ...b]),
 };
 const et = {
   A1: A.A1,

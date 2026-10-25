@@ -11,7 +11,7 @@ import CATALOG from "../../data/modulos/catalog.json";
 const levelOf = (n) => CATALOG.find((m) => m.numero === Number(n))?.nivel || "A1";
 import { CAST } from "./StoryPlayer.jsx";
 
-const TEACH = new Set(["learn", "tip", "dialog"]);
+const TEACH = new Set(["learn", "tip", "dialog", "speak"]);
 const norm = (s) =>
   String(s ?? "")
     .toLowerCase()
@@ -109,6 +109,27 @@ function Learn({ step, level, onNext }) {
         {step.example && <div className="lp-example">{step.example}</div>}
       </div>
       {SR && <div className="lp-pista">Di la palabra en voz alta para pasar a la siguiente · 读出这个词就能继续</div>}
+    </div>
+  );
+}
+
+// «Di en voz alta»: la palabra se aprueba pronunciándola (si el navegador tiene reconocimiento de voz)
+function Hablar({ step, level, onNext }) {
+  const avance = React.useRef(null);
+  React.useEffect(() => () => clearTimeout(avance.current), []);
+  return (
+    <div className="lp-center">
+      <div className="lp-eyebrow">🎙️ Di en voz alta · 读出来</div>
+      <div className="lp-rollo">
+        {step.emoji && <Emoji3D emoji={step.emoji} size={80} float />}
+        <div className="lp-word">{step.es}</div>
+        <div className="lp-zh-big">{step.zh}</div>
+        <div className="lp-acciones">
+          <SpeakButtons text={step.es} big />
+          <Pronunciar texto={step.es} level={level} onExito={() => (avance.current = setTimeout(onNext, 1300))} />
+        </div>
+      </div>
+      <div className="lp-pista">Escúchala y repítela: si la dices bien, pasas sola · 听一遍再读，读对了自动继续</div>
     </div>
   );
 }
@@ -553,6 +574,8 @@ export function LessonPlayer({ lesson, onClose }) {
     </div>
   ) : step.type === "learn" ? (
     <Learn step={step} level={levelOf(lesson.modulo)} onNext={next} />
+  ) : step.type === "speak" ? (
+    <Hablar step={step} level={levelOf(lesson.modulo)} onNext={next} />
   ) : step.type === "tip" ? (
     <Tip step={step} level={levelOf(lesson.modulo)} />
   ) : step.type === "dialog" ? (
@@ -628,7 +651,7 @@ export function LessonPlayer({ lesson, onClose }) {
             </div>
           ) : feedback || TEACH.has(step.type) ? (
             <button className={`lp-btn ${feedback && !feedback.ok ? "bad" : ""}`} onClick={next}>
-              {TEACH.has(step.type) && !feedback ? "Entendido · 明白了" : "Continuar · 继续"}
+              {step.type === "speak" && !feedback ? "Saltar · 跳过" : TEACH.has(step.type) && !feedback ? "Entendido · 明白了" : "Continuar · 继续"}
             </button>
           ) : step.type === "match" ? (
             <button className="lp-btn ghost" onClick={next}>

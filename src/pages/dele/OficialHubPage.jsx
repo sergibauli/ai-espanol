@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Emoji3D } from "../../components/ui/Emoji3D.jsx";
 import { TarjetaExamen } from "../../../packages/imperial/src/index.js";
+import { NUEVOS } from "../../data/oficial/nuevos/index.js";
 
 // Portada de los modelos oficiales DELE (estilo app). Cada modelo muestra la duración real de sus pruebas.
 const LEVELS = [
@@ -74,8 +75,8 @@ export default function OficialHubPage() {
               nivel={l.key}
               titulo={`DELE ${l.key} · ${l.name}`}
               tituloZh={l.zh}
-              datos={["Lectura", "Audición", "Escritura", "Oral"].map((p, i) => `${p} ${l.t[i]} min`)}
-              accion="Ver 20 modelos · 查看20套"
+              datos={[...["Lectura", "Audición", "Escritura", "Oral"].map((p, i) => `${p} ${l.t[i]} min`), ...(NUEVOS[l.key].length ? [`✨ ${NUEVOS[l.key].length} nuevo${NUEVOS[l.key].length > 1 ? "s" : ""}`] : [])]}
+              accion={`Ver ${20 + NUEVOS[l.key].length} modelos · 查看${20 + NUEVOS[l.key].length}套`}
               onAccion={() => navigate(`/oficial/${l.key}`)}
             />
           ))}

@@ -406,7 +406,7 @@ function corsHeaders(req, env) {
 
 // Voz (Fish Audio) para textos generados al momento, p. ej. el entrevistador del examen oral.
 // La clave nunca sale del servidor: npx wrangler secret put FISH_API_KEY
-const VOCES = { profesor: "6df4855ba3644947afcb09aaac669e04", profesora: "5e816f5a0658460b960881a24733c418" };
+const VOCES = { profesor: "6df4855ba3644947afcb09aaac669e04", profesora: "5e816f5a0658460b960881a24733c418", narrador: "5c353fdb312f4888836a9a5680099ef0" };
 async function aiTts(req, env) {
   if (!env.FISH_API_KEY) return fail(503, "Voz no configurada");
   // Límite diario de voz por alumno (o por IP si no ha iniciado sesión)
