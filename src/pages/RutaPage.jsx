@@ -10,7 +10,6 @@ import { buildLesson, lessonId, LESSON_META, LESSONS_PER_MODULE } from "../lib/l
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
-import { ChinaMap } from "../components/ruta/ChinaMap.jsx";
 const STOP = Object.fromEntries(STOPS.map((s) => [s.n, s]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
 
@@ -56,10 +55,7 @@ export default function RutaPage() {
     for (let i = 0; i < LESSONS_PER_MODULE; i++) if (!current && unlocked(idx, i) && !done(m.numero, i)) current = `${m.numero}-${i}`;
   });
 
-  // Al cambiar de nivel (no al entrar, para que se vea el mapa) baja hasta la lección actual
-  const firstLoad = React.useRef(true);
   React.useEffect(() => {
-    if (firstLoad.current) return void (firstLoad.current = false);
     const t = setTimeout(() => currentRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 400);
     return () => clearTimeout(t);
   }, [level]);
@@ -102,13 +98,6 @@ export default function RutaPage() {
             })}
           </div>
 
-          <ChinaMap
-            mods={mods}
-            stopOf={(n) => STOP[n]}
-            isDone={(n) => [0, 1, 2, 3, 4].every((i) => done(n, i))}
-            currentNumero={current ? Number(current.split("-")[0]) : mods[mods.length - 1]?.numero}
-            onPick={(n) => document.getElementById(`ruta-u${n}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}
-          />
           {mods.map((m, idx) => (
             <section key={m.numero} id={`ruta-u${m.numero}`} className="ruta-unit">
               <div className="ruta-banner" style={{ "--c": lv.color, "--d": lv.dark }}>

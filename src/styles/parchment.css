@@ -718,25 +718,6 @@ main.game-bg .gm-ruleta-root > canvas:nth-of-type(2) { display: none; }
 .light-page .gm-locked::after, .light-page .fx-game.gm-locked::after { display: none !important; }
 .gm-lock-badge { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; color: #6b4a2b; background: rgba(120,80,40,.12); border: 1px solid rgba(120,80,40,.25); }
 
-/* ===== v7.3 · Mapa de China vivo en la ruta ===== */
-.cmap { position: relative; margin: 6px 4px 18px; padding: 10px; border-radius: 10px; background: radial-gradient(ellipse at 55% 40%, rgba(60,90,140,.35), transparent 70%), url("../../public/theme/noche-tile.jpg") center / 260% auto, #13204a; border: 2px solid #d9ae4c; box-shadow: inset 0 0 0 4px #13204a, inset 0 0 0 5px rgba(242,193,78,.55), 0 8px 20px rgba(0,0,0,.3); }
-.cmap-svg { display: block; width: 100%; height: auto; max-height: 52vh; }
-.cmap-land { stroke: #8f5a1e; stroke-width: calc(1.6px * var(--k, 1)); filter: drop-shadow(0 0 8px rgba(242,193,78,.45)); }
-.cmap-route { fill: none; stroke: #8f5a1e; stroke-width: calc(2.2px * var(--k, 1)); stroke-dasharray: calc(5px * var(--k, 1)) calc(6px * var(--k, 1)); stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
-.cmap-walked { fill: none; stroke: #f2c14e; stroke-width: calc(4px * var(--k, 1)); stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 3000; stroke-dashoffset: 3000; animation: cmap-draw 2.6s .3s ease-out forwards; }
-@keyframes cmap-draw { to { stroke-dashoffset: 0; } }
-.cmap-city { cursor: pointer; }
-.cmap-city circle { fill: #fff6dc; stroke: #8f5a1e; stroke-width: calc(2px * var(--k, 1)); }
-.cmap-city.done circle, .cmap-city.full circle { fill: #f2c14e; stroke: #8f5a1e; }
-.cmap-city.cur circle { fill: #c8102e; stroke: #f2c14e; stroke-width: calc(3px * var(--k, 1)); animation: cmap-pulse 1.6s ease-in-out infinite; }
-@keyframes cmap-pulse { 50% { stroke-opacity: .4; } }
-.cmap-city:hover circle { stroke: #c8102e; }
-.cmap-city text { font-family: var(--ui-font); font-weight: 800; fill: #3b2416; paint-order: stroke; stroke: #fff6dc; stroke-width: calc(3.5px * var(--k, 1)); }
-.cmap-city.cur text { fill: #8f0c21; }
-.cmap-mono { animation: cmap-bob 2.4s ease-in-out infinite; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
-@keyframes cmap-bob { 50% { transform: translateY(-4px); } }
-@media (prefers-reduced-motion: reduce) { .cmap-walked { animation: none; stroke-dashoffset: 0; } .cmap-city.cur circle, .cmap-mono { animation: none; } }
-
 /* ===== v7.3 · Rey Mono en lecciones y ruta, recompensa al terminar ===== */
 .ruta-mono { width: 190px; height: auto; filter: drop-shadow(0 10px 14px rgba(60,30,0,.35)); }
 .lp-mono { width: 92px; height: 104px; margin: -26px -8px -10px -14px; object-fit: contain; object-position: bottom; flex-shrink: 0; animation: lp-mono-in .45s cubic-bezier(.2,1.4,.4,1); }
