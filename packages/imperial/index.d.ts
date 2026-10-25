@@ -283,3 +283,36 @@ export interface MonoNubeProps {
 }
 /** Rey Mono sobre su nube dorada voladora (筋斗云); marca la posición del alumno en el mapa de Aprender. */
 export declare function MonoNube(props: MonoNubeProps): React.JSX.Element;
+
+export interface MonedaProps {
+  /** oro = hecho o destacado; jade = actual (gema verde en el centro); bronce = pendiente o bloqueado */
+  tono?: "oro" | "jade" | "bronce";
+  /** Diámetro en px (por defecto 72) */
+  tamano?: number;
+  /** Resplandor dorado alrededor (para lo hecho o lo actual) */
+  brillo?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+  /** Icono centrado sobre el campo de la moneda (Icono, icono de lucide o emoji) */
+  children?: React.ReactNode;
+}
+/** Moneda imperial de oro con anillo de perlas: medallón para iconos y nodos del mapa de Aprender. */
+export declare function Moneda(props: MonedaProps): React.JSX.Element;
+
+export interface PanelJadeProps {
+  /** Título en crema con brillo dorado */
+  titulo?: string;
+  /** Traducción china del título (en oro) */
+  tituloZh?: string;
+  /** Nombre de un icono propio (se pinta dentro de una Moneda de oro) o un nodo propio */
+  icono?: NombreIcono | React.ReactNode;
+  /** panel = lateral o bloque con cabecera en fila; tarjeta = centrada, con la moneda encima del título */
+  variante?: "panel" | "tarjeta";
+  /** Etiqueta HTML del contenedor (por defecto section) */
+  as?: keyof React.JSX.IntrinsicElements;
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}
+/** Panel de jade en acuarela con marco de oro ornamental y esquinas de nube (paneles laterales, tarjetas de ventajas, formularios destacados). */
+export declare function PanelJade(props: PanelJadeProps): React.JSX.Element;

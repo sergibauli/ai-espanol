@@ -382,3 +382,64 @@ export function MonoNube({ pose = "saluda", tamano = 140, estela = false, classN
     </div>
   );
 }
+
+/** Moneda imperial de oro con anillo de perlas: medallón para iconos y nodos del mapa (oro = hecho, jade = actual, bronce = pendiente). */
+export function Moneda({ tono = "oro", tamano = 72, brillo = false, className, style, children }) {
+  const id = useUid("im-mo");
+  const campo = { oro: ["#fff1b0", "#e9b648", "#8f5c16"], jade: ["#d8ffe6", "#43b872", "#0f4a2b"], bronce: ["#7a5534", "#4a2f1b", "#22140a"] }[tono] || [];
+  return (
+    <span className={cx("im-root im-moneda", `im-moneda--${tono}`, brillo && "im-moneda--brillo", className)} style={{ "--im-mo": `${tamano}px`, ...style }}>
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <radialGradient id={`${id}r`} cx=".35" cy=".3" r=".8">
+            <stop offset="0" stopColor="#fffbe6" />
+            <stop offset=".35" stopColor="#f6d77e" />
+            <stop offset=".7" stopColor="#d9a43a" />
+            <stop offset="1" stopColor="#8a5a1e" />
+          </radialGradient>
+          <radialGradient id={`${id}c`} cx=".4" cy=".35" r=".75">
+            <stop offset="0" stopColor={campo[0]} />
+            <stop offset=".55" stopColor={campo[1]} />
+            <stop offset="1" stopColor={campo[2]} />
+          </radialGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill={`url(#${id}r)`} stroke="#6e4210" strokeWidth="1.2" />
+        <circle cx="50" cy="50" r="42.5" fill="none" stroke="#8a5a1e" strokeOpacity=".55" strokeWidth="1" />
+        {Array.from({ length: 28 }, (_, i) => {
+          const a = (i / 28) * Math.PI * 2;
+          return <circle key={i} cx={50 + Math.cos(a) * 39} cy={50 + Math.sin(a) * 39} r="2.1" fill="#fff3c4" stroke="#a06a18" strokeWidth=".7" />;
+        })}
+        <circle cx="50" cy="50" r="34" fill={`url(#${id}c)`} stroke="#f6d77e" strokeWidth="2.4" />
+        <circle cx="50" cy="50" r="29" fill="none" stroke={tono === "bronce" ? "#d9a43a" : "#fff7d6"} strokeOpacity=".55" strokeWidth="1" strokeDasharray="2.4 2.2" />
+        {tono === "jade" && <ellipse cx="50" cy="50" rx="17" ry="17" fill={`url(#${id}c)`} stroke="#0b3a21" strokeOpacity=".4" />}
+        <ellipse cx="38" cy="30" rx="18" ry="9" transform="rotate(-28 38 30)" fill="#fff" fillOpacity={tono === "bronce" ? 0.12 : 0.38} />
+      </svg>
+      {children && <span className="im-moneda__icono">{children}</span>}
+    </span>
+  );
+}
+
+/** Panel de jade con marco de oro ornamental y esquinas de nube; cabecera opcional con icono en moneda. */
+export function PanelJade({ titulo, tituloZh, icono, variante = "panel", as: Tag = "section", className, style, children }) {
+  return (
+    <Tag className={cx("im-root im-jade", `im-jade--${variante}`, className)} style={style}>
+      <span className="im-jade__esquinas" aria-hidden="true" />
+      {(titulo || icono) && (
+        <header className="im-jade__cabecera">
+          {icono && (
+            <Moneda tamano={variante === "tarjeta" ? 56 : 44} tono="oro">
+              {typeof icono === "string" && ICONOS[icono] ? <Icono nombre={icono} tamano={variante === "tarjeta" ? 28 : 22} /> : icono}
+            </Moneda>
+          )}
+          {titulo && (
+            <h3 className="im-jade__titulo">
+              {titulo}
+              <Zh>{tituloZh}</Zh>
+            </h3>
+          )}
+        </header>
+      )}
+      {children}
+    </Tag>
+  );
+}

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link, useLocation } from "react-router";
 import { createPortal } from "react-dom";
+import { LogOutIcon } from "lucide-react";
 import { NavIcon } from "../ui/NavIcon.jsx";
 import { GameStats } from "../ui/GameStats.jsx";
 import { useAppAuth } from "../../lib/auth.jsx";
@@ -53,7 +54,13 @@ export function LightShell({ children, legacy = false, stage = false }) {
         <Link to="/ruta" className="side-brand" style={{ padding: 0 }} aria-label="AI Español">
           <Logo tamano={36} subtitulo={false} />
         </Link>
-        <GameStats compact />
+        <div className="light-top-der">
+          <GameStats compact />
+          <button type="button" className="light-salir" onClick={() => logout()} aria-label="Salir · 退出" title="Salir · 退出">
+            <LogOutIcon size={18} strokeWidth={2.6} />
+            <span>Salir</span>
+          </button>
+        </div>
       </div>
       <div className="light-shell">
         <nav className="side-nav" aria-label="Navegación principal">

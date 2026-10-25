@@ -10,7 +10,7 @@ import { buildLesson, lessonId, LESSON_META, LESSONS_PER_MODULE } from "../lib/l
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
-import { MonoNube } from "../../packages/imperial/src/index.js";
+import { MonoNube, Moneda, PanelJade } from "../../packages/imperial/src/index.js";
 const STOP = Object.fromEntries(STOPS.map((s) => [s.n, s]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
 
@@ -123,6 +123,7 @@ export default function RutaPage() {
     setOpen(null);
   };
 
+  const modActual = mods.find((m) => current?.startsWith(`${m.numero}-`)) || mods[0];
   const levelDone = (l) => CATALOG.filter((m) => m.nivel === l.key).reduce((n, m) => n + [0, 1, 2, 3, 4].filter((i) => done(m.numero, i)).length, 0);
 
   return (
@@ -130,10 +131,12 @@ export default function RutaPage() {
       <div className="ruta-layout">
         <main className={`ruta-main map-${lv.key}`}>
           <span className="ruta-ink" aria-hidden="true" />
+          <span className="ruta-dragon d1" aria-hidden="true" />
+          <span className="ruta-dragon d2" aria-hidden="true" />
           <div className="ruta-region-title">
-            <Emoji3D emoji="🗺️" size={34} />
             <span>
-              <b>{REGION[lv.key][0]}</b> · {REGION[lv.key][1]}
+              <b>{REGION[lv.key][0]}</b> <i>{REGION[lv.key][1]}</i>
+              <em>{modActual?.titulo.split(" - ")[0]}</em>
               <small>Viaja parada a parada: cada unidad es un lugar de China · 每个单元都是中国的一站</small>
             </span>
           </div>
@@ -155,9 +158,9 @@ export default function RutaPage() {
           {mods.map((m, idx) => (
             <section key={m.numero} id={`ruta-u${m.numero}`} className="ruta-unit">
               <div className="ruta-banner" style={{ "--c": lv.color, "--d": lv.dark }}>
-                <span className="ruta-stop-art">
-                  <Emoji3D emoji={STOP[m.numero]?.emoji || m.icono} size={58} />
-                </span>
+                <Moneda className="ruta-stop-art" tamano={70} tono="oro" brillo>
+                  <Emoji3D emoji={STOP[m.numero]?.emoji || m.icono} size={34} />
+                </Moneda>
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <span className="ruta-stop">
                     📍 {STOP[m.numero]?.ciudad} · {STOP[m.numero]?.lugar} <i>{STOP[m.numero]?.ciudadZh}·{STOP[m.numero]?.lugarZh}</i>
@@ -188,7 +191,13 @@ export default function RutaPage() {
                       <svg className="ruta-carretera" width={TRACK_W} height={alto} aria-hidden="true">
                         <path className="borde" d={trazado(pts)} />
                         <path className="piedra" d={trazado(pts)} />
-                        {alcanzada && <path className="oro" d={trazado(pts, Math.min(hechas, LESSONS_PER_MODULE))} />}
+                        {alcanzada && (
+                          <>
+                            <path className="halo" d={trazado(pts, Math.min(hechas, LESSONS_PER_MODULE))} />
+                            <path className="oro" d={trazado(pts, Math.min(hechas, LESSONS_PER_MODULE))} />
+                            <path className="luz" d={trazado(pts, Math.min(hechas, LESSONS_PER_MODULE))} />
+                          </>
+                        )}
                       </svg>
                       {LESSON_META.map((meta, i) => {
                         const isDone = done(m.numero, i);
@@ -204,10 +213,12 @@ export default function RutaPage() {
                               onClick={() => setOpen(open === key ? null : key)}
                               aria-label={`${meta.es} · módulo ${m.numero}`}
                             >
-                              {isDone ? best === 100 ? <StarIcon size={30} fill="currentColor" /> : <CheckIcon size={32} strokeWidth={3.5} /> : isOpen ? <Emoji3D emoji={i === 0 ? m.icono : meta.emoji} size={38} /> : <LockIcon size={24} />}
+                              <Moneda tamano={isCurrent ? 92 : 78} tono={isDone ? "oro" : isCurrent ? "jade" : isOpen ? "oro" : "bronce"} brillo={isDone || isCurrent}>
+                                {isDone ? best === 100 ? <StarIcon size={26} fill="currentColor" /> : <CheckIcon size={28} strokeWidth={3.5} /> : isCurrent ? null : isOpen ? <Emoji3D emoji={i === 0 ? m.icono : meta.emoji} size={32} /> : <LockIcon size={20} />}
+                              </Moneda>
                             </button>
                             {open === key && (
-                              <div className="ruta-pop" style={{ "--c": isOpen ? lv.color : "#4a3a2a" }}>
+                              <div className="ruta-pop" style={{ "--c": isOpen ? lv.color : "#4a3a2a", "--dx": `${TRACK_W / 2 - pts[i][0]}px` }}>
                                 <b>{meta.es}</b>
                                 <span>
                                   {meta.zh} · Lección {i + 1} de 5
@@ -225,7 +236,9 @@ export default function RutaPage() {
                         );
                       })}
                       <Link to={`/modulos/modulo-${m.numero}?tab=examen`} className={`ruta-chest ${done(m.numero, 4) ? "ganado" : ""}`} style={{ left: pts[5][0], top: pts[5][1] }} title="Examen del módulo">
-                        <Emoji3D emoji={done(m.numero, 4) ? "🏆" : "🎁"} size={60} float={done(m.numero, 4)} />
+                        <Moneda tamano={96} tono={done(m.numero, 4) ? "oro" : "bronce"} brillo={done(m.numero, 4)}>
+                          <Emoji3D emoji={done(m.numero, 4) ? "🏆" : "🎁"} size={44} float={done(m.numero, 4)} />
+                        </Moneda>
                       </Link>
                       {iCur >= 0 && <MonoViajero desde={iCur ? pts[iCur - 1] : [TRACK_W / 2, 0]} hasta={pts[iCur]} pose={["saluda", "poder", "feliz", "guino"][idx % 4]} />}
                     </div>
@@ -237,15 +250,20 @@ export default function RutaPage() {
         </main>
 
         <aside className="ruta-side">
+          <span className="ruta-dragon d3" aria-hidden="true" />
           <GameStats />
-          <div className="ui-card ruta-goal">
-            <GoalRing pct={game.goalPct} size={74}>
-              <Emoji3D emoji="🎯" size={34} />
+          <PanelJade as="div" className="ruta-goal">
+            <GoalRing pct={game.goalPct} size={78}>
+              <Moneda tamano={58} tono="oro">
+                <Emoji3D emoji="🎯" size={28} />
+              </Moneda>
             </GoalRing>
             <div style={{ flex: 1 }}>
-              <div className="ui-h3">Meta diaria · 每日目标</div>
-              <div className="ui-muted" style={{ fontSize: 14 }}>
-                {game.dailyXp}/{game.goal} XP hoy
+              <h3 className="im-jade__titulo">
+                Meta diaria <span className="im-zh">每日目标</span>
+              </h3>
+              <div className="ruta-jade-dato">
+                {game.dailyXp}/{game.goal} XP hoy · 今日
               </div>
               <div className="ui-row" style={{ gap: 6, marginTop: 8 }}>
                 {[20, 30, 50].map((g) => (
@@ -255,17 +273,11 @@ export default function RutaPage() {
                 ))}
               </div>
             </div>
-          </div>
-          <div className="ui-card ruta-passport">
-            <div className="ui-row" style={{ gap: 10, flexWrap: "nowrap" }}>
-              <Emoji3D emoji="🛂" size={42} />
-              <div>
-                <div className="ui-h3">Pasaporte del viaje · 旅行护照</div>
-                <small>
-                  {CATALOG.filter((m) => [0, 1, 2, 3, 4].every((i) => done(m.numero, i))).length}/80 sellos · 印章
-                </small>
-              </div>
-            </div>
+          </PanelJade>
+          <PanelJade as="div" className="ruta-passport" titulo="Pasaporte del viaje" tituloZh="旅行护照" icono={<Emoji3D emoji="🛂" size={26} />}>
+            <small className="ruta-jade-dato">
+              {CATALOG.filter((m) => [0, 1, 2, 3, 4].every((i) => done(m.numero, i))).length}/80 sellos · 印章
+            </small>
             <div className="ruta-stamps">
               {CATALOG.filter((m) => m.nivel === lv.key).map((m) => {
                 const got = [0, 1, 2, 3, 4].every((i) => done(m.numero, i));
@@ -276,12 +288,11 @@ export default function RutaPage() {
                 );
               })}
             </div>
-          </div>
-          <div className="ui-card">
-            <div className="ui-h3" style={{ marginBottom: 6 }}>Desafíos del día · 每日挑战</div>
+          </PanelJade>
+          <PanelJade as="div" titulo="Desafíos del día" tituloZh="每日挑战">
             {dailyQuests(game).map((qq) => (
               <div key={qq.es} className="quest">
-                <Emoji3D emoji={qq.emoji} size={40} />
+                <Emoji3D emoji={qq.emoji} size={36} />
                 <div style={{ flex: 1 }}>
                   <b style={{ fontSize: 14 }}>{qq.es}</b>
                   <div className="quest-bar">
@@ -294,20 +305,19 @@ export default function RutaPage() {
                 <Emoji3D emoji={qq.have >= qq.need ? "🏆" : "🎁"} size={30} />
               </div>
             ))}
-          </div>
-          <div className="ui-card">
-            <div className="ui-between" style={{ marginBottom: 10 }}>
-              <div className="ui-h3">Nivel {game.level}</div>
-              <span className="ui-muted" style={{ fontSize: 13 }}>
+          </PanelJade>
+          <PanelJade as="div" titulo={`Nivel ${game.level}`} tituloZh="等级">
+            <div className="ui-between" style={{ marginBottom: 8 }}>
+              <span className="ruta-jade-dato">Experiencia · 经验</span>
+              <span className="ruta-jade-dato">
                 {game.into}/{game.need} XP
               </span>
             </div>
-            <div className="ui-progress" style={{ height: 12 }}>
-              <i style={{ width: `${game.pct}%`, background: "linear-gradient(90deg,#ffc800,#ff9600)" }} />
+            <div className="quest-bar">
+              <i style={{ width: `${game.pct}%` }} />
             </div>
-          </div>
-          <div className="ui-card">
-            <div className="ui-h3" style={{ marginBottom: 12 }}>Logros · 成就</div>
+          </PanelJade>
+          <PanelJade as="div" titulo="Logros" tituloZh="成就">
             <div className="ruta-badges">
               {BADGES.map((b) => {
                 const got = game.badges.includes(b.id);
@@ -319,7 +329,7 @@ export default function RutaPage() {
                 );
               })}
             </div>
-          </div>
+          </PanelJade>
         </aside>
       </div>
       {!onboarded && <Onboarding onDone={(lvl) => { setOnboarded(true); setParams({ nivel: lvl }); }} />}
