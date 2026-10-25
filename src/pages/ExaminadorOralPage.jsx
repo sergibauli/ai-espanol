@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router";
 import { MicIcon, SquareIcon, PlayIcon, Volume2Icon, ClockIcon, RotateCcwIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
-import { speak } from "../components/lesson/fx.js";
+import { speak, speakIA } from "../components/lesson/fx.js";
 import { deepseekFetch, isAIAvailable } from "../lib/deepseekClient.js";
 import { u as useCorrection, C as CorrectionCard } from "../components/CorrectionDisplay.jsx";
 
@@ -313,7 +313,7 @@ export default function ExaminadorOralPage() {
       } catch { /* fallback */ }
     }
     setPreguntaActual(q);
-    try { speak(q, 0.9); } catch { /* ignore */ }
+    speakIA(q);
   };
 
   const iniciarRespuesta = () => {
@@ -468,7 +468,7 @@ export default function ExaminadorOralPage() {
                   <img className="oe-avatar" src="./mono/serio.png" alt="examinador" />
                   <div className="oe-q">
                     <span>{preguntaActual}</span>
-                    <button className="oe-replay" onClick={() => speak(preguntaActual, 0.9)}><Volume2Icon size={14} /></button>
+                    <button className="oe-replay" onClick={() => speakIA(preguntaActual)}><Volume2Icon size={14} /></button>
                   </div>
                 </div>
               )}

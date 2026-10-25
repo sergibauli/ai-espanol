@@ -46,6 +46,7 @@ async function route(req, env, url) {
   }
   if (path === "/campus/lead" && req.method === "POST") return createLead(req, env);
   if (path === "/ai/chat" && req.method === "POST") return aiChat(req, env);
+  if (path === "/ai/tts" && req.method === "POST") return aiTts(req, env);
 
   const token = await authenticate(req, env);
   if (!token) return fail(401, "Inicia sesión para continuar.");
@@ -401,4 +402,28 @@ function corsHeaders(req, env) {
     "access-control-allow-methods": "GET, POST, OPTIONS",
     vary: "origin",
   };
+}
+
+// Voz (Fish Audio) para textos generados al momento, p. ej. el entrevistador del examen oral.
+// La clave nunca sale del servidor: npx wrangler secret put FISH_API_KEY
+const VOCES = { profesor: "6df4855ba3644947afcb09aaac669e04", profesora: "5e816f5a0658460b960881a24733c418" };
+async function aiTts(req, env) {
+  if (!env.FISH_API_KEY) return fail(503, "Voz no configurada");
+  // Límite diario de voz por alumno (o por IP si no ha iniciado sesión)
+  const token = await authenticate(req, env).catch(() => null);
+  const who = token ? `u:${token.sub}` : `ip:${req.headers.get("cf-connecting-ip") || "anon"}`;
+  const qkey = `tts:${who}:${new Date().toISOString().slice(0, 10)}`;
+  const used = Number(await env.CAMPUS.get(qkey)) || 0;
+  if (used >= (token ? 300 : 30)) return fail(429, "Has llegado al límite diario de voz. 今天的语音次数已用完。");
+  await env.CAMPUS.put(qkey, String(used + 1), { expirationTtl: 172800 });
+  const body = await req.json().catch(() => ({}));
+  const text = String(body.text || "").trim().slice(0, 400);
+  if (!text) return fail(400, "Falta el texto");
+  const r = await fetch("https://api.fish.audio/v1/tts", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${env.FISH_API_KEY}`, "Content-Type": "application/json", model: "s2.1-pro-free" },
+    body: JSON.stringify({ text, reference_id: VOCES[body.voz] || VOCES.profesor, format: "mp3", mp3_bitrate: 64, latency: "balanced" }),
+  });
+  if (!r.ok) return fail(502, "La voz no está disponible ahora");
+  return new Response(r.body, { headers: { "content-type": "audio/mpeg", "cache-control": "public, max-age=86400" } });
 }

@@ -50,6 +50,25 @@ function fnv(t) {
 let current = null;
 
 // voice: "m" (voz del profesor) o "f" (voz femenina para Lucía, Mei y Carmen)
+// Voz de Fish generada al momento a través del Worker (textos nuevos, p. ej. el entrevistador); si no hay Worker, voz normal
+const API_URL = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+export async function speakIA(text, voz = "profesor") {
+  if (!API_URL) return speak(text, 0.9);
+  try {
+    let token = null;
+    try {
+      token = (await window.Clerk?.session?.getToken?.()) || null;
+    } catch {}
+    const r = await fetch(`${API_URL}/ai/tts`, { method: "POST", headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) }, body: JSON.stringify({ text, voz }) });
+    if (!r.ok) throw new Error(String(r.status));
+    current?.pause();
+    current = new Audio(URL.createObjectURL(await r.blob()));
+    await current.play();
+  } catch {
+    speak(text, 0.9);
+  }
+}
+
 export function speak(text, rate = 0.9, voice = "m") {
   const t = String(text || "").trim();
   const fk = fnv("F|" + t);

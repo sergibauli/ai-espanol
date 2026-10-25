@@ -16,6 +16,7 @@ function encodedDeepseekKey() {
 export default defineConfig({
   base: './',
   plugins: [react()],
-  define: { __DS_KEY__: JSON.stringify(encodedDeepseekKey()) },
+  // Con el Worker (VITE_API_URL) la clave de DeepSeek no se incrusta en la web
+  define: { __DS_KEY__: JSON.stringify(process.env.VITE_API_URL ? "" : encodedDeepseekKey()) },
   build: { chunkSizeWarningLimit: 4000 },
 });
