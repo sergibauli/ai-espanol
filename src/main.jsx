@@ -20,6 +20,8 @@ if (!ev) {
       <ClerkProvider
         publishableKey={CLERK_PUBLISHABLE_KEY}
         localization={esES}
+        // Sin registro libre: se oculta «¿No tienes cuenta? Regístrate» en el inicio de sesión
+        appearance={{ elements: { footerAction: { display: "none" } } }}
         afterSignOutUrl={`${location.origin + location.pathname}#/`}
         signInForceRedirectUrl={`${location.origin + location.pathname}#/dashboard`}
         signUpForceRedirectUrl={`${location.origin + location.pathname}#/dashboard`}

@@ -19,7 +19,6 @@ export default function WelcomePage() {
   const clerk = useClerk();
   if (!isLoading && isAuthenticated) return <Navigate to="/ruta" replace />;
 
-  const signUp = () => clerk.openSignUp({ forceRedirectUrl: HERE(), fallbackRedirectUrl: HERE() });
   const signIn = () => clerk.openSignIn({ forceRedirectUrl: HERE(), fallbackRedirectUrl: HERE() });
 
   return (
@@ -52,12 +51,15 @@ export default function WelcomePage() {
             <b>最有趣、最有效的西班牙语学习方式</b>
             Lecciones de 5 minutos, historias, juegos y preparación DELE A1–B2 explicada en chino.
           </p>
-          <button className="wel2-btn laca" onClick={signUp}>
-            Inscríbete ahora · 开始学习
+          {/* Solo se entra con una cuenta ya creada: las altas las da la academia, no hay registro libre */}
+          <button className="wel2-btn laca" onClick={signIn}>
+            Iniciar sesión · 登录
           </button>
-          <button className="wel2-btn jade" onClick={signIn}>
-            Ya tengo una cuenta · 我已有账号
-          </button>
+          <p className="wel2-nota">
+            ¿Aún no tienes cuenta? Pídela por WeChat a tu academia.
+            <br />
+            还没有账号？请通过微信联系我们开通。
+          </p>
         </PanelJade>
         <span className="wel2-nube" aria-hidden="true" />
       </main>
