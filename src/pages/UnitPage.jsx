@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link, useParams } from "react-router";
-import { ArrowLeftIcon, Volume2Icon, ChevronDownIcon, PlayIcon, CheckIcon } from "lucide-react";
+import { ArrowLeftIcon, Volume2Icon, ChevronDownIcon, PlayIcon, CheckIcon, EyeIcon, EyeOffIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
@@ -11,6 +11,8 @@ import { buildLesson, lessonId, LESSON_META, buildPractice, PRACTICE_TYPES, dial
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import { markModuleVisited } from "../lib/progress.js";
 import CATALOG from "../data/modulos/catalog.json";
+import STOPS from "../data/china-stops.json";
+import { Moneda } from "../../packages/imperial/src/index.js";
 
 import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
 import { u as useCorrection, C as CorrectionCard } from "../components/CorrectionDisplay.jsx";
@@ -103,7 +105,30 @@ function parseTeoria(text) {
   return blocks;
 }
 
+// Chino oculto por defecto: un ojo en cada sección lo muestra (la elección se recuerda y se comparte entre secciones)
+const ZH_KEY = "ai-espanol:ver-chino";
+export function useVerChino() {
+  const [ver, setVer] = React.useState(() => { try { return localStorage.getItem(ZH_KEY) === "1"; } catch { return false; } });
+  React.useEffect(() => {
+    const f = () => { try { setVer(localStorage.getItem(ZH_KEY) === "1"); } catch {} };
+    window.addEventListener("ver-chino", f);
+    return () => window.removeEventListener("ver-chino", f);
+  }, []);
+  const cambiar = () => { try { localStorage.setItem(ZH_KEY, ver ? "0" : "1"); } catch {} window.dispatchEvent(new Event("ver-chino")); };
+  return [ver, cambiar];
+}
+export function OjoChino() {
+  const [ver, cambiar] = useVerChino();
+  return (
+    <button type="button" className={`ojo-zh ${ver ? "on" : ""}`} onClick={cambiar} aria-pressed={ver} title={ver ? "Ocultar chino · 隐藏中文" : "Mostrar chino · 显示中文"}>
+      {ver ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+      <span>{ver ? "隐藏中文" : "中文"}</span>
+    </button>
+  );
+}
+
 function GuideScroll({ teoria, numero }) {
+  const [verZh] = useVerChino();
   const [sel, setSel] = React.useState(0);
   const key = `dele_guia_visto_${numero}`;
   const [seen, setSeen] = React.useState(() => {
@@ -120,6 +145,9 @@ function GuideScroll({ teoria, numero }) {
   const zhOf = (i) => (zh[i] && zh[i].type === es[i].type ? zh[i] : null);
   const main = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => !["note", "error", "tip"].includes(b.type));
   const extras = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => ["note", "error", "tip"].includes(b.type));
+  // Si la explicación china no sigue la misma estructura que la española, se muestra entera aparte
+  const alineado = es.length > 0 && es.every((b, i) => zhOf(i));
+  const zhCompleto = (t.descripcionChino || "").trim();
   const terms = es.flatMap((b) => (b.type === "list" ? b.items.map((x) => x.term) : [])).filter((x) => x.length <= 40);
   const plaques = terms.length ? terms : (t.ejemplos || []).map((e) => e.espanol);
   const toggleSeen = () => {
@@ -131,7 +159,7 @@ function GuideScroll({ teoria, numero }) {
     } catch {}
   };
   return (
-    <section className="gd" id="u-guia">
+    <section className={`gd ${verZh ? "gd--zh" : ""}`} id="u-guia">
       <div className="gd-ribbon">Guía rápida · 语法要点</div>
       <button className={`gd-visto ${seen.has(sel) ? "on" : ""}`} onClick={toggleSeen} title="Marcar como leído · 标记为已读">
         Visto
@@ -139,7 +167,16 @@ function GuideScroll({ teoria, numero }) {
       <div className="gd-head">
         <h3>{t.titulo}</h3>
         <p>{t.tituloChino}</p>
+        <OjoChino />
       </div>
+      {verZh && !alineado && zhCompleto && (
+        <div className="gd-zh-completo">
+          <b>中文讲解</b>
+          {zhCompleto.split(/\n+/).filter((l) => l.trim() && !/^\|?\s*-{3,}/.test(l)).map((l, i) => (
+            <p key={i}>{l.replace(/^[#*\-•\s]+/, "").replace(/\*\*/g, "")}</p>
+          ))}
+        </div>
+      )}
       <div className="gd-scroll">
         <img className="gd-deco" src={`${THEME}sello-monedas.png`} alt="" />
         <div className="gd-body">
@@ -327,7 +364,14 @@ export default function UnitPage() {
           <ArrowLeftIcon size={16} /> Ruta {meta.nivel} · 学习路线
         </Link>
 
-        <section className="unit-hero imperial-frame" style={{ "--c": c1, "--d": c2 }}>
+        <section className="unit-hero imperial-frame unit-hero--v10" style={{ "--c": c1, "--d": c2, "--pct": pct }}>
+          <span className="uh-mapa" aria-hidden="true" />
+          {STOPS.find((x) => x.n === numero) && (
+            <span className="uh-parada">
+              📍 {STOPS.find((x) => x.n === numero).ciudad} · {STOPS.find((x) => x.n === numero).lugar}
+              <i>{STOPS.find((x) => x.n === numero).ciudadZh}·{STOPS.find((x) => x.n === numero).lugarZh}</i>
+            </span>
+          )}
           <span className="imperial-cloud c1" />
           <span className="imperial-cloud c2" />
           <span className="unit-seal">
@@ -352,8 +396,12 @@ export default function UnitPage() {
               <PlayIcon size={20} fill="currentColor" /> {!mod ? "Cargando…" : nextIdx === -1 ? "Repasar · 复习" : `${nextIdx === 0 ? "Empezar" : "Continuar"} · ${LESSON_META[nextIdx].es}`}
             </button>
           </div>
-          <div className="unit-hero-art jade-plinth">
-            <Emoji3D emoji={meta.icono} size={150} float />
+          <div className="unit-hero-art">
+            <span className="uh-anillo" aria-hidden="true" />
+            <Moneda tamano={190} tono="oro" brillo>
+              <Emoji3D emoji={meta.icono} size={104} float />
+            </Moneda>
+            <b className="uh-pct">{pct}%</b>
           </div>
         </section>
         <span className="unit-stamp" aria-hidden="true">
