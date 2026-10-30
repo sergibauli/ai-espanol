@@ -1,0 +1,15 @@
+{
+  "appId": "com.aiespanol.app",
+  "appName": "AI Español",
+  "webDir": "android-web",
+  "server": {
+    "url": "https://sergibauli.github.io/ai-espanol/",
+    "androidScheme": "https",
+    "allowNavigation": ["sergibauli.github.io", "*.clerk.accounts.dev", "*.clerk.com", "ai-espanol-campus.sergibaulis.workers.dev"]
+  },
+  "android": { "backgroundColor": "#0e1a33" },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 1800, "backgroundColor": "#0e1a33", "showSpinner": false, "androidScaleType": "CENTER_CROP" },
+    "StatusBar": { "backgroundColor": "#8f0c21", "style": "DARK" }
+  }
+}
