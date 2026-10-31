@@ -8,7 +8,7 @@ import {
   historyWindow,
   cacheAnswer,
 } from "../lib/aiTutor.js";
-import { deepseekFetch } from "../lib/deepseekClient.js";
+import { deepseekFetch, usoConversacion } from "../lib/deepseekClient.js";
 function TutorAvatar({ size, talking }) {
   return (
     <>
@@ -125,6 +125,7 @@ function TutorChat() {
     }
     try {
       const X = await deepseekFetch("https://api.deepseek.com/v1/chat/completions", {
+        uso: usoConversacion("tutor-chat"),
         method: "POST",
         headers: {
           "Content-Type": "application/json",

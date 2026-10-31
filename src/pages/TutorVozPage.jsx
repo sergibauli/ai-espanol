@@ -11,7 +11,7 @@ import * as React from "react";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 import { buildStudentProfile } from "../data/modulos/profile.js";
-import { deepseekFetch } from "../lib/deepseekClient.js";
+import { deepseekFetch, usoConversacion } from "../lib/deepseekClient.js";
 import { getKnowledgeContext } from "../lib/search.js";
 const Y = `Eres un tutor de español amable y cercano para hablantes de chino que preparan el DELE (A1-B2). Estás conversando POR VOZ con el estudiante.
 
@@ -39,6 +39,7 @@ ${t}`);
 }
 async function K(s, t) {
   const n = await deepseekFetch("https://api.deepseek.com/v1/chat/completions", {
+    uso: usoConversacion("tutor-voz"),
     method: "POST",
     headers: {
       "Content-Type": "application/json",

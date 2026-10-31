@@ -8,6 +8,7 @@ import "./styles/overrides.css";
 import "./styles/modern.css";
 import "./styles/fun.css";
 import "./styles/parchment.css";
+import "./styles/espectacular.css";
 // En producción define VITE_CLERK_PUBLISHABLE_KEY (pk_live_…); la clave de desarrollo queda como respaldo
 const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_Y29tcG9zZWQta2l0dGVuLTcwLmNsZXJrLmFjY291bnRzLmRldiQ";
 const ev = document.getElementById("root");

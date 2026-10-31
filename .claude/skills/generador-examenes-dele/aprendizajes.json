@@ -15,11 +15,14 @@
     "Tareas de huecos gramaticales: verifica cada hueco; exactamente UNA opción es correcta en ese contexto (concordancia de tiempos: «me gustaría que» + imperfecto de subjuntivo) y la forma correcta SIEMPRE está entre las opciones; fraseSoporte = la frase completa con el hueco ya rellenado.",
     "Las preguntas de tipo «¿Quién…?» con opciones Hombre/Mujer/Ninguno solo preguntan quién dice o hace algo, nunca cifras ni datos.",
     "Prueba oral: las instrucciones, puntos guía y lámina de cada tarea deben hablar del tema de ESE simulacro; nunca copies frases de la plantilla de otro tema (p. ej. «qué le gustaría aprender», «fiestas», «elementos de la tradición»).",
-    "En huecos verbales, la opción correcta es la forma simple y natural (Sería una pena que perdiéramos), no perífrasis forzadas (fuéramos a perder); y el texto con el hueco rellenado debe sonar natural (está menos frecuentada cada año, no se ha quedado menos frecuentada)."
+    "En huecos verbales, la opción correcta es la forma simple y natural (Sería una pena que perdiéramos), no perífrasis forzadas (fuéramos a perder); y el texto con el hueco rellenado debe sonar natural (está menos frecuentada cada año, no se ha quedado menos frecuentada).",
+    "Ningún enunciado de un ítem puede contener la respuesta de otro ítem de la misma tarea (rechazado: «Ana es la dueña del restaurante y…» en el ítem 1 y «Ana es la ___ del restaurante» en el 7)."
   ],
   "A1": [
     "Nada de subjuntivo ni condicional en los textos (rechazado: «me gustaría que vinieras»); usa «¿quieres venir?».",
-    "Las frases de A1 no son telegráficas: unas 12 palabras de media con «y», «pero», «porque»."
+    "Las frases de A1 no son telegráficas: unas 12 palabras de media con «y», «pero», «porque».",
+    "Sin pretérito imperfecto (abría, preparaba) en A1: presente, «ir a» + infinitivo y, como mucho, algún pretérito perfecto.",
+    "Tarea 2 de escritura en A1: correo o postal breve a un amigo o familiar (30-40 palabras), nunca otro formulario como la tarea 1."
   ],
   "A2": [
     "La respuesta correcta repite el texto con, como mucho, un sinónimo frecuente; no la parafrasees entera."
@@ -30,6 +33,7 @@
   ],
   "B2": [
     "Evita el léxico técnico o académico: B2 es abstracto pero frecuente (artículos de prensa, no ensayos especializados).",
-    "Tarea 2 de escritura en B2: artículo de opinión, reseña o informe a partir de datos (encuesta, gráfico), con tema distinto de la carta de la tarea 1."
+    "Tarea 2 de escritura en B2: artículo de opinión, reseña o informe a partir de datos (encuesta, gráfico), con tema distinto de la carta de la tarea 1.",
+    "Comprensión de lectura tarea 1 en B2: la opción correcta parafrasea (sinónimos, otra estructura) y nunca copia la expresión del texto ni la pone entre comillas."
   ]
 }

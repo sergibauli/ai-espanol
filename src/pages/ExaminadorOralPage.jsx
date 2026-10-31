@@ -3,8 +3,9 @@ import { useSearchParams } from "react-router";
 import { MicIcon, SquareIcon, PlayIcon, Volume2Icon, ClockIcon, RotateCcwIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
+import { CuotaIA } from "../components/ui/CuotaIA.jsx";
 import { speak, speakIA } from "../components/lesson/fx.js";
-import { deepseekFetch, isAIAvailable } from "../lib/deepseekClient.js";
+import { deepseekFetch, isAIAvailable, usoConversacion } from "../lib/deepseekClient.js";
 import { u as useCorrection, C as CorrectionCard } from "../components/CorrectionDisplay.jsx";
 
 const TASKS = {
@@ -215,6 +216,7 @@ export default function ExaminadorOralPage() {
     }
     try {
       const res = await deepseekFetch("", {
+        uso: usoConversacion("examinador-oral"),
         body: JSON.stringify({
           messages: [
             { role: "system", content: "Devuelve SOLO JSON válido." },
@@ -298,6 +300,7 @@ export default function ExaminadorOralPage() {
     if (isAIAvailable()) {
       try {
         const res = await deepseekFetch("", {
+        uso: usoConversacion("examinador-oral"),
           body: JSON.stringify({
             messages: [
               { role: "system", content: `Eres el entrevistador del examen DELE ${nivel}. Haz UNA pregunta breve y natural de seguimiento sobre lo que ha dicho el candidato, adecuada al nivel ${nivel}. Solo la pregunta.` },
@@ -399,6 +402,7 @@ export default function ExaminadorOralPage() {
         <div className="oe-card">
           {fase === "elegir" && (
             <div className="oe-elegir">
+              <CuotaIA className="oe-cuota" />
               <h3>Elige tu nivel · 选择你的级别</h3>
               <div className="oe-levels">
                 {Object.keys(TASKS).map((n) => (

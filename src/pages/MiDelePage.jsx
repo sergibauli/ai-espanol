@@ -25,7 +25,8 @@ async function planIA(level, stats, errores) {
   const errs = errores.slice(0, 8).map((e) => `«${e.prompt}» → ${e.correct}`).join(" | ");
   const prompt = `Eres tutor DELE ${level} de un estudiante chino. Su progreso: ${resumen}. Errores recientes: ${errs || "ninguno"}.
 Devuelve SOLO JSON: {"consejo":{"es":"consejo de la semana, concreto y útil, máx. 30 palabras","zh":"traducción"},"plan":[{"dia":"Lunes · 周一","es":"tarea concreta de 15-20 min","zh":"traducción","ir":"una de: ${Object.keys(RUTAS).join(", ")}"}]} con 7 días (lunes a domingo), priorizando sus destrezas más flojas y sus errores.`;
-  const r = await deepseekFetch("", { body: JSON.stringify({ messages: [{ role: "user", content: prompt }], temperature: 0.7, max_tokens: 900, response_format: { type: "json_object" } }) });
+  // El plan automático de la semana no gasta las consultas del alumno (uso «plan-semanal», gratis)
+  const r = await deepseekFetch("", { uso: "plan-semanal", body: JSON.stringify({ messages: [{ role: "user", content: prompt }], temperature: 0.7, max_tokens: 900, response_format: { type: "json_object" } }) });
   const j = JSON.parse((await r.json())?.choices?.[0]?.message?.content || "{}");
   if (!j?.consejo?.es || !Array.isArray(j.plan) || j.plan.length < 5) return null;
   j.plan = j.plan.slice(0, 7).map((p, i) => ({ dia: p.dia || DIAS[i], es: String(p.es || ""), zh: String(p.zh || ""), ir: RUTAS[p.ir] ? p.ir : "/ruta" }));

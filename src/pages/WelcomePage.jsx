@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 import { useClerk } from "@clerk/clerk-react";
 import { useAppAuth } from "../lib/auth.jsx";
 import { Logo, PanelJade } from "../../packages/imperial/src/index.js";
+import { SelectorIdioma } from "../components/ui/SelectorIdioma.jsx";
 
 const HERE = () => `${location.origin}${location.pathname}#/ruta`;
 
@@ -10,7 +11,7 @@ const VENTAJAS = [
   ["juegos", "Aprende jugando", "游戏化学习"],
   ["pronunciacion", "Historias con voz real", "真人语音故事"],
   ["dele", "Preparación DELE", "DELE备考"],
-  ["diccionario", "Explicado en chino", "中文讲解"],
+  ["diccionario", "Explicado en tu idioma", "中文讲解"],
 ];
 
 // Portada pública: el Rey Mono en su círculo dorado sobre el mapa antiguo y el panel de jade para entrar (Clerk)
@@ -25,7 +26,7 @@ export default function WelcomePage() {
     <div className="wel2">
       <header className="wel2-top">
         <Logo tono="claro" tamano={44} />
-        <span className="wel-lang">中文 · Español</span>
+        <SelectorIdioma />
       </header>
       <div className="wel2-arte" role="img" aria-label="El Rey Mono con su bastón dentro de un círculo dorado y un dragón de oro sobre un mapa antiguo de China">
         <div className="wel2-lienzo" aria-hidden="true">

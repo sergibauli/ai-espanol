@@ -70,5 +70,68 @@
   "rondas": 3,
   "aprobado": true,
   "llamadas": 20
+ },
+ {
+  "fecha": "2026-10-30T23:52",
+  "nivel": "A1",
+  "codigo": "A1-22",
+  "escritor": "deepseek-chat",
+  "rondas": 4,
+  "aprobado": true,
+  "llamadas": 26
+ },
+ {
+  "fecha": "2026-10-30T23:55",
+  "nivel": "A2",
+  "codigo": "A2-22",
+  "escritor": "deepseek-chat",
+  "rondas": 2,
+  "aprobado": true,
+  "llamadas": 17
+ },
+ {
+  "fecha": "2026-10-30T23:56",
+  "nivel": "B1",
+  "codigo": null,
+  "escritor": "deepseek-chat",
+  "rondas": 4,
+  "aprobado": false,
+  "llamadas": 35
+ },
+ {
+  "fecha": "2026-10-31T00:06",
+  "nivel": "B2",
+  "codigo": "B2-22",
+  "escritor": "deepseek-v4-pro",
+  "rondas": 2,
+  "aprobado": true,
+  "llamadas": 20
+ },
+ {
+  "fecha": "2026-10-31T00:10",
+  "nivel": "A1",
+  "codigo": null,
+  "escritor": "deepseek-chat",
+  "rondas": 4,
+  "aprobado": false,
+  "llamadas": 31
+ },
+ {
+  "fecha": "2026-10-31T00:14",
+  "nivel": "A2",
+  "codigo": "A2-23",
+  "escritor": "deepseek-chat",
+  "rondas": 2,
+  "aprobado": true,
+  "llamadas": 19
+ },
+ {
+  "fecha": "2026-10-31T00:17",
+  "nivel": "B1",
+  "codigo": null,
+  "escritor": "deepseek-chat",
+  "rondas": 4,
+  "aprobado": false,
+  "llamadas": 29
  }
 ]

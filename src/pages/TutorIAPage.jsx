@@ -2,7 +2,8 @@ import * as React from "react";
 import { MicIcon, SendIcon, Volume2Icon, RotateCcwIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
-import { deepseekFetch } from "../lib/deepseekClient.js";
+import { deepseekFetch, usoConversacion } from "../lib/deepseekClient.js";
+import { CuotaIA } from "../components/ui/CuotaIA.jsx";
 import { historyWindow } from "../lib/historial.js";
 import { addXp } from "../lib/gamification.js";
 import { CintaTitulo, InsigniaNivel } from "../../packages/imperial/src/index.js";
@@ -74,11 +75,12 @@ export default function TutorIAPage() {
     setBusy(true);
     try {
       const res = await deepseekFetch("", {
+        uso: usoConversacion("tutor-ia"),
         method: "POST",
         body: JSON.stringify({ messages: [{ role: "system", content: systemPrompt(level) }, ...historyWindow(next)], temperature: 0.7, max_tokens: 400 }),
       });
       const data = await res.json();
-      const reply = data?.choices?.[0]?.message?.content?.trim() || "Perdona, no te he entendido. ¿Puedes repetirlo? 请再说一遍。";
+      const reply = data?.choices?.[0]?.message?.content?.trim() || data?.error?.message || "Perdona, no te he entendido. ¿Puedes repetirlo? 请再说一遍。";
       setMsgs((m) => [...m, { role: "assistant", content: reply }]);
       addXp(2);
       speakEs(reply, () => setTalking(true), () => setTalking(false));
@@ -119,6 +121,7 @@ export default function TutorIAPage() {
             <i aria-hidden="true" />
             {estado[1]}
           </div>
+          <CuotaIA />
           <div className="tutor-levels" role="group" aria-label="Nivel">
             {LEVELS.map((l) => (
               <button
@@ -202,7 +205,7 @@ export default function TutorIAPage() {
             <button className="tutor-send" disabled={!input.trim() || busy} aria-label="Enviar">
               <SendIcon size={20} />
             </button>
-            <button type="button" className="tutor-mic tutor-reset" title="Nueva conversación" onClick={() => setMsgs(msgs.slice(0, 1))} aria-label="Reiniciar">
+            <button type="button" className="tutor-mic tutor-reset" title="Nueva conversación" onClick={() => (sessionStorage.removeItem("ai-espanol:conv-tutor-ia"), setMsgs(msgs.slice(0, 1)))} aria-label="Reiniciar">
               <RotateCcwIcon size={18} />
             </button>
           </form>

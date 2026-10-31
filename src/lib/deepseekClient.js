@@ -66,6 +66,56 @@ function cacheable(body) {
   }
 }
 
+// Límite semanal: cada alumno tiene LIMITE_SEMANAL usos de IA por semana (de lunes a domingo, hora de China).
+// Un «uso» es una corrección, un plan, un reto o una conversación entera con el tutor (todas sus preguntas
+// comparten el mismo identificador `uso`). El Worker aplica el mismo límite en el servidor.
+export const LIMITE_SEMANAL = 5;
+const CUOTA_KEY = "ai-espanol:ia-semana";
+export function semanaActual(ahora = Date.now()) {
+  const d = new Date(ahora + 8 * 36e5); // UTC+8
+  const dia = (d.getUTCDay() + 6) % 7; // lunes = 0
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - dia)).toISOString().slice(0, 10);
+}
+function leerCuota() {
+  try {
+    const c = JSON.parse(localStorage.getItem(CUOTA_KEY) || "{}");
+    if (c.semana === semanaActual() && Array.isArray(c.usos)) return c;
+  } catch {}
+  return { semana: semanaActual(), usos: [] };
+}
+export function cuotaIA() {
+  const c = leerCuota();
+  const lunes = new Date(`${c.semana}T00:00:00+08:00`).getTime() + 7 * 864e5;
+  return { usadas: Math.min(c.usos.length, LIMITE_SEMANAL), limite: LIMITE_SEMANAL, restantes: Math.max(0, LIMITE_SEMANAL - c.usos.length), reinicio: new Date(lunes) };
+}
+function apuntarUso(id) {
+  const c = leerCuota();
+  if (!c.usos.includes(id)) c.usos.push(id);
+  try {
+    localStorage.setItem(CUOTA_KEY, JSON.stringify(c));
+  } catch {}
+  window.dispatchEvent(new Event("cuota-ia"));
+}
+const USOS_GRATIS = ["plan-semanal"]; // automáticos: el Worker los limita aparte
+export const nuevoUso = () => `u${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
+// Una conversación (tutor, examinador oral) cuenta como un solo uso: mismo id durante una hora
+export function usoConversacion(nombre) {
+  const k = `ai-espanol:conv-${nombre}`;
+  try {
+    const c = JSON.parse(sessionStorage.getItem(k) || "null");
+    if (c && Date.now() - c.t < 36e5) return c.id;
+    const id = `${nombre}-${nuevoUso()}`;
+    sessionStorage.setItem(k, JSON.stringify({ id, t: Date.now() }));
+    return id;
+  } catch {
+    return `${nombre}-${semanaActual()}`;
+  }
+}
+export const MENSAJE_LIMITE = `Has usado tus ${LIMITE_SEMANAL} consultas de IA de esta semana. Se renuevan el lunes. 本周${LIMITE_SEMANAL}次AI已用完，周一更新。`;
+function respuestaLimite() {
+  return new Response(JSON.stringify({ error: { message: MENSAJE_LIMITE, code: "limite_semanal" } }), { status: 429, headers: { "Content-Type": "application/json" } });
+}
+
 /**
  * Sustituto de fetch() para las llamadas de chat a DeepSeek. Acepta la misma URL/opciones que antes
  * (se ignoran la URL y la cabecera Authorization) y devuelve una Response con el formato de DeepSeek.
@@ -76,7 +126,18 @@ export async function deepseekFetch(_url, init = {}) {
   if (guardada && Date.now() - guardada.t < CACHE_TTL) {
     return new Response(guardada.r, { status: 200, headers: { "Content-Type": "application/json" } });
   }
+  // Las respuestas guardadas no gastan cuota; una petición nueva sí (una vez por «uso»)
+  const uso = init.uso || nuevoUso();
+  const gratis = USOS_GRATIS.includes(uso);
+  const cuota = leerCuota();
+  if (!gratis && !cuota.usos.includes(uso) && cuota.usos.length >= LIMITE_SEMANAL) return respuestaLimite();
+  try {
+    const b = JSON.parse(init.body || "{}");
+    b.uso = uso;
+    init = { ...init, body: JSON.stringify(b) };
+  } catch {}
   const res = await llamar(init);
+  if (res.ok && !gratis) apuntarUso(uso);
   if (id && res.ok) {
     const texto = await res.clone().text();
     try {
@@ -103,6 +164,7 @@ async function llamar(init) {
   // Ahorro de tokens: modelo barato, respuestas cortas y solo los últimos mensajes del chat
   try {
     const b = JSON.parse(init.body || "{}");
+    delete b.uso;
     b.model = "deepseek-chat";
     b.max_tokens = Math.min(Number(b.max_tokens) || 700, 4000);
     if (Array.isArray(b.messages) && b.messages.length > 9) b.messages = [b.messages[0], ...b.messages.slice(-8)];

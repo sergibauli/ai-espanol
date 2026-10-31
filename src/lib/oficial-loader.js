@@ -244,6 +244,7 @@ function U(t) {
     tema: t.temaCentral,
     titulo: t.titulo,
     ambito: typeof t.ambito === "string" ? t.ambito : undefined,
+    nuevo: Boolean(t.nuevo),
     lectura: {
       tareas: r(e?.tareas).length,
       preguntas: h(t, 1).length,

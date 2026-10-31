@@ -3,6 +3,7 @@ import { construirPrompt, contarPalabras, aplicarPenalizaciones } from "../lib/c
 import { AwardIcon, LightbulbIcon, StarIcon, FileTextIcon, CircleAlertIcon } from "lucide-react";
 import * as React from "react";
 import { deepseekFetch } from "../lib/deepseekClient.js";
+import { CuotaIA } from "./ui/CuotaIA.jsx";
 const k = 10000;
 const x = "dele_tokens_used";
 const h = "dele_tokens_date";
@@ -76,7 +77,8 @@ export function u() {
             }),
           });
           if (!c.ok) {
-            throw new Error(`API error ${c.status}`);
+            const e = await c.json().catch(() => ({}));
+            throw new Error(e.error?.message || `API error ${c.status}`);
           }
           const u = (await c.json())?.choices?.[0]?.message?.content;
           if (!u) {
@@ -150,9 +152,12 @@ function Reescritura({ data }) {
   return (
     <div className="corr-rew">
       {!open ? (
-        <button className="wel-btn red" onClick={() => setOpen(true)}>
-          ✍️ Reescribir con la corrección · 根据批改重写
-        </button>
+        <>
+          <button className="wel-btn red" onClick={() => setOpen(true)}>
+            ✍️ Reescribir con la corrección · 根据批改重写
+          </button>
+          <CuotaIA className="corr-cuota" />
+        </>
       ) : (
         <>
           <h4>Reescritura guiada · 修改后重新提交</h4>
@@ -199,6 +204,7 @@ function MComponent({ data }) {
         <b>No se ha podido corregir · 暂时无法批改</b>
         <p>{data.mensaje}</p>
         <small>No se ha puesto ninguna nota. Inténtalo de nuevo en unos minutos. · 未给出分数，请稍后重试。</small>
+        <CuotaIA />
       </div>
     );
   const data_puntuacion = data.puntuacion;

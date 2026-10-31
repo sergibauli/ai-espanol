@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { LogOutIcon } from "lucide-react";
 import { NavIcon } from "../ui/NavIcon.jsx";
 import { GameStats } from "../ui/GameStats.jsx";
+import { SelectorIdioma } from "../ui/SelectorIdioma.jsx";
 import { useAppAuth } from "../../lib/auth.jsx";
 import { attachLightAdapter } from "./lightAdapter.js";
 import { Logo } from "../../../packages/imperial/src/index.js";
@@ -58,6 +59,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
         </Link>
         <div className="light-top-der">
           <GameStats compact />
+          <SelectorIdioma compacto />
           <button type="button" className="light-salir" onClick={() => logout()} aria-label="Salir · 退出" title="Salir · 退出">
             <LogOutIcon size={18} strokeWidth={2.6} />
             <span>Salir</span>
@@ -78,6 +80,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
               </span>
             </Link>
           ))}
+          <SelectorIdioma arriba />
           <a href="#/" className="side-exit" onClick={(e) => (e.preventDefault(), logout())}>
             Salir · 退出
           </a>
@@ -99,10 +102,12 @@ export function LightShell({ children, legacy = false, stage = false }) {
   );
 }
 
-export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/mi-dele", "/diagnostico", "/examinador-oral", "/audicion", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz", "/diccionarios", "/pronunciacion", "/examenes"].includes(p) || /^\/modulos\/[^/]+/.test(p);
+export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/mi-dele", "/diagnostico", "/examinador-oral", "/audicion", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz", "/diccionarios", "/pronunciacion", "/examenes"].includes(p) || /^\/modulos\/[^/]+/.test(p) || NIVEL_DELE(p);
 
 // Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
-export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|examenes|examenes-nivel|oficial)(\/|$)/.test(p) && p !== "/oficial" && p !== "/examenes" && p !== "/examenes/generador";
+export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|examenes|examenes-nivel|oficial)(\/|$)/.test(p) && p !== "/oficial" && p !== "/examenes" && p !== "/examenes/generador" && !NIVEL_DELE(p);
+// Páginas de cada nivel DELE (/oficial/A1…): diseño propio a pantalla completa dentro del marco
+export const NIVEL_DELE = (p) => /^\/oficial\/(a1|a2|b1|b2)\/?$/i.test(p);
 
 // Páginas inmersivas (DELE oficial, pronunciación, karaoke, juegos): marco de app con su contenido en una "pantalla"
 export const STAGE_ROUTES = (p) => /^\/pronunciacion\/templo/.test(p) || /^\/juegos\/.+/.test(p);

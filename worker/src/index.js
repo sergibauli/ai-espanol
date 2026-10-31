@@ -340,6 +340,12 @@ const OPS = {
 };
 
 // ---------- Proxy de DeepSeek ----------
+// Lunes de la semana actual en hora de China (UTC+8), igual que src/lib/deepseekClient.js
+function semanaActual(ahora = Date.now()) {
+  const d = new Date(ahora + 8 * 36e5);
+  const dia = (d.getUTCDay() + 6) % 7;
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - dia)).toISOString().slice(0, 10);
+}
 // Cuota diaria: usuarios con sesión de Clerk AI_DAILY_USER (200), visitantes sin sesión AI_DAILY_ANON (20) por IP.
 async function aiChat(req, env) {
   if (!env.DEEPSEEK_API_KEY) return fail(503, "IA no configurada");
@@ -350,6 +356,22 @@ async function aiChat(req, env) {
   const used = Number(await env.CAMPUS.get(key)) || 0;
   if (used >= limit) return fail(429, "Has llegado al límite diario de IA. Vuelve mañana. 今天的AI次数已用完。");
   const b = await req.json().catch(() => ({}));
+  // Límite semanal (AI_WEEKLY, 5): cuenta usos distintos (una conversación entera comparte el mismo `uso`)
+  const semanal = Number(env.AI_WEEKLY || 5);
+  const kSemana = `aiw:${who}:${semanaActual()}`;
+  const usos = JSON.parse((await env.CAMPUS.get(kSemana)) || "[]");
+  const uso = str(b.uso || `x${Date.now()}`, 40);
+  // El plan semanal automático no gasta consultas del alumno, pero tiene su propio tope (3 por semana)
+  if (uso === "plan-semanal") {
+    const kPlan = `aiw-plan:${who}:${semanaActual()}`;
+    const n = Number(await env.CAMPUS.get(kPlan)) || 0;
+    if (n >= 3) return fail(429, "Plan semanal ya generado.");
+    await env.CAMPUS.put(kPlan, String(n + 1), { expirationTtl: 8 * 86400 });
+  } else if (!usos.includes(uso)) {
+    if (usos.length >= semanal) return fail(429, `Has usado tus ${semanal} consultas de IA de esta semana. Se renuevan el lunes. 本周${semanal}次AI已用完，周一更新。`);
+    usos.push(uso);
+    await env.CAMPUS.put(kSemana, JSON.stringify(usos), { expirationTtl: 8 * 86400 });
+  }
   // Historial: los mensajes de sistema iniciales y, como mucho, los 12 últimos de la conversación
   const todos = Array.isArray(b.messages) ? b.messages.map((m) => ({ role: ["system", "user", "assistant"].includes(m.role) ? m.role : "user", content: str(m.content, 12000) })) : [];
   const nSistema = todos.findIndex((m) => m.role !== "system");
