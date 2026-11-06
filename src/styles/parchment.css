@@ -1499,3 +1499,7 @@ html body .light-page .unit-page .unit-dialogs .unit-dialog:hover { transform: t
 html body .light-page .unit-page .unit-dialogs .unit-dialog :is(b, span, small) { color: inherit !important; }
 html body .light-page .unit-page .unit-dialogs .unit-dialog small { color: #cdeee4 !important; }
 html body .light-page .unit-page .unit-dialog-faces { padding: 6px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 55%, #a8741e); box-shadow: 0 0 0 2px #7a4a12, 0 0 14px rgba(242,193,78,.7); }
+
+/* ===== v12.0 · Lecturas legibles: el texto de lectura (examen del módulo, Lectura y cultura) iba en blanco sobre pergamino */
+.light-page .ui-reading { color: #3b2416 !important; }
+.light-page .ui-reading::selection { background: #f2c14e; color: #3b2416; }
