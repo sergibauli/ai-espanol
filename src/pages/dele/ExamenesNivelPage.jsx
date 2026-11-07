@@ -1546,13 +1546,8 @@ function WaComponent() {
             />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white">{l.title}</h1>
-          <p
-            className="text-lg"
-            style={{
-              color: `${l.glow}90`,
-            }}
-          >
-            {l.sub} · {f.length} {t("examenes", "考试")}
+          <p className="xm-nivel-sub gm-no-adapt text-lg">
+            {l.sub} · {f.length} {t("exámenes", "套考试")}
           </p>
           <div
             className="w-32 h-1 rounded-full mx-auto mt-4"

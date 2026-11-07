@@ -339,6 +339,8 @@ function Ge1Component({ children, color = c, icono = InfoIcon }) {
   );
 }
 function Ne1Component({ texto, color = c }) {
+  // Sin texto no se pinta la caja vacía de instrucciones
+  if (!texto || !String(texto).trim()) return null;
   return (
     <div
       className="ofe-instr rounded-xl p-3.5 mb-4"
@@ -580,7 +582,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
             }
             return V(0);
           }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.03]"
+          className="xm-ofe-play gm-no-adapt flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.03]"
           style={{
             background: `linear-gradient(135deg, ${c}, ${C})`,
             color: "#17130a",
@@ -759,164 +761,104 @@ function Is(t, r, l) {
   return `${l("Parte", "第")} ${r + 1}`;
 }
 function LeComponent({ item, valor, onSelect, corregido, color, t: t_1 }) {
-  const [n, setN] = React.useState(false);
-  const u = corregido && valor === item.correcta;
-  const d = corregido && valor !== undefined && valor !== item.correcta;
-  const b = !!(item.justificacion || item.fraseSoporte);
+  const [showSupport, setShowSupport] = React.useState(false);
+  const isRight = corregido && valor === item.correcta;
+  const isWrong = corregido && valor !== undefined && valor !== item.correcta;
+  const hasKey = !!(item.justificacion || item.fraseSoporte);
+  const letterMode = o(item.opciones);
+  const optionClass = (index) => {
+    const picked = valor === index;
+    if (corregido) {
+      if (index === item.correcta) return "is-right";
+      if (picked) return "is-wrong";
+      return "is-dim";
+    }
+    return picked ? "is-picked" : "";
+  };
+  // Ítem con estilos propios (v12-examenes.css): fuera del adaptador de colores
   return (
-    <div
-      className="ofe-item rounded-xl p-3.5 transition-colors"
-      style={{
-        background: corregido
-          ? u
-            ? "rgba(52,211,153,.07)"
-            : d
-              ? "rgba(248,113,113,.06)"
-              : "rgba(255,255,255,.02)"
-          : "rgba(255,255,255,.02)",
-        border: `1px solid ${corregido ? (u ? "rgba(52,211,153,.3)" : d ? "rgba(248,113,113,.25)" : "rgba(255,255,255,.06)") : "rgba(255,255,255,.06)"}`,
-      }}
-    >
-      <div className="flex items-start gap-2 mb-2.5">
-        <span
-          className="font-mono text-[11px] font-black shrink-0 mt-0.5 w-6 h-6 rounded-lg flex items-center justify-center"
-          style={{
-            background: `${c}18`,
-            color: C,
-            border: `1px solid ${c}30`,
-          }}
-        >
-          {item.num}
-        </span>
-        <p
-          data-enunciado={item.num}
-          className="text-white/85 text-[15px] sm:text-[13.5px] font-medium leading-relaxed sm:leading-snug flex-1"
-        >
+    <div className={`ofe-item xm-item gm-no-adapt ${isRight ? "is-ok" : isWrong ? "is-bad" : ""}`} style={{ "--xm-lvl": color }}>
+      <div className="xm-item-head">
+        <span className="xm-item-num">{item.num}</span>
+        <p data-enunciado={item.num} className="xm-item-q">
           {item.enunciado}
         </p>
         {corregido &&
-          (u ? (
-            <CircleCheckIcon size={15} className="text-emerald-400 shrink-0 mt-0.5" />
-          ) : d ? (
-            <CircleXIcon size={15} className="text-red-400 shrink-0 mt-0.5" />
-          ) : null)}
+          (isRight ? (
+            <span className="xm-item-flag ok">
+              <CircleCheckIcon size={16} /> {t_1("Correcta", "正确")}
+            </span>
+          ) : isWrong ? (
+            <span className="xm-item-flag bad">
+              <CircleXIcon size={16} /> {t_1("Incorrecta", "错误")}
+            </span>
+          ) : (
+            <span className="xm-item-flag none">{t_1("Sin responder", "未作答")}</span>
+          ))}
       </div>
-      {o(item.opciones) ? (
-        <div className="flex flex-wrap items-center gap-1.5 pl-8">
-          <span className="text-[10px] font-black uppercase tracking-wider text-white/25 mr-1">
-            {t_1("Marque el texto", "选择对应文本")}
-          </span>
-          {item.opciones.map((k, j) => {
-            const v = valor === j;
-            const N = corregido && j === item.correcta;
-            return (
-              <button
-                key={j}
-                data-opcion={j}
-                data-item={item.num}
-                data-correcta={j === item.correcta ? "1" : "0"}
-                onClick={() => !corregido && onSelect(j)}
-                disabled={corregido}
-                className="w-10 h-10 sm:w-8 sm:h-8 rounded-xl sm:rounded-lg font-mono text-[14px] sm:text-[12.5px] font-black transition-all"
-                style={{
-                  background: N ? "rgba(52,211,153,.18)" : v ? `${c}22` : "rgba(255,255,255,.04)",
-                  border: `1px solid ${N ? "rgba(52,211,153,.55)" : v ? `${c}70` : "rgba(255,255,255,.1)"}`,
-                  color: N ? "#6ee7b7" : v ? C : "rgba(255,255,255,.55)",
-                  cursor: corregido ? "default" : "pointer",
-                }}
-              >
-                {k}
-              </button>
-            );
-          })}
+      {letterMode ? (
+        <div className="xm-item-letters">
+          <span className="xm-item-hint">{t_1("Marque el texto", "选择对应文本")}</span>
+          {item.opciones.map((option, index) => (
+            <button
+              key={index}
+              type="button"
+              data-opcion={index}
+              data-item={item.num}
+              data-correcta={index === item.correcta ? "1" : "0"}
+              aria-pressed={valor === index}
+              onClick={() => !corregido && onSelect(index)}
+              disabled={corregido}
+              className={`xm-item-letter ${optionClass(index)}`}
+            >
+              {option}
+            </button>
+          ))}
         </div>
       ) : (
-        <div className="flex flex-col gap-2 pl-8">
-          {item.opciones.map((k, j) => {
-            const v = valor === j;
-            const N = corregido && j === item.correcta;
-            return (
-              <button
-                key={j}
-                data-opcion={j}
-                data-item={item.num}
-                data-correcta={j === item.correcta ? "1" : "0"}
-                onClick={() => !corregido && onSelect(j)}
-                disabled={corregido}
-                className="text-left px-3.5 py-3 sm:px-3 sm:py-2 rounded-xl sm:rounded-lg text-[14.5px] sm:text-[12.5px] font-bold leading-snug transition-all"
-                style={{
-                  background: N ? "rgba(52,211,153,.16)" : v ? `${c}1f` : "rgba(255,255,255,.04)",
-                  border: `1px solid ${N ? "rgba(52,211,153,.5)" : v ? `${c}60` : "rgba(255,255,255,.08)"}`,
-                  color: N ? "#6ee7b7" : v ? C : "rgba(255,255,255,.6)",
-                  cursor: corregido ? "default" : "pointer",
-                }}
-              >
-                <span className="font-mono font-black mr-1.5 opacity-70">{g(j)}</span>
-                {k}
-              </button>
-            );
-          })}
+        <div className="xm-item-opts">
+          {item.opciones.map((option, index) => (
+            <button
+              key={index}
+              type="button"
+              data-opcion={index}
+              data-item={item.num}
+              data-correcta={index === item.correcta ? "1" : "0"}
+              aria-pressed={valor === index}
+              onClick={() => !corregido && onSelect(index)}
+              disabled={corregido}
+              className={`xm-item-opt ${optionClass(index)}`}
+            >
+              <span className="xm-item-abc">{g(index)}</span>
+              <span className="xm-item-txt">{option}</span>
+            </button>
+          ))}
         </div>
       )}
-      {corregido && b && (
-        <div
-          data-clave={item.num}
-          className="mt-3 ml-8 rounded-xl p-3"
-          style={{
-            background: `${color}0d`,
-            border: `1px solid ${color}25`,
-          }}
-        >
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <KeyRoundIcon
-              size={11}
-              style={{
-                color,
-              }}
-            />
-            <span
-              className="text-[9.5px] font-black uppercase tracking-[0.16em]"
-              style={{
-                color,
-              }}
-            >
-              {t_1("Clave", "答案与依据")}
-            </span>
-            <span
-              className="font-mono text-[10px] font-black px-1.5 rounded"
-              style={{
-                background: "rgba(52,211,153,.15)",
-                color: "#6ee7b7",
-              }}
-            >
+      {corregido && hasKey && (
+        <div data-clave={item.num} className="xm-item-key">
+          <div className="xm-item-key-head">
+            <KeyRoundIcon size={14} />
+            <span>{t_1("Clave", "答案与依据")}</span>
+            <b>
               {g(item.correcta)} · {item.opciones[item.correcta]}
-            </span>
+            </b>
           </div>
           {item.justificacion && (
-            <p data-justificacion={item.num} className="text-white/60 text-[12px] leading-relaxed">
+            <p data-justificacion={item.num} className="xm-item-why">
               {item.justificacion}
             </p>
           )}
           {item.fraseSoporte && (
             <>
-              <button
-                onClick={() => setN((k) => !k)}
-                className="mt-2 text-[11px] font-bold text-white/35 hover:text-white/70 transition-colors inline-flex items-center gap-1"
-              >
-                <EyeIcon size={11} />{" "}
-                {n
+              <button type="button" onClick={() => setShowSupport((value) => !value)} className="xm-item-support-btn">
+                <EyeIcon size={14} />{" "}
+                {showSupport
                   ? t_1("Ocultar la frase que lo justifica", "隐藏依据句")
                   : t_1("Ver la frase que lo justifica", "查看依据句")}
               </button>
-              {n && (
-                <p
-                  data-frase={item.num}
-                  className="mt-2 text-[12px] italic leading-relaxed pl-3"
-                  style={{
-                    color: C,
-                    borderLeft: `2px solid ${color}55`,
-                  }}
-                >
+              {showSupport && (
+                <p data-frase={item.num} className="xm-item-support">
                   «{item.fraseSoporte}»
                 </p>
               )}
@@ -1152,48 +1094,32 @@ function RsComponent({ encuesta }) {
 }
 function Oe1Component({ tarea, color, extra }) {
   const { t: t_1 } = useLanguage();
+  const itemCount = (tarea.items || []).length;
+  // Cabecera de tarea: cinta de laca roja con sello (estilos en v12-examenes.css)
   return (
-    <div
-      className="ofe-thead flex flex-wrap items-center gap-3 px-5 py-3.5"
-      style={{
-        background: "rgba(0,0,0,.22)",
-        borderBottom: `1px solid ${c}18`,
-      }}
-    >
-      <span
-        className="font-mono font-black text-sm px-3 py-1.5 rounded-lg"
-        style={{
-          background: `${c}16`,
-          color: C,
-          border: `1px solid ${c}35`,
-        }}
-      >
-        TAREA {tarea.num}
+    <div className="ofe-thead xm-thead gm-no-adapt">
+      <span className="xm-thead-seal">
+        <small>TAREA</small>
+        {tarea.num}
       </span>
-      <div className="flex-1 min-w-[180px]">
-        <div className="text-white font-black text-[15px] leading-tight">{tarea.titulo}</div>
-        <div className="flex flex-wrap items-center gap-1.5 mt-1">
-          {tarea.genero && <ZComponent color={color}>{tarea.genero}</ZComponent>}
+      <div className="xm-thead-text">
+        <div className="xm-thead-title">{tarea.titulo}</div>
+        <div className="xm-thead-tags">
+          {tarea.genero && <span className="xm-thead-tag">{tarea.genero}</span>}
           {tarea.subgenero && tarea.subgenero !== tarea.genero && tarea.subgenero !== tarea.tipoAudio && (
-            <ZComponent color={color}>{tarea.subgenero}</ZComponent>
+            <span className="xm-thead-tag">{tarea.subgenero}</span>
           )}
-          {tarea.tipoAudio && <ZComponent color={color}>{tarea.tipoAudio}</ZComponent>}
-          {tarea.ambito && <ZComponent color="#94a3b8">{e(tarea.ambito)}</ZComponent>}
-          {tarea.subtema && (
-            <span className="text-[10px] text-white/25 font-bold truncate max-w-[240px]">
-              {tarea.subtema}
-            </span>
-          )}
+          {tarea.tipoAudio && <span className="xm-thead-tag">{tarea.tipoAudio}</span>}
+          {tarea.ambito && <span className="xm-thead-tag soft">{e(tarea.ambito)}</span>}
+          {tarea.subtema && <span className="xm-thead-sub">{tarea.subtema}</span>}
           {tarea.tiempo && (
-            <span className="text-[10px] font-black uppercase tracking-wider text-white/30 inline-flex items-center gap-1">
-              <ClockIcon size={10} />
+            <span className="xm-thead-meta">
+              <ClockIcon size={12} />
               {tarea.tiempo}
             </span>
           )}
-          <span className="text-[10px] font-bold uppercase tracking-wider text-white/25">
-            {(tarea.items || []).length
-              ? `${(tarea.items || []).length} ${t_1("ítems", "题")}`
-              : `${(tarea.puntosGuia || []).length} ${t_1("puntos guía", "提示要点")}`}
+          <span className="xm-thead-meta">
+            {itemCount ? `${itemCount} ${t_1("ítems", "题")}` : `${(tarea.puntosGuia || []).length} ${t_1("puntos guía", "提示要点")}`}
           </span>
         </div>
       </div>
@@ -2719,7 +2645,7 @@ function EComponent({ titulo, res, corregido, onCorregir, onVerClaves, mostrarCl
         <button
           onClick={onCorregir}
           disabled={corregido}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.02] disabled:opacity-45 disabled:hover:scale-100"
+          className="xm-ofe-correct gm-no-adapt flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.02] disabled:hover:scale-100"
           style={{
             background: corregido ? "rgba(255,255,255,.06)" : "linear-gradient(135deg, #e0b566, #f6dfa8)",
             color: corregido ? "rgba(255,255,255,.5)" : "#17130a",

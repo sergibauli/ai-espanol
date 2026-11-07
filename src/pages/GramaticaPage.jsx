@@ -15,30 +15,31 @@ import { Link } from "react-router";
 import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
 import { GRAMMAR_TOPICS } from "../data/gramatica.js";
 const h = ["A1", "A2", "B1", "B2"];
+// Paleta imperial por nivel (tonos oscuros: texto ≥ 4.5:1 sobre pergamino)
 const p = {
   A1: {
     label: "Nivel A1",
     labelCn: "入门级",
-    color: "#10b981",
-    glow: "#34d399",
+    color: "#1d6339",
+    glow: "#1d6339",
   },
   A2: {
     label: "Nivel A2",
     labelCn: "基础级",
-    color: "#f97316",
-    glow: "#fbbf24",
+    color: "#8f0c21",
+    glow: "#8f0c21",
   },
   B1: {
     label: "Nivel B1",
     labelCn: "进阶级",
-    color: "#3b82f6",
-    glow: "#60a5fa",
+    color: "#1d3768",
+    glow: "#1d3768",
   },
   B2: {
     label: "Nivel B2",
     labelCn: "熟练级",
-    color: "#a855f7",
-    glow: "#c084fc",
+    color: "#5b3a8f",
+    glow: "#5b3a8f",
   },
 };
 const R = {

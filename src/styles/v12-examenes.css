@@ -234,7 +234,7 @@
 .xm-option.is-wrong { background: var(--xm-bad-bg) !important; border-color: var(--xm-bad) !important; box-shadow: 0 3px 0 #6a0717 !important; color: #5a0614 !important; }
 .xm-option.is-wrong .xm-option-text { text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: rgba(163, 13, 38, .55); }
 .xm-option.is-wrong .xm-letter { color: #fff; background: var(--xm-bad); border-color: #6a0717; }
-.xm-option.is-dim { opacity: .72; box-shadow: none !important; }
+.xm-option.is-dim { opacity: .85; box-shadow: none !important; }
 
 .xm-write { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
 .xm-write-label { font-size: 13px; font-weight: 800; letter-spacing: .05em; color: var(--xm-ink-3); }
@@ -376,7 +376,7 @@
   border: 2px solid #d9b45e; box-shadow: inset 0 0 0 4px rgba(255, 250, 236, .8), inset 0 0 0 5px rgba(200, 150, 30, .55), 0 14px 30px rgba(10, 10, 30, .4);
 }
 .xm-gen-hero {
-  display: grid; grid-template-columns: minmax(0, 1fr) 220px; align-items: end; gap: 10px; padding: 30px 34px 26px; overflow: hidden;
+  display: grid; grid-template-columns: minmax(0, 1fr) 220px; align-items: center; gap: 10px; padding: 30px 34px 26px; overflow: hidden;
   border: 3px solid var(--xm-gold); box-shadow: inset 0 0 0 4px #fffaf0, inset 0 0 0 6px var(--xm-red), inset 0 0 0 7px rgba(242, 193, 78, .8), 0 0 40px rgba(242, 193, 78, .35), 0 18px 36px rgba(0, 0, 0, .45);
 }
 .xm-gen-hero::before { content: ""; position: absolute; right: 120px; bottom: -40px; width: 380px; height: 300px; opacity: .12; pointer-events: none; background: url("../../public/theme/montes-tinta.webp") center / contain no-repeat; }
@@ -433,8 +433,7 @@
 .xm-mod-check { flex: 0 0 auto; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; color: #fff; border: 2px solid #d4b16a; background: #fffaf0; }
 .xm-mod.on .xm-mod-check { background: var(--xm-red); border-color: var(--xm-red-d); }
 
-.xm-gen-cta { position: sticky; bottom: 12px; z-index: 5; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 14px 18px; margin-bottom: 20px; }
-@media (max-width: 900px) { .xm-gen-cta { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); } }
+.xm-gen-cta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 14px 18px; margin-bottom: 20px; }
 .xm-gen-summary { font-size: 15px; font-weight: 700; color: var(--xm-ink-2); }
 .xm-gen-summary b { font: 900 20px var(--ui-display, system-ui); color: var(--xm-red-d); }
 
@@ -469,3 +468,131 @@
   .xm-gen-links { border-radius: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .xm-gen *, .xm-gen *::before { animation: none !important; transition: none !important; } }
+
+/* ---------- Examen DELE oficial (/oficial/:nivel/:modelo) ---------- */
+html body .light-page .ofe {
+  --xm-ink: #3b2416; --xm-ink-2: #5e4027; --xm-ink-3: #6b4a2b; --xm-red: #c8102e; --xm-red-d: #8f0c21; --xm-gold: #f2c14e; --xm-gold-d: #c8961e;
+  --xm-ok: #17653a; --xm-ok-bg: #e3f3e6; --xm-bad: #a30d26; --xm-bad-bg: #fbe3e3;
+}
+/* Cabecera de tarea: cinta lacada con sello */
+html body .light-page .ofe .xm-thead {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 14px; padding: 14px 18px; color: #fff6dc;
+  background: radial-gradient(300px 80px at 10% 0%, rgba(255, 214, 120, .25), transparent 70%), linear-gradient(160deg, #b3122e, #7d0a1d 65%, #5a0614) !important;
+  border-bottom: 3px double var(--xm-gold) !important;
+}
+html body .light-page .ofe .xm-thead-seal {
+  flex: 0 0 auto; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 10px;
+  font: 900 26px/1 var(--ui-display, system-ui); color: #4a0a14; background: radial-gradient(120% 90% at 30% 10%, #fff6d0, var(--xm-gold) 55%, #c98f24);
+  box-shadow: 0 0 0 2px #fff0b8, 0 0 0 4px #8f5a1e, 0 4px 10px rgba(0, 0, 0, .35); rotate: -4deg;
+}
+html body .light-page .ofe .xm-thead-seal small { font: 900 9.5px/1 var(--ui-font, system-ui); letter-spacing: .14em; margin-bottom: 3px; }
+html body .light-page .ofe .xm-thead-text { flex: 1; min-width: 200px; }
+html body .light-page .ofe .xm-thead-title { font: 700 clamp(18px, 2.2vw, 22px)/1.25 Cinzel, "Source Serif 4", Georgia, serif; color: #fff6dc !important; text-shadow: 0 2px 0 rgba(0, 0, 0, .3); }
+html body .light-page .ofe .xm-thead-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; }
+html body .light-page .ofe .xm-thead-tag { display: inline-flex; align-items: center; min-height: 24px; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: #4a0a14 !important; background: #fff3c4; border: 1px solid var(--xm-gold); }
+html body .light-page .ofe .xm-thead-tag.soft { color: #fff6dc !important; background: rgba(255, 246, 220, .12); border-color: rgba(255, 246, 220, .5); }
+html body .light-page .ofe :is(.xm-thead-sub, .xm-thead-meta) { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 700; color: #ffe2a8 !important; }
+html body .light-page .ofe .xm-thead-sub { font-style: italic; max-width: 100%; }
+html body .light-page .ofe .xm-thead > :last-child:not(.xm-thead-text) { padding: 4px 10px !important; border-radius: 999px !important; font-size: 12px !important; color: #4a0a14 !important; background: #fff3c4 !important; border: 1px solid var(--xm-gold) !important; }
+
+/* Tarea: hoja de pergamino con filete dorado */
+html body .light-page .ofe .ofe-tarea { border: 2px solid #d9b45e !important; box-shadow: inset 0 0 0 3px rgba(255, 250, 236, .8), 0 10px 24px rgba(80, 50, 10, .2) !important; }
+/* Instrucciones como nota con sello */
+html body .light-page .ofe .ofe-instr { position: relative; background: linear-gradient(#fffaf0, #fff3d6) !important; border: 1.5px solid #e0c48a !important; border-left: 6px solid var(--xm-red) !important; border-radius: 12px !important; }
+html body .light-page .ofe .ofe-instr p { font-size: 16px !important; line-height: 1.6 !important; color: var(--xm-ink) !important; }
+/* Texto: hoja de pergamino con filete rojo */
+html body .light-page .ofe .ofe-paper {
+  background: radial-gradient(ellipse at center, transparent 62%, rgba(140, 95, 40, .16)), linear-gradient(rgba(255, 250, 236, .7), rgba(255, 250, 236, .7)), url("../../public/theme/papel.jpg") center / cover, #fbf1dc !important;
+  border-radius: 6px !important; padding: 28px clamp(16px, 4vw, 40px) !important;
+  box-shadow: inset 0 0 0 6px rgba(255, 250, 236, .5), inset 0 0 0 7px rgba(200, 16, 46, .35), 0 12px 26px rgba(80, 50, 10, .25) !important;
+}
+
+/* Ítems de pregunta */
+html body .light-page .ofe .xm-item {
+  padding: 16px 16px 14px !important; border-radius: 16px !important; color: var(--xm-ink);
+  background: linear-gradient(#fffdf8, #fbf4e4) !important; border: 1.5px solid #e2cb94 !important; box-shadow: 0 3px 0 #e2cfa0 !important;
+}
+html body .light-page .ofe .xm-item.is-ok { background: linear-gradient(#f4fbf5, #e3f3e6) !important; border-color: var(--xm-ok) !important; box-shadow: inset 5px 0 0 var(--xm-ok) !important; }
+html body .light-page .ofe .xm-item.is-bad { background: linear-gradient(#fff7f7, #fbe9e9) !important; border-color: var(--xm-bad) !important; box-shadow: inset 5px 0 0 var(--xm-bad) !important; }
+.xm-item-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+html body .light-page .ofe .xm-item-num {
+  flex: 0 0 auto; display: grid; place-items: center; min-width: 34px; height: 34px; padding: 0 6px; border-radius: 8px;
+  font: 900 15px/1 var(--ui-display, system-ui); color: #fff6dc; background: linear-gradient(150deg, #d8253f, var(--xm-red-d)); box-shadow: 0 0 0 2px var(--xm-gold), 0 2px 6px rgba(143, 12, 33, .3); rotate: -3deg;
+}
+html body .light-page .ofe .xm-item .xm-item-q { flex: 1; margin: 4px 0 0; font-size: 17px !important; font-weight: 700; line-height: 1.5 !important; color: var(--xm-ink) !important; }
+.xm-item-flag { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 900; color: #fff; }
+.xm-item-flag.ok { background: var(--xm-ok, #17653a); }
+.xm-item-flag.bad { background: var(--xm-bad, #a30d26); }
+.xm-item-flag.none { color: #5e4027; background: #f3e3bf; }
+.xm-item-opts { display: flex; flex-direction: column; gap: 8px; padding-left: 46px; }
+.xm-item-letters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-left: 46px; }
+.xm-item-hint { margin-right: 4px; font-size: 12.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #6b4a2b; }
+html body .light-page .ofe .xm-item :is(.xm-item-opt, .xm-item-letter) {
+  cursor: pointer; color: var(--xm-ink) !important; background: #fffdf8 !important; border: 2px solid #e2cb94 !important; box-shadow: 0 2px 0 #d3b878 !important; transition: transform .15s, border-color .15s, box-shadow .15s;
+}
+html body .light-page .ofe .xm-item .xm-item-opt { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 50px; padding: 8px 12px 8px 8px; border-radius: 12px; text-align: left; font-size: 16px !important; font-weight: 600 !important; line-height: 1.4; }
+html body .light-page .ofe .xm-item .xm-item-letter { min-width: 46px; min-height: 46px; padding: 0 10px; border-radius: 10px; font: 900 16px/1 var(--ui-display, system-ui) !important; }
+html body .light-page .ofe .xm-item :is(.xm-item-opt, .xm-item-letter):hover:not(:disabled) { transform: translateY(-2px); border-color: var(--xm-gold-d) !important; box-shadow: 0 4px 0 #c9a45a, 0 0 14px rgba(242, 193, 78, .45) !important; }
+.xm-item-abc { flex: 0 0 auto; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; font: 900 14px/1 Cinzel, Georgia, serif; color: #8f0c21; background: #fff6dc; border: 2px solid #e0b75a; }
+.xm-item-txt { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+html body .light-page .ofe .xm-item :is(.xm-item-opt, .xm-item-letter).is-picked { background: linear-gradient(#fff6d6, #fbe7a8) !important; border-color: var(--xm-red) !important; box-shadow: 0 0 0 2px rgba(200, 16, 46, .2), 0 2px 0 var(--xm-red-d) !important; }
+html body .light-page .ofe .xm-item .xm-item-letter.is-picked { color: #fff6dc !important; background: linear-gradient(#d8253f, var(--xm-red-d)) !important; border-color: var(--xm-gold) !important; }
+.xm-item-opt.is-picked .xm-item-abc { color: #fff6dc; background: linear-gradient(#d8253f, #8f0c21); border-color: #f2c14e; }
+html body .light-page .ofe .xm-item :is(.xm-item-opt, .xm-item-letter).is-right { color: #0e3d22 !important; background: var(--xm-ok-bg) !important; border-color: var(--xm-ok) !important; box-shadow: 0 2px 0 #0f4a28 !important; }
+html body .light-page .ofe .xm-item .xm-item-letter.is-right { color: #fff !important; background: var(--xm-ok) !important; }
+.xm-item-opt.is-right .xm-item-abc { color: #fff; background: #17653a; border-color: #0f4a28; }
+html body .light-page .ofe .xm-item :is(.xm-item-opt, .xm-item-letter).is-wrong { color: #5a0614 !important; background: var(--xm-bad-bg) !important; border-color: var(--xm-bad) !important; box-shadow: 0 2px 0 #6a0717 !important; }
+html body .light-page .ofe .xm-item .xm-item-letter.is-wrong { color: #fff !important; background: var(--xm-bad) !important; }
+.xm-item-opt.is-wrong .xm-item-txt { text-decoration: line-through; text-decoration-color: rgba(163, 13, 38, .55); text-decoration-thickness: 2px; }
+.xm-item-opt.is-wrong .xm-item-abc { color: #fff; background: #a30d26; border-color: #6a0717; }
+html body .light-page .ofe .xm-item :is(.xm-item-opt, .xm-item-letter).is-dim { opacity: .85; box-shadow: none !important; }
+html body .light-page .ofe .xm-item :is(.xm-item-opt, .xm-item-letter):disabled { cursor: default; }
+.xm-item-key { margin: 12px 0 0 46px; padding: 12px 14px; border-radius: 12px; background: rgba(255, 246, 214, .9); border: 1.5px solid #e0b75a; border-left: 5px solid #c8102e; color: #3b2416; }
+.xm-item-key-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: #8f0c21; }
+.xm-item-key-head span { font-size: 12.5px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.xm-item-key-head b { padding: 2px 10px; border-radius: 999px; font-size: 13.5px; color: #fff; background: #17653a; }
+.xm-item-why { margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #3b2416; }
+html body .light-page .ofe .xm-item .xm-item-support-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; margin-top: 6px; padding: 6px 12px; border-radius: 999px; cursor: pointer; font-size: 13.5px; font-weight: 800; color: #8f0c21 !important; background: #fffaf0 !important; border: 1.5px solid #c8102e !important; }
+.xm-item-support { margin: 8px 0 0; padding-left: 12px; border-left: 3px solid #c8961e; font: italic 15.5px/1.65 "Source Serif 4", Georgia, serif; color: #5e4027; }
+@media (max-width: 640px) {
+  .xm-item-opts, .xm-item-letters { padding-left: 0; }
+  .xm-item-key { margin-left: 0; }
+  html body .light-page .ofe .xm-item .xm-item-q { font-size: 16.5px !important; }
+  .xm-item-head { flex-wrap: wrap; }
+  html body .light-page .ofe .xm-thead { padding: 12px; }
+}
+/* Botones clave del examen oficial: escuchar y corregir (antes crema sobre oro, sin contraste) */
+html body .light-page .ofe :is(.xm-ofe-play, .xm-ofe-correct) {
+  min-height: 46px; padding: 10px 18px !important; border-radius: 999px !important; font-size: 15px !important;
+  color: #fff6dc !important; background: linear-gradient(#d8253f, #c8102e 45%, #8f0c21) !important; border: 2px solid #f2c14e !important;
+  box-shadow: 0 0 0 2px #8f0c21, 0 4px 0 2px #5a0614, 0 8px 16px rgba(143, 12, 33, .3) !important; text-shadow: 0 1px 0 rgba(0, 0, 0, .35);
+}
+html body .light-page .ofe .xm-ofe-correct:disabled { color: #17653a !important; background: #e3f3e6 !important; border-color: #17653a !important; box-shadow: none !important; text-shadow: none; }
+
+/* ---------- Exámenes de práctica (/examenes/:nivel/:id): lectura en pergamino ---------- */
+html body .light-page .xm-dr-frame { background: linear-gradient(90deg, #c8961e, #f2c14e, #c8102e, #c8961e) !important; background-size: 300% 300% !important; }
+html body .light-page .dele-reading-scroll {
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(140, 95, 40, .2)), linear-gradient(rgba(255, 250, 236, .66), rgba(255, 250, 236, .66)), url("../../public/theme/papel.jpg") center / cover, #fbf1dc !important;
+  border: 0 !important; box-shadow: inset 0 0 0 6px rgba(255, 250, 236, .5), inset 0 0 0 7px rgba(200, 16, 46, .4), 0 12px 26px rgba(80, 50, 10, .25) !important; animation: none !important;
+}
+html body .light-page .dele-reading-scroll .absolute.rounded-full { display: none; }
+html body .light-page .dele-reading-scroll > .flex span { color: #8f0c21 !important; }
+.xm-dr-text { position: relative; }
+.xm-dr-text .td { color: #2a1d12; }
+/* Pestañas de destreza: placas doradas, la activa en laca roja */
+html body .light-page .xm-dr-tabs .xm-dr-tab {
+  min-height: 46px; color: #3b2416 !important; background: linear-gradient(#fffaf0, #f1dfb5) !important; border: 2px solid #d4a64a !important;
+  box-shadow: 0 3px 0 #a87c2c !important; text-shadow: none !important; animation: none !important; transform: none !important;
+}
+html body .light-page .xm-dr-tabs .xm-dr-tab:hover { transform: translateY(-2px) !important; }
+html body .light-page .xm-dr-tabs .xm-dr-tab.on { color: #fff6dc !important; background: linear-gradient(#d8253f, #c8102e 45%, #8f0c21) !important; border-color: #f2c14e !important; box-shadow: 0 0 0 2px #8f0c21, 0 4px 0 2px #5a0614, 0 0 18px rgba(242, 193, 78, .45) !important; }
+html body .light-page .xm-dr-tabs .xm-dr-tab.on > :is(span, div).absolute { display: none; }
+html body .light-page .xm-dr-tabs .xm-dr-tab svg { color: currentColor !important; }
+@media (max-width: 760px) {
+  html body .light-page .xm-dr-tabs { flex-wrap: nowrap !important; overflow-x: auto; gap: 8px !important; margin-inline: -4px; padding: 4px 4px 10px; scroll-snap-type: x proximity; scrollbar-width: thin; }
+  html body .light-page .xm-dr-tabs .xm-dr-tab { flex: 0 0 auto; padding: 10px 14px !important; scroll-snap-align: start; white-space: nowrap; }
+  html body .light-page .dele-reading-scroll { padding: 22px 16px !important; }
+  html body .light-page .xm-dr-frame { margin-inline: -14px; }
+}
+/* Subtítulo del nivel en /examenes-nivel (antes verde translúcido sobre papel) */
+.xm-nivel-sub { display: inline-block; margin-top: 4px; padding: 4px 16px; border-radius: 999px; font-weight: 800; color: #fff6dc; background: linear-gradient(#d8253f, #8f0c21); box-shadow: 0 0 0 2px #f2c14e; }

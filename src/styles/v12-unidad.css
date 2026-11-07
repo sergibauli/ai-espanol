@@ -296,12 +296,15 @@ html body .light-page .unit-page .unit-nav-btn { min-height: 48px; display: inli
 .lp-root .lp-foot .lp-explain { font-size: 14.5px; }
 .lp-root .lp-feedback { position: relative; }
 .lp-root .lp-foot:is(.ok, .bad) .lp-feedback::after {
-  position: absolute; right: 0; top: -4px; padding: 6px 5px; writing-mode: vertical-rl; font: 700 18px "STKaiti", "KaiTi", serif; color: #fff3d6;
-  border: 3px double #f2c14e; border-radius: 5px; transform: rotate(8deg); box-shadow: 0 4px 10px rgba(0,0,0,.25); animation: lp-stamp .45s .1s cubic-bezier(.3,1.6,.5,1) both;
+  position: absolute; right: 0; top: 0; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; line-height: 1.05; white-space: pre; text-align: center;
+  font: 700 17px/1.05 "STKaiti", "KaiTi", serif; color: #fff3d6; border: 3px double #f2c14e; border-radius: 6px; transform: rotate(8deg);
+  box-shadow: 0 4px 10px rgba(0,0,0,.25); animation: lp-stamp .45s .1s cubic-bezier(.3,1.6,.5,1) both;
 }
-.lp-root .lp-foot.ok .lp-feedback::after { content: "正确"; background: #1d6339; }
-.lp-root .lp-foot.bad .lp-feedback::after { content: "再试"; background: #b3122e; }
-.lp-root .lp-foot:is(.ok, .bad) .lp-feedback > div { padding-right: 46px; }
+.lp-root .lp-foot.ok .lp-feedback::after { content: "正\A确"; background: #1d6339; }
+.lp-root .lp-foot.bad .lp-feedback::after { content: "再\A试"; background: #b3122e; }
+.lp-root .lp-foot:is(.ok, .bad) .lp-feedback > div { padding-right: 64px; }
+/* Remate derecho del botón: fijo (el brillo animado lo desplazaba sobre el texto) */
+.lp-root .lp-btn:not(.ghost)::after { animation: none !important; left: auto !important; right: -12px !important; top: 50% !important; bottom: auto !important; width: 22px !important; height: 22px !important; transform: none !important; z-index: 1; }
 /* Opciones corregidas: marca visible además del color */
 .lp-root :is(.lp-option, .lp-pic) { position: relative; }
 .lp-root :is(.lp-option, .lp-pic):is(.right, .wrong)::after {
@@ -431,3 +434,17 @@ html body .light-page .unit-page .unit-nav-btn { min-height: 48px; display: inli
   .un-lc-texto p { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .un-lc-op, .un-lc-voz { transition: none; } .un-lc-op.mal { animation: none; } }
+@media (max-width: 520px) { .lp-root .lp-foot:is(.ok, .bad) .lp-feedback b { font-size: 17px !important; } .lp-root .lp-foot .lp-solution { font-size: 15.5px; } }
+
+/* =====================================================================
+   LISTA DE UNIDADES (UnidadesPage): tarjetas de pergamino con filete
+   ===================================================================== */
+.un .un-grid { gap: 16px; }
+.un .un-carta { border: 1.5px solid #d9b465; background: linear-gradient(rgba(255,252,243,.92), rgba(248,236,208,.92)), url("../../public/theme/papel.jpg") center / cover;
+  box-shadow: inset 0 0 0 4px rgba(255,252,243,.95), inset 0 0 0 5px rgba(200,150,30,.5), 0 10px 22px -10px rgba(40,20,0,.45); }
+.un .un-carta.completada { background: linear-gradient(rgba(255,248,222,.94), rgba(250,230,170,.94)), url("../../public/theme/papel.jpg") center / cover; }
+.un .un-carta:focus-visible { outline: 3px solid #f2c14e; outline-offset: 3px; }
+.un .un-num { color: #fff3d6; background: linear-gradient(#c21a32, #8f0c21); box-shadow: 0 0 0 1.5px #f2c14e; font-weight: 900; }
+.un .un-titulo { color: #2b190e; }
+.un .un-zh { color: #6e4210; }
+@media (max-width: 600px) { .un .un-grid { gap: 10px; } }

@@ -482,3 +482,8 @@
 .light-page .jd-au .jd-au-nivel { margin-top: 26px; color: #fff3d6 !important; font-family: var(--jd-display); text-shadow: 0 2px 0 rgba(0, 0, 0, 0.5); }
 .jd-au .au-pais { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.55); }
 .jd-au .au-item small { color: #6b4a2e !important; }
+/* Héroe lacado en páginas antiguas: modern.css pinta los h1 de .light-legacy en gris */
+.light-legacy .gm-no-adapt .im-hero__titulo { color: #fff3d6; }
+.light-legacy .gm-no-adapt .im-hero h2, .light-legacy .gm-no-adapt .im-hero h3 { color: #fff3d6; }
+/* Gramática: botones de nivel con colores pastel (texto < 3,5:1) */
+.jd-au .au-pais { filter: brightness(0.86); }

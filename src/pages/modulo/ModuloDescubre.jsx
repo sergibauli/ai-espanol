@@ -148,12 +148,15 @@ function Gaps({ huecos }) {
   );
 }
 
-export default function ModuloDescubre({ numero, showChinese }) {
-  const [plus, setPlus] = React.useState(undefined);
+// plusClase: contenido extra ya filtrado para la clase actual (lo pasa UnitPage); si no llega, se carga el de toda la unidad
+export default function ModuloDescubre({ numero, showChinese, plus: plusClase }) {
+  const [plusUnidad, setPlusUnidad] = React.useState(undefined);
   React.useEffect(() => {
-    setPlus(undefined);
-    loadModulePlus(numero).then(setPlus);
-  }, [numero]);
+    if (plusClase) return;
+    setPlusUnidad(undefined);
+    loadModulePlus(numero).then(setPlusUnidad);
+  }, [numero, plusClase]);
+  const plus = plusClase || plusUnidad;
 
   if (plus === undefined) return <div className="ui-empty">Cargando… · 加载中…</div>;
   if (!plus) return <div className="ui-empty">Contenido extra próximamente. · 即将推出</div>;

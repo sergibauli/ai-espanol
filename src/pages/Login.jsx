@@ -41,7 +41,7 @@ export default function Login() {
             <i>入</i>
             <i>门</i>
           </span>
-          <Logo tamano={48} />
+          <Logo tono="claro" tamano={48} />
           <img className="tp-acceso-mono" src="./mono/saluda.png" alt="" />
           <h1>
             Bienvenido de nuevo

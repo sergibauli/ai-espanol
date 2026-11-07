@@ -491,11 +491,14 @@ export function LessonPlayer({ lesson, onClose }) {
     const r = addXp(xp, { lessonId: lesson.id, score: accuracy, perfect });
     sfx("win");
     confetti();
-    // ¿Con esta lección se completa la unidad entera? (las 5 lecciones hechas)
-    const unit = String(lesson.id).match(/^m(\d+)-l\d+$/)?.[1];
+    // ¿Con esta lección se completa la clase? (sus 5 lecciones hechas; la clase 1 usa los ids antiguos mN-lI)
+    const partes = String(lesson.id).match(/^m(\d+)(?:-c(\d+))?-l\d+$/);
+    const unit = partes?.[1];
+    const clase = partes?.[2] || "1";
+    const prefijo = clase === "1" ? `m${unit}-l` : `m${unit}-c${clase}-l`;
     const lessons = getGame().lessons || {};
-    const unitDone = Boolean(unit) && [0, 1, 2, 3, 4].every((i) => lessons[`m${unit}-l${i}`]);
-    setResult({ xp, accuracy, perfect, unit, unitDone, seconds: Math.round((Date.now() - startedAt) / 1000), ...r });
+    const unitDone = Boolean(unit) && [0, 1, 2, 3, 4].every((i) => lessons[`${prefijo}${i}`]);
+    setResult({ xp, accuracy, perfect, unit, clase, unitDone, seconds: Math.round((Date.now() - startedAt) / 1000), ...r });
   }, [lesson, mistakes, startedAt]);
 
   const next = () => {
@@ -549,7 +552,7 @@ export function LessonPlayer({ lesson, onClose }) {
         ))}
       </div>
       <h2 className="lp-word" style={{ fontSize: 34 }}>
-        {result.unitDone ? `¡Unidad ${result.unit} completada!` : result.perfect ? "¡Lección perfecta!" : "¡Lección completada!"}
+        {result.unitDone ? `¡Clase ${result.clase} de la unidad ${result.unit} completada! · 第${result.clase}课完成` : result.perfect ? "¡Lección perfecta!" : "¡Lección completada!"}
       </h2>
       <div className="lp-zh-big">{result.unitDone ? "单元完成！获得印章" : result.perfect ? "满分完成！" : "课程完成！"}</div>
       <div className="lp-stats lp-scroll-stats">

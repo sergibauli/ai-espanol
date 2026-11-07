@@ -67,7 +67,7 @@ export default function SignInPage() {
             <i>登</i>
             <i>录</i>
           </span>
-          <Logo tamano={48} />
+          <Logo tono="claro" tamano={48} />
           <h1>
             Iniciar sesión
             <small>登录</small>

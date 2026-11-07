@@ -1,4 +1,5 @@
 import { recordAnswer } from "../../lib/progresoDele.js";
+import TextoDele from "../../components/dele/TextoDele.jsx";
 import {
   XIcon,
   SparklesIcon,
@@ -1119,9 +1120,12 @@ function WComponent({ children, className = "", delay = 0 }) {
     );
     h.observe(wRef_current);
     const g = requestAnimationFrame(() => setM((j) => j));
+    // Red de seguridad: si el observador no avisa (pestaña ya visible), mostrar igualmente
+    const safety = setTimeout(() => setM(true), 700);
     return () => {
       h.disconnect();
       cancelAnimationFrame(g);
+      clearTimeout(safety);
     };
   }, []);
   return (
@@ -2037,7 +2041,8 @@ function WaComponent() {
             </div>
           </OComponent>
           <div
-            className="flex flex-wrap gap-3 mb-8"
+            className="xm-dr-tabs gm-no-adapt flex flex-wrap gap-3 mb-8"
+            role="tablist"
             style={{
               perspective: "1000px",
             }}
@@ -2048,8 +2053,10 @@ function WaComponent() {
               return (
                 <button
                   key={t}
+                  role="tab"
+                  aria-selected={x}
                   onClick={() => setJ(t)}
-                  className="relative flex items-center gap-2.5 px-5 py-3 rounded-2xl text-sm font-bold transition-all duration-300 overflow-hidden"
+                  className={`xm-dr-tab ${x ? "on" : ""} relative flex items-center gap-2.5 px-5 py-3 rounded-2xl text-sm font-bold transition-all duration-300 overflow-hidden`}
                   style={
                     x
                       ? {
@@ -2283,7 +2290,7 @@ function WaComponent() {
               <OComponent glowColor="rgba(59,130,246,0.8)" color="#3b82f6">
                 <div className="p-6 md:p-8">
                   <div
-                    className="relative rounded-2xl p-[2px] overflow-hidden"
+                    className="xm-dr-frame relative rounded-2xl p-[2px] overflow-hidden"
                     style={{
                       animation: "gradientRotate 3s linear infinite",
                       background: "linear-gradient(90deg, #3b82f6, #60a5fa, #818cf8, #3b82f6)",
@@ -2351,14 +2358,9 @@ function WaComponent() {
                           }}
                         />
                       </div>
-                      <p
-                        className="text-white/90 text-xl md:text-2xl leading-[2.2] whitespace-pre-line font-medium"
-                        style={{
-                          textShadow: "0 0 20px rgba(59,130,246,0.2)",
-                        }}
-                      >
-                        <XsComponent text={n.reading.text} speed={20} />
-                      </p>
+                      <div className="xm-dr-text gm-no-adapt">
+                        <TextoDele texto={n.reading.text} variante="lectura" />
+                      </div>
                       <div className="flex items-center justify-center gap-2 mt-6">
                         <div
                           className="h-px w-12"

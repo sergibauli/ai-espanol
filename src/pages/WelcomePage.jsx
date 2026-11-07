@@ -8,9 +8,9 @@ import { LogInIcon, MessageCircleIcon } from "lucide-react";
 
 const HERE = () => `${location.origin}${location.pathname}#/ruta`;
 
-// Cifras del contenido real de la app (80 unidades, 80 modelos DELE, 7 idiomas de ayuda)
+// Cifras del contenido real de la app (90 unidades, 80 modelos DELE, 7 idiomas de ayuda)
 const CIFRAS = [
-  ["80", "unidades", "单元"],
+  ["90", "unidades", "单元"],
   ["80", "modelos DELE", "真题模拟"],
   ["7", "idiomas de ayuda", "辅助语言"],
 ];

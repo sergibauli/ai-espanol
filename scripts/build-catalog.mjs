@@ -10,6 +10,8 @@ const files = [
   ["modulos-21-40.js", "MODULOS_21_40"],
   ["modulos-41-60.js", "MODULOS_41_60"],
   ["modulos-61-80.js", "MODULOS_61_80"],
+  ["modulos-81-85.js", "MODULOS_81_85"],
+  ["modulos-86-90.js", "MODULOS_86_90"],
 ];
 const level = (n) => (n <= 20 ? "A1" : n <= 40 ? "A2" : n <= 50 ? "B1" : "B2");
 const all = [];
