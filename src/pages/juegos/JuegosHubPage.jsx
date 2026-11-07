@@ -15,14 +15,17 @@ import {
   HistoryIcon,
   XIcon,
   ArrowLeftIcon,
+  NetworkIcon,
+  DramaIcon,
+  KeyRoundIcon,
 } from "lucide-react";
 import * as React from "react";
 import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 
-// Los 8 juegos de la app (el resto se retiró para quedarnos solo con los mejores).
+// Los juegos de la app (el resto se retiró para quedarnos solo con los mejores).
 // `gradient` e `icon` los usa también la pestaña de juegos de cada unidad (UnitPage).
-export const READY_GAMES = new Set(["/juegos/kahoot", "/juegos/memory", "/juegos/ruleta", "/juegos/uno", "/juegos/scramble", "/juegos/sopa", "/juegos/ahorcado", "/juegos/apalabrados"]);
+export const READY_GAMES = new Set(["/juegos/kahoot", "/juegos/memory", "/juegos/ruleta", "/juegos/uno", "/juegos/scramble", "/juegos/sopa", "/juegos/ahorcado", "/juegos/apalabrados", "/juegos/mapa-mental", "/juegos/teatro", "/juegos/dragon-jade", "/juegos/escape-palacio"]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
 const TONOS = {
@@ -37,6 +40,7 @@ const CATEGORIAS = [
   { key: "concurso", es: "Concurso", zh: "竞答" },
   { key: "letras", es: "Letras", zh: "字母" },
   { key: "mesa", es: "Mesa y cartas", zh: "棋牌" },
+  { key: "aventura", es: "Aventura", zh: "冒险" },
 ];
 
 const NIVELES = {
@@ -173,6 +177,70 @@ const JUEGOS = [
     minutos: 8,
     jugadores: "1–2",
     path: "/juegos/uno",
+  },
+  {
+    id: "mapa-mental",
+    name: "Mapa mental",
+    nameCn: "思维导图",
+    desc: "Arrastra las palabras de la clase a su rama y únelas con flechas, o crea tu propio mapa y expórtalo.",
+    descCn: "把本课单词拖到对应分支并连线，或创作自己的导图并导出。",
+    icon: NetworkIcon,
+    sello: "图",
+    tono: "jade",
+    category: "aventura",
+    habilidad: { es: "Vocabulario y gramática", zh: "词汇与语法" },
+    nivel: 2,
+    minutos: 8,
+    jugadores: "1",
+    path: "/juegos/mapa-mental",
+  },
+  {
+    id: "teatro",
+    name: "Teatro de diálogos",
+    nameCn: "对话剧场",
+    desc: "Sube el telón: ordena el guion, elige la réplica correcta o dobla a un personaje con tu voz.",
+    descCn: "拉开帷幕：排列台词、选择正确回答，或用你的声音为角色配音。",
+    icon: DramaIcon,
+    sello: "剧",
+    tono: "laca",
+    category: "aventura",
+    habilidad: { es: "Comprensión y expresión oral", zh: "听说" },
+    nivel: 2,
+    minutos: 6,
+    jugadores: "1",
+    path: "/juegos/teatro",
+  },
+  {
+    id: "dragon-jade",
+    name: "Dragón de jade",
+    nameCn: "玉龙",
+    desc: "Guía al dragón por el cielo nocturno y cómete las perlas con la traducción correcta.",
+    descCn: "引导玉龙穿越夜空，吃掉写着正确翻译的珍珠。",
+    icon: SparklesIcon,
+    sello: "龙",
+    tono: "noche",
+    category: "aventura",
+    habilidad: { es: "Vocabulario rápido", zh: "快速词汇" },
+    nivel: 3,
+    minutos: 5,
+    jugadores: "1",
+    path: "/juegos/dragon-jade",
+  },
+  {
+    id: "escape-palacio",
+    name: "Escape del palacio",
+    nameCn: "逃出紫禁城",
+    desc: "Abre las cinco puertas del palacio resolviendo puzles con el contenido de la clase.",
+    descCn: "用本课内容解开谜题，打开紫禁城的五道门。",
+    icon: KeyRoundIcon,
+    sello: "门",
+    tono: "bronce",
+    category: "aventura",
+    habilidad: { es: "Repaso completo", zh: "综合复习" },
+    nivel: 3,
+    minutos: 10,
+    jugadores: "1",
+    path: "/juegos/escape-palacio",
   },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 
