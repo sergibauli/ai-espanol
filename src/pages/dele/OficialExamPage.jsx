@@ -31,6 +31,15 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import TextoDele from "../../components/dele/TextoDele.jsx";
+import { turnosDeAudio, anuncioAudio } from "../../lib/vocesDele.js";
+
+// Índice de MP3 con voces nativas (Piper) generados por scripts/voces-dele.py; se carga solo al abrir un audio
+let indiceVocesDele = null;
+const cargarIndiceVoces = () =>
+  (indiceVocesDele ??= import("../../data/audio-index-dele.json")
+    .then((modulo) => new Set(modulo.default || modulo))
+    .catch(() => new Set()));
+const urlVozDele = (clave) => `${import.meta.env.BASE_URL || "./"}audio/dele/${clave}.mp3`;
 import { useParams, Link } from "react-router";
 import * as jsxRuntime from "react/jsx-runtime";
 import { u as u_1, C as C_2 } from "../../components/CorrectionDisplay.jsx";
@@ -475,9 +484,23 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
   const [k, setK] = React.useState(false);
   const [v, setV] = React.useState(false);
   const TRef = React.useRef(0);
+  const audioActualRef = React.useRef(null);
+  const [vocesNativas, setVocesNativas] = React.useState(null);
+  React.useEffect(() => {
+    let vivo = true;
+    cargarIndiceVoces().then((indice) => vivo && setVocesNativas(indice));
+    return () => {
+      vivo = false;
+    };
+  }, []);
+  const pararAudioNativo = () => {
+    audioActualRef.current?.pause();
+    audioActualRef.current = null;
+  };
   const onClick = React.useCallback(() => {
     TRef.current += 1;
     B()?.cancel();
+    pararAudioNativo();
     setX(false);
     setD(null);
   }, []);
@@ -485,17 +508,20 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
     () => () => {
       TRef.current += 1;
       B()?.cancel();
+      pararAudioNativo();
     },
     [],
   );
   const V = React.useCallback(
     (y) => {
       const A = B();
-      if (!A || typeof window.SpeechSynthesisUtterance !== "function") {
+      const hayNativas = vocesNativas && vocesNativas.size > 0;
+      if (!hayNativas && (!A || typeof window.SpeechSynthesisUtterance !== "function")) {
         alert(t_1("Tu navegador no permite reproducir este audio.", "你的浏览器无法播放此音频。"));
         return;
       }
-      A.cancel();
+      A?.cancel();
+      pararAudioNativo();
       const z = TRef.current + 1;
       TRef.current = z;
       const E = n.slice(y).filter((S) => k_2(S.texto));
@@ -510,8 +536,31 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
         new Promise((resolve) => {
           M.push(window.setTimeout(resolve, S));
         });
+      // MP3 con voz nativa; si no está generado o falla, la voz del navegador
+      const reproducirNativo = (clave) =>
+        new Promise((resolve) => {
+          const audio = new Audio(urlVozDele(clave));
+          audio.playbackRate = Math.min(1.3, Math.max(0.6, velocidad / 0.9));
+          audio.onended = () => resolve(true);
+          audio.onerror = () => resolve(false);
+          audioActualRef.current = audio;
+          audio.play().catch(() => resolve(false));
+        });
+      const decir = async (turno, contexto) => {
+        if (vocesNativas?.has(turno.clave) && (await reproducirNativo(turno.clave))) return;
+        if (TRef.current === z) await J(turno.texto, contexto);
+      };
+      const reproducirSegmento = async (texto) => {
+        const turnos = turnosDeAudio(texto);
+        for (let indice = 0; indice < turnos.length; indice++) {
+          if (TRef.current !== z) return;
+          await decir(turnos[indice], texto);
+          if (indice < turnos.length - 1 && TRef.current === z) await K(350);
+        }
+      };
       const J = (S, G) =>
         new Promise((resolve) => {
+          if (!A || typeof window.SpeechSynthesisUtterance !== "function") return resolve();
           const q = new window.SpeechSynthesisUtterance(S);
           const D = As(G);
           if (D) {
@@ -537,7 +586,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
           const G = y + S;
           setD(G);
           const p = E[S].etiqueta || `Audio ${S + 1}`;
-          await J(de(p, S + 1), p);
+          await decir(anuncioAudio(de(p, S + 1)), p);
           if (TRef.current !== z) {
             M.forEach(clearTimeout);
             return;
@@ -547,7 +596,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
             M.forEach(clearTimeout);
             return;
           }
-          await J(k_2(E[S].texto), E[S].texto);
+          await reproducirSegmento(E[S].texto);
           if (S < E.length - 1) {
             if (TRef.current !== z) {
               M.forEach(clearTimeout);
@@ -563,7 +612,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
         }
       })();
     },
-    [n, velocidad, t_1],
+    [n, velocidad, t_1, vocesNativas],
   );
   const U = React.useMemo(() => k_2(guion), [guion]);
   return (
