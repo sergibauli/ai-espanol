@@ -1,4 +1,5 @@
 import { ALL_MODULES } from "../data/modulos/index.js";
+import { contenidoJuego, parametrosJuego } from "./contenidoJuego.js";
 export function g() {
   return ALL_MODULES.map((o) => ({
     id: o.id,
@@ -20,7 +21,10 @@ export function b(o) {
   if (!t || !t.vocabulario) {
     return [];
   }
-  return t.vocabulario
+  // Si el juego se abrió desde una clase (?m=N&clase=K), solo las palabras de esa clase
+  const { numero, clase } = parametrosJuego();
+  const fuente = clase && numero === t.numero ? contenidoJuego(numero, clase)?.vocabulario || t.vocabulario : t.vocabulario;
+  return fuente
     .map((n) => ({
       espanol: n.espanol,
       chino: n.chino,
