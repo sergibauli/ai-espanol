@@ -30,6 +30,7 @@ import {
   UserCheckIcon,
 } from "lucide-react";
 import * as React from "react";
+import TextoDele from "../../components/dele/TextoDele.jsx";
 import { useParams, Link } from "react-router";
 import * as jsxRuntime from "react/jsx-runtime";
 import { u as u_1, C as C_2 } from "../../components/CorrectionDisplay.jsx";
@@ -729,7 +730,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
             border: "1px solid rgba(255,255,255,.07)",
           }}
         >
-          <p className="text-white/60 text-[12.5px] leading-relaxed whitespace-pre-line">{U}</p>
+          <TextoDele texto={guion} variante="guion" />
         </div>
       )}
       <p className="mt-2.5 text-[10.5px] text-white/25">
@@ -1223,9 +1224,7 @@ function PsComponent({ tarea }) {
               {tarea.tituloTexto}
             </div>
           )}
-          <p className="text-white/80 text-[15.5px] sm:text-[14px] leading-[1.9] whitespace-pre-line">
-            {tarea.texto}
-          </p>
+          <TextoDele texto={tarea.texto} variante="lectura" />
           <div
             className="flex flex-wrap items-center gap-3 mt-3 pt-2.5"
             style={{
@@ -1265,12 +1264,7 @@ function PsComponent({ tarea }) {
                 </span>
                 {s.titulo && <span className="text-white/80 font-bold text-[12.5px]">{s.titulo}</span>}
               </div>
-              <p
-                data-bloque={s.letra}
-                className="text-white/65 text-[14px] sm:text-[12.5px] leading-relaxed whitespace-pre-line"
-              >
-                {s.texto}
-              </p>
+              <TextoDele texto={s.texto} variante="compacto" data-bloque={s.letra} />
             </div>
           ))}
         </div>
@@ -1340,7 +1334,7 @@ function PsComponent({ tarea }) {
                 >
                   {s.letra}
                 </span>
-                <span className="leading-relaxed">{s.texto}</span>
+                <TextoDele texto={s.texto} variante="compacto" className="flex-1" />
               </div>
             ))}
           </div>
@@ -1362,7 +1356,7 @@ function PsComponent({ tarea }) {
                   {s.titulo || s.tituloTexto}
                 </div>
               )}
-              <p className="text-white/55 text-[12px] leading-relaxed whitespace-pre-line">{s.texto}</p>
+              <TextoDele texto={s.texto} variante="compacto" />
               {s.palabras ? (
                 <div className="text-[10px] text-white/25 mt-1.5">
                   {s.palabras} {t_1("palabras", "词")}
@@ -1964,7 +1958,7 @@ function IaComponent() {
                           >
                             {o.letra}
                           </span>
-                          <span className="text-white/55 text-[12px] whitespace-pre-line">{o.texto}</span>
+                          <TextoDele texto={o.texto} variante="compacto" className="mt-1" />
                         </div>
                       ))}
                     </div>
@@ -2124,9 +2118,7 @@ function IaComponent() {
                           {a_material.palabras ? ` · ${a_material.palabras} ${t_1("palabras", "词")}` : ""}
                         </div>
                         {a_material.contenido && (
-                          <p className="text-white/70 text-[13px] leading-[1.75] whitespace-pre-line">
-                            {a_material.contenido}
-                          </p>
+                          <TextoDele texto={a_material.contenido} variante={a_material.tipo === "audio" ? "guion" : "compacto"} />
                         )}
                         {a_material.guionAudio && (
                           <div className="mt-3">
@@ -2236,9 +2228,7 @@ function IaComponent() {
                         icono={GraduationCapIcon}
                         color={c}
                       >
-                        <p className="text-white/70 text-[13px] leading-[1.8] whitespace-pre-line">
-                          {a.modeloRespuesta}
-                        </p>
+                        <TextoDele texto={a.modeloRespuesta} variante="compacto" />
                       </YComponent>
                     )}
                   </div>
@@ -2374,9 +2364,7 @@ function IaComponent() {
                         icono={ClipboardListIcon}
                         color={p.glow}
                       >
-                        <p className="text-white/60 text-[12.5px] leading-relaxed whitespace-pre-line">
-                          {a.cuadernilloCandidato}
-                        </p>
+                        <TextoDele texto={a.cuadernilloCandidato} variante="compacto" />
                       </YComponent>
                     )}
                     {(a.puntosGuia || []).length > 0 && (
@@ -2482,9 +2470,7 @@ function IaComponent() {
                         icono={GraduationCapIcon}
                         color={c}
                       >
-                        <p className="text-white/70 text-[13px] leading-[1.8] whitespace-pre-line">
-                          {a.ejemploEsperado}
-                        </p>
+                        <TextoDele texto={a.ejemploEsperado} variante="compacto" />
                       </YComponent>
                     )}
                   </div>

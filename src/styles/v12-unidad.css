@@ -1,1 +1,287 @@
 /* ===== v12 · Diseño espectacular · unidad (propiedad de un único subagente; se carga tras espectacular.css) */
+/* Dentro de la unidad (UnitPage: guía, lecciones, historia, diálogos, ejercicios, producción, juegos, palabras),
+   reproductores de lección e historia (LessonPlayer / StoryPlayer), «Lectura y cultura» (ModuloDescubre)
+   y la lista de unidades (UnidadesPage). Clases propias con prefijo un-; no toca nada con prefijo cl-. */
+
+:root {
+  --un-rojo: #c8102e; --un-rojo-o: #8f0c21; --un-rojo-n: #5e0614;
+  --un-oro: #f2c14e; --un-oro-o: #c8961e; --un-oro-c: #fff3cf;
+  --un-tinta: #3b2416; --un-tinta-2: #573a20; --un-tinta-3: #6e4f2f;
+  --un-papel: #fdf6e3; --un-papel-2: #f4e6c4; --un-jade: #1d6339; --un-jade-c: #e3f4ea;
+  --un-filete: 0 0 0 1px #8a5a1e, inset 0 0 0 3px #fffaf0, inset 0 0 0 4px rgba(200,150,30,.55);
+}
+
+/* ---------- Cabeceras de sección: banda de laca con filete de oro (legible hasta el final) ---------- */
+html body .light-page .unit-page .unit-h2 {
+  flex-wrap: wrap; row-gap: 2px; align-items: center !important; margin: 40px 0 16px !important; padding: 10px 22px 10px 24px !important;
+  border-radius: 6px 99px 99px 6px !important; color: #fff3d6 !important; font-size: clamp(20px, 2.2vw, 25px) !important;
+  background: linear-gradient(90deg, #a90f27, #8f0c21 55%, #6e0717 88%, rgba(110,7,23,.0)) !important;
+  box-shadow: inset 0 2px 0 rgba(255,220,150,.25), inset 0 -2px 0 rgba(0,0,0,.18); text-shadow: 0 1px 0 rgba(0,0,0,.35);
+}
+html body .light-page .unit-page .unit-h2::before { width: 6px !important; top: 0 !important; bottom: 0 !important; border-radius: 3px 0 0 3px !important; background: linear-gradient(#fff3cf, #f2c14e 50%, #c8961e) !important; }
+html body .light-page .unit-page .unit-h2::after { min-width: 40px; height: 2px !important; background: linear-gradient(90deg, #f2c14e, rgba(242,193,78,.25) 70%, transparent) !important; box-shadow: 0 4px 0 -1px rgba(242,193,78,.35); }
+html body .light-page .unit-page .unit-h2 small { font: 700 13px/1.35 var(--ui-font) !important; color: #ffe7a6 !important; letter-spacing: .01em; }
+@media (max-width: 640px) {
+  html body .light-page .unit-page .unit-h2 { border-radius: 6px 22px 22px 6px !important; padding: 10px 16px 10px 20px !important; background: linear-gradient(90deg, #a90f27, #8f0c21 70%, #7a0a1c) !important; }
+  html body .light-page .unit-page .unit-h2 small { flex-basis: 100%; order: 3; }
+  html body .light-page .unit-page .unit-h2::after { display: none; }
+}
+
+/* ---------- Barra de pestañas (sticky): laca con filete dorado, objetivos de 44 px y desvanecido lateral ---------- */
+html body .light-page .unit-page .unit-jump.unit-jump--v11 {
+  padding: 6px !important; gap: 6px; scroll-snap-type: x proximity; scroll-padding: 0 12px;
+  box-shadow: 0 0 0 1.5px #f2c14e, 0 0 0 4px #5e0614, 0 0 0 5px rgba(242,193,78,.55), 0 10px 24px rgba(40,10,0,.35) !important;
+}
+html body .light-page .unit-page .unit-jump.unit-jump--v11 button { min-height: 40px; scroll-snap-align: start; font-size: 14px; letter-spacing: .01em; }
+html body .light-page .unit-page .unit-jump.unit-jump--v11 button:focus-visible { outline: 3px solid #f2c14e; outline-offset: 2px; }
+@media (max-width: 700px) {
+  html body .light-page .unit-page .unit-jump.unit-jump--v11 { -webkit-mask: linear-gradient(90deg, #000 88%, transparent); mask: linear-gradient(90deg, #000 88%, transparent); border-radius: 22px; }
+  html body .light-page .unit-page .unit-jump.unit-jump--v11 button { min-height: 44px; padding: 8px 14px; }
+}
+
+/* =====================================================================
+   GUÍA (GuideScroll): índice arriba, pergamino legible, fichas de conceptos
+   ===================================================================== */
+html body .light-page .unit-page .gd { display: flex; flex-direction: column; margin: 26px 0 34px; padding: 0; }
+.unit-page .gd > .gd-ribbon { order: -3; }
+.unit-page .gd > .gd-list { order: -2; }
+
+/* Cinta «Guía rápida»: laca roja con colas de golondrina */
+html body .light-page .unit-page .gd-ribbon {
+  position: relative; margin: 0 auto 18px; padding: 10px 40px; border-radius: 3px; border: 0;
+  font: 900 18px var(--ui-display); letter-spacing: .02em; color: #fff3d6; text-shadow: 0 1px 0 rgba(0,0,0,.4);
+  background: linear-gradient(#d42a3d, #a90f27 55%, #7d0a1d);
+  box-shadow: 0 0 0 2px #f2c14e, 0 0 0 4px #5e0614, 0 0 0 5px #f2c14e, 0 8px 18px rgba(80,10,10,.35);
+}
+html body .light-page .unit-page .gd-ribbon::before, html body .light-page .unit-page .gd-ribbon::after {
+  content: ""; position: absolute; top: 8px; bottom: -8px; width: 34px; z-index: -1; background: linear-gradient(#8f0c21, #5e0614);
+}
+html body .light-page .unit-page .gd-ribbon::before { left: -26px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%); }
+html body .light-page .unit-page .gd-ribbon::after { right: -26px; clip-path: polygon(0 0, 100% 0, 66% 50%, 100% 100%, 0 100%); }
+
+/* Sello «Visto» */
+html body .light-page .unit-page .gd-visto {
+  top: 0; right: 0; min-width: 64px; min-height: 44px; padding: 6px 12px; z-index: 2;
+  font: 800 16px "STKaiti", "KaiTi", Georgia, serif; color: #b3122e; background: rgba(255,250,240,.6);
+  border: 3px double #b3122e; border-radius: 6px; opacity: .6; transition: opacity .2s, transform .25s cubic-bezier(.3,1.6,.5,1);
+}
+html body .light-page .unit-page .gd-visto::after { content: " · 已读"; }
+html body .light-page .unit-page .gd-visto:hover { opacity: .9; }
+html body .light-page .unit-page .gd-visto.on { opacity: 1; color: #fff3d6; background: #b3122e; border-color: #f2c14e; transform: rotate(8deg) scale(1.06); box-shadow: 0 4px 10px rgba(120,10,20,.35); }
+
+/* Índice de apartados: fichas numeradas en horizontal */
+html body .light-page .unit-page .gd-list {
+  display: flex; flex-direction: row; gap: 10px; margin: 0 0 22px; padding: 4px 2px 10px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: #c8961e transparent;
+}
+html body .light-page .unit-page .gd-row {
+  position: relative; flex: 1 0 200px; max-width: 300px; min-height: 56px; scroll-snap-align: start; align-items: center; gap: 10px; padding: 10px 12px;
+  color: var(--un-tinta); background: linear-gradient(#fffdf6, #f6ead0); border: 1.5px solid #e2c98e; border-radius: 12px; box-shadow: 0 3px 0 #d9bd7f, 0 6px 12px rgba(110,80,30,.12);
+  transition: transform .15s, box-shadow .2s, border-color .2s;
+}
+html body .light-page .unit-page .gd-row:hover { transform: translateY(-2px); border-color: #c8961e; }
+html body .light-page .unit-page .gd-row b { font-size: 14px; line-height: 1.3; font-weight: 800; }
+html body .light-page .unit-page .gd-row > svg { display: none; }
+html body .light-page .unit-page .gd-row.on { color: #fff6dc; background: linear-gradient(#c21a32, #8f0c21); border-color: #f2c14e; box-shadow: 0 0 0 1px #5e0614, 0 3px 0 #5e0614, 0 0 18px rgba(242,193,78,.45); }
+html body .light-page .unit-page .gd-row.on small { color: #ffe7a6 !important; }
+html body .light-page .unit-page .gd-tick { width: 32px; height: 32px; border-radius: 50%; font: 900 15px var(--ui-display); color: #8f0c21; background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 60%, #c8961e); box-shadow: 0 0 0 1.5px #8a5a1e; }
+html body .light-page .unit-page .gd-tick.on { color: #fff; background: radial-gradient(circle at 35% 30%, #5fc488, #2f8f52 60%, #1d6339); box-shadow: 0 0 0 1.5px #f2c14e; }
+html body .light-page .unit-page .gd-row.on .gd-tick:not(.on) { color: #8f0c21; }
+
+/* Título del apartado */
+html body .light-page .unit-page .gd-head { margin: 0 0 18px; padding: 2px 130px 2px 16px; border-left: 5px solid #c8102e; }
+html body .light-page .unit-page .gd-head h3 { font: 900 clamp(22px, 2.6vw, 30px)/1.2 var(--ui-display); color: var(--un-tinta); }
+html body .light-page .unit-page .gd-head p { font: 700 16px var(--im-font-zh, inherit); color: #8a5a12; }
+
+/* Pergamino: más claro, columna de lectura cómoda */
+html body .light-page .unit-page .gd-scroll {
+  padding: 30px 32px 28px; background: linear-gradient(rgba(255,252,243,.86), rgba(255,250,236,.86)), url("../../public/theme/papel.jpg") center / cover;
+  border: 1.5px solid #d9b465; box-shadow: inset 0 0 0 4px rgba(255,252,243,.9), inset 0 0 0 5px rgba(200,150,30,.45), 0 12px 26px rgba(90,60,20,.18);
+}
+html body .light-page .unit-page .gd-body { gap: 30px; }
+html body .light-page .unit-page .gd-text { max-width: 72ch; color: #2e1c0f; }
+html body .light-page .unit-page .gd-intro { font-size: 16.5px; line-height: 1.75; color: #2e1c0f; margin: 0 0 14px; }
+html body .light-page .unit-page .gd-text > p.gd-intro:first-of-type { font-size: 17.5px; color: #24160b; }
+html body .light-page .unit-page .gd-text > p.gd-intro:first-of-type::first-letter {
+  float: left; margin: 4px 10px 0 0; padding: 6px 9px 4px; font: 900 30px/1 var(--ui-display); color: #fff3d6;
+  background: linear-gradient(#c21a32, #8f0c21); border-radius: 6px; box-shadow: 0 0 0 1.5px #f2c14e, 0 0 0 3px #8f0c21;
+}
+html body .light-page .unit-page .gd-h {
+  display: flex; align-items: center; gap: 10px; margin: 22px 0 12px; padding: 0; border: 0; background: none;
+  font: 900 17px/1.3 var(--ui-display); letter-spacing: .01em; text-transform: none; color: #8f0c21;
+}
+html body .light-page .unit-page .gd-h::before { content: ""; flex-shrink: 0; width: 12px; height: 12px; transform: rotate(45deg); background: linear-gradient(135deg, #f2c14e, #c8961e); box-shadow: 0 0 0 2px #8f0c21; }
+html body .light-page .unit-page .gd-h::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(200,150,30,.6), transparent); }
+
+/* Puntos → fichas (término en laca, definición en tinta) */
+html body .light-page .unit-page .gd-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 10px; margin: 4px 0 16px; }
+html body .light-page .unit-page .gd-point {
+  margin: 0; padding: 11px 14px 12px; border: 1px solid #e6cf98; border-left: 4px solid #c8961e; border-radius: 4px 10px 10px 4px;
+  background: linear-gradient(180deg, rgba(255,253,246,.95), rgba(250,241,219,.95)); box-shadow: 0 2px 6px rgba(110,80,30,.08);
+  transition: border-color .2s, transform .15s;
+}
+html body .light-page .unit-page .gd-point:hover { border-left-color: #c8102e; transform: translateY(-1px); }
+html body .light-page .unit-page .gd-items .gd-point:last-child { border-bottom: 1px solid #e6cf98; }
+html body .light-page .unit-page .gd-point b { font: 800 16px/1.35 var(--ui-font); color: #8f0c21; text-transform: none; letter-spacing: 0; }
+html body .light-page .unit-page .gd-point span { margin-top: 3px; font-size: 15px; line-height: 1.55; color: #3f2a17; }
+
+/* Tablas */
+html body .light-page .unit-page .gd-table { margin: 8px 0 18px; border-radius: 10px; box-shadow: 0 0 0 1.5px #d9b465, 0 6px 14px rgba(110,80,30,.12); }
+html body .light-page .unit-page .gd-table table { font-size: 15px; background: #fffdf6; border-collapse: separate; border-spacing: 0; }
+html body .light-page .unit-page .gd-table th, html body .light-page .unit-page .gd-table td { padding: 9px 12px; border: 0; border-bottom: 1px solid #ecdcb6; color: #2e1c0f; }
+html body .light-page .unit-page .gd-table tr:first-child th { color: #fff3d6; background: linear-gradient(#b3122e, #8f0c21); font-weight: 800; }
+html body .light-page .unit-page .gd-table tr:nth-child(even) td { background: #fbf3df; }
+html body .light-page .unit-page .gd-table td:first-child { font-weight: 800; color: #6e0717; }
+
+/* Placas «Escucha» */
+html body .light-page .unit-page .gd-plaque { min-height: 48px; font-size: 15px; color: #6b3f10; transition: transform .15s, box-shadow .2s; }
+html body .light-page .unit-page .gd-plaques-tag { padding: 3px 12px; font-size: 12px; color: #fff3d6; background: linear-gradient(#c21a32, #8f0c21); box-shadow: 0 0 0 1.5px #f2c14e; }
+
+/* Notas: tres fichas con sello (nota · error · consejo) */
+html body .light-page .unit-page .gd-notes { gap: 16px; margin-top: 22px; }
+html body .light-page .unit-page :is(.gd-note, .gd-error) {
+  position: relative; padding: 16px 18px 14px 20px; border-radius: 6px 14px 14px 6px; font-size: 15.5px; line-height: 1.65; color: #2e1c0f;
+}
+html body .light-page .unit-page .gd-note { background: linear-gradient(#fffaf0, #fbefcf); border: 1.5px solid #e1bf6a; border-left: 6px solid #c8961e; box-shadow: 0 6px 14px rgba(110,80,30,.12); }
+html body .light-page .unit-page .gd-error { background: linear-gradient(#fff6f4, #fbe3df); border: 1.5px solid #e7a8a2; border-left: 6px solid #c8102e; box-shadow: 0 6px 14px rgba(140,20,30,.1); }
+html body .light-page .unit-page :is(.gd-note, .gd-error) b { margin-bottom: 8px; font: 900 15px var(--ui-display); letter-spacing: .01em; color: #6e4210; }
+html body .light-page .unit-page .gd-error b { color: #9b0d24; }
+html body .light-page .unit-page :is(.gd-note, .gd-error) p { margin: 0 0 8px; }
+html body .light-page .unit-page :is(.gd-note, .gd-error) p:last-child { margin-bottom: 0; }
+
+/* Ejemplos con voz */
+html body .light-page .unit-page .gd-examples { gap: 12px; margin-top: 22px; }
+html body .light-page .unit-page .gd-ex {
+  min-height: 56px; gap: 12px; padding: 12px 16px; border-radius: 12px; color: #2e1c0f;
+  background: linear-gradient(#fffdf6, #f5e9cd); border: 1.5px solid #d9b465; box-shadow: inset 0 0 0 3px #fffdf6, inset 0 0 0 4px rgba(214,180,110,.5), 0 4px 10px rgba(110,80,30,.12);
+  transition: transform .15s, box-shadow .2s;
+}
+html body .light-page .unit-page .gd-ex:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 3px #fffdf6, inset 0 0 0 4px rgba(214,180,110,.6), 0 0 0 2px rgba(242,193,78,.55), 0 8px 16px rgba(110,80,30,.18); }
+html body .light-page .unit-page .gd-ex svg { box-sizing: content-box; padding: 8px; border-radius: 50%; color: #8f0c21; background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 60%, #c8961e); box-shadow: 0 0 0 1.5px #8a5a1e; }
+html body .light-page .unit-page .gd-ex b { font: 700 16px/1.4 var(--ui-font); color: #2e1c0f; }
+html body .light-page .unit-page .gd-ex small { color: #6e4f2f; }
+
+@media (max-width: 760px) {
+  html body .light-page .unit-page .gd-head { padding-right: 0; padding-left: 12px; }
+  html body .light-page .unit-page .gd-head .ojo-zh { position: static; margin-top: 10px; }
+  html body .light-page .unit-page .gd-scroll { padding: 20px 16px 18px 20px; }
+  html body .light-page .unit-page .gd-intro { font-size: 16px; }
+  html body .light-page .unit-page .gd-row { flex-basis: 76%; }
+  html body .light-page .unit-page .gd-visto { top: -4px; }
+  html body .light-page .unit-page .gd-ribbon { font-size: 16px; padding: 9px 26px; margin-right: auto; margin-left: 30px; }
+}
+
+/* =====================================================================
+   LECCIONES · HISTORIA · DIÁLOGOS
+   ===================================================================== */
+html body .light-page .unit-page .unit-lessons { counter-reset: un-lec; gap: 14px; }
+html body .light-page .unit-page .unit-lessons .unit-lesson { position: relative; counter-increment: un-lec; min-height: 168px; }
+html body .light-page .unit-page .unit-lessons .unit-lesson::after {
+  content: counter(un-lec); position: absolute; top: 8px; left: 10px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+  font: 900 12px var(--ui-display); color: #5e0614; background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 60%, #c8961e); box-shadow: 0 0 0 1.5px #5e0614;
+}
+/* Bloqueadas: atenuadas pero legibles (AA) */
+html body .light-page .unit-page .unit-lessons .unit-lesson.locked { filter: saturate(.35) brightness(.78) !important; }
+html body .light-page .unit-page .unit-lessons .unit-lesson.locked :is(b, small, em) { color: #f3ece0 !important; }
+html body .light-page .unit-page .unit-lessons .unit-lesson.current::before {
+  content: ""; position: absolute; inset: -6px; border-radius: 18px; pointer-events: none; border: 2px solid rgba(242,193,78,.85); animation: unLatido 2.2s ease-out infinite;
+}
+@keyframes unLatido { 0% { opacity: .9; transform: scale(.98); } 100% { opacity: 0; transform: scale(1.06); } }
+html body .light-page .unit-page .unit-lessons .unit-lesson b { font-size: 16px !important; }
+
+/* Historia */
+html body .light-page .unit-page .unit-story { position: relative; overflow: hidden; box-shadow: 0 0 0 1px #5e0614, inset 0 0 0 4px rgba(242,193,78,.35), 0 14px 30px rgba(110,10,20,.3) !important; }
+html body .light-page .unit-page .unit-story::after { content: ""; position: absolute; right: 92px; bottom: -10px; width: 120px; height: 140px; pointer-events: none; opacity: .95;
+  background: url("../../public/mono/saluda.png") center bottom / contain no-repeat; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)); }
+html body .light-page .unit-page .unit-story .unit-play { position: relative; z-index: 1; min-width: 64px; min-height: 64px; }
+@media (max-width: 760px) { html body .light-page .unit-page .unit-story::after { display: none; } }
+
+/* Diálogos: escenas de jade, título con aire */
+html body .light-page .unit-page .unit-dialogs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)) !important; gap: 14px; }
+html body .light-page .unit-page .unit-dialogs .unit-dialog { position: relative; min-height: 96px; padding: 14px 16px 14px 14px !important; gap: 14px;
+  box-shadow: 0 0 0 1px #0f3f3a, inset 0 0 0 3px rgba(242,193,78,.45), 0 10px 22px rgba(15,60,55,.28) !important; }
+html body .light-page .unit-page .unit-dialogs .unit-dialog b { font-size: 16.5px !important; line-height: 1.3; text-wrap: balance; }
+html body .light-page .unit-page .unit-dialogs .unit-dialog small { display: block; margin-top: 4px; font-size: 13.5px; color: #e2f6ef !important; }
+html body .light-page .unit-page .unit-dialog-faces { flex-shrink: 0; }
+html body .light-page .unit-page .unit-dialogs .unit-dialog > svg { flex-shrink: 0; box-sizing: content-box; padding: 10px; border-radius: 50%; color: #8f0c21 !important;
+  background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 60%, #c8961e); box-shadow: 0 0 0 1.5px #5e0614, 0 0 12px rgba(242,193,78,.6); }
+html body .light-page .unit-page .unit-dialogs .unit-dialog:focus-visible { outline: 3px solid #f2c14e; outline-offset: 3px; }
+
+/* =====================================================================
+   EJERCICIOS · PRODUCCIÓN · JUEGOS · PALABRAS · PRACTICA MÁS
+   ===================================================================== */
+html body .light-page .unit-page .unit-practice { padding: 20px !important; border-radius: 16px !important;
+  background: linear-gradient(rgba(255,252,243,.82), rgba(250,240,214,.82)), url("../../public/theme/papel.jpg") center / cover !important;
+  border: 1.5px solid #d9b465 !important; box-shadow: var(--un-filete), 0 12px 26px rgba(90,60,20,.16) !important; }
+html body .light-page .unit-page .unit-practice-types { gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+html body .light-page .unit-page .unit-ptype {
+  position: relative; min-height: 60px; padding: 10px 40px 10px 12px !important; border-radius: 12px !important; opacity: .72;
+  color: var(--un-tinta) !important; background: linear-gradient(#fffdf6, #f3e6c6) !important; border: 1.5px solid #d9c08a !important; border-bottom-width: 4px !important;
+  transition: opacity .2s, transform .15s, box-shadow .2s;
+}
+html body .light-page .unit-page .unit-ptype span { font-size: 15.5px; line-height: 1.25; }
+html body .light-page .unit-page .unit-ptype small { color: #6b4a2b !important; font-size: 12.5px !important; }
+html body .light-page .unit-page .unit-ptype::after {
+  content: ""; position: absolute; right: 10px; top: 50%; width: 22px; height: 22px; translate: 0 -50%; border-radius: 6px; border: 2px solid #c8a868; background: #fffaf0;
+}
+html body .light-page .unit-page .unit-ptype.on { opacity: 1; border-color: #c8961e !important; background: linear-gradient(#fffaea, #f8e3a8) !important; box-shadow: 0 0 0 2px rgba(242,193,78,.5), 0 6px 14px rgba(140,100,20,.18) !important; }
+html body .light-page .unit-page .unit-ptype.on::after { border-color: #8f0c21; background: #c8102e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff3d6' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L19 7'/%3E%3C/svg%3E") center / 15px no-repeat; box-shadow: 0 0 0 1.5px #f2c14e; }
+html body .light-page .unit-page .unit-ptype:hover { transform: translateY(-2px); }
+html body .light-page .unit-page .unit-practice-go { min-height: 56px; margin-top: 10px; border-radius: 14px !important; font-size: 17px; letter-spacing: .02em; }
+/* «Practicar ahora»: jade imperial en lugar del verde lima */
+html body .light-page .unit-page .unit-practice-go:not(.unit-reto) { color: #fff6dc !important; background: linear-gradient(#3d9a6a, #2a7a4f 55%, #1d6339) !important; border: 2px solid #f2c14e !important; box-shadow: 0 0 0 1.5px #0f3f2a, 0 5px 0 #0f3f2a, 0 0 18px rgba(242,193,78,.35) !important; text-shadow: 0 1px 0 rgba(0,0,0,.3); }
+html body .light-page .unit-page .unit-practice-go.unit-reto { color: #fff3d6 !important; background: linear-gradient(#d42a3d, #a90f27 55%, #7d0a1d) !important; border: 2px solid #f2c14e !important; box-shadow: 0 0 0 1.5px #5e0614, 0 5px 0 #4a0410, 0 0 18px rgba(242,193,78,.35) !important; }
+html body .light-page .unit-page .unit-practice-go:disabled { opacity: .6; }
+
+/* Producción */
+html body .light-page .unit-page .unit-prod { gap: 18px; }
+html body .light-page .unit-page .unit-prod-task { padding: 20px 22px; border-radius: 14px; border-color: #d9b465; }
+html body .light-page .unit-page .unit-prod-task > p { font-size: 15.5px; line-height: 1.6; color: #2e1c0f; }
+html body .light-page .unit-page .unit-prod-task ul { list-style: none; margin: 10px 0 14px; padding: 0; display: grid; gap: 6px; }
+html body .light-page .unit-page .unit-prod-task li { position: relative; padding: 6px 10px 6px 30px; border-radius: 8px; font-size: 14.5px; color: #3f2a17; background: rgba(242,193,78,.14); }
+html body .light-page .unit-page .unit-prod-task li::before { content: "✎"; position: absolute; left: 9px; top: 5px; color: #8f0c21; font-weight: 900; }
+html body .light-page .unit-page .unit-prod-task textarea { min-height: 150px; background: #fffdf6 repeating-linear-gradient(transparent 0 31px, rgba(200,150,30,.18) 31px 32px); line-height: 32px; padding-top: 6px; }
+html body .light-page .unit-page .unit-prod-task textarea:focus { outline: none; border-color: #c8102e; box-shadow: 0 0 0 3px rgba(200,16,46,.18); }
+html body .light-page .unit-page .unit-prod-foot span.ok { color: #1d6b37; }
+html body .light-page .unit-page .unit-prod-foot span.fuera { color: #a10e26; }
+html body .light-page .unit-page .unit-prod-task.oral { justify-content: flex-start; padding-top: 26px; }
+html body .light-page .unit-page .unit-prod-task.oral p { color: #2e1c0f; }
+html body .light-page .unit-page .unit-prod-task .oe-link { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+
+/* Juegos */
+html body .light-page .unit-page .unit-games { gap: 12px; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); }
+html body .light-page .unit-page .unit-game { min-height: 120px; border-radius: 14px !important; transition: transform .15s, box-shadow .2s; }
+html body .light-page .unit-page .unit-game:not(.gm-locked):hover { transform: translateY(-3px); box-shadow: 0 0 0 2px #f2c14e, 0 10px 20px rgba(110,80,30,.2) !important; }
+html body .light-page .unit-page .unit-game-icon { box-shadow: 0 0 0 2px #fff8e4, 0 0 0 3.5px #c8961e, 0 4px 8px rgba(0,0,0,.18); }
+html body .light-page .unit-page .unit-game b { color: #2e1c0f; }
+
+/* Palabras: tablillas de pergamino con sello, reverso de laca */
+html body .light-page .unit-page .unit-words { gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); }
+html body .light-page .unit-page .unit-word { height: 112px; }
+html body .light-page .unit-page .unit-word .front, html body .light-page .unit-page .unit-word .back { border-radius: 12px; padding: 10px; }
+html body .light-page .unit-page .unit-word .front {
+  color: #2e1c0f; border: 1.5px solid #d9b465; background: linear-gradient(rgba(255,252,243,.9), rgba(246,234,206,.9)), url("../../public/theme/papel.jpg") center / cover;
+  box-shadow: inset 0 0 0 3px #fffaf0, inset 0 0 0 4px rgba(200,150,30,.4), 0 4px 0 #d2b273, 0 8px 14px rgba(110,80,30,.14);
+}
+html body .light-page .unit-page .unit-word .front::before { content: "词"; position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 4px;
+  font: 700 12px "STKaiti", "KaiTi", serif; color: #fff3d6; background: #c8102e; opacity: .85; }
+html body .light-page .unit-page .unit-word .front b { font: 800 18px/1.25 var(--ui-font); text-align: center; text-wrap: balance; }
+html body .light-page .unit-page .unit-word .front svg { box-sizing: content-box; padding: 6px; border-radius: 50%; color: #8f0c21; background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 60%, #c8961e); box-shadow: 0 0 0 1px #8a5a1e; }
+html body .light-page .unit-page .unit-word .back { color: #fff3d6; background: radial-gradient(120% 90% at 30% 0%, rgba(242,193,78,.25), transparent 60%), linear-gradient(160deg, #b3122e, #7d0a1d); border: 2px solid #f2c14e; box-shadow: 0 0 0 1px #5e0614, 0 8px 16px rgba(110,10,20,.3); }
+html body .light-page .unit-page .unit-word .back b { font: 700 22px "STKaiti", "KaiTi", var(--im-font-zh, serif); }
+html body .light-page .unit-page .unit-word .back small { font-size: 12.5px; line-height: 1.35; color: #ffe9c2; opacity: 1; text-align: center; }
+html body .light-page .unit-page .unit-word:hover .front { box-shadow: inset 0 0 0 3px #fffaf0, inset 0 0 0 4px rgba(200,150,30,.5), 0 0 0 2px rgba(242,193,78,.55), 0 4px 0 #d2b273, 0 10px 18px rgba(110,80,30,.2); }
+html body .light-page .unit-page .unit-word:focus-visible { outline: 3px solid #c8102e; outline-offset: 3px; border-radius: 12px; }
+
+/* Practica más */
+html body .light-page .unit-page .unit-more { grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 14px; }
+html body .light-page .unit-page .unit-more-card { min-height: 130px; border-radius: 14px !important; justify-content: center; transition: transform .15s, box-shadow .2s; }
+html body .light-page .unit-page .unit-more-card b { font-size: 16px; color: #2e1c0f; }
+html body .light-page .unit-page .unit-more-card:hover { transform: translateY(-3px); }
+html body .light-page .unit-page .unit-more-card.on { border-color: #c8102e !important; box-shadow: 0 0 0 2px #f2c14e, 0 0 0 4px #c8102e, 0 10px 22px rgba(110,10,20,.2) !important; }
+html body .light-page .unit-page .unit-extra { margin-top: 20px; }
+html body .light-page .unit-page .unit-nav-btn { min-height: 48px; display: inline-flex; align-items: center; color: #3b2416 !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html body .light-page .unit-page .unit-lessons .unit-lesson.current::before { animation: none; opacity: .8; }
+  html body .light-page .unit-page :is(.gd-row, .gd-point, .gd-ex, .unit-ptype, .unit-game, .unit-more-card, .gd-visto) { transition: none; }
+}

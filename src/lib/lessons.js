@@ -1,6 +1,8 @@
 // Micro-lecciones tipo Duolingo generadas a partir del contenido existente de cada módulo.
-// 5 lecciones por módulo (3–5 min): palabras I, palabras II, idea clave, frases en acción, repaso final.
+// 5 lecciones por clase (3–5 min): palabras I, palabras II, idea clave, frases en acción, repaso final.
+// Reciben el módulo ya filtrado por clase (moduloDeClase en lib/clases.js), así que usan solo su contenido.
 import { rng } from "./examGenerator.js";
+import { idLeccion } from "./clases.js";
 import VOCAB_EMOJI from "../data/vocab-emoji.json";
 
 const CHARS = ["lucia", "liwei", "carlos", "mei", "carmen"];
@@ -15,7 +17,8 @@ export const LESSON_META = [
   { key: "review", es: "Repaso final", zh: "综合复习", emoji: "🏆" },
 ];
 
-export const lessonId = (numero, index) => `m${numero}-l${index}`;
+// La clase 1 conserva los ids de siempre (m8-l0); las demás, m8-c2-l0…
+export const lessonId = (numero, index, clase = 1) => idLeccion(numero, index, clase);
 
 function shuffle(list, rand) {
   const a = [...list];
@@ -27,6 +30,8 @@ function shuffle(list, rand) {
 }
 
 const clean = (s) => String(s ?? "").trim();
+// Algunas unidades guardan «emparejar» como un objeto suelto en vez de una lista
+const listaDe = (x) => (Array.isArray(x) ? x : x && typeof x === "object" ? [x] : []);
 const words = (s) => clean(s).split(/\s+/).filter(Boolean);
 
 // Opción múltiple con la correcta en posición aleatoria
@@ -178,7 +183,7 @@ function reviewSteps(mod, plus, rand) {
       steps.push(choice(rand, q.opciones[q.correcta], q.opciones, { type: "choice", prompt: q.pregunta, promptZh: q.preguntaZh, explain: q.explicacionZh }));
     });
   (plus?.huecos || []).slice(0, 2).forEach((h) => steps.push({ type: "type", prompt: h.frase, promptZh: h.pistaZh, answer: h.respuesta }));
-  const pares = mod.ejercicios?.emparejar?.[0]?.pares;
+  const pares = listaDe(mod.ejercicios?.emparejar)[0]?.pares;
   if (pares?.length >= 4) steps.push({ type: "match", prompt: "Une las parejas · 连线配对", pairs: shuffle(pares, rand).slice(0, 5).map((p) => ({ a: p.izquierda, b: p.derecha })) });
   (plus?.errores || []).slice(0, 2).forEach((e) =>
     steps.push({ type: "tf", prompt: `¿Es correcta esta frase? «${e.incorrecto.replace(/^\*/, "")}»`, promptZh: "这句话正确吗？", answer: false, explain: `✓ ${e.correcto} · ${e.explicacionZh}` }),
@@ -200,7 +205,7 @@ export function buildLesson(mod, plus, index, seed = Date.now(), repetida = fals
   else steps = reviewSteps(mod, plus, rand);
   // Seguridad: nunca una lección vacía
   if (steps.filter((s) => !["learn", "tip", "dialog"].includes(s.type)).length < 3) steps = [...steps, ...vocabSteps(mod, shuffle(vocab, rand).slice(0, 4), rand)];
-  return { id: lessonId(mod.numero, index), modulo: mod.numero, index, ...LESSON_META[index], steps: steps.slice(0, 16) };
+  return { id: lessonId(mod.numero, index, mod.clase), modulo: mod.numero, clase: mod.clase || 1, index, ...LESSON_META[index], steps: steps.slice(0, 16) };
 }
 
 // Práctica libre con los ejercicios originales del módulo: tipos elegidos, orden aleatorio en cada intento
@@ -239,8 +244,8 @@ export function buildPractice(mod, types, seed = Date.now()) {
       if (s) steps.push(s);
     });
   if (pick("emparejar"))
-    (ej.emparejar || []).forEach((e) => e.pares?.length >= 4 && steps.push({ type: "match", prompt: "Une las parejas · 连线配对", pairs: shuffle(e.pares, rand).slice(0, 5).map((p) => ({ a: p.izquierda, b: p.derecha })) }));
-  return { id: `m${mod.numero}-practice`, modulo: mod.numero, index: 9, es: "Práctica", zh: "练习", emoji: "💪", steps: shuffle(steps, rand).slice(0, 15) };
+    listaDe(ej.emparejar).forEach((e) => e.pares?.length >= 4 && steps.push({ type: "match", prompt: "Une las parejas · 连线配对", pairs: shuffle(e.pares, rand).slice(0, 5).map((p) => ({ a: p.izquierda, b: p.derecha })) }));
+  return { id: `m${mod.numero}${mod.clase > 1 ? `-c${mod.clase}` : ""}-practice`, modulo: mod.numero, clase: mod.clase || 1, index: 9, es: "Práctica", zh: "练习", emoji: "💪", steps: shuffle(steps, rand).slice(0, 15) };
 }
 
 // Convierte un diálogo original del módulo en una historia con el reparto de la app

@@ -1,19 +1,22 @@
 // Motor de exámenes automáticos: mezcla preguntas de los módulos (ejercicios originales)
 // con el banco enriquecido (src/data/plus/*.json) y genera exámenes reproducibles por semilla.
 
-const MODULE_LOADERS = [
-  () => import("../data/modulos/modulos-01-20.js").then((m) => m.MODULOS_01_20),
-  () => import("../data/modulos/modulos-21-40.js").then((m) => m.MODULOS_21_40),
-  () => import("../data/modulos/modulos-41-60.js").then((m) => m.MODULOS_41_60),
-  () => import("../data/modulos/modulos-61-80.js").then((m) => m.MODULOS_61_80),
-];
+// Todos los ficheros modulos-XX-YY.js (01-20 … 61-80 y los que se añadan: 81-85, 86-90…)
+import { moduloDeClase, plusDeClase } from "./clases.js";
+
+const MODULE_LOADERS = Object.values(import.meta.glob("../data/modulos/modulos-*-*.js")).map(
+  (load) => () => load().then((m) => Object.values(m).find(Array.isArray) || []),
+);
 const PLUS_LOADERS = import.meta.glob("../data/plus/*.json", { import: "default" });
 
 let allModulesPromise = null;
 export function loadAllModules() {
   if (!allModulesPromise) {
     allModulesPromise = Promise.all(MODULE_LOADERS.map((load) => load())).then((parts) =>
-      parts.flat().sort((a, b) => a.numero - b.numero),
+      parts
+        .flat()
+        .filter((m, i, all) => m && all.findIndex((o) => o?.numero === m.numero) === i)
+        .sort((a, b) => a.numero - b.numero),
     );
   }
   return allModulesPromise;
@@ -200,14 +203,17 @@ function finalizeQuestion(q, rand) {
 
 /**
  * config: { modulos: number[], total: number, skills: string[], conLectura: boolean, seed: number,
- *           titulo?: string, minutos?: number }
+ *           titulo?: string, minutos?: number, clase?: number }
+ * Con `clase` (y un solo módulo) el examen sale solo del contenido de esa clase (lib/clases.js);
+ * sin ella, de la unidad entera.
  */
 export async function generateExam(config) {
   const seed = config.seed ?? Math.floor(Math.random() * 1e9);
   const rand = rng(seed);
   const all = await loadAllModules();
-  const chosen = all.filter((m) => config.modulos.includes(m.numero));
-  const plusList = await Promise.all(chosen.map((m) => loadModulePlus(m.numero)));
+  const clase = config.clase && config.modulos.length === 1 ? config.clase : null;
+  const chosen = all.filter((m) => config.modulos.includes(m.numero)).map((m) => moduloDeClase(m, clase));
+  const plusList = await Promise.all(chosen.map((m) => loadModulePlus(m.numero).then((p) => plusDeClase(p, m.numero, clase))));
   const skills = config.skills?.length ? config.skills : Object.keys(SKILLS);
 
   let pool = [];
@@ -250,7 +256,9 @@ export async function generateExam(config) {
     titulo:
       config.titulo ||
       (chosen.length === 1
-        ? `Examen · Módulo ${chosen[0].numero}`
+        ? clase
+          ? `Examen · Unidad ${chosen[0].numero} · Clase ${clase}`
+          : `Examen · Módulo ${chosen[0].numero}`
         : `Examen ${niveles.join("–")} · ${chosen.length} módulos`),
     niveles,
     minutos: config.minutos ?? Math.max(10, Math.round(total * 1.2)),

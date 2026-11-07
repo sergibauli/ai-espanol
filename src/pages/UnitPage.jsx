@@ -1,15 +1,17 @@
 import * as React from "react";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useSearchParams } from "react-router";
+import { createPortal } from "react-dom";
 import { ArrowLeftIcon, Volume2Icon, ChevronDownIcon, PlayIcon, CheckIcon, EyeIcon, EyeOffIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { StoryPlayer, CAST } from "../components/lesson/StoryPlayer.jsx";
 import { speak } from "../components/lesson/fx.js";
-import { useGame } from "../lib/gamification.js";
+import { useGame, getGame } from "../lib/gamification.js";
 import { buildLesson, lessonId, LESSON_META, buildPractice, PRACTICE_TYPES, dialogToStory, buildAIChallenge } from "../lib/lessons.js";
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import { markModuleVisited } from "../lib/progress.js";
+import { clasesDe, claseValida, moduloDeClase, plusDeClase, progresoUnidad, sincronizarClase, ultimaClase, recordarClase } from "../lib/clases.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
 import { Moneda } from "../../packages/imperial/src/index.js";
@@ -204,13 +206,15 @@ function TraduccionGuia({ t, numero }) {
   );
 }
 
-function GuideScroll({ teoria, numero }) {
+// `teoria` = puntos de la clase abierta; `todas` = los de la unidad (para leer las marcas «Visto» antiguas, que eran posiciones)
+function GuideScroll({ teoria, todas = teoria, numero }) {
   const [verZh] = useVerChino();
   const [sel, setSel] = React.useState(0);
   const key = `dele_guia_visto_${numero}`;
   const [seen, setSeen] = React.useState(() => {
     try {
-      return new Set(JSON.parse(localStorage.getItem(key) || "[]"));
+      const guardado = JSON.parse(localStorage.getItem(key) || "[]");
+      return new Set(guardado.map((marca) => (typeof marca === "number" ? todas[marca]?.id : marca)).filter(Boolean));
     } catch {
       return new Set();
     }
@@ -224,18 +228,19 @@ function GuideScroll({ teoria, numero }) {
   const extras = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => ["note", "error", "tip"].includes(b.type));
   const terms = es.flatMap((b) => (b.type === "list" ? b.items.map((x) => x.term) : [])).filter((x) => x.length <= 40);
   const plaques = terms.length ? terms : (t.ejemplos || []).map((e) => e.espanol);
+  const idDe = (i) => teoria[i]?.id ?? i;
   const toggleSeen = () => {
-    const n = new Set(seen);
-    n.has(sel) ? n.delete(sel) : n.add(sel);
-    setSeen(n);
+    const vistos = new Set(seen);
+    vistos.has(idDe(sel)) ? vistos.delete(idDe(sel)) : vistos.add(idDe(sel));
+    setSeen(vistos);
     try {
-      localStorage.setItem(key, JSON.stringify([...n]));
+      localStorage.setItem(key, JSON.stringify([...vistos]));
     } catch {}
   };
   return (
     <section className={`gd ${verZh ? "gd--zh" : ""}`} id="u-guia">
       <div className="gd-ribbon">Guía rápida · 语法要点</div>
-      <button className={`gd-visto ${seen.has(sel) ? "on" : ""}`} onClick={toggleSeen} title="Marcar como leído · 标记为已读">
+      <button className={`gd-visto ${seen.has(idDe(sel)) ? "on" : ""}`} onClick={toggleSeen} title="Marcar como leído · 标记为已读">
         Visto
       </button>
       <div className="gd-head">
@@ -322,7 +327,7 @@ function GuideScroll({ teoria, numero }) {
         <div className="gd-list">
           {teoria.map((x, i) => (
             <button key={i} className={`gd-row ${i === sel ? "on" : ""}`} onClick={() => setSel(i)}>
-              <span className={`gd-tick ${seen.has(i) ? "on" : ""}`}>{seen.has(i) ? "✓" : i + 1}</span>
+              <span className={`gd-tick ${seen.has(idDe(i)) ? "on" : ""}`}>{seen.has(idDe(i)) ? "✓" : i + 1}</span>
               <span>
                 <b>{x.titulo}</b>
                 <small>{x.tituloChino}</small>
@@ -386,39 +391,280 @@ function ProduccionUnidad({ mod, nivel }) {
 // Piezas 3D recortadas de las maquetas (public/theme)
 const THEME = `${import.meta.env.BASE_URL}theme/`;
 
+const contarEjercicios = (info) => Object.values(info?.ejercicios || {}).reduce((total, lista) => total + lista.length, 0);
+
+// Selector de clases: cada unidad se da en 2–3 clases de ~50 minutos
+function SelectorClases({ progreso, actual, onElegir }) {
+  const lista = React.useRef(null);
+  React.useEffect(() => {
+    // En móvil, la tarjeta de la clase abierta queda a la vista dentro del carril horizontal
+    const carril = lista.current;
+    const activa = carril?.querySelector(".cls-tarjeta.on");
+    if (carril && activa && carril.scrollWidth > carril.clientWidth) carril.scrollTo({ left: activa.offsetLeft - 16, behavior: "smooth" });
+  }, [actual]);
+  return (
+    <section className="cls-selector gm-no-adapt" id="u-clases" aria-label="Clases de la unidad">
+      <div className="cls-selector-cab">
+        <span className="cls-cinta">
+          Clases de la unidad <span translate="no">· 单元课程</span>
+        </span>
+        <small>
+          {progreso.completadas}/{progreso.total} hechas · 已完成 — cada clase ≈ 50 min · 每课约50分钟
+        </small>
+      </div>
+      <div className="cls-tarjetas" role="tablist" ref={lista}>
+        {progreso.clases.map((clase) => {
+          const on = clase.n === actual;
+          return (
+            <button
+              key={clase.n}
+              type="button"
+              role="tab"
+              aria-selected={on}
+              className={`cls-tarjeta ${on ? "on" : ""} ${clase.completada ? "hecha" : ""}`}
+              onClick={() => onElegir(clase.n)}
+            >
+              <span className="cls-sello" translate="no">
+                <b>第{clase.n}课</b>
+              </span>
+              <span className="cls-tarjeta-txt">
+                <small>
+                  Clase {clase.n} · 第{clase.n}课 · ~{clase.minutos || 50} min
+                </small>
+                <b>{clase.titulo}</b>
+                <i>{clase.tituloChino}</i>
+                <span className="cls-datos">
+                  <span>{clase.vocabulario.length} palabras · 词</span>
+                  <span>{clase.dialogos.length} diálogos · 对话</span>
+                  <span>{contarEjercicios(clase)} ejercicios · 练习</span>
+                </span>
+                <span className="cls-cuentas" aria-label={`${clase.hechas} de 5 lecciones`}>
+                  {clase.lecciones.map((hecha, i) => (
+                    <i key={i} className={hecha || clase.completada ? "on" : ""} />
+                  ))}
+                  <em>{clase.completada ? "✓ Hecha · 完成" : clase.hechas ? `${clase.hechas}/5 lecciones` : "Nueva · 新课"}</em>
+                </span>
+              </span>
+              {on && <span className="cls-aqui">Estás aquí · 当前</span>}
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+// Objetivo de la clase abierta, sobre pergamino con sello «目标»
+function ObjetivoClase({ info, total }) {
+  if (!info || info.todo) return null;
+  return (
+    <div className="cls-objetivo gm-no-adapt">
+      <span className="cls-objetivo-sello" translate="no">
+        目标
+      </span>
+      <div>
+        <small>
+          Objetivo de la clase {info.n} de {total} · 第{info.n}课目标
+        </small>
+        <p>{info.objetivo?.es}</p>
+        <p className="cls-zh">{info.objetivo?.zh}</p>
+      </div>
+      <span className="cls-objetivo-datos">
+        <b>~{info.minutos || 50}</b> min
+        <small>{info.teoria.length} {info.teoria.length === 1 ? "punto" : "puntos"} de gramática</small>
+      </span>
+    </div>
+  );
+}
+
+// Final de la clase: qué falta para terminarla y el paso siguiente (otra clase, examen de la unidad o la unidad siguiente)
+function FinDeClase({ numero, estado, siguiente, total, siguienteUnidad, onIrClase, onExamen }) {
+  if (!estado) return null;
+  const ultima = !siguiente;
+  return (
+    <section className={`cls-fin gm-no-adapt ${estado.completada ? "hecha" : ""}`} id="u-fin-clase">
+      <span className="cls-fin-sello" translate="no">
+        {estado.completada ? "完成" : `第${estado.n}课`}
+      </span>
+      <div className="cls-fin-txt">
+        {estado.completada ? (
+          <>
+            <h3>
+              ¡Clase {estado.n} completada! <span className="cls-zh">第{estado.n}课完成！</span>
+            </h3>
+            <p>{ultima ? (total > 1 ? "Has hecho todas las clases. Demuestra lo aprendido con el examen de la unidad." : "Demuestra lo aprendido con el examen de la unidad.") : `Sigue con la clase ${siguiente.n}: ${siguiente.titulo}.`}</p>
+            <p className="cls-zh">{ultima ? "完成单元考试，检验你的学习成果。" : `继续学习第${siguiente.n}课：${siguiente.tituloChino}`}</p>
+          </>
+        ) : (
+          <>
+            <h3>
+              Para terminar la clase {estado.n} <span className="cls-zh">如何完成第{estado.n}课</span>
+            </h3>
+            <p>Haz sus 5 lecciones ({estado.hechas}/5) o aprueba su examen corto con 80 o más.</p>
+            <p className="cls-zh">完成本课5个小课（{estado.hechas}/5），或小测验得到80分以上。</p>
+          </>
+        )}
+      </div>
+      <div className="cls-fin-botones">
+        {!estado.completada && (
+          <button type="button" className="cls-btn-papel" onClick={onExamen}>
+            📝 Examen de la clase · 小测验
+          </button>
+        )}
+        {siguiente ? (
+          <button type="button" className={estado.completada ? "cls-btn-laca grande" : "cls-btn-papel"} onClick={() => onIrClase(siguiente.n)}>
+            {estado.completada ? "Siguiente clase" : "Ir a la clase"} {siguiente.n} · 第{siguiente.n}课 →
+          </button>
+        ) : (
+          <>
+            <button type="button" className={estado.completada ? "cls-btn-laca grande" : "cls-btn-papel"} onClick={onExamen}>
+              🏆 Examen de la unidad · 单元考试
+            </button>
+            {estado.completada && siguienteUnidad && (
+              <Link className="cls-btn-papel" to={`/modulos/modulo-${siguienteUnidad.numero}`}>
+                Unidad {siguienteUnidad.numero} · 第{siguienteUnidad.numero}单元 →
+              </Link>
+            )}
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// Aviso a pantalla completa al terminar una clase durante la sesión
+function CelebrarClase({ estado, siguiente, onIrClase, onExamen, onCerrar }) {
+  return createPortal(
+    <div className="cls-celebra gm-no-adapt" role="dialog" aria-modal="true" aria-label="Clase completada" onClick={onCerrar}>
+      <div className="cls-celebra-hoja" onClick={(e) => e.stopPropagation()}>
+        <span className="cls-celebra-sello" translate="no">
+          完成
+        </span>
+        <img src={`${import.meta.env.BASE_URL}mono/trofeo.png`} alt="" className="cls-celebra-mono" onError={(e) => (e.currentTarget.style.display = "none")} />
+        <h3>¡Clase {estado.n} completada!</h3>
+        <p className="cls-zh">第{estado.n}课完成！</p>
+        <p>{estado.titulo}</p>
+        {siguiente ? (
+          <button type="button" className="cls-btn-laca grande" onClick={() => onIrClase(siguiente.n)}>
+            Empezar la clase {siguiente.n} · 开始第{siguiente.n}课 →
+          </button>
+        ) : (
+          <button type="button" className="cls-btn-laca grande" onClick={onExamen}>
+            🏆 Examen de la unidad · 单元考试
+          </button>
+        )}
+        <button type="button" className="cls-btn-texto" onClick={onCerrar}>
+          Quedarme en esta clase · 留在本课
+        </button>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 export default function UnitPage() {
   const { moduloId } = useParams();
+  const [params, setParams] = useSearchParams();
   const numero = Number(String(moduloId).replace(/\D/g, ""));
   const meta = CATALOG.find((m) => m.numero === numero);
-  const [mod, setMod] = React.useState(null);
-  const [plus, setPlus] = React.useState(null);
+  const [modCompleto, setModCompleto] = React.useState(null);
+  const [plusCompleto, setPlusCompleto] = React.useState(null);
   const [story, setStory] = React.useState(undefined);
   const [lesson, setLesson] = React.useState(null);
   const [playStory, setPlayStory] = React.useState(false);
   const [reto, setReto] = React.useState(false);
   const [dialog, setDialog] = React.useState(null);
-  const [types, setTypes] = React.useState(PRACTICE_TYPES.map((t) => t.key));
-  const [extra, setExtra] = React.useState(() => new URLSearchParams(window.location.hash.split("?")[1] || "").get("tab"));
+  const [types, setTypes] = React.useState(PRACTICE_TYPES.map((tipo) => tipo.key));
+  const [extra, setExtra] = React.useState(() => params.get("tab"));
+  const [celebrar, setCelebrar] = React.useState(null);
+  const [, refrescar] = React.useReducer((x) => x + 1, 0);
   const game = useGame();
   const [c1, c2] = LEVEL_COLORS[meta?.nivel] || LEVEL_COLORS.A1;
+
+  // Clase abierta: la de la URL (?clase=2) o la última que el alumno tenía abierta en esta unidad
+  const clase = claseValida(numero, params.get("clase") ?? ultimaClase(numero));
+  const clases = clasesDe(numero);
+  const info = clases.find((c) => c.n === clase) || clases[0];
+  const mod = React.useMemo(() => moduloDeClase(modCompleto, clase), [modCompleto, clase]);
+  const plus = React.useMemo(() => plusDeClase(plusCompleto, numero, clase), [plusCompleto, numero, clase]);
 
   React.useEffect(() => {
     if (!meta) return;
     markModuleVisited(`modulo-${numero}`);
     window.scrollTo(0, 0);
-    loadAllModules().then((all) => setMod(all.find((m) => m.numero === numero)));
-    loadModulePlus(numero).then(setPlus);
+    loadAllModules().then((all) => setModCompleto(all.find((m) => m.numero === numero)));
+    loadModulePlus(numero).then(setPlusCompleto);
     const load = STORIES[`../data/stories/modulo-${numero}.json`];
     load ? load().then((s) => setStory({ ...s, modulo: numero })) : setStory(null);
+    // Registra como hechas las clases cuyas 5 lecciones ya estaban hechas (p. ej. las de antes de existir las clases)
+    clases.forEach((c) => sincronizarClase(numero, c.n, getGame().lessons));
   }, [numero]);
 
-  if (!meta) return <div className="ui-page">Módulo no encontrado</div>;
-  const done = LESSON_META.map((_, i) => Boolean(game.lessons[lessonId(numero, i)]));
-  const nextIdx = done.findIndex((d) => !d);
-  const pct = Math.round((done.filter(Boolean).length / 5) * 100);
+  React.useEffect(() => {
+    recordarClase(numero, clase);
+    if (params.get("clase") !== String(clase))
+      setParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.set("clase", String(clase));
+          return next;
+        },
+        { replace: true },
+      );
+  }, [numero, clase]);
+
+  React.useEffect(() => {
+    window.addEventListener("progreso-clases", refrescar);
+    return () => window.removeEventListener("progreso-clases", refrescar);
+  }, []);
+
+  if (!meta) return <div className="ui-page">Módulo no encontrado · 未找到该单元</div>;
+  const progreso = progresoUnidad(numero, game.lessons);
+  const estado = progreso.clases.find((c) => c.n === clase) || progreso.clases[0];
+  const siguienteClase = progreso.clases.find((c) => c.n === clase + 1) || null;
+  const done = estado.lecciones;
+  const nextIdx = done.findIndex((hecha) => !hecha);
+  const pct = progreso.pct;
   const prev = CATALOG.find((m) => m.numero === numero - 1);
   const next = CATALOG.find((m) => m.numero === numero + 1);
-  const start = (i) => mod && setLesson(buildLesson(mod, plus, i));
+  const varias = clases.length > 1;
+  const conHistoria = !varias || info.historia;
+  const start = (i) => mod && setLesson(buildLesson(mod, plus, i, Date.now(), done[i]));
+
+  const irAClase = (n) => {
+    setCelebrar(null);
+    setParams(
+      (prevParams) => {
+        const nuevos = new URLSearchParams(prevParams);
+        nuevos.set("clase", String(n));
+        nuevos.delete("tab");
+        return nuevos;
+      },
+      { replace: false },
+    );
+    setExtra(null);
+    requestAnimationFrame(() => document.getElementById("u-clases")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  };
+  const abrirExamen = () => {
+    setCelebrar(null);
+    setExtra("examen");
+    requestAnimationFrame(() => document.getElementById("u-extra")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  };
+  const alCerrarLeccion = () => {
+    setLesson(null);
+    const yaEstaba = estado.completada;
+    const ahora = sincronizarClase(numero, clase, getGame().lessons);
+    if (ahora && !yaEstaba) setCelebrar(clase);
+  };
+
+  // Botón principal del héroe: la lección siguiente de la clase, o pasar a la siguiente clase
+  const cta = !mod
+    ? { texto: "Cargando… · 加载中", accion: null }
+    : nextIdx >= 0
+      ? { texto: `${nextIdx === 0 ? "Empezar" : "Continuar"} · ${LESSON_META[nextIdx].es}`, accion: () => start(nextIdx) }
+      : siguienteClase && !siguienteClase.completada
+        ? { texto: `Clase ${siguienteClase.n} · 第${siguienteClase.n}课 →`, accion: () => irAClase(siguienteClase.n) }
+        : { texto: "Repasar · 复习", accion: () => start(4) };
 
   return (
     <LightShell>
@@ -446,6 +692,12 @@ export default function UnitPage() {
           <div className="unit-hero-text">
             <small>
               {meta.nivel} · UNIDAD {numero} · 第{numero}单元
+              {varias && (
+                <>
+                  {" "}
+                  · CLASE {clase}/{clases.length}
+                </>
+              )}
             </small>
             <h1>{meta.titulo.split(" - ")[0]}</h1>
             <p>{meta.titulo.split(" - ")[1] || ""}</p>
@@ -455,9 +707,14 @@ export default function UnitPage() {
                 <i style={{ width: `${pct}%`, background: "linear-gradient(180deg,#fff,#e8e8e8)" }} />
               </div>
               <b>{pct}%</b>
+              {varias && (
+                <span className="cls-hero-cuenta">
+                  {progreso.completadas}/{progreso.total} clases · 课
+                </span>
+              )}
             </div>
-            <button className="btn3d unit-cta" style={{ "--c": "#fff", "--d": "rgba(0,0,0,.25)", color: c2 }} disabled={!mod} onClick={() => start(nextIdx === -1 ? 4 : nextIdx)}>
-              <PlayIcon size={20} fill="currentColor" /> {!mod ? "Cargando…" : nextIdx === -1 ? "Repasar · 复习" : `${nextIdx === 0 ? "Empezar" : "Continuar"} · ${LESSON_META[nextIdx].es}`}
+            <button className="btn3d unit-cta" style={{ "--c": "#fff", "--d": "rgba(0,0,0,.25)", color: c2 }} disabled={!cta.accion} onClick={cta.accion || undefined}>
+              <PlayIcon size={20} fill="currentColor" /> {cta.texto}
             </button>
           </div>
           <div className="unit-hero-art">
@@ -472,17 +729,22 @@ export default function UnitPage() {
           第<span className="tcy">{numero}</span>单元
         </span>
 
+        {varias && <SelectorClases progreso={progreso} actual={clase} onElegir={irAClase} />}
+        <ObjetivoClase info={info} total={clases.length} />
+
         <nav className="unit-jump unit-jump--v11" aria-label="Secciones">
-          {[["guia", "💡 Guía"], ["lecciones", "🎯 Lecciones"], ["historia", "📖 Historia"], ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["produccion", "✍️ Producción"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"]].map(([id, label]) => (
+          {[["guia", "💡 Guía"], ["lecciones", "🎯 Lecciones"], ...(conHistoria ? [["historia", "📖 Historia"]] : []), ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["produccion", "✍️ Producción"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"], ...(varias ? [["fin-clase", "🏁 Fin de la clase"]] : [])].map(([id, label]) => (
             <button key={id} onClick={() => document.getElementById(`u-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}>
               {label}
             </button>
           ))}
         </nav>
 
-        {mod && (mod.teoria || []).length > 0 && <GuideScroll teoria={mod.teoria} numero={numero} />}
+        {mod && (mod.teoria || []).length > 0 && <GuideScroll key={`guia-${clase}`} teoria={mod.teoria} todas={modCompleto?.teoria || mod.teoria} numero={numero} />}
 
-        <h2 className="unit-h2" id="u-lecciones">Lecciones · 课程</h2>
+        <h2 className="unit-h2" id="u-lecciones">
+          {varias ? `Lecciones de la clase ${clase} · 第${clase}课` : "Lecciones · 课程"}
+        </h2>
         <div className="unit-lessons">
           {LESSON_META.map((l, i) => {
             const open = i === 0 || done[i - 1] || done[i];
@@ -500,9 +762,11 @@ export default function UnitPage() {
           })}
         </div>
 
-        {story && (
+        {story && conHistoria && (
           <>
-            <h2 className="unit-h2" id="u-historia">Historia · 故事</h2>
+            <h2 className="unit-h2" id="u-historia">
+              Historia · 故事 {varias && <small>(cierra la unidad: usa las palabras de todas las clases)</small>}
+            </h2>
             <button className="unit-story" onClick={() => setPlayStory(true)}>
               <Emoji3D emoji={story.escena} size={96} float />
               <span style={{ flex: 1, minWidth: 0, textAlign: "left" }}>
@@ -510,12 +774,12 @@ export default function UnitPage() {
                 <b>{story.titulo}</b>
                 <span className="lp-zh">{story.tituloZh}</span>
                 <span className="unit-cast">
-                  {[...new Set(story.lineas.map((l) => l.quien))]
-                    .filter((q) => CAST[q] && q !== "narrador")
-                    .map((q) => (
-                      <span key={q} title={CAST[q].name}>
-                        <Emoji3D emoji={CAST[q].emoji} size={34} />
-                        {CAST[q].name}
+                  {[...new Set(story.lineas.map((linea) => linea.quien))]
+                    .filter((quien) => CAST[quien] && quien !== "narrador")
+                    .map((quien) => (
+                      <span key={quien} title={CAST[quien].name}>
+                        <Emoji3D emoji={CAST[quien].emoji} size={34} />
+                        {CAST[quien].name}
                       </span>
                     ))}
                 </span>
@@ -529,7 +793,9 @@ export default function UnitPage() {
 
         {mod?.dialogos?.length > 0 && (
           <>
-            <h2 className="unit-h2" id="u-dialogos">Diálogos · 对话 <small>({mod.dialogos.length} conversaciones con voz)</small></h2>
+            <h2 className="unit-h2" id="u-dialogos">
+              Diálogos · 对话 <small>({mod.dialogos.length} {mod.dialogos.length === 1 ? "conversación" : "conversaciones"} con voz)</small>
+            </h2>
             <div className="unit-dialogs">
               {mod.dialogos.map((d, i) => (
                 <button key={d.id || i} className="unit-dialog" onClick={() => setDialog(dialogToStory(d, numero, story?.escena))}>
@@ -555,15 +821,15 @@ export default function UnitPage() {
             <h2 className="unit-h2" id="u-ejercicios">Ejercicios · 练习 <small>(elige los tipos; cambian de orden en cada intento)</small></h2>
             <div className="unit-practice">
               <div className="unit-practice-types">
-                {PRACTICE_TYPES.filter((t) => (mod.ejercicios?.[t.key] || []).length).map((t) => {
-                  const on = types.includes(t.key);
+                {PRACTICE_TYPES.filter((tipo) => (mod.ejercicios?.[tipo.key] || []).length).map((tipo) => {
+                  const on = types.includes(tipo.key);
                   return (
-                    <button key={t.key} className={`unit-ptype ${on ? "on" : ""}`} style={{ "--c": c1 }} onClick={() => setTypes((ts) => (on ? ts.filter((x) => x !== t.key) : [...ts, t.key]))}>
-                      <Emoji3D emoji={t.emoji} size={30} />
+                    <button key={tipo.key} className={`unit-ptype ${on ? "on" : ""}`} style={{ "--c": c1 }} onClick={() => setTypes((lista) => (on ? lista.filter((x) => x !== tipo.key) : [...lista, tipo.key]))}>
+                      <Emoji3D emoji={tipo.emoji} size={30} />
                       <span>
-                        {t.es}
+                        {tipo.es}
                         <small>
-                          {t.zh} · {(mod.ejercicios?.[t.key] || []).length}
+                          {tipo.zh} · {(mod.ejercicios?.[tipo.key] || []).length}
                         </small>
                       </span>
                     </button>
@@ -579,9 +845,9 @@ export default function UnitPage() {
                 disabled={reto}
                 onClick={async () => {
                   setReto(true);
-                  const l = await buildAIChallenge(mod);
+                  const retoNuevo = await buildAIChallenge(mod);
                   setReto(false);
-                  setLesson(l);
+                  setLesson(retoNuevo);
                 }}
               >
                 {reto ? "Creando preguntas… · 生成中…" : "✨ Reto nuevo con IA · AI新挑战"}
@@ -606,7 +872,7 @@ export default function UnitPage() {
                     </div>
                   );
                 return (
-                  <Link key={g.id} to={`${g.path}?m=${numero}`} className="unit-game">
+                  <Link key={g.id} to={`${g.path}?m=${numero}&clase=${clase}`} className="unit-game">
                     <span className="unit-game-icon" style={{ background: g.gradient }}>
                       <Icon size={24} color="#fff" />
                     </span>
@@ -617,21 +883,22 @@ export default function UnitPage() {
               })}
             </div>
 
-            <h2 className="unit-h2" id="u-palabras">Palabras · 词汇 <small>(toca para girar y escuchar)</small></h2>
+            <h2 className="unit-h2" id="u-palabras">
+              {varias ? `Palabras de la clase ${clase} · 第${clase}课词汇` : "Palabras · 词汇"} <small>(toca para girar y escuchar)</small>
+            </h2>
             <div className="unit-words">
-              {(mod.vocabulario || []).slice(0, 24).map((v) => (
+              {(mod.vocabulario || []).slice(0, varias ? 40 : 24).map((v) => (
                 <WordCard key={v.id || v.espanol} v={v} color={c1} />
               ))}
             </div>
-
           </>
         )}
 
-        <h2 className="unit-h2">Practica más · 更多练习</h2>
+        <h2 className="unit-h2" id="u-extra">Practica más · 更多练习</h2>
         <div className="unit-more">
           {[
-            ["descubre", "📖", "Lectura y cultura", "阅读与文化"],
-            ["examen", "📝", "Examen del módulo", "模块考试"],
+            ["descubre", "📖", plus?.lectura ? "Lectura y cultura" : "Frases y errores típicos", plus?.lectura ? "阅读与文化" : "常用句与常见错误"],
+            ["examen", "📝", varias ? "Examen · clase o unidad" : "Examen del módulo", varias ? "本课小测 · 单元考试" : "模块考试"],
           ].map(([k, e, es, zh]) => (
             <button key={k} className={`unit-more-card ${extra === k ? "on" : ""}`} style={{ "--c": c1 }} onClick={() => setExtra(extra === k ? null : k)}>
               <Emoji3D emoji={e} size={52} />
@@ -642,12 +909,16 @@ export default function UnitPage() {
         </div>
         {extra && mod && (
           <div className="unit-extra">
-            <React.Suspense fallback={<div className="ui-empty">Cargando…</div>}>
-              {extra === "descubre" && <ModuloDescubre numero={numero} showChinese />}
+            <React.Suspense fallback={<div className="ui-empty">Cargando… · 加载中</div>}>
+              {extra === "descubre" && <ModuloDescubre key={`descubre-${clase}`} numero={numero} plus={plus} clase={clase} showChinese />}
               {extra === "juegos" && <ModuloJuegos vocabulario={mod.vocabulario || []} moduloId={mod.id} />}
-              {extra === "examen" && <ModuloExamen numero={numero} moduloId={mod.id} />}
+              {extra === "examen" && <ModuloExamen numero={numero} moduloId={mod.id} clase={varias ? clase : null} />}
             </React.Suspense>
           </div>
+        )}
+
+        {varias && (
+          <FinDeClase numero={numero} estado={estado} siguiente={siguienteClase} total={clases.length} siguienteUnidad={next} onIrClase={irAClase} onExamen={abrirExamen} />
         )}
 
         <div className="unit-nav">
@@ -665,9 +936,18 @@ export default function UnitPage() {
           )}
         </div>
       </div>
-      {lesson && <LessonPlayer lesson={lesson} onClose={() => setLesson(null)} />}
+      {lesson && <LessonPlayer lesson={lesson} onClose={alCerrarLeccion} />}
       {playStory && story && <StoryPlayer story={story} onClose={() => setPlayStory(false)} />}
       {dialog && <StoryPlayer story={dialog} onClose={() => setDialog(null)} />}
+      {celebrar && !lesson && (
+        <CelebrarClase
+          estado={progreso.clases.find((c) => c.n === celebrar) || estado}
+          siguiente={progreso.clases.find((c) => c.n === celebrar + 1) || null}
+          onIrClase={irAClase}
+          onExamen={abrirExamen}
+          onCerrar={() => setCelebrar(null)}
+        />
+      )}
     </LightShell>
   );
 }

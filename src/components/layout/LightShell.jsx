@@ -1,11 +1,13 @@
 import * as React from "react";
 import { Link, useLocation } from "react-router";
 import { createPortal } from "react-dom";
-import { LogOutIcon } from "lucide-react";
+import { LogOutIcon, XIcon } from "lucide-react";
 import { NavIcon } from "../ui/NavIcon.jsx";
 import { GameStats } from "../ui/GameStats.jsx";
 import { SelectorIdioma } from "../ui/SelectorIdioma.jsx";
 import { useAppAuth } from "../../lib/auth.jsx";
+import { useGame } from "../../lib/gamification.js";
+import { getStreak } from "../../lib/streak.js";
 import { attachLightAdapter } from "./lightAdapter.js";
 import { Logo } from "../../../packages/imperial/src/index.js";
 import { precargar, precargarSecciones } from "../../lib/precarga.js";
@@ -22,6 +24,81 @@ const MAIN = [
   { to: "/memoria", icon: "repaso", es: "Repaso", zh: "记忆" },
   { to: "/tutor-voz", icon: "tutor", es: "Tutor IA", zh: "AI导师" },
 ];
+// En móvil la barra inferior lleva las 5 primeras; el resto se abre con «Más»
+const MOVIL_FIJAS = MAIN.slice(0, 5);
+const MOVIL_MAS = MAIN.slice(5);
+
+// Ficha de «hoy» en el menú lateral: racha y anillo del objetivo diario de XP
+function FichaHoy() {
+  const juego = useGame();
+  const racha = getStreak();
+  const radio = 19;
+  const circunferencia = 2 * Math.PI * radio;
+  const cumplido = juego.goalPct >= 100;
+  return (
+    <Link to="/mi-dele" className={`in-hoy ${cumplido ? "is-cumplido" : ""}`} aria-label={`Hoy: ${juego.dailyXp} de ${juego.goal} XP, racha de ${racha} días`}>
+      <span className="in-hoy__anillo" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="48" height="48">
+          <circle cx="24" cy="24" r={radio} className="in-hoy__fondo" />
+          <circle cx="24" cy="24" r={radio} className="in-hoy__valor" strokeDasharray={circunferencia} strokeDashoffset={circunferencia * (1 - juego.goalPct / 100)} />
+        </svg>
+        <b translate="no">{cumplido ? "✓" : `${juego.goalPct}%`}</b>
+      </span>
+      <span className="in-hoy__texto">
+        <b>
+          Meta de hoy <span lang="zh">今日目标</span>
+        </b>
+        <small>
+          {juego.dailyXp}/{juego.goal} XP
+        </small>
+        <small className="in-hoy__racha">
+          🔥 {racha} {racha === 1 ? "día" : "días"} · 连续{racha}天
+        </small>
+      </span>
+    </Link>
+  );
+}
+
+// Hoja «Más · 更多» de la barra inferior móvil
+function HojaMas({ abierta, onCerrar, activo }) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    if (!abierta) return;
+    const teclado = (e) => e.key === "Escape" && onCerrar();
+    document.addEventListener("keydown", teclado);
+    ref.current?.querySelector("a")?.focus();
+    return () => document.removeEventListener("keydown", teclado);
+  }, [abierta, onCerrar]);
+  if (!abierta) return null;
+  return (
+    <div className="in-mas" role="dialog" aria-modal="true" aria-label="Más secciones · 更多">
+      <button type="button" className="in-mas__velo" aria-label="Cerrar · 关闭" onClick={onCerrar} />
+      <div className="in-mas__hoja" ref={ref}>
+        <span className="in-mas__rodillo" aria-hidden="true" />
+        <div className="in-mas__cab">
+          <b>
+            Más secciones <span lang="zh">更多</span>
+          </b>
+          <button type="button" className="in-mas__cerrar" onClick={onCerrar} aria-label="Cerrar · 关闭">
+            <XIcon size={20} strokeWidth={2.6} />
+          </button>
+        </div>
+        <div className="in-mas__rejilla">
+          {MOVIL_MAS.map((m) => (
+            <Link key={m.to} to={m.to} className={`in-mas__item ${activo(m.to) ? "on" : ""}`} onClick={onCerrar} onTouchStart={() => precargar(m.to)}>
+              <NavIcon name={m.icon} size={40} />
+              <span>
+                {m.es}
+                <small>{m.zh}</small>
+              </span>
+            </Link>
+          ))}
+        </div>
+        <span className="in-mas__rodillo abajo" aria-hidden="true" />
+      </div>
+    </div>
+  );
+}
 
 // Cielo según la hora de China (UTC+8): noche, amanecer/atardecer o día de pergamino
 function skyNow() {
@@ -44,6 +121,9 @@ export function LightShell({ children, legacy = false, stage = false }) {
   const { logout } = useAppAuth();
   React.useEffect(precargarSecciones, []);
   const mainRef = React.useRef(null);
+  const [masAbierto, setMasAbierto] = React.useState(false);
+  const cerrarMas = React.useCallback(() => setMasAbierto(false), []);
+  React.useEffect(() => setMasAbierto(false), [pathname]);
   const adapt = legacy || ADAPT_ROUTES(pathname);
   React.useEffect(() => (adapt ? attachLightAdapter(mainRef.current) : undefined), [adapt, pathname]);
   const active = (to) =>
@@ -80,6 +160,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
               </span>
             </Link>
           ))}
+          <FichaHoy />
           <SelectorIdioma arriba />
           <a href="#/" className="side-exit" onClick={(e) => (e.preventDefault(), logout())}>
             Salir · 退出
@@ -88,14 +169,25 @@ export function LightShell({ children, legacy = false, stage = false }) {
         <main ref={mainRef} className={pathname.startsWith("/juegos/") ? "game-bg" : ""} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
       </div>
       {createPortal(
-        <nav className="bottom-nav" aria-label="Navegación móvil">
-          {MAIN.map((m) => (
-            <Link key={m.to} to={m.to} className={active(m.to) ? "on" : ""} aria-label={m.es} onTouchStart={() => precargar(m.to)} onPointerEnter={() => precargar(m.to)}>
-              <NavIcon name={m.icon} size={30} />
-              <small>{m.es}</small>
-            </Link>
-          ))}
-        </nav>,
+        <>
+          <nav className="bottom-nav in-barra" aria-label="Navegación móvil">
+            {MOVIL_FIJAS.map((m) => (
+              <Link key={m.to} to={m.to} className={active(m.to) ? "on" : ""} aria-current={active(m.to) ? "page" : undefined} onTouchStart={() => precargar(m.to)} onPointerEnter={() => precargar(m.to)}>
+                <NavIcon name={m.icon} size={30} />
+                <small>{m.es}</small>
+              </Link>
+            ))}
+            <button type="button" className={`in-barra__mas ${MOVIL_MAS.some((m) => active(m.to)) ? "on" : ""}`} aria-haspopup="dialog" aria-expanded={masAbierto} onClick={() => setMasAbierto((v) => !v)}>
+              <span className="in-barra__puntos" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+              <small>Más · 更多</small>
+            </button>
+          </nav>
+          <HojaMas abierta={masAbierto} onCerrar={cerrarMas} activo={active} />
+        </>,
         document.body,
       )}
     </div>

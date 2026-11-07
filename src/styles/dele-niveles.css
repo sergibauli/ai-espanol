@@ -184,3 +184,70 @@
 @keyframes dnPulso { 0%, 100% { transform: scale(1); opacity: .7; } 50% { transform: scale(1.3); opacity: 1; } }
 @keyframes dnBorla { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
 @media (prefers-reduced-motion: reduce) { .dn *, .dn *::before, .dn *::after { animation: none !important; } }
+
+/* ===== v12.1 · TextoDele: textos del examen con párrafos, cartas, turnos de voz y huecos */
+.td { color: #2a1d12; font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif; text-align: left; }
+.td p { margin: 0; white-space: pre-line; }
+.td .td-p, .td .td-saludo, .td .td-despedida, .td .td-firma, .td .td-dice, .td .td-lista li, .td .td-nota {
+  color: #2a1d12 !important; font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif !important;
+}
+/* Lectura principal */
+.td-lectura { font-size: 17.5px; line-height: 1.85; max-width: 68ch; margin: 0 auto; }
+.td.td-lectura .td-p { font-size: 17.5px !important; line-height: 1.85 !important; text-indent: 1.4em; }
+.td.td-lectura .td-p + .td-p { margin-top: 1.05em; }
+.td.td-lectura > .td-p:first-child { text-indent: 0; }
+.td.td-lectura > .td-p:first-child::first-letter {
+  float: left; font-family: "Cinzel", Georgia, serif; font-weight: 700; font-size: 3.35em; line-height: .86;
+  margin: .08em .12em 0 0; padding: .06em .12em .02em; color: #fff6dc; border-radius: 6px;
+  background: linear-gradient(160deg, #c8102e, #8f0c21); box-shadow: 0 0 0 2px #f2c14e, 0 4px 10px -4px rgba(143,12,33,.6);
+}
+.td-numerado .td-p { position: relative; }
+.td-numerado .td-p::before {
+  content: attr(data-n); position: absolute; left: -2.1em; top: .35em; width: 1.5em; height: 1.5em; border-radius: 50%;
+  display: grid; place-items: center; font: 800 10.5px/1 system-ui, sans-serif; text-indent: 0;
+  color: #8f5a1e; background: #fbf1dc; border: 1px solid #e0c48a;
+}
+@media (max-width: 720px) { .td-numerado .td-p::before { display: none; } }
+/* Cartas y correos */
+.td .td-saludo { font-weight: 700; font-size: 1.04em !important; margin-bottom: .8em !important; color: #5a2a12 !important; }
+.td .td-despedida { margin-top: 1.25em !important; font-style: italic; }
+.td .td-firma { font-style: italic; font-weight: 700; font-size: 1.12em !important; color: #8f0c21 !important; display: inline-block; margin-top: .15em !important; padding: 0 .4em .1em 0; border-bottom: 2px solid rgba(200,150,30,.55); }
+.td .td-firma::before { content: "— "; color: #c8961e; }
+/* Huecos de los textos con fragmentos */
+.td-hueco {
+  display: inline-block; min-width: 4.2em; height: 1.35em; margin: 0 .25em; vertical-align: -.25em; border-radius: 6px;
+  background: repeating-linear-gradient(90deg, rgba(200,150,30,.18) 0 6px, rgba(200,150,30,.08) 6px 12px);
+  border: 1.5px dashed #c8961e; box-shadow: inset 0 -2px 0 rgba(200,150,30,.35);
+}
+/* Listas */
+.td .td-lista { margin: .6em 0 .9em; padding: 0; list-style: none; display: grid; gap: .45em; }
+.td .td-lista li { position: relative; padding-left: 1.5em; line-height: 1.65; }
+.td .td-lista li::before { content: "◆"; position: absolute; left: .2em; top: .05em; color: #c8102e; font-size: .8em; }
+/* Compacto: anuncios, bloques A–H, fragmentos */
+.td-compacto { font-size: 15px; line-height: 1.7; }
+.td.td-compacto .td-p { font-size: 15px !important; line-height: 1.7 !important; }
+.td.td-compacto .td-p + .td-p { margin-top: .7em; }
+.td-compacto .td-saludo { margin-bottom: .5em !important; }
+.td-compacto .td-despedida { margin-top: .8em !important; }
+/* Guion / transcripción */
+.td-guion { display: grid; gap: 10px; font-size: 15px; line-height: 1.65; }
+.td.td-guion .td-p { font-size: 15px !important; }
+.td-audio { display: flex; align-items: center; gap: 10px; margin: 8px 0 2px; font: 800 11px/1 system-ui, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #8f0c21; }
+.td-audio::before, .td-audio::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, transparent, #c8961e, transparent); }
+.td-audio span { padding: 5px 12px; border-radius: 999px; background: #fff6dc; border: 1px solid #e0c48a; }
+.td-turno { display: grid; grid-template-columns: 132px 1fr; gap: 12px; align-items: start; }
+.td-quien { display: flex; flex-direction: column; gap: 2px; padding-top: 6px; text-align: right; }
+.td-voz { font: 800 12.5px/1.2 system-ui, sans-serif; color: var(--td-voz, #8f0c21); text-transform: uppercase; letter-spacing: .06em; }
+.td-detalle { font: 600 11px/1.3 system-ui, sans-serif; color: #7a5a3a; }
+.td .td-dice { position: relative; padding: 9px 14px; border-radius: 4px 14px 14px 14px; background: #fffaf0; border: 1px solid #ecd9b0; border-left: 3px solid var(--td-voz, #c8102e); box-shadow: 0 2px 6px -4px rgba(59,36,22,.35); }
+.td-voz-1 { --td-voz: #b4122f; } .td-voz-2 { --td-voz: #1f6f5c; } .td-voz-3 { --td-voz: #8a5a00; }
+.td-voz-4 { --td-voz: #3c4fa0; } .td-voz-5 { --td-voz: #7a2f86; } .td-voz-0 { --td-voz: #5a3a1e; }
+.td .td-acot { font-style: italic; font-family: system-ui, sans-serif; font-size: .82em; color: #7a5a3a; background: rgba(200,150,30,.12); border-radius: 6px; padding: 0 .4em; margin: 0 .15em; white-space: nowrap; }
+.td .td-nota { font: italic 600 12.5px/1.5 system-ui, sans-serif !important; color: #7a5a3a !important; }
+.td-foto { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; border-radius: 12px; background: linear-gradient(135deg, #fff6dc, #f6e6c2); border: 1px solid #e0c48a; font: 600 13.5px/1.55 system-ui, sans-serif; color: #4a2e18; }
+.td-foto-icono { font-size: 18px; line-height: 1.2; }
+@media (max-width: 560px) {
+  .td.td-lectura, .td.td-lectura .td-p { font-size: 16.5px !important; }
+  .td-turno { grid-template-columns: 1fr; gap: 4px; }
+  .td-quien { flex-direction: row; gap: 8px; align-items: baseline; text-align: left; padding-top: 0; }
+}

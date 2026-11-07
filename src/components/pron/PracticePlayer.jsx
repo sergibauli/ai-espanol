@@ -78,6 +78,12 @@ export default function PracticePlayer({ item, familia, onClose }) {
   const [heard, setHeard] = React.useState("");
   const [results, setResults] = React.useState([]);
   const [ended, setEnded] = React.useState(false);
+  // Escape cierra el diálogo
+  React.useEffect(() => {
+    const alPulsar = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", alPulsar);
+    return () => window.removeEventListener("keydown", alPulsar);
+  }, [onClose]);
   const [recording, setRecording] = React.useState(false);
   const [audioUrl, setAudioUrl] = React.useState(null);
 
@@ -246,11 +252,12 @@ export default function PracticePlayer({ item, familia, onClose }) {
       <div className="pp-overlay" role="dialog" aria-modal="true" onClick={onClose}>
         <div className="pp-card" onClick={(e) => e.stopPropagation()}>
           <div className="pp-top">
-            <button className="pp-close" aria-label="Cerrar" onClick={onClose}><XIcon /></button>
+            <button className="pp-close" aria-label="Cerrar · 关闭" onClick={onClose}><XIcon /></button>
             <div className="pp-bar"><i className="pp-bar-fill" style={{ width: pct + "%" }} /></div>
             <span className="pp-count">{total}/{total}</span>
           </div>
           <div className="pp-end">
+            <img className="jd-pp-mono" src={`./mono/${stars === 3 ? "trofeo" : "feliz"}.png`} alt="" />
             <h2>{title}</h2>
             <div className="pp-stars">
               {[0, 1, 2].map((i) => (
@@ -276,7 +283,7 @@ export default function PracticePlayer({ item, familia, onClose }) {
     <div className="pp-overlay" role="dialog" aria-modal="true" onClick={onClose}>
       <div className="pp-card" onClick={(e) => e.stopPropagation()}>
         <div className="pp-top">
-          <button className="pp-close" aria-label="Cerrar" onClick={onClose}><XIcon /></button>
+          <button className="pp-close" aria-label="Cerrar · 关闭" onClick={onClose}><XIcon /></button>
           <div className="pp-bar"><i className="pp-bar-fill" style={{ width: pct + "%" }} /></div>
           <span className="pp-count">{index + 1}/{total}</span>
         </div>
@@ -292,7 +299,7 @@ export default function PracticePlayer({ item, familia, onClose }) {
 
         {mode === "speech" ? (
           <div className="pp-speech">
-            <button className={"pp-mic" + (phase === "listening" ? " listening" : "")} aria-label="Hablar" onClick={onMic}>
+            <button className={"pp-mic" + (phase === "listening" ? " listening" : "")} aria-label="Hablar · 说话" onClick={onMic}>
               <MicIcon size={38} />
             </button>
             <div className="pp-mic-hint">
