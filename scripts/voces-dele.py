@@ -8,7 +8,7 @@ import json, os, sys, wave, subprocess, tempfile, concurrent.futures as cf
 
 lista = json.load(open(sys.argv[1]))
 modelos = sys.argv[2]
-hilos = int(sys.argv[3]) if len(sys.argv) > 3 else 4
+hilos = int(sys.argv[3]) if len(sys.argv) > 3 else 1  # 1 = más rápido: onnxruntime ya usa todos los núcleos
 raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 salida = os.path.join(raiz, "public", "audio", "dele")
 indice = os.path.join(raiz, "src", "data", "audio-index-dele.json")
@@ -24,8 +24,14 @@ VOCES = {
     "ar-daniela": ("es_AR-daniela-high", None, 1.0),
 }
 
-def trabajar(lote):
-    os.environ["OMP_NUM_THREADS"] = "1"
+def trabajar(argumentos):
+    nucleo, lote = argumentos
+    # Un núcleo por proceso: si no, onnxruntime abre un hilo por núcleo en cada proceso y se pisan
+    if hilos > 1:
+        try:
+            os.sched_setaffinity(0, {nucleo % os.cpu_count()})
+        except Exception:
+            pass
     from piper import PiperVoice, SynthesisConfig
     cargadas, hechas = {}, []
     for item in lote:
@@ -54,7 +60,7 @@ lista.sort(key=lambda item: item["voz"])
 lotes = [lista[i::hilos] for i in range(hilos)]
 hechas = []
 with cf.ProcessPoolExecutor(hilos) as ejecutor:
-    for parte in ejecutor.map(trabajar, lotes):
+    for parte in ejecutor.map(trabajar, list(enumerate(lotes))):
         hechas.extend(parte)
 previas = set(json.load(open(indice))) if os.path.exists(indice) else set()
 json.dump(sorted(previas | set(hechas)), open(indice, "w"))
