@@ -1365,8 +1365,12 @@
 }
 .jb-pesa[disabled],
 .jb-opcion[disabled] {
-  opacity: 0.3;
+  opacity: 0.45;
   cursor: default;
+}
+.jb-pesa.is-descartada,
+.jb-opcion.is-descartada {
+  opacity: 0.3;
   text-decoration: line-through;
 }
 .jb-pesa.is-bien,

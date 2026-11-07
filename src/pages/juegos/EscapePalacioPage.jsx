@@ -864,7 +864,7 @@ const PuzleBalanza = React.forwardRef(function PuzleBalanza({ datos, onResuelto,
       </svg>
       <div className="jb-pesas" role="group" aria-label="Pesas · 砝码">
         {q.opciones.map((o) => (
-          <button key={o} type="button" className={`jb-pesa ${elegida === o && estado === "bien" ? "is-bien" : ""} ${elegida === o && estado === "mal" ? "is-mal" : ""}`} disabled={descartadas.includes(o) || estado === "bien"} onClick={() => elegir(o)}>
+          <button key={o} type="button" className={`jb-pesa ${elegida === o && estado === "bien" ? "is-bien" : ""} ${elegida === o && estado === "mal" ? "is-mal" : ""} ${descartadas.includes(o) ? "is-descartada" : ""}`} disabled={descartadas.includes(o) || estado === "bien"} onClick={() => elegir(o)}>
             {o}
           </button>
         ))}
@@ -1013,7 +1013,7 @@ const PuzleEmperador = React.forwardRef(function PuzleEmperador({ datos, onResue
       </div>
       <div className="jb-opciones">
         {q.opciones.map((o) => (
-          <button key={o} type="button" className={`jb-opcion ${bien === o ? "is-bien" : ""}`} disabled={descartadas.includes(o) || (bien && bien !== o)} onClick={() => elegir(o)}>
+          <button key={o} type="button" className={`jb-opcion ${bien === o ? "is-bien" : ""} ${descartadas.includes(o) ? "is-descartada" : ""}`} disabled={descartadas.includes(o) || (bien && bien !== o)} onClick={() => elegir(o)}>
             {o}
           </button>
         ))}
