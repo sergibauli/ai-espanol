@@ -105,7 +105,8 @@ function QComponent() {
     <StarfieldBackground>
       <div className="max-w-4xl mx-auto px-4 py-6 min-h-screen">
         <div style={{ marginBottom: 24 }}>
-          <SectionHero
+          <div className="gm-no-adapt">
+            <SectionHero
             icon={BookOpenIcon}
             accent="#f97316"
             eyebrow="Gramática · 语法"
@@ -118,6 +119,7 @@ function QComponent() {
               { value: h.length, label: "niveles · 个级别" },
             ]}
           />
+          </div>
         </div>
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {h.map((s) => {

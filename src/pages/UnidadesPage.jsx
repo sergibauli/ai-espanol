@@ -4,7 +4,7 @@ import { SearchIcon, PlayIcon, CheckIcon, SparklesIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { useGame } from "../lib/gamification.js";
-import { lessonId } from "../lib/lessons.js";
+import { progresoUnidad } from "../lib/clases.js";
 import CATALOG from "../data/modulos/catalog.json";
 import { Moneda } from "../../packages/imperial/src/index.js";
 
@@ -16,7 +16,7 @@ const LEVELS = [
   { lv: "B2", es: "Avanzado", zh: "中高级", mundo: "Ciudad Prohibida", mundoZh: "紫禁之巅", sello: "龙" },
 ];
 
-function TarjetaUnidad({ m, hechas, onAbrir, i }) {
+function TarjetaUnidad({ m, hechas, prog, onAbrir, i }) {
   const estado = hechas === 5 ? "completada" : hechas > 0 ? "en-curso" : "nueva";
   const ref = React.useRef(null);
   // Inclinación 3D siguiendo el puntero
@@ -40,6 +40,7 @@ function TarjetaUnidad({ m, hechas, onAbrir, i }) {
       </span>
       <span className="un-titulo">{m.titulo.split(" - ")[0]}</span>
       <span className="un-zh">{m.tituloChino.split(" - ")[0]}</span>
+      {prog && <span className="cls-chip-unidad">{prog.total} clases · {prog.total}课</span>}
       <span className="un-pie">
         {estado === "completada" ? (
           <span className="un-estado ok">
@@ -47,7 +48,7 @@ function TarjetaUnidad({ m, hechas, onAbrir, i }) {
           </span>
         ) : estado === "en-curso" ? (
           <span className="un-estado curso">
-            <PlayIcon size={12} strokeWidth={3} /> {hechas}/5 lecciones
+            <PlayIcon size={12} strokeWidth={3} /> {prog ? `${prog.completadas}/${prog.total} clases · 课` : `${hechas}/5`}
           </span>
         ) : (
           <span className="un-estado nueva">
@@ -64,7 +65,12 @@ export default function UnidadesPage() {
   const navigate = useNavigate();
   const [q, setQ] = React.useState("");
   const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-  const hechasDe = (m) => [0, 1, 2, 3, 4].filter((i) => game.lessons[lessonId(m.numero, i)]).length;
+  // Progreso por clases (0–5 para la tarjeta): 5 = todas las clases de la unidad hechas
+  const progresoDe = (m) => progresoUnidad(m.numero, game.lessons);
+  const hechasDe = (m) => {
+    const p = progresoDe(m);
+    return p.completa ? 5 : p.pct > 0 ? Math.min(4, Math.max(1, Math.round(p.pct / 20))) : 0;
+  };
   const completadas = CATALOG.filter((m) => hechasDe(m) === 5).length;
   const pctTotal = Math.round((completadas / CATALOG.length) * 100);
   const irA = (lv) => document.getElementById(`un-${lv}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -135,7 +141,7 @@ export default function UnidadesPage() {
               </div>
               <div className="un-grid">
                 {mods.map((m, i) => (
-                  <TarjetaUnidad key={m.numero} m={m} i={i} hechas={hechasDe(m)} onAbrir={() => navigate(`/modulos/modulo-${m.numero}`)} />
+                  <TarjetaUnidad key={m.numero} m={m} i={i} hechas={hechasDe(m)} prog={progresoDe(m)} onAbrir={() => navigate(`/modulos/modulo-${m.numero}`)} />
                 ))}
               </div>
             </section>

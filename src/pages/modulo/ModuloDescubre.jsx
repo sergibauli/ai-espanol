@@ -6,77 +6,88 @@ import { speak } from "../../components/lesson/fx.js";
 
 function SpeakBtn({ text }) {
   return (
-    <button className="ui-btn sm ghost" style={{ minHeight: 30, padding: "0 9px" }} onClick={() => speak(text)} aria-label="Escuchar">
-      <Volume2Icon size={14} />
+    <button type="button" className="un-lc-voz" onClick={() => speak(text)} aria-label="Escuchar · 听">
+      <Volume2Icon size={16} />
     </button>
   );
 }
 
-function Section({ icon: Icon, title, zh, color, children }) {
+function Section({ icon: Icon, title, zh, tono = "rojo", children }) {
   return (
-    <section className="ui-card" style={{ borderTop: `3px solid ${color}` }}>
-      <div className="ui-row" style={{ marginBottom: 14 }}>
-        <span className="ui-icon" style={{ color, background: `${color}1a`, borderColor: `${color}40` }}>
+    <section className={`un-lc-sec un-lc-sec--${tono}`}>
+      <header className="un-lc-cab">
+        <span className="un-lc-sello" aria-hidden="true">
           <Icon size={20} />
         </span>
         <div>
-          <h3 className="ui-h2" style={{ fontSize: 19 }}>{title}</h3>
-          <div className="ui-zh">{zh}</div>
+          <h3>{title}</h3>
+          <div className="un-lc-zh">{zh}</div>
         </div>
-      </div>
+      </header>
       {children}
     </section>
   );
 }
 
 function Reading({ lectura, showChinese }) {
-  const [answers, setAnswers] = React.useState({});
-  const [zh, setZh] = React.useState(false);
-  const done = Object.keys(answers).length === lectura.preguntas.length;
-  const ok = lectura.preguntas.filter((q, i) => answers[i] === q.correcta).length;
+  const [respuestas, setRespuestas] = React.useState({});
+  const [verZh, setVerZh] = React.useState(false);
+  const terminado = Object.keys(respuestas).length === lectura.preguntas.length;
+  const aciertos = lectura.preguntas.filter((preg, idx) => respuestas[idx] === preg.correcta).length;
+  const texto = verZh || showChinese === "only" ? lectura.textoZh : lectura.texto;
   return (
-    <div className="ui-grid cols-2" style={{ alignItems: "start" }}>
-      <div>
-        <div className="ui-between" style={{ marginBottom: 8 }}>
+    <div className="un-lc-lectura">
+      <article className="un-lc-rollo">
+        <div className="un-lc-rollo-cab">
           <div>
-            <div className="ui-h3">{lectura.titulo}</div>
-            <div className="ui-zh">{lectura.tituloZh}</div>
+            <h4>{lectura.titulo}</h4>
+            <div className="un-lc-zh">{lectura.tituloZh}</div>
           </div>
-          <div className="ui-row" style={{ gap: 4 }}>
+          <div className="un-lc-acciones">
             <SpeakBtn text={lectura.texto} />
-            <button className="ui-chip" onClick={() => setZh((v) => !v)}>
-              {zh ? "Español" : "中文"}
+            <button type="button" className={`un-lc-chip ${verZh ? "on" : ""}`} aria-pressed={verZh} onClick={() => setVerZh((v) => !v)}>
+              {verZh ? "Español" : "中文"}
             </button>
           </div>
         </div>
-        <div className="ui-reading">{zh || showChinese === "only" ? lectura.textoZh : lectura.texto}</div>
-      </div>
-      <div className="ui-stack">
-        {lectura.preguntas.map((q, i) => (
-          <div key={i} className="ui-stack" style={{ gap: 8 }}>
-            <div style={{ fontWeight: 800 }}>
-              {i + 1}. {q.pregunta}
-              {showChinese && <div className="ui-zh" style={{ fontWeight: 500 }}>{q.preguntaZh}</div>}
+        <div className="un-lc-texto" lang={verZh ? "zh" : "es"}>
+          {String(texto || "").split(/\n+/).filter(Boolean).map((parrafo, idx) => (
+            <p key={idx}>{parrafo}</p>
+          ))}
+        </div>
+      </article>
+      <div className="un-lc-preguntas">
+        {lectura.preguntas.map((preg, idx) => (
+          <div key={idx} className="un-lc-preg">
+            <div className="un-lc-preg-txt">
+              <span className="un-lc-num">{idx + 1}</span>
+              <div>
+                {preg.pregunta}
+                {showChinese && <div className="un-lc-zh">{preg.preguntaZh}</div>}
+              </div>
             </div>
-            {q.opciones.map((op, j) => {
-              const picked = answers[i] === j;
-              let cls = "ui-option";
-              if (answers[i] !== undefined) {
-                if (j === q.correcta) cls += " is-right";
-                else if (picked) cls += " is-wrong";
+            {preg.opciones.map((opcion, j) => {
+              const elegida = respuestas[idx] === j;
+              let estado = "";
+              if (respuestas[idx] !== undefined) {
+                if (j === preg.correcta) estado = "bien";
+                else if (elegida) estado = "mal";
               }
               return (
-                <button key={j} className={cls} style={{ padding: "9px 12px", fontSize: 14 }} disabled={answers[i] !== undefined} onClick={() => setAnswers((a) => ({ ...a, [i]: j }))}>
-                  <span className="ui-letter">{"ABCD"[j]}</span> {op}
+                <button key={j} type="button" className={`un-lc-op ${estado}`} disabled={respuestas[idx] !== undefined} onClick={() => setRespuestas((r) => ({ ...r, [idx]: j }))}>
+                  <span className="un-lc-letra">{"ABCD"[j]}</span>
+                  <span>{opcion}</span>
+                  {estado === "bien" && <CheckIcon size={18} className="un-lc-marca" />}
+                  {estado === "mal" && <XIcon size={18} className="un-lc-marca" />}
                 </button>
               );
             })}
-            {answers[i] !== undefined && <div className="ui-muted" style={{ fontSize: 13 }}>💡 {q.explicacionZh}</div>}
+            {respuestas[idx] !== undefined && <div className="un-lc-pista">💡 {preg.explicacionZh}</div>}
           </div>
         ))}
-        {done && (
-          <div className={`ui-chip ${ok === lectura.preguntas.length ? "ok" : "warn"}`} style={{ alignSelf: "flex-start", fontSize: 14 }}>
-            <TrophyIcon size={14} /> {ok}/{lectura.preguntas.length} correctas
+        {terminado && (
+          <div className={`un-lc-total ${aciertos === lectura.preguntas.length ? "ok" : ""}`}>
+            <TrophyIcon size={16} /> {aciertos}/{lectura.preguntas.length} correctas · 答对
           </div>
         )}
       </div>
@@ -85,43 +96,51 @@ function Reading({ lectura, showChinese }) {
 }
 
 function Gaps({ huecos }) {
-  const [vals, setVals] = React.useState({});
-  const [checked, setChecked] = React.useState(false);
+  const [valores, setValores] = React.useState({});
+  const [corregido, setCorregido] = React.useState(false);
   const norm = (s) => String(s || "").trim().toLowerCase();
   return (
-    <div className="ui-stack">
-      {huecos.map((h, i) => {
-        const [a, b] = h.frase.split("___");
-        const right = norm(vals[i]) === norm(h.respuesta);
+    <div className="un-lc-huecos">
+      {huecos.map((hueco, idx) => {
+        const [antes, despues] = hueco.frase.split("___");
+        const bien = norm(valores[idx]) === norm(hueco.respuesta);
         return (
-          <div key={i} style={{ fontSize: 16, lineHeight: 2 }}>
-            {a}
-            <input
-              className="ui-input"
-              value={vals[i] || ""}
-              onChange={(e) => setVals((v) => ({ ...v, [i]: e.target.value }))}
-              style={{ display: "inline-block", width: Math.max(90, h.respuesta.length * 13), minHeight: 34, padding: "4px 8px", margin: "0 6px", borderColor: checked ? (right ? "var(--ui-ok)" : "var(--ui-bad)") : undefined }}
-              aria-label={`Hueco ${i + 1}`}
-            />
-            {b}
-            {checked && !right && <span style={{ color: "var(--ui-ok)", fontWeight: 800, marginLeft: 8 }}>→ {h.respuesta}</span>}
-            <div className="ui-zh" style={{ fontSize: 13, lineHeight: 1.4 }}>💡 {h.pistaZh}</div>
+          <div key={idx} className="un-lc-hueco">
+            <div className="un-lc-hueco-frase">
+              <span className="un-lc-num">{idx + 1}</span>
+              <span>
+                {antes}
+                <input
+                  className={`un-lc-input ${corregido ? (bien ? "bien" : "mal") : ""}`}
+                  value={valores[idx] || ""}
+                  onChange={(e) => setValores((v) => ({ ...v, [idx]: e.target.value }))}
+                  style={{ width: Math.max(96, hueco.respuesta.length * 13 + 24) }}
+                  aria-label={`Hueco ${idx + 1}`}
+                  autoCapitalize="off"
+                  autoComplete="off"
+                />
+                {despues}
+                {corregido && !bien && <b className="un-lc-sol">→ {hueco.respuesta}</b>}
+              </span>
+            </div>
+            <div className="un-lc-pista">💡 {hueco.pistaZh}</div>
           </div>
         );
       })}
-      <div className="ui-row">
-        <button className="ui-btn primary sm" onClick={() => setChecked(true)}>
+      <div className="un-lc-botones">
+        <button type="button" className="un-lc-btn" onClick={() => setCorregido(true)}>
           Corregir · 检查
         </button>
-        {checked && (
+        {corregido && (
           <button
-            className="ui-btn sm"
+            type="button"
+            className="un-lc-btn ghost"
             onClick={() => {
-              setVals({});
-              setChecked(false);
+              setValores({});
+              setCorregido(false);
             }}
           >
-            Reintentar
+            Reintentar · 再试一次
           </button>
         )}
       </div>
@@ -136,48 +155,48 @@ export default function ModuloDescubre({ numero, showChinese }) {
     loadModulePlus(numero).then(setPlus);
   }, [numero]);
 
-  if (plus === undefined) return <div className="ui-empty">Cargando…</div>;
-  if (!plus) return <div className="ui-empty">Contenido extra próximamente.</div>;
+  if (plus === undefined) return <div className="ui-empty">Cargando… · 加载中…</div>;
+  if (!plus) return <div className="ui-empty">Contenido extra próximamente. · 即将推出</div>;
 
   return (
-    <div className="ui-stack" style={{ gap: 18, fontFamily: "var(--ui-font)", color: "var(--ui-text)" }}>
+    <div className="un-lc gm-no-adapt">
       {plus.objetivos?.length > 0 && (
-        <Section icon={TargetIcon} title="Al terminar este módulo podrás…" zh="学完本模块，你将能够……" color="#34d399">
-          <div className="ui-grid cols-2">
-            {plus.objetivos.map((o, i) => (
-              <div key={i} className="ui-row" style={{ alignItems: "flex-start", flexWrap: "nowrap" }}>
-                <CheckIcon size={18} style={{ color: "#34d399", flexShrink: 0, marginTop: 2 }} />
+        <Section icon={TargetIcon} title="Al terminar este módulo podrás…" zh="学完本模块，你将能够……" tono="jade">
+          <ul className="un-lc-objetivos">
+            {plus.objetivos.map((obj, idx) => (
+              <li key={idx}>
+                <CheckIcon size={18} className="un-lc-marca" />
                 <div>
-                  <div style={{ fontWeight: 700 }}>{o.es}</div>
-                  <div className="ui-zh">{o.zh}</div>
+                  <b>{obj.es}</b>
+                  <div className="un-lc-zh">{obj.zh}</div>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </Section>
       )}
 
       {plus.lectura && (
-        <Section icon={BookOpenIcon} title="Lectura · comprensión" zh="阅读理解" color="#3dd6ff">
+        <Section icon={BookOpenIcon} title="Lectura · comprensión" zh="阅读理解">
           <Reading lectura={plus.lectura} showChinese={showChinese} />
         </Section>
       )}
 
       {plus.errores?.length > 0 && (
-        <Section icon={AlertTriangleIcon} title="Errores típicos de sinohablantes" zh="中国学生常见错误" color="#f87171">
-          <div className="ui-grid cols-2">
-            {plus.errores.map((e, i) => (
-              <div key={i} className="ui-card" style={{ padding: 14, background: "rgba(255,255,255,0.025)" }}>
-                <div className="ui-row" style={{ gap: 8, flexWrap: "nowrap" }}>
-                  <XIcon size={16} style={{ color: "var(--ui-bad)", flexShrink: 0 }} />
-                  <span style={{ textDecoration: "line-through", color: "#fca5a5" }}>{e.incorrecto}</span>
+        <Section icon={AlertTriangleIcon} title="Errores típicos de sinohablantes" zh="中国学生常见错误">
+          <div className="un-lc-errores">
+            {plus.errores.map((err, idx) => (
+              <div key={idx} className="un-lc-error">
+                <div className="un-lc-mal">
+                  <XIcon size={16} className="un-lc-marca" />
+                  <s>{err.incorrecto}</s>
                 </div>
-                <div className="ui-row" style={{ gap: 8, marginTop: 6, flexWrap: "nowrap" }}>
-                  <CheckIcon size={16} style={{ color: "var(--ui-ok)", flexShrink: 0 }} />
-                  <b style={{ color: "#a7f3d0" }}>{e.correcto}</b>
-                  <SpeakBtn text={e.correcto} />
+                <div className="un-lc-bien">
+                  <CheckIcon size={16} className="un-lc-marca" />
+                  <b>{err.correcto}</b>
+                  <SpeakBtn text={err.correcto} />
                 </div>
-                <div className="ui-zh" style={{ marginTop: 8, lineHeight: 1.5 }}>{e.explicacionZh}</div>
+                <div className="un-lc-expl">{err.explicacionZh}</div>
               </div>
             ))}
           </div>
@@ -185,42 +204,42 @@ export default function ModuloDescubre({ numero, showChinese }) {
       )}
 
       {plus.frases?.length > 0 && (
-        <Section icon={MessageSquareQuoteIcon} title="Frases para la vida real" zh="实用句子" color="#fbbf24">
-          <div className="ui-grid cols-2" style={{ gap: 10 }}>
-            {plus.frases.map((f, i) => (
-              <div key={i} className="ui-between" style={{ padding: "10px 12px", borderRadius: 12, background: "rgba(255,255,255,0.03)", border: "1px solid var(--ui-border)", flexWrap: "nowrap" }}>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ fontWeight: 800 }}>{f.es}</div>
-                  <div className="ui-zh">
-                    {f.zh} {f.situacion && <span className="ui-chip" style={{ padding: "1px 7px", fontSize: 11, marginLeft: 4 }}>{f.situacion}</span>}
-                  </div>
+        <Section icon={MessageSquareQuoteIcon} title="Frases para la vida real" zh="实用句子" tono="oro">
+          <div className="un-lc-frases">
+            {plus.frases.map((frase, idx) => (
+              <div key={idx} className="un-lc-frase">
+                <div>
+                  <b>{frase.es}</b>
+                  <div className="un-lc-zh">{frase.zh}</div>
+                  {frase.situacion && <span className="un-lc-situ">{frase.situacion}</span>}
                 </div>
-                <SpeakBtn text={f.es} />
+                <SpeakBtn text={frase.es} />
               </div>
             ))}
           </div>
         </Section>
       )}
 
-      <div className="ui-grid cols-2" style={{ alignItems: "start" }}>
+      <div className="un-lc-dos">
         {plus.cultura && (
-          <Section icon={GlobeIcon} title={plus.cultura.titulo} zh={plus.cultura.tituloZh} color="#c084fc">
-            <p style={{ lineHeight: 1.7, margin: 0 }}>{plus.cultura.texto}</p>
-            {showChinese && <p className="ui-zh" style={{ lineHeight: 1.7 }}>{plus.cultura.textoZh}</p>}
+          <Section icon={GlobeIcon} title={plus.cultura.titulo} zh={plus.cultura.tituloZh} tono="jade">
+            <p className="un-lc-parrafo">{plus.cultura.texto}</p>
+            {showChinese && <p className="un-lc-parrafo un-lc-zh">{plus.cultura.textoZh}</p>}
             {plus.cultura.comparacionChina && (
-              <div className="ui-card" style={{ padding: 12, marginTop: 12, background: "rgba(255,61,139,0.08)", borderColor: "rgba(255,61,139,0.3)" }}>
-                🇨🇳 {plus.cultura.comparacionChina}
+              <div className="un-lc-china">
+                <b>🇨🇳 China · 中国</b>
+                {plus.cultura.comparacionChina}
               </div>
             )}
           </Section>
         )}
         {plus.pronunciacion && (
-          <Section icon={Volume2Icon} title={`Pronunciación: ${plus.pronunciacion.foco}`} zh="发音重点" color="#ff7a1a">
-            <p style={{ lineHeight: 1.6, marginTop: 0 }}>{plus.pronunciacion.consejoZh}</p>
-            <div className="ui-row" style={{ gap: 8 }}>
-              {plus.pronunciacion.palabras?.map((w) => (
-                <button key={w} className="ui-chip" style={{ fontSize: 15, padding: "7px 13px" }} onClick={() => speak(w)}>
-                  <Volume2Icon size={13} /> {w}
+          <Section icon={Volume2Icon} title={`Pronunciación: ${plus.pronunciacion.foco}`} zh="发音重点" tono="oro">
+            <p className="un-lc-parrafo">{plus.pronunciacion.consejoZh}</p>
+            <div className="un-lc-palabras">
+              {plus.pronunciacion.palabras?.map((palabra) => (
+                <button key={palabra} type="button" className="un-lc-chip" onClick={() => speak(palabra)}>
+                  <Volume2Icon size={14} /> {palabra}
                 </button>
               ))}
             </div>
@@ -229,18 +248,21 @@ export default function ModuloDescubre({ numero, showChinese }) {
       </div>
 
       {plus.huecos?.length > 0 && (
-        <Section icon={TargetIcon} title="Completa las frases" zh="填空练习" color="#60a5fa">
+        <Section icon={TargetIcon} title="Completa las frases" zh="填空练习">
           <Gaps huecos={plus.huecos} />
         </Section>
       )}
 
       {plus.reto && (
-        <section className="ui-card is-hero">
-          <div className="ui-eyebrow">
-            <TrophyIcon size={14} /> Reto final · 最终挑战
+        <section className="un-lc-reto">
+          <span className="un-lc-reto-sello" aria-hidden="true" translate="no">挑战</span>
+          <div>
+            <small>
+              <TrophyIcon size={14} /> Reto final · 最终挑战
+            </small>
+            <b>{plus.reto.es}</b>
+            <div className="un-lc-zh">{plus.reto.zh}</div>
           </div>
-          <div className="ui-h2" style={{ marginTop: 8 }}>{plus.reto.es}</div>
-          <div className="ui-zh" style={{ marginTop: 6 }}>{plus.reto.zh}</div>
         </section>
       )}
     </div>

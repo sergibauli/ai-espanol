@@ -7,6 +7,7 @@ import { GameStats, GoalRing } from "../components/ui/GameStats.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { useGame, BADGES, setDailyGoal } from "../lib/gamification.js";
 import { buildLesson, lessonId, LESSON_META, LESSONS_PER_MODULE } from "../lib/lessons.js";
+import { progresoUnidad, moduloDeClase, plusDeClase } from "../lib/clases.js";
 import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
@@ -22,11 +23,11 @@ const LEVELS = [
 ];
 // Desplazamiento horizontal en zigzag (como un camino)
 const OFFSETS = [0, 48, 70, 48, 0, -48, -70, -48];
-// Geometría del camino dorado: 5 lecciones + cofre, en un carril de ancho fijo
+// Geometría del camino dorado: una parada por clase (2–3) + cofre del examen de la unidad, en un carril de ancho fijo
 const TRACK_W = 300;
-const ROW = 142;
+const ROW = 150;
 const TOP = 100;
-const puntosCamino = (idx) => Array.from({ length: LESSONS_PER_MODULE + 1 }, (_, i) => [TRACK_W / 2 + OFFSETS[(idx * 5 + i) % OFFSETS.length], TOP + i * ROW]);
+const puntosCamino = (idx, paradas) => Array.from({ length: paradas + 1 }, (_, i) => [TRACK_W / 2 + OFFSETS[(idx * 3 + i) % OFFSETS.length], TOP + i * ROW]);
 const curva = ([fx, fy], [tx, ty]) => `C${fx} ${fy + (ty - fy) / 2} ${tx} ${ty - (ty - fy) / 2} ${tx} ${ty}`;
 // Trazado desde la entrada (arriba, bajo la cabecera) hasta el punto `hasta`
 const trazado = (pts, hasta = pts.length - 1) => {
@@ -96,17 +97,22 @@ export default function RutaPage() {
     }
   });
 
-  // Estado de cada nodo: hecho, disponible (el siguiente) o bloqueado
-  const done = (m, i) => Boolean(game.lessons[lessonId(m, i)]);
-  const unlocked = (idx, i) => {
-    const m = mods[idx].numero;
-    if (done(m, i)) return true;
-    if (i > 0) return done(m, i - 1);
-    return idx === 0 || done(mods[idx - 1].numero, LESSONS_PER_MODULE - 1);
+  // Progreso por clases de cada unidad del nivel (lecciones hechas, clases completadas)
+  const progresos = Object.fromEntries(mods.map((m) => [m.numero, progresoUnidad(m.numero, game.lessons)]));
+  // Estado de cada parada (clase): hecha, disponible o bloqueada
+  const claseHecha = (numero, n) => Boolean(progresos[numero]?.clases.find((c) => c.n === n)?.completada);
+  const unlocked = (idx, n) => {
+    const { numero } = mods[idx];
+    const estado = progresos[numero].clases.find((c) => c.n === n);
+    if (estado?.completada || estado?.hechas) return true;
+    if (n > 1) return claseHecha(numero, n - 1);
+    if (idx === 0) return true;
+    const anterior = progresos[mods[idx - 1].numero];
+    return anterior.completa || claseHecha(mods[idx - 1].numero, anterior.total);
   };
   let current = null;
   mods.forEach((m, idx) => {
-    for (let i = 0; i < LESSONS_PER_MODULE; i++) if (!current && unlocked(idx, i) && !done(m.numero, i)) current = `${m.numero}-${i}`;
+    for (const c of progresos[m.numero].clases) if (!current && unlocked(idx, c.n) && !c.completada) current = `${m.numero}-${c.n}`;
   });
 
   React.useEffect(() => {
@@ -114,17 +120,19 @@ export default function RutaPage() {
     return () => clearTimeout(t);
   }, [level]);
 
-  const start = async (numero, index) => {
+  // Lección `index` de la clase `clase`: solo con el contenido de esa clase
+  const start = async (numero, clase, index) => {
     setLoading(true);
     const [all, plus] = await Promise.all([loadAllModules(), loadModulePlus(numero)]);
-    const mod = all.find((m) => m.numero === numero);
-    setLesson(buildLesson(mod, plus, index, Date.now(), Boolean(game.lessons[lessonId(numero, index)])));
+    const mod = moduloDeClase(all.find((m) => m.numero === numero), clase);
+    setLesson(buildLesson(mod, plusDeClase(plus, numero, clase), index, Date.now(), Boolean(game.lessons[lessonId(numero, index, clase)])));
     setLoading(false);
     setOpen(null);
   };
 
   const modActual = mods.find((m) => current?.startsWith(`${m.numero}-`)) || mods[0];
-  const levelDone = (l) => CATALOG.filter((m) => m.nivel === l.key).reduce((n, m) => n + [0, 1, 2, 3, 4].filter((i) => done(m.numero, i)).length, 0);
+  const levelDone = (l) => CATALOG.filter((m) => m.nivel === l.key).reduce((n, m) => n + progresoUnidad(m.numero, game.lessons).completadas, 0);
+  const levelTotal = (l) => CATALOG.filter((m) => m.nivel === l.key).reduce((n, m) => n + progresoUnidad(m.numero, game.lessons).total, 0);
 
   return (
     <LightShell>
@@ -142,13 +150,13 @@ export default function RutaPage() {
           </div>
           <div className="ruta-levels">
             {LEVELS.map((l) => {
-              const total = CATALOG.filter((m) => m.nivel === l.key).length * LESSONS_PER_MODULE;
+              const total = levelTotal(l);
               return (
                 <button key={l.key} className={`ruta-level ${l.key === lv.key ? "on" : ""}`} style={{ "--c": l.color, "--d": l.dark }} onClick={() => setParams({ nivel: l.key })}>
                   <b>{l.key}</b>
                   <em className="ruta-region">{REGION[l.key][0]}</em>
-                  <small>
-                    {levelDone(l)}/{total}
+                  <small title="Clases hechas · 已完成课程">
+                    {levelDone(l)}/{total} clases · 课
                   </small>
                 </button>
               );
@@ -170,17 +178,22 @@ export default function RutaPage() {
                   </small>
                   <h2>{m.titulo.split(" - ")[0]}</h2>
                   <span>{m.tituloChino.split(" - ")[0]}</span>
+                  <span className="ruta-clases-chip">
+                    {progresos[m.numero].completadas}/{progresos[m.numero].total} clases · {progresos[m.numero].total}课
+                  </span>
                 </div>
                 <Link to={`/modulos/modulo-${m.numero}`} className="ruta-guide" title="Teoría, vocabulario, diálogos y juegos del módulo">
                   <BookOpenIcon size={18} /> Guía
                 </Link>
               </div>
               {(() => {
-                const pts = puntosCamino(idx);
-                const hechas = [0, 1, 2, 3, 4].filter((i) => done(m.numero, i)).length;
-                const alcanzada = unlocked(idx, 0);
-                const iCur = LESSON_META.findIndex((_, i) => current === `${m.numero}-${i}`);
-                const alto = TOP + LESSONS_PER_MODULE * ROW + 70;
+                const prog = progresos[m.numero];
+                const paradas = prog.total;
+                const pts = puntosCamino(idx, paradas);
+                const hechas = prog.completadas;
+                const alcanzada = unlocked(idx, 1);
+                const iCur = prog.clases.findIndex((c) => current === `${m.numero}-${c.n}`);
+                const alto = TOP + paradas * ROW + 70;
                 return (
                   <div className="ruta-camino-wrap" style={{ height: alto }}>
                     <span className={`ruta-farol ${idx % 2 ? "izq" : "der"}`} aria-hidden="true" />
@@ -193,51 +206,71 @@ export default function RutaPage() {
                         <path className="piedra" d={trazado(pts)} />
                         {alcanzada && (
                           <>
-                            <path className="halo" d={trazado(pts, Math.min(hechas, LESSONS_PER_MODULE))} />
-                            <path className="oro" d={trazado(pts, Math.min(hechas, LESSONS_PER_MODULE))} />
-                            <path className="luz" d={trazado(pts, Math.min(hechas, LESSONS_PER_MODULE))} />
+                            <path className="halo" d={trazado(pts, Math.min(hechas, paradas))} />
+                            <path className="oro" d={trazado(pts, Math.min(hechas, paradas))} />
+                            <path className="luz" d={trazado(pts, Math.min(hechas, paradas))} />
                           </>
                         )}
                       </svg>
-                      {LESSON_META.map((meta, i) => {
-                        const isDone = done(m.numero, i);
-                        const isOpen = unlocked(idx, i);
-                        const isCurrent = current === `${m.numero}-${i}`;
-                        const key = `${m.numero}-${i}`;
-                        const best = game.lessons[lessonId(m.numero, i)]?.best;
+                      {prog.clases.map((clase, i) => {
+                        const isDone = clase.completada;
+                        const isOpen = unlocked(idx, clase.n);
+                        const isCurrent = current === `${m.numero}-${clase.n}`;
+                        const key = `${m.numero}-${clase.n}`;
+                        const siguiente = clase.lecciones.findIndex((hecha) => !hecha);
                         return (
                           <div key={key} className={`ruta-node-wrap ${open === key ? "abierto" : ""}`} style={{ left: pts[i][0], top: pts[i][1] }} ref={isCurrent ? currentRef : null}>
-                            {isCurrent && <div className="ruta-start">EMPEZAR · 开始</div>}
+                            {isCurrent && <div className="ruta-start">{clase.hechas ? "SEGUIR · 继续" : "EMPEZAR · 开始"}</div>}
                             <button
                               className={`path-node ${isDone ? "done" : isOpen ? "open" : "locked"} ${isCurrent ? "current" : ""}`}
+                              style={{ position: "relative" }}
                               onClick={() => setOpen(open === key ? null : key)}
-                              aria-label={`${meta.es} · módulo ${m.numero}`}
+                              aria-label={`Clase ${clase.n} · unidad ${m.numero}`}
                             >
-                              <Moneda tamano={isCurrent ? 92 : 78} tono={isDone ? "oro" : isCurrent ? "jade" : isOpen ? "oro" : "bronce"} brillo={isDone || isCurrent}>
-                                {isDone ? best === 100 ? <StarIcon size={26} fill="currentColor" /> : <CheckIcon size={28} strokeWidth={3.5} /> : isCurrent ? null : isOpen ? <Emoji3D emoji={i === 0 ? m.icono : meta.emoji} size={32} /> : <LockIcon size={20} />}
+                              {isOpen && !isDone && <span className="ruta-clase-anillo" style={{ "--p": Math.round((clase.hechas / LESSONS_PER_MODULE) * 100) }} aria-hidden="true" />}
+                              <Moneda tamano={isCurrent ? 92 : 80} tono={isDone ? "oro" : isCurrent ? "jade" : isOpen ? "oro" : "bronce"} brillo={isDone || isCurrent}>
+                                {isDone ? clase.nota === 100 ? <StarIcon size={26} fill="currentColor" /> : <CheckIcon size={28} strokeWidth={3.5} /> : isCurrent ? null : isOpen ? <Emoji3D emoji={i === 0 ? m.icono : LESSON_META[Math.min(i, 4)].emoji} size={32} /> : <LockIcon size={20} />}
                               </Moneda>
+                              <span className="ruta-clase-sello" translate="no">第{clase.n}课</span>
                             </button>
                             {open === key && (
                               <div className="ruta-pop" style={{ "--c": isOpen ? lv.color : "#4a3a2a", "--dx": `${TRACK_W / 2 - pts[i][0]}px` }}>
-                                <b>{meta.es}</b>
+                                <b>
+                                  Clase {clase.n} · 第{clase.n}课
+                                </b>
                                 <span>
-                                  {meta.zh} · Lección {i + 1} de 5
+                                  {clase.titulo} · ~{clase.minutos || 50} min
                                 </span>
                                 {isOpen ? (
-                                  <button className="btn3d" style={{ "--c": "#fff", "--d": "rgba(0,0,0,.25)", color: lv.dark, padding: "12px 16px" }} disabled={loading} onClick={() => start(m.numero, i)}>
-                                    {loading ? "Cargando…" : isDone ? "Practicar otra vez · +10 XP" : "Empezar · +10 XP"}
-                                  </button>
+                                  <>
+                                    <div className="ruta-pop-lecciones">
+                                      {LESSON_META.map((meta, k) => {
+                                        const hecha = clase.lecciones[k];
+                                        const abierta = k === 0 || hecha || clase.lecciones[k - 1];
+                                        return (
+                                          <button key={meta.key} className={`ruta-pop-leccion ${hecha ? "hecha" : ""}`} disabled={loading || !abierta} onClick={() => start(m.numero, clase.n, k)}>
+                                            <i>{hecha ? "✓" : k + 1}</i>
+                                            {meta.es} · {meta.zh}
+                                            <small>{hecha ? "otra vez" : k === siguiente ? "+10 XP" : abierta ? "" : "🔒"}</small>
+                                          </button>
+                                        );
+                                      })}
+                                    </div>
+                                    <Link className="ruta-pop-abrir" to={`/modulos/modulo-${m.numero}?clase=${clase.n}`}>
+                                      Abrir la clase completa · 打开本课 →
+                                    </Link>
+                                  </>
                                 ) : (
-                                  <span style={{ opacity: 0.9 }}>🔒 Completa la lección anterior para desbloquearla.</span>
+                                  <span style={{ opacity: 0.9 }}>🔒 Termina la clase anterior para desbloquearla. · 完成上一课后解锁</span>
                                 )}
                               </div>
                             )}
                           </div>
                         );
                       })}
-                      <Link to={`/modulos/modulo-${m.numero}?tab=examen`} className={`ruta-chest ${done(m.numero, 4) ? "ganado" : ""}`} style={{ left: pts[5][0], top: pts[5][1] }} title="Examen del módulo">
-                        <Moneda tamano={96} tono={done(m.numero, 4) ? "oro" : "bronce"} brillo={done(m.numero, 4)}>
-                          <Emoji3D emoji={done(m.numero, 4) ? "🏆" : "🎁"} size={44} float={done(m.numero, 4)} />
+                      <Link to={`/modulos/modulo-${m.numero}?tab=examen&examen=unidad&clase=${paradas}`} className={`ruta-chest ${prog.completa ? "ganado" : ""}`} style={{ left: pts[paradas][0], top: pts[paradas][1] }} title="Examen de la unidad · 单元考试">
+                        <Moneda tamano={96} tono={prog.completa ? "oro" : "bronce"} brillo={prog.completa}>
+                          <Emoji3D emoji={prog.completa ? "🏆" : "🎁"} size={44} float={prog.completa} />
                         </Moneda>
                       </Link>
                       {iCur >= 0 && <MonoViajero desde={iCur ? pts[iCur - 1] : [TRACK_W / 2, 0]} hasta={pts[iCur]} pose={["saluda", "poder", "feliz", "guino"][idx % 4]} />}
@@ -276,11 +309,11 @@ export default function RutaPage() {
           </PanelJade>
           <PanelJade as="div" className="ruta-passport" titulo="Pasaporte del viaje" tituloZh="旅行护照" icono={<Emoji3D emoji="🛂" size={26} />}>
             <small className="ruta-jade-dato">
-              {CATALOG.filter((m) => [0, 1, 2, 3, 4].every((i) => done(m.numero, i))).length}/80 sellos · 印章
+              {CATALOG.filter((m) => progresoUnidad(m.numero, game.lessons).completa).length}/{CATALOG.length} sellos · 印章
             </small>
             <div className="ruta-stamps">
               {CATALOG.filter((m) => m.nivel === lv.key).map((m) => {
-                const got = [0, 1, 2, 3, 4].every((i) => done(m.numero, i));
+                const got = progresos[m.numero]?.completa;
                 return (
                   <span key={m.numero} className={`ruta-stamp ${got ? "got" : ""}`} title={`${STOP[m.numero]?.ciudad} · ${STOP[m.numero]?.lugar}`}>
                     <Emoji3D emoji={STOP[m.numero]?.emoji || "🏯"} size={24} />
@@ -341,7 +374,7 @@ export default function RutaPage() {
 function firstOpenLevel(lessons) {
   for (const l of LEVELS) {
     const mods = CATALOG.filter((m) => m.nivel === l.key);
-    if (mods.some((m) => [0, 1, 2, 3, 4].some((i) => !lessons[lessonId(m.numero, i)]))) return l.key;
+    if (mods.some((m) => !progresoUnidad(m.numero, lessons).completa)) return l.key;
   }
   return "A1";
 }

@@ -201,6 +201,7 @@ function NComponent() {
     <StarfieldBackground>
       <div className="max-w-6xl mx-auto px-4 py-6 min-h-screen relative z-10">
         <div style={{ marginBottom: 24 }}>
+          <div className="gm-no-adapt">
           <SectionHero
             icon={YoutubeIcon}
             accent="#ff4d4d"
@@ -211,6 +212,7 @@ function NComponent() {
             descriptionZh="来自西班牙、墨西哥、哥伦比亚和阿根廷的真实西语，按级别和口音分类。"
             stats={[{ value: g.length, label: "canales y listas · 个频道" }]}
           />
+          </div>
         </div>
         <div className="flex flex-wrap gap-2 justify-center mb-8">
           {y.map((a) => (

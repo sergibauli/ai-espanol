@@ -1684,6 +1684,7 @@ function UComponent() {
       <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen relative">
         <DComponent />
         <div className="relative z-10" style={{ marginBottom: 24 }}>
+          <div className="gm-no-adapt">
           <SectionHero
             icon={SparklesIcon}
             accent="#3b82f6"
@@ -1693,6 +1694,7 @@ function UComponent() {
             description="Conectores, plantillas y técnicas para escribir textos del DELE: narrar, opinar, argumentar, cartas y correos."
             descriptionZh="DELE写作用的连接词、模板和技巧：叙述、观点、论证、信件和邮件。"
           />
+          </div>
         </div>
         <div className="relative z-10 mb-8">
           <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">

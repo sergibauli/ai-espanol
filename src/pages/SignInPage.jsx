@@ -1,107 +1,106 @@
-import { useAuth, useUser, SignIn } from "@clerk/clerk-react";
-import { SparklesIcon, ArrowLeftIcon } from "lucide-react";
+import { useAuth, SignIn } from "@clerk/clerk-react";
+import { ArrowLeftIcon, ShieldCheckIcon, WifiOffIcon } from "lucide-react";
 import * as React from "react";
 import { useNavigate, Link } from "react-router";
-import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
-function FComponent() {
-  const { isSignedIn, isLoaded } = useAuth();
-  const { user } = useUser();
-  const t = useNavigate();
-  React.useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      t("/dashboard");
+import { Logo } from "../../packages/imperial/src/index.js";
+
+// Sin ClerkProvider (pruebas locales) los hooks de Clerk lanzan: se trata como «no ha entrado»
+function useAuthSeguro() {
+  try {
+    return useAuth();
+  } catch {
+    return { isLoaded: true, isSignedIn: false };
+  }
+}
+
+// Si el formulario de Clerk no carga (sin red o sin proveedor), se muestra un aviso en lugar de romper la página
+class FormularioSeguro extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { fallo: false };
+  }
+  static getDerivedStateFromError() {
+    return { fallo: true };
+  }
+  render() {
+    if (this.state.fallo) {
+      return (
+        <div className="tp-acceso-error tp-acceso-fallo" role="alert">
+          <WifiOffIcon size={22} aria-hidden="true" />
+          <p>
+            <b>No se ha podido cargar el inicio de sesión</b>
+            <span>无法加载登录，请检查网络后刷新。</span>
+            Comprueba tu conexión y vuelve a cargar la página.
+          </p>
+          <button type="button" className="tp-btn-laca" onClick={() => location.reload()}>
+            Recargar · 刷新
+          </button>
+        </div>
+      );
     }
-  }, [isLoaded, isSignedIn, t]);
+    return this.props.children;
+  }
+}
+
+const ORO = "#c8961e";
+export default function SignInPage() {
+  const { isSignedIn, isLoaded } = useAuthSeguro();
+  const navegar = useNavigate();
+  React.useEffect(() => {
+    if (isLoaded && isSignedIn) navegar("/dashboard");
+  }, [isLoaded, isSignedIn, navegar]);
   React.useEffect(() => {
     try {
-      const n = sessionStorage.getItem("dele_auth");
-      const s = sessionStorage.getItem("dele_expiry");
-      if (n === "true" && s && Date.now() < Number(s)) {
-        t("/dashboard");
-      }
+      const sesion = sessionStorage.getItem("dele_auth");
+      const caduca = sessionStorage.getItem("dele_expiry");
+      if (sesion === "true" && caduca && Date.now() < Number(caduca)) navegar("/dashboard");
     } catch {}
-  }, [t]);
+  }, [navegar]);
+
   return (
-    <StarfieldBackground>
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 relative">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/3 left-1/4 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl" />
-        </div>
-        <div className="relative z-10 w-full max-w-sm">
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-2 text-white/40 hover:text-orange-400 text-sm mb-6 transition-colors"
-          >
-            <ArrowLeftIcon size={16} />
-            <span>Volver al login / 返回登录</span>
+    <div className="tp-acceso">
+      <span className="tp-acceso-luz" aria-hidden="true" />
+      <div className="tp-acceso-rollo">
+        <span className="tp-rodillo arriba" aria-hidden="true" />
+        <main className="tp-acceso-papel">
+          <span className="tp-acceso-sello" aria-hidden="true" translate="no">
+            <i>登</i>
+            <i>录</i>
+          </span>
+          <Logo tamano={48} />
+          <h1>
+            Iniciar sesión
+            <small>登录</small>
+          </h1>
+          <p className="tp-acceso-sub">
+            <ShieldCheckIcon size={16} aria-hidden="true" /> Acceso seguro con tu cuenta de la academia · 使用学校账号安全登录
+          </p>
+          <div className="tp-acceso-clerk">
+            <FormularioSeguro>
+              <SignIn
+                routing="hash"
+                appearance={{
+                  variables: { colorPrimary: "#a5112a", colorText: "#2b190e", colorTextSecondary: "#5a3a22", colorBackground: "#fffaf0", colorInputBackground: "#fffdf6", borderRadius: "14px", fontFamily: "Plus Jakarta Sans, PingFang SC, sans-serif" },
+                  layout: { socialButtonsVariant: "iconButton", showOptionalFields: false },
+                  elements: {
+                    card: { boxShadow: "none", border: 0, background: "transparent", padding: 0 },
+                    headerTitle: { display: "none" },
+                    headerSubtitle: { display: "none" },
+                    footerAction: { display: "none" },
+                    formButtonPrimary: { minHeight: "48px", borderRadius: "99px", background: "linear-gradient(#d4253a, #a5112a 55%, #7d0a1d)", border: `2px solid #f2c14e`, fontWeight: 800 },
+                    formFieldInput: { minHeight: "46px", border: `1.5px solid ${ORO}` },
+                    socialButtonsIconButton: { minHeight: "46px", border: `1.5px solid ${ORO}` },
+                  },
+                }}
+              />
+            </FormularioSeguro>
+          </div>
+          <Link to="/" className="tp-btn-texto tp-acceso-volver">
+            <ArrowLeftIcon size={15} aria-hidden="true" /> Portada · 首页
           </Link>
-          <div className="text-center mb-6">
-            <div
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 via-red-500 to-pink-600 flex items-center justify-center mx-auto mb-3 shadow-xl"
-              style={{
-                boxShadow: "0 0 30px rgba(255,138,42,0.3)",
-              }}
-            >
-              <SparklesIcon size={28} className="text-white" />
-            </div>
-            <h1 className="text-2xl font-bold text-white mb-1">
-              AI <span className="text-orange-400">Espanol</span>
-            </h1>
-            <p className="text-white/40 text-sm">Acceso seguro con Clerk / Clerk安全登录</p>
-          </div>
-          <div
-            className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl p-6"
-            style={{
-              boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)",
-            }}
-          >
-            <SignIn
-              routing="hash"
-              signUpUrl="#/sign-in"
-              appearance={{
-                layout: {
-                  socialButtonsVariant: "iconButton",
-                  showOptionalFields: false,
-                },
-                elements: {
-                  card: "bg-transparent shadow-none border-0 p-0",
-                  headerTitle: "text-white text-lg font-bold hidden",
-                  headerSubtitle: "text-white/40 text-sm hidden",
-                  socialButtonsBlockButton:
-                    "bg-white/10 border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all h-10",
-                  formButtonPrimary:
-                    "bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-semibold rounded-xl transition-all shadow-lg h-10",
-                  formFieldInput:
-                    "bg-white/10 border border-white/20 text-white rounded-xl placeholder:text-white/30 focus:border-orange-500/50 h-10",
-                  formFieldLabel: "text-white/60 text-sm",
-                  footerActionLink: "text-orange-400 hover:text-orange-300",
-                  identityPreviewText: "text-white/60",
-                  identityPreviewEditButton: "text-orange-400",
-                  alternativeMethodsBlockButton:
-                    "bg-white/10 border border-white/20 text-white hover:bg-white/20 rounded-xl",
-                  otpCodeFieldInput: "bg-white/10 border border-white/20 text-white rounded-xl",
-                  dividerLine: "bg-white/10",
-                  dividerText: "text-white/30 text-xs",
-                  formFieldErrorText: "text-red-400 text-xs",
-                  alertText: "text-red-400",
-                  main: "gap-3",
-                  formFieldAction: "text-orange-400 hover:text-orange-300",
-                  formFields: "gap-3",
-                  footer: "text-white/40 text-sm",
-                  footerAction: "text-white/40",
-                },
-              }}
-            />
-          </div>
-          <div className="text-center mt-4">
-            <Link to="/login" className="text-white/30 text-xs hover:text-white/50 transition-colors">
-              ← También puedes acceder con Admin / 也可以用管理员登录
-            </Link>
-          </div>
-        </div>
+        </main>
+        <span className="tp-rodillo abajo" aria-hidden="true" />
       </div>
-    </StarfieldBackground>
+    </div>
   );
 }
-export { FComponent as default };

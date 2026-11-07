@@ -207,6 +207,7 @@ function ZComponent() {
     <StarfieldBackground>
       <div className="max-w-4xl mx-auto px-4 py-6 min-h-screen">
         <div style={{ marginBottom: 24 }}>
+          <div className="gm-no-adapt">
           <SectionHero
             icon={AwardIcon}
             accent="#ff3d8b"
@@ -221,6 +222,7 @@ function ZComponent() {
               </Link>
             }
           />
+          </div>
         </div>
         <div className="space-y-5 fx-stagger">
           {v.map((t) => {

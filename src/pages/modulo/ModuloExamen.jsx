@@ -18,12 +18,13 @@ const MODOS = {
  * - «Examen de la unidad»: todas las clases; con 80 o más la unidad (y todas sus clases) queda completada.
  * onTerminar(resultado, { modo, clase }) avisa a la página (p. ej. para ofrecer la clase siguiente).
  */
-export default function ModuloExamen({ numero, moduloId, clase = null, onTerminar }) {
+export default function ModuloExamen({ numero, moduloId, clase = null, modoInicial, onTerminar }) {
   const clases = clasesDe(numero);
   const total = clases.length;
   const info = clase ? clases.find((c) => c.n === Number(clase)) : null;
-  const [modo, setModo] = React.useState(info && total > 1 ? "clase" : "unidad");
-  const [preguntas, setPreguntas] = React.useState(MODOS[info && total > 1 ? "clase" : "unidad"].porDefecto);
+  const modoPorDefecto = modoInicial === "unidad" || !(info && total > 1) ? "unidad" : "clase";
+  const [modo, setModo] = React.useState(modoPorDefecto);
+  const [preguntas, setPreguntas] = React.useState(MODOS[modoPorDefecto].porDefecto);
   const [exam, setExam] = React.useState(null);
   const [cargando, setCargando] = React.useState(false);
   const idModulo = moduloId || `modulo-${numero}`;
@@ -31,10 +32,9 @@ export default function ModuloExamen({ numero, moduloId, clase = null, onTermina
   React.useEffect(() => {
     // Al cambiar de clase en la página, el examen vuelve a la tarjeta de inicio
     setExam(null);
-    const m = info && total > 1 ? "clase" : "unidad";
-    setModo(m);
-    setPreguntas(MODOS[m].porDefecto);
-  }, [numero, clase]);
+    setModo(modoPorDefecto);
+    setPreguntas(MODOS[modoPorDefecto].porDefecto);
+  }, [numero, clase, modoInicial]);
 
   const elegirModo = (m) => {
     setModo(m);

@@ -912,7 +912,7 @@ export default function UnitPage() {
             <React.Suspense fallback={<div className="ui-empty">Cargando… · 加载中</div>}>
               {extra === "descubre" && <ModuloDescubre key={`descubre-${clase}`} numero={numero} plus={plus} clase={clase} showChinese />}
               {extra === "juegos" && <ModuloJuegos vocabulario={mod.vocabulario || []} moduloId={mod.id} />}
-              {extra === "examen" && <ModuloExamen numero={numero} moduloId={mod.id} clase={varias ? clase : null} />}
+              {extra === "examen" && <ModuloExamen numero={numero} moduloId={mod.id} clase={varias ? clase : null} modoInicial={params.get("examen") === "unidad" ? "unidad" : undefined} />}
             </React.Suspense>
           </div>
         )}

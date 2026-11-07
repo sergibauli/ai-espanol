@@ -58,6 +58,13 @@ const PREGUNTAS_FALLBACK = [
 ];
 
 const FASES = ["elegir", "preparar", "monologo", "conversacion", "corregir"];
+const NOMBRES_FASE = [
+  ["Elegir", "选择"],
+  ["Preparar", "准备"],
+  ["Monólogo", "独白"],
+  ["Conversación", "对话"],
+  ["Corrección", "批改"],
+];
 
 // formatea segundos como mm:ss
 function fmt(seg) {
@@ -97,6 +104,7 @@ export default function ExaminadorOralPage() {
   const [audioMonologo, setAudioMonologo] = React.useState(null);
   const [audiosRespuestas, setAudiosRespuestas] = React.useState([]);
   const [recDisponible, setRecDisponible] = React.useState(true);
+  const [cargando, setCargando] = React.useState(false);
 
   const timerRef = React.useRef(null);
   const mediaRecRef = React.useRef(null);
@@ -246,7 +254,9 @@ export default function ExaminadorOralPage() {
     setCorreccion(null);
     setAudioMonologo(null);
     setAudiosRespuestas([]);
+    setCargando(true);
     await cargarPuntos();
+    setCargando(false);
     setFase("preparar");
     setSegundos(prepTiempo);
     iniciarTimer(prepTiempo, () => setFase("monologo"));
@@ -393,13 +403,19 @@ export default function ExaminadorOralPage() {
           description="Practica la expresión e interacción orales del DELE con un examinador de IA: preparación cronometrada, monólogo, conversación y corrección."
           descriptionZh="用AI考官练习DELE口语表达与互动：限时准备、独白、对话和批改。"
         />
-        <div className="oe-steps">
-          {FASES.map((f, i) => (
-            <span key={f} className={"oe-step" + (i <= pasoActual ? " on" : "")} />
+        <ol className="oe-steps tp-eo-pasos" aria-label="Fases del examen · 考试阶段">
+          {FASES.map((fase_, indice) => (
+            <li key={fase_} className={"oe-step" + (indice <= pasoActual ? " on" : "") + (indice === pasoActual ? " actual" : "")} aria-current={indice === pasoActual ? "step" : undefined}>
+              <b>{indice + 1}</b>
+              <span>
+                {NOMBRES_FASE[indice][0]}
+                <small>{NOMBRES_FASE[indice][1]}</small>
+              </span>
+            </li>
           ))}
-        </div>
+        </ol>
 
-        <div className="oe-card">
+        <div className="oe-card tp-eo">
           {fase === "elegir" && (
             <div className="oe-elegir">
               <CuotaIA className="oe-cuota" />
@@ -409,29 +425,48 @@ export default function ExaminadorOralPage() {
                   <button
                     key={n}
                     className={"oe-level" + (nivel === n ? " on" : "")}
+                    aria-pressed={nivel === n}
                     onClick={() => { setNivel(n); setTema(TASKS[n].temas[0]); }}
                   >{n}</button>
                 ))}
               </div>
-              <p className="oe-task"><strong>{tareaExterna || task.tarea}</strong> · {task.zh}</p>
+              <div className="tp-eo-ficha">
+                <img src="./mono/serio.png" alt="" className="tp-eo-mono" />
+                <div>
+                  <p className="oe-task"><strong>{tareaExterna || task.tarea}</strong> · {task.zh}</p>
+                  <ul className="tp-eo-datos">
+                    <li><ClockIcon size={15} aria-hidden="true" /> Preparación {Math.round(prepTiempo / 60) || 1} min · 准备</li>
+                    <li><MicIcon size={15} aria-hidden="true" /> Hablas {Math.round(hablaTiempo / 60 * 10) / 10} min · 发言</li>
+                    <li><Volume2Icon size={15} aria-hidden="true" /> {task.preguntas} preguntas · 问题</li>
+                  </ul>
+                </div>
+              </div>
               <h4>Tema · 话题</h4>
               <div className="oe-temas">
                 {task.temas.map((t) => (
-                  <button key={t} className={"oe-tema" + (tema === t ? " on" : "")} onClick={() => setTema(t)}>{t}</button>
+                  <button key={t} className={"oe-tema" + (tema === t ? " on" : "")} aria-pressed={tema === t} onClick={() => setTema(t)}>{t}</button>
                 ))}
               </div>
-              <label className="oe-toggle">
-                <input type="checkbox" checked={rapido} onChange={(e) => setRapido(e.target.checked)} />
-                Modo rápido · 快速模式
-              </label>
-              <button className="oe-start" onClick={empezar}><PlayIcon size={16} /> Empezar · 开始</button>
+              <div className="tp-eo-acciones">
+                <label className="oe-toggle tp-eo-interruptor">
+                  <input type="checkbox" checked={rapido} onChange={(e) => setRapido(e.target.checked)} />
+                  <span className="tp-eo-riel" aria-hidden="true" />
+                  <span>
+                    Modo rápido · 快速模式
+                    <small>{rapido ? "1 min de preparación · 准备1分钟" : "Tiempos oficiales · 官方时间"}</small>
+                  </span>
+                </label>
+                <button className="oe-start" onClick={empezar} disabled={cargando}>
+                  <PlayIcon size={18} /> {cargando ? "Preparando la tarea… · 正在准备" : "Empezar · 开始"}
+                </button>
+              </div>
             </div>
           )}
 
           {fase === "preparar" && (
             <div className="oe-preparar">
               <h3><ClockIcon size={16} /> Preparación · 准备阶段</h3>
-              <div className="oe-timer">{fmt(segundos)}</div>
+              <div className="oe-timer" role="timer" aria-label="Tiempo restante · 剩余时间">{fmt(segundos)}</div>
               <p><strong>{tema}</strong></p>
               <ul className="oe-puntos">
                 {puntos.map((p, i) => (
@@ -448,10 +483,11 @@ export default function ExaminadorOralPage() {
           {fase === "monologo" && (
             <div className="oe-monologo">
               <h3><ClockIcon size={16} /> Monólogo · 独白</h3>
-              <div className="oe-timer">{fmt(segundos)}</div>
+              <div className="oe-timer" role="timer" aria-label="Tiempo restante · 剩余时间">{fmt(segundos)}</div>
               <p><strong>{tema}</strong></p>
               <button
                 className={"oe-mic" + (grabando ? " rec" : "")}
+                aria-label={grabando ? "Parar la grabación · 停止录音" : "Grabar · 录音"}
                 onClick={grabando ? detenerGrabacion : () => iniciarGrabacion((url) => setAudioMonologo(url))}
               >
                 {grabando ? <SquareIcon size={28} /> : <MicIcon size={28} />}
@@ -472,12 +508,13 @@ export default function ExaminadorOralPage() {
                   <img className="oe-avatar" src="./mono/serio.png" alt="examinador" />
                   <div className="oe-q">
                     <span>{preguntaActual}</span>
-                    <button className="oe-replay" onClick={() => speakIA(preguntaActual)}><Volume2Icon size={14} /></button>
+                    <button className="oe-replay" aria-label="Escuchar la pregunta · 再听一遍" onClick={() => speakIA(preguntaActual)}><Volume2Icon size={14} /></button>
                   </div>
                 </div>
               )}
               <button
                 className={"oe-mic" + (grabando ? " rec" : "")}
+                aria-label={grabando ? "Parar la grabación · 停止录音" : "Responder hablando · 语音回答"}
                 onClick={grabando ? detenerGrabacion : iniciarRespuesta}
               >
                 {grabando ? <SquareIcon size={24} /> : <MicIcon size={24} />}
@@ -492,8 +529,12 @@ export default function ExaminadorOralPage() {
           {fase === "corregir" && (
             <div className="oe-corregir">
               <h3>Corrección · 批改</h3>
-              {isCorrecting && !correccion && <p>Corrigiendo como un examinador… · 考官批改中…</p>}
-              {limitReached && <p>Has alcanzado el límite de correcciones. · 已达到批改上限。</p>}
+              {isCorrecting && !correccion && (
+                <p className="tp-eo-estado" role="status"><span className="tp-eo-pincel" aria-hidden="true" /> Corrigiendo como un examinador… · 考官批改中…</p>
+              )}
+              {limitReached && (
+                <p className="tp-eo-estado error" role="alert">Has usado tus 5 consultas de IA de esta semana: se renuevan el lunes. Escucha tus grabaciones abajo. · 本周5次AI已用完，周一更新。可以先回听录音。</p>
+              )}
               {correccion && <CorrectionCard data={correccion} />}
               {audioMonologo && (
                 <div className="oe-audio">

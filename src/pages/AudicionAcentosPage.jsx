@@ -108,14 +108,14 @@ export default function AudicionAcentosPage() {
   const d = DIALOGOS.find((x) => x.id === sel);
   return (
     <LightShell>
-      <div className="ui-page">
+      <div className="ui-page jd-au">
         <SectionHero eyebrow="Audición · 听力" title="Acentos del español" titleZh="西班牙、墨西哥、阿根廷口音" description="En el DELE B1 y B2 oirás acentos de España y de América. Practica con voces reales de cada país: escucha dos veces, responde y después mira la transcripción." descriptionZh="DELE B1、B2会出现不同国家的口音。听两遍，作答，然后看原文。" />
         {d ? (
           <Dialogo key={d.id} d={d} onBack={() => setSel(null)} />
         ) : (
           ["A2", "B1", "B2"].map((lv) => (
             <section key={lv}>
-              <h2 className="unit-h2">{lv}</h2>
+              <h2 className="unit-h2 jd-au-nivel">Nivel {lv} · {lv} 级</h2>
               <div className="au-grid">
                 {DIALOGOS.filter((x) => x.nivel === lv).map((x) => (
                   <button key={x.id} className="au-item" onClick={() => setSel(x.id)}>
