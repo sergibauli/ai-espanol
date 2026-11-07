@@ -12,6 +12,8 @@ import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
 import { MonoNube, Moneda, PanelJade } from "../../packages/imperial/src/index.js";
+import { MundoRuta, EscenaTramo } from "../components/ruta/MundoRuta.jsx";
+import "../styles/v13-ruta-mundos.css";
 const STOP = Object.fromEntries(STOPS.map((s) => [s.n, s]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
 
@@ -116,8 +118,8 @@ export default function RutaPage() {
   });
 
   React.useEffect(() => {
-    const t = setTimeout(() => currentRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 400);
-    return () => clearTimeout(t);
+    const temporizador = setTimeout(() => currentRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 400);
+    return () => clearTimeout(temporizador);
   }, [level]);
 
   // Lección `index` de la clase `clase`: solo con el contenido de esa clase
@@ -131,14 +133,14 @@ export default function RutaPage() {
   };
 
   const modActual = mods.find((m) => current?.startsWith(`${m.numero}-`)) || mods[0];
-  const levelDone = (l) => CATALOG.filter((m) => m.nivel === l.key).reduce((n, m) => n + progresoUnidad(m.numero, game.lessons).completadas, 0);
-  const levelTotal = (l) => CATALOG.filter((m) => m.nivel === l.key).reduce((n, m) => n + progresoUnidad(m.numero, game.lessons).total, 0);
+  const levelDone = (nivel) => CATALOG.filter((unidad) => unidad.nivel === nivel.key).reduce((suma, unidad) => suma + progresoUnidad(unidad.numero, game.lessons).completadas, 0);
+  const levelTotal = (nivel) => CATALOG.filter((unidad) => unidad.nivel === nivel.key).reduce((suma, unidad) => suma + progresoUnidad(unidad.numero, game.lessons).total, 0);
 
   return (
     <LightShell>
       <div className="ruta-layout">
-        <main className={`ruta-main map-${lv.key}`}>
-          <span className="ruta-ink" aria-hidden="true" />
+        <main className={`ruta-main map-${lv.key} mr-on`}>
+          <MundoRuta nivel={lv.key} />
           <span className="ruta-dragon d1" aria-hidden="true" />
           <span className="ruta-dragon d2" aria-hidden="true" />
           <div className="ruta-region-title">
@@ -149,14 +151,14 @@ export default function RutaPage() {
             </span>
           </div>
           <div className="ruta-levels">
-            {LEVELS.map((l) => {
-              const total = levelTotal(l);
+            {LEVELS.map((nivel) => {
+              const total = levelTotal(nivel);
               return (
-                <button key={l.key} className={`ruta-level ${l.key === lv.key ? "on" : ""}`} style={{ "--c": l.color, "--d": l.dark }} onClick={() => setParams({ nivel: l.key })}>
-                  <b>{l.key}</b>
-                  <em className="ruta-region">{REGION[l.key][0]}</em>
+                <button key={nivel.key} className={`ruta-level ${nivel.key === lv.key ? "on" : ""}`} style={{ "--c": nivel.color, "--d": nivel.dark }} onClick={() => setParams({ nivel: nivel.key })}>
+                  <b>{nivel.key}</b>
+                  <em className="ruta-region">{REGION[nivel.key][0]}</em>
                   <small title="Clases hechas · 已完成课程">
-                    {levelDone(l)}/{total} clases · 课
+                    {levelDone(nivel)}/{total} clases · 课
                   </small>
                 </button>
               );
@@ -196,10 +198,7 @@ export default function RutaPage() {
                 const alto = TOP + paradas * ROW + 70;
                 return (
                   <div className="ruta-camino-wrap" style={{ height: alto }}>
-                    <span className={`ruta-farol ${idx % 2 ? "izq" : "der"}`} aria-hidden="true" />
-                    <span className={`ruta-farol peq ${idx % 2 ? "der" : "izq"}`} aria-hidden="true" />
-                    <span className="ruta-nube n1" aria-hidden="true" />
-                    <span className="ruta-nube n2" aria-hidden="true" />
+                    <EscenaTramo nivel={lv.key} idx={idx} />
                     <div className="ruta-camino" style={{ width: TRACK_W, height: alto }}>
                       <svg className="ruta-carretera" width={TRACK_W} height={alto} aria-hidden="true">
                         <path className="borde" d={trazado(pts)} />

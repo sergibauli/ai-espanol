@@ -1,0 +1,120 @@
+/* ===== v13 · Ruta: un mundo ilustrado por nivel (MundoRuta.jsx) =====
+   A1 invierno en Pekín · A2 atardecer en la Ruta de la Seda · B1 noche de canales y el Bund · B2 niebla del karst y el Tíbet.
+   Capas: cielo (CSS) + panorama fijo (sticky, 3 capas SVG con parallax ligado al scroll) + partículas + viñetas por unidad. */
+
+.light-page .ruta-main.mr-on { background: var(--mr-base) !important; }
+.ruta-main.mr-on { view-timeline: --mrRuta block; }
+.ruta-main.mr-on:has(.mr-A1) { --mr-base: #dfe6ec; } .ruta-main.mr-on:has(.mr-A2) { --mr-base: #e9a85a; }
+.ruta-main.mr-on:has(.mr-B1) { --mr-base: #102a44; } .ruta-main.mr-on:has(.mr-B2) { --mr-base: #cfe0d6; }
+
+.mr-mundo { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: clip; border-radius: inherit; }
+.mr-fijo { position: sticky; top: 0; height: 100vh; overflow: hidden; container-type: inline-size; }
+.mr-cielo, .mr-capa, .mr-particulas, .mr-px2, .mr-px3 { position: absolute; inset: 0; }
+.mr-capa svg { display: block; width: 100%; height: 100%; overflow: visible; }
+/* Velo de pergamino arriba para que el título y las pestañas de nivel se lean igual que siempre */
+.mr-velo { position: absolute; left: 0; right: 0; top: 0; height: 360px; background: linear-gradient(180deg, rgba(241,226,192,.98) 0, rgba(241,226,192,.94) 190px, rgba(241,226,192,0) 100%); }
+/* El resto del contenido (título, pestañas sticky, unidades, dragones) ya está posicionado y se pinta encima */
+.ruta-main.mr-on > .ruta-region-title { position: relative; }
+
+/* Cielos */
+.mr-A1 .mr-cielo { background: linear-gradient(180deg, #6f8db0 0%, #a9bfd3 34%, #dfe6ec 58%, #f2efe8 100%); }
+.mr-A2 .mr-cielo { background: linear-gradient(180deg, #3a1d48 0%, #8e3658 22%, #e0683a 46%, #f7b35c 62%, #fbe0a0 74%, #e9a85a 76%); }
+.mr-B1 .mr-cielo { background: linear-gradient(180deg, #0b1733 0%, #1d3363 38%, #4f4677 57%, #c9805c 70.5%, #0d2740 72%); }
+.mr-B2 .mr-cielo { background: linear-gradient(180deg, #a3c4c0 0%, #cfe1da 38%, #eef2e6 62%, #cfe0d6 100%); }
+
+/* ---------- Partículas ambientales (solo transform/opacity) ---------- */
+.mr-copo { position: absolute; top: -12px; width: 7px; height: 7px; border-radius: 50%; background: #fff; box-shadow: 0 0 2px rgba(60,80,110,.45); opacity: .9; scale: var(--s);
+  animation: mrNieve var(--t) linear var(--d) infinite; will-change: transform; }
+@keyframes mrNieve { to { transform: translate3d(var(--x), 102vh, 0) rotate(180deg); } }
+
+.mr-arena { position: absolute; left: -80px; width: 64px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgba(255,236,190,0), rgba(255,236,190,.85)); scale: var(--s);
+  animation: mrArena var(--t) linear var(--d) infinite; will-change: transform; }
+@keyframes mrArena { 0% { transform: translate3d(0, 0, 0); opacity: 0; } 15%, 80% { opacity: 1; } 100% { transform: translate3d(calc(100cqw + 160px), -18px, 0); opacity: 0; } }
+.mr-caravana { position: absolute; left: 0; bottom: 25.4%; width: clamp(150px, 34cqw, 220px); animation: mrCaravana 80s linear -30s infinite; will-change: transform; }
+.mr-caravana svg { display: block; width: 100%; filter: drop-shadow(0 0 1px rgba(255,214,140,.6)); }
+.mr-caravana svg g { animation: mrPaso 1.6s ease-in-out infinite; transform-box: fill-box; }
+.mr-caravana svg g:nth-child(2n) { animation-delay: -.8s; }
+@keyframes mrCaravana { from { transform: translateX(-240px); } to { transform: translateX(calc(100cqw + 20px)); } }
+@keyframes mrPaso { 50% { translate: 0 -1.5px; } }
+.mr-cometa { position: absolute; width: 44px; transform-origin: 50% 100%; animation: mrCometa 6s ease-in-out var(--d) infinite; }
+.mr-cometa svg { display: block; width: 100%; }
+@keyframes mrCometa { 0%, 100% { transform: rotate(-7deg) translateY(0); } 50% { transform: rotate(8deg) translateY(-10px); } }
+
+.mr-linterna { position: absolute; bottom: -20px; width: 12px; height: 15px; border-radius: 45% 45% 40% 40%; scale: var(--s);
+  background: radial-gradient(circle at 50% 40%, #fff1b8, #ff9a3c 45%, #d8402a 80%); box-shadow: 0 0 14px 4px rgba(255,150,60,.55);
+  animation: mrSube var(--t) linear var(--d) infinite; will-change: transform; }
+@keyframes mrSube { 0% { transform: translate3d(0, 0, 0); opacity: 0; } 10% { opacity: .95; } 80% { opacity: .85; } 100% { transform: translate3d(30px, -85vh, 0); opacity: 0; } }
+.mr-reflejo { position: absolute; width: 7px; height: 46px; border-radius: 4px; background: linear-gradient(rgba(255,210,120,.85), rgba(255,120,80,0)); animation: mrBrillo 2.4s ease-in-out var(--d) infinite; transform-origin: 50% 0; }
+@keyframes mrBrillo { 50% { transform: scaleY(.65) scaleX(1.6); opacity: .45; } }
+.mr-barca { position: absolute; left: 56%; bottom: 3%; width: clamp(96px, 22cqw, 150px); animation: mrBarca 5s ease-in-out infinite; }
+.mr-barca svg, .mr-balsa svg { display: block; width: 100%; }
+@keyframes mrBarca { 0%, 100% { transform: translate(0, 0) rotate(-1.5deg); } 50% { transform: translate(-14px, -4px) rotate(1.5deg); } }
+
+.mr-niebla { position: absolute; left: -30%; width: 160%; height: 16%; background: radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,.62), rgba(255,255,255,0) 70%); animation: mrNiebla 38s ease-in-out infinite alternate; will-change: transform; }
+.mr-niebla.f1 { top: 47%; } .mr-niebla.f2 { top: 62%; animation-duration: 46s; animation-delay: -20s; opacity: .8; } .mr-niebla.f3 { top: 76%; animation-duration: 30s; animation-delay: -9s; opacity: .7; }
+@keyframes mrNiebla { from { transform: translateX(-14%); } to { transform: translateX(14%); } }
+.mr-balsa { position: absolute; left: 41%; bottom: 7%; width: clamp(64px, 14cqw, 96px); animation: mrBarca 6s ease-in-out infinite; }
+.mr-hoja { position: absolute; top: -14px; width: 11px; height: 7px; border-radius: 0 100% 0 100%; background: #6aa75a; scale: var(--s); opacity: .9; animation: mrNieve var(--t) linear var(--d) infinite; will-change: transform; }
+.mr-hoja.rosa { background: #f4a6c0; border-radius: 60% 0 60% 0; }
+
+/* ---------- Viñetas a los lados del camino de cada unidad ---------- */
+.mr-on .ruta-farol, .mr-on .ruta-nube { display: none; }
+.mr-vineta { position: absolute; z-index: 0; top: 4%; width: clamp(108px, 27%, 190px); pointer-events: none; --halo: rgba(255,255,255,.8); }
+.mr-vineta svg { position: relative; display: block; width: 100%; height: auto; overflow: visible;
+  -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent 98%); mask-image: linear-gradient(180deg, #000 74%, transparent 98%); }
+/* Base de nube / bruma bajo cada viñeta: parecen islas flotando en el mapa, como las nubes auspiciosas */
+.mr-vineta::before { content: ""; position: absolute; left: -14%; right: -14%; bottom: -4%; height: 34%; border-radius: 50%; background: radial-gradient(closest-side, var(--halo), transparent); }
+.ruta-main:has(.mr-A2) .mr-vineta { --halo: rgba(255,214,150,.75); }
+.ruta-main:has(.mr-B1) .mr-vineta { --halo: rgba(110,170,230,.3); }
+.ruta-main:has(.mr-B2) .mr-vineta { --halo: rgba(255,255,255,.78); }
+.mr-vineta.izq { left: 4px; } .mr-vineta.der { right: 4px; }
+.mr-vineta.baja { top: 44%; }
+/* Animaciones de las viñetas */
+.mr-anima-balanceo { animation: mrBalanceo 5s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes mrBalanceo { 50% { transform: rotate(1.6deg) translateY(-3px); } }
+.mr-vin-cometa { animation: mrCometa 5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+.mr-anima-bambu .mr-vin-cana { animation: mrBambu 6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+.mr-anima-bambu .mr-vin-cana:nth-child(2n) { animation-delay: -3s; }
+@keyframes mrBambu { 50% { transform: rotate(2.2deg); } }
+.mr-anima-banderas .mr-vin-banderas { animation: mrBanderas 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 0; }
+@keyframes mrBanderas { 50% { transform: skewX(-6deg) translateY(1px); } }
+.mr-vin-reflejo { animation: mrBrillo 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 0; }
+.mr-vin-balsa { animation: mrBarca 6s ease-in-out infinite; transform-box: fill-box; }
+
+/* ---------- Parallax ligado al scroll (sin JS; navegadores sin soporte lo ven estático) ---------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .mr-lejos { animation: mrPx1 linear both; animation-timeline: --mrRuta; animation-range: contain 0% contain 100%; }
+    .mr-medio, .mr-px2 { animation: mrPx2 linear both; animation-timeline: --mrRuta; animation-range: contain 0% contain 100%; }
+    .mr-cerca, .mr-px3 { animation: mrPx3 linear both; animation-timeline: --mrRuta; animation-range: contain 0% contain 100%; }
+    .mr-cielo { animation: mrPxCielo linear both; animation-timeline: --mrRuta; animation-range: contain 0% contain 100%; }
+    .mr-vineta { animation: mrPxVin linear both; animation-timeline: view(); animation-range: cover; }
+    .mr-vineta.der { --py: 46px; }
+  }
+}
+@keyframes mrPx1 { to { translate: 0 -34px; } }
+@keyframes mrPx2 { to { translate: 0 -60px; } }
+@keyframes mrPx3 { to { translate: 0 -90px; } }
+@keyframes mrPxCielo { to { filter: brightness(.94) saturate(1.12); } }
+@keyframes mrPxVin { from { translate: 0 var(--py, 28px); } to { translate: 0 calc(var(--py, 28px) * -1); } }
+
+/* ---------- Legibilidad del camino sobre cada mundo ---------- */
+.mr-on.ruta-main .ruta-carretera .borde { stroke-width: 34; }
+.ruta-main:has(.mr-A1) .ruta-carretera .borde { stroke: rgba(52,66,90,.26); }
+.ruta-main:has(.mr-A2) .ruta-carretera .borde { stroke: rgba(92,40,12,.3); }
+.ruta-main:has(.mr-B1) .ruta-carretera .borde { stroke: rgba(4,10,24,.5); }
+.ruta-main:has(.mr-B2) .ruta-carretera .borde { stroke: rgba(24,58,44,.3); }
+.ruta-main:has(.mr-B1) .ruta-camino-wrap::after { background: radial-gradient(ellipse 46% 58% at 50% 50%, rgba(255,190,90,.22), transparent 72%); }
+.ruta-main:has(.mr-A1) .ruta-camino-wrap::after { background: radial-gradient(ellipse 46% 58% at 50% 50%, rgba(255,236,190,.4), transparent 72%); mix-blend-mode: normal; }
+
+@media (max-width: 900px) {
+  .mr-vineta { width: 30%; opacity: .62; }
+  .mr-vineta.izq { left: -6px; } .mr-vineta.der { right: -6px; }
+  .mr-velo { height: 300px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mr-mundo *, .mr-vineta, .mr-vineta * { animation: none !important; }
+  .mr-copo, .mr-arena, .mr-linterna, .mr-hoja { display: none; }
+  .mr-caravana { transform: translateX(30cqw); }
+}
