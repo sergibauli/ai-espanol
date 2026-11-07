@@ -193,7 +193,7 @@
   font: 700 28px/56px var(--xm-kai); color: #fff6dc; background: linear-gradient(150deg, #d8253f, var(--xm-red-d));
   border-radius: 8px; box-shadow: inset 0 0 0 2px rgba(255, 246, 220, .7), 0 0 0 2px var(--xm-red-d), 0 4px 10px rgba(143, 12, 33, .35); rotate: -3deg;
 }
-.xm-q-seal small { font-size: 15px; }
+.xm-root .xm-q-seal small { font-size: 15px; color: #fff6dc !important; }
 .xm-q-meta { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
 .xm-q-count { font-size: 13px; font-weight: 800; letter-spacing: .04em; color: var(--xm-ink-3); }
 .xm-tags { display: flex; flex-wrap: wrap; gap: 6px; }
