@@ -1,0 +1,23 @@
+/* ===== v14 · Dirección de movimiento (tokens comunes a ruta, portada y resto de pantallas) =====
+   Principios:
+   1. El mundo respira, la interfaz responde. Ambiente = bucles lentos y continuos (8–90 s, lineales o sinusoidales);
+      interfaz = gestos cortos (120–420 ms) con salida rápida y asentamiento suave.
+   2. Solo transform y opacity (nada de top/left/width/filter animados; box-shadow fijo, se anima un pseudo-elemento con opacity).
+   3. Jerarquía: en cada pantalla hay UN protagonista en movimiento (Rey Mono / parada actual). Lo demás acompaña con menos amplitud.
+   4. Entradas escalonadas de 60–90 ms entre elementos, máximo ~900 ms en total; nunca bloquean la interacción.
+   5. Celebraciones: 2,5–6 s, una sola vez, y se pueden saltar tocando.
+   6. prefers-reduced-motion: sin bucles ni recorridos; quedan fundidos de opacidad ≤200 ms y el estado final.
+   7. Móvil (≤700px): la mitad de partículas, sin desenfoques ni filtros, capas con will-change solo mientras se animan. */
+:root {
+  --v14-rapido: 140ms;      /* pulsar, hover */
+  --v14-medio: 280ms;       /* aparecer popovers, chips */
+  --v14-lento: 520ms;       /* entradas de paneles, cambio de estado */
+  --v14-escena: 1100ms;     /* entrada de capas del mundo */
+  --v14-viaje: 1900ms;      /* el Rey Mono entre paradas */
+  --v14-paso: 70ms;         /* escalonado entre hermanos */
+  --v14-salida: cubic-bezier(.22, 1, .36, 1);       /* ease-out expo: entradas */
+  --v14-entrada: cubic-bezier(.55, 0, .8, .2);      /* salidas */
+  --v14-vaiven: cubic-bezier(.45, 0, .55, 1);       /* bucles sinusoidales */
+  --v14-rebote: cubic-bezier(.34, 1.56, .64, 1);    /* asentamiento con rebote (sellos, monedas) */
+  --v14-laca: #c8102e; --v14-laca-osc: #8f0c21; --v14-oro: #f2c14e; --v14-oro-osc: #c8961e; --v14-tinta: #3b2416; --v14-papel: #f1e2c0;
+}
