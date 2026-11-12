@@ -25,7 +25,19 @@ export function momentoChina(fecha = new Date()) {
   return "noche";
 }
 
-export function MundoRuta({ nivel, momento = momentoChina(), fiesta = false }) {
+// Para probar a mano: #/ruta?nivel=A1&momento=noche&fiesta=1
+function forzado(clave) {
+  try {
+    return new URLSearchParams(window.location.hash.split("?")[1] || "").get(clave);
+  } catch {
+    return null;
+  }
+}
+
+export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = false }) {
+  const pedido = forzado("momento");
+  const momento = ["dia", "atardecer", "noche"].includes(pedido) ? pedido : momentoProp || momentoChina();
+  const fiesta = fiestaProp || forzado("fiesta") === "1";
   const { Panorama, Ambiente } = MUNDOS[nivel] || MUNDOS.A1;
   return (
     <div className={`mr-mundo mr-${nivel} ${fiesta ? "mr-fiesta" : ""}`} data-momento={momento} aria-hidden="true">
