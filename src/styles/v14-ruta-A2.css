@@ -1,1 +1,50 @@
-/* ===== v14 · Ruta A2: animación y vida del mundo (src/components/ruta/mundos/A2.jsx) ===== */
+/* ===== v14 · Ruta A2: animación y vida del mundo (src/components/ruta/mundos/A2.jsx) =====
+   Todo cuelga de .mr-A2 (o de .ruta-main:has(.mr-A2) para las viñetas). Solo se animan transform y opacity.
+   Orden: 1) cielo y encuadre  2) vida del panorama  3) entrada  4) atardecer/noche  5) fiesta  6) viñetas  7) móvil y reduced-motion */
+
+/* ---------- 1 · Cielo del desierto y lienzo que coincide con el viewBox 800×1000 ---------- */
+.mr-A2 .mr-cielo { background: linear-gradient(180deg, #14708f 0%, #2f9bb4 18%, #74c4c8 34%, #c2e4cc 46%, #f6e8b8 55%, #ffd990 61%, #f3cf96 100%); }
+.mr-A2 .mr-cielo::before, .mr-A2 .mr-cielo::after { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; }
+/* cielos «antes del tinte»: el tinte multiply de encima los lleva a su color final */
+.mr-A2 .mr-cielo::before { background: linear-gradient(180deg, #7a5ad0 0%, #c86ac0 20%, #ff86a0 36%, #ffb070 48%, #ffd880 56%, #fff0b0 62%, #ffe0a0 100%); }
+.mr-A2 .mr-cielo::after { background: linear-gradient(180deg, #232a5c 0%, #3a4688 26%, #5a64a4 46%, #8f92bc 58%, #a8a8c8 64%, #a09cb8 100%); }
+
+.mr-A2 .a2-vivo { pointer-events: none; }
+.mr-A2 .a2-lienzo { --a2-u: max(.125cqw, .1vh); position: absolute; left: 50%; bottom: 0; width: calc(800 * var(--a2-u)); height: calc(1000 * var(--a2-u)); margin-left: calc(-400 * var(--a2-u)); }
+.mr-A2 .a2-lienzo > * { position: absolute; }
+.mr-A2 .a2-vivo svg, .mr-A2 .a2-ambiente svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* ---------- 2 · Vida del panorama ---------- */
+/* Soles: disco, halo que respira, rayos que giran; el del atardecer es enorme, late con anillos y ondas de calor */
+.mr-A2 .a2-sol { aspect-ratio: 1; transition: opacity 1.4s ease; }
+.mr-A2 .a2-sol i { position: absolute; inset: 0; border-radius: 50%; }
+.mr-A2 .a2-sol-dia .a2-disco { background: radial-gradient(closest-side, #fffef2 0 8%, rgba(255,246,200,.95) 10%, rgba(255,232,150,.45) 18%, rgba(255,220,130,0) 34%); }
+.mr-A2 .a2-sol-dia .a2-halo { background: radial-gradient(closest-side, rgba(255,244,190,.7), rgba(255,226,150,.28) 40%, rgba(255,210,120,0) 72%); animation: a2Halo 9s var(--v14-vaiven) infinite alternate; }
+.mr-A2 .a2-rayos { background: repeating-conic-gradient(from 8deg, rgba(255,240,190,0) 0 8deg, rgba(255,240,190,.3) 12deg, rgba(255,240,190,0) 18deg 28deg);
+  -webkit-mask-image: radial-gradient(closest-side, #000 12%, rgba(0,0,0,.5) 42%, transparent 92%); mask-image: radial-gradient(closest-side, #000 12%, rgba(0,0,0,.5) 42%, transparent 92%);
+  animation: a2Rayos 160s linear infinite; }
+.mr-A2 .a2-sol-tarde { opacity: 0; }
+.mr-A2 .a2-sol-tarde .a2-disco { background: radial-gradient(closest-side, #fffdf0 0 20%, #fff2b4 23.5%, rgba(255,214,130,.55) 25.5%, rgba(255,190,110,.2) 34%, rgba(255,180,100,0) 48%); }
+.mr-A2 .a2-sol-tarde .a2-halo { background: radial-gradient(closest-side, rgba(255,236,170,.85), rgba(255,206,130,.4) 40%, rgba(255,170,100,0) 74%); animation: a2Halo 7s var(--v14-vaiven) infinite alternate; }
+.mr-A2 .a2-anillo { inset: 26% !important; border: 2px solid rgba(255,236,180,.7); opacity: 0; animation: a2Anillo 8s linear infinite; }
+.mr-A2 .a2-anillo2 { animation-delay: -4s; }
+.mr-A2 .a2-sol .a2-calor { inset: auto 36% auto 36% !important; height: 1.1%; border-radius: 50% !important; background: linear-gradient(90deg, rgba(255,170,90,0), rgba(255,160,84,.85) 30%, rgba(255,160,84,.85) 70%, rgba(255,170,90,0));
+  animation: a2Calor 3.4s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a2Halo { from { transform: scale(.9); opacity: .78; } to { transform: scale(1.08); opacity: 1; } }
+@keyframes a2Rayos { to { transform: rotate(360deg); } }
+@keyframes a2Anillo { 0% { transform: scale(1); opacity: 0; } 12% { opacity: .7; } 100% { transform: scale(1.9); opacity: 0; } }
+@keyframes a2Calor { from { transform: translateX(-7%) scaleX(.8); opacity: .35; } to { transform: translateX(7%) scaleX(1.15); opacity: .9; } }
+
+/* Nubes rasgadas: derivan de lado a lado; la parte de arriba se deshace */
+.mr-A2 .a2-nube { animation: a2Deriva var(--t, 90s) var(--v14-vaiven) var(--d, 0s) infinite alternate; will-change: transform;
+  -webkit-mask-image: linear-gradient(0deg, #000 40%, transparent 96%); mask-image: linear-gradient(0deg, #000 40%, transparent 96%); }
+.mr-A2 .a2-nube svg { overflow: hidden; }
+@keyframes a2Deriva { from { transform: translate3d(calc(var(--a2-u) * -34), 0, 0); } to { transform: translate3d(calc(var(--a2-u) * 34), 0, 0); } }
+
+/* Textura de papel sobre toda la pintura + viñeteado cálido */
+.mr-A2 .a2-grano { position: absolute; inset: 0; background: url("../../public/theme/papel.jpg") center / 520px auto; mix-blend-mode: multiply; opacity: .22; }
+.mr-A2 .a2-grano::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 85% 75% at 50% 55%, rgba(70,20,10,0) 55%, rgba(70,20,10,.32) 100%); }
+
+/* ---------- 3 · Entrada escalonada al montarse el mundo (≤1,1 s; el estado final es el de reposo) ---------- */
+.mr-A2 .a2-entra { animation: a2Entra 620ms var(--v14-salida) calc(var(--i, 0) * 90ms) both; }
+@keyframes a2Entra { from { opacity: 0; transform: translateY(46px); } }
