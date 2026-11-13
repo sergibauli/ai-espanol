@@ -63,6 +63,8 @@ function Defs() {
       {grad("mrB1bruma", [[0, "#eef1ea", 0], [0.7, "#eef1ea", 0.55], [1, "#eef1ea", 0.9]], { gradientUnits: "userSpaceOnUse", x1: 0, y1: 596, x2: 0, y2: 702 })}
       {grad("mrB1rio", [[0, "#cfe3d8"], [0.3, "#a5cdbd"], [1, "#6fa898"]], { gradientUnits: "userSpaceOnUse", x1: 0, y1: 700, x2: 0, y2: 860 })}
       {grad("mrB1canal", [[0, "#a9cfbd"], [0.4, "#77ad98"], [1, "#3f7a6c"]], { gradientUnits: "userSpaceOnUse", x1: 0, y1: 838, x2: 0, y2: 1010 })}
+      {grad("mrB1aguaVin", [[0, "#a9cfbd"], [0.45, "#6fa894"], [1, "#3f7a6c"]], vertical)}
+      {halo("mrB1barro", [[0, "#c98a5a"], [0.6, "#8a4a2c"], [1, "#4a2416"]], { cx: 0.36, cy: 0.3, r: 0.8 })}
       {grad("mrB1muro", [[0, "#fbf8ef"], [0.7, "#ece7da"], [1, "#c9cdbf"]], vertical)}
       {grad("mrB1teja", [[0, "#5b6270"], [1, "#2a2e38"]], vertical)}
       {grad("mrB1piedra", [[0, "#efe9da"], [0.6, "#cfc7b4"], [1, "#9a9a88"]], vertical)}
@@ -92,6 +94,9 @@ function Defs() {
           ) : null))}
         </pattern>
       ))}
+      {/* fundido lateral del agua de las viñetas (para que no se vea un recuadro) */}
+      {grad("mrB1fundidoG", [[0, "#fff", 0], [0.16, "#fff", 1], [0.84, "#fff", 1], [1, "#fff", 0]])}
+      <mask id="mrB1fundido" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="240"><rect x="0" y="0" width="200" height="240" fill="url(#mrB1fundidoG)" /></mask>
       <pattern id="mrB1plantas" width="6" height="5" patternUnits="userSpaceOnUse"><path d="M0 .5H6" stroke="#5e7696" strokeWidth=".7" opacity=".45" /><path d="M3 0V5" stroke="#fff" strokeWidth=".4" opacity=".25" /></pattern>
       <pattern id="mrB1tejas" width="5" height="16" patternUnits="userSpaceOnUse"><path d="M.6 0V16" stroke="#191c24" strokeWidth="1.2" /><path d="M3 0V16" stroke="#8791a4" strokeWidth=".6" opacity=".55" /></pattern>
       <pattern id="mrB1celosia" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 0H4V4M2 0V4M0 2H4" fill="none" stroke="#3b281c" strokeWidth=".7" /></pattern>
@@ -573,7 +578,7 @@ function LucesCerca() {
           {CASAS.map(([x, y, w, h]) => <rect key={x} x={x} y={y - h} width={w * 0.7} height={h} fill="#a9c0f0" opacity=".13" />)}
           <path d={`M226 894 Q400 730 574 894 L574 ${CANAL} H496 A96 96 0 0 0 304 ${CANAL} H226Z`} fill="#a9c0f0" opacity=".24" />
           <path d={`M304 ${CANAL} A96 96 0 0 1 496 ${CANAL}`} fill="none" stroke="#dbe8ff" strokeWidth="9" opacity=".3" />
-          <path d="M226 882.5 Q400 718.5 574 882.5" fill="none" stroke="#eef4ff" strokeWidth="1.8" opacity=".85" />
+          <path d="M226 882.5 Q400 718.5 574 882.5" fill="none" stroke="#eef4ff" strokeWidth="1.6" opacity=".6" />
           <circle cx="236" cy="872" r="40" fill="url(#mrB1bloom)" opacity=".4" /><circle cx="564" cy="872" r="40" fill="url(#mrB1bloom)" opacity=".4" />
           {CASAS.map(([x, y, w, h]) => <CasaLuz key={x} x={x} y={y} w={w} h={h} />)}
           {CASAS.map(([x, y, w, h]) => huecos(x, y, w, h).ventanas.filter((v, k) => k % 2 === 0).map(([vx]) => <rect key={`${x}-${vx}`} x={vx + 1} y={CANAL + 2} width="14" height="56" fill="url(#mrB1refOro)" opacity=".42" />))}
@@ -617,9 +622,8 @@ function Farol({ x, y, ancho = 14, cuerda = 8, d = 0, t = 5 }) {
 }
 
 // Barca de toldo negro (乌篷船): el barquero rema en la popa y la barca sale de debajo del puente hacia la cámara
-const Barca = () => (
-  <div className="b1-barca">
-    <svg viewBox="0 0 160 80">
+const BARCA = (
+  <>
       <ellipse className="b1-estela" cx="80" cy="64" rx="76" ry="7" fill="none" stroke="#e6f6f0" strokeWidth="1" opacity=".5" />
       <ellipse className="b1-estela b1-estela2" cx="80" cy="64" rx="76" ry="7" fill="none" stroke="#e6f6f0" strokeWidth=".8" opacity=".35" />
       <ellipse cx="80" cy="65" rx="70" ry="5" fill="#0a1a22" opacity=".45" />
@@ -640,7 +644,11 @@ const Barca = () => (
       <circle className="b1-brillo" cx="24" cy="42" r="15" fill="url(#mrB1bloomRojo)" />
       <ellipse cx="24" cy="42" rx="4.6" ry="5.4" fill="#e0302f" /><ellipse className="b1-brillo" cx="24" cy="42" rx="2.6" ry="3.4" fill="#ffd98a" />
       <path className="b1-brillo" d="M20 66 h8 l-1 12 h-6Z" fill="url(#mrB1refRojo)" />
-    </svg>
+    </>
+);
+const Barca = () => (
+  <div className="b1-barca">
+    <svg viewBox="0 0 160 80">{BARCA}</svg>
   </div>
 );
 
@@ -801,6 +809,7 @@ export function Panorama({ fiesta }) {
       <div className="b1-velo-dia" />
       <div className="b1-tinte b1-t-atardecer" />
       <div className="b1-tinte b1-t-noche" />
+      <div className="b1-ocaso" />
       <LucesLejos fiesta={fiesta} />
       <LucesCerca />
       <VidaLuz fiesta={fiesta} />
@@ -832,85 +841,170 @@ export function Ambiente({ fiesta }) {
   );
 }
 
-// Viñetas a los lados del camino (200 × 240)
+// ================= VIÑETAS (200 × 240) a los lados del camino =================
+// Agua de canal con ondas que se desplazan
+const AguaVin = ({ y, elipse = false }) => (
+  <g mask={elipse ? undefined : "url(#mrB1fundido)"}>
+    {elipse ? <ellipse cx="100" cy={y + 30} rx="100" ry="42" fill="url(#mrB1aguaVin)" /> : <rect x="0" y={y} width="200" height={240 - y} fill="url(#mrB1aguaVin)" />}
+    <g className="b1-vin-onda">
+      {n(7).map((k) => <rect key={k} x={r1(14 + azar(k * 7 + y) * 150)} y={r1(y + 10 + k * 8)} width={r1(16 + azar(k * 3) * 30)} height="1.1" rx=".6" fill="#fff" opacity=".45" />)}
+    </g>
+  </g>
+);
+// Farolillo de viñeta: se mece; el halo y el brillo se encienden al atardecer y de noche
+const FarolVin = ({ x, y, s = 1, d = 0 }) => (
+  <g className="b1-vin-farol" style={{ "--d": `${d}s` }}>
+    <path d={`M${x} ${y} v${6 * s}`} stroke="#241710" strokeWidth="1.2" />
+    <circle className="b1-vin-brillo b1-vin-late" cx={x} cy={y + 16 * s} r={22 * s} fill="url(#mrB1bloomRojo)" />
+    <ellipse cx={x} cy={y + 16 * s} rx={9 * s} ry={10 * s} fill="#c81c28" />
+    <ellipse className="b1-vin-brillo" cx={x} cy={y + 16 * s} rx={9 * s} ry={10 * s} fill="url(#mrB1farolLuz)" />
+    <rect x={x - 4 * s} y={y + 5 * s} width={8 * s} height={2.6 * s} rx="1" fill="#f2c14e" /><rect x={x - 4 * s} y={y + 25 * s} width={8 * s} height={2.6 * s} rx="1" fill="#f2c14e" />
+    <path d={`M${x} ${y + 27 * s} v${8 * s}`} stroke="#f2c14e" strokeWidth="1.2" strokeLinecap="round" />
+  </g>
+);
+// Columna de reflejo en bandas que ondulan
+const BandasVin = ({ x, y, ancho, color, k = 5 }) => (
+  <g className="b1-vin-brillo">
+    {n(k).map((i) => <rect key={i} className="b1-vin-banda" style={{ "--d": `${-i * 0.5}s` }} x={x - (ancho * (1 + i * 0.12)) / 2} y={y + i * 7} width={ancho * (1 + i * 0.12)} height="3.4" rx="1.7" fill={color} opacity={r1(0.85 - i * 0.14)} />)}
+  </g>
+);
+const LuciernagasVin = ({ puntos }) => (
+  <g className="b1-vin-brillo">
+    {puntos.map(([x, y], k) => <circle key={k} className="b1-vin-luciernaga" style={{ "--d": `${-k * 1.3}s` }} cx={x} cy={y} r="1.8" fill="#e6ff8a" />)}
+  </g>
+);
+
 export const VINETAS = [
-  // Puente en arco de Suzhou con reflejo
+  // 1 · Puente de arco de Suzhou: con su reflejo cierra el círculo perfecto
   () => (
     <Vin>
-      <rect x="0" y="150" width="200" height="90" fill="#174463" />
-      <path d="M0 152 Q100 64 200 152 V164 H0Z" fill="#d8d0bf" />
-      <path d="M38 164 A62 62 0 0 1 162 164Z" fill="#174463" />
-      <path d="M38 164 A62 62 0 0 0 162 164" fill="none" stroke="#d8d0bf" strokeWidth="8" opacity=".35" />
-      <path d="M10 146 Q100 72 190 146" fill="none" stroke="#a89e8a" strokeWidth="2" strokeDasharray="5 4" />
-      <path d="M20 200 H70 M120 214 H180 M60 226 H110" stroke="#6fb2d6" strokeWidth="2" opacity=".6" />
+      <Arbol x={28} y={146} r={17} semilla={5} /><Arbol x={176} y={144} r={19} semilla={9} />
+      <AguaVin y={150} />
+      <g mask="url(#mrB1fundido)"><g transform="translate(-100 615) scale(.5 -.5)" opacity=".34"><Puente reflejo /></g></g>
+      <g transform="translate(-100 -315) scale(.5)"><Puente /></g>
+      <BandasVin x={100} y={156} ancho={30} color="#ffd98a" k={4} />
+      <g className="b1-vin-flota">
+        <circle className="b1-vin-brillo b1-vin-late" cx="100" cy="196" r="15" fill="url(#mrB1bloom)" />
+        <path d="M92 198 q3 -8 8 -8 q5 0 8 8 q-8 5 -16 0Z" fill="#ff8fb4" /><ellipse cx="100" cy="199" rx="8" ry="2.6" fill="#e0527c" /><circle cx="100" cy="194.5" r="2" fill="#fff8d8" />
+      </g>
+      <Loto x={36} y={214} r={20} flor /><Loto x={170} y={206} r={16} />
     </Vin>
   ),
-  // Barca de toldo negro con el barquero
-  () => (
-    <Vin anima="balanceo">
-      <rect x="0" y="176" width="200" height="64" fill="#174463" opacity=".9" />
-      <path d="M10 176 Q100 206 190 172 L178 188 Q100 210 22 192Z" fill="#1d1712" />
-      <path d="M60 176 Q100 140 140 174Z" fill="#2c241c" />
-      <path d="M66 174 Q100 146 134 172" stroke="#6d5a42" strokeWidth="2" fill="none" />
-      <path d="M164 172 L160 140" stroke="#1d1712" strokeWidth="5" />
-      <circle cx="160" cy="134" r="7" fill="#1d1712" />
-      <path d="M146 128 L174 128 L160 118Z" fill="#a2875a" />
-      <path d="M162 146 L190 236" stroke="#6d5a42" strokeWidth="2.5" />
-      <circle cx="50" cy="164" r="7" fill="#ff5b3a" /><circle cx="50" cy="164" r="14" fill="#ffb25a" opacity=".3" />
-      <path d="M30 214 Q100 226 170 212" stroke="#6fb2d6" strokeWidth="2" fill="none" opacity=".6" />
-    </Vin>
-  ),
-  // Estanque de lotos
+  // 2 · Barca de toldo negro con el barquero que rema
   () => (
     <Vin>
-      <ellipse cx="100" cy="200" rx="100" ry="40" fill="#174463" />
-      {[[50, 196, 30], [130, 186, 26], [100, 222, 34], [168, 214, 22]].map(([x, y, r]) => (
-        <g key={x}>
-          <ellipse cx={x} cy={y} rx={r} ry={r * 0.32} fill="#2f8a57" />
-          <path d={`M${x} ${y} L${x + r * 0.9} ${y - 2}`} stroke="#1f5a38" strokeWidth="1.5" />
+      <AguaVin y={150} />
+      <path d="M12 150 v-40 M18 150 v-52 M24 150 v-34 M182 150 v-46 M188 150 v-30" stroke="#5e8f6c" strokeWidth="2" strokeLinecap="round" />
+      <path d="M18 98 q6 -10 3 -18 M182 104 q-7 -8 -4 -17 M12 110 q-6 -6 -4 -14" fill="none" stroke="#8a6a3c" strokeWidth="3" strokeLinecap="round" />
+      <g className="b1-vin-barca" transform="translate(8 104) scale(1.14)">{BARCA}</g>
+      <Loto x={160} y={214} r={18} capullo />
+    </Vin>
+  ),
+  // 3 · Estanque de lotos con una carpa koi
+  () => (
+    <Vin>
+      <AguaVin y={160} elipse />
+      <g className="b1-vin-koi">
+        <path d="M84 206 Q96 198 112 204 L124 199 L121 206 L124 213 L112 208 Q96 214 84 206Z" fill="#ff7a2c" /><path d="M90 205 q7 -3 12 0 q-5 3 -12 0Z" fill="#fff" /><circle cx="88" cy="205.4" r=".9" fill="#2a1a14" />
+      </g>
+      <ellipse className="b1-vin-anillo" cx="100" cy="206" rx="30" ry="8" fill="none" stroke="#f0fff8" strokeWidth="1.2" />
+      <Loto x={48} y={196} r={30} /><Loto x={142} y={186} r={26} capullo /><Loto x={160} y={218} r={22} /><Loto x={36} y={222} r={18} />
+      {[[58, 188, 1.25, 0], [144, 176, 1, -2], [112, 168, 0.8, -3.4]].map(([x, y, s, d]) => (
+        <g key={x} className="b1-vin-mece" style={{ "--d": `${d}s` }}>
+          <path d={`M${x} ${y + 2} q-3 14 1 24`} fill="none" stroke="#3f7a5c" strokeWidth="1.6" /><FlorLoto x={x} y={y} s={s} />
         </g>
       ))}
-      {[[62, 186], [138, 176], [112, 212]].map(([x, y]) => (
-        <g key={x}>
-          <path d={`M${x} ${y} q-12 -20 6 -34 q18 14 6 34z`} fill="#f7a8c4" />
-          <path d={`M${x + 6} ${y} q-22 -8 -20 -24 q14 4 20 24z M${x + 6} ${y} q22 -8 20 -24 q-14 4 -20 24z`} fill="#ef7fa6" />
-          <circle cx={x + 6} cy={y - 8} r="3" fill="#ffd36a" />
+      <LuciernagasVin puntos={[[30, 150], [172, 140], [96, 132]]} />
+    </Vin>
+  ),
+  // 4 · Casa de Suzhou con farolillos que se reflejan en el canal
+  () => (
+    <Vin>
+      <Arbol x={24} y={96} r={18} semilla={21} /><Arbol x={182} y={100} r={16} semilla={27} />
+      <Casa x={30} y={174} w={140} h={84} />
+      <g className="b1-vin-brillo"><CasaLuz x={30} y={174} w={140} h={84} /></g>
+      <rect x="0" y="172" width="200" height="12" fill="url(#mrB1piedra)" /><rect x="0" y="172" width="200" height="1.8" fill="#fbf7ea" /><path d="M0 178 h200 M24 173 v5 M70 178 v6 M120 173 v5 M166 178 v6" stroke="#8f8a78" strokeWidth=".7" />
+      <AguaVin y={184} />
+      <FarolVin x={44} y={92} s={0.9} /><FarolVin x={156} y={92} s={0.9} d={-2} />
+      <BandasVin x={44} y={190} ancho={12} color="#ff5a3c" /><BandasVin x={156} y={190} ancho={12} color="#ff5a3c" /><BandasVin x={100} y={190} ancho={18} color="#ffd27a" k={4} />
+    </Vin>
+  ),
+  // 5 · La Perla de Oriente encendida sobre el Huangpu
+  () => (
+    <Vin>
+      <g transform="translate(-82 -362) scale(.8)">
+        {[[138, 22, 640], [164, 18, 606], [262, 22, 624], [288, 18, 654], [308, 20, 668]].map(([x, w, y], k) => <Edificio key={x} x={x} w={w} y={y} k={k} />)}
+        <Perla />
+        <g className="b1-vin-brillo">
+          {[[138, 22, 640], [164, 18, 606], [262, 22, 624], [288, 18, 654], [308, 20, 668]].map(([x, w, y], k) => <rect key={x} className={k % 2 ? "b1-vin-vg" : undefined} x={x + 1.5} y={y + 4} width={w - 3} height={RIO - y - 6} fill={`url(#mrB1ven${k % 3})`} />)}
+          <Perla luz />
         </g>
+        <circle className="b1-vin-baliza" cx={PERLA} cy="452" r="2.6" fill="#ff4a3c" />
+      </g>
+      <AguaVin y={198} />
+      <BandasVin x={100} y={202} ancho={22} color="#ff5fb0" /><BandasVin x={44} y={202} ancho={12} color="#7fdcff" k={4} /><BandasVin x={150} y={202} ancho={12} color="#ffd27a" k={4} />
+    </Vin>
+  ),
+  // 6 · Pagoda Leifeng en el Lago del Oeste de Hangzhou
+  () => (
+    <Vin>
+      <circle cx="150" cy="58" r="20" fill="#fff6dc" opacity=".75" />
+      <path d="M0 178 C30 150 60 140 104 140 C150 140 176 160 200 178Z" fill="url(#mrB1hoja)" /><path d="M0 178 C20 166 40 160 60 160 C40 168 30 172 0 178Z" fill="#3a6650" opacity=".5" />
+      <Arbol x={52} y={160} r={15} semilla={31} /><Arbol x={156} y={160} r={16} semilla={37} /><Arbol x={128} y={150} r={10} semilla={43} />
+      <Pagoda cx={104} y={146} s={2.1} />
+      <g className="b1-vin-brillo"><Pagoda cx={104} y={146} s={2.1} luz /></g>
+      <AguaVin y={178} />
+      <g transform="translate(0 356) scale(1 -1)" opacity=".22"><Pagoda cx={104} y={146} s={2.1} /></g>
+      <BandasVin x={104} y={184} ancho={20} color="#ffd27a" k={6} />
+      <g className="b1-vin-flota"><path d="M30 206 q14 6 34 0 l-3 5 h-28Z" fill="#2a1a14" /><path d="M40 206 q7 -9 14 0Z" fill="#3b2a22" /><path d="M58 206 v-10" stroke="#2a1a14" strokeWidth="1.4" /><circle cx="58" cy="194" r="2.2" fill="#2a1a14" /></g>
+    </Vin>
+  ),
+  // 7 · Casa de té: tetera de barro de Yixing y cuencos humeantes ante una celosía redonda
+  () => (
+    <Vin>
+      <circle cx="100" cy="112" r="62" fill="#4a3324" /><circle cx="100" cy="112" r="56" fill="#f1d9a0" />
+      <circle className="b1-vin-brillo" cx="100" cy="112" r="56" fill="url(#mrB1bloom)" />
+      <path d="M100 56 V168 M44 112 H156 M72 64 V160 M128 64 V160 M50 86 H150 M50 138 H150" stroke="#4a3324" strokeWidth="2.4" />
+      <circle cx="100" cy="112" r="20" fill="#f1d9a0" stroke="#4a3324" strokeWidth="2.4" /><circle cx="100" cy="112" r="62" fill="none" stroke="#6a4a34" strokeWidth="1" />
+      <rect x="14" y="196" width="172" height="12" rx="4" fill="url(#mrB1madera)" /><rect x="14" y="196" width="172" height="2" rx="1" fill="#a87a52" />
+      {/* tetera */}
+      <path d="M124 176 q22 -10 26 6 q2 8 -8 10" fill="none" stroke="#6a341c" strokeWidth="5" strokeLinecap="round" />
+      <path d="M70 180 q-16 -4 -22 -16 l6 -2 q6 10 18 10Z" fill="url(#mrB1barro)" />
+      <ellipse cx="98" cy="178" rx="32" ry="22" fill="url(#mrB1barro)" /><ellipse cx="98" cy="158" rx="16" ry="4" fill="#5a2c18" /><circle cx="98" cy="153" r="4" fill="url(#mrB1barro)" />
+      <path d="M74 170 a26 18 0 0 1 14 -10" fill="none" stroke="#f1c9a0" strokeWidth="2" strokeLinecap="round" opacity=".7" />
+      {/* cuencos */}
+      {[40, 160].map((x) => (
+        <g key={x}>
+          <path d={`M${x - 13} 184 h26 q-1 12 -13 12 q-12 0 -13 -12Z`} fill="#f6f2e6" /><ellipse cx={x} cy="184" rx="13" ry="3" fill="#8a9a4c" /><path d={`M${x - 10} 189 q10 4 20 0`} fill="none" stroke="#3f6fb0" strokeWidth="1.2" />
+        </g>
+      ))}
+      {[[40, 178, 0], [160, 178, -1.5], [50, 160, -2.6], [98, 146, -0.8], [168, 164, -3.3]].map(([x, y, d]) => (
+        <path key={`${x}-${y}`} className="b1-vin-vapor" style={{ "--d": `${d}s` }} d={`M${x} ${y} q-6 -8 0 -16 q6 -8 0 -16`} fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" />
       ))}
     </Vin>
   ),
-  // Casa con farolillos que se reflejan en el canal
+  // 8 · Jardín clásico de Suzhou: puerta de luna, bambú y roca del lago Tai
   () => (
     <Vin>
-      <rect x="20" y="96" width="160" height="80" fill="#ece6d8" />
-      <path d="M8 98 L100 62 L192 98Z" fill="#2a2f3a" />
-      <path d="M14 82 h20 v-12 h20 v-10 h92 v10 h20 v12 h20" fill="none" stroke="#2a2f3a" strokeWidth="6" />
-      <rect x="80" y="130" width="40" height="46" fill="#3b2a22" />
-      <rect x="34" y="118" width="26" height="22" fill="#ffcf6a" />
-      <rect x="140" y="118" width="26" height="22" fill="#ffcf6a" />
-      <rect x="0" y="176" width="200" height="64" fill="#174463" />
-      {[48, 152].map((x) => (
-        <g key={x}>
-          <path d={`M${x} 98 V108`} stroke="#2a2f3a" strokeWidth="1.5" />
-          <ellipse cx={x} cy="118" rx="10" ry="12" fill="#e0302f" />
-          <rect x={x - 4} y="105" width="8" height="3" fill="#f2c14e" />
-          <ellipse className="mr-vin-reflejo" cx={x} cy="206" rx="9" ry="16" fill="#ff6a4a" opacity=".45" />
-        </g>
-      ))}
-    </Vin>
-  ),
-  // Perla de Oriente encendida
-  () => (
-    <Vin>
-      <rect x="0" y="196" width="200" height="44" fill="#174463" />
-      <path d="M86 196 L94 150 M114 196 L106 150 M100 196 V20" stroke="#c9d6ec" strokeWidth="5" />
-      <circle cx="100" cy="140" r="24" fill="#e04c86" />
-      <circle cx="92" cy="132" r="8" fill="#ffb4d0" opacity=".8" />
-      <rect x="95" y="80" width="10" height="44" fill="#c9d6ec" />
-      <circle cx="100" cy="70" r="15" fill="#e04c86" />
-      <circle cx="100" cy="36" r="7" fill="#ff8fb8" />
-      <circle className="mr-vin-reflejo" cx="100" cy="14" r="3" fill="#ff5a5a" />
-      <path d="M60 210 H140 M76 222 H124" stroke="#ff7fae" strokeWidth="3" opacity=".5" />
+      <rect x="14" y="66" width="172" height="140" fill="url(#mrB1muro)" /><rect x="14" y="190" width="172" height="16" fill="#6f8a72" opacity=".3" />
+      <path d="M6 68 L16 50 H184 L194 68Z" fill="url(#mrB1teja)" /><path d="M6 68 L16 50 H184 L194 68Z" fill="url(#mrB1tejas)" opacity=".8" /><path d="M6 68 H194" stroke="#9aa3b4" strokeWidth="1.3" /><path d="M14 49 H186" stroke="#1d2028" strokeWidth="3.4" strokeLinecap="round" />
+      <circle cx="100" cy="138" r="52" fill="#b9b4a4" /><circle cx="100" cy="138" r="47" fill="#2f5646" />
+      <clipPath id="mrB1luna"><circle cx="100" cy="138" r="47" /></clipPath>
+      <g clipPath="url(#mrB1luna)">
+        <rect x="50" y="90" width="100" height="60" fill="#9cc0b0" opacity=".55" /><rect x="50" y="168" width="100" height="20" fill="#cfc7b4" />
+        {[[66, 0], [78, -1.5], [124, -0.7], [136, -2.4]].map(([x, d]) => (
+          <g key={x} className="b1-vin-mece" style={{ "--d": `${d}s` }}>
+            <path d={`M${x} 186 V92`} stroke="#4f8f5a" strokeWidth="3" /><path d={`M${x} 160 h3 M${x} 136 h3 M${x} 112 h3`} stroke="#2f5a3a" strokeWidth="1" />
+            <path d={`M${x} 112 q10 -6 16 2 q-9 1 -16 -2Z M${x} 126 q-10 -6 -16 2 q9 1 16 -2Z M${x} 100 q8 -9 15 -4 q-8 3 -15 4Z M${x} 142 q10 -4 14 4 q-8 0 -14 -4Z`} fill="#6fae6a" />
+          </g>
+        ))}
+        <path d="M88 186 q-6 -20 2 -30 q-2 -14 8 -18 q10 2 8 14 q10 6 4 18 q4 8 0 16Z" fill="#aeb4b8" /><path d="M96 150 q5 3 3 9 q-5 -2 -3 -9Z M102 166 q5 2 4 8 q-5 -2 -4 -8Z" fill="#4a5560" />
+        <path d="M90 156 q2 -12 8 -16" fill="none" stroke="#fff" strokeWidth="1.4" opacity=".6" />
+      </g>
+      <circle cx="100" cy="138" r="47" fill="none" stroke="#8f8a78" strokeWidth="1.2" />
+      <path d="M70 240 L88 190 H112 L130 240Z" fill="#cfc7b4" /><path d="M82 206 h36 M78 220 h44" stroke="#8f8a78" strokeWidth=".8" />
+      <FarolVin x={34} y={68} s={0.8} /><FarolVin x={166} y={68} s={0.8} d={-2.2} />
+      <LuciernagasVin puntos={[[84, 120], [118, 150], [106, 104], [150, 196]]} />
     </Vin>
   ),
 ];

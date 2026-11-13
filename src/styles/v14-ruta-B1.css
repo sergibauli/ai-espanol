@@ -112,12 +112,12 @@
   100% { transform: translate3d(calc(var(--b1-u) * 158), calc(var(--b1-u) * 931), 0) scale(1.16); opacity: 0; } }
 .mr-B1 .b1-barca svg { transform-origin: 50% 80%; animation: b1Cabecea 3.4s var(--v14-vaiven) infinite alternate; }
 @keyframes b1Cabecea { from { transform: rotate(-.9deg) translateY(0); } to { transform: rotate(.9deg) translateY(-1.5px); } }
-.mr-B1 .b1-remo { transform-box: fill-box; transform-origin: 0 0; animation: b1Rema 2.6s var(--v14-vaiven) infinite alternate; }
-.mr-B1 .b1-remero { transform-box: fill-box; transform-origin: 50% 100%; animation: b1Inclina 2.6s var(--v14-vaiven) infinite alternate; }
+:is(.mr-B1, .mr-vineta) .b1-remo { transform-box: fill-box; transform-origin: 0 0; animation: b1Rema 2.6s var(--v14-vaiven) infinite alternate; }
+:is(.mr-B1, .mr-vineta) .b1-remero { transform-box: fill-box; transform-origin: 50% 100%; animation: b1Inclina 2.6s var(--v14-vaiven) infinite alternate; }
 @keyframes b1Rema { from { transform: rotate(-11deg); } to { transform: rotate(13deg); } }
 @keyframes b1Inclina { from { transform: rotate(-3deg); } to { transform: rotate(4deg); } }
-.mr-B1 .b1-estela { transform-box: fill-box; transform-origin: 50% 50%; animation: b1Estela 3.2s linear infinite; }
-.mr-B1 .b1-estela2 { animation-delay: -1.6s; }
+:is(.mr-B1, .mr-vineta) .b1-estela { transform-box: fill-box; transform-origin: 50% 50%; animation: b1Estela 3.2s linear infinite; }
+:is(.mr-B1, .mr-vineta) .b1-estela2 { animation-delay: -1.6s; }
 @keyframes b1Estela { from { transform: scale(.72); opacity: .6; } to { transform: scale(1.28); opacity: 0; } }
 
 /* Sauce del primer plano y lotos que se balancean */
@@ -156,6 +156,7 @@
 /* Cielo de noche: estrellas, nubes que pasan ante la luna y linternas Kongming */
 .mr-B1[data-momento="noche"] .b1-estrella { animation: b1Titila var(--t, 3s) ease-in-out var(--d, 0s) infinite alternate; }
 @keyframes b1Titila { from { opacity: .25; transform: scale(.7); } to { opacity: 1; transform: scale(1.15); } }
+.mr-B1 .b1-nube svg { transform: scaleY(.72); transform-origin: 50% 100%; }
 .mr-B1 .b1-nube { animation: b1Deriva var(--t, 90s) var(--v14-vaiven) var(--d, 0s) infinite alternate; will-change: transform;
   -webkit-mask-image: linear-gradient(180deg, #000 52%, transparent 96%); mask-image: linear-gradient(180deg, #000 52%, transparent 96%); }
 @keyframes b1Deriva { from { transform: translate3d(calc(var(--b1-u) * -46), 0, 0); } to { transform: translate3d(calc(var(--b1-u) * 46), 0, 0); } }
@@ -184,6 +185,43 @@
 @keyframes b1Palada { from { transform: rotate(-9deg); } to { transform: rotate(9deg); } }
 .mr-B1 .b1-kongming-fiesta { bottom: 22%; width: calc(17px * var(--s, 1)); height: calc(23px * var(--s, 1)); }
 
+/* resplandor del sol poniente tras las torres (solo al atardecer) */
+.mr-B1 .b1-ocaso { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; background: radial-gradient(ellipse 60% 24% at 66% 67%, rgba(255,206,120,.6), rgba(255,140,90,.22) 55%, rgba(255,140,90,0)); }
+.mr-B1[data-momento="atardecer"] .b1-ocaso { opacity: 1; }
+
+/* ---------- 6 · Viñetas a los lados del camino ---------- */
+.ruta-main:has(.mr-B1) .mr-vineta { --halo: rgba(236,244,236,.8); }
+.ruta-main:has(.mr-B1[data-momento="atardecer"]) .mr-vineta { --halo: rgba(255,190,170,.4); }
+.ruta-main:has(.mr-B1[data-momento="noche"]) .mr-vineta { --halo: rgba(110,150,240,.28); }
+/* acompañan al momento con un filtro fijo (no animado) y encienden sus luces */
+.ruta-main:has(.mr-B1[data-momento="atardecer"]) .mr-vineta svg { filter: sepia(.2) saturate(1.2) hue-rotate(-14deg) brightness(.92); }
+.ruta-main:has(.mr-B1[data-momento="noche"]) .mr-vineta svg { filter: brightness(.66) saturate(.95) hue-rotate(10deg) contrast(1.08); }
+.mr-vineta .b1-vin-brillo, .mr-vineta .b1-brillo { opacity: .1; }
+.ruta-main:has(.mr-B1[data-momento="atardecer"]) .mr-vineta :is(.b1-vin-brillo, .b1-brillo) { opacity: .75; }
+.ruta-main:has(.mr-B1[data-momento="noche"]) .mr-vineta :is(.b1-vin-brillo, .b1-brillo) { opacity: 1; }
+.mr-vineta .b1-vin-onda { animation: b1VinOnda 6s var(--v14-vaiven) infinite alternate; }
+@keyframes b1VinOnda { from { transform: translateX(-7px); } to { transform: translateX(7px); } }
+.mr-vineta .b1-vin-banda { transform-box: fill-box; transform-origin: 50% 50%; animation: b1VinBanda 2.8s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes b1VinBanda { from { transform: translateX(-3px) scaleX(.7); } to { transform: translateX(3px) scaleX(1.25); } }
+.mr-vineta .b1-vin-farol { transform-box: fill-box; transform-origin: 50% 0; animation: b1Mece 4.8s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-vineta .b1-vin-late { transform-box: fill-box; transform-origin: 50% 50%; animation: b1VinLate 2.6s var(--v14-vaiven) infinite alternate; }
+@keyframes b1VinLate { from { transform: scale(.8); } to { transform: scale(1.1); } }
+.mr-vineta .b1-vin-mece { transform-box: fill-box; transform-origin: 50% 100%; animation: b1Sauce 5.4s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-vineta .b1-vin-flota { animation: b1VinFlota 4.6s var(--v14-vaiven) infinite alternate; }
+@keyframes b1VinFlota { from { transform: translate(-5px, 0); } to { transform: translate(6px, 1.5px); } }
+.mr-vineta .b1-vin-barca { animation: b1VinBarca 4.2s var(--v14-vaiven) infinite alternate; }
+@keyframes b1VinBarca { from { translate: -4px 0; } to { translate: 4px -2px; } }
+.mr-vineta .b1-vin-koi { transform-box: fill-box; transform-origin: 50% 50%; animation: b1VinKoi 9s var(--v14-vaiven) infinite; }
+@keyframes b1VinKoi { 0%, 100% { transform: translate(18px, 4px) rotate(8deg); opacity: 0; } 20% { opacity: .95; } 50% { transform: translate(-6px, -2px) rotate(-6deg); opacity: .95; } 80% { opacity: .9; } 92% { transform: translate(-26px, 5px) rotate(4deg); opacity: 0; } }
+.mr-vineta .b1-vin-anillo { transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: b1VinAnillo 4.5s linear infinite; }
+@keyframes b1VinAnillo { 0% { transform: scale(.25); opacity: 0; } 15% { opacity: .8; } 100% { transform: scale(1.3); opacity: 0; } }
+.mr-vineta .b1-vin-vapor { opacity: 0; animation: b1VinVapor 5s linear var(--d, 0s) infinite; }
+@keyframes b1VinVapor { 0% { transform: translate(0, 6px); opacity: 0; } 20% { opacity: .8; } 100% { transform: translate(5px, -26px); opacity: 0; } }
+.mr-vineta .b1-vin-luciernaga { animation: b1VinLuciernaga 6s var(--v14-vaiven) var(--d, 0s) infinite; }
+@keyframes b1VinLuciernaga { 0%, 100% { transform: translate(0, 0); opacity: 0; } 25% { opacity: 1; } 50% { transform: translate(10px, -12px); opacity: .3; } 75% { transform: translate(-6px, -20px); opacity: 1; } }
+.mr-vineta .b1-vin-vg { animation: b1Ventanas 9s steps(1, end) infinite; }
+.mr-vineta .b1-vin-baliza { animation: b1Baliza 2s steps(1, end) infinite; }
+
 /* ---------- 7 · Móvil y accesibilidad ---------- */
 @media (max-width: 700px) {
   /* mitad de partículas y de bandas, sin textura con mezcla ni capas grandes de más */
@@ -198,5 +236,8 @@
   .mr-B1 .b1-kongming { opacity: .95; bottom: calc(34% + var(--y)); }
   .mr-B1 .b1-maglev { opacity: .9; }
   .mr-B1 .b1-show { opacity: .14; }
+  .mr-vineta .b1-vin-vapor { opacity: .6; }
+  .mr-vineta .b1-vin-koi, .mr-vineta .b1-vin-luciernaga { opacity: .9; }
+  .mr-vineta .b1-vin-anillo { opacity: .5; }
   .mr-B1 .mr-cielo::before, .mr-B1 .mr-cielo::after, .mr-B1 .b1-tinte, .mr-B1 .b1-luz, .mr-B1 .b1-brillo, .mr-B1 .b1-halo, .mr-B1 .b1-noche-cielo, .mr-B1 .b1-velo-dia { transition: none; }
 }
