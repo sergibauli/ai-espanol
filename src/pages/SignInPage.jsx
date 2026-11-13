@@ -2,7 +2,7 @@ import { useAuth, SignIn } from "@clerk/clerk-react";
 import { ArrowLeftIcon, ShieldCheckIcon, WifiOffIcon } from "lucide-react";
 import * as React from "react";
 import { useNavigate, Link } from "react-router";
-import { Logo } from "../../packages/imperial/src/index.js";
+import { EscenaAcceso } from "../components/portada/EscenaAcceso.jsx";
 
 // Sin ClerkProvider (pruebas locales) los hooks de Clerk lanzan: se trata como «no ha entrado»
 function useAuthSeguro() {
@@ -25,7 +25,7 @@ class FormularioSeguro extends React.Component {
   render() {
     if (this.state.fallo) {
       return (
-        <div className="tp-acceso-error tp-acceso-fallo" role="alert">
+        <div className="tp-acceso-error tp-acceso-fallo v14a-sacude" role="alert">
           <WifiOffIcon size={22} aria-hidden="true" />
           <p>
             <b>No se ha podido cargar el inicio de sesión</b>
@@ -58,49 +58,49 @@ export default function SignInPage() {
   }, [navegar]);
 
   return (
-    <div className="tp-acceso">
-      <span className="tp-acceso-luz" aria-hidden="true" />
-      <div className="tp-acceso-rollo">
-        <span className="tp-rodillo arriba" aria-hidden="true" />
-        <main className="tp-acceso-papel">
-          <span className="tp-acceso-sello" aria-hidden="true" translate="no">
-            <i>登</i>
-            <i>录</i>
-          </span>
-          <Logo tono="claro" tamano={48} />
-          <h1>
-            Iniciar sesión
-            <small>登录</small>
-          </h1>
-          <p className="tp-acceso-sub">
-            <ShieldCheckIcon size={16} aria-hidden="true" /> Acceso seguro con tu cuenta de la academia · 使用学校账号安全登录
-          </p>
-          <div className="tp-acceso-clerk">
-            <FormularioSeguro>
-              <SignIn
-                routing="hash"
-                appearance={{
-                  variables: { colorPrimary: "#a5112a", colorText: "#2b190e", colorTextSecondary: "#5a3a22", colorBackground: "#fffaf0", colorInputBackground: "#fffdf6", borderRadius: "14px", fontFamily: "Plus Jakarta Sans, PingFang SC, sans-serif" },
-                  layout: { socialButtonsVariant: "iconButton", showOptionalFields: false },
-                  elements: {
-                    card: { boxShadow: "none", border: 0, background: "transparent", padding: 0 },
-                    headerTitle: { display: "none" },
-                    headerSubtitle: { display: "none" },
-                    footerAction: { display: "none" },
-                    formButtonPrimary: { minHeight: "48px", borderRadius: "99px", background: "linear-gradient(#d4253a, #a5112a 55%, #7d0a1d)", border: `2px solid #f2c14e`, fontWeight: 800 },
-                    formFieldInput: { minHeight: "46px", border: `1.5px solid ${ORO}` },
-                    socialButtonsIconButton: { minHeight: "46px", border: `1.5px solid ${ORO}` },
-                  },
-                }}
-              />
-            </FormularioSeguro>
-          </div>
-          <Link to="/" className="tp-btn-texto tp-acceso-volver">
-            <ArrowLeftIcon size={15} aria-hidden="true" /> Portada · 首页
-          </Link>
-        </main>
-        <span className="tp-rodillo abajo" aria-hidden="true" />
+    <EscenaAcceso
+      sello="登录"
+      titulo="Iniciar sesión"
+      tituloZh="登录"
+      subtitulo={
+        <>
+          <ShieldCheckIcon size={16} aria-hidden="true" /> Acceso seguro con tu cuenta de la academia · 使用学校账号安全登录
+        </>
+      }
+      pie={
+        <Link to="/" className="tp-btn-texto tp-acceso-volver">
+          <ArrowLeftIcon size={15} aria-hidden="true" /> Portada · 首页
+        </Link>
+      }
+    >
+      <div className="tp-acceso-clerk">
+        <FormularioSeguro>
+          <SignIn
+            routing="hash"
+            appearance={{
+              variables: {
+                colorPrimary: "#a5112a",
+                colorText: "#2b190e",
+                colorTextSecondary: "#5a3a22",
+                colorBackground: "#fffaf0",
+                colorInputBackground: "#fffdf6",
+                borderRadius: "14px",
+                fontFamily: "Plus Jakarta Sans, PingFang SC, sans-serif",
+              },
+              layout: { socialButtonsVariant: "iconButton", showOptionalFields: false },
+              elements: {
+                card: { boxShadow: "none", border: 0, background: "transparent", padding: 0 },
+                headerTitle: { display: "none" },
+                headerSubtitle: { display: "none" },
+                footerAction: { display: "none" },
+                formButtonPrimary: { minHeight: "48px", borderRadius: "99px", background: "linear-gradient(#d4253a, #a5112a 55%, #7d0a1d)", border: `2px solid #f2c14e`, fontWeight: 800 },
+                formFieldInput: { minHeight: "46px", border: `1.5px solid ${ORO}` },
+                socialButtonsIconButton: { minHeight: "46px", border: `1.5px solid ${ORO}` },
+              },
+            }}
+          />
+        </FormularioSeguro>
       </div>
-    </div>
+    </EscenaAcceso>
   );
 }
