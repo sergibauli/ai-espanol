@@ -1,1 +1,204 @@
-/* ===== v14 · Ruta A1: animación y vida del mundo (src/components/ruta/mundos/A1.jsx) ===== */
+/* ===== v14 · Ruta A1: animación y vida del mundo (src/components/ruta/mundos/A1.jsx) =====
+   Todo cuelga de .mr-A1 (o de .ruta-main:has(.mr-A1) para las viñetas). Solo se animan transform y opacity.
+   Orden: 1) cielo y encuadre  2) vida del panorama  3) entrada  4) atardecer/noche  5) fiesta  6) viñetas  7) móvil y reduced-motion */
+
+/* ---------- 1 · Cielo de amanecer dorado y lienzo que coincide con el viewBox 800×1000 ---------- */
+.mr-A1 .mr-cielo { background: linear-gradient(180deg, #244f92 0%, #3f78bd 16%, #7fb0dc 30%, #c4def0 40%, #fff0cf 48%, #ffd9a8 56%, #f6d2b0 100%); }
+.mr-A1 .mr-cielo::before, .mr-A1 .mr-cielo::after { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; }
+/* cielos «antes del tinte»: el tinte multiply de encima los lleva a su color final */
+.mr-A1 .mr-cielo::before { background: linear-gradient(180deg, #6f7fe0 0%, #b891e6 20%, #ff9fc0 36%, #ffd2a2 47%, #fff2c8 56%, #ffe0b8 100%); }
+.mr-A1 .mr-cielo::after { background: linear-gradient(180deg, #293859 0%, #46597f 24%, #6880a0 42%, #adbacf 56%, #b9c4d6 100%); }
+
+.mr-A1 .a1-vivo { pointer-events: none; }
+.mr-A1 .a1-lienzo { --a1-u: max(.125cqw, .1vh); position: absolute; left: 50%; bottom: 0; width: calc(800 * var(--a1-u)); height: calc(1000 * var(--a1-u)); margin-left: calc(-400 * var(--a1-u)); }
+.mr-A1 .a1-lienzo > * { position: absolute; }
+.mr-A1 .a1-vivo svg, .mr-A1 .a1-ambiente svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* ---------- 2 · Vida del panorama ---------- */
+/* Sol bajo de invierno: disco, halo que respira y rayos que giran muy despacio */
+.mr-A1 .a1-sol { aspect-ratio: 1; transition: opacity 1.4s ease; }
+.mr-A1 .a1-sol i { position: absolute; inset: 0; border-radius: 50%; }
+.mr-A1 .a1-disco { background: radial-gradient(closest-side, #fffef6 0 7.5%, rgba(255,244,200,.95) 9.5%, rgba(255,226,150,.5) 16%, rgba(255,214,130,0) 30%); }
+.mr-A1 .a1-halo { background: radial-gradient(closest-side, rgba(255,236,180,.75), rgba(255,214,140,.32) 38%, rgba(255,200,120,0) 72%); animation: a1Halo 9s var(--v14-vaiven) infinite alternate; }
+.mr-A1 .a1-rayos { background: repeating-conic-gradient(from 8deg, rgba(255,238,190,0) 0 9deg, rgba(255,238,190,.34) 13deg, rgba(255,238,190,0) 19deg 30deg);
+  -webkit-mask-image: radial-gradient(closest-side, #000 12%, rgba(0,0,0,.5) 42%, transparent 92%); mask-image: radial-gradient(closest-side, #000 12%, rgba(0,0,0,.5) 42%, transparent 92%);
+  animation: a1Rayos 140s linear infinite; }
+@keyframes a1Halo { from { transform: scale(.9); opacity: .78; } to { transform: scale(1.08); opacity: 1; } }
+@keyframes a1Rayos { to { transform: rotate(360deg); } }
+
+/* Nubes con volumen: derivan de lado a lado; la base se funde en bruma */
+.mr-A1 .a1-nube { animation: a1Deriva var(--t, 80s) var(--v14-vaiven) var(--d, 0s) infinite alternate; will-change: transform;
+  -webkit-mask-image: linear-gradient(180deg, #000 58%, transparent 97%); mask-image: linear-gradient(180deg, #000 58%, transparent 97%); }
+.mr-A1 .a1-nube svg { overflow: hidden; }
+@keyframes a1Deriva { from { transform: translate3d(calc(var(--a1-u) * -34), 0, 0); } to { transform: translate3d(calc(var(--a1-u) * 34), 0, 0); } }
+
+/* Bandada de grullas: cruza el cielo cada 64 s; cada grulla aletea con desfase */
+.mr-A1 .a1-bandada { transform: translate3d(calc(var(--a1-u) * 250), 0, 0); animation: a1Bandada 64s linear -22s infinite; will-change: transform; }
+.mr-A1 .a1-grulla-caja { position: absolute; animation: a1Planeo 3.4s var(--v14-vaiven) infinite alternate; }
+.mr-A1 .a1-grulla-caja:nth-child(2n) { animation-delay: -1.7s; }
+.mr-A1 .a1-ala { transform-box: fill-box; transform-origin: 30% 100%; animation: a1Aleteo 1.15s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-A1 .a1-ala-lejos { animation-delay: calc(var(--d, 0s) - .12s); }
+@keyframes a1Bandada { from { transform: translate3d(calc(var(--a1-u) * -190), calc(var(--a1-u) * 46), 0); } to { transform: translate3d(calc(var(--a1-u) * 860), calc(var(--a1-u) * -70), 0); } }
+@keyframes a1Planeo { to { transform: translateY(-5px); } }
+@keyframes a1Aleteo { from { transform: scaleY(1) skewX(0deg); } to { transform: scaleY(-.55) skewX(-10deg); } }
+
+/* Banderolas al viento (el mástil está pintado en el SVG; la tela ondea desde el asta) */
+.mr-A1 .a1-banderola { transform-origin: 0 50%; animation: a1Ondea 1.9s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-A1 .a1-banderola svg { transform-origin: 0 50%; animation: a1Ondea2 1.3s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a1Ondea { from { transform: skewY(-7deg) scaleX(1); } to { transform: skewY(9deg) scaleX(.84); } }
+@keyframes a1Ondea2 { from { transform: scaleY(1); } to { transform: scaleY(.82) skewX(-6deg); } }
+
+/* Humo de las chimeneas: tres bocanadas que suben, se abren y se disuelven hacia el viento */
+.mr-A1 .a1-humo { aspect-ratio: 1; }
+.mr-A1 .a1-humo span { position: absolute; inset: 0; border-radius: 50%; opacity: 0; background: radial-gradient(closest-side, rgba(255,250,240,.95), rgba(240,236,240,.5) 55%, rgba(240,236,240,0));
+  animation: a1Humo 7.8s linear var(--d, 0s) infinite; will-change: transform, opacity; }
+@keyframes a1Humo { 0% { transform: translate3d(0, 0, 0) scale(.35); opacity: 0; } 12% { opacity: .9; } 60% { opacity: .5; }
+  100% { transform: translate3d(calc(var(--a1-u) * -26), calc(var(--a1-u) * -62), 0) scale(2.6); opacity: 0; } }
+
+/* Bruma que deriva entre los planos */
+.mr-A1 .a1-bruma { left: -30%; width: 160%; height: 9%; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,247,234,.8), rgba(255,247,234,.36) 55%, rgba(255,247,234,0));
+  animation: a1Bruma 44s var(--v14-vaiven) infinite alternate; will-change: transform; }
+.mr-A1 .a1-bruma.b1 { top: 59%; }
+.mr-A1 .a1-bruma.b2 { top: 66.5%; height: 8%; animation-duration: 58s; animation-delay: -24s; opacity: .85; }
+.mr-A1 .a1-bruma.b3 { top: 73%; height: 7%; animation-duration: 36s; animation-delay: -11s; opacity: .7; }
+@keyframes a1Bruma { from { transform: translate3d(-9%, 0, 0); } to { transform: translate3d(9%, 0, 0); } }
+
+/* Brillos en los tejados dorados y en el hielo: estrella de cuatro puntas que nace, gira y se apaga */
+.mr-A1 .a1-destello { aspect-ratio: 1; opacity: 0; background: radial-gradient(closest-side, #fff 0 12%, rgba(255,246,200,.9) 20%, rgba(255,236,160,0) 70%);
+  clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%); animation: a1Destello var(--t, 5s) ease-in-out var(--d, 0s) infinite; }
+@keyframes a1Destello { 0%, 62%, 100% { transform: scale(.2) rotate(0deg); opacity: 0; } 78% { transform: scale(1.25) rotate(40deg); opacity: 1; } 90% { transform: scale(.6) rotate(70deg); opacity: .5; } }
+
+/* Patinadores en el foso helado: van, giran y vuelven, con el vaivén del impulso */
+.mr-A1 .a1-patinador { animation: a1Patina var(--t, 15s) var(--v14-vaiven) var(--d, 0s) infinite; will-change: transform; }
+.mr-A1 .a1-patinador svg { transform-origin: 50% 100%; animation: a1Impulso 1.5s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a1Patina { 0% { transform: translate3d(0, 0, 0) scaleX(1); } 47% { transform: translate3d(calc(var(--a1-u) * var(--tramo)), 0, 0) scaleX(1); }
+  50% { transform: translate3d(calc(var(--a1-u) * var(--tramo)), 0, 0) scaleX(-1); } 97% { transform: translate3d(0, 0, 0) scaleX(-1); } 100% { transform: translate3d(0, 0, 0) scaleX(1); } }
+@keyframes a1Impulso { from { transform: rotate(-5deg) translateY(0); } to { transform: rotate(7deg) translateY(-1px); } }
+
+/* Faroles rojos que se mecen; el brillo interior se enciende con el momento del día */
+.mr-A1 .a1-farol { transform-origin: 50% 0; animation: a1Mece var(--t, 5s) var(--v14-vaiven) var(--d, 0s) infinite alternate; will-change: transform; }
+@keyframes a1Mece { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+.mr-A1 .a1-brillo { opacity: .12; transition: opacity 1.4s ease; }
+
+/* Nieve en tres profundidades */
+.mr-A1 .a1-copo { position: absolute; top: 0; border-radius: 50%; background: #fff; animation: a1Nieve var(--t) linear var(--d) infinite; will-change: transform; }
+.mr-A1 .a1-copo-lejos { width: 3px; height: 3px; opacity: .78; }
+.mr-A1 .a1-copo-medio { width: 6px; height: 6px; opacity: .92; box-shadow: 0 0 3px rgba(120,150,200,.5); }
+.mr-A1 .a1-copo-cerca { width: calc(20px * var(--s, 1)); height: calc(20px * var(--s, 1)); opacity: .62; background: radial-gradient(closest-side, #fff 0 22%, rgba(255,255,255,.55) 48%, rgba(255,255,255,0)); }
+@keyframes a1Nieve { 0% { transform: translate3d(0, -6vh, 0); } 25% { transform: translate3d(calc(var(--x) * .7), 22vh, 0); } 50% { transform: translate3d(calc(var(--x) * -.25), 50vh, 0); }
+  75% { transform: translate3d(calc(var(--x) * .85), 78vh, 0); } 100% { transform: translate3d(calc(var(--x) * .3), 106vh, 0); } }
+
+/* Textura de papel sobre toda la pintura + viñeteado suave */
+.mr-A1 .a1-grano { position: absolute; inset: 0; background: url("../../public/theme/papel.jpg") center / 520px auto; mix-blend-mode: multiply; opacity: .2; }
+.mr-A1 .a1-grano::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 85% 75% at 50% 55%, rgba(20,30,70,0) 55%, rgba(20,30,70,.3) 100%); }
+
+/* ---------- 3 · Entrada escalonada al montarse el mundo (≤1,1 s; el estado final es el de reposo) ---------- */
+.mr-A1 .a1-entra { animation: a1Entra 620ms var(--v14-salida) calc(var(--i, 0) * 90ms) both; }
+@keyframes a1Entra { from { opacity: 0; transform: translateY(46px); } }
+
+/* ---------- 4 · Atardecer y noche: tintes multiply + luces por encima (solo cambia opacity) ---------- */
+.mr-A1 .a1-tinte { position: absolute; inset: 0; mix-blend-mode: multiply; opacity: 0; transition: opacity 1.4s ease; }
+.mr-A1 .a1-t-atardecer { background: linear-gradient(180deg, #9f8fe0 0%, #f0a6c6 30%, #ffcfa6 50%, #ffc29a 70%, #eeb0b4 100%); }
+.mr-A1 .a1-t-noche { background: linear-gradient(180deg, #2a3a78 0%, #44579c 45%, #5a6cb0 70%, #46579a 100%); }
+.mr-A1 .a1-resplandor { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease;
+  background: radial-gradient(ellipse 70% 26% at 62% 50%, rgba(255,196,110,.55), rgba(255,150,110,.2) 55%, rgba(255,150,110,0)); }
+.mr-A1 .a1-luz { opacity: 0; transition: opacity 1.4s ease; }
+.mr-A1 .a1-noche-cielo { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; }
+.mr-A1 .a1-luna { aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 38% 36%, #ffffff 0, #f4f1dc 46%, #d9d6c2 100%);
+  box-shadow: 0 0 0 calc(var(--a1-u) * 10) rgba(220,230,255,.1), 0 0 calc(var(--a1-u) * 60) calc(var(--a1-u) * 18) rgba(190,210,255,.42); }
+.mr-A1 .a1-luna::after { content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 62% 30%, rgba(170,170,150,.4) 0 9%, transparent 10%), radial-gradient(circle at 34% 62%, rgba(170,170,150,.34) 0 12%, transparent 13%), radial-gradient(circle at 66% 68%, rgba(170,170,150,.3) 0 6%, transparent 7%); }
+.mr-A1 .a1-estrella { aspect-ratio: 1; border-radius: 50%; background: #fff; box-shadow: 0 0 4px 1px rgba(200,220,255,.8); }
+.mr-A1 .a1-chispa { background: #fff; box-shadow: 0 0 5px 2px rgba(255,255,255,.7); }
+
+.mr-A1[data-momento="atardecer"] .mr-cielo::before { opacity: 1; }
+.mr-A1[data-momento="atardecer"] .a1-t-atardecer { opacity: .86; }
+.mr-A1[data-momento="atardecer"] .a1-resplandor { opacity: 1; }
+.mr-A1[data-momento="atardecer"] .a1-luz { opacity: .6; }
+.mr-A1[data-momento="atardecer"] .a1-brillo { opacity: .6; }
+
+.mr-A1[data-momento="noche"] .mr-cielo::after { opacity: 1; }
+.mr-A1[data-momento="noche"] .a1-t-noche { opacity: 1; }
+.mr-A1[data-momento="noche"] .a1-luz { opacity: 1; }
+.mr-A1[data-momento="noche"] .a1-brillo { opacity: 1; }
+.mr-A1[data-momento="noche"] .a1-sol { opacity: 0; }
+.mr-A1[data-momento="noche"] .a1-noche-cielo { opacity: 1; }
+.mr-A1[data-momento="noche"] .a1-estrella { animation: a1Titila var(--t, 3s) ease-in-out var(--d, 0s) infinite alternate; }
+.mr-A1[data-momento="noche"] .a1-destello { display: none; }
+.mr-A1[data-momento="noche"] .a1-copo-lejos { opacity: .9; }
+@keyframes a1Titila { from { opacity: .25; transform: scale(.7); } to { opacity: 1; transform: scale(1.15); } }
+/* las viñetas (fuera de .mr-mundo) acompañan al momento con un filtro fijo, no animado */
+.ruta-main:has(.mr-A1[data-momento="atardecer"]) .mr-vineta svg { filter: sepia(.25) saturate(1.25) hue-rotate(-12deg) brightness(.95); }
+.ruta-main:has(.mr-A1[data-momento="noche"]) .mr-vineta svg { filter: brightness(.6) saturate(.85) hue-rotate(12deg); }
+.ruta-main:has(.mr-A1[data-momento="noche"]) .mr-vineta { --halo: rgba(120,150,220,.3); }
+.ruta-main:has(.mr-A1[data-momento="noche"]) .a1-vin-brillo, .ruta-main:has(.mr-A1[data-momento="atardecer"]) .a1-vin-brillo { opacity: 1; }
+.ruta-main.mr-on:has(.mr-A1[data-momento="noche"]) { --mr-base: #26335f; }
+.ruta-main.mr-on:has(.mr-A1[data-momento="atardecer"]) { --mr-base: #e9b4a4; }
+
+/* ---------- 5 · Fiesta (.mr-fiesta al completar una clase): el palacio se enciende ---------- */
+.mr-A1.mr-fiesta .a1-luz { opacity: 1; }
+.mr-A1.mr-fiesta .a1-luz { animation: a1LateLuz 1.1s var(--v14-vaiven) infinite alternate; }
+.mr-A1.mr-fiesta .a1-brillo { opacity: 1; }
+.mr-A1.mr-fiesta .a1-farol { animation-duration: 1.6s; }
+.mr-A1.mr-fiesta .a1-farol svg { transform-origin: 50% 30%; animation: a1Late 0.8s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-A1.mr-fiesta .a1-banderola { animation-duration: .7s; }
+.mr-A1.mr-fiesta .a1-banderola svg { animation-duration: .45s; }
+.mr-A1.mr-fiesta .a1-destello { display: block; animation-duration: 1.6s; }
+@keyframes a1Late { from { opacity: .72; transform: scale(1); } to { opacity: 1; transform: scale(1.06); } }
+@keyframes a1LateLuz { from { opacity: .7; } to { opacity: 1; } }
+/* farolillos Kongming que suben desde el palacio */
+.mr-A1 .a1-kongming { position: absolute; bottom: 20%; width: calc(17px * var(--s, 1)); height: calc(23px * var(--s, 1)); border-radius: 46% 46% 30% 30% / 38% 38% 24% 24%; opacity: 0;
+  background: radial-gradient(ellipse at 50% 82%, #fff6c0 0 14%, #ffc04a 34%, #f0702a 70%, #b8361e 100%); box-shadow: 0 0 16px 5px rgba(255,170,70,.55);
+  animation: a1Kongming var(--t, 7s) linear var(--d, 0s) infinite; will-change: transform, opacity; }
+@keyframes a1Kongming { 0% { transform: translate3d(0, 0, 0) scale(.5); opacity: 0; } 10% { opacity: 1; } 50% { transform: translate3d(var(--x), -40vh, 0) scale(.9); } 85% { opacity: .9; }
+  100% { transform: translate3d(calc(var(--x) * -.4), -84vh, 0) scale(.62); opacity: 0; } }
+/* tracas de petardos: la ristra se sacude y saltan chispas */
+.mr-A1 .a1-traca { transform-origin: 50% 0; animation: a1Sacude .28s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-A1 .a1-traca i { position: absolute; width: 130%; aspect-ratio: 1; opacity: 0; background: radial-gradient(closest-side, #fff 0 14%, #ffe27a 30%, rgba(255,140,40,.7) 52%, rgba(255,120,40,0));
+  clip-path: polygon(50% 0, 60% 36%, 100% 28%, 68% 54%, 88% 100%, 50% 70%, 12% 100%, 32% 54%, 0 28%, 40% 36%); animation: a1Chispa .62s steps(1, end) var(--d, 0s) infinite; }
+@keyframes a1Sacude { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+@keyframes a1Chispa { 0% { opacity: 1; transform: scale(.6) rotate(0deg); } 18% { opacity: 1; transform: scale(1.3) rotate(30deg); } 36%, 100% { opacity: 0; transform: scale(.4); } }
+
+/* ---------- 6 · Viñetas a los lados del camino ---------- */
+.mr-vineta .a1-vin-copo { animation: a1VinNieve var(--t, 6s) linear var(--d, 0s) infinite; }
+@keyframes a1VinNieve { from { transform: translate(0, -10px); } to { transform: translate(-14px, 236px); } }
+.mr-vineta .a1-vin-bandera { transform-box: fill-box; transform-origin: 0 50%; animation: a1Ondea 1.7s var(--v14-vaiven) infinite alternate; }
+.mr-vineta .a1-vin-farol { transform-box: fill-box; transform-origin: 50% 0; animation: a1Mece 4.6s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-vineta .a1-vin-brillo { opacity: .35; animation: a1Parpadeo 3.2s ease-in-out infinite; }
+@keyframes a1Parpadeo { 0%, 100% { opacity: .35; } 42% { opacity: .8; } 50% { opacity: .5; } 60% { opacity: .85; } }
+.ruta-main:has(.mr-A1[data-momento="noche"]) .mr-vineta .a1-vin-brillo, .ruta-main:has(.mr-A1[data-momento="atardecer"]) .mr-vineta .a1-vin-brillo { animation-name: a1ParpadeoNoche; }
+@keyframes a1ParpadeoNoche { 0%, 100% { opacity: .8; } 42% { opacity: 1; } 50% { opacity: .7; } 60% { opacity: 1; } }
+.mr-vineta .a1-vin-humo { transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: a1VinHumo 6s linear var(--d, 0s) infinite; }
+@keyframes a1VinHumo { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 15% { opacity: .85; } 100% { transform: translate(-22px, -60px) scale(3); opacity: 0; } }
+/* la nieve se desprende de la rama del pino cada pocos segundos */
+.mr-vineta .a1-vin-alud { animation: a1Alud 7s ease-in infinite; }
+@keyframes a1Alud { 0%, 55% { transform: translateY(0); opacity: 0; } 58% { opacity: 1; } 82% { transform: translateY(64px); opacity: 1; } 90%, 100% { transform: translateY(66px); opacity: 0; } }
+.mr-vineta .a1-vin-destello { transform-box: fill-box; transform-origin: 50% 50%; animation: a1VinDestello 4.4s ease-in-out infinite; }
+@keyframes a1VinDestello { 0%, 60%, 100% { transform: scale(0); opacity: 0; } 78% { transform: scale(1.6); opacity: 1; } }
+.mr-vineta .a1-vin-reflejo { transform-box: fill-box; transform-origin: 50% 0; animation: a1VinReflejo 3.6s var(--v14-vaiven) infinite alternate; }
+@keyframes a1VinReflejo { from { transform: scaleY(1); opacity: .35; } to { transform: scaleY(.6); opacity: .15; } }
+.mr-vineta .a1-vin-brocheta { animation: a1Brocheta 3.8s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a1Brocheta { from { translate: 0 0; } to { translate: 0 -1.6px; } }
+/* base de las viñetas A1: halo cálido de nieve al sol */
+.ruta-main:has(.mr-A1) .mr-vineta { --halo: rgba(255,250,240,.85); }
+
+/* ---------- 7 · Móvil y accesibilidad ---------- */
+@media (max-width: 700px) {
+  /* mitad de partículas, sin rayos ni textura con mezcla, sin copos gigantes sobre las paradas */
+  .mr-A1 .a1-copo-lejos:nth-child(2n), .mr-A1 .a1-copo-medio:nth-child(2n), .mr-A1 .a1-copo-cerca:nth-child(n), .mr-A1 .a1-kongming:nth-child(2n) { display: none; }
+  .mr-A1 .a1-copo-medio { box-shadow: none; }
+  .mr-A1 .a1-rayos, .mr-A1 .a1-grano, .mr-A1 .a1-bruma.b3, .mr-A1 .a1-destello:nth-child(2n), .mr-A1 .a1-estrella:nth-child(3n) { display: none; }
+  .mr-A1 .a1-nube { will-change: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* el bloque genérico del v13 ya quita las animaciones dentro de .mr-mundo: aquí se deja un estado estático bonito */
+  .mr-A1 .a1-copo { top: var(--y); }
+  .mr-A1 .a1-humo span:first-child { opacity: .7; transform: translate3d(calc(var(--a1-u) * -6), calc(var(--a1-u) * -16), 0) scale(1.3); }
+  .mr-A1 .a1-destello { opacity: .9; }
+  .mr-A1 .a1-kongming { opacity: .95; bottom: calc(30% + var(--s, 1) * 22%); }
+  .mr-A1 .a1-traca i { display: none; }
+  .mr-A1 .mr-cielo::before, .mr-A1 .mr-cielo::after, .mr-A1 .a1-tinte, .mr-A1 .a1-luz, .mr-A1 .a1-brillo, .mr-A1 .a1-sol, .mr-A1 .a1-noche-cielo, .mr-A1 .a1-resplandor { transition: none; }
+  .mr-vineta .a1-vin-copo { transform: translate(0, 90px); }
+  .mr-vineta .a1-vin-humo { opacity: .6; transform: translate(-6px, -14px) scale(1.6); }
+  .mr-vineta .a1-vin-alud { opacity: 0; }
+}
