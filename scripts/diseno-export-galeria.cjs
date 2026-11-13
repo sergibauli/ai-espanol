@@ -11,8 +11,8 @@ const tarjetas = pantallas
     (p) => `<article class="t">
   <header><span class="n">${esc(p.id.slice(0, 2))}</span><div><h2>${esc(p.titulo)}</h2><code>#${esc(p.ruta)}</code></div>
   <a class="b" href="html/${p.id}.html">Abrir HTML</a></header>
-  <div class="c"><a href="capturas/escritorio/${p.id}.png"><img loading="lazy" src="capturas/escritorio/${p.id}.png" alt="${esc(p.titulo)} · escritorio"></a>
-  <a class="m" href="capturas/movil/${p.id}.png"><img loading="lazy" src="capturas/movil/${p.id}.png" alt="${esc(p.titulo)} · móvil"></a></div>
+  <div class="c"><a href="capturas/escritorio/${p.id}.jpg"><img loading="lazy" src="capturas/escritorio/${p.id}.jpg" alt="${esc(p.titulo)} · escritorio"></a>
+  <a class="m" href="capturas/movil/${p.id}.jpg"><img loading="lazy" src="capturas/movil/${p.id}.jpg" alt="${esc(p.titulo)} · móvil"></a></div>
 </article>`,
   )
   .join("\n");

@@ -13,8 +13,8 @@ Este paquete contiene **todas las pantallas actuales** de la web AI Español (ht
 |---|---|
 | `index.html` | Galería: abre esto primero. Muestra cada pantalla con sus capturas y el enlace a su HTML. |
 | `html/NN-nombre.html` | Cada pantalla como **HTML estático autónomo**: el DOM ya renderizado con todo su CSS dentro. Se abre directamente en el navegador (sin JavaScript, sin servidor). Las animaciones CSS siguen funcionando; los lienzos (`canvas`) de los juegos son imágenes fijas. |
-| `capturas/escritorio/` | Captura de página completa a 1366 px de ancho. |
-| `capturas/movil/` | Captura de página completa a 390 px (iPhone, ×2). |
+| `capturas/escritorio/` | Captura de página completa a 1366 px de ancho (JPG). |
+| `capturas/movil/` | Captura de página completa a 390 px (iPhone, ×2, JPG). |
 | `recursos/` | Imágenes y texturas que usan los HTML (papel, cielo nocturno, dragones, nubes, rodillos, Rey Mono…). |
 | `pantallas.json` | Lista de pantallas: id, título y ruta en la app. |
 
@@ -51,3 +51,4 @@ Por cada pantalla rediseñada:
 2. Las **imágenes nuevas** en una carpeta `recursos-nuevos/`.
 3. Si hay un **sistema de diseño** común (colores, tipografías, botones, tarjetas, sellos, insignias), un `sistema-diseno.html` + `.css` con los componentes y sus variables CSS: es lo que más acelera la implementación en todas las pantallas a la vez.
 4. Notas breves de comportamiento y animación (qué se anima, cuándo, duración).
+- `capturas/*/09-…-pantalla.jpg`, `11-…-pantalla.jpg` y `15-…-pantalla.jpg`: vista de pantalla de la lección, el examen de la clase y la audición DELE (paneles que en la captura de página completa salen pequeños).
