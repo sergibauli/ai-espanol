@@ -543,7 +543,7 @@ function LucesLejos({ fiesta }) {
         {/* farolas del paseo y reflejos largos en el agua */}
         {n(58).map((k) => <circle key={k} cx={k * 14 + 3} cy="698" r="1.1" fill={k % 5 ? "#ffe3a0" : "#fff"} />)}
         <rect x="-10" y="699" width="820" height="2" fill="#ffd98a" opacity=".35" />
-        {[[30, 30, "mrB1refOro", 70, 0.6], [72, 16, "mrB1refOro", 86, 0.7], [122, 40, "mrB1refOro", 66, 0.55], [PERLA, 26, "mrB1refRosa", 92, 0.75], [592, 26, "mrB1refOro", 84, 0.6], [649, 34, "mrB1refCian", 96, 0.65], [706, 30, "mrB1refRosa", 88, 0.5], [754, 20, "mrB1refCian", 70, 0.45], [356, 14, "mrB1refOro", 60, 0.55], [190, 14, "mrB1refCian", 56, 0.4], [506, 16, "mrB1refOro", 56, 0.4], [534, 14, "mrB1refRosa", 60, 0.4]].map((r) => columna(r[0], r[1], r[2], r[3], r[4] * 0.55))}
+        {[[30, 30, "mrB1refOro", 70, 0.6], [72, 16, "mrB1refOro", 86, 0.7], [122, 40, "mrB1refOro", 66, 0.55], [PERLA, 26, "mrB1refRosa", 92, 0.75], [592, 26, "mrB1refOro", 84, 0.6], [649, 34, "mrB1refCian", 96, 0.65], [706, 30, "mrB1refRosa", 88, 0.5], [754, 20, "mrB1refCian", 70, 0.45], [356, 14, "mrB1refOro", 60, 0.55], [190, 14, "mrB1refCian", 56, 0.4], [506, 16, "mrB1refOro", 56, 0.4], [534, 14, "mrB1refRosa", 60, 0.4]].map((r) => columna(r[0], r[1], r[2], Math.min(r[3], 62), r[4] * 0.55))}
       </g>
     </Capa>
   );
@@ -569,6 +569,12 @@ function LucesCerca() {
       </Capa>
       <Capa clase="mr-cerca b1-luces">
         <g className="b1-luz">
+          {/* claro de luna sobre los muros encalados y la piedra del puente */}
+          {CASAS.map(([x, y, w, h]) => <rect key={x} x={x} y={y - h} width={w * 0.7} height={h} fill="#a9c0f0" opacity=".13" />)}
+          <path d={`M226 894 Q400 730 574 894 L574 ${CANAL} H496 A96 96 0 0 0 304 ${CANAL} H226Z`} fill="#a9c0f0" opacity=".24" />
+          <path d={`M304 ${CANAL} A96 96 0 0 1 496 ${CANAL}`} fill="none" stroke="#dbe8ff" strokeWidth="9" opacity=".3" />
+          <path d="M226 882.5 Q400 718.5 574 882.5" fill="none" stroke="#eef4ff" strokeWidth="1.8" opacity=".85" />
+          <circle cx="236" cy="872" r="40" fill="url(#mrB1bloom)" opacity=".4" /><circle cx="564" cy="872" r="40" fill="url(#mrB1bloom)" opacity=".4" />
           {CASAS.map(([x, y, w, h]) => <CasaLuz key={x} x={x} y={y} w={w} h={h} />)}
           {CASAS.map(([x, y, w, h]) => huecos(x, y, w, h).ventanas.filter((v, k) => k % 2 === 0).map(([vx]) => <rect key={`${x}-${vx}`} x={vx + 1} y={CANAL + 2} width="14" height="56" fill="url(#mrB1refOro)" opacity=".42" />))}
           {/* luz cálida que asoma bajo el arco y filo de luna en el círculo del reflejo */}
@@ -685,15 +691,15 @@ const Sauce = () => (
       <path d="M-6 2 C40 -2 86 8 128 28" fill="none" stroke="#7a8a6a" strokeWidth="1" opacity=".7" />
       {n(3).map((g) => (
         <g key={g} className="b1-rama" style={{ "--d": `${-g * 2.3}s` }}>
-          {n(11).filter((k) => k % 3 === g).map((k) => {
-            const x = 6 + k * 16.5;
-            const y = 4 + (k > 6 ? (k - 6) * 8 : k * 1.5);
+          {n(15).filter((k) => k % 3 === g).map((k) => {
+            const x = 4 + k * 12.4;
+            const y = 4 + (k > 9 ? (k - 9) * 8 : k * 1.2);
             const largo = 200 + azar(k * 7) * 170 - k * 6;
             const curva = `M${x} ${r1(y)} q${r1(8 - azar(k) * 16)} ${r1(largo * 0.5)} ${r1(-6 + azar(k * 3) * 10)} ${r1(largo)}`;
             return (
               <g key={k}>
                 <path d={curva} fill="none" stroke="#2f4a38" strokeWidth="1.2" />
-                <path d={curva} fill="none" stroke="#4f7a52" strokeWidth="5" strokeDasharray="1.5 6.5" strokeLinecap="round" />
+                <path d={curva} fill="none" stroke="#4f7a52" strokeWidth="5.6" strokeDasharray="2.4 4.6" strokeLinecap="round" />
                 <path d={curva} fill="none" stroke="#9cc08f" strokeWidth="2.2" strokeDasharray="1 15" strokeDashoffset="3" strokeLinecap="round" opacity=".8" />
               </g>
             );
@@ -741,7 +747,7 @@ function VidaLuz({ fiesta }) {
     <>
       <Vivo plano="mr-lejos" clase="b1-vida-rio">
         <div className="b1-luz b1-todo">
-          <i className="b1-neblina" />
+          <i className="b1-resplandor" /><i className="b1-neblina" />
           {reflejos.map(([x, ancho, color], k) => <Reflejo key={x} x={x} ancho={ancho} alto={62 + (k % 4) * 9} color={color} d={-k * 0.7} />)}
           <i className="b1-maglev" style={pos(0, 651.4, 96)} />
           <div className="b1-faro" style={pos(PERLA, 501, 150)}><i /><i /></div>
@@ -812,10 +818,10 @@ export function Ambiente({ fiesta }) {
             <span key={i} className="b1-estrella" style={pos(8 + azar(i * 5) * 784, 16 + azar(i * 9) * 470, 1.6 + (i % 3) * 1.2, { "--t": `${2.4 + (i % 5) * 0.9}s`, "--d": `${r1(-azar(i) * 6)}s` })} />
           ))}
           <div className="b1-luna" style={pos(266, 176, 58)} />
-          <Nube x={180} y={196} ancho={150} t={70} d={-18} />
+          <Nube x={180} y={196} ancho={150} t={70} d={-18} opacidad={0.8} />
           <Nube x={420} y={130} ancho={210} t={110} d={-60} opacidad={0.7} />
-          <Nube x={-30} y={330} ancho={240} t={95} d={-40} opacidad={0.6} />
-          <Nube x={560} y={300} ancho={260} t={120} d={-10} opacidad={0.55} />
+          <Nube x={-30} y={330} ancho={240} t={95} d={-40} opacidad={0.45} />
+          <Nube x={560} y={300} ancho={260} t={120} d={-10} opacidad={0.42} />
         </div>
       </div>
       {/* linternas Kongming: unas pocas de noche, suelta masiva en la fiesta */}
