@@ -28,23 +28,244 @@
 .mr-A2 .a2-sol-tarde .a2-halo { background: radial-gradient(closest-side, rgba(255,236,170,.85), rgba(255,206,130,.4) 40%, rgba(255,170,100,0) 74%); animation: a2Halo 7s var(--v14-vaiven) infinite alternate; }
 .mr-A2 .a2-anillo { inset: 26% !important; border: 2px solid rgba(255,236,180,.7); opacity: 0; animation: a2Anillo 8s linear infinite; }
 .mr-A2 .a2-anillo2 { animation-delay: -4s; }
-.mr-A2 .a2-sol .a2-calor { inset: auto 36% auto 36% !important; height: 1.1%; border-radius: 50% !important; background: linear-gradient(90deg, rgba(255,170,90,0), rgba(255,160,84,.85) 30%, rgba(255,160,84,.85) 70%, rgba(255,170,90,0));
+.mr-A2 .a2-disco-tarde { aspect-ratio: 1; border-radius: 50%; opacity: 0; transition: opacity 1.4s ease; clip-path: inset(0 0 43% 0);
+  background: radial-gradient(closest-side, #fffdf0 0 58%, #fff0b0 80%, #ffd27a 93%, rgba(255,190,110,.6) 97%, rgba(255,190,110,0)); }
+.mr-A2 .a2-calor { height: calc(var(--a2-u) * 2.6); border-radius: 50%; opacity: 0; background: linear-gradient(90deg, rgba(255,150,84,0), rgba(255,132,70,.95) 25%, rgba(255,132,70,.95) 75%, rgba(255,150,84,0));
   animation: a2Calor 3.4s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
 @keyframes a2Halo { from { transform: scale(.9); opacity: .78; } to { transform: scale(1.08); opacity: 1; } }
 @keyframes a2Rayos { to { transform: rotate(360deg); } }
 @keyframes a2Anillo { 0% { transform: scale(1); opacity: 0; } 12% { opacity: .7; } 100% { transform: scale(1.9); opacity: 0; } }
-@keyframes a2Calor { from { transform: translateX(-7%) scaleX(.8); opacity: .35; } to { transform: translateX(7%) scaleX(1.15); opacity: .9; } }
+@keyframes a2Calor { from { transform: translateX(-4%) scaleX(.8); } to { transform: translateX(4%) scaleX(1); } }
 
-/* Nubes rasgadas: derivan de lado a lado; la parte de arriba se deshace */
-.mr-A2 .a2-nube { animation: a2Deriva var(--t, 90s) var(--v14-vaiven) var(--d, 0s) infinite alternate; will-change: transform;
-  -webkit-mask-image: linear-gradient(0deg, #000 40%, transparent 96%); mask-image: linear-gradient(0deg, #000 40%, transparent 96%); }
-.mr-A2 .a2-nube svg { overflow: hidden; }
+/* Nubes rasgadas: vetas de degradado iluminadas desde abajo; derivan muy despacio */
+.mr-A2 .a2-nube { aspect-ratio: 6 / 1; animation: a2Deriva var(--t, 90s) var(--v14-vaiven) var(--d, 0s) infinite alternate; will-change: transform;
+  background: radial-gradient(ellipse 48% 16% at 50% 66%, rgba(255,252,240,.95), rgba(255,246,226,0)), radial-gradient(ellipse 30% 26% at 32% 54%, rgba(255,255,255,.85), rgba(255,255,255,0)),
+    radial-gradient(ellipse 26% 30% at 66% 48%, rgba(255,255,255,.8), rgba(255,255,255,0)), radial-gradient(ellipse 40% 12% at 60% 40%, rgba(226,170,180,.5), rgba(226,170,180,0)),
+    radial-gradient(ellipse 22% 9% at 16% 70%, rgba(255,250,236,.7), rgba(255,250,236,0)), radial-gradient(ellipse 24% 8% at 86% 62%, rgba(255,250,236,.7), rgba(255,250,236,0)); }
+.mr-A2 .a2-nube-fina { aspect-ratio: 9 / 1; background: radial-gradient(ellipse 50% 22% at 50% 60%, rgba(255,252,240,.9), rgba(255,246,226,0)), radial-gradient(ellipse 28% 14% at 22% 46%, rgba(255,255,255,.7), rgba(255,255,255,0)),
+    radial-gradient(ellipse 30% 12% at 78% 68%, rgba(255,255,255,.7), rgba(255,255,255,0)); }
 @keyframes a2Deriva { from { transform: translate3d(calc(var(--a2-u) * -34), 0, 0); } to { transform: translate3d(calc(var(--a2-u) * 34), 0, 0); } }
 
 /* Textura de papel sobre toda la pintura + viñeteado cálido */
 .mr-A2 .a2-grano { position: absolute; inset: 0; background: url("../../public/theme/papel.jpg") center / 520px auto; mix-blend-mode: multiply; opacity: .22; }
 .mr-A2 .a2-grano::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 85% 75% at 50% 55%, rgba(70,20,10,0) 55%, rgba(70,20,10,.32) 100%); }
 
+/* Caravana: cada camello recorre la cresta de la duna (puntos de RUTA_CARAVANA en A2.jsx) con su desfase.
+   El estado sin animación (reduced-motion) es su puesto fijo en la cresta (--rx, --ry). */
+.mr-A2 .a2-camello { left: 0; top: 0; width: calc(var(--a2-u) * 72); transform: translate3d(calc(var(--a2-u) * var(--rx)), calc(var(--a2-u) * var(--ry)), 0);
+  animation: a2Camina 110s linear var(--d, 0s) infinite; will-change: transform; }
+.mr-A2 .a2-camello-svg { transform: translate(-50%, -96%); }
+@keyframes a2Camina {
+  0% { transform: translate3d(calc(var(--a2-u) * -150), calc(var(--a2-u) * 775), 0); } 10% { transform: translate3d(calc(var(--a2-u) * -50), calc(var(--a2-u) * 767), 0); }
+  20% { transform: translate3d(calc(var(--a2-u) * 50), calc(var(--a2-u) * 757), 0); } 30% { transform: translate3d(calc(var(--a2-u) * 150), calc(var(--a2-u) * 753), 0); }
+  40% { transform: translate3d(calc(var(--a2-u) * 250), calc(var(--a2-u) * 760), 0); } 50% { transform: translate3d(calc(var(--a2-u) * 350), calc(var(--a2-u) * 771), 0); }
+  60% { transform: translate3d(calc(var(--a2-u) * 450), calc(var(--a2-u) * 776), 0); } 70% { transform: translate3d(calc(var(--a2-u) * 550), calc(var(--a2-u) * 768), 0); }
+  80% { transform: translate3d(calc(var(--a2-u) * 650), calc(var(--a2-u) * 757), 0); } 90% { transform: translate3d(calc(var(--a2-u) * 750), calc(var(--a2-u) * 753), 0); }
+  100% { transform: translate3d(calc(var(--a2-u) * 850), calc(var(--a2-u) * 760), 0); } }
+/* paso de ambladura: las patas de un mismo lado van juntas; cuello, cuerpo y borlas acompañan */
+.a2-pata { transform-box: fill-box; transform-origin: 50% 4%; animation: a2Paso 1.5s var(--v14-vaiven) var(--p, 0s) infinite alternate; }
+.a2-pata-b { animation-delay: calc(var(--p, 0s) - 1.5s); }
+.a2-cuerpo { animation: a2Bote .75s var(--v14-vaiven) var(--p, 0s) infinite alternate; }
+.a2-cuello { transform-box: fill-box; transform-origin: 8% 92%; animation: a2Cuello 1.5s var(--v14-vaiven) var(--p, 0s) infinite alternate; }
+.a2-borla { transform-box: fill-box; transform-origin: 50% 0; animation: a2Borla .75s var(--v14-vaiven) var(--p, 0s) infinite alternate; }
+.a2-borla-b { animation-delay: calc(var(--p, 0s) - .3s); }
+@keyframes a2Paso { from { transform: rotate(-15deg); } to { transform: rotate(13deg); } }
+@keyframes a2Bote { from { transform: translateY(0); } to { transform: translateY(-1.2px); } }
+@keyframes a2Cuello { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+@keyframes a2Borla { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+/* polvo en las pezuñas */
+.mr-A2 .a2-polvo { position: absolute; left: calc(var(--a2-u) * -34); top: calc(var(--a2-u) * -12); width: calc(var(--a2-u) * 17); aspect-ratio: 1; border-radius: 50%; opacity: 0;
+  background: radial-gradient(closest-side, rgba(255,236,190,.85), rgba(255,226,170,0)); animation: a2Polvo 1.5s linear var(--p, 0s) infinite; }
+.mr-A2 .a2-polvo-b { left: calc(var(--a2-u) * 8); animation-delay: calc(var(--p, 0s) - .75s); }
+@keyframes a2Polvo { 0% { transform: translate3d(0, 0, 0) scale(.3); opacity: 0; } 20% { opacity: .8; } 100% { transform: translate3d(calc(var(--a2-u) * -12), calc(var(--a2-u) * -5), 0) scale(1.5); opacity: 0; } }
+.mr-A2 .a2-farolillo { position: absolute; left: calc(var(--a2-u) * -1.1); top: calc(var(--a2-u) * -36); width: calc(var(--a2-u) * 18); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(closest-side, #fff6c4 0 12%, rgba(255,185,74,.8) 26%, rgba(255,122,26,0)); animation: a2Titila 1.3s ease-in-out var(--p, 0s) infinite alternate; }
+
+/* Palmeras: se mecen desde la base y la copa cabecea */
+.mr-A2 .a2-palma { transform-origin: 46% 100%; animation: a2Mece var(--t, 6s) var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.a2-copa { transform-box: fill-box; transform-origin: 50% 60%; animation: a2Copa calc(var(--t, 6s) * .62) var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a2Mece { from { transform: rotate(-1.6deg); } to { transform: rotate(2.6deg); } }
+@keyframes a2Copa { from { transform: rotate(-3deg) scaleX(1); } to { transform: rotate(4deg) scaleX(.96); } }
+
+/* Agua del oasis: ondas de luz y destellos de cuatro puntas */
+.mr-A2 .a2-onda { height: calc(var(--a2-u) * 1.3); border-radius: 50%; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(240,255,250,.9), rgba(255,255,255,0)); animation: a2Onda 4.2s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a2Onda { from { transform: translateX(-8%) scaleX(.4); opacity: .15; } to { transform: translateX(8%) scaleX(1); opacity: .85; } }
+.mr-A2 .a2-destello { aspect-ratio: 1; opacity: 0; background: radial-gradient(closest-side, #fff 0 12%, rgba(255,246,200,.9) 20%, rgba(255,236,160,0) 70%);
+  clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%); animation: a2Destello var(--t, 5s) ease-in-out var(--d, 0s) infinite; }
+@keyframes a2Destello { 0%, 62%, 100% { transform: scale(.2) rotate(0deg); opacity: 0; } 78% { transform: scale(1.25) rotate(40deg); opacity: 1; } 90% { transform: scale(.6) rotate(70deg); opacity: .5; } }
+
+/* Banderolas del fuerte */
+.mr-A2 .a2-banderola { transform-origin: 0 50%; animation: a2Ondea 1.9s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-A2 .a2-banderola svg { transform-origin: 0 50%; animation: a2Ondea2 1.3s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a2Ondea { from { transform: skewY(-7deg) scaleX(1); } to { transform: skewY(9deg) scaleX(.84); } }
+@keyframes a2Ondea2 { from { transform: scaleY(1); } to { transform: scaleY(.82) skewX(-6deg); } }
+
+/* Ráfagas: la arena se desprende de las crestas a rachas, hacia la derecha */
+.mr-A2 .a2-rafaga { aspect-ratio: 5 / 1; opacity: 0; transform-origin: 0 100%; border-radius: 0 60% 60% 0;
+  background: radial-gradient(ellipse 100% 100% at 0 100%, rgba(255,240,200,.95), rgba(255,230,180,.45) 45%, rgba(255,226,170,0) 72%); animation: a2Rafaga var(--t, 9s) ease-out var(--d, 0s) infinite; }
+@keyframes a2Rafaga { 0%, 38% { transform: scale(.15, .4) rotate(-4deg); opacity: 0; } 46% { opacity: .9; } 70% { transform: scale(.9, 1) rotate(-9deg); opacity: .7; }
+  92%, 100% { transform: translate3d(calc(var(--a2-u) * 26), calc(var(--a2-u) * -8), 0) scale(1.25, 1.3) rotate(-12deg); opacity: 0; } }
+/* Calima que deriva entre los planos */
+.mr-A2 .a2-bruma { left: -30%; width: 160%; height: 8%; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,232,186,.7), rgba(255,232,186,.3) 55%, rgba(255,232,186,0)); animation: a2Bruma 46s var(--v14-vaiven) infinite alternate; will-change: transform; }
+.mr-A2 .a2-bruma.b1 { top: 68%; } .mr-A2 .a2-bruma.b2 { top: 77.5%; height: 7%; animation-duration: 60s; animation-delay: -22s; opacity: .8; }
+@keyframes a2Bruma { from { transform: translate3d(-9%, 0, 0); } to { transform: translate3d(9%, 0, 0); } }
+
+/* Halcón que planea en círculos (elipse = dos vaivenes desfasados un cuarto de vuelta) */
+.mr-A2 .a2-halcon { animation: a2HalconX 15s var(--v14-vaiven) infinite alternate; transition: opacity 1.4s ease; will-change: transform; }
+.mr-A2 .a2-halcon-y { animation: a2HalconY 15s var(--v14-vaiven) -7.5s infinite alternate; }
+.mr-A2 .a2-halcon svg { animation: a2Vira 30s linear infinite; }
+@keyframes a2HalconX { from { transform: translate3d(0, 0, 0) scale(.8); } to { transform: translate3d(calc(var(--a2-u) * 330), 0, 0) scale(1.1); } }
+@keyframes a2HalconY { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, calc(var(--a2-u) * 110), 0); } }
+@keyframes a2Vira { 0% { transform: scaleX(1) rotate(-12deg); } 25% { transform: scaleX(1) rotate(7deg); } 49.8% { transform: scaleX(1) rotate(-12deg); } 50% { transform: scaleX(-1) rotate(-12deg); } 75% { transform: scaleX(-1) rotate(7deg); } 100% { transform: scaleX(-1) rotate(-12deg); } }
+
+/* Cometas: flotan y cabecean; la cola son eslabones anidados que giran con retraso → serpentea */
+.mr-A2 .a2-cometa { transform-origin: 50% 100%; animation: a2Cometa 6.5s var(--v14-vaiven) var(--d, 0s) infinite alternate; transition: opacity 1.4s ease; }
+@keyframes a2Cometa { from { transform: translate3d(calc(var(--a2-u) * -8), calc(var(--a2-u) * 6), 0) rotate(-12deg); } to { transform: translate3d(calc(var(--a2-u) * 10), calc(var(--a2-u) * -10), 0) rotate(9deg); } }
+.mr-A2 .a2-cola, .mr-A2 .a2-cola i { position: absolute; left: calc(50% - var(--a2-u) * .5); top: 95%; width: calc(var(--a2-u) * 1); height: calc(var(--a2-u) * 10); border-radius: 1px; background: var(--c);
+  transform-origin: 50% 0; animation: a2Cola 1.7s var(--v14-vaiven) calc(var(--d, 0s) + var(--k) * -.42s) infinite alternate; }
+.mr-A2 .a2-cola i { left: 0; top: 100%; }
+.mr-A2 .a2-cola::after, .mr-A2 .a2-cola i::after { content: ""; position: absolute; left: calc(var(--a2-u) * -2.2); bottom: calc(var(--a2-u) * -1.4); width: calc(var(--a2-u) * 5.4); height: calc(var(--a2-u) * 3.2); background: #f2c14e;
+  clip-path: polygon(0 0, 50% 38%, 100% 0, 100% 100%, 50% 62%, 0 100%); }
+@keyframes a2Cola { from { transform: rotate(-24deg); } to { transform: rotate(24deg); } }
+
+/* Motas doradas a contraluz y arena que cruza (la arena reutiliza .mr-arena del v13) */
+.mr-A2 .a2-mota { position: absolute; width: calc(10px * var(--s, 1)); aspect-ratio: 1; border-radius: 50%; opacity: 0; background: radial-gradient(closest-side, rgba(255,246,200,.95) 0 20%, rgba(255,214,130,.5) 50%, rgba(255,200,110,0));
+  animation: a2Mota var(--t, 18s) linear var(--d, 0s) infinite; will-change: transform, opacity; }
+@keyframes a2Mota { 0% { transform: translate3d(0, 0, 0); opacity: 0; } 20% { opacity: .75; } 80% { opacity: .5; } 100% { transform: translate3d(12vw, -14vh, 0); opacity: 0; } }
+
+/* Faroles del toldo y hoguera del oasis */
+.mr-A2 .a2-farol { transform-origin: 50% 0; animation: a2MeceFarol var(--t, 5s) var(--v14-vaiven) var(--d, 0s) infinite alternate; will-change: transform; }
+@keyframes a2MeceFarol { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+.mr-A2 .a2-brillo { opacity: .12; transition: opacity 1.4s ease; }
+.mr-A2 .a2-hoguera { aspect-ratio: 26 / 30; opacity: 0; transition: opacity 1.4s ease; }
+.mr-A2 .a2-llama { position: absolute; left: 14%; right: 14%; bottom: 0; height: 100%; border-radius: 50% 50% 50% 50% / 68% 68% 32% 32%; transform-origin: 50% 100%;
+  background: radial-gradient(ellipse at 50% 86%, #fffbe0 0 16%, #ffd75a 38%, #ff8a1e 66%, rgba(230,60,20,0) 100%); clip-path: polygon(50% 0, 66% 30%, 84% 40%, 100% 78%, 78% 100%, 22% 100%, 0 78%, 18% 46%, 34% 34%);
+  animation: a2Llama .52s var(--v14-vaiven) infinite alternate; }
+.mr-A2 .a2-llama-b { left: 30%; right: 22%; height: 70%; animation-duration: .37s; animation-delay: -.2s; background: radial-gradient(ellipse at 50% 86%, #fff 0 22%, #fff0a0 50%, rgba(255,200,80,0) 100%); }
+@keyframes a2Llama { from { transform: scale(.92, .86) skewX(-5deg); } to { transform: scale(1.06, 1.1) skewX(6deg); } }
+.mr-A2 .a2-chispa { position: absolute; left: 46%; top: 30%; width: 3px; height: 3px; border-radius: 50%; background: #ffe08a; opacity: 0; animation: a2ChispaSube 3s ease-out var(--d, 0s) infinite; }
+@keyframes a2ChispaSube { 0% { transform: translate3d(0, 0, 0); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate3d(calc(var(--x) * var(--a2-u) * 14), calc(var(--a2-u) * -64), 0); opacity: 0; } }
+
 /* ---------- 3 · Entrada escalonada al montarse el mundo (≤1,1 s; el estado final es el de reposo) ---------- */
 .mr-A2 .a2-entra { animation: a2Entra 620ms var(--v14-salida) calc(var(--i, 0) * 90ms) both; }
 @keyframes a2Entra { from { opacity: 0; transform: translateY(46px); } }
+
+/* ---------- 4 · Atardecer y noche: tintes multiply + luces por encima (solo cambia opacity) ---------- */
+.mr-A2 .a2-tinte { position: absolute; inset: 0; mix-blend-mode: multiply; opacity: 0; transition: opacity 1.4s ease; }
+.mr-A2 .a2-t-atardecer { background: linear-gradient(180deg, #8f78d0 0%, #e58ab0 24%, #ffa88a 42%, #ffc08a 56%, #ffb078 72%, #e88a7a 100%); }
+.mr-A2 .a2-t-noche { background: linear-gradient(180deg, #1e2666 0%, #34408c 40%, #4c58a4 62%, #404c98 100%); }
+.mr-A2 .a2-resplandor { aspect-ratio: 1.4; border-radius: 50%; opacity: 0; transition: opacity 1.4s ease;
+  background: radial-gradient(closest-side, rgba(255,240,180,.4) 0 12%, rgba(255,206,120,.34) 26%, rgba(255,150,90,.2) 52%, rgba(255,120,90,0)); animation: a2Halo 7s var(--v14-vaiven) infinite alternate; }
+.mr-A2 .a2-haz { aspect-ratio: 1; border-radius: 50%; opacity: 0; transition: opacity 1.4s ease; background: repeating-conic-gradient(from 4deg, rgba(255,226,160,0) 0 7deg, rgba(255,226,160,.26) 11deg, rgba(255,226,160,0) 16deg 26deg);
+  -webkit-mask-image: radial-gradient(closest-side, #000 10%, rgba(0,0,0,.45) 45%, transparent 90%); mask-image: radial-gradient(closest-side, #000 10%, rgba(0,0,0,.45) 45%, transparent 90%); animation: a2Rayos 180s linear infinite; }
+.mr-A2 .a2-luz, .mr-A2 .a2-luz-luna { opacity: 0; transition: opacity 1.4s ease; }
+.mr-A2 .a2-noche-cielo { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; -webkit-mask-image: linear-gradient(180deg, #000 38%, transparent 45%); mask-image: linear-gradient(180deg, #000 38%, transparent 45%); }
+.mr-A2 .a2-noche-cielo > * { position: absolute; }
+.mr-A2 .a2-via { left: -5%; top: 9%; width: 90%; height: 26%; transform: rotate(-40deg); border-radius: 50%;
+  background: radial-gradient(ellipse 50% 46% at 50% 50%, rgba(206,214,255,.42), rgba(170,160,236,.2) 45%, rgba(150,140,230,0) 75%), radial-gradient(ellipse 24% 20% at 40% 52%, rgba(255,226,214,.34), rgba(255,226,214,0)),
+    radial-gradient(ellipse 16% 10% at 62% 46%, rgba(30,24,70,.4), rgba(30,24,70,0)); }
+.mr-A2 .a2-estrella { aspect-ratio: 1; border-radius: 50%; background: #fff; box-shadow: 0 0 4px 1px rgba(200,220,255,.8); }
+.mr-A2 .a2-polvo-estelar { aspect-ratio: 1; border-radius: 50%; background: #e4e8ff; }
+.mr-A2 .a2-fugaz { height: 2px; transform: rotate(22deg); }
+.mr-A2 .a2-fugaz i { position: absolute; inset: 0; border-radius: 2px; background: linear-gradient(90deg, rgba(255,255,255,0), #fff); opacity: 0; }
+@keyframes a2Fugaz { 0% { transform: translateX(-160%); opacity: 0; } 1% { opacity: 1; } 5% { opacity: .9; } 7%, 100% { transform: translateX(260%); opacity: 0; } }
+@keyframes a2Titila { from { opacity: .3; transform: scale(.7); } to { opacity: 1; transform: scale(1.15); } }
+
+.mr-A2[data-momento="atardecer"] .mr-cielo::before { opacity: 1; }
+.mr-A2[data-momento="atardecer"] .a2-t-atardecer { opacity: .9; }
+.mr-A2[data-momento="atardecer"] .a2-sol-dia { opacity: 0; }
+.mr-A2[data-momento="atardecer"] .a2-sol-tarde, .mr-A2[data-momento="atardecer"] .a2-resplandor { opacity: 1; }
+.mr-A2[data-momento="atardecer"] .a2-haz { opacity: .8; }
+.mr-A2[data-momento="atardecer"] .a2-disco-tarde { opacity: 1; }
+.mr-A2[data-momento="atardecer"] .a2-calor { opacity: .8; }
+.mr-A2[data-momento="atardecer"] .a2-luz { opacity: .55; }
+.mr-A2[data-momento="atardecer"] .a2-brillo { opacity: .6; }
+.mr-A2[data-momento="atardecer"] .a2-hoguera { opacity: .85; }
+
+.mr-A2[data-momento="noche"] .mr-cielo::after { opacity: 1; }
+.mr-A2[data-momento="noche"] .a2-t-noche { opacity: 1; }
+.mr-A2[data-momento="noche"] .a2-sol { opacity: 0; }
+.mr-A2[data-momento="noche"] .a2-luz, .mr-A2[data-momento="noche"] .a2-luz-luna, .mr-A2[data-momento="noche"] .a2-brillo, .mr-A2[data-momento="noche"] .a2-hoguera, .mr-A2[data-momento="noche"] .a2-noche-cielo { opacity: 1; }
+.mr-A2[data-momento="noche"] .a2-estrella { animation: a2Titila var(--t, 3s) ease-in-out var(--d, 0s) infinite alternate; }
+.mr-A2[data-momento="noche"] .a2-fugaz i { animation: a2Fugaz var(--t, 13s) linear var(--d, 0s) infinite; }
+.mr-A2[data-momento="noche"] .a2-halcon, .mr-A2[data-momento="noche"] .a2-cometa:not(.a2-cometa-rafaga), .mr-A2[data-momento="noche"] .a2-destello, .mr-A2[data-momento="noche"] .a2-arena { opacity: 0; animation: none; }
+.mr-A2[data-momento="noche"] .a2-mota { background: radial-gradient(closest-side, rgba(255,210,120,.95) 0 24%, rgba(255,150,60,.4) 55%, rgba(255,150,60,0)); }
+.mr-A2[data-momento="noche"] .a2-nube { opacity: .35 !important; }
+/* las viñetas (fuera de .mr-mundo) acompañan al momento con un filtro fijo, no animado */
+.ruta-main:has(.mr-A2[data-momento="atardecer"]) .mr-vineta svg { filter: saturate(1.2) sepia(.2) hue-rotate(-10deg) brightness(.94); }
+.ruta-main:has(.mr-A2[data-momento="noche"]) .mr-vineta svg { filter: brightness(.58) saturate(.8) hue-rotate(-16deg); }
+.ruta-main:has(.mr-A2[data-momento="noche"]) .mr-vineta { --halo: rgba(120,130,220,.3); }
+.ruta-main.mr-on:has(.mr-A2) { --mr-base: #e3b06a; }
+.ruta-main.mr-on:has(.mr-A2[data-momento="atardecer"]) { --mr-base: #d98048; }
+.ruta-main.mr-on:has(.mr-A2[data-momento="noche"]) { --mr-base: #3c3a78; }
+
+/* ---------- 5 · Fiesta (.mr-fiesta al completar una clase): la caravana enciende faroles, sedas y cometas al viento ---------- */
+.mr-A2.mr-fiesta .a2-luz { opacity: 1; animation: a2LateLuz 1.1s var(--v14-vaiven) infinite alternate; }
+.mr-A2.mr-fiesta .a2-brillo, .mr-A2.mr-fiesta .a2-hoguera { opacity: 1; }
+.mr-A2.mr-fiesta .a2-llama { animation-duration: .3s; }
+.mr-A2.mr-fiesta .a2-chispa { animation-duration: 1.2s; width: 4px; height: 4px; }
+.mr-A2.mr-fiesta .a2-farol { animation-duration: 1.6s; }
+.mr-A2.mr-fiesta .a2-banderola { animation-duration: .7s; }
+.mr-A2.mr-fiesta .a2-anillo { animation-duration: 2.4s; }
+.mr-A2.mr-fiesta .a2-rafaga { animation-duration: 3s; }
+.mr-A2.mr-fiesta .a2-destello { animation-duration: 1.6s; }
+@keyframes a2LateLuz { from { opacity: .7; } to { opacity: 1; } }
+.mr-A2 .a2-cometa-rafaga { opacity: 0; animation: a2Sube var(--t, 5s) ease-out var(--d, 0s) infinite; will-change: transform, opacity; }
+@keyframes a2Sube { 0% { transform: translate3d(0, 0, 0) rotate(-14deg) scale(.7); opacity: 0; } 8% { opacity: 1; } 40% { transform: translate3d(calc(var(--a2-u) * var(--x) * .7), calc(var(--a2-u) * -420), 0) rotate(12deg) scale(1); }
+  70% { transform: translate3d(calc(var(--a2-u) * var(--x) * .4), calc(var(--a2-u) * -720), 0) rotate(-8deg) scale(1); opacity: 1; } 100% { transform: translate3d(calc(var(--a2-u) * var(--x)), calc(var(--a2-u) * -1080), 0) rotate(10deg) scale(.9); opacity: 0; } }
+.mr-A2 .a2-seda { position: absolute; top: -8%; width: calc(9px * var(--s, 1)); height: calc(30px * var(--s, 1)); border-radius: 60% 10% 60% 10%; opacity: 0;
+  background: linear-gradient(100deg, var(--c) 40%, #fff3c8 52%, var(--c) 64%); animation: a2Seda var(--t, 4.5s) linear var(--d, 0s) infinite; will-change: transform, opacity; }
+@keyframes a2Seda { 0% { transform: translate3d(0, 0, 0) rotate(20deg) scaleX(1); opacity: 0; } 8% { opacity: .95; } 30% { transform: translate3d(9vw, 34vh, 0) rotate(160deg) scaleX(-.6); } 60% { transform: translate3d(15vw, 66vh, 0) rotate(300deg) scaleX(1); }
+  92% { opacity: .9; } 100% { transform: translate3d(26vw, 112vh, 0) rotate(520deg) scaleX(-.8); opacity: 0; } }
+
+/* ---------- 6 · Viñetas a los lados del camino ---------- */
+.ruta-main:has(.mr-A2) .mr-vineta { --halo: rgba(255,226,170,.8); }
+.mr-vineta .a2-vin-palma { transform-box: fill-box; transform-origin: 46% 100%; animation: a2Mece 6s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-vineta .a2-vin-bandera { transform-box: fill-box; transform-origin: 0 50%; animation: a2Ondea 1.7s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+.mr-vineta .a2-vin-brillo { opacity: .3; animation: a2VinParpadeo 3.2s ease-in-out var(--d, 0s) infinite; }
+@keyframes a2VinParpadeo { 0%, 100% { opacity: .3; } 42% { opacity: .75; } 50% { opacity: .45; } 60% { opacity: .8; } }
+.ruta-main:has(.mr-A2[data-momento="noche"]) .mr-vineta .a2-vin-brillo, .ruta-main:has(.mr-A2[data-momento="atardecer"]) .mr-vineta .a2-vin-brillo { animation-name: a2VinParpadeoNoche; }
+@keyframes a2VinParpadeoNoche { 0%, 100% { opacity: .8; } 42% { opacity: 1; } 50% { opacity: .7; } 60% { opacity: 1; } }
+.mr-vineta .a2-vin-destello { transform-box: fill-box; transform-origin: 50% 50%; animation: a2VinDestello 4.4s ease-in-out var(--d, 0s) infinite; }
+@keyframes a2VinDestello { 0%, 60%, 100% { transform: scale(0); opacity: 0; } 78% { transform: scale(1.5) rotate(40deg); opacity: 1; } }
+.mr-vineta .a2-vin-reflejo { transform-box: fill-box; transform-origin: 50% 0; animation: a2VinReflejo 3.6s var(--v14-vaiven) infinite alternate; }
+@keyframes a2VinReflejo { from { transform: scaleY(1); opacity: .7; } to { transform: scaleY(.6) scaleX(1.3); opacity: .3; } }
+.mr-vineta .a2-vin-cometa { transform-box: fill-box; transform-origin: 50% 100%; animation: a2VinCometa 5s var(--v14-vaiven) infinite alternate; }
+@keyframes a2VinCometa { from { transform: rotate(-8deg) translateY(4px); } to { transform: rotate(9deg) translateY(-8px); } }
+.mr-vineta .a2-vin-cola { transform-box: fill-box; transform-origin: 50% 0; animation: a2VinCola 1.6s var(--v14-vaiven) calc(var(--k) * -.4s) infinite alternate; }
+@keyframes a2VinCola { from { transform: rotate(-20deg); } to { transform: rotate(20deg); } }
+.mr-vineta .a2-vin-polvo { transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: a2VinPolvo 1.5s linear var(--d, 0s) infinite; }
+@keyframes a2VinPolvo { 0% { transform: translate(0, 0) scale(.4); opacity: 0; } 25% { opacity: .8; } 100% { transform: translate(-22px, -8px) scale(1.7); opacity: 0; } }
+.mr-vineta .a2-vin-rayo { animation: a2VinRayo 7s var(--v14-vaiven) infinite alternate; }
+@keyframes a2VinRayo { from { opacity: .25; transform: translateX(-10px); } to { opacity: .6; transform: translateX(12px); } }
+.mr-vineta .a2-vin-mota { opacity: 0; animation: a2VinMota 6.6s linear var(--d, 0s) infinite; }
+@keyframes a2VinMota { 0% { transform: translate(0, 0); opacity: 0; } 20% { opacity: .9; } 100% { transform: translate(10px, -70px); opacity: 0; } }
+.mr-vineta .a2-vin-gansos { animation: a2VinGansos 16s linear infinite; }
+@keyframes a2VinGansos { from { transform: translate(-70px, 26px); } to { transform: translate(210px, -22px); } }
+.mr-vineta .a2-vin-ala { transform-box: fill-box; transform-origin: 50% 100%; animation: a2VinAla .9s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a2VinAla { from { transform: scaleY(1); } to { transform: scaleY(-.5); } }
+.mr-vineta .a2-vin-seda { transform-box: fill-box; transform-origin: 50% 0; animation: a2VinSeda 3.4s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
+@keyframes a2VinSeda { from { transform: skewX(-4deg) scaleY(1); } to { transform: skewX(5deg) scaleY(.96); } }
+.mr-vineta .a2-vin-farol { transform-box: fill-box; transform-origin: 50% 0; animation: a2MeceFarol 4.6s var(--v14-vaiven) infinite alternate; }
+
+/* ---------- 7 · Móvil y accesibilidad ---------- */
+@media (max-width: 700px) {
+  /* mitad de partículas, sin rayos ni textura con mezcla; el centro (paradas) queda limpio */
+  .mr-A2 .a2-arena:nth-child(2n), .mr-A2 .a2-mota:nth-child(2n), .mr-A2 .a2-seda:nth-child(2n), .mr-A2 .a2-cometa-rafaga:nth-child(2n), .mr-A2 .a2-estrella:nth-child(3n), .mr-A2 .a2-polvo-estelar:nth-child(2n) { display: none; }
+  .mr-A2 .a2-rayos, .mr-A2 .a2-haz, .mr-A2 .a2-grano, .mr-A2 .a2-bruma.b2, .mr-A2 .a2-anillo2, .mr-A2 .a2-polvo-b, .mr-A2 .a2-chispa:nth-child(2n) { display: none; }
+  .mr-A2 .a2-estrella { box-shadow: none; }
+  .mr-A2 .a2-nube { will-change: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* el bloque genérico del v13 ya quita las animaciones dentro de .mr-mundo: aquí se deja un estado estático bonito */
+  .mr-A2 .a2-destello { opacity: .9; }
+  .mr-A2 .a2-rafaga { opacity: .55; transform: scale(.8, .9) rotate(-8deg); }
+  .mr-A2 .a2-mota { opacity: .6; }
+  .mr-A2 .a2-polvo { display: none; }
+  .mr-A2 .a2-cometa-rafaga { opacity: 1; top: var(--ry) !important; }
+  .mr-A2 .a2-seda { opacity: .9; top: var(--ry); rotate: var(--rg); }
+  .mr-A2 .a2-arena { display: none; }
+  .mr-A2 .mr-cielo::before, .mr-A2 .mr-cielo::after, .mr-A2 .a2-tinte, .mr-A2 .a2-luz, .mr-A2 .a2-luz-luna, .mr-A2 .a2-brillo, .mr-A2 .a2-sol, .mr-A2 .a2-noche-cielo, .mr-A2 .a2-resplandor, .mr-A2 .a2-haz, .mr-A2 .a2-disco-tarde, .mr-A2 .a2-calor, .mr-A2 .a2-hoguera, .mr-A2 .a2-halcon, .mr-A2 .a2-cometa { transition: none; }
+  .mr-vineta .a2-vin-destello { opacity: 1; }
+  .mr-vineta .a2-vin-polvo, .mr-vineta .a2-vin-mota { opacity: .5; }
+}
