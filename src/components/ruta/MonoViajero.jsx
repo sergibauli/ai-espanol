@@ -47,7 +47,7 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
   // Lado en el que descansa respecto a la parada (hacia el centro del carril) y separación
   const separacion = tamano * 0.85;
   const ladoDe = (p) => (p[0] > ANCHO_CARRIL / 2 ? -1 : 1);
-  const reposo = (p) => [p[0] + ladoDe(p) * separacion, p[1] - tamano * 0.29];
+  const reposo = (p) => [p[0] + ladoDe(p) * separacion, p[1] + tamano * 0.02];
 
   React.useEffect(() => {
     const mover = refMover.current;

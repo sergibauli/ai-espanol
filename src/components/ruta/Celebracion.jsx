@@ -88,14 +88,13 @@ export function Celebracion({ tipo = "clase", n = 1, lugar, saliendo = false }) 
             ))}
           </span>
           <SelloLaca id={id} grande={esUnidad}>
-            {esUnidad ? (
-              <span className="uno">通关</span>
-            ) : (
-              <>
-                <span>第{n}课</span>
-                <span>完成</span>
-              </>
-            )}
+            {(esUnidad ? ["通关"] : [`第${n}课`, "完成"]).map((columna) => (
+              <span key={columna} className={esUnidad ? "uno" : ""}>
+                {[...columna].map((letra, i) => (
+                  <i key={i}>{letra}</i>
+                ))}
+              </span>
+            ))}
           </SelloLaca>
         </div>
         <div className="rc-cinta">

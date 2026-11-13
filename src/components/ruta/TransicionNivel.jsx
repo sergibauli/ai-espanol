@@ -103,7 +103,11 @@ export function TransicionNivel({ destino, clave, onCubre, onFin }) {
         </div>
         <div className="tn-centro">
           <div className="tn-sello" translate="no">
-            <span>{lugar.zh}</span>
+            <span>
+              {[...lugar.zh].map((letra) => (
+                <i key={letra}>{letra}</i>
+              ))}
+            </span>
           </div>
           <div className="tn-rotulo">
             <b>{destino}</b>

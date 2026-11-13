@@ -205,7 +205,15 @@ export default function RutaPage() {
     document.addEventListener("pointerdown", alTocar);
     document.addEventListener("keydown", alTeclear);
     // Que el popover quede entero a la vista (por encima de la barra inferior del móvil)
-    const ajuste = setTimeout(() => document.querySelector(".ruta-node-wrap.abierto .rp-pop")?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 60);
+    const ajuste = setTimeout(() => {
+      const parada = document.querySelector(".ruta-node-wrap.abierto");
+      const pop = parada?.querySelector(".rp-pop");
+      if (!pop) return;
+      // Altura real del popover (su animación de entrada lo escala): parte de la caja de la parada
+      const abajo = parada.getBoundingClientRect().bottom + 40 + pop.offsetHeight;
+      const limite = window.innerHeight - (window.innerWidth <= 1000 ? 104 : 18);
+      if (abajo > limite) window.scrollBy({ top: abajo - limite, behavior: sinMovimiento() ? "auto" : "smooth" });
+    }, 40);
     return () => {
       clearTimeout(ajuste);
       document.removeEventListener("pointerdown", alTocar);

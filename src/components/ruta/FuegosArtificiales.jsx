@@ -144,7 +144,7 @@ export function FuegosArtificiales({ nivel = "clase", onFin }) {
     };
 
     const cuadro = (ahora) => {
-      const dt = Math.min(0.034, anterior ? (ahora - anterior) / 1000 : 0.016);
+      const dt = Math.min(0.09, anterior ? (ahora - anterior) / 1000 : 0.016);
       anterior = ahora;
       tiempo += dt;
       while (lanzados < guion.length && tiempo * 1000 >= guion[lanzados]) lanzar(lanzados++);
@@ -152,7 +152,7 @@ export function FuegosArtificiales({ nivel = "clase", onFin }) {
       // Persistencia: se borra un poco cada cuadro para dejar estela
       ctx.globalCompositeOperation = "destination-out";
       ctx.globalAlpha = 1;
-      ctx.fillStyle = "rgba(0,0,0,.2)";
+      ctx.fillStyle = `rgba(0,0,0,${(1 - Math.exp(-dt * 13)).toFixed(3)})`; // mismo desvanecido a cualquier fps
       ctx.fillRect(0, 0, ancho, alto);
       ctx.globalCompositeOperation = "lighter";
 
