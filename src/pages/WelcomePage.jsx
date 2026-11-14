@@ -121,7 +121,7 @@ function NotaWeChat({ conQr = true }) {
       {conQr && (
         <span className="pc-qr">
           <img
-            src="./images/qr-wechat.png"
+            src="./images/qr-wechat-codigo.png"
             alt="Código QR de WeChat · 微信二维码"
             loading="lazy"
             decoding="async"
@@ -223,6 +223,7 @@ export default function WelcomePage() {
 
         <div id="pc-acceso" className="pc-panel" role="region" aria-labelledby="pc-acceso-titulo">
           <span className="pc-panel-marco" aria-hidden="true" />
+          <span className="pc-panel-aura" aria-hidden="true" />
           <span className="pc-panel-sello" aria-hidden="true" translate="no">
             <i>登</i>
             <i>录</i>
