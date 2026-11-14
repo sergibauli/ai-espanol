@@ -50,13 +50,21 @@ function a() {
   }
   return o;
 }
-function c(o) {
-  return (o ? b(o) : a()).filter((n) => {
-    const e = n.espanol.trim();
-    if (!e || e.length < 1 || e.includes(" ") || e.includes("-")) {
-      return false;
-    }
-    return e.length >= 1 && e.length <= 20;
+// Palabras para los juegos de letras: una sola palabra (sin espacios ni guiones) de hasta 20 caracteres.
+// Desde una clase (?m=N&clase=K) con menos de 6 palabras sueltas se admiten también sus expresiones cortas
+// («buenos días»): los juegos quitan espacios y signos, así la partida sigue siendo solo con la clase.
+const MINIMO_CLASE = 6;
+function palabrasParaJuego(moduloId) {
+  const lista = moduloId ? b(moduloId) : a();
+  const sueltas = lista.filter((palabra) => {
+    const texto = palabra.espanol.trim();
+    return texto.length >= 1 && texto.length <= 20 && !texto.includes(" ") && !texto.includes("-");
+  });
+  const { clase } = parametrosJuego();
+  if (!moduloId || !clase || sueltas.length >= MINIMO_CLASE) return sueltas;
+  return lista.filter((palabra) => {
+    const texto = palabra.espanol.trim();
+    return texto.length >= 1 && texto.replace(/[^\p{L}]/gu, "").length <= 14;
   });
 }
-export { c as a, a as c };
+export { palabrasParaJuego as a, a as c };
