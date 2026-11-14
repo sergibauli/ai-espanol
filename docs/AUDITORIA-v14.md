@@ -22,3 +22,16 @@ Ninguna ruta tiene scroll horizontal a 390 px. Los fallos, ordenados por impacto
 | 14 | Pendiente externo | Unidades 81–90 | Sin traducciones a los otros idiomas de ayuda ni audio del profesor: requieren las claves de DeepSeek y Fish Audio, que no hay en este entorno. **No se simula.** | — |
 
 Rutas que la otra sesión («Dirección de diseño») está rehaciendo y que no se tocan aquí: `/`, `/ruta`, portada, login.
+
+## Estado (14-11-2026)
+
+Publicado en main: hallazgos 1–13 salvo el 13 (seguridad), que queda propuesto.
+
+Pendiente y anotado:
+- Seguridad: el acceso `admin/314159` y la bandera `dele_auth` en sessionStorage permiten entrar sin Clerk. Arreglo propuesto: quitar el login local y usar `publicMetadata.role = "admin"` de Clerk validado en el Worker. No se aplica para no cortar el acceso actual.
+- Clases con muy pocas palabras para algunos juegos (19 en Ruleta, 15 en Memory, U47 c2 en Kahoot): ampliar vocabulario.
+- Clases con todas las palabras del mismo tipo: el Mapa mental no ofrece «ramas»; propuesta: abrir en modo parejas.
+- U36 «Posición de los pronombres» sin explicación en chino; 155 audios del profesor y 141 de voz femenina por generar; unidades 81–90 sin traducciones ni audio (requieren DeepSeek y Fish Audio).
+- Resultados de Ruleta, Ahorcado, Memory, Sopa, UNO, Apalabrados y Scramble no revisados en captura; dibujo del Ahorcado tenue; animaciones de canvas no respetan `prefers-reduced-motion`.
+- `LearningImpactScene.jsx` con sello «DELE» morado; chip B2 morado en Diccionario; `CorrectionDisplay` con estilos antiguos.
+- Fases con IA (Enjambre, corrección del Generador y de exámenes) no verificables sin DeepSeek.
