@@ -9,6 +9,8 @@ import {
   LayersIcon,
   RotateCcwIcon,
   ClockIcon,
+  BanIcon,
+  RepeatIcon,
 } from "lucide-react";
 import * as React from "react";
 import { Link } from "react-router";
@@ -17,6 +19,9 @@ import { P } from "../../components/PostGameNav.jsx";
 import { a as a_1, g as g_1 } from "../../lib/juegos-utils.js";
 import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
+import { createPortal } from "react-dom";
+import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
+import "../../styles/v17-uno.css";
 // Colores de las cartas (v14 · paleta imperial): laca, jade, azul porcelana y oro
 const B = {
   red: "#d0213b",
@@ -330,276 +335,67 @@ function CtComponent({ mood, message }) {
     </div>
   );
 }
-function Ge1Component({
-  card,
-  onClick,
-  isPlayable,
-  isHidden,
-  size = "medium",
-  showWord = false,
-  dealing = false,
-}) {
-  const [h, setH] = React.useState(false);
-  const i = B[card.color];
-  const l = R[card.color];
-  const j = size === "small" ? "w-14" : size === "large" ? "w-28" : "w-20";
-  const N = size === "small" ? "h-20" : size === "large" ? "h-40" : "h-28";
+// v17 · Carta en 3D: cara de papel con óvalo lacado del color, o dorso de laca roja con sello.
+function simboloCarta(card) {
+  if (card.type === "number") return String(card.value);
+  if (card.type === "skip") return <BanIcon strokeWidth={3} />;
+  if (card.type === "reverse") return <RepeatIcon strokeWidth={3} />;
+  if (card.type === "draw2") return "+2";
+  if (card.type === "wild4") return "+4";
+  return <span className="uno-rueda" />;
+}
+function Ge1Component({ card, onClick, isPlayable, isHidden, size = "medium", showWord = false, dealing = false }) {
   if (isHidden) {
     return (
-      <div
-        className={`gm-uno-back relative rounded-2xl cursor-pointer ${j} ${N}`}
-        style={{
-          background: "linear-gradient(135deg, #2a160c, #1a0d07)",
-          border: "2px solid rgba(255,255,255,0.15)",
-          boxShadow:
-            "0 8px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(165,15,37,0.15)",
-          transform: h
-            ? "translateY(-6px) scale(1.08) rotateY(-8deg)"
-            : "translateY(0) scale(1) rotateY(0deg)",
-          transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-          perspective: "800px",
-        }}
-        onMouseEnter={() => setH(true)}
-        onMouseLeave={() => setH(false)}
-        onClick={onClick}
-      >
-        <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-          <div
-            className="absolute inset-0"
-            style={{
-              background: "radial-gradient(ellipse at 30% 20%, rgba(165,15,37,0.2) 0%, transparent 50%)",
-            }}
-          />
-          <div
-            className="absolute inset-0 rounded-2xl pointer-events-none opacity-30"
-            style={{
-              border: "1px solid rgba(242,193,78,0.25)",
-              animation: "cardBorderPulse 3s ease-in-out infinite",
-            }}
-          />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            className="text-xl font-black"
-            style={{
-              color: "rgba(255,255,255,0.15)",
-              textShadow: "0 0 15px rgba(165,15,37,0.4), 0 0 30px rgba(242,193,78,0.2)",
-            }}
-          >
-            UNO
-          </span>
-        </div>
+      <div className={`uno-carta uno-carta--${size} uno-carta--dorso`} aria-hidden="true" translate="no">
+        <span>牌</span>
       </div>
     );
   }
-  const w = () => {
-    if (card.type === "number") {
-      return String(card.value);
-    }
-    if (card.type === "skip") {
-      return "⊘";
-    }
-    if (card.type === "reverse") {
-      return "⇄";
-    }
-    if (card.type === "draw2") {
-      return "+2";
-    }
-    if (card.type === "wild") {
-      return "★";
-    }
-    if (card.type === "wild4") {
-      return "+4";
-    }
-    return "";
-  };
-  const background =
-    card.color === "wild"
-      ? "linear-gradient(135deg, #1a1a1a, #2a2a2a, #1a1a1a)"
-      : `linear-gradient(135deg, ${i}33, ${i}18, ${i}08)`;
-  const I = isPlayable ? l : `${i}50`;
-  const boxShadow = isPlayable
-    ? `0 0 30px ${l}, 0 0 60px ${l}30, 0 0 100px ${l}15, 0 12px 35px rgba(0,0,0,0.6)`
-    : "0 8px 25px rgba(0,0,0,0.5), 0 0 15px rgba(0,0,0,0.3)";
-  const D = size === "small" ? "32px" : size === "large" ? "64px" : "48px";
-  const _ = size === "small" ? "16px" : size === "large" ? "32px" : "24px";
-  const Z = size === "small" ? "12px" : size === "large" ? "18px" : "14px";
-  const transform = h
-    ? "translateY(-14px) scale(1.15) rotateX(10deg) rotateY(-15deg)"
-    : "translateY(0) scale(1) rotateX(0deg) rotateY(0deg)";
-  const E = isPlayable && !h ? "floatCard 2.5s ease-in-out infinite" : "none";
-  const ae = dealing ? "dealDrop 0.6s ease-out forwards" : "none";
+  const simbolo = simboloCarta(card);
+  const Etiqueta = onClick ? "button" : "div";
   return (
-    <div
-      className={`gm-uno-card relative rounded-2xl cursor-pointer overflow-hidden ${j} ${N}`}
-      style={{
-        background,
-        border: `3px solid ${I}`,
-        boxShadow,
-        transform,
-        transition: "all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)",
-        perspective: "800px",
-        animation: `${E}, ${ae}`,
-        transformStyle: "preserve-3d",
-      }}
-      onMouseEnter={() => setH(true)}
-      onMouseLeave={() => setH(false)}
+    <Etiqueta
+      type={onClick ? "button" : undefined}
       onClick={onClick}
+      className={`uno-carta uno-carta--${size} uno-carta--${card.color} ${isPlayable ? "uno-carta--jugable" : ""} ${dealing ? "uno-carta--reparto" : ""}`}
+      aria-label={`${be[card.color]} ${card.type === "number" ? card.value : card.type}${card.word ? ` · ${card.word}` : ""}`}
     >
-      <div
-        className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl"
-        style={{
-          animation: "shineSweep 4s ease-in-out infinite",
-        }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.12) 55%, transparent 60%)",
-            transform: "translateX(-100%)",
-            animation: "shineSweep 4s ease-in-out infinite",
-          }}
-        />
-      </div>
-      <div
-        className="absolute top-1.5 left-2 font-black"
-        style={{
-          fontSize: Z,
-          color: i,
-          textShadow: `0 0 8px ${l}, 0 0 16px ${l}80`,
-        }}
-      >
-        {w()}
-      </div>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div
-          className="rounded-full flex items-center justify-center"
-          style={{
-            width: D,
-            height: D,
-            background:
-              card.color === "wild"
-                ? "linear-gradient(135deg, #e0283f, #f2c14e, #5fd08a, #f2c14e)"
-                : `${i}40`,
-            boxShadow: `0 0 25px ${l}, inset 0 0 15px ${l}30`,
-            border: `3px solid ${i}`,
-            transform: "rotate(-12deg)",
-          }}
-        >
-          <span
-            className="font-black"
-            style={{
-              fontSize: _,
-              color: i,
-              textShadow: `0 0 12px ${l}, 0 0 24px ${l}60`,
-              transform: "rotate(12deg)",
-            }}
-          >
-            {w()}
-          </span>
-        </div>
-      </div>
-      <div
-        className="absolute bottom-1.5 right-2 font-black"
-        style={{
-          fontSize: Z,
-          color: i,
-          textShadow: `0 0 8px ${l}, 0 0 16px ${l}80`,
-          transform: "rotate(180deg)",
-        }}
-      >
-        {w()}
-      </div>
-      {showWord && card.word && (
-        <div className="absolute bottom-5 left-0 right-0 text-center px-1">
-          <p
-            className="text-[9px] font-bold leading-tight"
-            style={{
-              color: i,
-              textShadow: `0 0 6px ${l}, 0 0 12px ${l}60`,
-            }}
-          >
-            {card.word}
-          </p>
-          <p
-            className="text-[8px] font-medium leading-tight"
-            style={{
-              color: "rgba(255,255,255,0.7)",
-            }}
-          >
-            {card.translation}
-          </p>
-        </div>
+      <span className="uno-carta__esquina">{simbolo}</span>
+      <span className="uno-carta__ovalo">
+        <b>{simbolo}</b>
+      </span>
+      {card.word && (showWord || size !== "small") && (
+        <span className="uno-carta__palabra">
+          <b>{card.word}</b>
+          {showWord && card.translation && <i>{card.translation}</i>}
+        </span>
       )}
-      {isPlayable && (
-        <div
-          className="absolute inset-0 rounded-2xl pointer-events-none"
-          style={{
-            boxShadow: `inset 0 0 30px ${l}50, inset 0 0 60px ${l}20`,
-            animation: "matchRingPulse 1.5s ease-in-out infinite",
-          }}
-        />
-      )}
-      {isPlayable && (
-        <div
-          className="absolute inset-[-2px] rounded-[14px] pointer-events-none"
-          style={{
-            border: `2px solid ${l}`,
-            opacity: 0.6,
-            animation: "cardNeonPulse 1.5s ease-in-out infinite",
-          }}
-        />
-      )}
-    </div>
+      <span className="uno-carta__esquina uno-carta__esquina--abajo">{simbolo}</span>
+    </Etiqueta>
   );
 }
 function DtComponent({ onPick, onCancel }) {
-  const m = ["red", "green", "blue", "yellow"];
-  return (
-    <div
-      className="fixed inset-0 z-[200] flex items-center justify-center"
-      style={{
-        background: "rgba(24,10,6,0.85)",
-        backdropFilter: "blur(15px)",
-      }}
-    >
-      <div
-        className="p-6 rounded-3xl max-w-sm mx-4 w-full text-center"
-        style={{
-          background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
-          border: "2px solid rgba(255,255,255,0.1)",
-          boxShadow: "0 0 60px rgba(0,0,0,0.5)",
-        }}
-      >
-        <h2 className="text-2xl font-black mb-1 text-white">Elige un color</h2>
-        <p className="text-white/50 text-sm mb-6">选择颜色</p>
-        <div className="grid grid-cols-2 gap-3">
-          {m.map((u) => (
-            <button
-              key={u}
-              onClick={() => onPick(u)}
-              className="p-4 rounded-xl font-black text-sm transition-all hover:scale-110"
-              style={{
-                background: `${B[u]}20`,
-                border: `3px solid ${B[u]}`,
-                color: B[u],
-                boxShadow: `0 0 30px ${R[u]}, 0 0 60px ${R[u]}40`,
-                textShadow: `0 0 12px ${R[u]}, 0 0 24px ${R[u]}60`,
-              }}
-            >
-              {be[u]}
+  const colores = ["red", "green", "blue", "yellow"];
+  return createPortal(
+    <div className="uno-elige gm-no-adapt" role="dialog" aria-modal="true" aria-label="Elige un color · 选择颜色">
+      <div className="uno-elige__caja">
+        <h2>Elige un color</h2>
+        <p>选择颜色</p>
+        <div className="uno-elige__rueda">
+          {colores.map((color) => (
+            <button key={color} type="button" className={`uno-elige__gajo uno-elige__gajo--${color}`} onClick={() => onPick(color)}>
+              <span>{be[color]}</span>
+              <i>{lt[color].split(" / ")[1]}</i>
             </button>
           ))}
         </div>
-        <button
-          onClick={onCancel}
-          className="mt-4 px-4 py-2 rounded-full text-xs font-bold text-white/50 hover:text-white transition-colors"
-        >
-          Cancelar / 取消
+        <button type="button" className="uno-elige__cancelar" onClick={onCancel}>
+          Cancelar · 取消
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 function HtComponent() {
@@ -1068,571 +864,148 @@ function HtComponent() {
     );
   }
   if (s === "gameover") {
-    const t = ae === 0;
-    const a = Ne.size;
+    const gano = ae === 0;
+    const palabras = Ne.size;
     return (
-      <StarfieldBackground>
+      <Escena3D tema="uno" suelo={false}>
         <CintaTemaJuego />
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center"
-          style={{
-            background: "rgba(24,10,6,.85)",
-            backdropFilter: "blur(20px)",
-            perspective: "1000px",
-          }}
+        <BarraJuego titulo="UNO" tituloZh="UNO 卡牌" />
+        <Resultado3D
+          gano={gano}
+          sello="牌"
+          estrellas={gano ? (re <= 20 ? 3 : 2) : palabras >= 5 ? 1 : 0}
+          titulo={gano ? "¡Victoria!" : "Derrota…"}
+          tituloZh={gano ? "胜利 · 完成" : "再试一次"}
+          datos={[
+            { etiqueta: "Turnos · 回合", valor: re, tono: "tinta" },
+            { etiqueta: "Palabras · 单词", valor: palabras, tono: "jade" },
+            { etiqueta: "Puntos · 得分", valor: gano ? Ze : Ee, tono: "rojo" },
+          ]}
+          acciones={
+            <>
+              <Boton3D tono="oro" onClick={Me}>
+                <RotateCcwIcon size={18} /> Reintentar · 重试
+              </Boton3D>
+              <Boton3D tono="rojo" onClick={Je}>
+                <LayersIcon size={18} /> Otra unidad · 其他单元
+              </Boton3D>
+            </>
+          }
         >
-          <div
-            className="text-center p-8 rounded-3xl max-w-md mx-4 relative overflow-hidden"
-            style={{
-              background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
-              border: `2px solid ${t ? "rgba(95,208,138,.3)" : "rgba(224,40,63,.3)"}`,
-              boxShadow: `0 0 60px ${t ? "rgba(95,208,138,.2)" : "rgba(224,40,63,.2)"}, 0 0 120px ${t ? "rgba(95,208,138,.1)" : "rgba(224,40,63,.1)"}`,
-              transform: "translateZ(50px)",
-              animation: "victoryBounce 1s ease-out",
-            }}
-          >
-            <div
-              className="absolute -inset-[2px] rounded-[26px] -z-10 opacity-50"
-              style={{
-                background: t
-                  ? "linear-gradient(135deg, #5fd08a, #f2c14e)"
-                  : "linear-gradient(135deg, #e0283f, #d99a22)",
-                filter: "blur(25px)",
-                animation: "victoryGlow 2s ease-in-out infinite alternate",
-              }}
-            />
-            <TrophyIcon
-              size={56}
-              style={{
-                color: t ? "#5fd08a" : "#e0283f",
-                margin: "0 auto 16px",
-                filter: `drop-shadow(0 0 15px ${t ? "rgba(95,208,138,.5)" : "rgba(224,40,63,.5)"})`,
-                animation: "trophySpin 3s ease-in-out infinite",
-              }}
-            />
-            <h2
-              className="text-4xl font-black mb-2"
-              style={{
-                background: t
-                  ? "linear-gradient(135deg, #5fd08a, #f2c14e)"
-                  : "linear-gradient(135deg, #e0283f, #d99a22)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: `drop-shadow(0 0 20px ${t ? "rgba(95,208,138,.3)" : "rgba(224,40,63,.3)"})`,
-              }}
-            >
-              {t ? "¡Victoria!" : "Derrota..."}
-            </h2>
-            <p className="text-white/50 text-sm mb-4">
-              {t ? "完成！" : "再试一次"} • {re} turnos
-            </p>
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              <div
-                className="p-3 rounded-xl"
-                style={{
-                  background: "rgba(242,193,78,.1)",
-                  border: "1px solid rgba(242,193,78,.15)",
-                  boxShadow: "0 0 10px rgba(242,193,78,.1)",
-                }}
-              >
-                <ZapIcon
-                  size={16}
-                  style={{
-                    color: "#f2c14e",
-                    margin: "0 auto 4px",
-                  }}
-                />
-                <p
-                  className="text-xs"
-                  style={{
-                    color: "rgba(255,236,200,.5)",
-                  }}
-                >
-                  Turnos
-                </p>
-                <p
-                  className="text-lg font-black"
-                  style={{
-                    color: "#f2c14e",
-                    textShadow: "0 0 10px rgba(242,193,78,.3)",
-                  }}
-                >
-                  {re}
-                </p>
-              </div>
-              <div
-                className="p-3 rounded-xl"
-                style={{
-                  background: "rgba(95,208,138,.1)",
-                  border: "1px solid rgba(95,208,138,.15)",
-                  boxShadow: "0 0 10px rgba(95,208,138,.1)",
-                }}
-              >
-                <StarIcon
-                  size={16}
-                  style={{
-                    color: "#5fd08a",
-                    margin: "0 auto 4px",
-                  }}
-                />
-                <p
-                  className="text-xs"
-                  style={{
-                    color: "rgba(255,236,200,.5)",
-                  }}
-                >
-                  Palabras
-                </p>
-                <p
-                  className="text-lg font-black"
-                  style={{
-                    color: "#5fd08a",
-                    textShadow: "0 0 10px rgba(95,208,138,.3)",
-                  }}
-                >
-                  {a}
-                </p>
-              </div>
-              <div
-                className="p-3 rounded-xl"
-                style={{
-                  background: "rgba(242,193,78,.1)",
-                  border: "1px solid rgba(242,193,78,.15)",
-                  boxShadow: "0 0 10px rgba(242,193,78,.1)",
-                }}
-              >
-                <TrophyIcon
-                  size={16}
-                  style={{
-                    color: "#f2c14e",
-                    margin: "0 auto 4px",
-                  }}
-                />
-                <p
-                  className="text-xs"
-                  style={{
-                    color: "rgba(255,236,200,.5)",
-                  }}
-                >
-                  Puntos
-                </p>
-                <p
-                  className="text-lg font-black"
-                  style={{
-                    color: "#f2c14e",
-                    textShadow: "0 0 10px rgba(242,193,78,.3)",
-                  }}
-                >
-                  {t ? Ze : Ee}
-                </p>
+          {palabras > 0 && (
+            <div className="uno-aprendidas">
+              <p>Palabras aprendidas · 学到的单词</p>
+              <div>
+                {Array.from(Ne).map((par) => {
+                  const [es, zh] = par.split("|");
+                  return (
+                    <span key={par}>
+                      <b>{es}</b> {zh}
+                    </span>
+                  );
+                })}
               </div>
             </div>
-            {a > 0 && (
-              <div
-                className="mb-4 p-3 rounded-xl max-h-40 overflow-y-auto"
-                style={{
-                  background: "rgba(255,255,255,.05)",
-                  border: "1px solid rgba(255,255,255,.1)",
-                }}
-              >
-                <p className="text-xs font-bold text-white/50 mb-2">Palabras aprendidas / 学到的单词</p>
-                <div className="flex flex-wrap gap-1">
-                  {Array.from(Ne).map((f, key) => {
-                    const r = f.split("|");
-                    return (
-                      <span
-                        key={key}
-                        className="px-2 py-0.5 rounded-full text-[10px] font-bold"
-                        style={{
-                          background: "rgba(242,193,78,.15)",
-                          color: "#f2c14e",
-                          border: "1px solid rgba(242,193,78,.2)",
-                        }}
-                      >
-                        {r[0]} = {r[1]}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-            <div className="flex gap-3 justify-center mb-4">
-              <button
-                onClick={Me}
-                className="px-6 py-3 rounded-full text-white font-black transition-all hover:scale-105 text-sm"
-                style={{
-                  background: "linear-gradient(135deg, #f2c14e, #d99a22)",
-                  boxShadow: "0 0 25px rgba(242,193,78,.3)",
-                }}
-              >
-                <RotateCcwIcon size={14} className="inline mr-1" /> Reintentar / 重试
-              </button>
-            </div>
-            <P currentGameId="uno" />
-          </div>
-        </div>
-        <style
-          dangerouslySetInnerHTML={{
-            __html:
-              "@keyframes victoryBounce { 0%{transform:translateZ(50px) scale(0.8); opacity:0} 60%{transform:translateZ(50px) scale(1.02); opacity:1} 100%{transform:translateZ(50px) scale(1); opacity:1} } @keyframes victoryGlow { from{opacity:.3} to{opacity:.6} } @keyframes trophySpin { 0%,100%{transform:rotateY(0deg)} 50%{transform:rotateY(20deg)} }",
-          }}
-        />
-      </StarfieldBackground>
+          )}
+        </Resultado3D>
+        <P currentGameId="uno" />
+      </Escena3D>
     );
   }
+  const miTurno = y === 0;
+  const puedoRobar = miTurno && !A && !W;
+  // Abanico de la mano: cuanto más cartas, más se solapan (el ancho útil lo da --uno-ancho en CSS)
+  const totalMano = o.length;
+  const descartes = N.slice(-4, -1);
   return (
-    <StarfieldBackground>
-        <CintaTemaJuego />
-      <div className="max-w-6xl mx-auto px-4 py-4 min-h-screen relative z-10">
-        <CtComponent mood={mood} message={message} />
-        {Ie && le && (
-          <div
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] px-6 py-3 rounded-2xl text-center"
-            style={{
-              background: "linear-gradient(135deg, rgba(52,26,16,.9), rgba(30,14,8,.9))",
-              border: "2px solid rgba(242,193,78,.4)",
-              boxShadow: "0 0 40px rgba(242,193,78,.3)",
-              animation: "wordPopupIn 0.5s ease-out forwards",
-            }}
-          >
-            <p
-              className="text-xl font-black mb-1"
-              style={{
-                color: "#f2c14e",
-                textShadow: "0 0 15px rgba(242,193,78,.5)",
-              }}
-            >
-              {le.es}
-            </p>
-            <p
-              className="text-sm font-bold"
-              style={{
-                color: "#f2c14e",
-              }}
-            >
-              {le.zh}
-            </p>
-          </div>
-        )}
-        {W && <DtComponent onPick={onPick} onCancel={onCancel} />}
-        <div className="flex items-center justify-between mb-2">
-          <Link
-            to="/juegos"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold"
-          >
-            <ArrowLeftIcon size={16} /> Volver / 返回
-          </Link>
-          <div className="flex gap-2">
-            <button
-              onClick={Je}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
-              style={{
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.12)",
-                color: "#fff",
-              }}
-            >
-              <LayersIcon size={12} /> Cambiar módulo / 切换模块
-            </button>
-            <button
-              onClick={Me}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
-              style={{
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.12)",
-                color: "#fff",
-              }}
-            >
-              <RotateCcwIcon size={12} /> Reiniciar / 重置
-            </button>
-          </div>
-        </div>
-        <div className="text-center mb-2">
-          <h1
-            className="text-3xl md:text-4xl font-black mb-1"
-            style={{
-              background: "linear-gradient(135deg,#e0283f,#f2c14e)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 25px rgba(224,40,63,.4))",
-            }}
-          >
-            UNO
-          </h1>
-          <div className="flex items-center justify-center gap-2 text-xs font-bold">
-            <span
-              className="px-2 py-0.5 rounded-full"
-              style={{
-                background: "rgba(242,193,78,.1)",
-                color: "#f2c14e",
-                border: "1px solid rgba(242,193,78,.2)",
-                textShadow: "0 0 8px rgba(242,193,78,.4)",
-              }}
-            >
-              Color: {be[z]}
-            </span>
-            <span
-              className="px-2 py-0.5 rounded-full"
-              style={{
-                background: "rgba(242,193,78,.1)",
-                color: "#f2c14e",
-                border: "1px solid rgba(242,193,78,.2)",
-                textShadow: "0 0 8px rgba(242,193,78,.4)",
-              }}
-            >
-              Turno {re}
-            </span>
-            <span
-              className="px-2 py-0.5 rounded-full"
-              style={{
-                background: y === 0 ? "rgba(95,208,138,.1)" : "rgba(224,40,63,.1)",
-                color: y === 0 ? "#5fd08a" : "#e0283f",
-                border: `1px solid ${y === 0 ? "rgba(95,208,138,.2)" : "rgba(224,40,63,.2)"}`,
-                textShadow: `0 0 8px ${y === 0 ? "rgba(95,208,138,.4)" : "rgba(224,40,63,.4)"}`,
-              }}
-            >
-              {y === 0 ? "Tu turno / 你的回合" : "CPU / 电脑"}
-            </span>
-          </div>
-        </div>
-        <div className="max-w-md mx-auto mb-2">
-          <div
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold text-white/40 justify-center"
-            style={{
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              boxShadow: "0 0 10px rgba(242,193,78,0.05)",
-            }}
-          >
-            <ClockIcon size={10} /> {Fe[0] || "¡Comienza el juego!"}
-          </div>
-        </div>
-        <div className="gm-uno-table">
-        <div className="flex flex-col items-center mb-4">
-          <div className="flex items-center gap-2 mb-2">
-            <BotIcon
-              size={14}
-              style={{
-                color: "#e0283f",
-                filter: "drop-shadow(0 0 5px rgba(224,40,63,0.5))",
-              }}
-            />
-            <span className="text-xs font-bold text-white/60">CPU</span>
-            <span
-              className="px-2 py-0.5 rounded-full text-[10px] font-bold"
-              style={{
-                background: "rgba(224,40,63,.15)",
-                color: "#e0283f",
-                border: "1px solid rgba(224,40,63,.3)",
-                textShadow: "0 0 6px rgba(224,40,63,0.4)",
-              }}
-            >
-              {l.length} cartas
-            </span>
-          </div>
-          <div className="flex gap-1 justify-center flex-wrap">
-            {l.map((t, a) => (
-              <div
-                key={t.id}
-                style={{
-                  marginLeft: a > 0 ? "-20px" : "0",
-                  zIndex: a,
-                  animation: ce ? `dealDrop ${0.3 + a * 0.1}s ease-out forwards` : "none",
-                }}
-              >
-                <Ge1Component card={t} isHidden size="small" />
+    <Escena3D tema="uno" suelo={false} className={`uno uno--${z}`}>
+      <CintaTemaJuego />
+      <CtComponent mood={mood} message={message} />
+      {W && <DtComponent onPick={onPick} onCancel={onCancel} />}
+      <BarraJuego titulo="UNO" tituloZh="UNO 卡牌">
+        <Placa icono={<span className={`uno-gema uno-gema--${z}`} />} valor={be[z]} etiqueta="Color · 颜色" tono="tinta" />
+        <Placa icono={<ZapIcon size={16} />} valor={re} etiqueta="Turno · 回合" />
+        <button type="button" className="uno-accion" onClick={Je} title="Cambiar unidad · 切换单元" aria-label="Cambiar unidad · 切换单元">
+          <LayersIcon size={18} />
+        </button>
+        <button type="button" className="uno-accion" onClick={Me} title="Reiniciar · 重置" aria-label="Reiniciar · 重置">
+          <RotateCcwIcon size={18} />
+        </button>
+      </BarraJuego>
+
+      <div className="uno-sala">
+        <div className="uno-rival">
+          <span className={`uno-jugador ${!miTurno ? "uno-jugador--activo" : ""}`}>
+            <BotIcon size={16} /> CPU · 电脑 <b>{l.length}</b>
+          </span>
+          <div className="uno-rival__mano" style={{ "--n": l.length }}>
+            {l.map((carta, n) => (
+              <div key={carta.id} className="uno-rival__carta" style={{ "--i": n }}>
+                <Ge1Component card={carta} isHidden size="small" />
               </div>
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-center gap-8 mb-6 relative">
-          <div className="relative">
-            <div
-              className="cursor-pointer relative"
-              onClick={Ve}
-              style={{
-                opacity: y === 0 && !A && !W ? 1 : 0.5,
-                pointerEvents: y === 0 && !A && !W ? "auto" : "none",
-              }}
-            >
-              <div
-                className="w-20 h-28 rounded-2xl flex items-center justify-center relative"
-                style={{
-                  background: "linear-gradient(135deg, #2a160c, #1a0d07)",
-                  border: "2px solid rgba(255,255,255,0.2)",
-                  boxShadow:
-                    "0 0 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(165,15,37,0.2)",
-                  animation: "floatCard 3s ease-in-out infinite",
-                }}
-              >
-                <span
-                  className="text-sm font-black text-white/25"
-                  style={{
-                    textShadow: "0 0 15px rgba(165,15,37,0.4)",
-                  }}
-                >
-                  UNO
-                </span>
-                <div
-                  className="absolute -top-2 -right-2 px-1.5 py-0.5 rounded-full text-[9px] font-black"
-                  style={{
-                    background: "rgba(242,193,78,.25)",
-                    color: "#f2c14e",
-                    border: "1px solid rgba(242,193,78,.4)",
-                    textShadow: "0 0 6px rgba(242,193,78,0.5)",
-                    boxShadow: "0 0 10px rgba(242,193,78,0.2)",
-                  }}
-                >
-                  {b.length}
+
+        <div className="uno-mesa">
+          <div className="uno-tapete" aria-hidden="true">
+            <span className="uno-tapete__anillo" />
+            <span className="uno-tapete__sello" translate="no">牌</span>
+          </div>
+          <div className="uno-centro">
+            <button type="button" className={`uno-mazo ${puedoRobar ? "uno-mazo--activo" : ""}`} onClick={Ve} disabled={!puedoRobar} aria-label={`Robar carta · 抽牌 (${b.length})`}>
+              <span className="uno-mazo__pila">
+                <Ge1Component card={{ color: "wild", type: "wild" }} isHidden size="large" />
+              </span>
+              <b className="uno-mazo__cuenta">{b.length}</b>
+              {je > 0 && <b className="uno-mazo__mas">+{je}</b>}
+              <i>Robar · 抽牌</i>
+            </button>
+            <div className="uno-descarte">
+              {descartes.map((carta, n) => (
+                <div key={carta.id} className="uno-descarte__vieja" style={{ "--giro": `${((carta.id * 37) % 40) - 20}deg`, "--i": n }}>
+                  <Ge1Component card={carta} size="large" />
                 </div>
-                {A && (
-                  <div
-                    className="absolute inset-0 rounded-2xl"
-                    style={{
-                      animation: "drawPulse 0.5s ease-in-out",
-                      background: "radial-gradient(circle, rgba(242,193,78,0.4) 0%, transparent 70%)",
-                    }}
-                  />
-                )}
-                {je > 0 && (
-                  <div
-                    className="absolute -top-4 left-1/2 -translate-x-1/2 font-black text-xl"
-                    style={{
-                      color: "#e0283f",
-                      textShadow: "0 0 15px rgba(224,40,63,0.7), 0 0 30px rgba(224,40,63,0.4)",
-                      animation: "drawCountPop 0.8s ease-out forwards",
-                    }}
-                  >
-                    +{je}
-                  </div>
-                )}
-              </div>
+              ))}
+              {F && (
+                <div key={F.id} className="uno-descarte__cima" style={{ "--giro": `${((F.id * 37) % 14) - 7}deg` }}>
+                  <Ge1Component card={F} size="large" showWord />
+                </div>
+              )}
+              <i>{lt[z]}</i>
             </div>
-            <p className="text-center text-[10px] font-bold text-white/30 mt-1">Robar / 抽牌</p>
           </div>
-          <div className="relative">
-            {F && (
-              <div
-                className="relative"
-                style={{
-                  animation: ce ? "dealDrop 0.8s ease-out forwards" : "none",
-                }}
-              >
-                <div
-                  className="absolute inset-0 rounded-2xl pointer-events-none"
-                  style={{
-                    boxShadow: `0 0 40px ${R[F.color]}40, 0 0 80px ${R[F.color]}20`,
-                    animation: "matchRingPulse 2s ease-in-out infinite",
-                  }}
-                />
-                <Ge1Component card={F} size="large" showWord />
-                <div className="absolute -bottom-6 left-0 right-0 text-center">
-                  <span
-                    className="px-2 py-0.5 rounded-full text-[9px] font-bold"
-                    style={{
-                      background: `${B[z]}25`,
-                      color: B[z],
-                      border: `1px solid ${B[z]}50`,
-                      textShadow: `0 0 6px ${R[z]}`,
-                    }}
-                  >
-                    {lt[z]}
-                  </span>
-                </div>
+          {Ie && le && (
+            <div className="uno-palabra" role="status">
+              <b>{le.es}</b>
+              <i>{le.zh}</i>
+            </div>
+          )}
+        </div>
+
+        <p className={`uno-turno ${miTurno ? "uno-turno--mio" : ""}`} aria-live="polite">
+          {miTurno ? "Tu turno · 你的回合" : "Juega la CPU… · 电脑出牌"}
+          <span>
+            <ClockIcon size={12} /> {Fe[0] || "¡Comienza el juego!"}
+          </span>
+        </p>
+
+        <div className="uno-mano" style={{ "--n": totalMano }}>
+          {o.map((carta, n) => {
+            const jugable = F ? q(carta, F, z) : false;
+            const centro = (totalMano - 1) / 2;
+            return (
+              <div key={carta.id} className="uno-mano__hueco" style={{ "--i": n, "--d": totalMano > 1 ? (n - centro) / Math.max(1, centro) : 0 }}>
+                <Ge1Component card={carta} isPlayable={jugable && miTurno && !W} onClick={() => Xe(carta)} size="medium" dealing={ce} />
               </div>
-            )}
-            <p className="text-center text-[10px] font-bold text-white/30 mt-7">Descarte / 弃牌</p>
-          </div>
+            );
+          })}
         </div>
-        <div className="flex flex-col items-center">
-          <div className="flex items-center gap-2 mb-3">
-            <UserIcon
-              size={14}
-              style={{
-                color: "#5fd08a",
-                filter: "drop-shadow(0 0 5px rgba(95,208,138,0.5))",
-              }}
-            />
-            <span className="text-xs font-bold text-white/60">Tú / 你</span>
-            <span
-              className="px-2 py-0.5 rounded-full text-[10px] font-bold"
-              style={{
-                background: "rgba(95,208,138,.15)",
-                color: "#5fd08a",
-                border: "1px solid rgba(95,208,138,.3)",
-                textShadow: "0 0 6px rgba(95,208,138,0.4)",
-              }}
-            >
-              {o.length} cartas
-            </span>
-          </div>
-          <div className="flex gap-1 justify-center flex-wrap max-w-3xl">
-            {o.map((t, a) => {
-              const f = F ? q(t, F, z) : false;
-              return (
-                <div
-                  key={t.id}
-                  style={{
-                    marginLeft: a > 0 ? "-28px" : "0",
-                    zIndex: a,
-                    transition: "margin 0.3s ease, z-index 0.3s ease",
-                  }}
-                  onMouseEnter={(p) => {
-                    const p_currentTarget = p.currentTarget;
-                    p_currentTarget.style.marginLeft = "6px";
-                    p_currentTarget.style.zIndex = "100";
-                  }}
-                  onMouseLeave={(p) => {
-                    const p_currentTarget = p.currentTarget;
-                    p_currentTarget.style.marginLeft = a > 0 ? "-28px" : "0";
-                    p_currentTarget.style.zIndex = String(a);
-                  }}
-                >
-                  <Ge1Component
-                    card={t}
-                    isPlayable={f && y === 0 && !W}
-                    onClick={() => Xe(t)}
-                    size="medium"
-                    dealing={ce}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        </div>
-        <div className="text-center mt-4">
-          <p className="text-[10px] text-white/30 font-medium">
-            Haz clic en una carta para jugarla. Mismo color o mismo número. / 点击卡牌出牌，相同颜色或数字
-          </p>
-        </div>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-          @keyframes cardGlowPulse { 0%,100%{box-shadow:0 0 15px rgba(255,255,255,0.1), 0 4px 15px rgba(0,0,0,0.4)} 50%{box-shadow:0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.08), 0 8px 25px rgba(0,0,0,0.5)} }
-          @keyframes matchRingPulse { 0%,100%{transform:scale(1); opacity:0.5} 50%{transform:scale(1.05); opacity:0.9} }
-          @keyframes cardBorderPulse { 0%,100%{opacity:0.2} 50%{opacity:0.5} }
-          @keyframes drawPulse { 0%{opacity:0} 50%{opacity:1} 100%{opacity:0} }
-          @keyframes drawCountPop { 0%{transform:translate(-50%, 0) scale(1); opacity:1} 100%{transform:translate(-50%, -30px) scale(1.5); opacity:0} }
-          @keyframes wordPopupIn { 0%{transform:translateX(-50%) translateY(-20px) scale(0.8); opacity:0} 100%{transform:translateX(-50%) translateY(0) scale(1); opacity:1} }
-          @keyframes mascotFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-          @keyframes mascotPulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
-          @keyframes mascotExcited { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-12px) scale(1.1)} }
-          @keyframes bubblePop { 0%{transform:translateY(10px) scale(0.8); opacity:0} 100%{transform:translateY(0) scale(1); opacity:1} }
-          @keyframes sparkle { 0%,100%{opacity:0.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.3)} }
-          @keyframes earWiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-5deg)} 75%{transform:rotate(5deg)} }
-          @keyframes victoryBounce { 0%{transform:translateZ(50px) scale(0.8); opacity:0} 60%{transform:translateZ(50px) scale(1.02); opacity:1} 100%{transform:translateZ(50px) scale(1); opacity:1} }
-          @keyframes victoryGlow { from{opacity:.3} to{opacity:.6} }
-          @keyframes trophySpin { 0%,100%{transform:rotateY(0deg)} 50%{transform:rotateY(20deg)} }
-          @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-          @keyframes shineSweep { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
-          @keyframes cardNeonPulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
-          @keyframes dealDrop { 0%{transform:translateY(-60px) rotateX(45deg) scale(0.6); opacity:0} 60%{transform:translateY(5px) rotateX(0deg) scale(1.05); opacity:1} 100%{transform:translateY(0) rotateX(0deg) scale(1); opacity:1} }
-        `,
-          }}
-        />
+        <p className="uno-ayuda">
+          <UserIcon size={13} /> Tú · 你 <b>{totalMano}</b> — mismo color o mismo número · 相同颜色或数字
+        </p>
       </div>
-    </StarfieldBackground>
+    </Escena3D>
   );
 }
 export { HtComponent as default };
