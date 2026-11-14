@@ -11,6 +11,8 @@ import { getStreak } from "../../lib/streak.js";
 import { attachLightAdapter } from "./lightAdapter.js";
 import { Logo } from "../../../packages/imperial/src/index.js";
 import "../../styles/v16-shell.css";
+import "../../styles/v18-laca.css";
+import { FondoV18, AdornosBarra, Emblema } from "./DecoV18.jsx";
 import { precargar, precargarSecciones } from "../../lib/precarga.js";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
@@ -133,7 +135,8 @@ export function LightShell({ children, legacy = false, stage = false }) {
     (to === "/ruta" && pathname === "/dashboard") ||
     (to === "/oficial" && /^\/examenes/.test(pathname));
   return (
-    <div className={`light-page ${legacy || adapt ? "light-legacy" : ""} ${stage ? "has-stage" : ""}`}>
+    <div className={`light-page v18 ${legacy || adapt ? "light-legacy" : ""} ${stage ? "has-stage" : ""}`}>
+      <FondoV18 />
       <div className="light-top">
         <Link to="/ruta" className="side-brand" style={{ padding: 0 }} aria-label="AI Español">
           <Logo tamano={36} subtitulo={false} />
@@ -149,11 +152,12 @@ export function LightShell({ children, legacy = false, stage = false }) {
       </div>
       <div className="light-shell">
         <nav className="side-nav" aria-label="Navegación principal">
-          <Link to="/ruta" className="side-brand" aria-label="AI Español">
-            <Logo tamano={50} />
+          <AdornosBarra />
+          <Link to="/ruta" className="side-brand v18-marca" aria-label="AI Español · Inicio 首页">
+            <Emblema tamano={132} />
           </Link>
           {MAIN.map((m) => (
-            <Link key={m.to} to={m.to} className={`side-link ${active(m.to) ? "on" : ""}`} onPointerEnter={() => precargar(m.to)} onFocus={() => precargar(m.to)}>
+            <Link key={m.to} to={m.to} className={`side-link ${active(m.to) ? "on" : ""}`} aria-current={active(m.to) ? "page" : undefined} onPointerEnter={() => precargar(m.to)} onFocus={() => precargar(m.to)}>
               <NavIcon name={m.icon} size={38} />
               <span>
                 {m.es}
