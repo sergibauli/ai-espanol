@@ -1,599 +1,327 @@
-import {
-  CpuIcon,
-  SparklesIcon,
-  BotIcon,
-  ArrowLeftIcon,
-  ListChecksIcon,
-  TargetIcon,
-  LoaderCircleIcon,
-  CheckIcon,
-  PlayIcon,
-  GavelIcon,
-} from "lucide-react";
+import { CpuIcon, SparklesIcon, BotIcon, ArrowLeftIcon, ListChecksIcon, TargetIcon, LoaderCircleIcon, CheckIcon, PlayIcon, GavelIcon } from "lucide-react";
 import * as React from "react";
 import { Link } from "react-router";
-import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
-import { c as c_1, e, a as a_1 } from "../../lib/ai-generator.js";
-const le = ["A1", "A2", "B1", "B2"];
-const ce = [
-  {
-    key: "planificador",
-    label: "Planificador",
-    labelZh: "规划者",
-    icon: ListChecksIcon,
-    color: "#66e7ff",
-  },
-  {
-    key: "generador",
-    label: "Generador",
-    labelZh: "生成者",
-    icon: SparklesIcon,
-    color: "#c084fc",
-  },
-  {
-    key: "evaluador",
-    label: "Evaluador",
-    labelZh: "评估者",
-    icon: TargetIcon,
-    color: "#39ff14",
-  },
-  {
-    key: "corrector",
-    label: "Corrector",
-    labelZh: "批改者",
-    icon: GavelIcon,
-    color: "#ffb33b",
-  },
+import { LightShell } from "../../components/layout/LightShell.jsx";
+import { c as generarConCache, e as extraerJson, a as pedirIA } from "../../lib/ai-generator.js";
+import "../../styles/v14-fix-recursos.css";
+const NIVELES = ["A1", "A2", "B1", "B2"];
+const AGENTES = [
+  { key: "planificador", label: "Planificador", labelZh: "规划者", icon: ListChecksIcon, sello: "规" },
+  { key: "generador", label: "Generador", labelZh: "生成者", icon: SparklesIcon, sello: "生" },
+  { key: "evaluador", label: "Evaluador", labelZh: "评估者", icon: TargetIcon, sello: "评" },
+  { key: "corrector", label: "Corrector", labelZh: "批改者", icon: GavelIcon, sello: "批" },
 ];
-const _ =
+const SISTEMA_PLAN =
   "Eres el agente Planificador de un enjambre de agentes de estudio de español. Devuelve SOLO JSON válido, sin markdown.";
-const I = "Eres el agente Generador de ejercicios de español. Devuelve SOLO JSON válido, sin markdown.";
-const ie = "Eres el agente Corrector de español. Devuelve SOLO JSON válido, sin markdown.";
-function HeComponent() {
-  const [p, setP] = React.useState("input");
-  const [N, setN] = React.useState("");
-  const [g, setG] = React.useState("A2");
-  const [i, setI] = React.useState([]);
-  const [l, setL] = React.useState(0);
-  const [f, setF] = React.useState([]);
-  const [E, setE] = React.useState({});
-  const [j, setJ] = React.useState({});
-  const [x, setX] = React.useState(null);
-  const [Z, setZ] = React.useState({});
-  const [A, setA] = React.useState("");
-  const [z, setZ_1] = React.useState(0);
-  const o = (a, s) =>
-    setZ((r) => ({
+const SISTEMA_GENERADOR = "Eres el agente Generador de ejercicios de español. Devuelve SOLO JSON válido, sin markdown.";
+const SISTEMA_CORRECTOR = "Eres el agente Corrector de español. Devuelve SOLO JSON válido, sin markdown.";
+function EnjambrePage() {
+  const [fase, setFase] = React.useState("input");
+  const [objetivo, setObjetivo] = React.useState("");
+  const [nivel, setNivel] = React.useState("A2");
+  const [plan, setPlan] = React.useState([]);
+  const [paso, setPaso] = React.useState(0);
+  const [ejercicios, setEjercicios] = React.useState([]);
+  const [respuestas, setRespuestas] = React.useState({});
+  const [soluciones, setSoluciones] = React.useState({});
+  const [resultado, setResultado] = React.useState(null);
+  const [estadoAgentes, setEstadoAgentes] = React.useState({});
+  const [error, setError] = React.useState("");
+  const [notaTotal, setNotaTotal] = React.useState(0);
+  const marcarAgente = (agente, estado) =>
+    setEstadoAgentes((r) => ({
       ...r,
-      [a]: s,
+      [agente]: estado,
     }));
-  const V = async () => {
-    if (!N.trim()) {
-      setA("Escribe tu objetivo / 请输入目标");
+  const desplegar = async () => {
+    if (!objetivo.trim()) {
+      setError("Escribe tu objetivo / 请输入目标");
       return;
     }
-    setA("");
-    setP("planning");
-    o("planificador", "running");
+    setError("");
+    setFase("planning");
+    marcarAgente("planificador", "running");
     try {
-      const a = `Crea un plan de estudio de 3 pasos para lograr: "${N.trim()}" (nivel ${g}). Devuelve SOLO JSON con esta estructura: {"plan":["paso 1","paso 2","paso 3"]}. Los pasos deben ser concretos y progresivos.`;
-      const s = await c_1("enjambre-plan", a, _);
-      let r = e(s);
+      const a = `Crea un plan de estudio de 3 pasos para lograr: "${objetivo.trim()}" (nivel ${nivel}). Devuelve SOLO JSON con esta estructura: {"plan":["paso 1","paso 2","paso 3"]}. Los pasos deben ser concretos y progresivos.`;
+      const s = await generarConCache("enjambre-plan", a, SISTEMA_PLAN);
+      let r = extraerJson(s);
       if (!r?.plan?.length) {
-        r = e(await a_1(_, a));
+        r = extraerJson(await pedirIA(SISTEMA_PLAN, a));
       }
       if (!r?.plan?.length) {
         throw new Error("Plan no válido");
       }
-      setI(r.plan.slice(0, 3));
-      o("planificador", "done");
-      setP("plan");
+      setPlan(r.plan.slice(0, 3));
+      marcarAgente("planificador", "done");
+      setFase("plan");
     } catch (error) {
-      setA(error.message);
-      setP("input");
-      o("planificador", "pending");
+      setError(error.message);
+      setFase("input");
+      marcarAgente("planificador", "pending");
     }
   };
-  const G = async (a) => {
-    setP("practice");
-    o("generador", "running");
-    setF([]);
-    setE({});
-    setJ({});
-    setX(null);
+  const generarPractica = async (pasoTexto) => {
+    setFase("practice");
+    marcarAgente("generador", "running");
+    setEjercicios([]);
+    setRespuestas({});
+    setSoluciones({});
+    setResultado(null);
     try {
-      const s = `Genera 4 ejercicios interactivos de español nivel ${g} para practicar: "${a}". Devuelve SOLO JSON con esta estructura: {"ejercicios":[{"tipo":"seleccionar","pregunta":"...","opciones":["a) ...","b) ...","c) ...","d) ..."],"respuesta":0},{"tipo":"completar","pregunta":"Completa: ...","respuesta":"palabra"}]}. Mezcla los dos tipos. "respuesta" en seleccionar es el índice 0-3 de la opción correcta.`;
-      const r = await c_1("enjambre-gen", s, I);
-      let t = e(r);
+      const s = `Genera 4 ejercicios interactivos de español nivel ${nivel} para practicar: "${pasoTexto}". Devuelve SOLO JSON con esta estructura: {"ejercicios":[{"tipo":"seleccionar","pregunta":"...","opciones":["a) ...","b) ...","c) ...","d) ..."],"respuesta":0},{"tipo":"completar","pregunta":"Completa: ...","respuesta":"palabra"}]}. Mezcla los dos tipos. "respuesta" en seleccionar es el índice 0-3 de la opción correcta.`;
+      const r = await generarConCache("enjambre-gen", s, SISTEMA_GENERADOR);
+      let t = extraerJson(r);
       if (!t?.ejercicios?.length) {
-        t = e(await a_1(I, s));
+        t = extraerJson(await pedirIA(SISTEMA_GENERADOR, s));
       }
       if (!t?.ejercicios?.length) {
         throw new Error("No se pudieron generar ejercicios");
       }
-      setF(t.ejercicios.slice(0, 4));
-      o("generador", "done");
-      o("evaluador", "running");
+      setEjercicios(t.ejercicios.slice(0, 4));
+      marcarAgente("generador", "done");
+      marcarAgente("evaluador", "running");
     } catch (error) {
-      setA(error.message);
-      setP("plan");
-      o("generador", "pending");
+      setError(error.message);
+      setFase("plan");
+      marcarAgente("generador", "pending");
     }
   };
-  const Y = async () => {
-    setP("correcting");
-    o("corrector", "running");
+  const corregir = async () => {
+    setFase("correcting");
+    marcarAgente("corrector", "running");
     try {
-      const a = f.map(
+      const a = ejercicios.map(
         (t, d) => `Ejercicio ${d + 1} (${t.tipo}): ${t.pregunta}
 Respuesta esperada: ${t.tipo === "seleccionar" ? (t.opciones || [])[t.respuesta] : t.respuesta}
-Respuesta del estudiante: ${E[d] ?? "(sin responder)"}`,
+Respuesta del estudiante: ${respuestas[d] ?? "(sin responder)"}`,
       ).join(`
 
 `);
-      const s = await a_1(
-        ie,
-        `Corrige estas respuestas de un estudiante de español nivel ${g}:
+      const s = await pedirIA(
+        SISTEMA_CORRECTOR,
+        `Corrige estas respuestas de un estudiante de español nivel ${nivel}:
 
 ${a}
 
 Devuelve SOLO JSON: {"nota":0-10,"aciertos":N,"feedback":"2 frases en español de feedback y ánimo"}.`,
       );
-      const r = e(s);
-      setX(
+      const r = extraerJson(s);
+      setResultado(
         r || {
           nota: 5,
           aciertos: 0,
           feedback: "No se pudo corregir.",
         },
       );
-      setZ_1((t) => t + (r?.nota || 0));
-      o("corrector", "done");
-      o("evaluador", "done");
-      setP("done");
+      setNotaTotal((t) => t + (r?.nota || 0));
+      marcarAgente("corrector", "done");
+      marcarAgente("evaluador", "done");
+      setFase("done");
     } catch (error) {
-      setX({
+      setResultado({
         nota: 5,
         aciertos: 0,
         feedback: `Error al corregir: ${error.message}`,
       });
-      o("corrector", "done");
-      setP("done");
+      marcarAgente("corrector", "done");
+      setFase("done");
     }
   };
-  const q = () => {
-    const a = l + 1;
-    if (a >= i.length) {
-      setL(a);
+  const siguientePaso = () => {
+    const siguiente = paso + 1;
+    if (siguiente >= plan.length) {
+      setPaso(siguiente);
       return;
     }
-    setL(a);
-    G(i[a]);
+    setPaso(siguiente);
+    generarPractica(plan[siguiente]);
   };
-  const F = () => {
-    setP("input");
-    setN("");
-    setI([]);
-    setL(0);
-    setF([]);
-    setE({});
-    setJ({});
-    setX(null);
-    setZ({});
-    setA("");
-    setZ_1(0);
+  const reiniciar = () => {
+    setFase("input");
+    setObjetivo("");
+    setPlan([]);
+    setPaso(0);
+    setEjercicios([]);
+    setRespuestas({});
+    setSoluciones({});
+    setResultado(null);
+    setEstadoAgentes({});
+    setError("");
+    setNotaTotal(0);
   };
+  const AGENTE_ESTADO = { pending: "En espera · 等待", running: "Trabajando · 工作中", done: "Hecho · 完成" };
   return (
-    <StarfieldBackground>
-      <div className="max-w-3xl mx-auto px-4 py-6 min-h-screen relative z-10">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-cyan-400 transition-colors mb-6 text-sm font-bold"
-        >
-          <ArrowLeftIcon size={16} /> Volver / 返回
-        </Link>
-        <div className="text-center mb-8">
-          <div
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-4"
-            style={{
-              background: "rgba(0,212,255,.14)",
-              border: "1px solid rgba(0,212,255,.35)",
-            }}
-          >
-            <CpuIcon
-              size={16}
-              style={{
-                color: "#66e7ff",
-              }}
-            />
-            <span className="text-sm font-black text-white">Enjambre de Agentes · 智能体集群</span>
-          </div>
-          <h1
-            className="text-4xl md:text-5xl font-black text-white mb-2"
-            style={{
-              textShadow: "0 0 30px rgba(0,212,255,.3)",
-            }}
-          >
-            Enjambre IA
-          </h1>
-          <p className="text-white/50 text-lg">
-            4 agentes autónomos que planifican, generan, evalúan y corrigen por ti
-          </p>
-        </div>
-        <div className="grid grid-cols-4 gap-2 mb-8">
-          {ce.map((a) => {
-            const s = Z[a.key] || "pending";
-            return (
-              <div
-                key={a.key}
-                className="rounded-2xl p-3 text-center"
-                style={{
-                  background:
-                    s === "done"
-                      ? `${a.color}15`
-                      : s === "running"
-                        ? `${a.color}25`
-                        : "rgba(255,255,255,.03)",
-                  border: `1px solid ${s === "done" || s === "running" ? a.color : "rgba(255,255,255,.1)"}`,
-                  boxShadow: s === "running" ? `0 0 25px ${a.color}55` : "none",
-                }}
-              >
-                <a.icon
-                  size={18}
-                  style={{
-                    color: s === "pending" ? "rgba(255,255,255,.3)" : a.color,
-                    margin: "0 auto 4px",
-                    animation: s === "running" ? "spin 1.5s linear infinite" : "none",
-                  }}
-                />
-                <p
-                  className="text-[10px] font-black"
-                  style={{
-                    color: s === "pending" ? "rgba(255,255,255,.4)" : "#fff",
-                  }}
-                >
-                  {a.label}
-                </p>
-                <p
-                  className="text-[9px]"
-                  style={{
-                    color: a.color,
-                  }}
-                >
-                  {s === "done" ? "✓" : s === "running" ? "…" : "—"}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-        {p === "input" && (
-          <div
-            className="rounded-3xl p-8"
-            style={{
-              background: "rgba(255,255,255,.04)",
-              border: "1px solid rgba(255,255,255,.1)",
-            }}
-          >
-            <p className="text-white font-black mb-3">🎯 ¿Qué quieres lograr? / 你的目标是什么？</p>
-            <input
-              value={N}
-              onChange={(a) => setN(a.target.value)}
-              placeholder={'Ej: "Dominar el pretérito indefinido" / "Aprender vocabulario de viajes"'}
-              className="w-full px-4 py-3 rounded-xl text-white font-bold bg-black/30 border border-white/15 outline-none placeholder:text-white/30 focus:border-cyan-400/50 mb-4"
-            />
-            <div className="flex gap-2 mb-5">
-              {le.map((a) => (
-                <button
-                  key={a}
-                  onClick={() => setG(a)}
-                  className="px-5 py-2 rounded-xl text-sm font-black transition-all"
-                  style={
-                    g === a
-                      ? {
-                          background: "rgba(0,212,255,.2)",
-                          border: "1px solid rgba(0,212,255,.5)",
-                          color: "#66e7ff",
-                        }
-                      : {
-                          background: "rgba(255,255,255,.04)",
-                          border: "1px solid rgba(255,255,255,.1)",
-                          color: "rgba(255,255,255,.5)",
-                        }
-                  }
-                >
-                  {a}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={V}
-              className="flex items-center gap-2 px-8 py-3.5 rounded-full text-white font-black transition-transform hover:scale-105 mx-auto"
-              style={{
-                background: "linear-gradient(135deg,#00d4ff,#a855f7)",
-                boxShadow: "0 0 30px rgba(0,212,255,.4)",
+    <LightShell>
+      <div className="rx-page rx-hoja gm-no-adapt rx-enj">
+        <div className="rx-wrap is-estrecho">
+          <Link to="/juegos" className="sh-back">
+            <ArrowLeftIcon size={16} aria-hidden="true" /> Juegos · 游戏
+          </Link>
+          <header className="rx-enj__hero">
+            <span className="rx-enj__ceja">
+              <CpuIcon size={16} aria-hidden="true" /> Enjambre de agentes · 智能体集群
+            </span>
+            <h1>
+              Enjambre IA <span className="rx-zh">智能体集群</span>
+            </h1>
+            <p>
+              4 agentes que planifican, generan, evalúan y corrigen por ti.
+              <span>四个智能体为你规划、出题、评估和批改。</span>
+            </p>
+          </header>
+          <ol className="rx-enj__agentes" aria-label="Agentes · 智能体">
+            {AGENTES.map((agente) => {
+              const estado = estadoAgentes[agente.key] || "pending";
+              const Icono = agente.icon;
+              return (
+                <li key={agente.key} className={`rx-enj__agente is-${estado}`}>
+                  <span className="rx-sello" aria-hidden="true">
+                    {agente.sello}
+                  </span>
+                  <b>
+                    <Icono size={14} aria-hidden="true" /> {agente.label}
+                  </b>
+                  <small>{agente.labelZh}</small>
+                  <em>{AGENTE_ESTADO[estado]}</em>
+                </li>
+              );
+            })}
+          </ol>
+          {fase === "input" && (
+            <form
+              className="rx-card rx-enj__panel"
+              onSubmit={(evento) => {
+                evento.preventDefault();
+                desplegar();
               }}
             >
-              <BotIcon size={18} /> Desplegar enjambre / 启动集群
-            </button>
-            {A && <p className="mt-3 text-red-400 text-sm font-bold">{A}</p>}
-          </div>
-        )}
-        {p === "planning" && (
-          <div
-            className="rounded-3xl p-10 text-center"
-            style={{
-              background: "rgba(255,255,255,.04)",
-              border: "1px solid rgba(0,212,255,.3)",
-            }}
-          >
-            <LoaderCircleIcon
-              size={32}
-              className="animate-spin mx-auto mb-3"
-              style={{
-                color: "#66e7ff",
-              }}
-            />
-            <p className="text-white font-black">
-              El Planificador está creando tu plan... / 规划者正在制定计划
-            </p>
-          </div>
-        )}
-        {p === "plan" && (
-          <div
-            className="rounded-3xl p-8"
-            style={{
-              background: "rgba(255,255,255,.04)",
-              border: "1px solid rgba(57,255,20,.3)",
-            }}
-          >
-            <h3 className="text-white font-black mb-4">📋 Plan del enjambre / 集群计划</h3>
-            <div className="space-y-2 mb-6">
-              {i.map((a, s) => (
-                <div
-                  key={s}
-                  className="flex items-center gap-3 p-3 rounded-xl"
-                  style={{
-                    background: s <= l ? "rgba(57,255,20,.08)" : "rgba(255,255,255,.03)",
-                    border: `1px solid ${s <= l ? "rgba(57,255,20,.3)" : "rgba(255,255,255,.08)"}`,
-                  }}
-                >
-                  <span
-                    className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0"
-                    style={{
-                      background: "rgba(0,212,255,.15)",
-                      color: "#66e7ff",
-                    }}
-                  >
-                    {s + 1}
-                  </span>
-                  <p className="text-white/80 text-sm font-bold flex-1">{a}</p>
-                  {s < l && <CheckIcon size={15} color="#39ff14" />}
-                </div>
-              ))}
-            </div>
-            {l < i.length ? (
-              <button
-                onClick={() => G(i[l])}
-                className="flex items-center gap-2 px-7 py-3 rounded-full text-white font-black transition-transform hover:scale-105 mx-auto"
-                style={{
-                  background: "linear-gradient(135deg,#39ff14,#00d4ff)",
-                }}
-              >
-                <PlayIcon size={16} /> Paso {l + 1}: generar práctica / 生成练习
+              <label className="rx-campo">
+                <span>
+                  <TargetIcon size={16} aria-hidden="true" style={{ display: "inline", verticalAlign: "-3px" }} /> ¿Qué quieres lograr? · 你的目标是什么？
+                </span>
+                <input className="rx-input" value={objetivo} onChange={(evento) => setObjetivo(evento.target.value)} placeholder="Ej.: Dominar el pretérito indefinido · 例如：掌握简单过去时" />
+              </label>
+              <div className="rx-filtros" role="group" aria-label="Nivel · 级别">
+                <p className="rx-filtros__titulo">Nivel · 级别</p>
+                {NIVELES.map((opcion) => (
+                  <button key={opcion} type="button" aria-pressed={nivel === opcion} onClick={() => setNivel(opcion)} className={`rx-chip rx-nv-${opcion}`}>
+                    {opcion}
+                  </button>
+                ))}
+              </div>
+              <button type="submit" className="rx-btn rx-enj__accion">
+                <BotIcon size={18} aria-hidden="true" /> Desplegar enjambre · 启动集群
               </button>
-            ) : (
-              <p className="text-center text-green-400 font-black">
-                ✓ Todos los pasos completados. Nota total: {z} / {i.length * 10}
-              </p>
-            )}
-          </div>
-        )}
-        {p === "practice" && (
-          <div
-            className="rounded-3xl p-8"
-            style={{
-              background: "rgba(255,255,255,.04)",
-              border: "1px solid rgba(168,85,247,.3)",
-            }}
-          >
-            <h3 className="text-white font-black mb-2">
-              ✍️ Paso {l + 1}: {i[l]}
-            </h3>
-            <p className="text-white/40 text-xs mb-5">El Generador creó estos ejercicios · 回答下面的练习</p>
-            <div className="space-y-3 mb-6">
-              {f.map((a, s) => (
-                <div
-                  key={s}
-                  className="p-4 rounded-xl"
-                  style={{
-                    background: "rgba(0,0,0,.25)",
-                  }}
-                >
-                  <p className="text-white font-bold text-sm mb-2">
-                    {s + 1}. {a.pregunta}
+              {error && (
+                <p className="rx-aviso" role="alert">
+                  {error}
+                </p>
+              )}
+            </form>
+          )}
+          {(fase === "planning" || fase === "correcting") && (
+            <div className="rx-card rx-enj__cargando" role="status">
+              <LoaderCircleIcon size={34} className="animate-spin" aria-hidden="true" />
+              <p>{fase === "planning" ? "El Planificador está creando tu plan… · 规划者正在制定计划" : "El Corrector evalúa tus respuestas… · 批改者正在评分"}</p>
+            </div>
+          )}
+          {fase === "plan" && (
+            <section className="rx-card rx-enj__panel">
+              <h2 className="rx-h3 rx-enj__titulo">
+                <ListChecksIcon size={18} aria-hidden="true" /> Plan del enjambre · 集群计划
+              </h2>
+              <ol className="rx-enj__plan">
+                {plan.map((textoPaso, indice) => (
+                  <li key={indice} className={indice < paso ? "is-hecho" : indice === paso ? "is-actual" : ""}>
+                    <span className="rx-consejo__num">{indice < paso ? <CheckIcon size={16} aria-label="Hecho · 完成" /> : indice + 1}</span>
+                    <p className="rx-texto">{textoPaso}</p>
+                  </li>
+                ))}
+              </ol>
+              {paso < plan.length ? (
+                <button type="button" className="rx-btn rx-enj__accion" onClick={() => generarPractica(plan[paso])}>
+                  <PlayIcon size={16} aria-hidden="true" /> Paso {paso + 1}: generar práctica · 生成练习
+                </button>
+              ) : (
+                <p className="rx-enj__final">
+                  Todos los pasos completados · 全部完成 — Nota total · 总分: {notaTotal} / {plan.length * 10}
+                </p>
+              )}
+              {error && (
+                <p className="rx-aviso" role="alert">
+                  {error}
+                </p>
+              )}
+            </section>
+          )}
+          {fase === "practice" && (
+            <section className="rx-card rx-enj__panel">
+              <h2 className="rx-h3 rx-enj__titulo">
+                <SparklesIcon size={18} aria-hidden="true" /> Paso {paso + 1}: {plan[paso]}
+              </h2>
+              <p className="rx-texto-zh">El Generador creó estos ejercicios · 回答下面的练习</p>
+              {ejercicios.map((ejercicio, indice) => (
+                <div key={indice} className="rx-gen__pregunta">
+                  <p className="rx-texto">
+                    <b>
+                      {indice + 1}. {ejercicio.pregunta}
+                    </b>
                   </p>
-                  {a.tipo === "seleccionar" &&
-                    (a.opciones || []).map((r, t) => {
-                      const d = E[s];
-                      const Q = t === a.respuesta;
-                      let background = "rgba(255,255,255,.04)";
-                      let border = "1px solid rgba(255,255,255,.1)";
-                      let color = "rgba(255,255,255,.8)";
-                      if (j[s]) {
-                        if (Q) {
-                          background = "rgba(57,255,20,.15)";
-                          border = "1px solid rgba(57,255,20,.5)";
-                          color = "#39ff14";
-                        } else if (d === t) {
-                          background = "rgba(255,77,77,.15)";
-                          border = "1px solid rgba(255,77,77,.5)";
-                          color = "#ff4d4d";
-                        } else {
-                          color = "rgba(255,255,255,.35)";
-                        }
-                      } else if (d === t) {
-                        background = "rgba(0,212,255,.2)";
-                        border = "1px solid rgba(0,212,255,.6)";
-                        color = "#66e7ff";
-                      }
-                      return (
-                        <button
-                          key={t}
-                          type="button"
-                          disabled={j[s]}
-                          onClick={() =>
-                            setE((H) => ({
-                              ...H,
-                              [s]: t,
-                            }))
-                          }
-                          className="w-full text-left px-3 py-2 rounded-lg text-xs font-bold mb-1 transition-all"
-                          style={{
-                            background,
-                            border,
-                            color,
-                          }}
-                        >
-                          <span
-                            style={{
-                              color: d === t ? "#66e7ff" : "inherit",
-                            }}
-                          >
-                            {d === t && !j[s] ? "✓ " : ""}
-                            {r}
-                          </span>
+                  {ejercicio.tipo === "seleccionar" && (
+                    <div className="rx-gen__opciones">
+                      {(ejercicio.opciones || []).map((opcion, clave) => (
+                        <button key={clave} type="button" aria-pressed={respuestas[indice] === clave} className={`rx-opcion ${respuestas[indice] === clave ? "is-elegida" : ""}`} onClick={() => setRespuestas((previas) => ({ ...previas, [indice]: clave }))}>
+                          {opcion}
                         </button>
-                      );
-                    })}
-                  {a.tipo === "completar" && (
-                    <input
-                      value={E[s] || ""}
-                      onChange={(r) =>
-                        setE((t) => ({
-                          ...t,
-                          [s]: r.target.value,
-                        }))
-                      }
-                      className="w-full px-3 py-2.5 rounded-xl text-white text-sm bg-black/30 border border-white/15 outline-none focus:border-purple-400/50"
-                      placeholder="Tu respuesta / 你的答案"
-                    />
+                      ))}
+                    </div>
+                  )}
+                  {ejercicio.tipo === "completar" && (
+                    <input className="rx-input" value={respuestas[indice] || ""} onChange={(evento) => setRespuestas((previas) => ({ ...previas, [indice]: evento.target.value }))} placeholder="Tu respuesta · 你的答案" aria-label={`Respuesta ${indice + 1} · 答案`} />
                   )}
                 </div>
               ))}
-            </div>
-            <button
-              onClick={Y}
-              className="flex items-center gap-2 px-7 py-3 rounded-full text-white font-black transition-transform hover:scale-105 mx-auto"
-              style={{
-                background: "linear-gradient(135deg,#ffb33b,#ff6b35)",
-              }}
-            >
-              <GavelIcon size={16} /> Corregir con el Corrector / AI批改
-            </button>
-          </div>
-        )}
-        {p === "correcting" && (
-          <div
-            className="rounded-3xl p-10 text-center"
-            style={{
-              background: "rgba(255,255,255,.04)",
-              border: "1px solid rgba(255,179,59,.3)",
-            }}
-          >
-            <LoaderCircleIcon
-              size={32}
-              className="animate-spin mx-auto mb-3"
-              style={{
-                color: "#ffb33b",
-              }}
-            />
-            <p className="text-white font-black">El Corrector evalúa tus respuestas... / 批改者正在评分</p>
-          </div>
-        )}
-        {p === "done" && x && (
-          <div
-            className="rounded-3xl p-8"
-            style={{
-              background: "rgba(255,255,255,.04)",
-              border: "1px solid rgba(57,255,20,.3)",
-            }}
-          >
-            <div className="text-center mb-4">
-              <p
-                className="text-5xl font-black"
-                style={{
-                  color: x.nota >= 7 ? "#39ff14" : x.nota >= 5 ? "#ffd600" : "#ff4d4d",
-                }}
-              >
-                {x.nota}
-              </p>
-              <p className="text-white/50 text-sm">/ 10 · aciertos: {x.aciertos}</p>
-            </div>
-            <div
-              className="rounded-xl p-4 mb-4"
-              style={{
-                background: "rgba(0,0,0,.25)",
-              }}
-            >
-              <p className="text-white/80 text-sm leading-relaxed">{x.feedback}</p>
-            </div>
-            <div className="mb-5">
-              <button
-                onClick={() => setJ(Object.fromEntries(f.map((a, s) => [s, true])))}
-                className="text-xs font-black text-cyan-300 hover:text-cyan-200"
-              >
-                Ver soluciones / 查看答案
+              <button type="button" className="rx-btn rx-enj__accion" onClick={corregir}>
+                <GavelIcon size={16} aria-hidden="true" /> Corregir · AI批改
               </button>
-              {f.map(
-                (a, s) =>
-                  j[s] && (
-                    <p
-                      key={s}
-                      className="text-xs mt-1"
-                      style={{
-                        color: "#39ff14",
-                      }}
-                    >
-                      {s + 1}. {a.tipo === "seleccionar" ? (a.opciones || [])[a.respuesta] : a.respuesta}
-                    </p>
-                  ),
+            </section>
+          )}
+          {fase === "done" && resultado && (
+            <section className="rx-card rx-enj__panel">
+              <div className={`rx-enj__nota ${resultado.nota >= 7 ? "is-alta" : resultado.nota >= 5 ? "is-media" : "is-baja"}`}>
+                <b>{resultado.nota}</b>
+                <span>/ 10 · aciertos · 答对: {resultado.aciertos}</span>
+              </div>
+              <p className="rx-caja rx-texto">{resultado.feedback}</p>
+              <button type="button" className="rx-btn is-papel" style={{ justifySelf: "start" }} onClick={() => setSoluciones(Object.fromEntries(ejercicios.map((_, indice) => [indice, true])))}>
+                Ver soluciones · 查看答案
+              </button>
+              {ejercicios.some((_, indice) => soluciones[indice]) && (
+                <ol className="rx-enj__soluciones">
+                  {ejercicios.map((ejercicio, indice) => (
+                    <li key={indice}>{ejercicio.tipo === "seleccionar" ? (ejercicio.opciones || [])[ejercicio.respuesta] : ejercicio.respuesta}</li>
+                  ))}
+                </ol>
               )}
-            </div>
-            <div className="flex gap-3 justify-center">
-              {l + 1 < i.length ? (
-                <button
-                  onClick={q}
-                  className="flex items-center gap-2 px-6 py-3 rounded-full text-white font-black transition-transform hover:scale-105"
-                  style={{
-                    background: "linear-gradient(135deg,#39ff14,#00d4ff)",
-                  }}
-                >
-                  <PlayIcon size={15} /> Siguiente paso / 下一步
+              <div className="rx-filtros" style={{ justifyContent: "center" }}>
+                {paso + 1 < plan.length ? (
+                  <button type="button" className="rx-btn" onClick={siguientePaso}>
+                    <PlayIcon size={16} aria-hidden="true" /> Siguiente paso · 下一步
+                  </button>
+                ) : (
+                  <p className="rx-enj__final">
+                    Enjambre completado · 集群完成 — Nota total · 总分: {notaTotal} / {plan.length * 10}
+                  </p>
+                )}
+                <button type="button" className="rx-btn is-papel" onClick={reiniciar}>
+                  Reiniciar · 重来
                 </button>
-              ) : (
-                <p className="text-green-400 font-black self-center">
-                  🎉 Enjambre completado. Nota total: {z} / {i.length * 10}
-                </p>
-              )}
-              <button
-                onClick={F}
-                className="px-5 py-3 rounded-full text-sm font-black"
-                style={{
-                  background: "rgba(255,255,255,.05)",
-                  border: "1px solid rgba(255,255,255,.12)",
-                  color: "rgba(255,255,255,.6)",
-                }}
-              >
-                Reiniciar / 重来
-              </button>
-            </div>
-          </div>
-        )}
-        <style>{`
-          @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        `}</style>
+              </div>
+            </section>
+          )}
+        </div>
       </div>
-    </StarfieldBackground>
+    </LightShell>
   );
 }
-export { HeComponent as default };
+export { EnjambrePage as default };

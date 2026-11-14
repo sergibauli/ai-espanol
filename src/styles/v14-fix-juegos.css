@@ -326,3 +326,47 @@ main.game-bg .v14j-hero h1 {
 
 /* Con la barra superior móvil (sticky, 56px) los filtros se pegan justo debajo */
 @media (max-width: 1000px) { .v14j-filtros { top: 56px; } }
+
+/* ---------- Partida y resultado de los juegos clásicos (marcados con .v14j-marca) ---------- */
+/* Píldoras de estado (racha, puntos, categoría, letras…): el adaptador oscurece su texto a tinta,
+   así que llevan fondo de pergamino con filete dorado para que se lean (AA) sobre el cielo nocturno */
+.app-stage:has(.v14j-marca) :is(div, span, p).rounded-full:is(.text-xs, .text-sm, .px-2, .px-3, .px-4, [class*="text-["]):not(.v14j-cinta):not(.v14j-cinta *) {
+  background: linear-gradient(180deg, #fff7e2, #f1dfb4) !important;
+  border: 1px solid #c8961e !important;
+  color: #3b2416 !important;
+  -webkit-text-fill-color: #3b2416 !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  opacity: 1 !important;
+}
+.app-stage:has(.v14j-marca) :is(div, span, p).rounded-full[style*="224, 40, 63"]:is(.text-xs, .text-sm, .px-3, .px-4) { color: #8f0c21 !important; -webkit-text-fill-color: #8f0c21 !important; }
+.app-stage:has(.v14j-marca) :is(div, span, p).rounded-full:is(.text-xs, .text-sm, .px-3, .px-4) :is(span, b, p, svg) { color: inherit !important; -webkit-text-fill-color: inherit !important; text-shadow: none !important; }
+/* Botones de cabecera (Cambiar módulo, Reiniciar): laca con filete dorado y 44px de alto */
+main.game-bg .app-stage:has(.v14j-marca) button.rounded-full:is(.text-xs, .text-sm):not(.v14j-selector *) {
+  min-height: 44px !important;
+  background: linear-gradient(180deg, #d3243f, #8f0c21) !important;
+  border: 1px solid #f2c14e !important;
+  color: #fff3d6 !important;
+  -webkit-text-fill-color: #fff3d6 !important;
+  text-shadow: none !important;
+}
+main.game-bg .app-stage:has(.v14j-marca) button.rounded-full:is(.text-xs, .text-sm):not(.v14j-selector *) * { color: inherit !important; -webkit-text-fill-color: inherit !important; }
+/* Enlace «Volver» de las fases de juego */
+.app-stage:has(.v14j-marca) a[href$="/juegos"]:not(.v14j-volver) {
+  min-height: 44px; padding: 0 14px !important; border-radius: 999px !important; display: inline-flex !important; align-items: center;
+  background: rgba(59, 36, 22, 0.85) !important; border: 1px solid rgba(242, 193, 78, 0.7) !important; box-shadow: none !important;
+  color: #ffe9b0 !important; -webkit-text-fill-color: #ffe9b0 !important;
+}
+.app-stage:has(.v14j-marca) a[href$="/juegos"]:not(.v14j-volver) * { color: inherit !important; }
+/* Subtítulos bajo el título del juego (texto blanco translúcido sobre noche) */
+.app-stage:has(.v14j-marca) h1 + p { color: #ffe0a3 !important; -webkit-text-fill-color: #ffe0a3 !important; opacity: 1 !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) !important; }
+.app-stage:has(.v14j-marca) h1 { font-family: "Cinzel", "Times New Roman", Georgia, serif !important; }
+@media (prefers-reduced-motion: reduce) {
+  .app-stage:has(.v14j-marca) * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+/* Botones de opción (dificultad, etc.): pergamino; el elegido (tinte dorado translúcido) pasa a oro macizo */
+.app-stage:has(.v14j-marca) button.rounded-xl.text-xs { min-height: 44px; border: 1px solid #c8961e !important; color: #3b2416 !important; -webkit-text-fill-color: #3b2416 !important; background: linear-gradient(180deg, #fffaf0, #f1e4c4) !important; }
+.app-stage:has(.v14j-marca) button.rounded-xl.text-xs[style*="242, 193, 78, 0.1"], .app-stage:has(.v14j-marca) button.rounded-xl.text-xs[style*="242,193,78,0.1"], .app-stage:has(.v14j-marca) button.rounded-xl.text-xs[style*="242, 193, 78, 0.2"] {
+  background: linear-gradient(180deg, #fff4c8, #f2c14e 60%, #d9a336) !important; box-shadow: inset 0 0 0 2px #fff7dc, 0 0 0 2px #8f0c21 !important; font-weight: 900 !important;
+}
+@media (max-width: 520px) { main.game-bg .app-stage:has(.v14j-marca) .gm-sopa { padding: 12px !important; } }

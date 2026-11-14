@@ -3,6 +3,7 @@ import { Volume2Icon, SearchIcon, RotateCwIcon, SparklesIcon, XIcon } from "luci
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { speak } from "../components/lesson/fx.js";
 import { Boton, HeroSeccion, InsigniaNivel } from "../../packages/imperial/src/index.js";
+import "../styles/v14-fix-recursos.css";
 
 // Diccionario español–chino con estética imperial (tarjetas que giran, audio con la voz del profesor)
 const LEVELS = [
@@ -103,7 +104,7 @@ export default function DiccionarioPage() {
 
   return (
     <LightShell>
-      <div className="unit-page" style={{ maxWidth: 1080 }}>
+      <div className="unit-page rx-dicc" style={{ maxWidth: 1080 }}>
         <HeroSeccion
           ceja="词典 · Diccionario"
           titulo="Diccionario español–chino"
@@ -172,11 +173,11 @@ export default function DiccionarioPage() {
         </nav>
 
         <div className="imperial-themes jd-temas">
-          <button className={!theme ? "on" : ""} onClick={() => setTheme("")}>
+          <button type="button" aria-pressed={!theme} className={!theme ? "on" : ""} onClick={() => setTheme("")}>
             Todos · 全部
           </button>
           {themes.map((t) => (
-            <button key={t} className={theme === t ? "on" : ""} onClick={() => (setTheme(t), setLimit(PAGE))}>
+            <button key={t} type="button" aria-pressed={theme === t} className={theme === t ? "on" : ""} onClick={() => (setTheme(t), setLimit(PAGE))}>
               {t}
             </button>
           ))}
@@ -204,8 +205,17 @@ export default function DiccionarioPage() {
             ))}
           </div>
         ) : !list.length ? (
-          <div className="ui-empty">
-            No hay palabras con estos filtros. · 没有符合条件的单词。
+          <div className="rx-vacio" role="status">
+            <span className="rx-sello" aria-hidden="true">
+              无
+            </span>
+            <p>
+              No hay palabras con estos filtros
+              <span>没有符合条件的单词</span>
+            </p>
+            <button type="button" className="rx-btn is-oro" onClick={limpiar}>
+              <XIcon size={16} aria-hidden="true" /> Quitar filtros · 清除筛选
+            </button>
           </div>
         ) : (
           <>

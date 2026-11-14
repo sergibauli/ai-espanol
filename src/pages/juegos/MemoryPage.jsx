@@ -1013,6 +1013,7 @@ function PtComponent() {
   }
   return (
     <StarfieldBackground>
+        <CintaTemaJuego />
       <JeComponent />
       <div
         className={`max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10 ${$e ? "animate-screenShake" : ""}`}

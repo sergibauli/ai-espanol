@@ -1704,7 +1704,7 @@ function AyudasPage() {
               const abierta = abiertas.has(indice) || filtrando;
               return (
                 <div key={categoria.category} className={`rx-acc__item ${abierta ? "is-abierto" : ""}`}>
-                  <button type="button" className="rx-acc__btn" aria-expanded={abierta} onClick={() => alternarCategoria(indice)} disabled={filtrando}>
+                  <button type="button" className="rx-acc__btn" aria-expanded={abierta} onClick={() => alternarCategoria(indice)}>
                     <span className="rx-acc__titulo rx-h3">
                       {categoria.category}
                       <span className="rx-zh">{categoria.categoryCn}</span>

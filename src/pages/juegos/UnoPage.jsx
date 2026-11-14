@@ -1072,6 +1072,7 @@ function HtComponent() {
     const a = Ne.size;
     return (
       <StarfieldBackground>
+        <CintaTemaJuego />
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center"
           style={{
@@ -1281,6 +1282,7 @@ function HtComponent() {
   }
   return (
     <StarfieldBackground>
+        <CintaTemaJuego />
       <div className="max-w-6xl mx-auto px-4 py-4 min-h-screen relative z-10">
         <CtComponent mood={mood} message={message} />
         {Ie && le && (

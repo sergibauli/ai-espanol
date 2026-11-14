@@ -9958,6 +9958,7 @@ function AComponent() {
     const s = h.length > 0 ? Math.round((y / h.length) * 100) : 0;
     return (
       <StarfieldBackground>
+        <CintaTemaJuego />
         <Component />
         <JComponent expression={expression} bounce={bounce} />
         <Ya1Component active={active} />
@@ -10224,6 +10225,7 @@ function AComponent() {
   const Na = (v / h.length) * 100;
   return (
     <StarfieldBackground>
+        <CintaTemaJuego />
       <Component />
       <JComponent expression={expression} bounce={bounce} />
       <Ya1Component active={!!(g && X)} />

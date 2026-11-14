@@ -333,10 +333,11 @@ export function CintaTemaJuego() {
   const location = useLocation();
   const { numero, clase } = leerRuta(location.search);
   const unidad = numero ? CATALOGO.find((u) => u.numero === numero) : null;
-  if (!unidad) return null;
+  // La marca (oculta) permite aplicar el tema imperial v14 solo a los juegos clásicos (.app-stage:has(.v14j-marca))
+  if (!unidad) return <span className="v14j-marca" hidden />;
   const info = clase ? clasesDe(numero).find((c) => c.n === clase) : null;
   return (
-    <p className="v14j-cinta gm-no-adapt">
+    <p className="v14j-cinta v14j-marca gm-no-adapt">
       <span translate="no">{unidad.nivel}</span> Unidad {numero}
       {info ? ` · Clase ${info.n} · 第${info.n}课` : ` · 第${numero}单元`}
       <b>{info?.titulo || unidad.titulo}</b>

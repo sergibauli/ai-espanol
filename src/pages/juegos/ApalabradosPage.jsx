@@ -2307,6 +2307,7 @@ function StComponent() {
     H.size > 0 ? `Descartar ${H.size} y pasar` : v === "discard" ? "Cancelar descarte" : "Descartar fichas";
   return (
     <StarfieldBackground>
+        <CintaTemaJuego />
       <SoundToggles />
       <div className="max-w-5xl mx-auto px-3 md:px-4 py-3 md:py-4 min-h-screen relative z-10">
         <div className="flex items-center justify-between mb-2 md:mb-3 flex-wrap gap-2">

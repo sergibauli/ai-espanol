@@ -1218,6 +1218,7 @@ function CtComponent() {
   }
   return (
     <StarfieldBackground>
+        <CintaTemaJuego />
       <GeComponent />
       <TeComponent />
       <div
@@ -1508,7 +1509,7 @@ function CtComponent() {
                 ref={HRef}
                 className="grid gap-[4px]"
                 style={{
-                  gridTemplateColumns: `repeat(${length_1}, min(44px, 7.5vw))`,
+                  gridTemplateColumns: `repeat(${length_1}, min(44px, calc((100vw - 76px - ${(length_1 - 1) * 4}px) / ${length_1})))`,
                   userSelect: "none",
                   transform: "perspective(1000px) rotateX(2deg)",
                   transformStyle: "preserve-3d",
@@ -1530,8 +1531,9 @@ function CtComponent() {
                         onTouchStart={(S) => Se(s, l, S)}
                         className={`gm-sopa-cell ${f ? "sel" : c ? "found" : ""} flex items-center justify-center font-bold text-sm transition-all duration-150 relative overflow-hidden group`}
                         style={{
-                          width: "min(44px, 7.5vw)",
-                          height: "min(44px, 7.5vw)",
+                          // Tamaño de celda que cabe a 390px sin recortar la cuadrícula
+                          width: `min(44px, calc((100vw - 76px - ${(length_1 - 1) * 4}px) / ${length_1}))`,
+                          height: `min(44px, calc((100vw - 76px - ${(length_1 - 1) * 4}px) / ${length_1}))`,
                           borderRadius: "14px",
                           ...x,
                           cursor: "pointer",

@@ -1837,6 +1837,7 @@ function YtComponent() {
         animation: Ce ? "screenShake 0.5s cubic-bezier(.36,.07,.19,.97) both" : "none",
       }}
     >
+      <CintaTemaJuego />
       <SoundToggles />
       <MeComponent expression={expression} comboCount={h} />
       {pe && (

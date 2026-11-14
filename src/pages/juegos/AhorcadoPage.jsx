@@ -1247,6 +1247,7 @@ function OtComponent() {
   }
   return (
     <StarfieldBackground>
+        <CintaTemaJuego />
       <HeComponent mood={R} />
       <OeComponent active={w === "won"} />
       <div ref={VRef} className="max-w-4xl mx-auto px-4 py-6 min-h-screen relative z-10" style={ve}>
