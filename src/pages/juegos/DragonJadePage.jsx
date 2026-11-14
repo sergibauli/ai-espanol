@@ -297,222 +297,194 @@ function posicionesCuerpo(S) {
   return pos;
 }
 
+// v17 · Dragón dorado pintado: la cabeza, las escamas, las aletas del lomo y los mechones salen del dragón de la maqueta
+// (public/theme/dragon-juego/*). El cuerpo es una cinta con la textura real de escamas que sigue el camino y se estrecha hacia la cola.
+const ARTE_DRAGON = {};
+function arteDragon() {
+  if (!ARTE_DRAGON.cabeza && typeof Image !== "undefined") {
+    for (const nombre of ["cabeza", "escamas", "aleta", "cola"]) {
+      const img = new Image();
+      img.src = `./theme/dragon-juego/${nombre}.webp`;
+      ARTE_DRAGON[nombre] = img;
+    }
+  }
+  return ARTE_DRAGON;
+}
+const lista = (img) => img && img.complete && img.naturalWidth > 0;
+
 function dibujarDragon(g, S, reducido) {
-  const pos = posicionesCuerpo(S);
-  const n = pos.length;
+  const arte = arteDragon();
+  // El dragón se pinta más largo que su cuerpo de juego: cola larga y esbelta
+  const base = posicionesCuerpo({ ...S, segmentos: Math.max(30, Math.round(S.segmentos * 1.8)) });
   const E = S.escala;
   const t = S.t;
   if (S.invulnerable > 0 && Math.floor(S.invulnerable * 12) % 2 === 0) g.globalAlpha = 0.45;
   // Ondulación lateral para que el cuerpo «nade»
-  const ond = pos.map((p, i) => {
+  const ond = base.map((p, i) => {
     if (i === 0) return p;
-    const a = pos[i - 1];
+    const a = base[i - 1];
     const dx = a.x - p.x;
     const dy = a.y - p.y;
     const d = Math.hypot(dx, dy) || 1;
-    const amp = reducido ? 0 : Math.sin(t * 5 - i * 0.32) * 3.6 * E * Math.min(1, i / 4);
+    const amp = reducido ? 0 : Math.sin(t * 5 - i * 0.32) * 4.4 * E * Math.min(1, i / 4);
     return { x: p.x + (-dy / d) * amp, y: p.y + (dx / d) * amp, nx: -dy / d, ny: dx / d, ang: Math.atan2(dy, dx) };
   });
   ond[0].ang = Math.atan2(S.vel.y, S.vel.x);
-  // Cola de llama
-  const cola = ond[n - 1];
-  const angCola = cola.ang ?? 0;
-  g.save();
-  g.translate(cola.x, cola.y);
-  g.rotate(angCola + Math.PI);
-  for (let k = -2; k <= 2; k++) {
-    g.fillStyle = k % 2 ? "#c8102e" : "#f2c14e";
-    g.beginPath();
-    g.moveTo(0, 0);
-    const ondea = reducido ? 0 : Math.sin(t * 8 + k) * 3;
-    g.quadraticCurveTo(14 * E, k * 6 * E + ondea, 26 * E, k * 9 * E + ondea);
-    g.quadraticCurveTo(12 * E, k * 3 * E, 0, 2 * E);
-    g.fill();
-  }
-  g.restore();
-  // Cuerpo continuo: contorno con grosor variable
-  const h0 = ond[0];
-  h0.nx = -Math.sin(h0.ang);
-  h0.ny = Math.cos(h0.ang);
-  const radio = (i) => (25 - (i / n) * 18) * E;
-  const izq = [];
-  const der = [];
-  for (let i = 0; i < n; i++) {
+  ond[0].nx = -Math.sin(ond[0].ang);
+  ond[0].ny = Math.cos(ond[0].ang);
+  const n = ond.length;
+  // Grosor: cuello algo más fino, lomo ancho y cola que se afila
+  const radio = (i) => {
+    const f = i / n;
+    return (12 + 9 * Math.sin(Math.min(1, f * 6) * Math.PI * 0.5) - 18.5 * Math.pow(f, 1.5)) * E;
+  };
+  const mira = Math.cos(ond[0].ang) < 0 ? -1 : 1;
+  // Camino suavizado y más denso (tres puntos por tramo)
+  const pts = [];
+  for (let i = 0; i < n - 1; i++) {
     const p = ond[i];
-    const r = radio(i);
-    izq.push([p.x + p.nx * r, p.y + p.ny * r]);
-    der.push([p.x - p.nx * r, p.y - p.ny * r]);
-  }
-  // Aletas dorsales (detrás del cuerpo)
-  for (let i = 2; i < n - 1; i += 2) {
-    const p = ond[i];
-    const r = radio(i);
-    g.fillStyle = i % 4 === 0 ? "#f2c14e" : "#e8552a";
-    g.beginPath();
-    g.moveTo(p.x + p.nx * r * 0.7 - Math.cos(p.ang) * r * 0.7, p.y + p.ny * r * 0.7 - Math.sin(p.ang) * r * 0.7);
-    g.lineTo(p.x + p.nx * r * 1.7 - Math.cos(p.ang) * r * 0.5, p.y + p.ny * r * 1.7 - Math.sin(p.ang) * r * 0.5);
-    g.lineTo(p.x + p.nx * r * 0.7 + Math.cos(p.ang) * r * 0.5, p.y + p.ny * r * 0.7 + Math.sin(p.ang) * r * 0.5);
-    g.fill();
-  }
-  // Patas con garras
-  for (const i of [Math.round(n * 0.18), Math.round(n * 0.55)]) {
-    const p = ond[i];
-    if (!p || i === 0) continue;
-    const r = radio(i);
-    g.strokeStyle = "#c8961e";
-    g.lineWidth = 4 * E;
-    g.lineCap = "round";
-    for (const lado of [-1, 1]) {
-      const mueve = reducido ? 0 : Math.sin(t * 6 + lado + i) * 4 * E;
-      const fx = p.x - p.nx * (r + 12 * E) - Math.cos(p.ang) * (6 * E + lado * 8 * E + mueve);
-      const fy = p.y - p.ny * (r + 12 * E) - Math.sin(p.ang) * (6 * E + lado * 8 * E + mueve);
-      g.beginPath();
-      g.moveTo(p.x, p.y);
-      g.lineTo(fx, fy);
-      g.stroke();
-      g.lineWidth = 2.2 * E;
-      for (const c of [-0.6, 0, 0.6]) {
-        g.beginPath();
-        g.moveTo(fx, fy);
-        g.lineTo(fx + Math.cos(p.ang + c) * 6 * E, fy + Math.sin(p.ang + c) * 6 * E);
-        g.stroke();
-      }
-      g.lineWidth = 4 * E;
+    const q = ond[i + 1];
+    for (let k = 0; k < 3; k++) {
+      const f = k / 3;
+      pts.push({ x: p.x + (q.x - p.x) * f, y: p.y + (q.y - p.y) * f, r: radio(i + f) });
     }
   }
-  g.beginPath();
-  g.moveTo(izq[0][0], izq[0][1]);
-  for (let i = 1; i < n; i++) g.lineTo(izq[i][0], izq[i][1]);
-  for (let i = n - 1; i >= 0; i--) g.lineTo(der[i][0], der[i][1]);
-  g.closePath();
-  const gc = g.createLinearGradient(ond[0].x, ond[0].y, ond[n - 1].x, ond[n - 1].y);
-  gc.addColorStop(0, "#21a774");
-  gc.addColorStop(1, "#0d5c43");
-  g.fillStyle = gc;
-  g.fill();
-  g.strokeStyle = "#08392a";
-  g.lineWidth = 2 * E;
-  g.stroke();
-  // Brillo del lomo y vientre dorado
+  pts.push({ x: ond[n - 1].x, y: ond[n - 1].y, r: radio(n - 1) });
+  const m = pts.length;
+  for (let k = 0; k < m; k++) {
+    const a = pts[Math.max(0, k - 1)];
+    const b = pts[Math.min(m - 1, k + 1)];
+    pts[k].ang = Math.atan2(a.y - b.y, a.x - b.x); // hacia la cabeza
+  }
+
+  // Aura dorada
+  if (!reducido) {
+    g.globalCompositeOperation = "lighter";
+    const aura = brillo("rgba(255,196,80,0.34)");
+    for (let k = 0; k < m; k += 7) {
+      const p = pts[k];
+      const lado = Math.max(p.r, 8 * E) * 6;
+      g.drawImage(aura, p.x - lado / 2, p.y - lado / 2, lado, lado);
+    }
+    g.globalCompositeOperation = "source-over";
+  }
+
+  // Mechón de la cola
+  const cola = pts[m - 1];
+  if (lista(arte.cola)) {
+    g.save();
+    g.translate(cola.x, cola.y);
+    g.rotate(cola.ang + (reducido ? 0 : Math.sin(t * 6) * 0.18));
+    g.scale(1, mira);
+    const ancho = 92 * E;
+    const alto = (ancho * arte.cola.naturalHeight) / arte.cola.naturalWidth;
+    g.drawImage(arte.cola, -ancho + 10 * E, -alto * 0.62, ancho, alto);
+    g.restore();
+  }
+
+  // Aletas del lomo (detrás del cuerpo)
+  if (lista(arte.aleta)) {
+    for (let k = 5; k < m - 6; k += 4) {
+      const p = pts[k];
+      const lado = p.r * 1.75;
+      g.save();
+      g.translate(p.x, p.y);
+      g.rotate(p.ang + Math.PI / 2 + (reducido ? 0 : Math.sin(t * 7 + k * 0.5) * 0.08));
+      g.scale(mira, 1);
+      g.drawImage(arte.aleta, -p.r - lado * 0.72, -lado * 0.55, lado, lado);
+      g.restore();
+    }
+  }
+
+  // Patas doradas con garras (dos pares)
   g.lineCap = "round";
-  for (let i = 1; i < n - 1; i++) {
-    const a = ond[i];
-    const b = ond[i + 1];
-    const r = radio(i);
-    g.strokeStyle = "rgba(160,245,205,0.55)";
-    g.lineWidth = r * 0.35;
-    g.beginPath();
-    g.moveTo(a.x + a.nx * r * 0.45, a.y + a.ny * r * 0.45);
-    g.lineTo(b.x + b.nx * r * 0.45, b.y + b.ny * r * 0.45);
-    g.stroke();
-    g.strokeStyle = "rgba(255,222,140,0.85)";
-    g.lineWidth = r * 0.42;
-    g.beginPath();
-    g.moveTo(a.x - a.nx * r * 0.6, a.y - a.ny * r * 0.6);
-    g.lineTo(b.x - b.nx * r * 0.6, b.y - b.ny * r * 0.6);
-    g.stroke();
+  g.lineJoin = "round";
+  for (const frac of [0.16, 0.46]) {
+    const p = pts[Math.round(m * frac)];
+    if (!p) continue;
+    const ux = Math.cos(p.ang);
+    const uy = Math.sin(p.ang);
+    const vx = -uy * mira; // hacia el vientre
+    const vy = ux * mira;
+    for (const lado of [-1, 1]) {
+      const mueve = reducido ? 0 : Math.sin(t * 6 + lado * 1.6 + frac * 9) * 5 * E;
+      const rx = p.x + vx * (p.r + 8 * E) - ux * lado * 9 * E;
+      const ry = p.y + vy * (p.r + 8 * E) - uy * lado * 9 * E;
+      const fx = rx + vx * 12 * E + ux * (7 * E + mueve);
+      const fy = ry + vy * 12 * E + uy * (7 * E + mueve);
+      for (const [ancho, color] of [[10 * E, "#7a4a12"], [7 * E, "#e9b23c"], [3 * E, "#fff0b8"]]) {
+        g.strokeStyle = color;
+        g.lineWidth = ancho;
+        g.beginPath();
+        g.moveTo(p.x + vx * p.r * 0.5, p.y + vy * p.r * 0.5);
+        g.lineTo(rx, ry);
+        g.lineTo(fx, fy);
+        g.stroke();
+      }
+      g.strokeStyle = "#ffe9a8";
+      g.lineWidth = 1.8 * E;
+      for (const c of [-0.7, 0, 0.7]) {
+        const a = Math.atan2(fy - ry, fx - rx) + c;
+        g.beginPath();
+        g.moveTo(fx, fy);
+        g.quadraticCurveTo(fx + Math.cos(a) * 5 * E, fy + Math.sin(a) * 5 * E, fx + Math.cos(a + 0.5 * mira) * 10 * E, fy + Math.sin(a + 0.5 * mira) * 10 * E);
+        g.stroke();
+      }
+    }
   }
-  // Escamas doradas
-  g.strokeStyle = "rgba(242,193,78,0.8)";
-  g.lineWidth = 1.4 * E;
-  for (let i = 2; i < n - 1; i++) {
-    const p = ond[i];
-    const r = radio(i) * 0.55;
+
+  // Cuerpo: contorno y cinta de escamas pintadas, de la cola a la cabeza
+  g.fillStyle = "#6b3f0c";
+  for (let k = m - 1; k >= 0; k--) {
+    const p = pts[k];
     g.beginPath();
-    g.arc(p.x + p.nx * r * 0.2, p.y + p.ny * r * 0.2, r, p.ang + Math.PI * 0.6, p.ang + Math.PI * 1.4);
-    g.stroke();
-  }
-  // Cabeza
-  const c = ond[0];
-  const ang = c.ang;
-  const mira = Math.cos(ang) < 0 ? -1 : 1;
-  g.save();
-  g.translate(c.x, c.y);
-  g.rotate(ang);
-  g.scale(E * 1.35, E * 1.35 * mira);
-  // Melena
-  for (let k = 0; k < 7; k++) {
-    const a = Math.PI * (0.55 + k * 0.13);
-    const largo = 22 + (k % 2) * 8 + (reducido ? 0 : Math.sin(t * 7 + k) * 3);
-    g.fillStyle = k % 2 ? "#c8102e" : "#e8552a";
-    g.beginPath();
-    g.moveTo(-6, 0);
-    g.lineTo(-6 + Math.cos(a) * largo, Math.sin(a) * largo - 6);
-    g.lineTo(-2 + Math.cos(a + 0.25) * 10, Math.sin(a + 0.25) * 10);
+    g.arc(p.x, p.y, Math.max(1.5 * E, p.r + 1.2 * E), 0, Math.PI * 2);
     g.fill();
   }
-  // Cuernos
-  g.strokeStyle = "#f2c14e";
-  g.lineWidth = 3.2;
-  g.lineCap = "round";
-  g.beginPath();
-  g.moveTo(-2, -10);
-  g.quadraticCurveTo(-16, -26, -30, -24);
-  g.moveTo(-12, -18);
-  g.lineTo(-14, -28);
-  g.stroke();
-  // Cráneo y hocico
-  const gh = g.createLinearGradient(0, -14, 0, 14);
-  gh.addColorStop(0, "#6fe0ac");
-  gh.addColorStop(0.6, "#178a5e");
-  gh.addColorStop(1, "#0a4632");
-  g.fillStyle = gh;
-  g.beginPath();
-  g.moveTo(-14, -12);
-  g.quadraticCurveTo(6, -18, 26, -8);
-  g.quadraticCurveTo(34, -5, 33, 0);
-  g.lineTo(18, 2);
-  g.lineTo(-12, 10);
-  g.quadraticCurveTo(-20, 0, -14, -12);
-  g.fill();
-  // Mandíbula y boca roja
-  g.fillStyle = "#8f0c21";
-  g.beginPath();
-  g.moveTo(18, 2);
-  g.lineTo(31, 2);
-  g.lineTo(26, 9);
-  g.lineTo(-6, 12);
-  g.fill();
-  g.fillStyle = "#1f9d6b";
-  g.beginPath();
-  g.moveTo(-8, 10);
-  g.quadraticCurveTo(12, 16, 27, 9);
-  g.lineTo(24, 14);
-  g.quadraticCurveTo(6, 20, -10, 13);
-  g.fill();
-  // Cejas y escamas de la nariz
-  g.fillStyle = "#f2c14e";
-  g.beginPath();
-  g.moveTo(2, -12);
-  g.quadraticCurveTo(10, -18, 16, -11);
-  g.quadraticCurveTo(9, -13, 2, -9);
-  g.fill();
-  g.beginPath();
-  g.arc(30, -3, 1.6, 0, Math.PI * 2);
-  g.fill();
-  // Ojo
-  g.globalCompositeOperation = "lighter";
-  g.drawImage(brillo("rgba(255,200,80,0.8)"), 0, -16, 16, 16);
-  g.globalCompositeOperation = "source-over";
-  g.fillStyle = "#fff3c4";
-  g.beginPath();
-  g.ellipse(9, -8, 4.2, 3.2, -0.2, 0, Math.PI * 2);
-  g.fill();
-  g.fillStyle = "#1a0f08";
-  g.beginPath();
-  g.ellipse(10, -8, 1.4, 2.8, 0, 0, Math.PI * 2);
-  g.fill();
-  // Bigotes
-  g.strokeStyle = "rgba(242,193,78,0.95)";
-  g.lineWidth = 1.6;
-  for (const lado of [0, 1]) {
-    const o = reducido ? 0 : Math.sin(t * 4 + lado * 1.7) * 8;
-    g.beginPath();
-    g.moveTo(26, 2 + lado * 2);
-    g.bezierCurveTo(14, 18 + o, -10, 6 - o, -30, 22 + o + lado * 6);
-    g.stroke();
+  if (lista(arte.escamas)) {
+    const tw = arte.escamas.naturalWidth;
+    const th = arte.escamas.naturalHeight;
+    let sy = 0;
+    for (let k = m - 2; k >= 0; k--) {
+      const p = pts[k];
+      const q = pts[k + 1];
+      const largo = Math.hypot(p.x - q.x, p.y - q.y);
+      const r = Math.max(1.5 * E, (p.r + q.r) / 2);
+      const sh = Math.min(th * 0.5, (largo * tw) / (2 * r));
+      if (sy + sh > th) sy = 0;
+      g.save();
+      g.translate((p.x + q.x) / 2, (p.y + q.y) / 2);
+      g.rotate(p.ang + Math.PI / 2);
+      g.scale(mira, 1);
+      g.drawImage(arte.escamas, 0, th - sy - sh, tw, sh, -r, -largo / 2 - 0.8, r * 2, largo + 1.6);
+      g.restore();
+      sy += sh;
+    }
+  } else {
+    g.fillStyle = "#e9b23c";
+    for (let k = m - 1; k >= 0; k--) {
+      const p = pts[k];
+      g.beginPath();
+      g.arc(p.x, p.y, Math.max(1.5 * E, p.r), 0, Math.PI * 2);
+      g.fill();
+    }
   }
-  g.restore();
+
+  // Cabeza pintada (se voltea para no quedar boca abajo)
+  const c = pts[0];
+  if (lista(arte.cabeza)) {
+    const k = 0.6 * E;
+    g.save();
+    g.translate(c.x, c.y);
+    g.rotate(ond[0].ang - 0.28 * mira + (reducido ? 0 : Math.sin(t * 3) * 0.04));
+    g.scale(k, k * mira);
+    g.drawImage(arte.cabeza, -178, -152);
+    // brillo del ojo
+    g.globalCompositeOperation = "lighter";
+    g.drawImage(brillo("rgba(255,170,60,0.85)"), 268 - 178 - 16, 158 - 152 - 16, 32, 32);
+    g.globalCompositeOperation = "source-over";
+    g.restore();
+  }
   g.globalAlpha = 1;
   return ond;
 }
