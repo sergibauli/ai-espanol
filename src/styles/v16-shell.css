@@ -50,18 +50,45 @@
 .ruta-fondo-cine { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 /* Pegado a la ventana mientras se baja por la ruta (position: fixed no sirve: .fx-page lleva transform) */
 .ruta-fondo-pegado { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.ruta-fondo-cine .pc-video-poster, .ruta-fondo-cine .pc-video-cine { object-position: 50% 0%; }
+.ruta-fondo-pegado { background: radial-gradient(70% 60% at 40% 30%, #b3262a, #7a0f16 60%, #4a070c); }
+/* La escena entera a lo alto (se ven las cabezas de los dragones), centrada en la columna de la ruta y fundida por los lados */
+.ruta-fondo-cine .pc-video {
+  inset: 0 auto 0 auto; left: calc((100% - var(--v16-lado, 0px)) / 2); width: calc(100vh * 770 / 720); width: calc(100svh * 770 / 720);
+  translate: -50% 0; background: transparent;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+@media (min-width: 1100px) { .rt16 { --v16-lado: 370px; } }
+@media (max-width: 760px) { .ruta-fondo-cine .pc-video { -webkit-mask-image: none; mask-image: none; } }
 .ruta-fondo-pegado::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 60% at 50% 45%, transparent 55%, rgba(60, 10, 10, .35)); }
 .rt16 { position: relative; }
 .rt16 > :not(.ruta-fondo-cine) { position: relative; z-index: 1; }
-/* El centro deja ver la escena: sin pergamino ni rieles, solo la ruta */
-.rt16 .ruta-main { background: transparent !important; border: 0 !important; box-shadow: none !important; }
-.rt16 .ruta-main::before, .rt16 .ruta-main::after { display: none !important; }
-.rt16 .ruta-main .mr-mundo, .rt16 .ruta-dragon { display: none !important; }
-.rt16 .ruta-region-title { background: transparent !important; }
-.rt16 .ruta-region-title b { color: #ffe9a6 !important; text-shadow: 0 2px 0 #5e0614, 0 0 18px rgba(0, 0, 0, .6) !important; }
-.rt16 .ruta-region-title i, .rt16 .ruta-region-title em { color: #fff3cf !important; text-shadow: 0 1px 6px rgba(0, 0, 0, .8); }
-.rt16 .ruta-region-title small { color: #fff3cf !important; text-shadow: 0 1px 6px rgba(0, 0, 0, .9); }
+/* La ruta: ventana flotante con marco dorado sobre la escena (dentro, el mundo propio de cada nivel) */
+.rt16 .ruta-main {
+  width: min(600px, 100%) !important; max-width: 600px; margin: 64px auto 40px !important; justify-self: center;
+  border-radius: 30px !important; overflow: clip;
+  border: 2px solid #f6d77e !important;
+  box-shadow: 0 0 0 2px #8a5a1e, 0 0 0 7px rgba(255, 226, 150, .55), 0 0 0 8.5px #8a5a1e, 0 0 50px rgba(255, 205, 100, .55), 0 30px 70px rgba(40, 5, 0, .6) !important;
+  animation: v16Ventana .9s cubic-bezier(.2, .9, .25, 1.05) both;
+}
+@keyframes v16Ventana { from { opacity: 0; transform: translateY(40px) scale(.96); } }
+.rt16 .ruta-dragon { display: none !important; }
+/* Título en placa de laca roja con filete dorado (como «Pekín y el norte» de la maqueta), montada sobre el borde de la ventana */
+.rt16 .ruta-region-title { position: relative; z-index: 3; margin-top: 18px !important; display: flex; justify-content: center; background: transparent !important; }
+.rt16 .ruta-region-title > span {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px;
+  padding: 14px 40px 12px; border-radius: 26px;
+  background: radial-gradient(120% 120% at 50% 0%, #c8102e, #8f0c21 60%, #5e0614) !important;
+  border: 2px solid #f6d77e; box-shadow: 0 0 0 2px #8a5a1e, 0 0 0 5px rgba(255, 226, 150, .35), 0 0 30px rgba(255, 200, 90, .55), 0 12px 26px rgba(40, 5, 0, .5);
+}
+.rt16 .ruta-region-title b { color: transparent !important; background: linear-gradient(180deg, #fffbea, #ffe08a 50%, #e8ae3c); -webkit-background-clip: text; background-clip: text; text-shadow: none !important; filter: drop-shadow(0 2px 0 rgba(60, 0, 10, .8)); }
+.rt16 .ruta-region-title i { color: #fff3cf !important; }
+.rt16 .ruta-region-title em { color: #ffe6a8 !important; }
+.rt16 .ruta-region-title small { color: #ffe6a8 !important; opacity: .9; }
+@media (max-width: 760px) {
+  .rt16 .ruta-main { margin: 70px 10px 24px !important; width: auto !important; border-radius: 22px !important; }
+  .rt16 .ruta-region-title > span { padding: 10px 22px 9px; }
+}
 /* Paneles de la derecha: cristal cálido con filete dorado */
 .rt16 .ruta-side > * {
   background: linear-gradient(170deg, rgba(255, 236, 200, .28), rgba(150, 50, 30, .22)) !important;
@@ -74,6 +101,3 @@
 .rt16 .ruta-side > *::before, .rt16 .ruta-side > *::after { display: none !important; }
 .rt16 .ruta-side h2, .rt16 .ruta-side h3, .rt16 .ruta-side b, .rt16 .ruta-side strong { color: #fff3cf !important; text-shadow: 0 1px 4px rgba(60, 20, 0, .7); }
 
-/* Barra de niveles y viñetas de papel: fuera el pergamino para que se vea la escena */
-.rt16 .rn-niveles, .rt16 .ruta-region-title + * { background: transparent !important; box-shadow: none !important; }
-.rt16 .mr-vineta { display: none !important; }

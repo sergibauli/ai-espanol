@@ -265,17 +265,16 @@ export default function RutaPage() {
 
   return (
     <LightShell>
-      <div className={`ruta-layout rt14 ${lv.key === "A1" ? "rt16" : ""}`}>
-        {/* v16 · A1 como la maqueta: la escena de los dos dragones y el Templo del Cielo de fondo en toda la pantalla */}
-        {lv.key === "A1" && (
-          <div className="ruta-fondo-cine" aria-hidden="true">
-            <div className="ruta-fondo-pegado">
-              <VideoEscena variantes={FONDO_A1} conVelo={false} prioridad />
-            </div>
+      <div className="ruta-layout rt14 rt16">
+        {/* v16 · Como la maqueta: la escena de los dos dragones y el Templo del Cielo de fondo en toda la pantalla;
+            la ruta de cada nivel (con su propio mundo) flota encima en una ventana con marco dorado */}
+        <div className="ruta-fondo-cine" aria-hidden="true">
+          <div className="ruta-fondo-pegado">
+            <VideoEscena variantes={FONDO_A1} conVelo={false} prioridad />
           </div>
-        )}
+        </div>
         <main className={`ruta-main map-${lv.key} mr-on`}>
-          {lv.key !== "A1" && <MundoRuta key={lv.key} nivel={lv.key} fiesta={Boolean(fiesta) && !fiesta.saltada} />}
+          <MundoRuta key={lv.key} nivel={lv.key} fiesta={Boolean(fiesta) && !fiesta.saltada} />
           <TransicionNivel destino={transicion?.destino} clave={transicion?.clave} onCubre={irANivel} onFin={() => setTransicion(null)} />
           <span className="ruta-dragon d1" aria-hidden="true" />
           <span className="ruta-dragon d2" aria-hidden="true" />

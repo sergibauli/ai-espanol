@@ -20,9 +20,8 @@ import { VideoEscena } from "../portada/VideoEscena.jsx";
 const MUNDOS = { A1, A2, B1, B2 };
 // v16 · Mundo A1 «Pekín y el norte» como en la maqueta animada del usuario: dos dragones dorados, el Templo del Cielo
 // y la perla de jade (recorte central del vídeo, sin la marca de agua de los laterales). Encima siguen el ambiente y la ruta.
-const VIDEO_MUNDO = {
-  A1: [{ consulta: "", src: "./video/ruta-pekin.mp4", poster: "./video/ruta-pekin.jpg" }],
-};
+// Desde v16 la escena va de fondo de toda la pantalla (RutaPage) y cada mundo vuelve a su panorama propio dentro de la ventana.
+const VIDEO_MUNDO = {};
 
 // Momento del día según la hora de China (UTC+8)
 export function momentoChina(fecha = new Date()) {
