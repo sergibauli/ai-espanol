@@ -28,24 +28,7 @@ body:has(.pc) { padding-bottom: 0 !important; }
 .pc *::after { box-sizing: border-box; }
 .pc [lang="zh-Hans"] { font-family: var(--im-font-zh, "Songti SC", "STSong", "Noto Serif SC", serif); }
 
-/* ---------- Vídeo de fondo (componente VideoEscena) ---------- */
-.pc-video { position: absolute; inset: 0; overflow: hidden; background: #1a1220; }
-.pc-video-poster,
-.pc-video-cine {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: var(--pc-encuadre, 50% 50%);
-  display: block;
-}
-.pc-video-cine { opacity: 0; transition: opacity .9s ease; }
-.pc-video.listo .pc-video-cine { opacity: 1; }
-/* Velo de luz celestial que tapa el salto de cada vuelta */
-.pc-video-velo {
-  position: absolute; inset: 0; pointer-events: none; opacity: 0;
-  background:
-    radial-gradient(60% 45% at 50% 48%, rgba(255, 252, 235, .98), rgba(255, 233, 170, .9) 45%, rgba(242, 193, 78, .78) 75%, rgba(200, 150, 30, .7));
-  transition: opacity .95s cubic-bezier(.3, 0, .2, 1);
-}
-.pc-video-velo.activo { opacity: 1; transition: opacity .5s cubic-bezier(.6, 0, .9, .4); }
+/* El vídeo de fondo (VideoEscena) tiene sus estilos en video-escena.css */
 
 /* ---------- Apertura ---------- */
 .pc-apertura { position: relative; isolation: isolate; z-index: 3; padding-bottom: 64px; }

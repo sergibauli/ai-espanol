@@ -7,6 +7,7 @@ import { CuotaIA, useCuotaIA, diasParaRenovar } from "../components/ui/CuotaIA.j
 import { historyWindow } from "../lib/historial.js";
 import { addXp } from "../lib/gamification.js";
 import { CintaTitulo, InsigniaNivel } from "../../packages/imperial/src/index.js";
+import "../styles/v16-maquetas.css";
 
 const LEVELS = ["A1", "A2", "B1", "B2"];
 const TOPICS = [
@@ -69,7 +70,9 @@ export default function TutorIAPage() {
   React.useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (talking || busy) video.play().catch(() => {});
+    // v16: el Rey Mono se mueve siempre (maqueta animada); con reduced-motion solo cuando habla o piensa
+    const quieto = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (!quieto || talking || busy) video.play().catch(() => {});
     else video.pause();
   }, [talking, busy]);
   // Baja al último mensaje desplazando solo la lista (scrollIntoView movía toda la página en el móvil)
@@ -131,11 +134,11 @@ export default function TutorIAPage() {
   const estado = listening ? ["escucha", "Te escucho… · 我在听"] : busy ? ["piensa", "Pensando… · 思考中"] : talking ? ["habla", "Hablando… · 说话中"] : ["turno", "Tu turno · 轮到你了"];
   return (
     <LightShell>
-      <div className="tutor tutor-imp tp-tutor">
+      <div className="tutor tutor-imp tp-tutor v16-tutor">
         <aside className="tutor-stage">
           <div className={`tutor-avatar ${talking ? "talking" : ""} ${busy ? "thinking" : ""} ${listening ? "listening" : ""}`}>
             <span className="tutor-halo" aria-hidden="true" />
-            <video ref={videoRef} src="./mascota-reymono.mp4" poster="./mono-full.jpg" muted loop playsInline aria-hidden="true" />
+            <video ref={videoRef} src="./video/tutor-mono.mp4" poster="./video/tutor-mono.jpg" muted loop playsInline autoPlay aria-hidden="true" />
             <span className="tutor-ring" />
           </div>
           <div className="tp-tutor-id">

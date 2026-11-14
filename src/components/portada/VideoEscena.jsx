@@ -1,5 +1,6 @@
 import * as React from "react";
 import { prefiereQuietud } from "./vida.js";
+import "../../styles/video-escena.css";
 
 // Vídeo de fondo de la portada: siempre pinta primero la imagen (póster) y solo después carga el vídeo,
 // en bucle silencioso. Al cerrar cada vuelta un velo de luz dorada tapa el salto al principio.
@@ -26,7 +27,8 @@ function ahorroDatos() {
   }
 }
 
-export function VideoEscena({ variantes, className = "", retraso = 0, alVer = false, prioridad = false, encuadre }) {
+// conVelo = false: bucle normal sin el destello dorado (fondos que ya enlazan bien el final con el principio)
+export function VideoEscena({ variantes, className = "", retraso = 0, alVer = false, prioridad = false, encuadre, conVelo = true }) {
   const refCaja = React.useRef(null);
   const refVideo = React.useRef(null);
   const [variante, setVariante] = React.useState(() => elegir(variantes));
@@ -87,7 +89,7 @@ export function VideoEscena({ variantes, className = "", retraso = 0, alVer = fa
     const vigilar = () => {
       cuadro = 0;
       const limite = fin();
-      if (Number.isFinite(limite)) {
+      if (conVelo && Number.isFinite(limite)) {
         if (!saltando && video.currentTime >= limite - 0.55) setVelo(true);
         if (!saltando && video.currentTime >= limite) {
           saltando = true;
@@ -135,7 +137,7 @@ export function VideoEscena({ variantes, className = "", retraso = 0, alVer = fa
       video.removeEventListener("seeked", alSaltar);
       document.removeEventListener("visibilitychange", reproducir);
     };
-  }, [cargar, variante]);
+  }, [cargar, variante, conVelo]);
 
   const imagen = quieto ? variante.quieta || variante.poster : variante.poster;
   return (

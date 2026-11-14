@@ -1,0 +1,37 @@
+/* ===== v16 · Pantallas como las maquetas animadas del usuario (Doubao) =====
+   Tutor IA: el Rey Mono en armadura, en vídeo (recorte sin marca de agua), dentro de un retrato con arco dorado.
+   Ruta A1: escena animada con dos dragones y el Templo del Cielo (MundoRuta + VideoEscena). */
+
+/* ---------- Tutor IA ---------- */
+.v16-tutor .tutor-stage {
+  background:
+    radial-gradient(120% 70% at 30% 20%, rgba(29, 55, 104, .9), rgba(8, 17, 31, .98) 70%),
+    #08111f !important;
+}
+.v16-tutor .tutor-avatar {
+  width: 100%; max-width: 250px; height: auto; aspect-ratio: 330 / 600;
+  animation: none;
+}
+.v16-tutor .tutor-avatar video {
+  border-radius: 125px 125px 18px 18px; border: 0;
+  object-fit: cover; object-position: 30% 30%;
+  -webkit-mask-image: linear-gradient(90deg, #000 80%, rgba(0, 0, 0, .25));
+  mask-image: linear-gradient(90deg, #000 80%, rgba(0, 0, 0, .25));
+}
+.v16-tutor .tutor-avatar .tutor-ring { position: absolute; inset: -4px; border-radius: 129px 129px 22px 22px; border: 3px solid #f2c14e; pointer-events: none;
+  box-shadow: 0 0 0 1.5px #8a5a1e, inset 0 0 0 1.5px #8a5a1e, 0 18px 40px rgba(0, 0, 0, .5), 0 0 34px rgba(242, 193, 78, .35); }
+.v16-tutor .tutor-avatar .tutor-halo { border-radius: 50%; }
+.v16-tutor .tutor-avatar.talking { animation: v16Habla .5s ease-in-out infinite alternate; }
+@keyframes v16Habla { to { transform: translateY(-3px) scale(1.012); } }
+@media (max-width: 760px) {
+  .v16-tutor .tutor-avatar { width: 92px; max-width: none; height: 92px; aspect-ratio: auto; }
+  .v16-tutor .tutor-avatar video { border-radius: 50%; object-position: 42% 14%; -webkit-mask-image: none; mask-image: none; box-shadow: 0 0 0 2px #8a5a1e, 0 0 0 4px #f2c14e, 0 6px 14px rgba(0, 0, 0, .5); }
+  .v16-tutor .tutor-avatar .tutor-ring { border-radius: 50%; }
+}
+
+/* ---------- Ruta A1 con vídeo ---------- */
+.mr-con-video .mr-video { position: absolute; inset: 0; }
+.mr-con-video .mr-video .pc-video-poster,
+.mr-con-video .mr-video .pc-video-cine { object-position: 50% 0%; }
+/* Las viñetas de papel del camino no pegan con la escena pintada: fuera en el mundo con vídeo */
+.ruta-main:has(.mr-con-video) .mr-vineta { display: none; }
