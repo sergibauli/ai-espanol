@@ -2025,7 +2025,7 @@ function WaComponent() {
                     {n.level}-{n.id}
                   </span>
                   <h1
-                    className="text-3xl md:text-4xl font-black"
+                    className="xd-titulo text-3xl md:text-4xl font-black"
                     style={{
                       textShadow: `0 0 30px ${activeCfg.glow}40`,
                     }}

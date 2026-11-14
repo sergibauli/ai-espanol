@@ -20,6 +20,8 @@ import { useSound } from "../../lib/sound.jsx";
 import { speak } from "../../components/lesson/fx.js";
 import { addXp } from "../../lib/gamification.js";
 import { useContenidoJA, CabeceraJA, SelectorUnidadJA, chispasOro, barajar, reducido } from "./ja-comun.jsx";
+import { categoriaPorReglas, claveCategoria } from "../../lib/categoriaReglas.js";
+import CATEGORIAS_REVISADAS from "../../data/categorias-palabras.json";
 import "../../styles/v13-juegos-a.css";
 
 // ---------- Colores imperiales de los nodos ----------
@@ -89,23 +91,12 @@ const CATEGORIAS = {
   verbo: { es: "Verbos", zh: "动词", pista: "-ar · -er · -ir" },
   sust: { es: "Sustantivos", zh: "名词", pista: "el · la · un · una" },
   adj: { es: "Adjetivos", zh: "形容词", pista: "¿cómo es?" },
-  expr: { es: "Expresiones", zh: "表达 · 短语", pista: "frases hechas" },
+  expr: { es: "Expresiones", zh: "表达 · 短语", pista: "frases hechas · adverbios" },
 };
-const NO_VERBOS = /^(mujer|lugar|mar|bar|hogar|collar|azúcar|cáncer|carácter|placer|taller|alquiler|ayer|anteayer|suéter|chófer|máster|póster|líder|cráter|militar|familiar|altar|pilar|dólar|néctar|ámbar|alfiler|deber|poder|amanecer|atardecer|anochecer|par|nivel)$/;
-function categoria(v) {
-  const es = String(v.espanol || "").toLowerCase().replace(/\(.*?\)/g, "").trim();
-  const zh = String(v.chino || "").replace(/[（(].*?[)）]/g, "").trim();
-  const primero = es.split(/\s*[/,;]\s*/)[0].trim();
-  const palabras = primero.split(/\s+/);
-  if (/[¿?¡!.]/.test(es)) return "expr";
-  if (/^(soy|eres|es|somos|sois|son|estoy|estás|está|estamos|están|tengo|tienes|tiene|tenemos|tienen|voy|vas|va|vamos|van|hay|quiero|quieres|puedo|puedes|vivo|vives|vive)$/.test(primero)) return "verbo";
-  // Una sola palabra con mayúscula inicial en el vocabulario suele ser una fórmula: «Encantado», «Hola», «Gracias»
-  if (palabras.length === 1 && /^[A-ZÁÉÍÓÚÑ]/.test(String(v.espanol).trim()) && !/的$/.test(zh)) return "expr";
-  if (/^(el|la|los|las|un|una|unos|unas)$/.test(palabras[0]) && palabras.length <= 3) return "sust";
-  if (palabras.length >= 2 && !/^[a-záéíóúñü]+(ar|er|ir|ír)(se)?$/.test(palabras[0])) return "expr";
-  if (/的$/.test(zh) && palabras.length === 1) return "adj";
-  if (/^[a-záéíóúñü]+(ar|er|ir|ír)(se|le|la|lo)?$/.test(palabras[0]) && !NO_VERBOS.test(palabras[0])) return palabras.length === 1 ? "verbo" : "expr";
-  return "sust";
+// Clasificación fiable: tabla revisada a mano (scripts/build-categorias.mjs) y, si no está, reglas
+// de src/lib/categoriaReglas.js (precisión medida con 657 palabras revisadas: ver el script).
+function categoria(palabra) {
+  return CATEGORIAS_REVISADAS[claveCategoria(palabra)] || categoriaPorReglas(palabra);
 }
 
 // ---------- Construcción de los mapas ----------
@@ -120,7 +111,7 @@ const radial = (n, radio, inicio = -Math.PI / 2, fx = null) =>
 function mapaRamas(contenido, estrecho) {
   const total = estrecho ? 6 : 8;
   const porCategoria = {};
-  for (const v of contenido.vocabulario) (porCategoria[categoria(v)] ||= []).push(v);
+  for (const palabra of contenido.vocabulario) (porCategoria[categoria(palabra)] ||= []).push(palabra);
   const cats = Object.keys(CATEGORIAS).filter((c) => porCategoria[c]?.length);
   // Ronda equilibrada: se reparte entre las categorías presentes
   const elegidas = [];
@@ -138,7 +129,7 @@ function mapaRamas(contenido, estrecho) {
     ...cats.map((c, i) => ({ id: `rama-${c}`, tipo: "rama", texto: CATEGORIAS[c].es, sub: CATEGORIAS[c].zh, cat: c, x: posiciones[i].x, y: posiciones[i].y, color: COLORES_RAMA[i % 4] })),
   ];
   const aristas = cats.map((c) => ({ id: `fija-${c}`, de: "centro", a: `rama-${c}`, fija: true }));
-  const fichas = barajar(elegidas).map((v, i) => ({ id: `f${i}`, texto: v.espanol, sub: v.chino, cat: categoria(v), tipo: "palabra", habla: v.espanol }));
+  const fichas = barajar(elegidas).map((palabra, i) => ({ id: `f${i}`, texto: palabra.espanol, sub: palabra.chino, cat: categoria(palabra), tipo: "palabra", habla: palabra.espanol }));
   return { nodos, aristas, fichas, cats };
 }
 

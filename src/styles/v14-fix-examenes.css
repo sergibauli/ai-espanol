@@ -289,3 +289,6 @@ html body .light-page .ofe .ofe-phead .ofx-reloj-fin button { color: #fff6e0 !im
   .exam-experience .p-8 > .flex { gap: 12px !important; }
   .exam-experience .p-8 > .flex > div:last-child { min-width: 0; }
 }
+/* título del examen de práctica: que no se corte en móvil */
+.xd-titulo { min-width: 0; overflow-wrap: anywhere; hyphens: none; }
+@media (max-width: 640px) { .xd-titulo { font-size: 1.6rem !important; line-height: 1.15; } }
