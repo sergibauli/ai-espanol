@@ -1,0 +1,72 @@
+/* ===== v17 · Dragón de jade y Escape del palacio: profundidad 3D sobre el diseño v13 (solo estilos) ===== */
+
+/* --- comunes: tarjetas y botones con volumen --- */
+.jb-dragon .jb-tarjeta, .jb-escape .jb-tarjeta:not(.jb-mapa__plano) { animation: v17-tarjeta 0.8s cubic-bezier(0.2, 1.2, 0.35, 1) backwards; }
+.jb-tarjeta__dragon { animation: v17-flota 4s ease-in-out infinite; filter: drop-shadow(0 18px 14px rgba(0, 0, 0, 0.45)); }
+.jb-dragon .jb-boton, .jb-escape .jb-boton, .jb-modal .jb-boton { transition: transform 0.12s cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow 0.12s, filter 0.12s; }
+.jb-dragon .jb-boton:hover:not(:disabled), .jb-escape .jb-boton:hover:not(:disabled), .jb-modal .jb-boton:hover:not(:disabled) { transform: translateY(-3px) scale(1.03); filter: brightness(1.08); }
+.jb-dragon .jb-boton:active:not(:disabled), .jb-escape .jb-boton:active:not(:disabled), .jb-modal .jb-boton:active:not(:disabled) { transform: translateY(4px) scale(0.98); }
+.jb-instrucciones > * { animation: v17-izq 0.6s cubic-bezier(0.2, 1.1, 0.35, 1) backwards; }
+.jb-instrucciones > :nth-child(1) { animation-delay: 0.35s; } .jb-instrucciones > :nth-child(2) { animation-delay: 0.5s; } .jb-instrucciones > :nth-child(3) { animation-delay: 0.65s; }
+
+/* --- Dragón de jade: ventana con marco grueso, cartel colgante y marcador con relieve --- */
+.jb-dragon:not(.is-completa) .jb-dragon__zona { border-radius: 22px;
+  box-shadow: 0 0 0 3px #fff0b8, 0 0 0 7px #b9811a, 0 0 0 12px #3a1c08, 0 0 0 15px #f2c14e, 0 0 0 17px #7a4a12, 0 16px 0 14px #2a1604, 0 50px 60px rgba(0, 0, 0, 0.7), 0 0 80px rgba(242, 193, 78, 0.25); margin: 14px 14px 30px; }
+.jb-dragon__zona::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; box-shadow: inset 0 0 90px 20px rgba(0, 0, 0, 0.6), inset 0 6px 0 rgba(255, 255, 255, 0.08); }
+.jb-dragon .jb-objetivo { position: relative; transform-origin: 50% -30px; animation: v17-cartel 5s ease-in-out infinite; box-shadow: 0 0 0 2px #c8961e, 0 0 0 5px #fff3d0, 0 0 0 7px #8a5a0a, 0 8px 0 5px #5a3a0a, 0 26px 30px rgba(0, 0, 0, 0.55); }
+.jb-dragon .jb-objetivo::before, .jb-dragon .jb-objetivo::after { content: ""; position: absolute; top: -34px; width: 3px; height: 30px; border-radius: 2px; background: linear-gradient(180deg, #8a5a0a, #f2c14e); }
+.jb-dragon .jb-objetivo::before { left: 16%; } .jb-dragon .jb-objetivo::after { right: 16%; }
+.jb-hud__vidas .is-llena { animation: v17-latido 1.4s ease-in-out infinite; filter: drop-shadow(0 0 8px rgba(255, 90, 120, 0.9)); }
+.jb-hud__dato { padding: 4px 12px; border-radius: 12px; background: linear-gradient(180deg, rgba(87, 22, 15, 0.9), rgba(44, 10, 8, 0.9)); box-shadow: inset 0 0 0 1.5px #c8961e, 0 4px 0 #160503, 0 10px 16px rgba(0, 0, 0, 0.4); }
+.jb-hud__combo { animation: v17-salta 0.4s cubic-bezier(0.3, 1.6, 0.5, 1); }
+
+/* --- Escape del palacio: noche en el palacio, mapa-maqueta inclinado y puertas con relieve --- */
+.jb-escape { position: relative; isolation: isolate; perspective: 1500px; perspective-origin: 50% 20%; }
+.jb-escape::before { content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background: radial-gradient(90% 60% at 50% 100%, rgba(200, 16, 46, 0.5), transparent 70%), radial-gradient(50% 40% at 80% 10%, rgba(247, 215, 122, 0.22), transparent 70%), linear-gradient(180deg, #0a0920, #1f1038 55%, #3a0c18); }
+.jb-escape::after { content: ""; position: fixed; left: -50%; right: -50%; bottom: -8%; height: 46%; z-index: -1; pointer-events: none; transform-origin: 50% 0; transform: perspective(520px) rotateX(64deg);
+  background: linear-gradient(180deg, #120a24 0%, transparent 40%), repeating-linear-gradient(90deg, rgba(242, 193, 78, 0.38) 0 2px, transparent 2px 84px), repeating-linear-gradient(0deg, rgba(242, 193, 78, 0.38) 0 2px, transparent 2px 84px); }
+.jb-mapa { perspective: 1300px; perspective-origin: 30% 10%; }
+.jb-mapa__plano { transform: rotateX(24deg) rotateZ(-3deg); transform-origin: 50% 100%; transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1); animation: v17-maqueta 1s cubic-bezier(0.2, 1.1, 0.35, 1) backwards;
+  box-shadow: 0 0 0 2px #c8961e, 0 0 0 6px #fff3d0, 0 0 0 9px #8a5a0a, 0 14px 0 8px #5a3a0a, 0 22px 0 8px #2a1604, 0 60px 60px rgba(0, 0, 0, 0.65) !important; }
+.jb-mapa__plano:hover { transform: rotateX(8deg) rotateZ(0deg) scale(1.02); }
+.jb-nodo.is-actual { animation: v17-nodo 1.6s ease-in-out infinite; transform-box: fill-box; }
+.jb-mapa__lado > * { animation: v17-izq 0.6s cubic-bezier(0.2, 1.1, 0.35, 1) backwards; }
+.jb-mapa__lista li { animation: v17-puerta 0.7s cubic-bezier(0.2, 1.2, 0.35, 1) backwards; transform-origin: 0 50%; box-shadow: inset 0 0 0 1.5px rgba(200, 150, 30, 0.6), 0 5px 0 #0c0818, 0 12px 16px rgba(0, 0, 0, 0.4); transition: transform 0.2s; }
+.jb-mapa__lista li:nth-child(1) { animation-delay: 0.15s; } .jb-mapa__lista li:nth-child(2) { animation-delay: 0.25s; } .jb-mapa__lista li:nth-child(3) { animation-delay: 0.35s; }
+.jb-mapa__lista li:nth-child(4) { animation-delay: 0.45s; } .jb-mapa__lista li:nth-child(5) { animation-delay: 0.55s; }
+.jb-mapa__lista li.is-actual { transform: translateX(10px) scale(1.03); box-shadow: inset 0 0 0 2px #f2c14e, 0 6px 0 #5e0614, 0 0 30px rgba(242, 193, 78, 0.55), 0 16px 22px rgba(0, 0, 0, 0.5); }
+.jb-mapa__lista li.is-abierta { background: linear-gradient(90deg, rgba(31, 138, 85, 0.85), rgba(13, 74, 44, 0.85)); }
+.jb-sala { perspective: 1400px; }
+.jb-sala > .jb-tarjeta, .jb-sala > .jb-pergamino, .jb-sala__cuerpo { animation: v17-sala 0.8s cubic-bezier(0.2, 1.15, 0.35, 1) backwards; transform-origin: 50% 0; box-shadow: 0 0 0 2px #c8961e, 0 0 0 6px #fff3d0, 0 0 0 9px #8a5a0a, 0 12px 0 8px #5a3a0a, 0 50px 50px rgba(0, 0, 0, 0.6); }
+.jb-candado__cuerpo:not(.is-abierto) { animation: v17-candado 4s ease-in-out infinite; transform-origin: 50% 0; }
+.jb-candado__caja { box-shadow: 0 8px 0 #5e0614, 0 22px 26px rgba(0, 0, 0, 0.45), inset 0 3px 0 rgba(255, 255, 255, 0.25); }
+.jb-letra { transition: transform 0.12s cubic-bezier(0.3, 1.5, 0.5, 1), box-shadow 0.12s; animation: v17-salta 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) backwards; }
+.jb-letras .jb-letra:nth-child(2n) { animation-delay: 0.08s; } .jb-letras .jb-letra:nth-child(3n) { animation-delay: 0.16s; }
+.jb-letra:hover:not(:disabled) { transform: translateY(-6px) rotate(-4deg) scale(1.08); }
+.jb-letra:active:not(:disabled) { transform: translateY(4px); }
+.jb-opcion { transition: transform 0.14s cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow 0.14s; }
+.jb-opcion:hover:not([disabled]) { transform: translateY(-4px) scale(1.02); }
+.jb-escape__hud > * { box-shadow: inset 0 0 0 1.5px #c8961e, 0 4px 0 #0c0818, 0 10px 16px rgba(0, 0, 0, 0.4); }
+
+@keyframes v17-tarjeta { from { opacity: 0; transform: perspective(1200px) rotateX(-50deg) translateY(-60px) scale(0.9); } }
+@keyframes v17-flota { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -12px; rotate: 3deg; } }
+@keyframes v17-izq { from { opacity: 0; transform: translateX(-40px); } }
+@keyframes v17-cartel { 0%, 100% { transform: perspective(700px) rotateX(5deg) rotateZ(-0.8deg); } 50% { transform: perspective(700px) rotateX(-4deg) rotateZ(0.8deg); } }
+@keyframes v17-latido { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.22); } 30% { transform: scale(1); } }
+@keyframes v17-salta { from { opacity: 0; transform: scale(0.3); } }
+@keyframes v17-maqueta { from { opacity: 0; transform: rotateX(80deg) rotateZ(-14deg) translateY(80px) scale(0.8); } }
+@keyframes v17-nodo { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+@keyframes v17-puerta { from { opacity: 0; transform: perspective(800px) rotateY(-80deg); } }
+@keyframes v17-sala { from { opacity: 0; transform: rotateX(-70deg) scale(0.92); } }
+@keyframes v17-candado { 0%, 100% { transform: perspective(700px) rotateY(-9deg); } 50% { transform: perspective(700px) rotateY(9deg); } }
+
+@media (max-width: 820px) {
+  .jb-mapa__plano { transform: rotateX(14deg); } .jb-mapa__plano:hover { transform: rotateX(14deg); }
+  .jb-dragon:not(.is-completa) .jb-dragon__zona { margin: 8px 6px 18px; box-shadow: 0 0 0 2px #fff0b8, 0 0 0 5px #b9811a, 0 0 0 8px #3a1c08, 0 0 0 10px #f2c14e, 0 8px 0 9px #2a1604, 0 30px 40px rgba(0, 0, 0, 0.7); }
+  .jb-mapa__lista li.is-actual { transform: scale(1.02); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jb-dragon *, .jb-escape *, .jb-modal * { animation: none !important; }
+  .jb-mapa__plano { transform: none; }
+}
