@@ -19,6 +19,8 @@ import { P as P_1 } from "../../components/PostGameNav.jsx";
 import { SoundToggles } from "../../components/SoundToggles.jsx";
 import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
+import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
+import "../../styles/v17-kahoot.css";
 import { contenidoJuego, parametrosJuego } from "../../lib/contenidoJuego.js";
 const Ha = {
   modulos: [
@@ -9955,679 +9957,133 @@ function AComponent() {
   }
   if (l === "result") {
     const won = y > h.length / 2;
-    const s = h.length > 0 ? Math.round((y / h.length) * 100) : 0;
+    const precision = h.length > 0 ? Math.round((y / h.length) * 100) : 0;
     return (
-      <StarfieldBackground>
+      <Escena3D tema="kahoot">
         <CintaTemaJuego />
-        <Component />
-        <JComponent expression={expression} bounce={bounce} />
+        <SoundToggles />
         <Ya1Component active={active} />
-        <div
-          className="max-w-2xl mx-auto px-4 py-6 md:py-8 min-h-screen flex flex-col items-center justify-center text-center relative z-10"
-          style={{
-            perspective: "1200px",
-          }}
-        >
-          <SoundToggles />
-          <div
-            className="w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center mb-6 relative"
-            style={{
-              background: won
-                ? "linear-gradient(135deg,#f2c14e,#e0283f)"
-                : "linear-gradient(135deg,#f2c14e,#5fd08a)",
-              boxShadow: won
-                ? "0 0 60px rgba(242,193,78,0.4), 0 0 120px rgba(224,40,63,0.2)"
-                : "0 0 60px rgba(242,193,78,0.4), 0 0 120px rgba(95,208,138,0.2)",
-              animation: "trophySpin 3s ease-in-out infinite",
-            }}
-          >
-            <TrophyIcon
-              size={52}
-              className="text-white drop-shadow-lg"
-              style={{
-                animation: "trophyFloat 2s ease-in-out infinite",
-              }}
-            />
-          </div>
-          <h1
-            className="text-4xl md:text-7xl font-black mb-2 tracking-tight animate-bounce-in"
-            style={{
-              background: won
-                ? "linear-gradient(135deg,#f2c14e,#e0283f)"
-                : "linear-gradient(135deg,#f2c14e,#5fd08a)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              filter: won
-                ? "drop-shadow(0 0 40px rgba(242,193,78,.5))"
-                : "drop-shadow(0 0 40px rgba(95,208,138,.4))",
-            }}
-          >
-            ¡Resultados!
-          </h1>
-          <p className="text-white/50 mb-6 md:mb-8 font-medium">Resultados / 结果</p>
-          <BaComponent won={won} />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full mb-8 md:mb-10 max-w-2xl">
-            <div
-              className="rounded-2xl md:rounded-3xl p-4 md:p-6 relative overflow-hidden group"
-              style={{
-                background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
-                border: "1px solid rgba(255,255,255,.12)",
-                backdropFilter: "blur(14px)",
-                transformStyle: "preserve-3d",
-                animation: "cardEnter 0.5s 0.1s ease-out both, resultCardFloat 6s ease-in-out infinite",
-                transition: "transform 0.4s ease, box-shadow 0.4s ease",
-              }}
-              onMouseEnter={(o) => {
-                o.currentTarget.style.transform =
-                  "perspective(600px) rotateX(4deg) rotateY(-3deg) translateZ(20px) scale(1.03)";
-                o.currentTarget.style.boxShadow = "0 0 50px rgba(242,193,78,0.3),0 20px 60px rgba(0,0,0,0.5)";
-              }}
-              onMouseLeave={(o) => {
-                o.currentTarget.style.transform = "";
-                o.currentTarget.style.boxShadow = "";
-              }}
-            >
-              <div
-                className="absolute -inset-[1px] rounded-[18px] opacity-40 group-hover:opacity-60 transition-opacity"
-                style={{
-                  background: "linear-gradient(135deg,#f2c14e,#e0283f)",
-                  filter: "blur(15px)",
-                  zIndex: -1,
-                }}
-              />
-              <p className="text-xs text-white/40 mb-1 font-bold">Score</p>
-              <p
-                className="text-3xl md:text-4xl font-black"
-                style={{
-                  color: "#f2c14e",
-                  textShadow: "0 0 25px rgba(242,193,78,.6), 0 0 50px rgba(242,193,78,.3)",
-                }}
-              >
-                {ia}
-              </p>
-            </div>
-            <div
-              className="rounded-2xl md:rounded-3xl p-4 md:p-6 relative overflow-hidden group"
-              style={{
-                background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
-                border: "1px solid rgba(255,255,255,.12)",
-                backdropFilter: "blur(14px)",
-                transformStyle: "preserve-3d",
-                animation: "cardEnter 0.5s 0.2s ease-out both, resultCardFloat 6s ease-in-out infinite 1s",
-                transition: "transform 0.4s ease, box-shadow 0.4s ease",
-              }}
-              onMouseEnter={(o) => {
-                o.currentTarget.style.transform =
-                  "perspective(600px) rotateX(4deg) rotateY(3deg) translateZ(20px) scale(1.03)";
-                o.currentTarget.style.boxShadow = "0 0 50px rgba(95,208,138,0.3),0 20px 60px rgba(0,0,0,0.5)";
-              }}
-              onMouseLeave={(o) => {
-                o.currentTarget.style.transform = "";
-                o.currentTarget.style.boxShadow = "";
-              }}
-            >
-              <div
-                className="absolute -inset-[1px] rounded-[18px] opacity-40 group-hover:opacity-60 transition-opacity"
-                style={{
-                  background: "linear-gradient(135deg,#5fd08a,#f2c14e)",
-                  filter: "blur(15px)",
-                  zIndex: -1,
-                }}
-              />
-              <p className="text-xs text-white/40 mb-1 font-bold">Correctas</p>
-              <p
-                className="text-3xl md:text-4xl font-black"
-                style={{
-                  color: "#5fd08a",
-                  textShadow: "0 0 25px rgba(95,208,138,.6), 0 0 50px rgba(95,208,138,.3)",
-                }}
-              >
-                {y}/{h.length}
-              </p>
-            </div>
-            <div
-              className="rounded-2xl md:rounded-3xl p-4 md:p-6 relative overflow-hidden group"
-              style={{
-                background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
-                border: "1px solid rgba(255,255,255,.12)",
-                backdropFilter: "blur(14px)",
-                transformStyle: "preserve-3d",
-                animation: "cardEnter 0.5s 0.3s ease-out both, resultCardFloat 6s ease-in-out infinite 2s",
-                transition: "transform 0.4s ease, box-shadow 0.4s ease",
-              }}
-              onMouseEnter={(o) => {
-                o.currentTarget.style.transform =
-                  "perspective(600px) rotateX(4deg) rotateY(-3deg) translateZ(20px) scale(1.03)";
-                o.currentTarget.style.boxShadow = "0 0 50px rgba(224,40,63,0.3),0 20px 60px rgba(0,0,0,0.5)";
-              }}
-              onMouseLeave={(o) => {
-                o.currentTarget.style.transform = "";
-                o.currentTarget.style.boxShadow = "";
-              }}
-            >
-              <div
-                className="absolute -inset-[1px] rounded-[18px] opacity-40 group-hover:opacity-60 transition-opacity"
-                style={{
-                  background: "linear-gradient(135deg,#e0283f,#e0283f)",
-                  filter: "blur(15px)",
-                  zIndex: -1,
-                }}
-              />
-              <p className="text-xs text-white/40 mb-1 font-bold">Precisión</p>
-              <p
-                className="text-3xl md:text-4xl font-black"
-                style={{
-                  color: "#e0283f",
-                  textShadow: "0 0 25px rgba(224,40,63,.5), 0 0 50px rgba(224,40,63,.3)",
-                }}
-              >
-                {s}%
-              </p>
-            </div>
-            <div
-              className="rounded-2xl md:rounded-3xl p-4 md:p-6 relative overflow-hidden group"
-              style={{
-                background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
-                border: "1px solid rgba(255,255,255,.12)",
-                backdropFilter: "blur(14px)",
-                transformStyle: "preserve-3d",
-                animation: "cardEnter 0.5s 0.4s ease-out both, resultCardFloat 6s ease-in-out infinite 3s",
-                transition: "transform 0.4s ease, box-shadow 0.4s ease",
-              }}
-              onMouseEnter={(o) => {
-                o.currentTarget.style.transform =
-                  "perspective(600px) rotateX(4deg) rotateY(3deg) translateZ(20px) scale(1.03)";
-                o.currentTarget.style.boxShadow = "0 0 50px rgba(242,193,78,0.3),0 20px 60px rgba(0,0,0,0.5)";
-              }}
-              onMouseLeave={(o) => {
-                o.currentTarget.style.transform = "";
-                o.currentTarget.style.boxShadow = "";
-              }}
-            >
-              <div
-                className="absolute -inset-[1px] rounded-[18px] opacity-40 group-hover:opacity-60 transition-opacity"
-                style={{
-                  background: "linear-gradient(135deg,#f2c14e,#f2c14e)",
-                  filter: "blur(15px)",
-                  zIndex: -1,
-                }}
-              />
-              <p className="text-xs text-white/40 mb-1 font-bold">Mejor Racha</p>
-              <p
-                className="text-3xl md:text-4xl font-black"
-                style={{
-                  color: "#f2c14e",
-                  textShadow: "0 0 25px rgba(242,193,78,.5), 0 0 50px rgba(242,193,78,.3)",
-                }}
-              >
-                {ja}
-              </p>
-            </div>
-          </div>
-          <div
-            className="flex gap-4 flex-wrap justify-center"
-            style={{
-              perspective: "800px",
-            }}
-          >
-            <button
-              onClick={onClick}
-              className="px-8 py-3 md:px-10 md:py-4 rounded-full text-white font-black text-sm md:text-base transition-all hover:scale-110 active:scale-95 hover:shadow-2xl"
-              style={{
-                background: "linear-gradient(135deg,#e0283f,#e0283f)",
-                boxShadow: "0 0 40px rgba(224,40,63,0.5), 0 0 80px rgba(224,40,63,0.25)",
-                transformStyle: "preserve-3d",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-              }}
-              onMouseEnter={(o) => {
-                o.currentTarget.style.transform = "translateZ(30px) rotateX(5deg) scale(1.08)";
-                o.currentTarget.style.boxShadow =
-                  "0 0 60px rgba(224,40,63,0.7), 0 0 120px rgba(224,40,63,0.4)";
-              }}
-              onMouseLeave={(o) => {
-                o.currentTarget.style.transform = "";
-                o.currentTarget.style.boxShadow =
-                  "0 0 40px rgba(224,40,63,0.5), 0 0 80px rgba(224,40,63,0.25)";
-              }}
-            >
-              Otro módulo / 其他模块
-            </button>
-            <button
-              onClick={() => oa && pa(oa)}
-              className="px-8 py-3 md:px-10 md:py-4 rounded-full text-white font-black text-sm md:text-base transition-all hover:scale-110 active:scale-95 flex items-center gap-2 hover:shadow-2xl"
-              style={{
-                background: "linear-gradient(135deg,#f2c14e,#f2c14e)",
-                boxShadow: "0 0 40px rgba(242,193,78,0.5), 0 0 80px rgba(242,193,78,0.25)",
-                transformStyle: "preserve-3d",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-              }}
-              onMouseEnter={(o) => {
-                o.currentTarget.style.transform = "translateZ(30px) rotateX(5deg) scale(1.08)";
-                o.currentTarget.style.boxShadow =
-                  "0 0 60px rgba(242,193,78,0.7), 0 0 120px rgba(242,193,78,0.4)";
-              }}
-              onMouseLeave={(o) => {
-                o.currentTarget.style.transform = "";
-                o.currentTarget.style.boxShadow =
-                  "0 0 40px rgba(242,193,78,0.5), 0 0 80px rgba(242,193,78,0.25)";
-              }}
-            >
-              <RotateCcwIcon size={18} /> Reintentar / 重试
-            </button>
-          </div>
-          <P_1 currentGameId="kahoot" />
-          <style>{O}</style>
-        </div>
-      </StarfieldBackground>
+        <BarraJuego titulo="Kahoot Quiz" tituloZh="抢答竞赛" alVolver={() => playClick()} />
+        <Resultado3D
+          gano={won}
+          sello="答"
+          estrellas={precision >= 90 ? 3 : precision >= 60 ? 2 : precision >= 30 ? 1 : 0}
+          titulo={won ? "¡Victoria!" : "¡Buen intento!"}
+          tituloZh={won ? "胜利 · 太棒了" : "再试一次 · 加油"}
+          datos={[
+            { etiqueta: "Puntos · 得分", valor: ia, tono: "rojo" },
+            { etiqueta: "Aciertos · 答对", valor: `${y}/${h.length}`, tono: "jade" },
+            { etiqueta: "Precisión · 正确率", valor: `${precision}%`, tono: "oro" },
+            { etiqueta: "Mejor racha · 最佳连击", valor: ja, tono: "tinta" },
+          ]}
+          acciones={
+            <>
+              <Boton3D tono="oro" onClick={() => oa !== undefined && pa(oa)}>
+                <RotateCcwIcon size={18} /> Reintentar · 重试
+              </Boton3D>
+              <Boton3D tono="rojo" onClick={onClick}>
+                Otra unidad · 其他单元
+              </Boton3D>
+            </>
+          }
+        />
+        <P_1 currentGameId="kahoot" />
+        <style>{O}</style>
+      </Escena3D>
     );
   }
   const f = h[v];
-  const Na = (v / h.length) * 100;
+  const acerto = g && w === f.correcta;
+  const tiempoPct = Math.max(0, Math.min(100, (q / 20) * 100));
+  const tonoTiempo = q <= 3 ? "rojo" : q <= 6 ? "oro" : "jade";
   return (
-    <StarfieldBackground>
-        <CintaTemaJuego />
-      <Component />
-      <JComponent expression={expression} bounce={bounce} />
+    <Escena3D tema="kahoot" className={Sa ? "kq-temblor" : ""}>
+      <CintaTemaJuego />
+      <SoundToggles />
       <Ya1Component active={!!(g && X)} />
       <VaComponent color={color} />
-      <div
-        className={`max-w-4xl mx-auto px-3 md:px-4 py-6 md:py-8 min-h-screen relative z-10 transition-all duration-100 ${Sa ? "animate-shake" : ""}`}
-      >
-        <SoundToggles />
-        <div className="flex items-center justify-between mb-4 md:mb-6">
-          <Link
-            to="/juegos"
-            onClick={() => playClick()}
-            className="inline-flex items-center gap-2 text-white/60 hover:text-cyan-300 transition-colors text-sm font-bold drop-shadow-lg hover:drop-shadow-cyan-400/50"
-          >
-            <ArrowLeftIcon size={18} /> Volver / 返回
-          </Link>
-          <div className="flex items-center gap-2 md:gap-3">
-            <div
-              className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all hover:scale-105"
-              style={{
-                background: "rgba(242,193,78,.12)",
-                border: "1px solid rgba(242,193,78,.25)",
-                color: "#f2c14e",
-                boxShadow: "0 0 15px rgba(242,193,78,.15), inset 0 0 10px rgba(242,193,78,.05)",
-                animation: "scoreFloat 3s ease-in-out infinite",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              <TrophyIcon size={12} /> {ia}
-            </div>
-            <div
-              className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all hover:scale-105"
-              style={{
-                background: "rgba(224,40,63,.12)",
-                border: "1px solid rgba(224,40,63,.25)",
-                color: "#e0283f",
-                boxShadow: "0 0 15px rgba(224,40,63,.15), inset 0 0 10px rgba(224,40,63,.05)",
-                animation: "scoreFloat 3s ease-in-out infinite 0.5s",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              <ZapIcon size={12} /> x{P.toFixed(1)}
-            </div>
-            <div
-              className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all hover:scale-105"
-              style={{
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.12)",
-                color: "rgba(255,255,255,0.6)",
-                boxShadow: "0 0 15px rgba(255,255,255,.05)",
-                animation: "scoreFloat 3s ease-in-out infinite 1s",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              <TimerIcon size={12} /> {v + 1}/{h.length}
-            </div>
+      <BarraJuego titulo="Kahoot Quiz" tituloZh="抢答竞赛" alVolver={() => playClick()}>
+        <Placa icono={<TrophyIcon size={16} />} valor={ia} etiqueta="Puntos · 分" />
+        <Placa icono={<ZapIcon size={16} />} valor={`x${P.toFixed(1)}`} etiqueta="Bonus · 倍" tono="rojo" pulso={P >= 2} />
+        {k >= 2 && <Placa icono={<FlameIcon size={16} />} valor={k} etiqueta="Racha · 连击" tono="rojo" pulso />}
+        <Placa icono={<TimerIcon size={16} />} valor={`${v + 1}/${h.length}`} etiqueta="Pregunta · 题" tono="tinta" />
+      </BarraJuego>
+      <div className="kq-progreso" role="progressbar" aria-valuemin={0} aria-valuemax={h.length} aria-valuenow={v}>
+        {h.map((pregunta, n) => (
+          <i key={n} className={n < v ? "kq-hecho" : n === v ? "kq-actual" : ""} />
+        ))}
+      </div>
+
+      <div className="kq-mesa">
+        <div key={v} className={`kq-tablero ${ua === "out" ? "kq-tablero--sale" : ""}`}>
+          <span className="kq-cuerda kq-cuerda--i" aria-hidden="true" />
+          <span className="kq-cuerda kq-cuerda--d" aria-hidden="true" />
+          <div className={`kq-reloj kq-reloj--${tonoTiempo}`} style={{ "--pct": `${tiempoPct}%` }} aria-label={`Quedan ${q} segundos`}>
+            <b key={q}>{q}</b>
           </div>
+          <p className="kq-etiqueta">¿Cómo se dice en español? · 西班牙语怎么说？</p>
+          <p className="kq-pregunta">{f.preguntaChino}</p>
+          <span className="kq-esquina kq-esquina--1" aria-hidden="true" />
+          <span className="kq-esquina kq-esquina--2" aria-hidden="true" />
+          <span className="kq-esquina kq-esquina--3" aria-hidden="true" />
+          <span className="kq-esquina kq-esquina--4" aria-hidden="true" />
         </div>
-        <div
-          className="w-full h-2.5 md:h-3 rounded-full mb-4 md:mb-6 overflow-hidden relative shadow-inner"
-          style={{
-            background: "rgba(255,255,255,.06)",
-            boxShadow: "inset 0 0 10px rgba(0,0,0,0.3), 0 0 20px rgba(0,0,0,0.2)",
-          }}
-        >
-          <div
-            className="h-full rounded-full transition-all duration-700 relative"
-            style={{
-              width: `${Na}%`,
-              background: "linear-gradient(90deg,#e0283f,#e0283f,#f2c14e,#5fd08a)",
-              boxShadow: "0 0 20px rgba(242,193,78,0.6), 0 0 40px rgba(224,40,63,0.3)",
-              animation: "progressGlow 3s ease-in-out infinite",
-            }}
-          >
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: "linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent)",
-                animation: "shimmer 2s linear infinite",
-              }}
-            />
-          </div>
-        </div>
-        <XaComponent streak={k} multiplier={P} />
-        <IaComponent timeLeft={q} maxTime={20} />
-        {da && (
-          <div className="fixed inset-0 pointer-events-none z-35 flex items-center justify-center">
-            <div
-              className="text-4xl md:text-6xl font-black animate-speed-bonus"
-              style={{
-                color: "#f2c14e",
-                textShadow: "0 0 40px rgba(242,193,78,0.8), 0 0 80px rgba(242,193,78,0.5)",
-                WebkitTextStroke: "1px rgba(255,255,255,0.3)",
-              }}
-            >
-              {da}
-            </div>
-          </div>
-        )}
-        <div
-          className={`text-center mb-6 md:mb-8 ${ua === "in" ? "animate-question-enter" : ua === "out" ? "animate-question-out" : ""}`}
-        >
-          <div
-            className="relative inline-block mb-4 md:mb-6"
-            style={{
-              perspective: "800px",
-            }}
-          >
-            <div
-              className="absolute -inset-[3px] rounded-3xl pointer-events-none"
-              style={{
-                background: "linear-gradient(90deg, #e0283f, #e0283f, #f2c14e, #5fd08a, #f2c14e, #e0283f)",
-                backgroundSize: "300% 300%",
-                animation: "borderRotate 4s linear infinite, neonPulse 2s ease-in-out infinite alternate",
-                zIndex: -1,
-                filter: "blur(2px)",
-              }}
-            />
-            <div
-              className="relative inline-block px-5 py-4 md:px-8 md:py-6 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl z-10"
-              style={{
-                background: "linear-gradient(180deg,rgba(52,26,16,.85),rgba(30,14,8,.7))",
-                border: "1px solid rgba(255,255,255,.2)",
-                backdropFilter: "blur(20px) saturate(1.5)",
-                transformStyle: "preserve-3d",
-                boxShadow:
-                  "0 0 50px rgba(224,40,63,.2), 0 25px 80px rgba(0,0,0,.5), inset 0 0 80px rgba(255,255,255,.03)",
-                transition: "transform 0.15s ease-out, box-shadow 0.3s ease",
-                animation: "questionCardGlow 4s ease-in-out infinite",
-              }}
-              onMouseMove={(i) => {
-                const s = i.currentTarget.getBoundingClientRect();
-                const o = i.clientX - s.left;
-                const b = i.clientY - s.top;
-                const u = s.width / 2;
-                const p = s.height / 2;
-                const C = ((b - p) / p) * -12;
-                const m = ((o - u) / u) * 12;
-                i.currentTarget.style.transform = `perspective(800px) rotateX(${C}deg) rotateY(${m}deg) scale(1.03) translateZ(40px)`;
-                i.currentTarget.style.boxShadow =
-                  "0 0 70px rgba(224,40,63,.3), 0 30px 90px rgba(0,0,0,.6), inset 0 0 100px rgba(255,255,255,.05)";
-              }}
-              onMouseLeave={(i) => {
-                i.currentTarget.style.transform = "";
-                i.currentTarget.style.boxShadow = "";
-              }}
-            >
-              <div
-                className="absolute -inset-[1px] rounded-[18px] opacity-50"
-                style={{
-                  background: "linear-gradient(135deg,#e0283f,#f2c14e,#f2c14e)",
-                  filter: "blur(15px)",
-                  zIndex: -1,
-                  animation: "neonPulse 3s ease-in-out infinite",
-                }}
-              />
-              <div
-                className="absolute top-0 left-0 right-0 h-0.5 opacity-80"
-                style={{
-                  background:
-                    "linear-gradient(90deg,transparent,#e0283f,#e0283f,#f2c14e,#5fd08a,transparent)",
-                  animation: "shimmer 3s linear infinite",
-                }}
-              />
-              <p
-                className="text-3xl md:text-5xl font-black text-white mb-2 md:mb-3 drop-shadow-xl"
-                style={{
-                  textShadow:
-                    "0 0 30px rgba(255,255,255,.4), 0 0 60px rgba(224,40,63,.3), 0 0 90px rgba(224,40,63,.15), 0 0 120px rgba(242,193,78,.1)",
-                }}
-              >
-                {f.preguntaChino}
-              </p>
-              <p className="text-xs md:text-sm text-white/40 font-medium">
-                Pregunta {v + 1} / 第 {v + 1} 题
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="relative h-10 mb-4 md:mb-6">
-          {I.map((i) => (
-            <div
-              key={i.id}
-              className="kahoot-floating-score absolute left-1/2 font-black text-2xl md:text-3xl pointer-events-none drop-shadow-xl"
-              style={{
-                color: "#f2c14e",
-                textShadow: "0 0 25px rgba(242,193,78,.65)",
-                "--score-x": `${i.x}px`,
-              }}
-            >
-              {i.text}
-            </div>
+
+        <div className="kq-flotantes" aria-hidden="true">
+          {da && <span className="kq-bonus">{da}</span>}
+          {I.map((punto) => (
+            <span key={punto.id} className="kq-suma" style={{ "--dx": `${punto.x}px` }}>
+              {punto.text}
+            </span>
           ))}
         </div>
-        <div
-          className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-3xl mx-auto"
-          style={{
-            perspective: "1200px",
-          }}
-        >
-          {f.allAnswers.map((i, s) => {
-            const o = aa[s];
-            // Fichas de respuesta lacadas y legibles (rojo, azul, oro, verde)
-            const k = KAHOOT_TILES[s % KAHOOT_TILES.length];
-            const b = i === f.correcta;
-            const u = w === i;
-            let p = {};
-            let C = "";
-            if (g) {
-              if (b) {
-                p = {
-                  background: "linear-gradient(180deg, #4cc76a, #23893f)",
-                  border: "3px solid #fff3c4",
-                  boxShadow: `0 0 50px ${o.shadow}, 0 0 100px ${o.glow}, 0 0 150px ${o.glow}88, inset 0 0 30px rgba(255,255,255,0.15)`,
-                  color: "#fff",
-                  transform: "scale(1.05) translateZ(60px)",
-                  animation:
-                    "answerCorrectBurst 0.6s ease-out forwards, correctAnswerGlow 2s ease-in-out infinite",
-                  "--shadow-color": o.shadow,
-                };
-                C = "animate-bounce-in";
-              } else if (u && !b) {
-                p = {
-                  background: "rgba(255,255,255,0.04)",
-                  border: `2px solid ${o.color}40`,
-                  color: `${o.color}60`,
-                  opacity: 0.5,
-                  transform: "scale(0.96) translateZ(0)",
-                  animation: "answerWrongShake 0.5s ease-in-out",
-                };
-              } else {
-                p = {
-                  background: "rgba(255,255,255,0.04)",
-                  border: `2px solid ${o.color}20`,
-                  color: `${o.color}40`,
-                  opacity: 0.4,
-                  transform: "scale(0.96) translateZ(0)",
-                };
-              }
-            } else {
-              p = {
-                background: `linear-gradient(180deg, ${k[0]}, ${k[1]})`,
-                border: "2px solid #f2c14e",
-                color: k[2],
-                textShadow: k[2] === "#fff" ? "0 1px 2px rgba(0,0,0,.45)" : "none",
-                boxShadow: "0 5px 0 rgba(0,0,0,.35), 0 0 14px rgba(242,193,78,.35)",
-                animation: `buttonAppear 0.5s ${s * 0.1}s ease-out both, answerHoverGlow 3s ease-in-out infinite`,
-                "--shadow-color": o.shadow,
-              };
-            }
+
+        <div className={`kq-fichas ${g ? "kq-fichas--resuelto" : ""}`}>
+          {f.allAnswers.map((respuesta, n) => {
+            const esCorrecta = respuesta === f.correcta;
+            const elegida = w === respuesta;
+            const estado = !g ? "" : esCorrecta ? "kq-ficha--bien" : elegida ? "kq-ficha--mal" : "kq-ficha--fuera";
             return (
-              <div
-                key={i}
-                className="relative gm-no-adapt"
-                style={{
-                  perspective: "1000px",
-                }}
+              <button
+                key={`${v}-${respuesta}`}
+                type="button"
+                className={`kq-ficha kq-ficha--${n % 4} ${estado}`}
+                style={{ "--n": n }}
+                onClick={() => N(respuesta)}
+                disabled={g}
               >
-                <div
-                  className="absolute -inset-[2px] rounded-2xl md:rounded-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    background: `linear-gradient(90deg, ${o.color}, #e0283f, #f2c14e, ${o.color})`,
-                    backgroundSize: "200% 200%",
-                    animation: "borderRotate 3s linear infinite",
-                    zIndex: -1,
-                    filter: "blur(1px)",
-                  }}
-                />
-                <button
-                  onClick={() => N(i)}
-                  disabled={g}
-                  className={`group relative rounded-2xl md:rounded-3xl p-5 md:p-6 text-base md:text-lg font-black transition-all duration-300 disabled:cursor-default flex items-center justify-center min-h-[72px] md:min-h-[88px] overflow-hidden w-full ${C}`}
-                  style={{
-                    ...p,
-                    transformStyle: "preserve-3d",
-                  }}
-                  onMouseEnter={(m) => {
-                    if (!g) {
-                      m.currentTarget.style.background = `${o.color}30`;
-                      m.currentTarget.style.boxShadow = `0 0 50px ${o.shadow}70, 0 0 90px ${o.shadow}40, 0 20px 50px ${o.shadow}30, 0 0 80px ${o.glow}50`;
-                      m.currentTarget.style.transform =
-                        "translateY(-8px) scale(1.05) translateZ(50px) rotateX(6deg) rotateY(3deg)";
-                      m.currentTarget.style.borderColor = `${o.color}ee`;
-                    }
-                  }}
-                  onMouseLeave={(m) => {
-                    if (!g) {
-                      m.currentTarget.style.background = `${o.color}18`;
-                      m.currentTarget.style.boxShadow = `0 0 18px ${o.shadow}25, 0 8px 20px rgba(0,0,0,0.2)`;
-                      m.currentTarget.style.transform = "";
-                      m.currentTarget.style.borderColor = `${o.color}50`;
-                    }
-                  }}
-                >
-                  {!g && (
-                    <div
-                      className="absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                      style={{
-                        background: `linear-gradient(135deg,${o.color}00,${o.color}22)`,
-                      }}
-                    />
-                  )}
-                  {!g && (
-                    <div className="absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none overflow-hidden">
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          background: "linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent)",
-                          animation: "shimmer 2s linear infinite",
-                        }}
-                      />
-                    </div>
-                  )}
-                  <span
-                    className="absolute top-2 left-2 min-w-[22px] h-[22px] px-1 rounded-md flex items-center justify-center text-[11px] font-black"
-                    style={{
-                      background: "rgba(0,0,0,.45)",
-                      border: `1px solid ${o.color}70`,
-                      color: o.color,
-                      boxShadow: `0 2px 0 rgba(0,0,0,.5), 0 0 8px ${o.color}40`,
-                    }}
-                  >
-                    {s + 1}
+                <span className="kq-ficha__cara">
+                  <span className="kq-ficha__forma" aria-hidden="true">
+                    <i />
                   </span>
-                  <span
-                    className="drop-shadow-md relative z-10"
-                    style={{
-                      textShadow: `0 0 15px ${o.color}44`,
-                    }}
-                  >
-                    {i}
-                  </span>
-                  {g && b && (
-                    <span
-                      className="absolute top-2 right-3 text-xs md:text-sm font-black animate-bounce-in"
-                      style={{
-                        color: "#000",
-                        textShadow: "0 0 10px rgba(255,255,255,0.8)",
-                      }}
-                    >
-                      ✓
-                    </span>
-                  )}
-                  {g && u && !b && (
-                    <span
-                      className="absolute top-2 right-3 text-xs md:text-sm font-black animate-bounce-in"
-                      style={{
-                        color: "#fff",
-                        textShadow: "0 0 10px rgba(224,40,63,0.8)",
-                      }}
-                    >
-                      ✗
-                    </span>
-                  )}
-                </button>
-              </div>
+                  <span className="kq-ficha__texto">{respuesta}</span>
+                  <kbd className="kq-ficha__tecla" aria-hidden="true">
+                    {g && esCorrecta ? "✓" : g && elegida ? "✗" : n + 1}
+                  </kbd>
+                </span>
+              </button>
             );
           })}
         </div>
-        {g && (
-          <div className="text-center mt-6 md:mt-8 animate-bounce-in">
-            <p
-              className="text-2xl md:text-4xl font-black drop-shadow-xl mb-1"
-              style={{
-                color: w === f.correcta ? "#5fd08a" : "#e0283f",
-                textShadow:
-                  w === f.correcta
-                    ? "0 0 30px rgba(95,208,138,.8), 0 0 60px rgba(95,208,138,.5), 0 0 90px rgba(95,208,138,.3), 0 0 120px rgba(95,208,138,.2)"
-                    : "0 0 30px rgba(224,40,63,.8), 0 0 60px rgba(224,40,63,.5), 0 0 90px rgba(224,40,63,.3), 0 0 120px rgba(224,40,63,.2)",
-              }}
-            >
-              {w === f.correcta ? "¡Correcto! / 正确！ 🎉" : "¡Incorrecto! / 错误！ 💥"}
+
+        <div className="kq-veredicto" aria-live="polite">
+          {g && (
+            <p className={acerto ? "kq-veredicto__bien" : "kq-veredicto__mal"}>
+              {acerto ? (
+                <>
+                  <SparklesIcon size={18} /> ¡Correcto! · 正确！
+                </>
+              ) : (
+                <>
+                  {w === null ? "¡Tiempo! · 时间到" : "¡Casi! · 差一点"} — Respuesta · 答案: <b>{f.correcta}</b>
+                </>
+              )}
             </p>
-            {w === f.correcta && (
-              <p
-                className="text-sm md:text-base font-bold text-white/60"
-                style={{
-                  animation: "trophyFloat 2s ease-in-out infinite",
-                }}
-              >
-                <SparklesIcon size={14} className="inline mr-1" /> ¡Sigue así!{" "}
-                <SparklesIcon size={14} className="inline ml-1" />
-              </p>
-            )}
-            {w !== f.correcta && (
-              <p className="text-sm md:text-base text-white/50 mt-2 font-medium">
-                Respuesta correcta:{" "}
-                <span
-                  className="text-white/90 font-bold"
-                  style={{
-                    textShadow: "0 0 15px rgba(95,208,138,0.6), 0 0 30px rgba(95,208,138,0.3)",
-                  }}
-                >
-                  {f.correcta}
-                </span>
-              </p>
-            )}
-          </div>
-        )}
-        <style>{O}</style>
+          )}
+        </div>
       </div>
-    </StarfieldBackground>
+      <style>{O}</style>
+    </Escena3D>
   );
 }
 export { AComponent as default };
