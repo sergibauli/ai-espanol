@@ -1,12 +1,10 @@
 import * as React from "react";
 import "../../styles/v13-ruta-mundos.css";
 import "../../styles/v14-motion.css";
-import "../../styles/v16-maquetas.css";
 import * as A1 from "./mundos/A1.jsx";
 import * as A2 from "./mundos/A2.jsx";
 import * as B1 from "./mundos/B1.jsx";
 import * as B2 from "./mundos/B2.jsx";
-import { VideoEscena } from "../portada/VideoEscena.jsx";
 
 /*
   Mundos ilustrados de la ruta de aprendizaje (un mundo por nivel), solo SVG + CSS.
@@ -18,10 +16,6 @@ import { VideoEscena } from "../portada/VideoEscena.jsx";
   Base común en v13-ruta-mundos.css; tokens de movimiento en v14-motion.css.
 */
 const MUNDOS = { A1, A2, B1, B2 };
-// v16 · Mundo A1 «Pekín y el norte» como en la maqueta animada del usuario: dos dragones dorados, el Templo del Cielo
-// y la perla de jade (recorte central del vídeo, sin la marca de agua de los laterales). Encima siguen el ambiente y la ruta.
-// Desde v16 la escena va de fondo de toda la pantalla (RutaPage) y cada mundo vuelve a su panorama propio dentro de la ventana.
-const VIDEO_MUNDO = {};
 
 // Momento del día según la hora de China (UTC+8)
 export function momentoChina(fecha = new Date()) {
@@ -45,12 +39,11 @@ export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = fa
   const momento = ["dia", "atardecer", "noche"].includes(pedido) ? pedido : momentoProp || momentoChina();
   const fiesta = fiestaProp || forzado("fiesta") === "1";
   const { Panorama, Ambiente } = MUNDOS[nivel] || MUNDOS.A1;
-  const video = VIDEO_MUNDO[nivel];
   return (
-    <div className={`mr-mundo mr-${nivel} ${fiesta ? "mr-fiesta" : ""} ${video ? "mr-con-video" : ""}`} data-momento={momento} aria-hidden="true">
+    <div className={`mr-mundo mr-${nivel} ${fiesta ? "mr-fiesta" : ""}`} data-momento={momento} aria-hidden="true">
       <div className="mr-fijo">
         <div className="mr-cielo" />
-        {video ? <VideoEscena variantes={video} conVelo={false} prioridad className="mr-video" /> : <Panorama momento={momento} fiesta={fiesta} />}
+        <Panorama momento={momento} fiesta={fiesta} />
         <Ambiente momento={momento} fiesta={fiesta} />
       </div>
       <div className="mr-velo" />

@@ -30,8 +30,8 @@
 }
 
 /* ---------- Ruta A1 con vídeo ---------- */
-.mr-con-video .mr-video { position: absolute; inset: 0; }
-.mr-con-video .mr-video .pc-video-poster,
-.mr-con-video .mr-video .pc-video-cine { object-position: 50% 0%; }
+
+
+
 /* Las viñetas de papel del camino no pegan con la escena pintada: fuera en el mundo con vídeo */
-.ruta-main:has(.mr-con-video) .mr-vineta { display: none; }
+

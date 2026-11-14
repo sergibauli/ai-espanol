@@ -46,114 +46,16 @@
 }
 .light-page .light-shell .side-exit { color: #fff3cf !important; }
 
-/* ---------- Ruta A1: la escena de los dragones de fondo en toda la pantalla y los paneles de cristal ---------- */
-.ruta-fondo-cine { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-/* Pegado a la ventana mientras se baja por la ruta (position: fixed no sirve: .fx-page lleva transform) */
-.ruta-fondo-pegado { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.ruta-fondo-pegado { background: radial-gradient(70% 60% at 40% 30%, #b3262a, #7a0f16 60%, #4a070c); }
-/* La escena entera a lo alto (se ven las cabezas de los dragones), centrada en la columna de la ruta y fundida por los lados */
-.ruta-fondo-cine .pc-video {
-  inset: 0 auto 0 auto; left: calc((100% - var(--v16-lado, 0px)) / 2); width: calc(100vh * 770 / 720); width: calc(100svh * 770 / 720);
-  translate: -50% 0; background: transparent;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
-}
-@media (min-width: 1100px) { .rt16 { --v16-lado: 370px; } }
-@media (max-width: 760px) { .ruta-fondo-cine .pc-video { -webkit-mask-image: none; mask-image: none; } }
-.ruta-fondo-pegado::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 60% at 50% 45%, transparent 55%, rgba(60, 10, 10, .35)); }
-.rt16 { position: relative; }
-.rt16 > :not(.ruta-fondo-cine) { position: relative; z-index: 1; }
-/* La ruta: ventana flotante con marco dorado sobre la escena (dentro, el mundo propio de cada nivel) */
-.rt16 .ruta-main {
-  width: min(600px, 100%) !important; max-width: 600px; margin: 64px auto 40px !important; justify-self: center;
-  border-radius: 30px !important; overflow: clip;
-  border: 2px solid #f6d77e !important;
-  box-shadow: 0 0 0 2px #8a5a1e, 0 0 0 7px rgba(255, 226, 150, .55), 0 0 0 8.5px #8a5a1e, 0 0 50px rgba(255, 205, 100, .55), 0 30px 70px rgba(40, 5, 0, .6) !important;
-  animation: v16Ventana .9s cubic-bezier(.2, .9, .25, 1.05) both;
-}
-@keyframes v16Ventana { from { opacity: 0; transform: translateY(40px) scale(.96); } }
-.rt16 .ruta-dragon { display: none !important; }
-/* Título en placa de laca roja con filete dorado (como «Pekín y el norte» de la maqueta), montada sobre el borde de la ventana */
-.rt16 .ruta-region-title { position: relative; z-index: 3; margin-top: 18px !important; display: flex; justify-content: center; background: transparent !important; }
-.rt16 .ruta-region-title > span {
-  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px;
-  padding: 14px 40px 12px; border-radius: 26px;
-  background: radial-gradient(120% 120% at 50% 0%, #c8102e, #8f0c21 60%, #5e0614) !important;
-  border: 2px solid #f6d77e; box-shadow: 0 0 0 2px #8a5a1e, 0 0 0 5px rgba(255, 226, 150, .35), 0 0 30px rgba(255, 200, 90, .55), 0 12px 26px rgba(40, 5, 0, .5);
-}
-.rt16 .ruta-region-title b { color: transparent !important; background: linear-gradient(180deg, #fffbea, #ffe08a 50%, #e8ae3c); -webkit-background-clip: text; background-clip: text; text-shadow: none !important; filter: drop-shadow(0 2px 0 rgba(60, 0, 10, .8)); }
-.rt16 .ruta-region-title i { color: #fff3cf !important; }
-.rt16 .ruta-region-title em { color: #ffe6a8 !important; }
-.rt16 .ruta-region-title small { color: #ffe6a8 !important; opacity: .9; }
-@media (max-width: 760px) {
-  .rt16 .ruta-main { margin: 70px 10px 24px !important; width: auto !important; border-radius: 22px !important; }
-  .rt16 .ruta-region-title > span { padding: 10px 22px 9px; }
-}
-/* Paneles de la derecha: cristal cálido con filete dorado */
-.rt16 .ruta-side > * {
-  background: linear-gradient(170deg, rgba(255, 236, 200, .28), rgba(150, 50, 30, .22)) !important;
-  border: 1.5px solid rgba(255, 226, 150, .9) !important; border-radius: 22px !important;
-  box-shadow: inset 0 0 0 4px rgba(255, 240, 200, .12), inset 0 0 0 5px rgba(255, 226, 150, .35), 0 0 24px rgba(255, 200, 100, .35), 0 16px 34px rgba(60, 10, 0, .35) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2);
-  color: #fff6dc !important;
-}
-.rt16 .ruta-side > * * { color: inherit; }
-.rt16 .ruta-side > *::before, .rt16 .ruta-side > *::after { display: none !important; }
-.rt16 .ruta-side h2, .rt16 .ruta-side h3, .rt16 .ruta-side b, .rt16 .ruta-side strong { color: #fff3cf !important; text-shadow: 0 1px 4px rgba(60, 20, 0, .7); }
-
-
-/* ---------- v16 · Escena cerrada: solo la placa y las píldoras A1–B2 sobre los dragones (como la maqueta) ---------- */
-.rt16-cerrada .ruta-main { background: transparent !important; border-color: transparent !important; box-shadow: none !important; animation: none; overflow: visible; }
-.rt16-cerrada .ruta-main > :not(.ruta-region-title):not(.rn-niveles) { display: none !important; }
-.rt16-cerrada .ruta-region-title small, .rt16-cerrada .ruta-region-title em { display: none !important; }
-.rt16-cerrada .ruta-main { min-height: calc(100vh - 120px); }
-.rt16-cerrada .rn-niveles { background: transparent !important; box-shadow: none !important; border: 0 !important; display: flex !important; justify-content: center; gap: 12px; margin-top: 18px; }
-.rt16-cerrada .rn-nivel { flex: 0 0 auto; min-width: 92px; min-height: 56px; border-radius: 14px !important;
-  clip-path: polygon(12% 0, 88% 0, 100% 50%, 88% 100%, 12% 100%, 0 50%);
-  background: radial-gradient(120% 140% at 50% 0%, #fff6d0, #f6d77e 45%, #c8901e) !important; color: #5e0614 !important;
-  box-shadow: 0 0 18px rgba(255, 210, 110, .8) !important; animation: v16Pildora 2.6s ease-in-out infinite alternate; }
-.rt16-cerrada .rn-nivel:nth-child(odd) { animation-delay: -1.3s; }
-.rt16-cerrada .rn-nivel em, .rt16-cerrada .rn-nivel small, .rt16-cerrada .rn-nivel .rn-barra, .rt16-cerrada .rn-indicador { display: none !important; }
-.rt16-cerrada .rn-nivel b { font-size: 24px; }
-@keyframes v16Pildora { to { filter: brightness(1.12); transform: translateY(-2px); } }
-.rt16-cerrada .ruta-side { opacity: 1; }
-.rt16-cerrar { position: sticky; top: 10px; z-index: 5; display: block; margin: 10px 14px 0 auto; min-height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer;
-  font: 800 14px var(--im-font-ui); color: #5e0614; background: linear-gradient(#fff6d0, #f2c14e); border: 1.5px solid #8a5a1e; box-shadow: 0 4px 12px rgba(0, 0, 0, .35); }
-@media (prefers-reduced-motion: reduce) { .rt16-cerrada .rn-nivel { animation: none; } }
-.ruta-layout.rt16-cerrada > main.ruta-main, .ruta-layout.rt16-cerrada > main.ruta-main.mr-on { background: none !important; background-image: none !important; border: 0 !important; }
-.ruta-layout.rt16-cerrada > main.ruta-main::before, .ruta-layout.rt16-cerrada > main.ruta-main::after { display: none !important; content: none !important; }
-
-/* ---------- v16.1 · Sin franjas vacías: la escena llena toda la pantalla, también fuera del marco de la app ---------- */
-html:has(.rt16), html:has(.rt16) body {
-  background:
-    radial-gradient(60% 50% at 50% 35%, rgba(255, 190, 90, .28), transparent 70%),
-    radial-gradient(120% 90% at 50% 40%, #a3171f 0%, #6e0c14 55%, #3d060b 100%) fixed !important;
-}
-html:has(.rt16) body::before, html:has(.rt16) body::after, html body .fx-page .light-page:has(.rt16)::before { display: none !important; }
-.ruta-fondo-pegado { background: transparent !important; }
-.ruta-fondo-cine .pc-video { z-index: 1; }
-.light-page:has(.rt16), .light-page:has(.rt16) .light-shell, .light-page:has(.rt16) main { background: transparent !important; }
-
-/* ---------- Paneles de la derecha como la maqueta: cristal dorado claro, esquinas de filigrana y cartas pintadas ---------- */
-.rt16 .ruta-side > * {
+/* ---------- Ruta: solo cambian los recuadros de la derecha (cristal dorado, como la maqueta); el centro queda como estaba ---------- */
+.rt16 .ruta-side > :not(.ruta-dragon) {
   background: linear-gradient(165deg, rgba(255, 238, 205, .42), rgba(240, 190, 120, .2) 55%, rgba(170, 70, 40, .25)) !important;
   border: 2px solid #f6d77e !important; border-radius: 26px !important;
   box-shadow: 0 0 0 1.5px #8a5a1e, inset 0 0 0 6px rgba(255, 245, 215, .12), inset 0 0 0 7.5px rgba(246, 215, 126, .55), 0 0 30px rgba(255, 205, 110, .5), 0 18px 40px rgba(60, 10, 0, .4) !important;
   -webkit-backdrop-filter: blur(14px) saturate(1.25); backdrop-filter: blur(14px) saturate(1.25);
-  position: relative;
+  color: #fff6dc !important; position: relative;
 }
-.rt16 .ruta-side > * > :first-child { position: relative; }
+.rt16 .ruta-side > :not(.ruta-dragon)::before, .rt16 .ruta-side > :not(.ruta-dragon)::after { display: none !important; }
 .rt16 .ruta-side .im-jade__titulo, .rt16 .ruta-side h2, .rt16 .ruta-side h3 { font-family: var(--im-font-display, Georgia, serif) !important; letter-spacing: .02em; color: #fff3cf !important; text-shadow: 0 2px 0 rgba(94, 6, 20, .7), 0 0 14px rgba(255, 210, 120, .6) !important; }
-.rt16 .ruta-stamps { position: relative; }
-.rt16 .ruta-stamps::before {
-  content: ""; display: block; grid-column: 1 / -1; width: 100%; aspect-ratio: 630 / 512; margin-bottom: 10px;
-  background: url("../../public/theme/pasaporte-cartas.jpg") center / cover; border-radius: 14px;
-  box-shadow: 0 0 0 1.5px #8a5a1e, 0 0 0 4px #f6d77e, 0 0 18px rgba(255, 210, 120, .6);
-}
-.rt16 .ruta-stamps > * { background: linear-gradient(180deg, rgba(255, 246, 220, .5), rgba(246, 215, 126, .25)) !important; border: 1.5px solid rgba(246, 215, 126, .9) !important; border-radius: 12px !important; }
-html body .fx-page .light-page:has(.rt16) { background: transparent !important; }
-html body .fx-page .light-page:has(.rt16) > .light-shell > main { background: transparent !important; }
-.ruta-layout.rt16 { max-width: none !important; width: 100% !important; margin: 0 !important; }
-/* Gana a html[data-cielo=…] .light-page (cielo según la hora de China) solo en la ruta */
-html[data-cielo] body .fx-page .light-page:has(.rt16.ruta-layout), html body .fx-page .light-page:has(.rt16.ruta-layout) { background: transparent !important; }
-html[data-cielo] body .fx-page .light-page:has(.rt16.ruta-layout)::before, html[data-cielo] body .fx-page .light-page:has(.rt16.ruta-layout)::after { display: none !important; }
+.rt16 .ruta-side b, .rt16 .ruta-side strong { color: #fff3cf !important; text-shadow: 0 1px 4px rgba(60, 20, 0, .7); }
+/* Sellos del pasaporte: todos con el mismo estilo de cristal y filete dorado */
+.rt16 .ruta-stamps > * { background: linear-gradient(180deg, rgba(255, 246, 220, .5), rgba(246, 215, 126, .25)) !important; border: 1.5px solid rgba(246, 215, 126, .9) !important; border-radius: 12px !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 2px 6px rgba(80, 30, 0, .25) !important; }

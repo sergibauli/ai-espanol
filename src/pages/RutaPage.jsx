@@ -13,9 +13,7 @@ import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
 import { Moneda, PanelJade } from "../../packages/imperial/src/index.js";
 import { MundoRuta, EscenaTramo } from "../components/ruta/MundoRuta.jsx";
-import { VideoEscena } from "../components/portada/VideoEscena.jsx";
 
-const FONDO_A1 = [{ consulta: "", src: "./video/ruta-pekin.mp4", poster: "./video/ruta-pekin.jpg" }];
 import { MonoViajero } from "../components/ruta/MonoViajero.jsx";
 import { Celebracion } from "../components/ruta/Celebracion.jsx";
 import { TransicionNivel } from "../components/ruta/TransicionNivel.jsx";
@@ -82,8 +80,6 @@ export default function RutaPage() {
   const [demo, setDemo] = React.useState(null); // { numero, clases: [n…] }
   const [fiesta, setFiesta] = React.useState(null); // celebración en curso
   const [transicion, setTransicion] = React.useState(null); // { destino, clave } telón entre niveles
-  // v16: la ruta se abre como ventana encima de la escena al pulsar un nivel (o al venir con ?nivel=)
-  const [rutaAbierta, setRutaAbierta] = React.useState(() => /[?&]nivel=/.test(window.location.hash));
   const [listo, setListo] = React.useState(false);
   const currentRef = React.useRef(null);
   const fiestaRef = React.useRef(null);
@@ -267,14 +263,7 @@ export default function RutaPage() {
 
   return (
     <LightShell>
-      <div className={`ruta-layout rt14 rt16 ${rutaAbierta ? "rt16-abierta" : "rt16-cerrada"}`}>
-        {/* v16 · Como la maqueta: la escena de los dos dragones y el Templo del Cielo de fondo en toda la pantalla;
-            la ruta de cada nivel (con su propio mundo) flota encima en una ventana con marco dorado */}
-        <div className="ruta-fondo-cine" aria-hidden="true">
-          <div className="ruta-fondo-pegado">
-            <VideoEscena variantes={FONDO_A1} conVelo={false} prioridad />
-          </div>
-        </div>
+      <div className="ruta-layout rt14 rt16">
         <main className={`ruta-main map-${lv.key} mr-on`}>
           <MundoRuta key={lv.key} nivel={lv.key} fiesta={Boolean(fiesta) && !fiesta.saltada} />
           <TransicionNivel destino={transicion?.destino} clave={transicion?.clave} onCubre={irANivel} onFin={() => setTransicion(null)} />
@@ -292,7 +281,7 @@ export default function RutaPage() {
             {LEVELS.map((nivel) => {
               const { hechas, total } = resumenNivel(nivel);
               return (
-                <button key={nivel.key} type="button" className={`rn-nivel ${nivel.key === nivelMarcado ? "on" : ""}`} aria-pressed={nivel.key === nivelMarcado} onClick={() => (setRutaAbierta(true), cambiarNivel(nivel.key))}>
+                <button key={nivel.key} type="button" className={`rn-nivel ${nivel.key === nivelMarcado ? "on" : ""}`} aria-pressed={nivel.key === nivelMarcado} onClick={() => cambiarNivel(nivel.key)}>
                   <b>{nivel.key}</b>
                   <em>{REGION[nivel.key][0]}</em>
                   <span className="rn-barra" aria-hidden="true">
@@ -306,11 +295,6 @@ export default function RutaPage() {
             })}
           </nav>
 
-          {rutaAbierta && (
-            <button type="button" className="rt16-cerrar" onClick={() => (setRutaAbierta(false), window.scrollTo({ top: 0, behavior: "smooth" }))}>
-              ✕ Cerrar · 关闭
-            </button>
-          )}
           {mods.map((unidad, idx) => {
             const numero = unidad.numero;
             const parada = STOP[numero];
