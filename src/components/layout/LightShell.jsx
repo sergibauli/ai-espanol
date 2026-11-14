@@ -10,6 +10,7 @@ import { useGame } from "../../lib/gamification.js";
 import { getStreak } from "../../lib/streak.js";
 import { attachLightAdapter } from "./lightAdapter.js";
 import { Logo } from "../../../packages/imperial/src/index.js";
+import "../../styles/v16-shell.css";
 import { precargar, precargarSecciones } from "../../lib/precarga.js";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
