@@ -101,3 +101,24 @@
 .rt16 .ruta-side > *::before, .rt16 .ruta-side > *::after { display: none !important; }
 .rt16 .ruta-side h2, .rt16 .ruta-side h3, .rt16 .ruta-side b, .rt16 .ruta-side strong { color: #fff3cf !important; text-shadow: 0 1px 4px rgba(60, 20, 0, .7); }
 
+
+/* ---------- v16 · Escena cerrada: solo la placa y las píldoras A1–B2 sobre los dragones (como la maqueta) ---------- */
+.rt16-cerrada .ruta-main { background: transparent !important; border-color: transparent !important; box-shadow: none !important; animation: none; overflow: visible; }
+.rt16-cerrada .ruta-main > :not(.ruta-region-title):not(.rn-niveles) { display: none !important; }
+.rt16-cerrada .ruta-region-title small, .rt16-cerrada .ruta-region-title em { display: none !important; }
+.rt16-cerrada .ruta-main { min-height: calc(100vh - 120px); }
+.rt16-cerrada .rn-niveles { background: transparent !important; box-shadow: none !important; border: 0 !important; display: flex !important; justify-content: center; gap: 12px; margin-top: 18px; }
+.rt16-cerrada .rn-nivel { flex: 0 0 auto; min-width: 92px; min-height: 56px; border-radius: 14px !important;
+  clip-path: polygon(12% 0, 88% 0, 100% 50%, 88% 100%, 12% 100%, 0 50%);
+  background: radial-gradient(120% 140% at 50% 0%, #fff6d0, #f6d77e 45%, #c8901e) !important; color: #5e0614 !important;
+  box-shadow: 0 0 18px rgba(255, 210, 110, .8) !important; animation: v16Pildora 2.6s ease-in-out infinite alternate; }
+.rt16-cerrada .rn-nivel:nth-child(odd) { animation-delay: -1.3s; }
+.rt16-cerrada .rn-nivel em, .rt16-cerrada .rn-nivel small, .rt16-cerrada .rn-nivel .rn-barra, .rt16-cerrada .rn-indicador { display: none !important; }
+.rt16-cerrada .rn-nivel b { font-size: 24px; }
+@keyframes v16Pildora { to { filter: brightness(1.12); transform: translateY(-2px); } }
+.rt16-cerrada .ruta-side { opacity: 1; }
+.rt16-cerrar { position: sticky; top: 10px; z-index: 5; display: block; margin: 10px 14px 0 auto; min-height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer;
+  font: 800 14px var(--im-font-ui); color: #5e0614; background: linear-gradient(#fff6d0, #f2c14e); border: 1.5px solid #8a5a1e; box-shadow: 0 4px 12px rgba(0, 0, 0, .35); }
+@media (prefers-reduced-motion: reduce) { .rt16-cerrada .rn-nivel { animation: none; } }
+.ruta-layout.rt16-cerrada > main.ruta-main, .ruta-layout.rt16-cerrada > main.ruta-main.mr-on { background: none !important; background-image: none !important; border: 0 !important; }
+.ruta-layout.rt16-cerrada > main.ruta-main::before, .ruta-layout.rt16-cerrada > main.ruta-main::after { display: none !important; content: none !important; }
