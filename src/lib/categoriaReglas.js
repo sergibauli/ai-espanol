@@ -13,12 +13,9 @@
 //      y lista de adjetivos frecuentes → adj; el resto → sust.
 export const CATEGORIAS_PALABRA = ["verbo", "sust", "adj", "expr"];
 
-/** Clave normalizada de una entrada de vocabulario (la misma que usa la tabla de excepciones) */
-export const claveCategoria = (espanol) =>
-  String(espanol || "")
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
+/** Clave de una entrada de vocabulario en la tabla de excepciones: «español|chino» («bajo|贝斯» ≠ «bajo|矮的») */
+export const claveCategoria = (v) =>
+  `${String(v?.espanol ?? v?.es ?? "").toLowerCase().replace(/\s+/g, " ").trim()}|${String(v?.chino ?? v?.zh ?? "").replace(/\s+/g, " ").trim()}`;
 
 const lista = (s) => new Set(s.split(/\s+/).filter(Boolean));
 

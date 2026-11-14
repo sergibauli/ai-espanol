@@ -1,0 +1,4934 @@
+{
+"descripcion": "Muestra revisada a mano para medir el mapa mental (scripts/build-categorias.mjs). «diseño»: muestra con la que se ajustaron las reglas; «control»: muestra apartada, revisada después. «vieja» = clasificación anterior de MapaMentalPage.",
+"diseno": [
+{
+"u": 1,
+"es": "Hola",
+"zh": "你好",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 1,
+"es": "Hasta mañana",
+"zh": "明天见",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 1,
+"es": "¿Cómo te va?",
+"zh": "你最近怎么样？",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 1,
+"es": "gracias",
+"zh": "谢谢",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 2,
+"es": "Muchas gracias",
+"zh": "非常感谢",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 2,
+"es": "El gusto es mío",
+"zh": "荣幸的是我",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 2,
+"es": "¡Buen provecho!",
+"zh": "祝你好胃口！",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 2,
+"es": "Para eso estamos",
+"zh": "朋友就是用来做这个的",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 3,
+"es": "Encantada",
+"zh": "很高兴(女)",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 3,
+"es": "Le presento a",
+"zh": "我给您介绍(正式)",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 3,
+"es": "¿Cómo se llama usted?",
+"zh": "您叫什么名字？(正式)",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 3,
+"es": "¿Y tú?",
+"zh": "你呢？",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 4,
+"es": "tres",
+"zh": "三",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 4,
+"es": "nueve",
+"zh": "九",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 4,
+"es": "años",
+"zh": "岁/年",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 4,
+"es": "entre / dividido por",
+"zh": "除以",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 5,
+"es": "setenta",
+"zh": "七十",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 5,
+"es": "cuarenta y dos",
+"zh": "四十二",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 5,
+"es": "ciento ocho",
+"zh": "一百零八",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 6,
+"es": "Nací en...",
+"zh": "我出生在...",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 6,
+"es": "Perú",
+"zh": "秘鲁",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 6,
+"es": "Alemania",
+"zh": "德国",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 6,
+"es": "mexicano / mexicana",
+"zh": "墨西哥人",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 6,
+"es": "canadiense",
+"zh": "加拿大人",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 7,
+"es": "vivir",
+"zh": "住/生活",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 7,
+"es": "chalet",
+"zh": "别墅",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 7,
+"es": "barrio",
+"zh": "社区",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 7,
+"es": "detrás de",
+"zh": "在...后面",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 8,
+"es": "médico / médica",
+"zh": "医生",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 8,
+"es": "abogado / abogada",
+"zh": "律师",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 8,
+"es": "periodista",
+"zh": "记者",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 8,
+"es": "dentista",
+"zh": "牙医",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 8,
+"es": "vendedor / vendedora",
+"zh": "销售员",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 8,
+"es": "jubilado / jubilada",
+"zh": "退休人员",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 8,
+"es": "autónomo",
+"zh": "个体户",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 9,
+"es": "sábado",
+"zh": "星期六",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 9,
+"es": "anteayer",
+"zh": "前天",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 9,
+"es": "¿Qué día es hoy?",
+"zh": "今天是星期几？",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 10,
+"es": "abril",
+"zh": "四月",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 10,
+"es": "octubre",
+"zh": "十月",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 10,
+"es": "invierno",
+"zh": "冬天",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 10,
+"es": "a finales de",
+"zh": "在...末",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 11,
+"es": "y media",
+"zh": "半",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 11,
+"es": "mediodía",
+"zh": "中午",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 11,
+"es": "¿A qué hora...?",
+"zh": "几点...？",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 12,
+"es": "sexto / sexta",
+"zh": "第六",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 12,
+"es": "duodécimo / duodécima",
+"zh": "第十二",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 12,
+"es": "lugar",
+"zh": "位置/名次",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 13,
+"es": "azul",
+"zh": "蓝色",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 13,
+"es": "rosa / rosado",
+"zh": "粉色",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 13,
+"es": "claro",
+"zh": "浅色的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 14,
+"es": "hermano",
+"zh": "兄弟",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 14,
+"es": "primo",
+"zh": "堂/表兄弟",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 14,
+"es": "suegro",
+"zh": "公公/岳父",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 14,
+"es": "familia",
+"zh": "家庭",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 14,
+"es": "pareja",
+"zh": "伴侣",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 15,
+"es": "cocina",
+"zh": "厨房",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 15,
+"es": "garaje",
+"zh": "车库",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 15,
+"es": "nevera",
+"zh": "冰箱",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 15,
+"es": "microondas",
+"zh": "微波炉",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 16,
+"es": "merienda",
+"zh": "下午茶",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 16,
+"es": "arroz",
+"zh": "米饭",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 16,
+"es": "manzana",
+"zh": "苹果",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 16,
+"es": "huevos",
+"zh": "鸡蛋",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 16,
+"es": "zumo / jugo",
+"zh": "果汁",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 17,
+"es": "camiseta",
+"zh": "T恤",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 17,
+"es": "chaqueta",
+"zh": "夹克",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 17,
+"es": "botas",
+"zh": "靴子",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 17,
+"es": "gafas",
+"zh": "眼镜",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 17,
+"es": "anillo",
+"zh": "戒指",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 17,
+"es": "rebajas",
+"zh": "打折",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 18,
+"es": "diente",
+"zh": "牙齿",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 18,
+"es": "codo",
+"zh": "肘部",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 18,
+"es": "espalda",
+"zh": "背部",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 18,
+"es": "pie",
+"zh": "脚",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 18,
+"es": "resfriado",
+"zh": "感冒",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 19,
+"es": "atletismo",
+"zh": "田径",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 19,
+"es": "correr",
+"zh": "跑步",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 19,
+"es": "flexión",
+"zh": "俯卧撑",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 19,
+"es": "ganar",
+"zh": "赢",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 20,
+"es": "autobús",
+"zh": "公交车",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 20,
+"es": "barco",
+"zh": "船",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 20,
+"es": "patinete",
+"zh": "滑板车",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 20,
+"es": "andén",
+"zh": "站台",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 20,
+"es": "transbordo",
+"zh": "换乘",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 21,
+"es": "frío",
+"zh": "冷",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 21,
+"es": "temperatura",
+"zh": "温度",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 21,
+"es": "ventoso",
+"zh": "多风的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 22,
+"es": "calle",
+"zh": "街道",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 22,
+"es": "cine",
+"zh": "电影院",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 22,
+"es": "banco",
+"zh": "银行",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 22,
+"es": "centro comercial",
+"zh": "购物中心",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 22,
+"es": "esquina",
+"zh": "拐角",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 23,
+"es": "hámster",
+"zh": "仓鼠",
+"gold": "sust",
+"vieja": "verbo"
+},
+{
+"u": 23,
+"es": "elefante",
+"zh": "大象",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 23,
+"es": "vaca",
+"zh": "牛",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 23,
+"es": "pato",
+"zh": "鸭子",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 23,
+"es": "mariposa",
+"zh": "蝴蝶",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 24,
+"es": "canción",
+"zh": "歌曲",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 24,
+"es": "batería",
+"zh": "鼓",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 24,
+"es": "ritmo",
+"zh": "节奏",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 24,
+"es": "música clásica",
+"zh": "古典音乐",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 24,
+"es": "auriculares",
+"zh": "耳机",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 25,
+"es": "tablet",
+"zh": "平板电脑",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 25,
+"es": "teclado",
+"zh": "键盘",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 25,
+"es": "descargar",
+"zh": "下载",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 25,
+"es": "recibir",
+"zh": "接收",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 25,
+"es": "conectarse",
+"zh": "连接",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 26,
+"es": "dibujar",
+"zh": "画画",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 26,
+"es": "jugar al fútbol",
+"zh": "踢足球",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 26,
+"es": "descansar",
+"zh": "休息",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 27,
+"es": "destino",
+"zh": "目的地",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 27,
+"es": "hotel",
+"zh": "酒店",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 27,
+"es": "cámara",
+"zh": "相机",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 27,
+"es": "tren",
+"zh": "火车",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 28,
+"es": "ducharse",
+"zh": "淋浴",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 28,
+"es": "lavarse la cara",
+"zh": "洗脸",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 28,
+"es": "dormirse",
+"zh": "入睡",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 28,
+"es": "todos los días",
+"zh": "每天",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 29,
+"es": "la cuenta",
+"zh": "账单",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 29,
+"es": "el menú del día",
+"zh": "当日套餐",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 29,
+"es": "vegano / vegana",
+"zh": "纯素食者",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 30,
+"es": "conjugar",
+"zh": "变位",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 30,
+"es": "hablar",
+"zh": "说",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 30,
+"es": "haber",
+"zh": "有(助动词)",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 31,
+"es": "fuerte",
+"zh": "强壮的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 31,
+"es": "pelo rubio",
+"zh": "金发",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 31,
+"es": "ojos marrones",
+"zh": "棕色眼睛",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 31,
+"es": "piel blanca",
+"zh": "白皮肤",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 32,
+"es": "actor",
+"zh": "男演员",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 32,
+"es": "butaca",
+"zh": "座位",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 32,
+"es": "acción",
+"zh": "动作片",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 32,
+"es": "estreno",
+"zh": "首映/上映",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 33,
+"es": "más... que",
+"zh": "比...更",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 33,
+"es": "mayor",
+"zh": "更大/更老",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 33,
+"es": "óptimo",
+"zh": "极好",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 34,
+"es": "van a",
+"zh": "他们/她们要",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 34,
+"es": "este fin de semana",
+"zh": "这个周末",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 35,
+"es": "debajo de",
+"zh": "在...下",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 35,
+"es": "enfrente de",
+"zh": "在...对面",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 35,
+"es": "allí",
+"zh": "那里",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 35,
+"es": "recto",
+"zh": "直走",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 36,
+"es": "la",
+"zh": "她/它(阴性)",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 36,
+"es": "les",
+"zh": "给他们",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 37,
+"es": "estudiar",
+"zh": "学习",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 37,
+"es": "escribir",
+"zh": "写",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 37,
+"es": "bailar",
+"zh": "跳舞",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 38,
+"es": "soy",
+"zh": "我是",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 38,
+"es": "estás",
+"zh": "你在",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 38,
+"es": "tiene",
+"zh": "他有",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 38,
+"es": "vamos",
+"zh": "我们去",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 39,
+"es": "habéis",
+"zh": "你们已经",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 39,
+"es": "dicho",
+"zh": "说了",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 39,
+"es": "vuelto",
+"zh": "回来了",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 40,
+"es": "¿Cómo llego a...?",
+"zh": "我怎么去...？",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 40,
+"es": "cruza la calle",
+"zh": "过马路",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 40,
+"es": "en coche",
+"zh": "开车",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 40,
+"es": "el puente",
+"zh": "桥",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 41,
+"es": "tuve",
+"zh": "我有了",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 41,
+"es": "vi",
+"zh": "我看了",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 41,
+"es": "el año pasado",
+"zh": "去年",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 42,
+"es": "iba",
+"zh": "我去/过去常去",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 42,
+"es": "de pequeño",
+"zh": "小时候",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 43,
+"es": "viviré",
+"zh": "我会住",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 43,
+"es": "saldré",
+"zh": "我会出去",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 43,
+"es": "dentro de",
+"zh": "在...之后",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 44,
+"es": "¡Di!",
+"zh": "你说！",
+"gold": "verbo",
+"vieja": "expr"
+},
+{
+"u": 44,
+"es": "¡No te preocupes!",
+"zh": "别担心！",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 45,
+"es": "dudar",
+"zh": "怀疑",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 45,
+"es": "recomendar",
+"zh": "推荐",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 46,
+"es": "me encantaría",
+"zh": "我会很喜欢",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 46,
+"es": "sería",
+"zh": "会是",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 47,
+"es": "si + presente",
+"zh": "如果...（真实）",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 48,
+"es": "había",
+"zh": "我曾经",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 48,
+"es": "ya",
+"zh": "已经",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 49,
+"es": "quisiera",
+"zh": "我想要(礼貌)",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 49,
+"es": "hiciera",
+"zh": "他做(假设)",
+"gold": "verbo",
+"vieja": "sust"
+},
+{
+"u": 50,
+"es": "preguntar si",
+"zh": "问是否...",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 50,
+"es": "afirmar que",
+"zh": "断言...",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 51,
+"es": "reciclar",
+"zh": "回收",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 51,
+"es": "sostenible",
+"zh": "可持续的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 51,
+"es": "plástico",
+"zh": "塑料",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 52,
+"es": "tener sueño",
+"zh": "困了",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 52,
+"es": "costar un ojo de la cara",
+"zh": "贵得要命",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 52,
+"es": "echar de menos",
+"zh": "想念",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 53,
+"es": "actual",
+"zh": "当前的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 53,
+"es": "fábrica",
+"zh": "工厂",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 53,
+"es": "once",
+"zh": "十一",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 53,
+"es": "sano",
+"zh": "健康的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 54,
+"es": "después de",
+"zh": "在...之后",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 54,
+"es": "a veces",
+"zh": "有时",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 54,
+"es": "ya",
+"zh": "已经",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 55,
+"es": "zapatería",
+"zh": "鞋店",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 55,
+"es": "frutería",
+"zh": "水果店",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 55,
+"es": "joyería",
+"zh": "珠宝店",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 56,
+"es": "el banco",
+"zh": "银行",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 56,
+"es": "la tarjeta de débito",
+"zh": "借记卡",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 56,
+"es": "el cambio",
+"zh": "零钱/汇率",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 56,
+"es": "abrir una cuenta",
+"zh": "开户",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 57,
+"es": "llave",
+"zh": "钥匙",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 57,
+"es": "baño privado",
+"zh": "私人浴室",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 57,
+"es": "WiFi",
+"zh": "无线网络",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 58,
+"es": "aeropuerto",
+"zh": "机场",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 58,
+"es": "maleta",
+"zh": "行李箱",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 58,
+"es": "salidas",
+"zh": "出发",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 58,
+"es": "facturar",
+"zh": "托运",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 59,
+"es": "resfriado",
+"zh": "感冒",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 59,
+"es": "reposo",
+"zh": "休息",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 59,
+"es": "fractura",
+"zh": "骨折",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 60,
+"es": "alumno / alumna",
+"zh": "学生",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 60,
+"es": "deberes",
+"zh": "作业",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 60,
+"es": "mochila",
+"zh": "书包",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 61,
+"es": "solicitante",
+"zh": "申请人",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 61,
+"es": "candidato",
+"zh": "候选人",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 61,
+"es": "equipo",
+"zh": "团队",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 61,
+"es": "puntualidad",
+"zh": "守时",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 62,
+"es": "adjuntar",
+"zh": "附上",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 62,
+"es": "remitir",
+"zh": "发送",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 62,
+"es": "firma",
+"zh": "签名",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 62,
+"es": "plazo",
+"zh": "期限",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 63,
+"es": "personalmente, creo que",
+"zh": "我个人认为",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 63,
+"es": "en resumen",
+"zh": "总之",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 63,
+"es": "ahora bien",
+"zh": "不过",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 63,
+"es": "para terminar",
+"zh": "最后",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 64,
+"es": "reportaje",
+"zh": "报道",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 64,
+"es": "telediario",
+"zh": "电视新闻",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 64,
+"es": "editorial",
+"zh": "社论",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 64,
+"es": "retransmitir",
+"zh": "转播",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 65,
+"es": "jamón ibérico",
+"zh": "伊比利亚火腿",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 65,
+"es": "empanada",
+"zh": "恩潘纳达（馅饼）",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 65,
+"es": "pimiento",
+"zh": "辣椒",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 65,
+"es": "sal",
+"zh": "盐",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 66,
+"es": "Navidad",
+"zh": "圣诞节",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 66,
+"es": "Carnaval",
+"zh": "狂欢节",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 66,
+"es": "turrón",
+"zh": "牛轧糖",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 66,
+"es": "traje típico",
+"zh": "传统服装",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 67,
+"es": "envío",
+"zh": "运输/运费",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 67,
+"es": "atención al cliente",
+"zh": "客服",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 67,
+"es": "seguimiento",
+"zh": "追踪",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 67,
+"es": "vendedor",
+"zh": "卖家",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 68,
+"es": "contrato",
+"zh": "合同",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 68,
+"es": "baño",
+"zh": "卫生间",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 68,
+"es": "reformado",
+"zh": "翻新的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 68,
+"es": "arrendatario",
+"zh": "承租人",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 69,
+"es": "nervioso",
+"zh": "紧张的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 69,
+"es": "tener sueño",
+"zh": "困",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 69,
+"es": "feliz",
+"zh": "幸福的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 69,
+"es": "avergonzado",
+"zh": "尴尬的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 70,
+"es": "introvertido",
+"zh": "内向的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 70,
+"es": "divertido",
+"zh": "有趣的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 70,
+"es": "responsable",
+"zh": "负责任的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 70,
+"es": "paciente",
+"zh": "有耐心的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 71,
+"es": "beneficio",
+"zh": "利润",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 71,
+"es": "flete",
+"zh": "运费",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 71,
+"es": "cliente",
+"zh": "客户",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 71,
+"es": "certificado de origen",
+"zh": "原产地证书",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 72,
+"es": "descubrimiento",
+"zh": "发现",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 72,
+"es": "muestra",
+"zh": "样本",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 72,
+"es": "ciberseguridad",
+"zh": "网络安全",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 72,
+"es": "vehículo autónomo",
+"zh": "自动驾驶汽车",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 73,
+"es": "novela",
+"zh": "小说",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 73,
+"es": "corriente",
+"zh": "流派",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 73,
+"es": "prosa",
+"zh": "散文",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 73,
+"es": "muralismo",
+"zh": "壁画主义",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 74,
+"es": "por lo tanto",
+"zh": "因此",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 74,
+"es": "finalmente",
+"zh": "最终",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 74,
+"es": "de lo contrario",
+"zh": "否则",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 74,
+"es": "así que",
+"zh": "所以",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 75,
+"es": "profesión",
+"zh": "职业",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 75,
+"es": "triste",
+"zh": "悲伤",
+"gold": "adj",
+"vieja": "sust"
+},
+{
+"u": 75,
+"es": "guapo",
+"zh": "英俊的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 75,
+"es": "lejos",
+"zh": "远的",
+"gold": "expr",
+"vieja": "adj"
+},
+{
+"u": 76,
+"es": "por supuesto",
+"zh": "当然",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 76,
+"es": "por lo menos",
+"zh": "至少",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 76,
+"es": "servir para",
+"zh": "用于",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 76,
+"es": "plazo",
+"zh": "期限",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 77,
+"es": "participio",
+"zh": "过去分词",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 77,
+"es": "preposición a",
+"zh": "前置词 a",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 77,
+"es": "lengua oral",
+"zh": "口语",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 77,
+"es": "informe",
+"zh": "报告",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 78,
+"es": "homologación",
+"zh": "学历认证",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 78,
+"es": "comedor universitario",
+"zh": "大学食堂",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 78,
+"es": "agencia inmobiliaria",
+"zh": "房地产中介",
+"gold": "sust",
+"vieja": "expr"
+},
+{
+"u": 78,
+"es": "suspender",
+"zh": "挂科",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 79,
+"es": "dar me gusta",
+"zh": "点赞",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 79,
+"es": "notificación",
+"zh": "通知",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 79,
+"es": "denunciar",
+"zh": "举报",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 79,
+"es": "cerrar sesión",
+"zh": "登出",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 80,
+"es": "tarea",
+"zh": "任务",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 80,
+"es": "examinador",
+"zh": "考官",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 80,
+"es": "fluidez",
+"zh": "流利度",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 80,
+"es": "borrador",
+"zh": "草稿",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 81,
+"es": "el chocolate",
+"zh": "巧克力",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 81,
+"es": "bailar",
+"zh": "跳舞",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 81,
+"es": "tampoco",
+"zh": "也不（用于否定）",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 81,
+"es": "el karaoke",
+"zh": "卡拉OK",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 82,
+"es": "el banco",
+"zh": "银行",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 82,
+"es": "cerca de",
+"zh": "在……附近",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 82,
+"es": "el gimnasio",
+"zh": "健身房",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 83,
+"es": "el kilo",
+"zh": "公斤",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 83,
+"es": "las patatas",
+"zh": "土豆",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 83,
+"es": "las naranjas",
+"zh": "橙子",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 83,
+"es": "fresco",
+"zh": "新鲜的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 84,
+"es": "la llamada",
+"zh": "电话；通话",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 84,
+"es": "equivocarse",
+"zh": "弄错；搞错",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 84,
+"es": "de acuerdo",
+"zh": "同意；好的",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 84,
+"es": "libre",
+"zh": "有空的；空闲的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 85,
+"es": "el dolor",
+"zh": "疼痛",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 85,
+"es": "tener que",
+"zh": "必须；得",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 85,
+"es": "la pastilla",
+"zh": "药片",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 86,
+"es": "contar",
+"zh": "讲述",
+"gold": "verbo",
+"vieja": "verbo"
+},
+{
+"u": 86,
+"es": "estar a punto de",
+"zh": "正要；差点儿",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 86,
+"es": "en ese momento",
+"zh": "就在那时",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 86,
+"es": "¡Qué mala suerte!",
+"zh": "真倒霉！",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 87,
+"es": "¿Te importa si…?",
+"zh": "你介意……吗？",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 87,
+"es": "por supuesto",
+"zh": "当然",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 87,
+"es": "llegar tarde",
+"zh": "迟到",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 87,
+"es": "sin problema",
+"zh": "没问题",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 88,
+"es": "¿Dónde estará…?",
+"zh": "……会在哪儿呢？",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 88,
+"es": "quizás / quizá",
+"zh": "也许",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 88,
+"es": "puede que",
+"zh": "可能",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 89,
+"es": "tratar de usted",
+"zh": "用 usted 称呼",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 89,
+"es": "educado/a",
+"zh": "有礼貌的",
+"gold": "adj",
+"vieja": "adj"
+},
+{
+"u": 89,
+"es": "el voseo",
+"zh": "用 vos 代替 tú 的现象",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 89,
+"es": "Un saludo",
+"zh": "致以问候",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 90,
+"es": "el encuestado / la encuestada",
+"zh": "受访者",
+"gold": "sust",
+"vieja": "sust"
+},
+{
+"u": 90,
+"es": "según",
+"zh": "根据",
+"gold": "expr",
+"vieja": "sust"
+},
+{
+"u": 90,
+"es": "mantenerse estable",
+"zh": "保持稳定",
+"gold": "expr",
+"vieja": "expr"
+},
+{
+"u": 90,
+"es": "deberse a",
+"zh": "由于；归因于",
+"gold": "expr",
+"vieja": "expr"
+}
+],
+"control": [
+{
+"u": 1,
+"es": "Buenas noches",
+"zh": "晚上好/晚安",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 1,
+"es": "Chao",
+"zh": "拜拜(口语)",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 1,
+"es": "mal",
+"zh": "不好",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 1,
+"es": "un abrazo",
+"zh": "一个拥抱",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 2,
+"es": "De nada",
+"zh": "不客气",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 2,
+"es": "Disculpa",
+"zh": "打扰一下(非正式)",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 2,
+"es": "No tenías que hacerlo",
+"zh": "你不必这样做的",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 3,
+"es": "Soy",
+"zh": "我是",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 3,
+"es": "Un placer",
+"zh": "很荣幸(简短)",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 3,
+"es": "Él es",
+"zh": "他是",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 3,
+"es": "Soy de...",
+"zh": "我来自...",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 4,
+"es": "cero",
+"zh": "零",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 4,
+"es": "seis",
+"zh": "六",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 4,
+"es": "dieciséis, diecisiete, dieciocho, diecinueve",
+"zh": "16,17,18,19",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 4,
+"es": "más",
+"zh": "加",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 5,
+"es": "cuarenta",
+"zh": "四十",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 5,
+"es": "cien / ciento",
+"zh": "一百",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 5,
+"es": "setenta y cinco",
+"zh": "七十五",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 6,
+"es": "¿De dónde es usted?",
+"zh": "您来自哪里？(正式)",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 6,
+"es": "México",
+"zh": "墨西哥",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 6,
+"es": "Canadá",
+"zh": "加拿大",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 6,
+"es": "Brasil",
+"zh": "巴西",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 6,
+"es": "peruano / peruana",
+"zh": "秘鲁人",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "adj"
+},
+{
+"u": 6,
+"es": "alemán / alemana",
+"zh": "德国人",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "adj"
+},
+{
+"u": 7,
+"es": "casa",
+"zh": "房子",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 7,
+"es": "piso compartido",
+"zh": "合租公寓",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 7,
+"es": "lejos de",
+"zh": "离...远",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 7,
+"es": "amueblado",
+"zh": "带家具的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 8,
+"es": "maestro / maestra",
+"zh": "小学老师",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 8,
+"es": "camarero / camarera",
+"zh": "服务员",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 8,
+"es": "escritor / escritora",
+"zh": "作家",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 8,
+"es": "contable / contador",
+"zh": "会计",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "adj"
+},
+{
+"u": 8,
+"es": "azafato / azafata",
+"zh": "空乘",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 8,
+"es": "oficina",
+"zh": "办公室",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 9,
+"es": "miércoles",
+"zh": "星期三",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 9,
+"es": "mañana",
+"zh": "明天",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 9,
+"es": "finde",
+"zh": "周末(口语)",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 10,
+"es": "enero",
+"zh": "一月",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 10,
+"es": "julio",
+"zh": "七月",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 10,
+"es": "primavera",
+"zh": "春天",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 10,
+"es": "el mes pasado",
+"zh": "上个月",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 11,
+"es": "las dos",
+"zh": "两点",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 11,
+"es": "de la tarde",
+"zh": "下午",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 11,
+"es": "hora",
+"zh": "小时/时间",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 12,
+"es": "tercero / tercera",
+"zh": "第三",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "adj"
+},
+{
+"u": 12,
+"es": "noveno / novena",
+"zh": "第九",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "adj"
+},
+{
+"u": 12,
+"es": "vigésimo / vigésima",
+"zh": "第二十",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 12,
+"es": "aniversario",
+"zh": "周年纪念",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 13,
+"es": "negro / negra",
+"zh": "黑色",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "adj"
+},
+{
+"u": 13,
+"es": "marrón / café",
+"zh": "棕色",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "adj"
+},
+{
+"u": 13,
+"es": "¿De qué color?",
+"zh": "什么颜色？",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 14,
+"es": "abuela",
+"zh": "祖母/外婆",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 14,
+"es": "sobrina",
+"zh": "侄女/外甥女",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 14,
+"es": "cuñada",
+"zh": "嫂子/弟媳",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 14,
+"es": "hija",
+"zh": "女儿",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 15,
+"es": "ático",
+"zh": "顶层公寓",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 15,
+"es": "comedor",
+"zh": "餐厅",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 15,
+"es": "silla",
+"zh": "椅子",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 15,
+"es": "alfombra",
+"zh": "地毯",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 16,
+"es": "sed",
+"zh": "口渴",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 16,
+"es": "carne",
+"zh": "肉",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 16,
+"es": "lechuga",
+"zh": "生菜",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 16,
+"es": "fresa",
+"zh": "草莓",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 16,
+"es": "agua",
+"zh": "水",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 16,
+"es": "sangría",
+"zh": "桑格利亚",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 17,
+"es": "vaqueros / jeans",
+"zh": "牛仔裤",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 17,
+"es": "sudadera",
+"zh": "卫衣",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 17,
+"es": "guantes",
+"zh": "手套",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 17,
+"es": "pendientes",
+"zh": "耳环",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 17,
+"es": "cartera",
+"zh": "钱包",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 18,
+"es": "ojo",
+"zh": "眼睛",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 18,
+"es": "cuello",
+"zh": "脖子",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 18,
+"es": "dedo",
+"zh": "手指",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 18,
+"es": "pierna",
+"zh": "腿",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 18,
+"es": "me duele",
+"zh": "我疼",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 19,
+"es": "tenis",
+"zh": "网球",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 19,
+"es": "esquí",
+"zh": "滑雪",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 19,
+"es": "ejercicio",
+"zh": "锻炼",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 19,
+"es": "equipo",
+"zh": "队伍",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 19,
+"es": "campeón",
+"zh": "冠军",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 20,
+"es": "tranvía",
+"zh": "有轨电车",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 20,
+"es": "taxi",
+"zh": "出租车",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 20,
+"es": "estación",
+"zh": "车站",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 20,
+"es": "ida y vuelta",
+"zh": "往返",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 21,
+"es": "nieve",
+"zh": "雪",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 21,
+"es": "niebla",
+"zh": "雾",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 21,
+"es": "nublado",
+"zh": "多云的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 22,
+"es": "ciudad",
+"zh": "城市",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 22,
+"es": "hospital",
+"zh": "医院",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 22,
+"es": "supermercado",
+"zh": "超市",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 22,
+"es": "iglesia",
+"zh": "教堂",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 22,
+"es": "recto",
+"zh": "直走",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 23,
+"es": "pájaro",
+"zh": "鸟",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 23,
+"es": "león",
+"zh": "狮子",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 23,
+"es": "oso",
+"zh": "熊",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 23,
+"es": "oveja",
+"zh": "羊",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 23,
+"es": "ballena",
+"zh": "鲸鱼",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 23,
+"es": "zoológico",
+"zh": "动物园",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 24,
+"es": "concierto",
+"zh": "演唱会",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 24,
+"es": "flauta",
+"zh": "笛子",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 24,
+"es": "pop",
+"zh": "流行音乐",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 24,
+"es": "tocar",
+"zh": "演奏",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 25,
+"es": "móvil / celular",
+"zh": "手机",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 25,
+"es": "cargador",
+"zh": "充电器",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 25,
+"es": "WiFi",
+"zh": "无线网络",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 25,
+"es": "guardar",
+"zh": "保存",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 25,
+"es": "like / me gusta",
+"zh": "点赞",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 26,
+"es": "la afición",
+"zh": "爱好",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 26,
+"es": "bailar",
+"zh": "跳舞",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 26,
+"es": "jugar a videojuegos",
+"zh": "玩电子游戏",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 26,
+"es": "¿Qué te gusta hacer?",
+"zh": "你喜欢做什么？",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 27,
+"es": "campo",
+"zh": "乡村",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 27,
+"es": "pasaporte",
+"zh": "护照",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 27,
+"es": "recuerdo",
+"zh": "纪念品",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 27,
+"es": "equipaje",
+"zh": "行李",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 28,
+"es": "desvestirse",
+"zh": "脱衣服",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 28,
+"es": "maquillarse",
+"zh": "化妆",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 28,
+"es": "cenar",
+"zh": "吃晚餐",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 28,
+"es": "por la noche",
+"zh": "晚上",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 29,
+"es": "el primer plato",
+"zh": "第一道菜",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 29,
+"es": "la reserva",
+"zh": "预订",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 29,
+"es": "recomendar",
+"zh": "推荐",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 30,
+"es": "persona",
+"zh": "人称",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 30,
+"es": "ser",
+"zh": "是(本质)",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 31,
+"es": "bajo / baja",
+"zh": "矮的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 31,
+"es": "pelo corto",
+"zh": "短发",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 31,
+"es": "calvo",
+"zh": "秃头的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 31,
+"es": "gafas",
+"zh": "眼镜",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 31,
+"es": "tatuaje",
+"zh": "纹身",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 32,
+"es": "guionista",
+"zh": "编剧",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 32,
+"es": "argumento",
+"zh": "剧情",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 32,
+"es": "animación",
+"zh": "动画片",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 32,
+"es": "subtítulos",
+"zh": "字幕",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 33,
+"es": "tanto... como",
+"zh": "和...一样多",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 33,
+"es": "la más",
+"zh": "最(阴性)",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 34,
+"es": "vas a",
+"zh": "你要",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 34,
+"es": "la semana que viene",
+"zh": "下周",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 34,
+"es": "algún día",
+"zh": "有一天",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 35,
+"es": "al lado de",
+"zh": "在...旁",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 35,
+"es": "fuera de",
+"zh": "在...外面",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 35,
+"es": "abajo",
+"zh": "下面",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 36,
+"es": "me",
+"zh": "我(宾语)",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 36,
+"es": "los",
+"zh": "他们(阳性)",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 36,
+"es": "se los",
+"zh": "把它们给他",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 37,
+"es": "beber",
+"zh": "喝",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 37,
+"es": "aprender",
+"zh": "学习",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 38,
+"es": "estar",
+"zh": "在/是(状态)",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 38,
+"es": "somos",
+"zh": "我们是",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 38,
+"es": "están",
+"zh": "他们在",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 38,
+"es": "voy",
+"zh": "我去",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 39,
+"es": "has",
+"zh": "你已经",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 39,
+"es": "comido",
+"zh": "吃了",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 39,
+"es": "abierto",
+"zh": "打开了",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 39,
+"es": "nunca",
+"zh": "从不",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 40,
+"es": "gira a la derecha",
+"zh": "右转",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 40,
+"es": "cerca",
+"zh": "近",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 40,
+"es": "la rotonda / glorieta",
+"zh": "环岛",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 41,
+"es": "viví",
+"zh": "我住了",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 41,
+"es": "puse",
+"zh": "我放了",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 41,
+"es": "quise",
+"zh": "我想要了",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 42,
+"es": "comía",
+"zh": "我吃/过去常吃",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 42,
+"es": "todos los días",
+"zh": "每天",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 42,
+"es": "normalmente",
+"zh": "通常",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 43,
+"es": "tendré",
+"zh": "我会有",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 43,
+"es": "mañana",
+"zh": "明天",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 44,
+"es": "¡Vive!",
+"zh": "你住/生活！",
+"gold": "verbo",
+"vieja": "expr",
+"reglasSinVer": "verbo"
+},
+{
+"u": 44,
+"es": "¡Sé!",
+"zh": "你是！",
+"gold": "verbo",
+"vieja": "expr",
+"reglasSinVer": "verbo"
+},
+{
+"u": 44,
+"es": "¡Levántate!",
+"zh": "起来！",
+"gold": "verbo",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 45,
+"es": "desear",
+"zh": "愿望",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 45,
+"es": "es posible que",
+"zh": "可能",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 46,
+"es": "querría",
+"zh": "会想要",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 46,
+"es": "saldría",
+"zh": "会出去",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 47,
+"es": "yo que tú",
+"zh": "如果我是你",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 48,
+"es": "habíamos",
+"zh": "我们曾经",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 48,
+"es": "jamás",
+"zh": "从未(强调)",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 49,
+"es": "tuviera",
+"zh": "我有(假设)",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 49,
+"es": "hubiera",
+"zh": "我有(假设过去)",
+"gold": "verbo",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 50,
+"es": "aconsejar que",
+"zh": "建议...",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 51,
+"es": "contaminación",
+"zh": "污染",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 51,
+"es": "energía renovable",
+"zh": "可再生能源",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 51,
+"es": "huella de carbono",
+"zh": "碳足迹",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 51,
+"es": "inundación",
+"zh": "洪水",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 52,
+"es": "tener ganas de",
+"zh": "想要",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 52,
+"es": "estar en las nubes",
+"zh": "心不在焉",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 52,
+"es": "estar de buen humor",
+"zh": "心情好",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 53,
+"es": "constipado",
+"zh": "感冒了",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "verbo"
+},
+{
+"u": 53,
+"es": "largo",
+"zh": "长的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 53,
+"es": "realizar",
+"zh": "实现",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 53,
+"es": "suceso",
+"zh": "事件",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 54,
+"es": "desde que",
+"zh": "自从...",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 54,
+"es": "mañana",
+"zh": "明天",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 54,
+"es": "actualmente",
+"zh": "目前",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 55,
+"es": "panadería",
+"zh": "面包店",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 55,
+"es": "mercado",
+"zh": "市场",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 55,
+"es": "dependiente",
+"zh": "店员",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 56,
+"es": "la cuenta corriente",
+"zh": "活期账户",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 56,
+"es": "ingresar dinero",
+"zh": "存钱",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 56,
+"es": "la comisión",
+"zh": "手续费",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 57,
+"es": "habitación",
+"zh": "房间",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 57,
+"es": "cama individual",
+"zh": "单人床",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 57,
+"es": "secador de pelo",
+"zh": "吹风机",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 57,
+"es": "aparcamiento",
+"zh": "停车场",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 58,
+"es": "billete / boleto",
+"zh": "机票",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 58,
+"es": "puerta de embarque",
+"zh": "登机口",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 58,
+"es": "cancelación",
+"zh": "取消",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 59,
+"es": "dolor",
+"zh": "疼痛",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 59,
+"es": "receta",
+"zh": "处方",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 59,
+"es": "farmacia",
+"zh": "药店",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 60,
+"es": "instituto",
+"zh": "中学",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 60,
+"es": "aprobar",
+"zh": "通过",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 60,
+"es": "ciencias",
+"zh": "科学",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 61,
+"es": "entrevista",
+"zh": "面试",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 61,
+"es": "jornada",
+"zh": "工作日",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 61,
+"es": "fortaleza",
+"zh": "优点",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 61,
+"es": "referencia",
+"zh": "推荐信",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 62,
+"es": "estimado",
+"zh": "尊敬的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 62,
+"es": "agradecer",
+"zh": "感谢",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 62,
+"es": "asunto",
+"zh": "主题",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 62,
+"es": "condicional",
+"zh": "条件式",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 63,
+"es": "a mi juicio",
+"zh": "我认为",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 63,
+"es": "además",
+"zh": "此外",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 63,
+"es": "a pesar de ello",
+"zh": "尽管如此",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 63,
+"es": "estoy de acuerdo en parte",
+"zh": "我部分同意",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 64,
+"es": "periódico",
+"zh": "报纸",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 64,
+"es": "entradilla",
+"zh": "导语",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 64,
+"es": "periodista",
+"zh": "记者",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 64,
+"es": "quiosco",
+"zh": "报刊亭",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 65,
+"es": "paella",
+"zh": "海鲜饭",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 65,
+"es": "tacos",
+"zh": "塔可",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 65,
+"es": "arroz",
+"zh": "大米",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 65,
+"es": "pollo",
+"zh": "鸡肉",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 66,
+"es": "fiesta",
+"zh": "节日；聚会",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 66,
+"es": "Día de Reyes",
+"zh": "三王节",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 66,
+"es": "disfraz",
+"zh": "化装服",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 66,
+"es": "regalo",
+"zh": "礼物",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 67,
+"es": "compra online",
+"zh": "网购",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 67,
+"es": "cambio",
+"zh": "换货",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 67,
+"es": "pago contra reembolso",
+"zh": "货到付款",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 67,
+"es": "garantía",
+"zh": "保修",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 68,
+"es": "piso",
+"zh": "公寓",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 68,
+"es": "habitación",
+"zh": "房间",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 68,
+"es": "terraza",
+"zh": "露台",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 68,
+"es": "suministros",
+"zh": "水电燃气费",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 69,
+"es": "contento",
+"zh": "高兴的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 69,
+"es": "sorprendido",
+"zh": "惊讶的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 69,
+"es": "tener celos",
+"zh": "嫉妒",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 69,
+"es": "aburrido",
+"zh": "无聊的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 70,
+"es": "simpático",
+"zh": "友好的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 70,
+"es": "tímido",
+"zh": "害羞的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 70,
+"es": "pesimista",
+"zh": "悲观的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 70,
+"es": "generoso",
+"zh": "慷慨的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 71,
+"es": "empresa",
+"zh": "企业",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 71,
+"es": "importación",
+"zh": "进口",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 71,
+"es": "acuerdo",
+"zh": "协议",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 71,
+"es": "carta de crédito",
+"zh": "信用证",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 72,
+"es": "investigación",
+"zh": "研究",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 72,
+"es": "hipótesis",
+"zh": "假设",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 72,
+"es": "prototipo",
+"zh": "原型",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 72,
+"es": "sostenibilidad",
+"zh": "可持续性",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 73,
+"es": "literatura",
+"zh": "文学",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 73,
+"es": "autor",
+"zh": "作者",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 73,
+"es": "argumento",
+"zh": "情节",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 73,
+"es": "vanguardia",
+"zh": "先锋派",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 74,
+"es": "además",
+"zh": "此外",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 74,
+"es": "en primer lugar",
+"zh": "首先",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 74,
+"es": "a menos que",
+"zh": "除非",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 74,
+"es": "por el contrario",
+"zh": "相反",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 75,
+"es": "ser",
+"zh": "是（本质）",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 75,
+"es": "casado",
+"zh": "已婚",
+"gold": "adj",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 75,
+"es": "rico",
+"zh": "有钱的；美味的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 75,
+"es": "cerrado",
+"zh": "关着的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 76,
+"es": "por favor",
+"zh": "请",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 76,
+"es": "por la mañana",
+"zh": "早上",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 76,
+"es": "para mí",
+"zh": "对我来说",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 76,
+"es": "luchar por",
+"zh": "为…奋斗",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 77,
+"es": "voz pasiva",
+"zh": "被动语态",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 77,
+"es": "se impersonal",
+"zh": "无人称 se",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 77,
+"es": "tercera persona",
+"zh": "第三人称",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 77,
+"es": "norma",
+"zh": "规定",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 78,
+"es": "matrícula",
+"zh": "注册",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 78,
+"es": "tutoría",
+"zh": "辅导时间",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 78,
+"es": "contrato de alquiler",
+"zh": "租赁合同",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 78,
+"es": "trabajo en grupo",
+"zh": "小组作业",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 79,
+"es": "red social",
+"zh": "社交媒体",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 79,
+"es": "perfil",
+"zh": "个人主页",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 79,
+"es": "hashtag",
+"zh": "话题标签",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 79,
+"es": "virus",
+"zh": "病毒",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 80,
+"es": "convocatoria",
+"zh": "考试通知/场次",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 80,
+"es": "calificación",
+"zh": "评分/成绩",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 80,
+"es": "estrategia",
+"zh": "策略",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 80,
+"es": "cohesión",
+"zh": "衔接",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 81,
+"es": "gustar",
+"zh": "喜欢（被喜欢的东西作主语）",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 81,
+"es": "la música",
+"zh": "音乐",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 81,
+"es": "mucho",
+"zh": "很；非常（表示程度）",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+},
+{
+"u": 81,
+"es": "nadar",
+"zh": "游泳",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 82,
+"es": "la calle",
+"zh": "街道",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 82,
+"es": "la plaza",
+"zh": "广场",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 82,
+"es": "enfrente de",
+"zh": "在……对面",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 82,
+"es": "tranquilo",
+"zh": "安静的；平静的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 83,
+"es": "los huevos",
+"zh": "鸡蛋",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 83,
+"es": "costar",
+"zh": "价值；花费（多少钱）",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 83,
+"es": "el queso",
+"zh": "奶酪",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 84,
+"es": "llamar (por teléfono)",
+"zh": "打电话",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 84,
+"es": "un momento",
+"zh": "稍等；一会儿",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 84,
+"es": "apetecer",
+"zh": "想要；有兴致（用法同 gustar）",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 84,
+"es": "es que…",
+"zh": "因为……；是这样的……（说明理由）",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 85,
+"es": "la garganta",
+"zh": "喉咙；嗓子",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 85,
+"es": "resfriado",
+"zh": "感冒的",
+"gold": "adj",
+"vieja": "adj",
+"reglasSinVer": "adj"
+},
+{
+"u": 85,
+"es": "descansar",
+"zh": "休息",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 85,
+"es": "la miel",
+"zh": "蜂蜜",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 86,
+"es": "darse cuenta de",
+"zh": "意识到；发现",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 86,
+"es": "quedarse sin batería",
+"zh": "（手机）没电",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 86,
+"es": "total, que",
+"zh": "总之；结果",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 87,
+"es": "hacer un favor",
+"zh": "帮忙",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 87,
+"es": "es que…",
+"zh": "是因为……（解释理由）",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 87,
+"es": "perdona / perdone",
+"zh": "对不起；劳驾",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 87,
+"es": "Me encantaría, pero…",
+"zh": "我很想，但是……",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 88,
+"es": "la probabilidad",
+"zh": "可能性；概率",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 88,
+"es": "estar de viaje",
+"zh": "在外旅行；出差",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 88,
+"es": "igual (coloquial)",
+"zh": "说不定（口语）",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 88,
+"es": "estar seguro/a de",
+"zh": "确信",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 89,
+"es": "el registro",
+"zh": "语体",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 89,
+"es": "¿Nos tuteamos?",
+"zh": "我们用“你”相称吧？",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "expr"
+},
+{
+"u": 89,
+"es": "Estimado/a…",
+"zh": "尊敬的……",
+"gold": "expr",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 90,
+"es": "el gráfico de barras",
+"zh": "柱状图",
+"gold": "sust",
+"vieja": "expr",
+"reglasSinVer": "sust"
+},
+{
+"u": 90,
+"es": "la mitad",
+"zh": "一半",
+"gold": "sust",
+"vieja": "sust",
+"reglasSinVer": "sust"
+},
+{
+"u": 90,
+"es": "disminuir",
+"zh": "减少",
+"gold": "verbo",
+"vieja": "verbo",
+"reglasSinVer": "verbo"
+},
+{
+"u": 90,
+"es": "considerablemente",
+"zh": "显著地",
+"gold": "expr",
+"vieja": "sust",
+"reglasSinVer": "expr"
+}
+]
+}
