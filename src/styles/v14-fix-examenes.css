@@ -282,3 +282,10 @@ html body .light-page .ofe .ofe-phead .ofx-reloj-fin button { color: #fff6e0 !im
 }
 .xd-sello span { font: 700 44px/1 var(--ofx-cali); color: #fff3e0; }
 .xd-sello b { font: 800 13px/1 "Cinzel", Georgia, serif; letter-spacing: .14em; color: #ffe08a; }
+@media (max-width: 600px) {
+  .exam-experience h1 { font-size: 21px !important; line-height: 1.2 !important; overflow-wrap: break-word; hyphens: manual; min-width: 0; }
+  .exam-experience .p-8 .w-20.h-20 { width: 56px !important; height: 56px !important; }
+  .exam-experience .p-8 { padding: 18px !important; }
+  .exam-experience .p-8 > .flex { gap: 12px !important; }
+  .exam-experience .p-8 > .flex > div:last-child { min-width: 0; }
+}

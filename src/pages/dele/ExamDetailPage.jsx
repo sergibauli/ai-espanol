@@ -2887,7 +2887,7 @@ function WaComponent() {
                 <div className="p-6 md:p-8">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-white font-bold text-lg flex items-center gap-2">
-                      <FileTextIcon size={20} className="xd-ok" /> {t_1("Transcripcion", "转录")}
+                      <FileTextIcon size={20} className="xd-ok" /> {"Transcripción · 转录"}
                     </h3>
                     <div className="flex flex-wrap items-center gap-2">
                       <button
@@ -4080,7 +4080,7 @@ function WaComponent() {
                   <MicIcon size={20} className="xd-laca" />
                 </div>
                 <div>
-                  <h2 className="text-white font-bold text-lg">{t_1("Monologo", "独白")}</h2>
+                  <h2 className="text-white font-bold text-lg">{"Monólogo · 独白"}</h2>
                   <p className="text-white/30 text-xs">
                     {t_1("Elige un tema", "选择一个主题")}
                   </p>
@@ -4343,7 +4343,7 @@ function WaComponent() {
                       {Je && (
                         <div className="mb-4">
                           <p className="text-white/30 text-xs mb-1">
-                            {t_1("Transcripcion", "转录")}:
+                            {"Transcripción · 转录"}:
                           </p>
                           <div
                             className="rounded-xl p-4"
@@ -4394,7 +4394,7 @@ function WaComponent() {
                   <MessageCircleIcon size={20} className="xd-tinta" />
                 </div>
                 <div>
-                  <h2 className="text-white font-bold text-lg">{t_1("Interaccion oral", "口语互动")}</h2>
+                  <h2 className="text-white font-bold text-lg">{"Interacción oral · 口语互动"}</h2>
                   <p className="text-white/30 text-xs">
                     {t_1("Practica con IA", "用AI练习")}
                   </p>
@@ -4426,7 +4426,7 @@ function WaComponent() {
                         textShadow: "0 0 15px rgba(107,74,43,0.4)",
                       }}
                     >
-                      {t_1("Situacion", "情境")}
+                      {"Situación · 情境"}
                     </h3>
                   </div>
                   <p
@@ -4478,7 +4478,7 @@ function WaComponent() {
                     </div>
                     <div>
                       <p className="xd-tinta text-xs mb-2 font-bold uppercase tracking-wider">
-                        {t_1("Frases utiles / 有用的句子", "有用的句子")}:
+                        {"Frases útiles · 有用的句子"}:
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {t.usefulPhrases.map((x, l) => {
@@ -4646,7 +4646,7 @@ function WaComponent() {
                       {et && (
                         <div className="mb-4">
                           <p className="text-white/30 text-xs mb-1">
-                            {t_1("Transcripcion", "转录")}:
+                            {"Transcripción · 转录"}:
                           </p>
                           <div
                             className="rounded-xl p-4"
