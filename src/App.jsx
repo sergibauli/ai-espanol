@@ -32,7 +32,6 @@ const AhorcadoPage = React.lazy(() => import("./pages/juegos/AhorcadoPage.jsx"))
 const MemoryPage = React.lazy(() => import("./pages/juegos/MemoryPage.jsx"));
 const SopaPage = React.lazy(() => import("./pages/juegos/SopaPage.jsx"));
 const ScramblePage = React.lazy(() => import("./pages/juegos/ScramblePage.jsx"));
-const AudicionPage = React.lazy(() => import("./pages/AudicionPage.jsx"));
 const ConsejosPage = React.lazy(() => import("./pages/ConsejosPage.jsx"));
 const GramaticaPage = React.lazy(() => import("./pages/GramaticaPage.jsx"));
 const DiccionariosPage = React.lazy(SECCIONES["/diccionarios"]);
@@ -457,14 +456,6 @@ function AppRoutes() {
                 <PageTransition>
                   <ScramblePage />
                 </PageTransition>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/audicion"
-            element={
-              <RequireAuth>
-                <AudicionPage />
               </RequireAuth>
             }
           />

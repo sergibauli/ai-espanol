@@ -205,7 +205,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
   );
 }
 
-export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/mi-dele", "/diagnostico", "/examinador-oral", "/audicion", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz", "/diccionarios", "/pronunciacion", "/examenes"].includes(p) || /^\/modulos\/[^/]+/.test(p) || NIVEL_DELE(p);
+export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/mi-dele", "/diagnostico", "/examinador-oral", "/audicion", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz", "/enjambre", "/diccionarios", "/pronunciacion", "/examenes"].includes(p) || /^\/modulos\/[^/]+/.test(p) || NIVEL_DELE(p);
 
 // Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
 export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|examenes|examenes-nivel|oficial)(\/|$)/.test(p) && p !== "/oficial" && p !== "/examenes" && p !== "/examenes/generador" && !NIVEL_DELE(p);
