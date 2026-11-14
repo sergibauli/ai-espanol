@@ -19,6 +19,7 @@ import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx
 import { P } from "../../components/PostGameNav.jsx";
 import { SoundToggles } from "../../components/SoundToggles.jsx";
 import { g, a } from "../../lib/juegos-utils.js";
+import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
 function Re(espanol) {
   return espanol
@@ -50,7 +51,7 @@ function We(word) {
   return "hard";
 }
 function Ee() {
-  const a = ["#ff00aa", "#00d4ff", "#ffd600", "#39ff14", "#ff6b35", "#b829dd", "#ff6ec7", "#7b61ff"];
+  const a = ["#e0283f", "#f2c14e", "#f2c14e", "#5fd08a", "#d99a22", "#a50f25", "#e0283f", "#a50f25"];
   for (let o = 0; o < 120; o++) {
     const n = document.createElement("div");
     const m = 4 + Math.random() * 10;
@@ -88,7 +89,7 @@ function Ee() {
 function Pe1Component() {
   const aRef = React.useRef([]);
   if (aRef.current.length === 0) {
-    const o = ["#ffd36b", "#ff8a2a", "#ff3860", "#ffd600"];
+    const o = ["#f2c14e", "#d99a22", "#e0283f", "#f2c14e"];
     for (let id = 0; id < 20; id++) {
       aRef.current.push({
         id,
@@ -141,9 +142,9 @@ function GeComponent({ mood }) {
         : mood === "excited"
           ? "M 16 24 Q 24 34 32 24"
           : "M 18 26 Q 24 28 30 26";
-  const fill = mood === "happy" || mood === "excited" ? "rgba(255,105,180,0.6)" : "rgba(255,105,180,0.15)";
+  const fill = mood === "happy" || mood === "excited" ? "rgba(224,40,63,0.6)" : "rgba(224,40,63,0.15)";
   const x =
-    mood === "happy" ? "#46ff9a" : mood === "sad" ? "#ff4444" : mood === "excited" ? "#ffd600" : "#00d4ff";
+    mood === "happy" ? "#5fd08a" : mood === "sad" ? "#ff4444" : mood === "excited" ? "#f2c14e" : "#f2c14e";
   const animation =
     mood === "excited" ? "mascotExcited 0.3s ease-in-out infinite" : "mascotFloat 3s ease-in-out infinite";
   const b = mood === "sad";
@@ -193,8 +194,8 @@ function GeComponent({ mood }) {
           <ellipse cx="24" cy="28" rx="18" ry="16" fill="url(#scramGrad)" stroke={x} strokeWidth="1.5" />
           <ellipse cx="17" cy="24" rx={rx} ry={ry} fill="white" />
           <ellipse cx="31" cy="24" rx={rx} ry={ry} fill="white" />
-          <circle cx="17" cy="24" r="2.5" fill="#1a1a2e" />
-          <circle cx="31" cy="24" r="2.5" fill="#1a1a2e" />
+          <circle cx="17" cy="24" r="2.5" fill="#2a160c" />
+          <circle cx="31" cy="24" r="2.5" fill="#2a160c" />
           <circle cx="18.2" cy="22.8" r="1" fill="white" opacity="0.9" />
           <circle cx="32.2" cy="22.8" r="1" fill="white" opacity="0.9" />
           <circle cx="15.8" cy="25.2" r="0.5" fill="white" opacity="0.6" />
@@ -208,7 +209,7 @@ function GeComponent({ mood }) {
                 cx="4"
                 cy="12"
                 r="1.5"
-                fill="#ffd600"
+                fill="#f2c14e"
                 style={{
                   animation: "sparkle 0.5s ease-in-out infinite",
                 }}
@@ -217,7 +218,7 @@ function GeComponent({ mood }) {
                 cx="44"
                 cy="8"
                 r="1"
-                fill="#ff00aa"
+                fill="#e0283f"
                 style={{
                   animation: "sparkle 0.7s ease-in-out infinite 0.2s",
                 }}
@@ -226,7 +227,7 @@ function GeComponent({ mood }) {
                 cx="42"
                 cy="40"
                 r="1.5"
-                fill="#00d4ff"
+                fill="#f2c14e"
                 style={{
                   animation: "sparkle 0.6s ease-in-out infinite 0.4s",
                 }}
@@ -235,11 +236,11 @@ function GeComponent({ mood }) {
           )}
           {b && (
             <>
-              <circle cx="12" cy="28" r="1.5" fill="#00d4ff" opacity="0.8">
+              <circle cx="12" cy="28" r="1.5" fill="#f2c14e" opacity="0.8">
                 <animate attributeName="cy" from="28" to="38" dur="1s" repeatCount="indefinite" />
                 <animate attributeName="opacity" from="0.8" to="0" dur="1s" repeatCount="indefinite" />
               </circle>
-              <circle cx="36" cy="28" r="1.5" fill="#00d4ff" opacity="0.8">
+              <circle cx="36" cy="28" r="1.5" fill="#f2c14e" opacity="0.8">
                 <animate attributeName="cy" from="28" to="38" dur="1.2s" repeatCount="indefinite" />
                 <animate attributeName="opacity" from="0.8" to="0" dur="1.2s" repeatCount="indefinite" />
               </circle>
@@ -247,9 +248,9 @@ function GeComponent({ mood }) {
           )}
           <defs>
             <linearGradient id="scramGrad" x1="0" y1="0" x2="48" y2="48">
-              <stop offset="0%" stopColor="#ffd36b" />
-              <stop offset="50%" stopColor="#ff8a2a" />
-              <stop offset="100%" stopColor="#ff3860" />
+              <stop offset="0%" stopColor="#f2c14e" />
+              <stop offset="50%" stopColor="#d99a22" />
+              <stop offset="100%" stopColor="#e0283f" />
             </linearGradient>
           </defs>
         </svg>
@@ -264,14 +265,14 @@ function PeComponent({ ch, index, total }) {
       className="gm-tile w-16 h-20 flex items-center justify-center text-3xl font-black rounded-2xl relative"
       style={{
         background:
-          "linear-gradient(135deg, rgba(255,211,107,.2), rgba(255,211,107,.08), rgba(255,56,96,.06))",
-        border: "2px solid rgba(255,211,107,.4)",
-        color: "#ffd36b",
+          "linear-gradient(135deg, rgba(242,193,78,.2), rgba(242,193,78,.08), rgba(224,40,63,.06))",
+        border: "2px solid rgba(242,193,78,.4)",
+        color: "#f2c14e",
         boxShadow:
-          "0 0 25px rgba(255,211,107,.2), 0 0 50px rgba(255,211,107,.1), 0 8px 20px rgba(0,0,0,.3), inset 0 1px 1px rgba(255,255,255,.1)",
+          "0 0 25px rgba(242,193,78,.2), 0 0 50px rgba(242,193,78,.1), 0 8px 20px rgba(0,0,0,.3), inset 0 1px 1px rgba(255,255,255,.1)",
         animation: `letterLevitate 2s ease-in-out infinite ${m}s, letterReveal 0.6s cubic-bezier(.2,.9,.2,1) ${m}s both`,
         transformStyle: "preserve-3d",
-        textShadow: "0 0 15px rgba(255,211,107,.5), 0 0 30px rgba(255,211,107,.3)",
+        textShadow: "0 0 15px rgba(242,193,78,.5), 0 0 30px rgba(242,193,78,.3)",
       }}
     >
       <span className="relative z-10">{ch}</span>
@@ -362,7 +363,7 @@ function HeComponent() {
     }
   }, [L]);
   const je = (x_1, y_1, c = 50) => {
-    const g = ["#ffd36b", "#ff8a2a", "#ff3860", "#ff00aa", "#00d4ff", "#46ff9a", "#ffd600"];
+    const g = ["#f2c14e", "#d99a22", "#e0283f", "#e0283f", "#f2c14e", "#5fd08a", "#f2c14e"];
     const f = [];
     for (let s = 0; s < c; s++) {
       const y = (Math.PI * 2 * s) / c;
@@ -484,7 +485,7 @@ function HeComponent() {
             x: f.width / 2 - 30,
             y: f.height / 2 - 50,
             text: `+${g}`,
-            color: "#46ff9a",
+            color: "#5fd08a",
             life: 1.5,
           },
         ]);
@@ -526,218 +527,19 @@ function HeComponent() {
   const F = (t) => {
     switch (t) {
       case "easy":
-        return "#46ff9a";
+        return "#5fd08a";
       case "medium":
-        return "#ffd600";
+        return "#f2c14e";
       default:
         return "#ff4444";
     }
   };
   if (x === "select") {
     return (
-      <StarfieldBackground>
-        <Pe1Component />
-        <div
-          className="max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10"
-          style={{
-            perspective: "1000px",
-          }}
-        >
-          <SoundToggles />
-          <div className="flex items-center justify-between mb-8">
-            <Link
-              to="/juegos"
-              onClick={() => playClick()}
-              className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
-            >
-              <ArrowLeftIcon size={16} /> Volver / 返回
-            </Link>
-          </div>
-          <div className="text-center mb-10">
-            <div
-              className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-4 relative"
-              style={{
-                background: "linear-gradient(135deg,#ffd36b,#ff8a2a)",
-                boxShadow: "0 0 60px rgba(255,211,107,0.4), 0 0 120px rgba(255,138,42,0.2)",
-                animation: "scrambleFloat 3s ease-in-out infinite",
-              }}
-            >
-              <RocketIcon
-                size={48}
-                className="text-white"
-                style={{
-                  filter: "drop-shadow(0 0 10px rgba(255,255,255,0.5))",
-                }}
-              />
-              <div
-                className="absolute -top-2 -right-2"
-                style={{
-                  animation: "sparkle 2s ease-in-out infinite",
-                }}
-              >
-                <StarIcon
-                  size={20}
-                  style={{
-                    color: "#ffd600",
-                    fill: "#ffd600",
-                  }}
-                />
-              </div>
-            </div>
-            <h1
-              className="text-5xl md:text-7xl font-black mb-2"
-              style={{
-                background: "linear-gradient(135deg,#ffd36b 0%,#ff8a2a 50%,#ff3860 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 40px rgba(255,211,107,.4))",
-                animation: "scrambleTitlePulse 3s ease-in-out infinite alternate",
-              }}
-            >
-              Palabra Desordenada
-            </h1>
-            <p className="text-white/50 text-lg font-medium">
-              Selecciona un módulo para jugar / 选择模块开始游戏
-            </p>
-            {re && (
-              <div
-                className="mt-4 mx-auto max-w-lg p-4 rounded-xl text-sm font-bold"
-                style={{
-                  background: "rgba(255,68,68,.12)",
-                  border: "1px solid rgba(255,68,68,.3)",
-                  color: "#ff6b35",
-                }}
-              >
-                {re}
-              </div>
-            )}
-          </div>
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-            style={{
-              perspective: "1000px",
-            }}
-          >
-            <button
-              onClick={() => {
-                setRe("");
-                se(null);
-              }}
-              className="group relative rounded-2xl p-5 text-left cursor-pointer block overflow-hidden transition-all duration-500"
-              style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.65),rgba(5,8,27,.5))",
-                border: "1px solid rgba(255,255,255,.14)",
-                backdropFilter: "blur(14px)",
-                transformStyle: "preserve-3d",
-              }}
-              onMouseEnter={(t) => {
-                t.currentTarget.style.transform = "translateY(-12px) scale(1.03) rotateX(5deg) rotateY(2deg)";
-                t.currentTarget.style.boxShadow = "0 0 60px rgba(255,211,107,.3),0 25px 60px rgba(0,0,0,.5)";
-                t.currentTarget.style.borderColor = "#ffd36b60";
-              }}
-              onMouseLeave={(t) => {
-                t.currentTarget.style.transform = "";
-                t.currentTarget.style.boxShadow = "";
-                t.currentTarget.style.borderColor = "rgba(255,255,255,.14)";
-              }}
-            >
-              <div
-                className="absolute -inset-[2px] rounded-[26px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  background: "linear-gradient(90deg, #ffd36b00, #ffd36b, #ffd36b00)",
-                  backgroundSize: "200% 100%",
-                  animation: "borderRotate 3s linear infinite",
-                  zIndex: -1,
-                }}
-              />
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
-                style={{
-                  background: "linear-gradient(135deg, #ff00aa, #b829dd)",
-                  boxShadow: "0 0 20px rgba(255,0,170,0.3)",
-                }}
-              >
-                <LayersIcon size={24} className="text-white" />
-              </div>
-              <h3 className="text-white font-black text-base mb-1">Todos los módulos</h3>
-              <p
-                className="text-xs font-medium mb-1"
-                style={{
-                  color: "rgba(255,0,170,.7)",
-                }}
-              >
-                所有模块
-              </p>
-              <p className="text-xs font-medium text-white/40">Mezcla todo el vocabulario</p>
-            </button>
-            {ye.map((t) => (
-              <button
-                key={t.id}
-                onClick={() => {
-                  setRe("");
-                  se(t.id);
-                }}
-                className="group relative rounded-2xl p-5 text-left cursor-pointer block overflow-hidden transition-all duration-500"
-                style={{
-                  background: "linear-gradient(180deg,rgba(14,22,64,.65),rgba(5,8,27,.5))",
-                  border: "1px solid rgba(255,255,255,.14)",
-                  backdropFilter: "blur(14px)",
-                  transformStyle: "preserve-3d",
-                }}
-                onMouseEnter={(i) => {
-                  i.currentTarget.style.transform =
-                    "translateY(-12px) scale(1.03) rotateX(5deg) rotateY(2deg)";
-                  i.currentTarget.style.boxShadow = `0 0 60px ${t.color}30,0 25px 60px rgba(0,0,0,.5)`;
-                  i.currentTarget.style.borderColor = `${t.color}60`;
-                }}
-                onMouseLeave={(i) => {
-                  i.currentTarget.style.transform = "";
-                  i.currentTarget.style.boxShadow = "";
-                  i.currentTarget.style.borderColor = "rgba(255,255,255,.14)";
-                }}
-              >
-                <div
-                  className="absolute -inset-[2px] rounded-[26px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: `linear-gradient(90deg, ${t.color}00, ${t.color}, ${t.color}00)`,
-                    backgroundSize: "200% 100%",
-                    animation: "borderRotate 3s linear infinite",
-                    zIndex: -1,
-                  }}
-                />
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
-                  style={{
-                    background: `linear-gradient(135deg, ${t.color}, ${t.color}88)`,
-                    boxShadow: `0 0 20px ${t.color}40`,
-                  }}
-                >
-                  <BookOpenIcon size={24} className="text-white" />
-                </div>
-                <h3 className="text-white font-black text-base mb-1">{t.titulo}</h3>
-                <p
-                  className="text-xs font-medium mb-1"
-                  style={{
-                    color: `${t.color}aa`,
-                  }}
-                >
-                  {t.tituloChino}
-                </p>
-                <p className="text-xs font-medium text-white/40">{t.vocabularioCount} palabras / 词</p>
-              </button>
-            ))}
-          </div>
-          <style>{`
-            @keyframes scrambleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-            @keyframes scrambleTitlePulse { from{filter:drop-shadow(0 0 40px rgba(255,211,107,.4)) brightness(1)} to{filter:drop-shadow(0 0 80px rgba(255,211,107,.6)) brightness(1.15)} }
-            @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
-            @keyframes mascotFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-            @keyframes mascotPulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
-            @keyframes mascotExcited { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-12px) scale(1.1)} }
-            @keyframes sparkle { 0%,100%{opacity:0.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.3)} }
-          `}</style>
-        </div>
-      </StarfieldBackground>
+      <>
+        <SoundToggles />
+        <SelectorTemaJuego juego="scramble" error={re} onIniciar={(id) => { setRe(""); se(id); }} />
+      </>
     );
   }
   return (
@@ -774,7 +576,7 @@ function HeComponent() {
           <Link
             to="/juegos"
             onClick={() => playClick()}
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold"
           >
             <ArrowLeftIcon size={16} /> Volver / 返回
           </Link>
@@ -796,10 +598,10 @@ function HeComponent() {
             <div
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
               style={{
-                background: "rgba(255,107,53,.1)",
-                border: "1px solid rgba(255,107,53,.2)",
-                color: "#ff6b35",
-                boxShadow: "0 0 10px rgba(255,107,53,.1)",
+                background: "rgba(217,154,34,.1)",
+                border: "1px solid rgba(217,154,34,.2)",
+                color: "#d99a22",
+                boxShadow: "0 0 10px rgba(217,154,34,.1)",
               }}
             >
               <FlameIcon size={12} /> Racha: {_}
@@ -807,10 +609,10 @@ function HeComponent() {
             <div
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
               style={{
-                background: "rgba(255,0,170,.1)",
-                border: "1px solid rgba(255,0,170,.2)",
-                color: "#ff00aa",
-                boxShadow: "0 0 10px rgba(255,0,170,.1)",
+                background: "rgba(224,40,63,.1)",
+                border: "1px solid rgba(224,40,63,.2)",
+                color: "#e0283f",
+                boxShadow: "0 0 10px rgba(224,40,63,.1)",
               }}
             >
               <ZapIcon size={12} /> x{te.toFixed(1)}
@@ -818,10 +620,10 @@ function HeComponent() {
             <div
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
               style={{
-                background: "rgba(255,214,0,.1)",
-                border: "1px solid rgba(255,214,0,.2)",
-                color: "#ffd600",
-                boxShadow: "0 0 10px rgba(255,214,0,.1)",
+                background: "rgba(242,193,78,.1)",
+                border: "1px solid rgba(242,193,78,.2)",
+                color: "#f2c14e",
+                boxShadow: "0 0 10px rgba(242,193,78,.1)",
               }}
             >
               <ZapIcon size={12} /> {N}
@@ -832,10 +634,10 @@ function HeComponent() {
           <h1
             className="text-5xl md:text-6xl font-black mb-2"
             style={{
-              background: "linear-gradient(135deg,#ffd36b,#ff8a2a)",
+              background: "linear-gradient(135deg,#f2c14e,#d99a22)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 30px rgba(255,211,107,.3))",
+              filter: "drop-shadow(0 0 30px rgba(242,193,78,.3))",
             }}
           >
             Palabra Desordenada
@@ -847,8 +649,8 @@ function HeComponent() {
             <span
               className="text-[10px] font-bold uppercase tracking-wider"
               style={{
-                color: "#ffd36b",
-                textShadow: "0 0 10px rgba(255,211,107,.3)",
+                color: "#f2c14e",
+                textShadow: "0 0 10px rgba(242,193,78,.3)",
               }}
             >
               Progreso
@@ -856,7 +658,7 @@ function HeComponent() {
             <span
               className="text-[10px] font-bold"
               style={{
-                color: "rgba(207,216,255,.4)",
+                color: "rgba(255,236,200,.4)",
               }}
             >
               {u + 1} / {b.length}
@@ -873,8 +675,8 @@ function HeComponent() {
               className="h-full rounded-full transition-all duration-500 relative"
               style={{
                 width: `${(u / b.length) * 100}%`,
-                background: "linear-gradient(90deg,#ffd36b,#ff8a2a,#ff3860)",
-                boxShadow: "0 0 10px rgba(255,211,107,.5), 0 0 20px rgba(255,138,42,.3)",
+                background: "linear-gradient(90deg,#f2c14e,#d99a22,#e0283f)",
+                boxShadow: "0 0 10px rgba(242,193,78,.5), 0 0 20px rgba(217,154,34,.3)",
               }}
             >
               <div
@@ -890,20 +692,20 @@ function HeComponent() {
         <div
           className="gm-scroll gm-scramble rounded-3xl p-8 relative overflow-hidden"
           style={{
-            background: "linear-gradient(180deg,rgba(14,22,64,.6),rgba(5,8,27,.45))",
+            background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
             border: "1px solid rgba(255,255,255,.12)",
             backdropFilter: "blur(14px)",
             transformStyle: "preserve-3d",
             boxShadow: ue
-              ? "0 0 60px rgba(70,255,154,.4), 0 0 120px rgba(70,255,154,.2), 0 0 200px rgba(70,255,154,.1)"
-              : "0 0 30px rgba(255,211,107,.1)",
+              ? "0 0 60px rgba(95,208,138,.4), 0 0 120px rgba(95,208,138,.2), 0 0 200px rgba(95,208,138,.1)"
+              : "0 0 30px rgba(242,193,78,.1)",
           }}
           ref={ORef}
         >
           <div
             className="absolute -inset-[1px] rounded-[22px] opacity-40"
             style={{
-              background: "linear-gradient(135deg,#ffd36b,#ff8a2a)",
+              background: "linear-gradient(135deg,#f2c14e,#d99a22)",
               filter: "blur(15px)",
               zIndex: -1,
             }}
@@ -923,7 +725,7 @@ function HeComponent() {
             <p
               className="text-xs font-bold mb-3 uppercase tracking-wider"
               style={{
-                color: "rgba(207,216,255,.3)",
+                color: "rgba(255,236,200,.3)",
               }}
             >
               Letras desordenadas / 打乱的字母
@@ -960,10 +762,10 @@ function HeComponent() {
               onClick={() => setW(!W)}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
               style={{
-                background: "rgba(255,214,0,.08)",
-                border: "1px solid rgba(255,214,0,.15)",
-                color: "#ffd600",
-                boxShadow: "0 0 10px rgba(255,214,0,.1)",
+                background: "rgba(242,193,78,.08)",
+                border: "1px solid rgba(242,193,78,.15)",
+                color: "#f2c14e",
+                boxShadow: "0 0 10px rgba(242,193,78,.1)",
               }}
             >
               <LightbulbIcon size={12} /> {W ? "Ocultar / 隐藏" : "Pista / 提示"}
@@ -972,7 +774,7 @@ function HeComponent() {
               <p
                 className="mt-3 text-sm font-medium"
                 style={{
-                  color: "rgba(207,216,255,.6)",
+                  color: "rgba(255,236,200,.6)",
                   animation: "fadeIn 0.3s ease",
                 }}
               >
@@ -993,30 +795,30 @@ function HeComponent() {
               style={{
                 background:
                   l === "correct"
-                    ? "rgba(70,255,154,.12)"
+                    ? "rgba(95,208,138,.12)"
                     : l === "wrong"
                       ? "rgba(255,68,68,.12)"
                       : "rgba(255,255,255,.04)",
                 border:
                   l === "correct"
-                    ? "2px solid rgba(70,255,154,.5)"
+                    ? "2px solid rgba(95,208,138,.5)"
                     : l === "wrong"
                       ? "2px solid rgba(255,68,68,.5)"
                       : "1px solid rgba(255,255,255,.1)",
-                color: l === "correct" ? "#46ff9a" : l === "wrong" ? "#ff4444" : "#fff",
+                color: l === "correct" ? "#5fd08a" : l === "wrong" ? "#ff4444" : "#fff",
                 boxShadow:
                   l === "correct"
-                    ? "0 0 30px rgba(70,255,154,.3), 0 0 60px rgba(70,255,154,.1), inset 0 0 20px rgba(70,255,154,.05)"
+                    ? "0 0 30px rgba(95,208,138,.3), 0 0 60px rgba(95,208,138,.1), inset 0 0 20px rgba(95,208,138,.05)"
                     : l === "wrong"
                       ? "0 0 30px rgba(255,68,68,.3), 0 0 60px rgba(255,68,68,.1)"
-                      : "0 0 15px rgba(255,211,107,.1)",
+                      : "0 0 15px rgba(242,193,78,.1)",
                 animation:
                   l === "wrong"
                     ? "scrambleShake 0.5s ease"
                     : l === "correct"
                       ? "correctGlow 0.6s ease"
                       : "none",
-                textShadow: l === "correct" ? "0 0 10px rgba(70,255,154,.4)" : "none",
+                textShadow: l === "correct" ? "0 0 10px rgba(95,208,138,.4)" : "none",
               }}
             />
           </div>
@@ -1024,18 +826,18 @@ function HeComponent() {
             <div
               className="text-center mb-4 p-3 rounded-xl"
               style={{
-                background: l === "correct" ? "rgba(70,255,154,.1)" : "rgba(255,68,68,.1)",
-                border: l === "correct" ? "1px solid rgba(70,255,154,.2)" : "1px solid rgba(255,68,68,.2)",
+                background: l === "correct" ? "rgba(95,208,138,.1)" : "rgba(255,68,68,.1)",
+                border: l === "correct" ? "1px solid rgba(95,208,138,.2)" : "1px solid rgba(255,68,68,.2)",
                 animation: "fadeIn 0.3s ease",
-                boxShadow: l === "correct" ? "0 0 15px rgba(70,255,154,.1)" : "0 0 15px rgba(255,68,68,.1)",
+                boxShadow: l === "correct" ? "0 0 15px rgba(95,208,138,.1)" : "0 0 15px rgba(255,68,68,.1)",
               }}
             >
               <p
                 className="text-sm font-bold"
                 style={{
-                  color: l === "correct" ? "#46ff9a" : "#ff4444",
+                  color: l === "correct" ? "#5fd08a" : "#ff4444",
                   textShadow:
-                    l === "correct" ? "0 0 10px rgba(70,255,154,.4)" : "0 0 10px rgba(255,68,68,.4)",
+                    l === "correct" ? "0 0 10px rgba(95,208,138,.4)" : "0 0 10px rgba(255,68,68,.4)",
                 }}
               >
                 {V}
@@ -1050,8 +852,8 @@ function HeComponent() {
                   disabled={!j.trim()}
                   className="px-6 py-3 rounded-full text-white font-black text-sm transition-all disabled:opacity-30 hover:scale-105 flex items-center gap-2"
                   style={{
-                    background: "linear-gradient(135deg,#ffd36b,#ff8a2a)",
-                    boxShadow: "0 0 20px rgba(255,211,107,.2), 0 0 40px rgba(255,211,107,.1)",
+                    background: "linear-gradient(135deg,#f2c14e,#d99a22)",
+                    boxShadow: "0 0 20px rgba(242,193,78,.2), 0 0 40px rgba(242,193,78,.1)",
                   }}
                 >
                   <SendIcon size={14} /> Comprobar / 检查
@@ -1062,7 +864,7 @@ function HeComponent() {
                   style={{
                     background: "rgba(255,255,255,.04)",
                     border: "1px solid rgba(255,255,255,.08)",
-                    color: "rgba(207,216,255,.5)",
+                    color: "rgba(255,236,200,.5)",
                   }}
                 >
                   <SkipForwardIcon size={12} /> Saltar / 跳过
@@ -1073,8 +875,8 @@ function HeComponent() {
                 onClick={U}
                 className="px-6 py-3 rounded-full text-white font-black text-sm transition-all hover:scale-105 flex items-center gap-2"
                 style={{
-                  background: "linear-gradient(135deg,#ffd36b,#ff8a2a)",
-                  boxShadow: "0 0 20px rgba(255,211,107,.2), 0 0 40px rgba(255,211,107,.1)",
+                  background: "linear-gradient(135deg,#f2c14e,#d99a22)",
+                  boxShadow: "0 0 20px rgba(242,193,78,.2), 0 0 40px rgba(242,193,78,.1)",
                 }}
               >
                 {u < b.length - 1 ? "Siguiente / 下一个" : "Ver resultado / 看结果"}
@@ -1086,7 +888,7 @@ function HeComponent() {
           <p
             className="text-xs font-medium"
             style={{
-              color: "rgba(207,216,255,.3)",
+              color: "rgba(255,236,200,.3)",
             }}
           >
             Mejor racha / 最佳连续: {H}
@@ -1096,16 +898,16 @@ function HeComponent() {
           <div
             className="rounded-3xl p-8 text-center relative overflow-hidden mt-6"
             style={{
-              background: "linear-gradient(180deg,rgba(14,22,64,.8),rgba(5,8,27,.6))",
-              border: "2px solid rgba(255,214,0,.3)",
-              boxShadow: "0 0 60px rgba(255,214,0,.15), 0 0 120px rgba(255,214,0,.08)",
+              background: "linear-gradient(180deg,rgba(52,26,16,.8),rgba(30,14,8,.6))",
+              border: "2px solid rgba(242,193,78,.3)",
+              boxShadow: "0 0 60px rgba(242,193,78,.15), 0 0 120px rgba(242,193,78,.08)",
               transformStyle: "preserve-3d",
             }}
           >
             <div
               className="absolute -inset-[2px] rounded-[26px] -z-10 opacity-50"
               style={{
-                background: "linear-gradient(135deg,#ffd36b,#ff8a2a,#ff3860)",
+                background: "linear-gradient(135deg,#f2c14e,#d99a22,#e0283f)",
                 filter: "blur(25px)",
                 animation: "victoryGlow 2s ease-in-out infinite alternate",
               }}
@@ -1113,19 +915,19 @@ function HeComponent() {
             <TrophyIcon
               size={56}
               style={{
-                color: "#ffd600",
+                color: "#f2c14e",
                 margin: "0 auto 16px",
-                filter: "drop-shadow(0 0 15px rgba(255,214,0,.5))",
+                filter: "drop-shadow(0 0 15px rgba(242,193,78,.5))",
                 animation: "trophySpin 3s ease-in-out infinite",
               }}
             />
             <h2
               className="text-4xl font-black mb-2"
               style={{
-                background: "linear-gradient(135deg,#ffd36b,#ff8a2a)",
+                background: "linear-gradient(135deg,#f2c14e,#d99a22)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 20px rgba(255,211,107,.3))",
+                filter: "drop-shadow(0 0 20px rgba(242,193,78,.3))",
               }}
             >
               ¡Completado!
@@ -1135,24 +937,24 @@ function HeComponent() {
               <div
                 className="p-4 rounded-2xl"
                 style={{
-                  background: "rgba(0,212,255,.1)",
-                  border: "1px solid rgba(0,212,255,.15)",
-                  boxShadow: "0 0 10px rgba(0,212,255,.1)",
+                  background: "rgba(242,193,78,.1)",
+                  border: "1px solid rgba(242,193,78,.15)",
+                  boxShadow: "0 0 10px rgba(242,193,78,.1)",
                 }}
               >
                 <ZapIcon
                   size={20}
                   style={{
-                    color: "#00d4ff",
+                    color: "#f2c14e",
                     margin: "0 auto 8px",
-                    filter: "drop-shadow(0 0 5px rgba(0,212,255,.5))",
+                    filter: "drop-shadow(0 0 5px rgba(242,193,78,.5))",
                   }}
                 />
                 <p
                   className="text-2xl font-black"
                   style={{
-                    color: "#00d4ff",
-                    textShadow: "0 0 10px rgba(0,212,255,.3)",
+                    color: "#f2c14e",
+                    textShadow: "0 0 10px rgba(242,193,78,.3)",
                   }}
                 >
                   {N}
@@ -1160,7 +962,7 @@ function HeComponent() {
                 <p
                   className="text-[10px]"
                   style={{
-                    color: "rgba(207,216,255,.4)",
+                    color: "rgba(255,236,200,.4)",
                   }}
                 >
                   Score
@@ -1169,24 +971,24 @@ function HeComponent() {
               <div
                 className="p-4 rounded-2xl"
                 style={{
-                  background: "rgba(255,0,170,.1)",
-                  border: "1px solid rgba(255,0,170,.15)",
-                  boxShadow: "0 0 10px rgba(255,0,170,.1)",
+                  background: "rgba(224,40,63,.1)",
+                  border: "1px solid rgba(224,40,63,.15)",
+                  boxShadow: "0 0 10px rgba(224,40,63,.1)",
                 }}
               >
                 <FlameIcon
                   size={20}
                   style={{
-                    color: "#ff00aa",
+                    color: "#e0283f",
                     margin: "0 auto 8px",
-                    filter: "drop-shadow(0 0 5px rgba(255,0,170,.5))",
+                    filter: "drop-shadow(0 0 5px rgba(224,40,63,.5))",
                   }}
                 />
                 <p
                   className="text-2xl font-black"
                   style={{
-                    color: "#ff00aa",
-                    textShadow: "0 0 10px rgba(255,0,170,.3)",
+                    color: "#e0283f",
+                    textShadow: "0 0 10px rgba(224,40,63,.3)",
                   }}
                 >
                   {H}
@@ -1194,7 +996,7 @@ function HeComponent() {
                 <p
                   className="text-[10px]"
                   style={{
-                    color: "rgba(207,216,255,.4)",
+                    color: "rgba(255,236,200,.4)",
                   }}
                 >
                   Mejor racha
@@ -1203,24 +1005,24 @@ function HeComponent() {
               <div
                 className="p-4 rounded-2xl"
                 style={{
-                  background: "rgba(57,255,20,.1)",
-                  border: "1px solid rgba(57,255,20,.15)",
-                  boxShadow: "0 0 10px rgba(57,255,20,.1)",
+                  background: "rgba(95,208,138,.1)",
+                  border: "1px solid rgba(95,208,138,.15)",
+                  boxShadow: "0 0 10px rgba(95,208,138,.1)",
                 }}
               >
                 <TimerIcon
                   size={20}
                   style={{
-                    color: "#39ff14",
+                    color: "#5fd08a",
                     margin: "0 auto 8px",
-                    filter: "drop-shadow(0 0 5px rgba(57,255,20,.5))",
+                    filter: "drop-shadow(0 0 5px rgba(95,208,138,.5))",
                   }}
                 />
                 <p
                   className="text-2xl font-black"
                   style={{
-                    color: "#39ff14",
-                    textShadow: "0 0 10px rgba(57,255,20,.3)",
+                    color: "#5fd08a",
+                    textShadow: "0 0 10px rgba(95,208,138,.3)",
                   }}
                 >
                   {Math.floor(K / 60)}:{String(K % 60).padStart(2, "0")}
@@ -1228,7 +1030,7 @@ function HeComponent() {
                 <p
                   className="text-[10px]"
                   style={{
-                    color: "rgba(207,216,255,.4)",
+                    color: "rgba(255,236,200,.4)",
                   }}
                 >
                   Tiempo
@@ -1248,8 +1050,8 @@ function HeComponent() {
               }}
               className="px-8 py-3 rounded-full text-white font-black transition-all hover:scale-105"
               style={{
-                background: "linear-gradient(135deg,#ffd36b,#ff8a2a)",
-                boxShadow: "0 0 25px rgba(255,211,107,.3), 0 0 50px rgba(255,211,107,.1)",
+                background: "linear-gradient(135deg,#f2c14e,#d99a22)",
+                boxShadow: "0 0 25px rgba(242,193,78,.3), 0 0 50px rgba(242,193,78,.1)",
               }}
             >
               Jugar de nuevo / 再玩一次
@@ -1262,7 +1064,7 @@ function HeComponent() {
           @keyframes letterReveal { 0%{transform:translateY(-30px) rotateX(45deg) scale(0.3); opacity:0} 60%{transform:translateY(8px) rotateX(-5deg) scale(1.08)} 100%{transform:translateY(0) rotateX(0) scale(1); opacity:1} }
           @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
           @keyframes scrambleShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-10px)} 40%{transform:translateX(10px)} 60%{transform:translateX(-8px)} 80%{transform:translateX(8px)} }
-          @keyframes correctGlow { 0%{box-shadow:0 0 30px rgba(70,255,154,.3)} 50%{box-shadow:0 0 50px rgba(70,255,154,.5), 0 0 80px rgba(70,255,154,.2)} 100%{box-shadow:0 0 30px rgba(70,255,154,.3)} }
+          @keyframes correctGlow { 0%{box-shadow:0 0 30px rgba(95,208,138,.3)} 50%{box-shadow:0 0 50px rgba(95,208,138,.5), 0 0 80px rgba(95,208,138,.2)} 100%{box-shadow:0 0 30px rgba(95,208,138,.3)} }
           @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
           @keyframes trophySpin { 0%,100%{transform:rotateY(0) scale(1)} 50%{transform:rotateY(180deg) scale(1.1)} }
           @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }

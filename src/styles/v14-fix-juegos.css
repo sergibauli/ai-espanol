@@ -1,0 +1,328 @@
+/* ===== v14 · Juegos clásicos (v14j-): selector de temática tipo app + tema imperial en partida y resultado ===== */
+/* Ruleta, Ahorcado, Memory, Sopa, Palabra desordenada, Kahoot, Apalabrados, UNO · iconos de juegos en la unidad */
+
+.v14j-selector, .v14j-hoja-fondo, .v14j-cinta, .v14j-juego {
+  --v14-laca: #c8102e;
+  --v14-laca-osc: #8f0c21;
+  --v14-oro: #f2c14e;
+  --v14-oro-osc: #c8961e;
+  --v14-tinta: #3b2416;
+  --v14-papel: #fbf1d9;
+  --v14-kai: STKaiti, KaiTi, "Kaiti SC", "Noto Serif SC", "Songti SC", serif;
+  --v14-display: "Cinzel", "Times New Roman", Georgia, serif;
+}
+
+/* ---------- Selector ---------- */
+.v14j-selector {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 10px 16px 120px;
+  color: var(--v14-papel);
+  font-family: var(--ui-font, "Plus Jakarta Sans", system-ui, sans-serif);
+  overflow-x: clip; /* clip (no hidden) para que la barra de filtros pueda quedarse pegada */
+}
+/* El escenario de juegos recorta con overflow:hidden, que anula position:sticky; clip recorta igual sin crear contenedor de scroll */
+.app-stage:has(.v14j-selector), .game-experience:has(.v14j-selector) { overflow: clip !important; }
+.v14j-selector *, .v14j-selector *::before, .v14j-selector *::after, .v14j-hoja-fondo *, .v14j-hoja-fondo *::before { box-sizing: border-box; }
+.v14j-selector button, .v14j-hoja button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
+/* game-bg fuerza tamaños de botón con !important: se recuperan con más especificidad */
+main.game-bg .v14j-selector.gm-no-adapt button, .v14j-hoja-fondo.gm-no-adapt button { font-size: 15px !important; min-width: 0 !important; }
+.v14j-selector :focus-visible, .v14j-hoja :focus-visible { outline: 3px solid #ffe08a; outline-offset: 2px; }
+
+.v14j-barra { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.v14j-volver {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px 0 12px; border-radius: 999px;
+  color: #ffe9b0 !important; text-decoration: none !important; font-weight: 800; font-size: 14px;
+  background: rgba(59, 36, 22, 0.72); border: 1px solid rgba(242, 193, 78, 0.6);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+.v14j-volver:hover { background: rgba(143, 12, 33, 0.85); }
+
+/* Cabecera: estandarte de laca con filete doble dorado y emblema del juego */
+.v14j-hero {
+  position: relative;
+  display: flex; align-items: center; gap: 18px;
+  margin: 4px 0 16px; padding: 18px 20px;
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(242, 193, 78, 0.22), transparent 55%),
+    linear-gradient(160deg, #d3243f, var(--v14-laca) 45%, var(--v14-laca-osc));
+  box-shadow: inset 0 0 0 2px var(--v14-oro), inset 0 0 0 5px var(--v14-laca-osc), inset 0 0 0 6px rgba(242, 193, 78, 0.6), 0 14px 32px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+.v14j-hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 9px);
+}
+.v14j-emblema { position: relative; flex: none; width: 92px; height: 92px; z-index: 1; }
+.v14j-emblema-aro {
+  position: absolute; inset: 0; display: grid; place-items: center; border-radius: 50%;
+  color: var(--v14-laca-osc);
+  background: radial-gradient(circle at 35% 30%, #fff3c4, var(--v14-oro) 50%, var(--v14-oro-osc));
+  box-shadow: inset 0 0 0 3px #fff3c4, inset 0 0 0 5px var(--v14-oro-osc), 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+.v14j-emblema-aro svg { transform: translate(-14px, -12px); }
+.v14j-emblema .v14j-sello--grande { position: absolute; right: -8px; bottom: -6px; width: 54px; height: 54px; font-size: 34px; }
+.v14j-hero-texto { position: relative; z-index: 1; min-width: 0; }
+.v14j-hero h1 {
+  margin: 0; font: 900 clamp(26px, 4.4vw, 42px)/1.05 var(--v14-display); letter-spacing: 0.01em;
+  color: #fff3c4; text-shadow: 0 2px 0 var(--v14-laca-osc), 0 0 18px rgba(242, 193, 78, 0.35);
+  overflow-wrap: anywhere;
+}
+.v14j-hero-zh { margin: 4px 0 0; font: 700 clamp(18px, 2.6vw, 24px)/1.1 var(--v14-kai); color: var(--v14-oro); letter-spacing: 0.25em; }
+.v14j-hero-desc { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: #ffeccc; max-width: 60ch; }
+.v14j-hero-desc span { display: block; font-family: var(--v14-kai); font-size: 15px; color: #ffe0a3; }
+
+.v14j-error {
+  margin: 0 0 14px; padding: 12px 14px; border-radius: 14px; font-weight: 700; font-size: 14px; line-height: 1.4;
+  background: #fff1e6; color: #8f0c21; border: 2px solid var(--v14-laca);
+}
+.v14j-error span { font-family: var(--v14-kai); font-weight: 600; }
+
+/* Destacadas: «Todas las unidades» y «Tu clase» */
+.v14j-destacada {
+  position: relative; display: flex; align-items: center; gap: 14px; width: 100%;
+  min-height: 76px; margin: 0 0 12px; padding: 12px 14px; border: 0; border-radius: 18px; cursor: pointer; text-align: left;
+  color: var(--v14-tinta);
+  background: linear-gradient(180deg, #fff4c8, var(--v14-oro) 60%, #dcaa38);
+  box-shadow: inset 0 0 0 2px #fff7dc, inset 0 0 0 4px var(--v14-oro-osc), 0 10px 24px rgba(0, 0, 0, 0.4), 0 0 26px rgba(242, 193, 78, 0.35);
+  transition: transform 0.16s ease, filter 0.16s ease, box-shadow 0.2s ease;
+}
+.v14j-destacada--clase {
+  color: #fff3d6;
+  background: linear-gradient(160deg, #d3243f, var(--v14-laca) 50%, var(--v14-laca-osc));
+  box-shadow: inset 0 0 0 2px var(--v14-oro), inset 0 0 0 4px var(--v14-laca-osc), 0 10px 24px rgba(0, 0, 0, 0.4);
+}
+.v14j-destacada-txt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.v14j-destacada-txt small { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.85; }
+.v14j-destacada-txt b { font: 900 20px/1.15 var(--v14-display); overflow-wrap: anywhere; }
+.v14j-destacada-txt i { font: 600 15px/1.2 var(--v14-kai); font-style: normal; }
+.v14j-destacada--clase .v14j-destacada-txt small, .v14j-destacada--clase .v14j-destacada-txt i { color: #ffe0a3; opacity: 1; }
+.v14j-jugar {
+  flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
+  color: #fff3d6; background: radial-gradient(circle at 35% 30%, #e2283f, var(--v14-laca) 55%, var(--v14-laca-osc));
+  box-shadow: inset 0 0 0 2px #ffe08a, 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+.v14j-destacada--clase .v14j-jugar { color: var(--v14-laca-osc); background: radial-gradient(circle at 35% 30%, #fff3c4, var(--v14-oro) 55%, var(--v14-oro-osc)); }
+
+/* Búsqueda + chips de nivel (pegados arriba al hacer scroll) */
+.v14j-filtros {
+  position: sticky; top: 0; z-index: 5;
+  margin: 4px -16px 12px; padding: 10px 16px 10px;
+  background: linear-gradient(rgba(14, 10, 22, 0.92), rgba(14, 10, 22, 0.82));
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(242, 193, 78, 0.35);
+}
+.v14j-buscar {
+  display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 6px 0 14px; border-radius: 999px;
+  color: #6b4a2b; background: linear-gradient(180deg, #fffaf0, #f3e4c0); border: 2px solid var(--v14-oro-osc);
+}
+.v14j-buscar input {
+  flex: 1; min-width: 0; height: 42px; border: 0; outline: 0; background: transparent;
+  color: var(--v14-tinta) !important; font-size: 16px; font-weight: 600;
+}
+.v14j-buscar input::placeholder { color: #8a6a48; opacity: 1; }
+.v14j-buscar input::-webkit-search-cancel-button { display: none; }
+.v14j-buscar button { display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(143, 12, 33, 0.12); color: var(--v14-laca-osc); cursor: pointer; }
+.v14j-chips { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.v14j-chips::-webkit-scrollbar { display: none; }
+.v14j-chip {
+  flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 64px; min-height: 48px; padding: 4px 12px; border-radius: 14px; cursor: pointer;
+  color: #ffe9b0; background: rgba(59, 36, 22, 0.75); border: 1px solid rgba(242, 193, 78, 0.55);
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+.v14j-chip b { font: 900 16px/1 var(--v14-display); }
+.v14j-chip small { font: 600 11px/1.2 var(--v14-kai); margin-top: 3px; color: #ffd98a; white-space: nowrap; }
+.v14j-chip.is-on { color: #fff3d6; background: linear-gradient(180deg, #d3243f, var(--v14-laca-osc)); border-color: var(--v14-oro); box-shadow: inset 0 0 0 1px #ffe08a, 0 4px 12px rgba(200, 16, 46, 0.45); }
+.v14j-chip.is-on small { color: #ffe9b0; }
+.v14j-chip:active { transform: scale(0.95); }
+
+/* Lista de temas */
+.v14j-lista { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.v14j-lista > li { min-width: 0; }
+@media (min-width: 760px) { .v14j-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+@media (min-width: 1180px) { .v14j-lista { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.v14j-tarjeta {
+  position: relative; display: flex; align-items: center; gap: 12px; width: 100%; height: 100%;
+  min-height: 84px; padding: 12px 12px 12px 12px; border: 0; border-radius: 16px; cursor: pointer; text-align: left;
+  color: var(--v14-tinta);
+  background: linear-gradient(rgba(255, 251, 240, 0.55), rgba(255, 251, 240, 0.55)), url("../../public/theme/papel.jpg") center / cover, var(--v14-papel);
+  box-shadow: inset 0 0 0 1px #fffaf0, inset 0 0 0 3px rgba(200, 150, 30, 0.85), inset 0 0 0 4px #fffaf0, inset 0 0 0 5px rgba(200, 150, 30, 0.45), 0 6px 16px rgba(0, 0, 0, 0.35);
+  transition: transform 0.16s cubic-bezier(.2, .9, .3, 1.2), filter 0.16s ease, box-shadow 0.2s ease;
+}
+.v14j-tarjeta-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.v14j-tarjeta-txt b {
+  font-weight: 800; font-size: 15.5px; line-height: 1.25; color: var(--v14-tinta);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.v14j-tarjeta-txt i { font: 600 15px/1.2 var(--v14-kai); font-style: normal; color: #7a1020; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.v14j-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: 12px; font-weight: 700; color: #5b3e22; }
+.v14j-nivel { font-style: normal; font: 800 11px/1 var(--v14-display); padding: 4px 7px; border-radius: 6px; color: #fff3d6; background: var(--v14-laca-osc); }
+.v14j-nivel--A1 { background: #1f6f5c; }
+.v14j-nivel--A2 { background: #9a6a12; }
+.v14j-nivel--B1 { background: #a50f25; }
+.v14j-nivel--B2 { background: #4a2a6a; }
+
+/* Feedback táctil y hover */
+.v14j-tarjeta:active, .v14j-destacada:active, .v14j-clase:active { transform: scale(0.97); filter: brightness(1.08); }
+@media (hover: hover) {
+  .v14j-tarjeta:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px #fffaf0, inset 0 0 0 3px var(--v14-oro), inset 0 0 0 4px #fffaf0, inset 0 0 0 5px rgba(200, 150, 30, 0.6), 0 10px 22px rgba(0, 0, 0, 0.4), 0 0 20px rgba(242, 193, 78, 0.35); }
+  .v14j-destacada:hover { filter: brightness(1.06); transform: translateY(-1px); }
+}
+
+/* Sello caligráfico (número de unidad) */
+.v14j-sello {
+  display: inline-grid; place-items: center; flex: none;
+  width: 48px; height: 48px; border-radius: 10px;
+  background: radial-gradient(circle at 35% 30%, #e2283f, var(--v14-laca) 55%, var(--v14-laca-osc));
+  color: #fff4d6; font: 700 22px/1 var(--v14-kai); font-variant-numeric: lining-nums;
+  box-shadow: inset 0 0 0 2px rgba(255, 224, 138, 0.9), inset 0 0 0 4px var(--v14-laca), inset 0 0 0 5px rgba(255, 224, 138, 0.55), 0 3px 8px rgba(0, 0, 0, 0.3);
+  transform: rotate(-4deg);
+}
+.v14j-sello--grande { width: 84px; height: 84px; font-size: 50px; border-radius: 14px; }
+
+/* Anillo de progreso */
+.v14j-anillo { position: relative; flex: none; display: grid; place-items: center; width: 44px; height: 44px; }
+.v14j-anillo svg { position: absolute; inset: 2px; transform: rotate(-90deg); }
+.v14j-anillo-fondo { fill: rgba(255, 250, 235, 0.7); stroke: rgba(200, 150, 30, 0.3); stroke-width: 4; }
+.v14j-anillo-valor { fill: none; stroke: var(--v14-laca); stroke-width: 4; stroke-linecap: round; }
+.v14j-anillo b { position: relative; font-size: 11px; font-weight: 800; color: var(--v14-tinta); }
+
+.v14j-vacio { text-align: center; padding: 24px 12px; color: #ffe9b0; font-weight: 700; }
+.v14j-libre { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+
+/* Entrada escalonada */
+.v14j-entra { animation: v14jEntra 0.42s cubic-bezier(.2, .9, .3, 1) both; animation-delay: calc(var(--i, 0) * 35ms); }
+@keyframes v14jEntra { from { opacity: 0; transform: translateY(14px) scale(0.98); } to { opacity: 1; transform: none; } }
+.v14j-hero { animation: v14jHero 0.5s cubic-bezier(.2, .9, .3, 1) both; }
+@keyframes v14jHero { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+/* Hoja inferior para elegir clase */
+.v14j-hoja-fondo {
+  position: fixed; inset: 0; z-index: 9000; display: flex; align-items: flex-end; justify-content: center;
+  background: rgba(10, 6, 4, 0.6); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  animation: v14jFundido 0.2s ease both;
+}
+.v14j-hoja {
+  position: relative; width: 100%; max-width: 560px; max-height: 86vh; overflow-y: auto;
+  padding: 10px 16px calc(18px + env(safe-area-inset-bottom, 0px)); border-radius: 22px 22px 0 0;
+  color: var(--v14-tinta);
+  background: linear-gradient(rgba(255, 251, 240, 0.5), rgba(255, 251, 240, 0.5)), url("../../public/theme/papel.jpg") center / cover, var(--v14-papel);
+  box-shadow: inset 0 0 0 2px var(--v14-oro-osc), inset 0 0 0 5px rgba(255, 250, 235, 0.9), inset 0 0 0 6px rgba(200, 150, 30, 0.5), 0 -10px 40px rgba(0, 0, 0, 0.5);
+  animation: v14jSube 0.28s cubic-bezier(.2, .9, .3, 1) both;
+}
+@media (min-width: 700px) { .v14j-hoja-fondo { align-items: center; } .v14j-hoja { border-radius: 22px; } }
+.v14j-hoja-asa { display: block; width: 44px; height: 5px; margin: 0 auto 10px; border-radius: 3px; background: rgba(59, 36, 22, 0.35); }
+.v14j-hoja-cerrar { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; cursor: pointer; color: var(--v14-laca-osc); background: rgba(143, 12, 33, 0.1); }
+.v14j-hoja-cab { display: flex; gap: 12px; align-items: center; padding-right: 44px; }
+.v14j-hoja-cab small { font-size: 12px; font-weight: 800; color: #7a1020; }
+.v14j-hoja-cab h2 { margin: 2px 0 0; font: 900 19px/1.2 var(--v14-display); color: var(--v14-tinta); }
+.v14j-hoja-cab p { margin: 2px 0 0; font: 600 16px/1.2 var(--v14-kai); color: #7a1020; }
+.v14j-hoja-paso { margin: 14px 0 8px; font-size: 13px; font-weight: 800; color: #5b3e22; }
+.v14j-hoja-clases { display: flex; flex-direction: column; gap: 8px; }
+.v14j-clase {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 8px 12px; border-radius: 14px; cursor: pointer; text-align: left;
+  color: var(--v14-tinta); background: #fffaf0; border: 2px solid rgba(200, 150, 30, 0.7);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.v14j-clase-n { flex: none; display: grid; place-items: center; min-width: 52px; height: 40px; padding: 0 6px; border-radius: 10px; font: 700 17px/1 var(--v14-kai); color: #fff4d6; background: linear-gradient(180deg, #d3243f, var(--v14-laca-osc)); }
+.v14j-clase-txt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.v14j-clase-txt b { font-size: 15px; font-weight: 800; }
+.v14j-clase-txt small { font-size: 12.5px; color: #5b3e22; font-weight: 600; }
+.v14j-clase--todo { background: linear-gradient(180deg, #fff4c8, #f2d27e); border-color: var(--v14-oro-osc); }
+.v14j-clase--todo .v14j-clase-n { background: linear-gradient(180deg, var(--v14-oro), var(--v14-oro-osc)); color: var(--v14-laca-osc); }
+@keyframes v14jFundido { from { opacity: 0; } to { opacity: 1; } }
+@keyframes v14jSube { from { transform: translateY(40px); opacity: 0.4; } to { transform: none; opacity: 1; } }
+
+/* Cinta de la unidad/clase durante la partida */
+.v14j-cinta {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 8px;
+  width: fit-content; max-width: calc(100% - 24px); margin: 0 auto 10px; padding: 6px 14px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 700; color: #fff3d6;
+  background: linear-gradient(180deg, #b5162f, var(--v14-laca-osc)); box-shadow: inset 0 0 0 1px var(--v14-oro), 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative; z-index: 20;
+}
+.v14j-cinta span { font: 800 11px/1 var(--v14-display); padding: 3px 6px; border-radius: 5px; background: var(--v14-oro); color: var(--v14-laca-osc); }
+.v14j-cinta b { font-weight: 800; color: #ffe08a; }
+
+/* Móvil */
+@media (max-width: 520px) {
+  .v14j-selector { padding: 6px 12px 120px; }
+  .v14j-filtros { margin: 4px -12px 12px; padding: 10px 12px; }
+  .v14j-hero { gap: 14px; padding: 14px 14px 16px; border-radius: 18px; }
+  .v14j-emblema { width: 72px; height: 72px; }
+  .v14j-emblema-aro svg { width: 24px; height: 24px; transform: translate(-10px, -9px); }
+  .v14j-emblema .v14j-sello--grande { width: 42px; height: 42px; font-size: 26px; right: -6px; bottom: -4px; border-radius: 10px; }
+  .v14j-hero-desc { font-size: 13px; }
+  .v14j-hero-desc span { font-size: 14px; }
+  .v14j-tarjeta { min-height: 80px; padding: 10px; gap: 10px; }
+  .v14j-sello { width: 44px; height: 44px; font-size: 20px; }
+  .v14j-destacada-txt b { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v14j-entra, .v14j-hero, .v14j-hoja, .v14j-hoja-fondo { animation: none !important; }
+  .v14j-tarjeta, .v14j-destacada, .v14j-clase, .v14j-chip { transition: none !important; }
+  .v14j-tarjeta:active, .v14j-destacada:active, .v14j-clase:active { transform: none; }
+}
+
+/* ---------- Iconos de juegos dentro de la unidad: oro y laca ---------- */
+.unit-games .unit-game-icon {
+  background: radial-gradient(circle at 35% 30%, #e2283f, #c8102e 55%, #8f0c21) !important;
+  box-shadow: inset 0 0 0 2px #f2c14e, inset 0 0 0 4px #8f0c21, inset 0 0 0 5px rgba(242, 193, 78, 0.55), 0 4px 10px rgba(0, 0, 0, 0.22) !important;
+}
+.unit-games .unit-game-icon svg { color: #ffe08a !important; stroke: #ffe08a !important; }
+.unit-games .unit-game:nth-child(even) .unit-game-icon {
+  background: radial-gradient(circle at 35% 30%, #fff3c4, #f2c14e 55%, #c8961e) !important;
+  box-shadow: inset 0 0 0 2px #fff7dc, inset 0 0 0 4px #c8961e, 0 4px 10px rgba(0, 0, 0, 0.22) !important;
+}
+.unit-games .unit-game:nth-child(even) .unit-game-icon svg { color: #8f0c21 !important; stroke: #8f0c21 !important; }
+.unit-games .unit-game.gm-locked .unit-game-icon { filter: grayscale(0.5) opacity(0.7); }
+
+/* Apalabrados: portada sin unidades */
+.v14j-apal-jugadores { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.v14j-apal-jugador { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: 999px; font-weight: 800; font-size: 14px; }
+.v14j-apal-jugador--1 { color: #3b2416; background: linear-gradient(180deg, #fff4c8, #f2c14e); box-shadow: inset 0 0 0 2px #c8961e; }
+.v14j-apal-jugador--2 { color: #fff3d6; background: linear-gradient(180deg, #d3243f, #8f0c21); box-shadow: inset 0 0 0 2px #f2c14e; }
+main.game-bg .v14j-selector.gm-no-adapt .v14j-apal-empezar {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 60px; min-width: 240px !important; padding: 0 34px; border: 0; border-radius: 999px; cursor: pointer;
+  font: 900 20px/1 var(--v14-display) !important; color: #fff3d6;
+  background: linear-gradient(180deg, #e2283f, #c8102e 55%, #8f0c21);
+  box-shadow: inset 0 0 0 2px #f2c14e, inset 0 0 0 4px #8f0c21, 0 10px 24px rgba(0, 0, 0, 0.45), 0 0 24px rgba(242, 193, 78, 0.3);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+main.game-bg .v14j-selector .v14j-apal-empezar:active { transform: scale(0.96); filter: brightness(1.1); }
+.v14j-apal-datos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: 100%; max-width: 460px; }
+.v14j-apal-datos li {
+  display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 12px 8px; border-radius: 14px; text-align: center;
+  color: #3b2416; background: linear-gradient(rgba(255, 251, 240, 0.55), rgba(255, 251, 240, 0.55)), url("../../public/theme/papel.jpg") center / cover, #fbf1d9;
+  box-shadow: inset 0 0 0 2px rgba(200, 150, 30, 0.8), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.v14j-apal-datos small { font-size: 12px; font-weight: 800; color: #7a1020; }
+.v14j-apal-datos b { font-size: 15px; font-weight: 900; }
+
+/* App.jsx marca como .game-module-choice (neón) todo botón con «palabras»: aquí manda el pergamino */
+.v14j-selector .v14j-tarjeta.game-module-choice {
+  overflow: visible !important; border: 0 !important; border-radius: 16px !important;
+  background: linear-gradient(rgba(255, 251, 240, 0.55), rgba(255, 251, 240, 0.55)), url("../../public/theme/papel.jpg") center / cover, #fbf1d9 !important;
+  box-shadow: inset 0 0 0 1px #fffaf0, inset 0 0 0 3px rgba(200, 150, 30, 0.85), inset 0 0 0 4px #fffaf0, inset 0 0 0 5px rgba(200, 150, 30, 0.45), 0 6px 16px rgba(0, 0, 0, 0.35) !important;
+}
+.v14j-selector .v14j-tarjeta.game-module-choice::before, .v14j-selector .v14j-tarjeta.game-module-choice::after { display: none !important; }
+.v14j-selector .v14j-tarjeta.game-module-choice:active { transform: scale(0.97) !important; filter: brightness(1.08); }
+@media (hover: hover) {
+  .v14j-selector .v14j-tarjeta.game-module-choice:hover { transform: translateY(-2px) !important; box-shadow: inset 0 0 0 1px #fffaf0, inset 0 0 0 3px #f2c14e, inset 0 0 0 4px #fffaf0, inset 0 0 0 5px rgba(200, 150, 30, 0.6), 0 10px 22px rgba(0, 0, 0, 0.4), 0 0 20px rgba(242, 193, 78, 0.35) !important; }
+}
+@media (hover: none) { .v14j-selector .v14j-tarjeta.game-module-choice:hover { transform: none !important; } }
+
+/* El título del juego no hereda el dorado con contorno de main.game-bg h1 */
+main.game-bg .v14j-hero h1 {
+  background: none !important; -webkit-text-fill-color: #fff3c4 !important; color: #fff3c4 !important;
+  filter: none !important; text-shadow: 0 2px 0 #6b0a18, 0 0 18px rgba(242, 193, 78, 0.35);
+}
+
+/* Con la barra superior móvil (sticky, 56px) los filtros se pegan justo debajo */
+@media (max-width: 1000px) { .v14j-filtros { top: 56px; } }

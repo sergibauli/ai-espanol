@@ -18,6 +18,7 @@ import { Link } from "react-router";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
 import { P } from "../../components/PostGameNav.jsx";
 import { g as g_1, a as a_1 } from "../../lib/juegos-utils.js";
+import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
 const G = {
   "4x4": {
@@ -44,14 +45,14 @@ const G = {
 };
 function He() {
   const a = [
-    "#ff00aa",
-    "#00d4ff",
-    "#ffd600",
-    "#39ff14",
-    "#ff6b35",
-    "#b829dd",
-    "#ff6ec7",
-    "#7b61ff",
+    "#e0283f",
+    "#f2c14e",
+    "#f2c14e",
+    "#5fd08a",
+    "#d99a22",
+    "#a50f25",
+    "#e0283f",
+    "#a50f25",
     "#ffffff",
   ];
   const r = window.innerWidth < 768 ? 28 : 52;
@@ -109,7 +110,7 @@ function JeComponent() {
           size: 2 + Math.random() * 4,
           delay: Math.random() * 5,
           duration: 4 + Math.random() * 6,
-          color: ["#ff00aa", "#00d4ff", "#ffd600", "#39ff14", "#7b61ff"][Math.floor(Math.random() * 5)],
+          color: ["#e0283f", "#f2c14e", "#f2c14e", "#5fd08a", "#a50f25"][Math.floor(Math.random() * 5)],
         }),
       ),
     [],
@@ -148,16 +149,16 @@ function EtComponent({ mood, combo }) {
           : "M 16 26 Q 24 28 32 26";
   const fill =
     mood === "happy" || mood === "excited" || mood === "super"
-      ? "rgba(255,105,180,0.7)"
-      : "rgba(255,105,180,0.15)";
+      ? "rgba(224,40,63,0.7)"
+      : "rgba(224,40,63,0.15)";
   const l =
     mood === "happy"
-      ? "#46ff9a"
+      ? "#5fd08a"
       : mood === "sad"
         ? "#ff4444"
         : mood === "excited" || mood === "super"
-          ? "#ffd600"
-          : "#00d4ff";
+          ? "#f2c14e"
+          : "#f2c14e";
   const animation =
     mood === "excited" || mood === "super"
       ? "mascotExcited 0.3s ease-in-out infinite"
@@ -251,15 +252,15 @@ function EtComponent({ mood, combo }) {
           <path d="M 39 12 L 37 6 L 32 11" fill="rgba(255,182,193,0.5)" />
           {h ? (
             <>
-              <path d="M 12 20 Q 16 14 20 20 Q 16 26 12 20" fill="#ff6ec7" />
-              <path d="M 28 20 Q 32 14 36 20 Q 32 26 28 20" fill="#ff6ec7" />
+              <path d="M 12 20 Q 16 14 20 20 Q 16 26 12 20" fill="#e0283f" />
+              <path d="M 28 20 Q 32 14 36 20 Q 32 26 28 20" fill="#e0283f" />
             </>
           ) : (
             <>
               <ellipse cx="16" cy="22" rx={rx} ry={ry} fill="white" />
               <ellipse cx="32" cy="22" rx={rx} ry={ry} fill="white" />
-              <circle cx="16" cy="22" r="3" fill="#1a1a2e" />
-              <circle cx="32" cy="22" r="3" fill="#1a1a2e" />
+              <circle cx="16" cy="22" r="3" fill="#2a160c" />
+              <circle cx="32" cy="22" r="3" fill="#2a160c" />
               <circle cx="17.5" cy="20.5" r="1.2" fill="white" opacity="0.9" />
               <circle cx="33.5" cy="20.5" r="1.2" fill="white" opacity="0.9" />
               <circle cx="14.5" cy="23.5" r="0.6" fill="white" opacity="0.6" />
@@ -275,7 +276,7 @@ function EtComponent({ mood, combo }) {
                 cx="4"
                 cy="12"
                 r="1.5"
-                fill="#ffd600"
+                fill="#f2c14e"
                 style={{
                   animation: "sparkle 0.5s ease-in-out infinite",
                 }}
@@ -284,7 +285,7 @@ function EtComponent({ mood, combo }) {
                 cx="44"
                 cy="8"
                 r="1"
-                fill="#ff00aa"
+                fill="#e0283f"
                 style={{
                   animation: "sparkle 0.7s ease-in-out infinite 0.2s",
                 }}
@@ -293,7 +294,7 @@ function EtComponent({ mood, combo }) {
                 cx="42"
                 cy="38"
                 r="1.5"
-                fill="#00d4ff"
+                fill="#f2c14e"
                 style={{
                   animation: "sparkle 0.6s ease-in-out infinite 0.4s",
                 }}
@@ -302,7 +303,7 @@ function EtComponent({ mood, combo }) {
                 cx="2"
                 cy="30"
                 r="1"
-                fill="#39ff14"
+                fill="#5fd08a"
                 style={{
                   animation: "sparkle 0.8s ease-in-out infinite 0.1s",
                 }}
@@ -311,11 +312,11 @@ function EtComponent({ mood, combo }) {
           ) : null}
           {m && (
             <>
-              <circle cx="11" cy="26" r="1.5" fill="#00d4ff" opacity="0.8">
+              <circle cx="11" cy="26" r="1.5" fill="#f2c14e" opacity="0.8">
                 <animate attributeName="cy" from="26" to="36" dur="1s" repeatCount="indefinite" />
                 <animate attributeName="opacity" from="0.8" to="0" dur="1s" repeatCount="indefinite" />
               </circle>
-              <circle cx="37" cy="26" r="1.5" fill="#00d4ff" opacity="0.8">
+              <circle cx="37" cy="26" r="1.5" fill="#f2c14e" opacity="0.8">
                 <animate attributeName="cy" from="26" to="36" dur="1.2s" repeatCount="indefinite" />
                 <animate attributeName="opacity" from="0.8" to="0" dur="1.2s" repeatCount="indefinite" />
               </circle>
@@ -323,9 +324,9 @@ function EtComponent({ mood, combo }) {
           )}
           <defs>
             <linearGradient id="blobGradMem" x1="0" y1="0" x2="48" y2="48">
-              <stop offset="0%" stopColor="#ffd600" />
-              <stop offset="50%" stopColor="#ff6b35" />
-              <stop offset="100%" stopColor="#ff00aa" />
+              <stop offset="0%" stopColor="#f2c14e" />
+              <stop offset="50%" stopColor="#d99a22" />
+              <stop offset="100%" stopColor="#e0283f" />
             </linearGradient>
           </defs>
         </svg>
@@ -368,7 +369,7 @@ function Ke1Component({ m: m_1, onClick }) {
       onMouseLeave={onMouseLeave}
       className="group rounded-xl p-5 text-left transition-all relative overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, rgba(14,22,64,.6), rgba(5,8,27,.5))",
+        background: "linear-gradient(180deg, rgba(52,26,16,.6), rgba(30,14,8,.5))",
         border: `1px solid ${m_1.color}40`,
         transform: `perspective(600px) rotateX(${f.x}deg) rotateY(${f.y}deg) translateZ(10px)`,
         transformStyle: "preserve-3d",
@@ -467,22 +468,22 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
             WebkitBackfaceVisibility: "hidden",
             background: `
               radial-gradient(ellipse at 30% 20%, rgba(120, 50, 255, 0.25) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 80%, rgba(255, 0, 170, 0.2) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(224,40,63, 0.2) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 50%, rgba(242,193,78, 0.08) 0%, transparent 60%),
               linear-gradient(135deg, rgba(14, 18, 50, 0.95), rgba(5, 5, 25, 0.98))
             `,
-            border: y ? "1.5px solid rgba(0, 212, 255, 0.5)" : "1px solid rgba(255, 255, 255, 0.1)",
+            border: y ? "1.5px solid rgba(242,193,78, 0.5)" : "1px solid rgba(255, 255, 255, 0.1)",
             boxShadow: y
-              ? "0 15px 35px rgba(0,0,0,0.6), 0 0 30px rgba(123, 97, 255, 0.3), 0 0 60px rgba(0, 212, 255, 0.15), inset 0 1px 0 rgba(255,255,255,0.1)"
-              : "0 8px 20px rgba(0,0,0,0.4), 0 0 15px rgba(123, 97, 255, 0.1), inset 0 1px 0 rgba(255,255,255,0.08)",
+              ? "0 15px 35px rgba(0,0,0,0.6), 0 0 30px rgba(165,15,37, 0.3), 0 0 60px rgba(242,193,78, 0.15), inset 0 1px 0 rgba(255,255,255,0.1)"
+              : "0 8px 20px rgba(0,0,0,0.4), 0 0 15px rgba(165,15,37, 0.1), inset 0 1px 0 rgba(255,255,255,0.08)",
           }}
         >
           <div
             className="absolute inset-0 rounded-2xl pointer-events-none opacity-40"
             style={{
-              border: "1px solid rgba(0, 212, 255, 0.15)",
+              border: "1px solid rgba(242,193,78, 0.15)",
               animation: "cardBorderPulse 3s ease-in-out infinite",
-              boxShadow: "inset 0 0 20px rgba(0, 212, 255, 0.05)",
+              boxShadow: "inset 0 0 20px rgba(242,193,78, 0.05)",
             }}
           />
           <div className="relative">
@@ -491,7 +492,7 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
               style={{
                 color: "rgba(255, 255, 255, 0.2)",
                 textShadow:
-                  "0 0 20px rgba(123, 97, 255, 0.5), 0 0 40px rgba(255, 0, 170, 0.2), 0 0 60px rgba(0, 212, 255, 0.1)",
+                  "0 0 20px rgba(165,15,37, 0.5), 0 0 40px rgba(224,40,63, 0.2), 0 0 60px rgba(242,193,78, 0.1)",
                 animation: y ? "questionGlow 1.5s ease-in-out infinite alternate" : "none",
               }}
             >
@@ -501,7 +502,7 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
               className="absolute inset-0 rounded-full blur-xl opacity-70"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(123,97,255,0.5) 0%, rgba(0,212,255,0.2) 40%, transparent 70%)",
+                  "radial-gradient(circle, rgba(165,15,37,0.5) 0%, rgba(242,193,78,0.2) 40%, transparent 70%)",
               }}
             />
           </div>
@@ -518,7 +519,7 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
                   width: `${1 + (g % 3)}px`,
                   height: `${1 + (g % 3)}px`,
                   background: "rgba(255,255,255,0.6)",
-                  boxShadow: "0 0 6px rgba(255,255,255,0.6), 0 0 12px rgba(0,212,255,0.3)",
+                  boxShadow: "0 0 6px rgba(255,255,255,0.6), 0 0 12px rgba(242,193,78,0.3)",
                   animation: `starTwinkle ${2 + (g % 3)}s ease-in-out infinite ${g * 0.2}s`,
                 }}
               />
@@ -527,16 +528,16 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
           <div
             className="absolute top-0 left-0 w-3 h-3 rounded-full opacity-40"
             style={{
-              background: "rgba(0,212,255,0.3)",
-              boxShadow: "0 0 10px rgba(0,212,255,0.3)",
+              background: "rgba(242,193,78,0.3)",
+              boxShadow: "0 0 10px rgba(242,193,78,0.3)",
               filter: "blur(2px)",
             }}
           />
           <div
             className="absolute bottom-0 right-0 w-3 h-3 rounded-full opacity-40"
             style={{
-              background: "rgba(255,0,170,0.3)",
-              boxShadow: "0 0 10px rgba(255,0,170,0.3)",
+              background: "rgba(224,40,63,0.3)",
+              boxShadow: "0 0 10px rgba(224,40,63,0.3)",
               filter: "blur(2px)",
             }}
           />
@@ -548,18 +549,18 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
             WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
             background: isMatched
-              ? "linear-gradient(135deg, rgba(70,255,154,.2), rgba(57,255,20,.1), rgba(70,255,154,.05))"
-              : "linear-gradient(135deg, rgba(14,22,64,.95), rgba(5,8,27,.9))",
+              ? "linear-gradient(135deg, rgba(95,208,138,.2), rgba(95,208,138,.1), rgba(95,208,138,.05))"
+              : "linear-gradient(135deg, rgba(52,26,16,.95), rgba(30,14,8,.9))",
             border: isMatched
-              ? "2px solid rgba(70,255,154,.7)"
+              ? "2px solid rgba(95,208,138,.7)"
               : h
-                ? "2px solid rgba(70,255,154,.9)"
-                : "1px solid rgba(0,212,255,.35)",
+                ? "2px solid rgba(95,208,138,.9)"
+                : "1px solid rgba(242,193,78,.35)",
             boxShadow: h
-              ? "0 0 60px rgba(70,255,154,.7), 0 0 120px rgba(70,255,154,.3), 0 0 180px rgba(70,255,154,.15), inset 0 0 25px rgba(70,255,154,.1)"
+              ? "0 0 60px rgba(95,208,138,.7), 0 0 120px rgba(95,208,138,.3), 0 0 180px rgba(95,208,138,.15), inset 0 0 25px rgba(95,208,138,.1)"
               : isMatched
-                ? "0 0 30px rgba(70,255,154,.5), 0 0 60px rgba(70,255,154,.2), 0 0 100px rgba(70,255,154,.1), inset 0 0 20px rgba(70,255,154,.08)"
-                : "0 0 20px rgba(0,212,255,.15), inset 0 0 10px rgba(0,212,255,.03)",
+                ? "0 0 30px rgba(95,208,138,.5), 0 0 60px rgba(95,208,138,.2), 0 0 100px rgba(95,208,138,.1), inset 0 0 20px rgba(95,208,138,.08)"
+                : "0 0 20px rgba(242,193,78,.15), inset 0 0 10px rgba(242,193,78,.03)",
             animation: isMatched ? "matchedPulseFront 2s ease-in-out infinite" : "none",
           }}
         >
@@ -570,7 +571,7 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
               style={{
                 animation: "matchFlash 0.6s ease-out forwards",
                 background:
-                  "radial-gradient(ellipse at center, rgba(70,255,154,0.4) 0%, rgba(255,255,255,0.1) 30%, transparent 70%)",
+                  "radial-gradient(ellipse at center, rgba(95,208,138,0.4) 0%, rgba(255,255,255,0.1) 30%, transparent 70%)",
               }}
             />
           )}
@@ -585,12 +586,12 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
           <span
             className="text-sm font-bold text-center px-1 leading-tight z-10"
             style={{
-              color: isMatched ? "#46ff9a" : card.isSpanish ? "#00d4ff" : "#ffd600",
+              color: isMatched ? "#5fd08a" : card.isSpanish ? "#f2c14e" : "#f2c14e",
               textShadow: isMatched
-                ? "0 0 15px rgba(70,255,154,.7), 0 0 30px rgba(70,255,154,.4), 0 0 45px rgba(70,255,154,.2), 0 0 60px rgba(70,255,154,.1)"
+                ? "0 0 15px rgba(95,208,138,.7), 0 0 30px rgba(95,208,138,.4), 0 0 45px rgba(95,208,138,.2), 0 0 60px rgba(95,208,138,.1)"
                 : card.isSpanish
-                  ? "0 0 10px rgba(0,212,255,.3), 0 0 20px rgba(0,212,255,.15), 0 0 30px rgba(0,212,255,.08)"
-                  : "0 0 10px rgba(255,214,0,.3), 0 0 20px rgba(255,214,0,.15), 0 0 30px rgba(255,214,0,.08)",
+                  ? "0 0 10px rgba(242,193,78,.3), 0 0 20px rgba(242,193,78,.15), 0 0 30px rgba(242,193,78,.08)"
+                  : "0 0 10px rgba(242,193,78,.3), 0 0 20px rgba(242,193,78,.15), 0 0 30px rgba(242,193,78,.08)",
               animation: w && !isMatched ? "textReveal 0.4s ease-out forwards" : "none",
             }}
           >
@@ -600,9 +601,9 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
             <div
               className="absolute inset-0 rounded-2xl pointer-events-none"
               style={{
-                boxShadow: "inset 0 0 30px rgba(70,255,154,.25), inset 0 0 60px rgba(70,255,154,.1)",
+                boxShadow: "inset 0 0 30px rgba(95,208,138,.25), inset 0 0 60px rgba(95,208,138,.1)",
                 animation: "matchRingPulse 2s ease-in-out infinite",
-                border: "1px solid rgba(70,255,154,.15)",
+                border: "1px solid rgba(95,208,138,.15)",
               }}
             />
           )}
@@ -611,29 +612,29 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
               <div
                 className="absolute top-1 left-1 w-2.5 h-2.5 rounded-full"
                 style={{
-                  background: "#46ff9a",
-                  boxShadow: "0 0 8px rgba(70,255,154,.9), 0 0 16px rgba(70,255,154,.5)",
+                  background: "#5fd08a",
+                  boxShadow: "0 0 8px rgba(95,208,138,.9), 0 0 16px rgba(95,208,138,.5)",
                 }}
               />
               <div
                 className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full"
                 style={{
-                  background: "#46ff9a",
-                  boxShadow: "0 0 8px rgba(70,255,154,.9), 0 0 16px rgba(70,255,154,.5)",
+                  background: "#5fd08a",
+                  boxShadow: "0 0 8px rgba(95,208,138,.9), 0 0 16px rgba(95,208,138,.5)",
                 }}
               />
               <div
                 className="absolute bottom-1 left-1 w-2.5 h-2.5 rounded-full"
                 style={{
-                  background: "#46ff9a",
-                  boxShadow: "0 0 8px rgba(70,255,154,.9), 0 0 16px rgba(70,255,154,.5)",
+                  background: "#5fd08a",
+                  boxShadow: "0 0 8px rgba(95,208,138,.9), 0 0 16px rgba(95,208,138,.5)",
                 }}
               />
               <div
                 className="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full"
                 style={{
-                  background: "#46ff9a",
-                  boxShadow: "0 0 8px rgba(70,255,154,.9), 0 0 16px rgba(70,255,154,.5)",
+                  background: "#5fd08a",
+                  boxShadow: "0 0 8px rgba(95,208,138,.9), 0 0 16px rgba(95,208,138,.5)",
                 }}
               />
             </>
@@ -651,8 +652,8 @@ function TtComponent({ card, index, onClick, shakeIds, matchIds, isMatched, diff
                     top: `${10 + g * 15}%`,
                     width: "3px",
                     height: "3px",
-                    background: "#46ff9a",
-                    boxShadow: "0 0 6px rgba(70,255,154,.8)",
+                    background: "#5fd08a",
+                    boxShadow: "0 0 6px rgba(95,208,138,.8)",
                     animation: `matchFloatParticle ${1.5 + g * 0.3}s ease-in-out infinite ${g * 0.2}s`,
                   }}
                 />
@@ -750,8 +751,8 @@ function PtComponent() {
     ]);
     setTimeout(() => setMe((i) => i.filter((v) => v.id !== n)), 1800);
   };
-  const Be = (t, o, p = "#ffd600", x = 50) => {
-    const n = ["#ffd600", "#ff00aa", "#00d4ff", "#39ff14", "#ff6b35", "#b829dd", "#ffffff", "#46ff9a"];
+  const Be = (t, o, p = "#f2c14e", x = 50) => {
+    const n = ["#f2c14e", "#e0283f", "#f2c14e", "#5fd08a", "#d99a22", "#a50f25", "#ffffff", "#5fd08a"];
     const i = [];
     const v = Math.min(x, window.innerWidth < 768 ? 16 : 34);
     for (let k = 0; k < v; k++) {
@@ -880,10 +881,10 @@ function PtComponent() {
         const k = document.getElementById(`mem-card-${t}`);
         if (k) {
           const c = k.getBoundingClientRect();
-          Be(c.left + c.width / 2, c.top + c.height / 2, "#46ff9a", 30 + n * 10);
-          Te(c.left + c.width / 2, c.top, `+${v}`, "#46ff9a");
+          Be(c.left + c.width / 2, c.top + c.height / 2, "#5fd08a", 30 + n * 10);
+          Te(c.left + c.width / 2, c.top, `+${v}`, "#5fd08a");
           if (n >= 2) {
-            Xe(c.left + c.width / 2, c.top - 30, `COMBO x${n}!`, "#ffd600");
+            Xe(c.left + c.width / 2, c.top - 30, `COMBO x${n}!`, "#f2c14e");
           }
         }
         setMatchIds((c) => new Set(c).add(t).add(o));
@@ -1005,121 +1006,9 @@ function PtComponent() {
   const Z = Math.min(100, (j / C) * 100);
   if (a === "select") {
     return (
-      <StarfieldBackground>
-        <div
-          className="max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10"
-          style={{
-            perspective: "1000px",
-          }}
-        >
-          <div className="flex items-center justify-between mb-8">
-            <Link
-              to="/juegos"
-              className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
-            >
-              <ArrowLeftIcon size={16} /> Volver / 返回
-            </Link>
-          </div>
-          <div className="text-center mb-10">
-            <div
-              className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-4 relative"
-              style={{
-                background: "linear-gradient(135deg,#ffd600,#ff6b35)",
-                boxShadow: "0 0 60px rgba(255,214,0,0.4), 0 0 120px rgba(255,107,53,0.2)",
-                animation: "memFloat 3s ease-in-out infinite",
-              }}
-            >
-              <Grid3x3Icon
-                size={48}
-                className="text-white"
-                style={{
-                  filter: "drop-shadow(0 0 10px rgba(255,255,255,0.5))",
-                }}
-              />
-              <div
-                className="absolute -top-2 -right-2"
-                style={{
-                  animation: "sparkle 2s ease-in-out infinite",
-                }}
-              >
-                <StarIcon
-                  size={20}
-                  style={{
-                    color: "#ffd600",
-                    fill: "#ffd600",
-                  }}
-                />
-              </div>
-            </div>
-            <h1
-              className="text-5xl md:text-7xl font-black mb-2"
-              style={{
-                background: "linear-gradient(135deg,#ffd600 0%,#ff6b35 50%,#ff00aa 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 40px rgba(255,214,0,.3))",
-                animation: "memTitlePulse 3s ease-in-out infinite alternate",
-              }}
-            >
-              Memory Match
-            </h1>
-            <p className="text-white/50 text-lg font-medium">
-              Selecciona un módulo para jugar / 选择模块开始游戏
-            </p>
-            {oe && (
-              <div
-                className="mt-4 mx-auto max-w-lg p-4 rounded-xl text-sm font-bold"
-                style={{
-                  background: "rgba(255,68,68,.12)",
-                  border: "1px solid rgba(255,68,68,.3)",
-                  color: "#ff6b35",
-                }}
-              >
-                {oe}
-              </div>
-            )}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Ke1Component
-              key="all"
-              m={{
-                id: "all",
-                titulo: "Todos los módulos",
-                tituloChino: "所有模块",
-                color: "#ff00aa",
-                vocabularioCount: 0,
-                descripcion: "Mezcla todo el vocabulario",
-              }}
-              onClick={() => {
-                playClick();
-                setOe("");
-                de(null);
-              }}
-            />
-            {We.map((m_1) => (
-              <Ke1Component
-                key={m_1.id}
-                m={m_1}
-                onClick={() => {
-                  setOe("");
-                  de(m_1.id);
-                }}
-              />
-            ))}
-          </div>
-          <style>{`
-            @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
-            @keyframes mascotFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-            @keyframes mascotPulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
-            @keyframes mascotExcited { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-12px) scale(1.1)} }
-            @keyframes memFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-            @keyframes memTitlePulse { from{filter:drop-shadow(0 0 40px rgba(255,214,0,.3)) brightness(1)} to{filter:drop-shadow(0 0 80px rgba(255,214,0,.5)) brightness(1.15)} }
-            @keyframes sparkle { 0%,100%{opacity:0.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.3)} }
-            @keyframes earWiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-5deg)} 75%{transform:rotate(5deg)} }
-            @keyframes bubblePop { 0%{transform:translateY(10px) scale(0.8); opacity:0} 100%{transform:translateY(0) scale(1); opacity:1} }
-          `}</style>
-        </div>
-      </StarfieldBackground>
+      <>
+        <SelectorTemaJuego juego="memory" error={oe} onIniciar={(id) => { setOe(""); de(id); }} />
+      </>
     );
   }
   return (
@@ -1155,7 +1044,7 @@ function PtComponent() {
         <div className="flex items-center justify-between mb-4">
           <Link
             to="/juegos"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold"
           >
             <ArrowLeftIcon size={16} /> Volver / 返回
           </Link>
@@ -1199,10 +1088,10 @@ function PtComponent() {
           <h1
             className="text-4xl md:text-5xl font-black mb-1"
             style={{
-              background: "linear-gradient(135deg,#ffd600,#ff6b35)",
+              background: "linear-gradient(135deg,#f2c14e,#d99a22)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 30px rgba(255,214,0,.3))",
+              filter: "drop-shadow(0 0 30px rgba(242,193,78,.3))",
             }}
           >
             Memory Match
@@ -1216,10 +1105,10 @@ function PtComponent() {
             <div
               className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold"
               style={{
-                background: "rgba(123,97,255,.1)",
-                border: "1px solid rgba(123,97,255,.2)",
-                color: "#b8a5ff",
-                boxShadow: "0 0 10px rgba(123,97,255,.1)",
+                background: "rgba(165,15,37,.1)",
+                border: "1px solid rgba(165,15,37,.2)",
+                color: "#f5d9a0",
+                boxShadow: "0 0 10px rgba(165,15,37,.1)",
               }}
             >
               <ZapIcon size={12} /> Nivel {M}
@@ -1227,9 +1116,9 @@ function PtComponent() {
             <div
               className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold"
               style={{
-                background: "rgba(255,214,0,.1)",
-                border: "1px solid rgba(255,214,0,.2)",
-                color: "#ffd600",
+                background: "rgba(242,193,78,.1)",
+                border: "1px solid rgba(242,193,78,.2)",
+                color: "#f2c14e",
               }}
             >
               <FlameIcon size={12} /> Combo x{F}
@@ -1238,9 +1127,9 @@ function PtComponent() {
               <div
                 className="px-2 py-0.5 rounded-full text-[10px] font-black animate-pulse"
                 style={{
-                  background: "rgba(255,0,170,.2)",
-                  color: "#ff6ec7",
-                  border: "1px solid rgba(255,0,170,.3)",
+                  background: "rgba(224,40,63,.2)",
+                  color: "#e0283f",
+                  border: "1px solid rgba(224,40,63,.3)",
                 }}
               >
                 x{Ye.toFixed(1)} pts
@@ -1262,16 +1151,16 @@ function PtComponent() {
                   style={
                     p
                       ? {
-                          background: "rgba(255,214,0,.15)",
-                          border: "1px solid rgba(255,214,0,.3)",
-                          color: "#ffd600",
-                          boxShadow: "0 0 15px rgba(255,214,0,.15)",
-                          textShadow: "0 0 10px rgba(255,214,0,.3)",
+                          background: "rgba(242,193,78,.15)",
+                          border: "1px solid rgba(242,193,78,.3)",
+                          color: "#f2c14e",
+                          boxShadow: "0 0 15px rgba(242,193,78,.15)",
+                          textShadow: "0 0 10px rgba(242,193,78,.3)",
                         }
                       : {
                           background: "rgba(255,255,255,.04)",
                           border: "1px solid rgba(255,255,255,.08)",
-                          color: "rgba(207,216,255,.4)",
+                          color: "rgba(255,236,200,.4)",
                         }
                   }
                 >
@@ -1290,13 +1179,13 @@ function PtComponent() {
           <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
             style={{
-              background: "rgba(0,212,255,.12)",
-              border: "1px solid rgba(0,212,255,.3)",
-              color: "#00d4ff",
+              background: "rgba(242,193,78,.12)",
+              border: "1px solid rgba(242,193,78,.3)",
+              color: "#f2c14e",
               boxShadow:
-                "0 0 15px rgba(0,212,255,.15), 0 0 30px rgba(0,212,255,.05), 0 4px 15px rgba(0,0,0,0.3)",
+                "0 0 15px rgba(242,193,78,.15), 0 0 30px rgba(242,193,78,.05), 0 4px 15px rgba(0,0,0,0.3)",
               transform: "translateZ(10px) rotateX(-5deg)",
-              textShadow: "0 0 8px rgba(0,212,255,.3)",
+              textShadow: "0 0 8px rgba(242,193,78,.3)",
             }}
           >
             <TimerIcon size={12} /> {Math.floor(j / 60)}:{String(j % 60).padStart(2, "0")}
@@ -1304,13 +1193,13 @@ function PtComponent() {
           <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
             style={{
-              background: "rgba(255,0,170,.12)",
-              border: "1px solid rgba(255,0,170,.3)",
-              color: "#ff00aa",
+              background: "rgba(224,40,63,.12)",
+              border: "1px solid rgba(224,40,63,.3)",
+              color: "#e0283f",
               boxShadow:
-                "0 0 15px rgba(255,0,170,.15), 0 0 30px rgba(255,0,170,.05), 0 4px 15px rgba(0,0,0,0.3)",
+                "0 0 15px rgba(224,40,63,.15), 0 0 30px rgba(224,40,63,.05), 0 4px 15px rgba(0,0,0,0.3)",
               transform: "translateZ(15px) rotateX(-5deg)",
-              textShadow: "0 0 8px rgba(255,0,170,.3)",
+              textShadow: "0 0 8px rgba(224,40,63,.3)",
             }}
           >
             <FootprintsIcon size={12} /> {z} movimientos / 步
@@ -1318,13 +1207,13 @@ function PtComponent() {
           <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
             style={{
-              background: "rgba(57,255,20,.12)",
-              border: "1px solid rgba(57,255,20,.3)",
-              color: "#39ff14",
+              background: "rgba(95,208,138,.12)",
+              border: "1px solid rgba(95,208,138,.3)",
+              color: "#5fd08a",
               boxShadow:
-                "0 0 15px rgba(57,255,20,.15), 0 0 30px rgba(57,255,20,.05), 0 4px 15px rgba(0,0,0,0.3)",
+                "0 0 15px rgba(95,208,138,.15), 0 0 30px rgba(95,208,138,.05), 0 4px 15px rgba(0,0,0,0.3)",
               transform: "translateZ(20px) rotateX(-5deg)",
-              textShadow: "0 0 8px rgba(57,255,20,.3)",
+              textShadow: "0 0 8px rgba(95,208,138,.3)",
             }}
           >
             <AwardIcon size={12} /> {Ge} pts
@@ -1332,13 +1221,13 @@ function PtComponent() {
           <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
             style={{
-              background: "rgba(255,107,53,.12)",
-              border: "1px solid rgba(255,107,53,.3)",
-              color: "#ff6b35",
+              background: "rgba(217,154,34,.12)",
+              border: "1px solid rgba(217,154,34,.3)",
+              color: "#d99a22",
               boxShadow:
-                "0 0 15px rgba(255,107,53,.15), 0 0 30px rgba(255,107,53,.05), 0 4px 15px rgba(0,0,0,0.3)",
+                "0 0 15px rgba(217,154,34,.15), 0 0 30px rgba(217,154,34,.05), 0 4px 15px rgba(0,0,0,0.3)",
               transform: "translateZ(10px) rotateX(-5deg)",
-              textShadow: "0 0 8px rgba(255,107,53,.3)",
+              textShadow: "0 0 8px rgba(217,154,34,.3)",
             }}
           >
             <StarIcon size={12} /> Max Combo {X}
@@ -1354,7 +1243,7 @@ function PtComponent() {
             <span>Tiempo</span>
             <span
               style={{
-                color: Z > 100 ? "#ff4444" : "#ffd600",
+                color: Z > 100 ? "#ff4444" : "#f2c14e",
               }}
             >
               {j <= C ? `Objetivo: ${C}s` : `+${j - C}s`}
@@ -1371,7 +1260,7 @@ function PtComponent() {
             <div
               className="absolute inset-0 rounded-full pointer-events-none opacity-20"
               style={{
-                boxShadow: "inset 0 0 10px rgba(0,212,255,0.1)",
+                boxShadow: "inset 0 0 10px rgba(242,193,78,0.1)",
               }}
             />
             <div
@@ -1380,12 +1269,12 @@ function PtComponent() {
                 width: `${Math.min(Z, 100)}%`,
                 background:
                   Z > 100
-                    ? "linear-gradient(90deg, #ff4444, #ff6b35)"
-                    : "linear-gradient(90deg, #00d4ff, #39ff14)",
+                    ? "linear-gradient(90deg, #ff4444, #d99a22)"
+                    : "linear-gradient(90deg, #f2c14e, #5fd08a)",
                 boxShadow:
                   Z > 100
                     ? "0 0 15px rgba(255,68,68,0.6), 0 0 30px rgba(255,68,68,0.3)"
-                    : "0 0 15px rgba(0,212,255,0.4), 0 0 30px rgba(0,212,255,0.2), 0 0 45px rgba(57,255,20,0.1)",
+                    : "0 0 15px rgba(242,193,78,0.4), 0 0 30px rgba(242,193,78,0.2), 0 0 45px rgba(95,208,138,0.1)",
                 animation: "progressGlow 2s ease-in-out infinite alternate",
               }}
             />
@@ -1430,15 +1319,15 @@ function PtComponent() {
               gridTemplateColumns: `repeat(${K.cols}, minmax(0, 1fr))`,
               maxWidth: `${K.cols * (l === "6x6" ? 85 : 110) + 60}px`,
               background: `
-                radial-gradient(ellipse at 50% 0%, rgba(123, 97, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 100%, rgba(255, 0, 170, 0.05) 0%, transparent 50%),
-                linear-gradient(180deg, rgba(14,22,64,.3), rgba(5,8,27,.2))
+                radial-gradient(ellipse at 50% 0%, rgba(165,15,37, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(224,40,63, 0.05) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(52,26,16,.3), rgba(30,14,8,.2))
               `,
               border: "1px solid rgba(255,255,255,0.08)",
               boxShadow: `
                 0 25px 80px rgba(0,0,0,0.5),
-                0 0 60px rgba(123,97,255,0.08),
-                0 0 120px rgba(0,212,255,0.03),
+                0 0 60px rgba(165,15,37,0.08),
+                0 0 120px rgba(242,193,78,0.03),
                 inset 0 1px 0 rgba(255,255,255,0.05)
               `,
             }}
@@ -1446,14 +1335,14 @@ function PtComponent() {
             <div
               className="absolute inset-0 rounded-3xl pointer-events-none opacity-40"
               style={{
-                background: "radial-gradient(ellipse at center, rgba(123,97,255,0.1) 0%, transparent 70%)",
+                background: "radial-gradient(ellipse at center, rgba(165,15,37,0.1) 0%, transparent 70%)",
                 animation: "gridAmbientPulse 4s ease-in-out infinite",
               }}
             />
             <div
               className="absolute top-0 left-[10%] right-[10%] h-px pointer-events-none opacity-30"
               style={{
-                background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent)",
+                background: "linear-gradient(90deg, transparent, rgba(242,193,78,0.3), transparent)",
               }}
             />
             {m.map((card, index) => (
@@ -1475,7 +1364,7 @@ function PtComponent() {
           <div
             className="fixed inset-0 z-[90] flex items-center justify-center pointer-events-none"
             style={{
-              background: "rgba(3,4,17,0.6)",
+              background: "rgba(24,10,6,0.6)",
               backdropFilter: "blur(10px)",
             }}
           >
@@ -1488,10 +1377,10 @@ function PtComponent() {
               <h2
                 className="text-5xl font-black mb-2"
                 style={{
-                  background: "linear-gradient(135deg, #ffd600, #ff6b35)",
+                  background: "linear-gradient(135deg, #f2c14e, #d99a22)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 30px rgba(255,214,0,.5))",
+                  filter: "drop-shadow(0 0 30px rgba(242,193,78,.5))",
                 }}
               >
                 ¡Nivel {M + 1}!
@@ -1504,7 +1393,7 @@ function PtComponent() {
           <div
             className="fixed inset-0 z-[100] flex items-center justify-center"
             style={{
-              background: "rgba(3,4,17,.85)",
+              background: "rgba(24,10,6,.85)",
               backdropFilter: "blur(20px)",
               perspective: "1000px",
             }}
@@ -1512,10 +1401,10 @@ function PtComponent() {
             <div
               className="text-center p-8 rounded-3xl max-w-sm mx-4 relative overflow-hidden"
               style={{
-                background: "linear-gradient(180deg, rgba(14,22,64,.8), rgba(5,8,27,.6))",
-                border: "2px solid rgba(255,214,0,.3)",
+                background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
+                border: "2px solid rgba(242,193,78,.3)",
                 boxShadow:
-                  "0 0 60px rgba(255,214,0,.2), 0 0 120px rgba(255,214,0,.1), 0 0 200px rgba(255,214,0,.05)",
+                  "0 0 60px rgba(242,193,78,.2), 0 0 120px rgba(242,193,78,.1), 0 0 200px rgba(242,193,78,.05)",
                 transform: "translateZ(50px)",
                 animation: "victoryBounce 1s ease-out",
               }}
@@ -1523,7 +1412,7 @@ function PtComponent() {
               <div
                 className="absolute -inset-[2px] rounded-[26px] -z-10 opacity-50"
                 style={{
-                  background: "linear-gradient(135deg, #ffd600, #ff6b35, #ff00aa)",
+                  background: "linear-gradient(135deg, #f2c14e, #d99a22, #e0283f)",
                   filter: "blur(25px)",
                   animation: "victoryGlow 2s ease-in-out infinite alternate",
                 }}
@@ -1531,19 +1420,19 @@ function PtComponent() {
               <TrophyIcon
                 size={56}
                 style={{
-                  color: "#ffd600",
+                  color: "#f2c14e",
                   margin: "0 auto 16px",
-                  filter: "drop-shadow(0 0 15px rgba(255,214,0,.5))",
+                  filter: "drop-shadow(0 0 15px rgba(242,193,78,.5))",
                   animation: "trophySpin 3s ease-in-out infinite",
                 }}
               />
               <h2
                 className="text-4xl font-black mb-2"
                 style={{
-                  background: "linear-gradient(135deg, #ffd600, #ff6b35)",
+                  background: "linear-gradient(135deg, #f2c14e, #d99a22)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 20px rgba(255,214,0,.3))",
+                  filter: "drop-shadow(0 0 20px rgba(242,193,78,.3))",
                 }}
               >
                 ¡Completado!
@@ -1553,9 +1442,9 @@ function PtComponent() {
                 <div
                   className="p-3 rounded-xl relative overflow-hidden"
                   style={{
-                    background: "rgba(0,212,255,.12)",
-                    border: "1px solid rgba(0,212,255,.2)",
-                    boxShadow: "0 0 20px rgba(0,212,255,.1), 0 4px 15px rgba(0,0,0,0.3)",
+                    background: "rgba(242,193,78,.12)",
+                    border: "1px solid rgba(242,193,78,.2)",
+                    boxShadow: "0 0 20px rgba(242,193,78,.1), 0 4px 15px rgba(0,0,0,0.3)",
                     transform: "translateZ(20px) rotateX(-3deg)",
                     transformStyle: "preserve-3d",
                   }}
@@ -1563,21 +1452,21 @@ function PtComponent() {
                   <div
                     className="absolute inset-0 pointer-events-none opacity-10"
                     style={{
-                      background: "linear-gradient(135deg, rgba(0,212,255,0.2), transparent)",
+                      background: "linear-gradient(135deg, rgba(242,193,78,0.2), transparent)",
                     }}
                   />
                   <ZapIcon
                     size={16}
                     style={{
-                      color: "#00d4ff",
+                      color: "#f2c14e",
                       margin: "0 auto 4px",
-                      filter: "drop-shadow(0 0 5px rgba(0,212,255,0.5))",
+                      filter: "drop-shadow(0 0 5px rgba(242,193,78,0.5))",
                     }}
                   />
                   <p
                     className="text-xs"
                     style={{
-                      color: "rgba(207,216,255,.5)",
+                      color: "rgba(255,236,200,.5)",
                     }}
                   >
                     Base Score
@@ -1585,8 +1474,8 @@ function PtComponent() {
                   <p
                     className="text-lg font-black"
                     style={{
-                      color: "#00d4ff",
-                      textShadow: "0 0 15px rgba(0,212,255,.4)",
+                      color: "#f2c14e",
+                      textShadow: "0 0 15px rgba(242,193,78,.4)",
                     }}
                   >
                     {H}
@@ -1595,9 +1484,9 @@ function PtComponent() {
                 <div
                   className="p-3 rounded-xl relative overflow-hidden"
                   style={{
-                    background: "rgba(255,0,170,.12)",
-                    border: "1px solid rgba(255,0,170,.2)",
-                    boxShadow: "0 0 20px rgba(255,0,170,.1), 0 4px 15px rgba(0,0,0,0.3)",
+                    background: "rgba(224,40,63,.12)",
+                    border: "1px solid rgba(224,40,63,.2)",
+                    boxShadow: "0 0 20px rgba(224,40,63,.1), 0 4px 15px rgba(0,0,0,0.3)",
                     transform: "translateZ(25px) rotateX(-3deg)",
                     transformStyle: "preserve-3d",
                   }}
@@ -1605,21 +1494,21 @@ function PtComponent() {
                   <div
                     className="absolute inset-0 pointer-events-none opacity-10"
                     style={{
-                      background: "linear-gradient(135deg, rgba(255,0,170,0.2), transparent)",
+                      background: "linear-gradient(135deg, rgba(224,40,63,0.2), transparent)",
                     }}
                   />
                   <FootprintsIcon
                     size={16}
                     style={{
-                      color: "#ff00aa",
+                      color: "#e0283f",
                       margin: "0 auto 4px",
-                      filter: "drop-shadow(0 0 5px rgba(255,0,170,0.5))",
+                      filter: "drop-shadow(0 0 5px rgba(224,40,63,0.5))",
                     }}
                   />
                   <p
                     className="text-xs"
                     style={{
-                      color: "rgba(207,216,255,.5)",
+                      color: "rgba(255,236,200,.5)",
                     }}
                   >
                     Movimientos
@@ -1627,8 +1516,8 @@ function PtComponent() {
                   <p
                     className="text-lg font-black"
                     style={{
-                      color: "#ff00aa",
-                      textShadow: "0 0 15px rgba(255,0,170,.4)",
+                      color: "#e0283f",
+                      textShadow: "0 0 15px rgba(224,40,63,.4)",
                     }}
                   >
                     {z}
@@ -1637,9 +1526,9 @@ function PtComponent() {
                 <div
                   className="p-3 rounded-xl relative overflow-hidden"
                   style={{
-                    background: "rgba(57,255,20,.12)",
-                    border: "1px solid rgba(57,255,20,.2)",
-                    boxShadow: "0 0 20px rgba(57,255,20,.1), 0 4px 15px rgba(0,0,0,0.3)",
+                    background: "rgba(95,208,138,.12)",
+                    border: "1px solid rgba(95,208,138,.2)",
+                    boxShadow: "0 0 20px rgba(95,208,138,.1), 0 4px 15px rgba(0,0,0,0.3)",
                     transform: "translateZ(30px) rotateX(-3deg)",
                     transformStyle: "preserve-3d",
                   }}
@@ -1647,21 +1536,21 @@ function PtComponent() {
                   <div
                     className="absolute inset-0 pointer-events-none opacity-10"
                     style={{
-                      background: "linear-gradient(135deg, rgba(57,255,20,0.2), transparent)",
+                      background: "linear-gradient(135deg, rgba(95,208,138,0.2), transparent)",
                     }}
                   />
                   <TimerIcon
                     size={16}
                     style={{
-                      color: "#39ff14",
+                      color: "#5fd08a",
                       margin: "0 auto 4px",
-                      filter: "drop-shadow(0 0 5px rgba(57,255,20,0.5))",
+                      filter: "drop-shadow(0 0 5px rgba(95,208,138,0.5))",
                     }}
                   />
                   <p
                     className="text-xs"
                     style={{
-                      color: "rgba(207,216,255,.5)",
+                      color: "rgba(255,236,200,.5)",
                     }}
                   >
                     Tiempo
@@ -1669,8 +1558,8 @@ function PtComponent() {
                   <p
                     className="text-lg font-black"
                     style={{
-                      color: "#39ff14",
-                      textShadow: "0 0 15px rgba(57,255,20,.4)",
+                      color: "#5fd08a",
+                      textShadow: "0 0 15px rgba(95,208,138,.4)",
                     }}
                   >
                     {j}s
@@ -1679,9 +1568,9 @@ function PtComponent() {
                 <div
                   className="p-3 rounded-xl relative overflow-hidden"
                   style={{
-                    background: "rgba(255,107,53,.12)",
-                    border: "1px solid rgba(255,107,53,.2)",
-                    boxShadow: "0 0 20px rgba(255,107,53,.1), 0 4px 15px rgba(0,0,0,0.3)",
+                    background: "rgba(217,154,34,.12)",
+                    border: "1px solid rgba(217,154,34,.2)",
+                    boxShadow: "0 0 20px rgba(217,154,34,.1), 0 4px 15px rgba(0,0,0,0.3)",
                     transform: "translateZ(20px) rotateX(-3deg)",
                     transformStyle: "preserve-3d",
                   }}
@@ -1689,21 +1578,21 @@ function PtComponent() {
                   <div
                     className="absolute inset-0 pointer-events-none opacity-10"
                     style={{
-                      background: "linear-gradient(135deg, rgba(255,107,53,0.2), transparent)",
+                      background: "linear-gradient(135deg, rgba(217,154,34,0.2), transparent)",
                     }}
                   />
                   <FlameIcon
                     size={16}
                     style={{
-                      color: "#ff6b35",
+                      color: "#d99a22",
                       margin: "0 auto 4px",
-                      filter: "drop-shadow(0 0 5px rgba(255,107,53,0.5))",
+                      filter: "drop-shadow(0 0 5px rgba(217,154,34,0.5))",
                     }}
                   />
                   <p
                     className="text-xs"
                     style={{
-                      color: "rgba(207,216,255,.5)",
+                      color: "rgba(255,236,200,.5)",
                     }}
                   >
                     Max Combo
@@ -1711,8 +1600,8 @@ function PtComponent() {
                   <p
                     className="text-lg font-black"
                     style={{
-                      color: "#ff6b35",
-                      textShadow: "0 0 15px rgba(255,107,53,.4)",
+                      color: "#d99a22",
+                      textShadow: "0 0 15px rgba(217,154,34,.4)",
                     }}
                   >
                     x{X}
@@ -1722,22 +1611,22 @@ function PtComponent() {
               <div
                 className="mb-4 p-3 rounded-xl"
                 style={{
-                  background: "rgba(255,214,0,.08)",
-                  border: "1px solid rgba(255,214,0,.15)",
+                  background: "rgba(242,193,78,.08)",
+                  border: "1px solid rgba(242,193,78,.15)",
                 }}
               >
                 <p className="text-xs font-bold text-white/50 mb-1">Desglose de puntuación</p>
                 <div className="flex justify-between text-xs mb-0.5">
                   <span
                     style={{
-                      color: "#00d4ff",
+                      color: "#f2c14e",
                     }}
                   >
                     Base
                   </span>
                   <span
                     style={{
-                      color: "#00d4ff",
+                      color: "#f2c14e",
                     }}
                   >
                     {H}
@@ -1746,14 +1635,14 @@ function PtComponent() {
                 <div className="flex justify-between text-xs mb-0.5">
                   <span
                     style={{
-                      color: "#ff6b35",
+                      color: "#d99a22",
                     }}
                   >
                     Combo Bonus (x{X})
                   </span>
                   <span
                     style={{
-                      color: "#ff6b35",
+                      color: "#d99a22",
                     }}
                   >
                     +{xe}
@@ -1762,14 +1651,14 @@ function PtComponent() {
                 <div className="flex justify-between text-xs mb-0.5">
                   <span
                     style={{
-                      color: "#39ff14",
+                      color: "#5fd08a",
                     }}
                   >
                     Speed Bonus
                   </span>
                   <span
                     style={{
-                      color: "#39ff14",
+                      color: "#5fd08a",
                     }}
                   >
                     +{Ze}
@@ -1778,14 +1667,14 @@ function PtComponent() {
                 <div className="flex justify-between text-xs mb-0.5">
                   <span
                     style={{
-                      color: "#b8a5ff",
+                      color: "#f5d9a0",
                     }}
                   >
                     Nivel Multiplier (x{J.toFixed(1)})
                   </span>
                   <span
                     style={{
-                      color: "#b8a5ff",
+                      color: "#f5d9a0",
                     }}
                   >
                     x{J}
@@ -1795,15 +1684,15 @@ function PtComponent() {
                 <div className="flex justify-between text-sm font-black">
                   <span
                     style={{
-                      color: "#ffd600",
+                      color: "#f2c14e",
                     }}
                   >
                     TOTAL
                   </span>
                   <span
                     style={{
-                      color: "#ffd600",
-                      textShadow: "0 0 15px rgba(255,214,0,.5)",
+                      color: "#f2c14e",
+                      textShadow: "0 0 15px rgba(242,193,78,.5)",
                     }}
                   >
                     {se}
@@ -1818,8 +1707,8 @@ function PtComponent() {
                   }}
                   className="px-6 py-3 rounded-full text-white font-black transition-all hover:scale-105 text-sm"
                   style={{
-                    background: "linear-gradient(135deg, #ffd600, #ff6b35)",
-                    boxShadow: "0 0 25px rgba(255,214,0,.3), 0 0 50px rgba(255,214,0,.1)",
+                    background: "linear-gradient(135deg, #f2c14e, #d99a22)",
+                    boxShadow: "0 0 25px rgba(242,193,78,.3), 0 0 50px rgba(242,193,78,.1)",
                   }}
                 >
                   Reintentar / 重试
@@ -1828,8 +1717,8 @@ function PtComponent() {
                   onClick={onClick}
                   className="flex items-center gap-1 px-6 py-3 rounded-full text-white font-black transition-all hover:scale-105 text-sm"
                   style={{
-                    background: "linear-gradient(135deg, #00d4ff, #7b61ff)",
-                    boxShadow: "0 0 25px rgba(0,212,255,.3), 0 0 50px rgba(0,212,255,.1)",
+                    background: "linear-gradient(135deg, #f2c14e, #a50f25)",
+                    boxShadow: "0 0 25px rgba(242,193,78,.3), 0 0 50px rgba(242,193,78,.1)",
                   }}
                 >
                   Siguiente Nivel <ChevronRightIcon size={16} />
@@ -1843,7 +1732,7 @@ function PtComponent() {
           @keyframes floatParticle { 0%{transform:translateY(0) translateX(0)} 100%{transform:translateY(-30px) translateX(10px)} }
           @keyframes cardStaggerIn { 0%{transform:scale(0) rotateY(-90deg); opacity:0} 100%{transform:scale(1) rotateY(0deg); opacity:1} }
           @keyframes textReveal { 0%{transform:scale(0.8); opacity:0; filter:blur(4px)} 100%{transform:scale(1); opacity:1; filter:blur(0)} }
-          @keyframes matchedPulseFront { 0%,100%{box-shadow:0 0 25px rgba(70,255,154,.3), inset 0 0 15px rgba(70,255,154,.05)} 50%{box-shadow:0 0 50px rgba(70,255,154,.5), 0 0 80px rgba(70,255,154,.2), inset 0 0 25px rgba(70,255,154,.1)} }
+          @keyframes matchedPulseFront { 0%,100%{box-shadow:0 0 25px rgba(95,208,138,.3), inset 0 0 15px rgba(95,208,138,.05)} 50%{box-shadow:0 0 50px rgba(95,208,138,.5), 0 0 80px rgba(95,208,138,.2), inset 0 0 25px rgba(95,208,138,.1)} }
           @keyframes matchRingPulse { 0%,100%{transform:scale(1); opacity:0.5} 50%{transform:scale(1.05); opacity:0.8} }
           @keyframes mismatchShakeCard { 0%,100%{transform:translateX(0)} 10%{transform:translateX(-6px)} 20%{transform:translateX(6px)} 30%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 50%{transform:translateX(-3px)} 60%{transform:translateX(3px)} 70%{transform:translateX(-2px)} 80%{transform:translateX(2px)} 90%{transform:translateX(-1px)} }
           @keyframes goldShimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
@@ -1865,9 +1754,9 @@ function PtComponent() {
           @keyframes starTwinkle { 0%,100%{opacity:0.3; transform:scale(1)} 50%{opacity:0.8; transform:scale(1.5)} }
           @keyframes cardBorderPulse { 0%,100%{opacity:0.2} 50%{opacity:0.4} }
           @keyframes comboPop3D { 0%{transform:translateY(0) scale(0.5) rotateY(-30deg); opacity:0} 20%{transform:translateY(-20px) scale(1.2) rotateY(10deg); opacity:1} 40%{transform:translateY(-30px) scale(1) rotateY(-5deg); opacity:1} 100%{transform:translateY(-100px) scale(1.1) rotateY(0deg); opacity:0} }
-          @keyframes questionGlow { 0%{text-shadow:0 0 20px rgba(123,97,255,.5), 0 0 40px rgba(255,0,170,.2)} 100%{text-shadow:0 0 30px rgba(123,97,255,.8), 0 0 60px rgba(255,0,170,.4), 0 0 90px rgba(0,212,255,.2)} }
+          @keyframes questionGlow { 0%{text-shadow:0 0 20px rgba(165,15,37,.5), 0 0 40px rgba(224,40,63,.2)} 100%{text-shadow:0 0 30px rgba(165,15,37,.8), 0 0 60px rgba(224,40,63,.4), 0 0 90px rgba(242,193,78,.2)} }
           @keyframes matchFloatParticle { 0%,100%{transform:translateY(0) translateX(0); opacity:0.6} 50%{transform:translateY(-15px) translateX(5px); opacity:1} }
-          @keyframes progressGlow { 0%{box-shadow:0 0 15px rgba(0,212,255,.4), 0 0 30px rgba(0,212,255,.2)} 100%{box-shadow:0 0 25px rgba(57,255,20,.5), 0 0 50px rgba(57,255,20,.3), 0 0 75px rgba(57,255,20,.15)} }
+          @keyframes progressGlow { 0%{box-shadow:0 0 15px rgba(242,193,78,.4), 0 0 30px rgba(242,193,78,.2)} 100%{box-shadow:0 0 25px rgba(95,208,138,.5), 0 0 50px rgba(95,208,138,.3), 0 0 75px rgba(95,208,138,.15)} }
           @keyframes gridAmbientPulse { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
           .animate-screenShake { animation: screenShake 0.5s ease-in-out; }
         `}</style>

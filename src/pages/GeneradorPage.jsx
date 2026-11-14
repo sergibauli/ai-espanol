@@ -4,7 +4,6 @@ import {
   Volume2Icon,
   BookOpenIcon,
   MicIcon,
-  ArrowLeftIcon,
   LoaderCircleIcon,
   SaveIcon,
   FileTextIcon,
@@ -13,35 +12,37 @@ import {
   MessageCircleIcon,
   SquareIcon,
   HistoryIcon,
+  CheckIcon,
+  XIcon,
 } from "lucide-react";
 import * as React from "react";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
-import { u, C } from "../components/CorrectionDisplay.jsx";
-import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
-import { c as c_1, e, a } from "../lib/ai-generator.js";
-const Q = "dele_generated_content_v1";
-const he = ["A1", "A2", "B1", "B2"];
-function fe() {
+import { u as useCorreccion, C as Correccion } from "../components/CorrectionDisplay.jsx";
+import { c as generarConCache, e as extraerJson, a as pedirIA } from "../lib/ai-generator.js";
+import "../styles/v14-fix-recursos.css";
+const CLAVE_HISTORIAL = "dele_generated_content_v1";
+const NIVELES = ["A1", "A2", "B1", "B2"];
+function leerHistorial() {
   try {
-    return JSON.parse(localStorage.getItem(Q) || "[]");
+    return JSON.parse(localStorage.getItem(CLAVE_HISTORIAL) || "[]");
   } catch {
     return [];
   }
 }
-function W(r) {
+function guardarHistorial(lista) {
   try {
-    localStorage.setItem(Q, JSON.stringify(r));
+    localStorage.setItem(CLAVE_HISTORIAL, JSON.stringify(lista));
   } catch {}
 }
 const system =
   "Eres un generador experto de exámenes DELE de español para estudiantes chinos. Devuelve SOLO un objeto JSON válido, sin markdown, sin comentarios y sin texto fuera del JSON. El contenido debe ser completo y desarrollado, NUNCA vacío.";
-function je(r, c) {
-  const user = `Genera un examen DELE completo de nivel ${c} sobre el tema "${r}". Escribe TODO el contenido en español (los campos "chinese" en chino). Devuelve únicamente un JSON con exactamente esta estructura, con contenido real y desarrollado en cada campo (nada de arrays vacíos, nada de repetir solo el título):
+function crearPrompt(tema, nivel) {
+  const user = `Genera un examen DELE completo de nivel ${nivel} sobre el tema "${tema}". Escribe TODO el contenido en español (los campos "chinese" en chino). Devuelve únicamente un JSON con exactamente esta estructura, con contenido real y desarrollado en cada campo (nada de arrays vacíos, nada de repetir solo el título):
 
 {
-  "theme": "${r}",
-  "level": "${c}",
+  "theme": "${tema}",
+  "level": "${nivel}",
   "vocabulary": [ 8 objetos, cada uno así: {"word": "una palabra del tema en español", "definition": "definición breve en español", "chinese": "中文翻译", "example": "una frase de ejemplo en español usando la palabra"} ],
   "reading": {
     "textType": "artículo",
@@ -74,88 +75,71 @@ IMPORTANTE: "correctAnswer" es un número entero de 0 a 3 (el índice de la opci
     user,
   };
 }
-function PeComponent() {
-  const [r] = React.useState("examen");
-  const [c, setC] = React.useState("");
-  const [y, setY] = React.useState("A1");
-  const [S, setS] = React.useState(false);
-  const [w, setW] = React.useState("");
-  const [h, setH] = React.useState(null);
-  const [g, setG] = React.useState(fe);
-  const [O, setO] = React.useState(false);
-  const [D, setD] = React.useState(false);
-  const P = (s) =>
-    s &&
-    Array.isArray(s.vocabulary) &&
-    s.vocabulary.length >= 5 &&
-    s.reading?.text?.length > 60 &&
-    Array.isArray(s.reading?.questions) &&
-    s.reading.questions.length >= 3 &&
-    Array.isArray(s.listening?.questions) &&
-    s.listening.questions.length >= 3;
-  const $ = async () => {
-    if (!c.trim()) {
-      setW("Escribe un tema / 请先输入主题");
+const examenCompleto = (examen) =>
+  examen &&
+  Array.isArray(examen.vocabulary) &&
+  examen.vocabulary.length >= 5 &&
+  examen.reading?.text?.length > 60 &&
+  Array.isArray(examen.reading?.questions) &&
+  examen.reading.questions.length >= 3 &&
+  Array.isArray(examen.listening?.questions) &&
+  examen.listening.questions.length >= 3;
+function GeneradorPage() {
+  const [tema, setTema] = React.useState("");
+  const [nivel, setNivel] = React.useState("A1");
+  const [generando, setGenerando] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [examen, setExamen] = React.useState(null);
+  const [historial, setHistorial] = React.useState(leerHistorial);
+  const [verHistorial, setVerHistorial] = React.useState(false);
+  const [guardado, setGuardado] = React.useState(false);
+  const generar = async () => {
+    if (!tema.trim()) {
+      setError("Escribe un tema · 请先输入主题");
       return;
     }
-    setS(true);
-    setW("");
-    setH(null);
+    setGenerando(true);
+    setError("");
+    setExamen(null);
     try {
-      const { system, user } = je(c.trim(), y);
-      const m = `${y} ${c.trim()}`;
-      let p = null;
-      let j = await c_1("examen", m, system);
-      p = e(j);
-      for (let T = 2; T <= 3 && !P(p); T++) {
-        j = await a(system, user);
-        p = e(j);
+      const { system, user } = crearPrompt(tema.trim(), nivel);
+      let respuesta = await generarConCache("examen", `${nivel} ${tema.trim()}`, system);
+      let resultado = extraerJson(respuesta);
+      for (let intento = 2; intento <= 3 && !examenCompleto(resultado); intento++) {
+        respuesta = await pedirIA(system, user);
+        resultado = extraerJson(respuesta);
       }
-      if (P(p)) {
-        setH(p);
-      } else {
-        setW(
-          "La IA no devolvió un examen completo tras 3 intentos. Prueba otro tema o reintenta / AI未返回完整考试（已重试3次）",
-        );
-      }
-    } catch (error) {
-      setW(error.message || "Error");
+      if (examenCompleto(resultado)) setExamen(resultado);
+      else setError("La IA no devolvió un examen completo tras 3 intentos. Prueba otro tema o reintenta · AI未返回完整考试（已重试3次）");
+    } catch (fallo) {
+      setError(fallo.message || "Error");
     }
-    setS(false);
+    setGenerando(false);
   };
-  const H = () => {
-    if (!h) {
-      return;
-    }
-    const f = [
-      {
-        id: `${r}-${Date.now()}`,
-        mode: r,
-        level: y,
-        theme: c.trim(),
-        createdAt: Date.now(),
-        data: h,
-      },
-      ...g,
-    ].slice(0, 30);
-    setG(f);
-    W(f);
-    setD(true);
-    setTimeout(() => setD(false), 1500);
+  const guardar = () => {
+    if (!examen) return;
+    const lista = [{ id: `examen-${Date.now()}`, mode: "examen", level: nivel, theme: tema.trim(), createdAt: Date.now(), data: examen }, ...historial].slice(0, 30);
+    setHistorial(lista);
+    guardarHistorial(lista);
+    setGuardado(true);
+    setTimeout(() => setGuardado(false), 1500);
   };
-  const G = (s) => {
-    setC(s.theme);
-    setY(s.level);
-    setH(s.data);
-    setO(false);
+  const abrir = (entrada) => {
+    setTema(entrada.theme);
+    setNivel(entrada.level);
+    setExamen(entrada.data);
+    setVerHistorial(false);
+  };
+  const borrar = (indice) => {
+    const lista = historial.filter((_, i) => i !== indice);
+    setHistorial(lista);
+    guardarHistorial(lista);
   };
   return (
-    <StarfieldBackground>
-      <div className="max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10">
-        <div style={{ marginBottom: 24 }}>
+    <div className="rx-page rx-hoja">
+      <div className="rx-wrap is-estrecho">
+        <div className="gm-no-adapt">
           <SectionHero
-            icon={SparklesIcon}
-            accent="#c084fc"
             eyebrow="IA Lab · AI实验室"
             title="Generador IA de exámenes"
             titleZh="AI 生成 DELE 试卷"
@@ -168,597 +152,370 @@ function PeComponent() {
             }
           />
         </div>
-        <div
-          className="rounded-3xl p-6 mb-8"
-          style={{
-            background: "rgba(255,255,255,.04)",
-            border: "1px solid rgba(255,255,255,.1)",
+        <form
+          className="rx-card rx-gen__form"
+          onSubmit={(evento) => {
+            evento.preventDefault();
+            generar();
           }}
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <input
-              value={c}
-              onChange={(s) => setC(s.target.value)}
-              placeholder="Tema del examen (ej. La comida) / 考试主题"
-              className="md:col-span-2 px-4 py-3 rounded-xl text-white font-bold bg-white/5 border border-white/10 outline-none placeholder:text-white/30 focus:border-purple-400/50"
-            />
-            <select
-              value={y}
-              onChange={(s) => setY(s.target.value)}
-              className="px-4 py-3 rounded-xl text-white font-bold bg-white/5 border border-white/10 outline-none focus:border-purple-400/50"
-            >
-              {he.map((s) => (
-                <option key={s} value={s} className="bg-slate-900">
-                  {s}
-                </option>
-              ))}
-            </select>
+          <div className="rx-gen__campos">
+            <label className="rx-campo">
+              <span>Tema del examen · 考试主题</span>
+              <input className="rx-input" value={tema} onChange={(evento) => setTema(evento.target.value)} placeholder="Ej.: La comida · 例如：食物" />
+            </label>
+            <label className="rx-campo">
+              <span>Nivel · 级别</span>
+              <select className="rx-input" value={nivel} onChange={(evento) => setNivel(evento.target.value)}>
+                {NIVELES.map((opcion) => (
+                  <option key={opcion} value={opcion}>
+                    {opcion}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
-          <div className="flex gap-3 mt-4">
-            <button
-              onClick={$}
-              disabled={S}
-              className="flex items-center gap-2 px-7 py-3 rounded-full text-white font-black text-sm transition-transform hover:scale-105 disabled:opacity-50"
-              style={{
-                background: "linear-gradient(135deg,#a855f7,#ec4899)",
-                boxShadow: "0 0 30px rgba(168,85,247,.4)",
-              }}
-            >
-              {S ? <LoaderCircleIcon size={16} className="animate-spin" /> : <SparklesIcon size={16} />}
-              {S ? "Generando... / 生成中" : "Generar / 生成"}
+          <div className="rx-filtros">
+            <button type="submit" className="rx-btn" disabled={generando}>
+              {generando ? <LoaderCircleIcon size={18} className="animate-spin" aria-hidden="true" /> : <SparklesIcon size={18} aria-hidden="true" />}
+              {generando ? "Generando… · 生成中" : "Generar · 生成"}
             </button>
-            {h && (
-              <button
-                onClick={H}
-                className="flex items-center gap-2 px-6 py-3 rounded-full text-white font-black text-sm transition-transform hover:scale-105"
-                style={{
-                  background: "rgba(57,255,20,.15)",
-                  border: "1px solid rgba(57,255,20,.4)",
-                  color: "#39ff14",
-                }}
-              >
-                <SaveIcon size={16} /> {D ? "Guardado ✓" : "Guardar / 保存"}
+            {examen && (
+              <button type="button" className="rx-btn is-oro" onClick={guardar}>
+                {guardado ? <CheckIcon size={18} aria-hidden="true" /> : <SaveIcon size={18} aria-hidden="true" />} {guardado ? "Guardado · 已保存" : "Guardar · 保存"}
               </button>
             )}
-            <button
-              onClick={() => setO((s) => !s)}
-              className="flex items-center gap-2 px-5 py-3 rounded-full text-sm font-black transition-transform hover:scale-105"
-              style={{
-                background: "rgba(255,255,255,.05)",
-                border: "1px solid rgba(255,255,255,.12)",
-                color: "rgba(255,255,255,.6)",
-              }}
-            >
-              <HistoryIcon size={16} /> Historial ({g.length})
+            <button type="button" className="rx-btn is-papel" aria-expanded={verHistorial} onClick={() => setVerHistorial((visible) => !visible)}>
+              <HistoryIcon size={18} aria-hidden="true" /> Historial · 历史 ({historial.length})
             </button>
           </div>
-          {w && <p className="mt-3 text-sm font-bold text-red-400">{w}</p>}
-        </div>
-        {O && g.length > 0 && (
-          <div
-            className="rounded-3xl p-5 mb-8"
-            style={{
-              background: "rgba(255,255,255,.03)",
-              border: "1px solid rgba(255,255,255,.08)",
-            }}
-          >
-            <h3 className="text-white font-black mb-3">Historial generado / 生成历史</h3>
-            <div className="space-y-2">
-              {g.map((s, f) => (
-                <div
-                  key={s.id}
-                  className="flex items-center gap-3 px-4 py-2.5 rounded-xl"
-                  style={{
-                    background: "rgba(255,255,255,.03)",
-                    border: "1px solid rgba(255,255,255,.06)",
-                  }}
-                >
-                  <button onClick={() => G(s)} className="flex-1 text-left">
-                    <p className="text-white font-bold text-sm">
-                      📝 {s.theme} · {s.level}
-                    </p>
-                    <p className="text-white/35 text-xs">{new Date(s.createdAt).toLocaleString()}</p>
-                  </button>
-                  <button
-                    onClick={() => {
-                      const m = g.filter((p, j) => j !== f);
-                      setG(m);
-                      W(m);
-                    }}
-                    className="p-2 rounded-lg hover:bg-red-500/10"
-                  >
-                    <Trash2Icon
-                      size={14}
-                      style={{
-                        color: "rgba(255,77,77,.5)",
-                      }}
-                    />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
+          {error && (
+            <p className="rx-aviso" role="alert">
+              {error}
+            </p>
+          )}
+        </form>
+        {verHistorial && (
+          <section className="rx-card rx-gen__historial" aria-label="Historial · 历史">
+            <h3 className="rx-h3">
+              Historial generado <span className="rx-zh">生成历史</span>
+            </h3>
+            {historial.length === 0 ? (
+              <div className="rx-vacio">
+                <span className="rx-sello" aria-hidden="true">
+                  空
+                </span>
+                <p>
+                  Aún no has guardado ningún examen
+                  <span>还没有保存的试卷，生成后点击“保存”。</span>
+                </p>
+              </div>
+            ) : (
+              <ul className="rx-gen__lista">
+                {historial.map((entrada, indice) => (
+                  <li key={entrada.id}>
+                    <button type="button" className="rx-gen__abrir" onClick={() => abrir(entrada)}>
+                      <span className={`rx-tag rx-nv-${entrada.level}`}>{entrada.level}</span>
+                      <span>
+                        <b>{entrada.theme}</b>
+                        <small>{new Date(entrada.createdAt).toLocaleString()}</small>
+                      </span>
+                    </button>
+                    <button type="button" className="rx-btn is-papel is-mini rx-gen__borrar" onClick={() => borrar(indice)} aria-label={`Borrar ${entrada.theme} · 删除`}>
+                      <Trash2Icon size={18} aria-hidden="true" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
         )}
-        {h && (
-          <div className="space-y-5">
-            <YeComponent exam={h} />
-          </div>
-        )}
+        {examen && <ExamenGenerado examen={examen} />}
       </div>
-    </StarfieldBackground>
-  );
-}
-function B(r) {
-  if (typeof window === "undefined" || !window.speechSynthesis) {
-    return;
-  }
-  window.speechSynthesis.cancel();
-  const c = new SpeechSynthesisUtterance(r.replace(/[*_#`]/g, "").trim());
-  c.lang = "es-ES";
-  c.rate = 0.9;
-  window.speechSynthesis.speak(c);
-}
-function YeComponent({ exam }) {
-  const { correctText, isCorrecting } = u();
-  const [y, setY] = React.useState({});
-  const [S, setS] = React.useState({});
-  const [w, setW] = React.useState({});
-  const [h, setH] = React.useState({});
-  const [g, setG] = React.useState("");
-  const [O, setO] = React.useState(null);
-  const [D, setD] = React.useState(false);
-  const [P, setP] = React.useState("");
-  const [H, setH_1] = React.useState(null);
-  const [s, setS_1] = React.useState(false);
-  const mRef = React.useRef(null);
-  const pRef = React.useRef("");
-  const j = (setRec, setText, setCorr) => {
-    const i = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!i) {
-      alert("Tu navegador no soporta voz / 浏览器不支持语音");
-      return;
-    }
-    if (mRef.current) {
-      try {
-        mRef.current.abort();
-      } catch {}
-    }
-    const l = new i();
-    l.lang = "es-ES";
-    l.interimResults = true;
-    l.continuous = false;
-    let d = "";
-    l.onresult = (x) => {
-      let b = "";
-      for (let k = x.resultIndex; k < x.results.length; k++) {
-        const R = x.results[k][0].transcript;
-        if (x.results[k].isFinal) {
-          d += R;
-        } else {
-          b += R;
-        }
-      }
-      pRef.current = d;
-      setText(d + b);
-    };
-    l.onend = () => {
-      setRec(false);
-      setText(pRef.current);
-    };
-    l.onerror = () => setRec(false);
-    mRef.current = l;
-    setRec(true);
-    setText("");
-    setCorr(null);
-    pRef.current = "";
-    try {
-      l.start();
-    } catch {
-      setRec(false);
-    }
-  };
-  const T = (setRec) => {
-    setRec(false);
-    mRef.current?.stop();
-  };
-  const J = async (t, a, o, i) => {
-    if (!t.trim() || isCorrecting) {
-      return;
-    }
-    const l = await correctText(t, a, exam.level, i);
-    if (l.data) {
-      o(l.data);
-    }
-  };
-  const V1Component = ({ icon, color, title, children }) => (
-    <div
-      className="rounded-3xl p-6"
-      style={{
-        background: "rgba(255,255,255,.03)",
-        border: "1px solid rgba(255,255,255,.08)",
-      }}
-    >
-      <div className="flex items-center gap-2 mb-4">
-        <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{
-            background: `${color}20`,
-            border: `1px solid ${color}45`,
-          }}
-        >
-          {icon}
-        </div>
-        <h3 className="text-white font-black text-lg">{title}</h3>
-      </div>
-      {children}
     </div>
   );
-  const XComponent = ({ picked, oi, isCorrect, o: o_1, onPick }) => {
-    let background = "rgba(255,255,255,.04)";
-    let border = "1px solid rgba(255,255,255,.1)";
-    let color = "rgba(255,255,255,.8)";
-    if (picked !== undefined) {
-      if (isCorrect) {
-        background = "rgba(57,255,20,.15)";
-        border = "1px solid rgba(57,255,20,.5)";
-        color = "#39ff14";
-      } else if (picked === oi) {
-        background = "rgba(255,77,77,.15)";
-        border = "1px solid rgba(255,77,77,.5)";
-        color = "#ff4d4d";
-      } else {
-        color = "rgba(255,255,255,.35)";
-      }
-    }
-    return (
-      <button
-        onClick={onPick}
-        disabled={picked !== undefined}
-        className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-bold transition-all disabled:pointer-events-none hover:scale-[1.01]"
-        style={{
-          background,
-          border,
-          color,
-        }}
-      >
-        {o_1}
-      </button>
-    );
-  };
-  const FComponent = ({ q, i: i_1, picks, setPicks }) => (
-    <div
-      className="p-3 rounded-xl"
-      style={{
-        background: "rgba(0,0,0,.2)",
-      }}
-    >
-      <div className="flex items-start gap-2 mb-1">
-        <p className="text-white font-bold flex-1">
-          {i_1 + 1}. {q.question}
+}
+function leerEnVoz(texto) {
+  if (typeof window === "undefined" || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const frase = new SpeechSynthesisUtterance(texto.replace(/[*_#`]/g, "").trim());
+  frase.lang = "es-ES";
+  frase.rate = 0.9;
+  window.speechSynthesis.speak(frase);
+}
+function BloqueExamen({ icono, sello, titulo, children }) {
+  return (
+    <section className="rx-card rx-gen__bloque">
+      <div className="rx-gen__bloque-cabeza">
+        <span className="rx-sello is-mini" aria-hidden="true">
+          {sello}
+        </span>
+        <h3 className="rx-h3">
+          {icono} {titulo}
+        </h3>
+      </div>
+      {children}
+    </section>
+  );
+}
+function PreguntaTest({ pregunta, indice, elegidas, setElegidas }) {
+  const elegida = elegidas[indice];
+  const respondida = elegida !== undefined;
+  return (
+    <div className="rx-gen__pregunta">
+      <div className="rx-gen__enunciado">
+        <p>
+          {indice + 1}. {pregunta.question}
         </p>
-        <button
-          onClick={() => B(q.question)}
-          className="p-1.5 rounded-lg shrink-0"
-          style={{
-            background: "rgba(255,255,255,.06)",
-            border: "1px solid rgba(255,255,255,.1)",
-          }}
-          title="Escuchar pregunta"
-        >
-          <Volume2Icon
-            size={12}
-            style={{
-              color: "rgba(255,255,255,.5)",
-            }}
-          />
+        <button type="button" className="rx-btn is-papel is-mini" onClick={() => leerEnVoz(pregunta.question)} aria-label="Escuchar pregunta · 听问题">
+          <Volume2Icon size={18} aria-hidden="true" />
         </button>
       </div>
-      <div className="space-y-1.5">
-        {(q.options || []).map((o, d) => (
-          <XComponent
-            key={d}
-            oi={d}
-            o={o}
-            picked={picks[i_1]}
-            isCorrect={d === q.correctAnswer}
-            onPick={() =>
-              setPicks((x) => ({
-                ...x,
-                [i_1]: d,
-              }))
-            }
-          />
-        ))}
+      <div className="rx-gen__opciones">
+        {(pregunta.options || []).map((opcion, clave) => {
+          const estado = !respondida ? "" : clave === pregunta.correctAnswer ? "is-ok" : clave === elegida ? "is-mal" : "is-apagada";
+          return (
+            <button key={clave} type="button" className={`rx-opcion ${estado}`} disabled={respondida} onClick={() => setElegidas((previas) => ({ ...previas, [indice]: clave }))}>
+              {opcion}
+            </button>
+          );
+        })}
       </div>
-      {picks[i_1] !== undefined && (
-        <p
-          className="text-xs mt-2 font-bold"
-          style={{
-            color: picks[i_1] === q.correctAnswer ? "#39ff14" : "#ff4d4d",
-          }}
-        >
-          {picks[i_1] === q.correctAnswer
-            ? "✓ Correcta / 正确"
-            : `✗ La correcta era: ${(q.options || [])[q.correctAnswer]}`}
+      {respondida && (
+        <p className={`rx-gen__veredicto ${elegida === pregunta.correctAnswer ? "is-ok" : "is-mal"}`} role="status">
+          {elegida === pregunta.correctAnswer ? (
+            <>
+              <CheckIcon size={16} aria-hidden="true" /> Correcta · 正确
+            </>
+          ) : (
+            <>
+              <XIcon size={16} aria-hidden="true" /> La correcta era · 正确答案：{(pregunta.options || [])[pregunta.correctAnswer]}
+            </>
+          )}
         </p>
       )}
     </div>
   );
-  const VComponent = ({ label, text, setText, corr, setCorr, rec, setRec, tipo, tarea }) => (
-    <div
-      className="p-4 rounded-xl"
-      style={{
-        background: "rgba(0,0,0,.2)",
-      }}
-    >
-      <p className="text-white font-bold mb-2">{label}</p>
-      <textarea
-        value={text}
-        onChange={(R) => setText(R.target.value)}
-        rows={4}
-        placeholder="Escribe aquí o pulsa Grabar... / 在这里写或按录音..."
-        className="w-full px-3 py-2.5 rounded-xl text-white text-sm bg-black/30 border border-white/15 outline-none placeholder:text-white/30 focus:border-orange-400/50 resize-none mb-2"
-      />
-      <div className="flex flex-wrap gap-2">
-        <button
-          onClick={() => J(text, tipo, setCorr, tarea)}
-          disabled={isCorrecting || !text.trim()}
-          className="flex items-center gap-2 px-4 py-2 rounded-full text-white font-black text-xs transition-transform hover:scale-105 disabled:opacity-40"
-          style={{
-            background: "linear-gradient(135deg,#ff6b35,#ff00aa)",
-          }}
-        >
-          {isCorrecting ? (
-            <LoaderCircleIcon size={13} className="animate-spin" />
-          ) : (
-            <SparklesIcon size={13} />
-          )}
-          {isCorrecting ? "Corrigiendo..." : "Corregir con IA / AI批改"}
+}
+function PracticaOral({ etiqueta, texto, setTexto, correccion, grabando, onGrabar, onParar, onCorregir, corrigiendo }) {
+  return (
+    <div className="rx-gen__practica">
+      <label className="rx-campo">
+        <span>{etiqueta}</span>
+        <textarea className="rx-input" value={texto} onChange={(evento) => setTexto(evento.target.value)} rows={4} placeholder="Escribe aquí o pulsa Grabar… · 在这里写或按录音…" />
+      </label>
+      <div className="rx-filtros">
+        <button type="button" className="rx-btn" onClick={onCorregir} disabled={corrigiendo || !texto.trim()}>
+          {corrigiendo ? <LoaderCircleIcon size={16} className="animate-spin" aria-hidden="true" /> : <SparklesIcon size={16} aria-hidden="true" />}
+          {corrigiendo ? "Corrigiendo… · 批改中" : "Corregir con IA · AI批改"}
         </button>
-        {rec ? (
-          <button
-            onClick={() => T(setRec)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black"
-            style={{
-              background: "rgba(239,68,68,.25)",
-              border: "1px solid rgba(239,68,68,.5)",
-              color: "#ff4d4d",
-            }}
-          >
-            <SquareIcon size={12} /> Detener / 停止
+        {grabando ? (
+          <button type="button" className="rx-btn is-oro" onClick={onParar}>
+            <SquareIcon size={16} aria-hidden="true" /> Detener · 停止
           </button>
         ) : (
-          <button
-            onClick={() => j(setRec, setText, setCorr)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black"
-            style={{
-              background: "rgba(255,255,255,.06)",
-              border: "1px solid rgba(255,255,255,.15)",
-              color: "rgba(255,255,255,.7)",
-            }}
-          >
-            <MicIcon size={12} /> Grabar / 录音
+          <button type="button" className="rx-btn is-papel" onClick={onGrabar}>
+            <MicIcon size={16} aria-hidden="true" /> Grabar · 录音
           </button>
         )}
       </div>
-      {corr && <C data={corr} />}
+      {correccion && <Correccion data={correccion} />}
     </div>
   );
+}
+function ExamenGenerado({ examen }) {
+  const { correctText, isCorrecting } = useCorreccion();
+  const [respuestasLectura, setRespuestasLectura] = React.useState({});
+  const [respuestasAudicion, setRespuestasAudicion] = React.useState({});
+  const [redacciones, setRedacciones] = React.useState({});
+  const [correccionesEscritura, setCorreccionesEscritura] = React.useState({});
+  const [monologo, setMonologo] = React.useState("");
+  const [correccionMonologo, setCorreccionMonologo] = React.useState(null);
+  const [grabandoMonologo, setGrabandoMonologo] = React.useState(false);
+  const [interaccion, setInteraccion] = React.useState("");
+  const [correccionInteraccion, setCorreccionInteraccion] = React.useState(null);
+  const [grabandoInteraccion, setGrabandoInteraccion] = React.useState(false);
+  const reconocedorRef = React.useRef(null);
+  const textoFinalRef = React.useRef("");
+  const grabar = (setGrabando, setTexto, setCorreccion) => {
+    const Reconocimiento = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!Reconocimiento) {
+      alert("Tu navegador no soporta voz · 浏览器不支持语音");
+      return;
+    }
+    if (reconocedorRef.current) {
+      try {
+        reconocedorRef.current.abort();
+      } catch {}
+    }
+    const reconocedor = new Reconocimiento();
+    reconocedor.lang = "es-ES";
+    reconocedor.interimResults = true;
+    reconocedor.continuous = false;
+    let definitivo = "";
+    reconocedor.onresult = (evento) => {
+      let provisional = "";
+      for (let k = evento.resultIndex; k < evento.results.length; k++) {
+        const trozo = evento.results[k][0].transcript;
+        if (evento.results[k].isFinal) definitivo += trozo;
+        else provisional += trozo;
+      }
+      textoFinalRef.current = definitivo;
+      setTexto(definitivo + provisional);
+    };
+    reconocedor.onend = () => {
+      setGrabando(false);
+      setTexto(textoFinalRef.current);
+    };
+    reconocedor.onerror = () => setGrabando(false);
+    reconocedorRef.current = reconocedor;
+    setGrabando(true);
+    setTexto("");
+    setCorreccion(null);
+    textoFinalRef.current = "";
+    try {
+      reconocedor.start();
+    } catch {
+      setGrabando(false);
+    }
+  };
+  const parar = (setGrabando) => {
+    setGrabando(false);
+    reconocedorRef.current?.stop();
+  };
+  const corregir = async (texto, tipo, alCorregir, tarea) => {
+    if (!texto.trim() || isCorrecting) return;
+    const resultado = await correctText(texto, tipo, examen.level, tarea);
+    if (resultado.data) alCorregir(resultado.data);
+  };
   return (
-    <>
-      <div className="text-center py-3">
-        <h2 className="text-2xl font-black text-white">
-          {exam.theme} · {exam.level}
+    <div className="rx-gen__examen">
+      <div className="rx-cabecera gm-no-adapt">
+        <span className={`rx-sello is-nivel rx-nv-${examen.level}`} aria-hidden="true">
+          {examen.level}
+        </span>
+        <h2 className="rx-h2">
+          {examen.theme} <span className="rx-zh">· {examen.level} 级试卷</span>
         </h2>
       </div>
-      <V1Component
-        icon={<BookOpenIcon size={17} color="#39ff14" />}
-        color="#39ff14"
-        title="Vocabulario / 词汇"
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {(exam.vocabulary || []).map((t, a) => (
-            <div
-              key={a}
-              className="p-3 rounded-xl flex items-start gap-2"
-              style={{
-                background: "rgba(255,255,255,.03)",
-              }}
-            >
-              <div className="flex-1">
-                <p className="text-white font-bold">
-                  {t.word} <span className="text-white/40 text-sm">— {t.chinese}</span>
+      <BloqueExamen icono={<BookOpenIcon size={18} aria-hidden="true" />} sello="词" titulo="Vocabulario · 词汇">
+        <div className="rx-gen__vocab">
+          {(examen.vocabulary || []).map((palabra, indice) => (
+            <div key={indice} className="rx-gen__palabra">
+              <div>
+                <p>
+                  <b>{palabra.word}</b> <span>— {palabra.chinese}</span>
                 </p>
-                <p className="text-white/50 text-xs">{t.definition}</p>
+                <small>{palabra.definition}</small>
               </div>
-              <button
-                onClick={() => B(t.word)}
-                className="p-1.5 rounded-lg shrink-0"
-                style={{
-                  background: "rgba(255,255,255,.06)",
-                  border: "1px solid rgba(255,255,255,.1)",
-                }}
-                title="Escuchar"
-              >
-                <Volume2Icon
-                  size={12}
-                  style={{
-                    color: "rgba(255,255,255,.5)",
-                  }}
-                />
+              <button type="button" className="rx-btn is-papel is-mini" onClick={() => leerEnVoz(palabra.word)} aria-label={`Escuchar ${palabra.word} · 听`}>
+                <Volume2Icon size={18} aria-hidden="true" />
               </button>
             </div>
           ))}
         </div>
-      </V1Component>
-      <V1Component
-        icon={<FileTextIcon size={17} color="#00d4ff" />}
-        color="#00d4ff"
-        title={`Lectura: ${exam.reading?.title || ""} / 阅读`}
-      >
-        <p className="text-white/75 leading-relaxed mb-4 whitespace-pre-line">{exam.reading?.text}</p>
-        <div className="space-y-2">
-          {(exam.reading?.questions || []).map((t, a) => (
-            <FComponent key={a} q={t} i={a} picks={y} setPicks={setY} />
-          ))}
-        </div>
-      </V1Component>
-      <V1Component
-        icon={<HeadphonesIcon size={17} color="#ff6b35" />}
-        color="#ff6b35"
-        title={`Listening: ${exam.listening?.title || ""} / 听力`}
-      >
-        <button
-          onClick={() => B(exam.listening?.transcription || "")}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-black mb-3 transition-transform hover:scale-105"
-          style={{
-            background: "rgba(255,107,53,.15)",
-            border: "1px solid rgba(255,107,53,.4)",
-            color: "#ffb33b",
-          }}
-        >
-          <Volume2Icon size={14} /> Escuchar audio / 播放听力
+      </BloqueExamen>
+      <BloqueExamen icono={<FileTextIcon size={18} aria-hidden="true" />} sello="读" titulo={`Lectura · 阅读: ${examen.reading?.title || ""}`}>
+        <p className="rx-texto rx-gen__lectura">{examen.reading?.text}</p>
+        {(examen.reading?.questions || []).map((pregunta, indice) => (
+          <PreguntaTest key={indice} pregunta={pregunta} indice={indice} elegidas={respuestasLectura} setElegidas={setRespuestasLectura} />
+        ))}
+      </BloqueExamen>
+      <BloqueExamen icono={<HeadphonesIcon size={18} aria-hidden="true" />} sello="听" titulo={`Audición · 听力: ${examen.listening?.title || ""}`}>
+        <button type="button" className="rx-btn is-oro" onClick={() => leerEnVoz(examen.listening?.transcription || "")}>
+          <Volume2Icon size={18} aria-hidden="true" /> Escuchar audio · 播放听力
         </button>
-        <p className="text-white/60 italic mb-4 whitespace-pre-line">{exam.listening?.transcription}</p>
-        <div className="space-y-2">
-          {(exam.listening?.questions || []).map((t, a) => (
-            <FComponent key={a} q={t} i={a} picks={S} setPicks={setS} />
-          ))}
-        </div>
-      </V1Component>
-      <V1Component icon={<PenToolIcon size={17} color="#ffd600" />} color="#ffd600" title="Escritura / 写作">
-        <div className="space-y-3">
-          {["optionA", "optionB"].map((t) => (
-            <div
-              key={t}
-              className="p-4 rounded-xl"
-              style={{
-                background: "rgba(255,255,255,.03)",
-              }}
-            >
-              <p className="text-white font-bold mb-1">{exam.writing?.[t]?.title}</p>
-              <p className="text-white/50 text-sm mb-2">{exam.writing?.[t]?.description}</p>
-              <textarea
-                value={w[t] || ""}
-                onChange={(a) =>
-                  setW((o) => ({
-                    ...o,
-                    [t]: a.target.value,
-                  }))
-                }
-                rows={4}
-                placeholder="Escribe tu texto... / 写下你的作文..."
-                className="w-full px-3 py-2.5 rounded-xl text-white text-sm bg-black/30 border border-white/15 outline-none placeholder:text-white/30 focus:border-yellow-400/50 resize-none mb-2"
-              />
-              <button
-                onClick={() =>
-                  J(
-                    w[t] || "",
-                    "escritura",
-                    (a) =>
-                      setH((o) => ({
-                        ...o,
-                        [t]: a,
-                      })),
-                    exam.writing?.[t]?.title,
-                  )
-                }
-                disabled={isCorrecting || !(w[t] || "").trim()}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-white font-black text-xs transition-transform hover:scale-105 disabled:opacity-40"
-                style={{
-                  background: "linear-gradient(135deg,#ffd600,#ff6b35)",
-                }}
-              >
-                {isCorrecting ? (
-                  <LoaderCircleIcon size={13} className="animate-spin" />
-                ) : (
-                  <SparklesIcon size={13} />
-                )}
-                {isCorrecting ? "Corrigiendo..." : "Corregir con IA / AI批改"}
-              </button>
-              {h[t] && <C data={h[t]} />}
-            </div>
-          ))}
-        </div>
-      </V1Component>
-      <V1Component icon={<MicIcon size={17} color="#ff00aa" />} color="#ff00aa" title="Monólogo / 独白">
-        <div className="space-y-3 mb-3">
-          {["topic1", "topic2"].map((t) => (
-            <div
-              key={t}
-              className="p-4 rounded-xl"
-              style={{
-                background: "rgba(255,255,255,.03)",
-              }}
-            >
-              <p className="text-white font-bold mb-1">{exam.monologue?.[t]?.title}</p>
-              <p className="text-white/50 text-sm">{exam.monologue?.[t]?.description}</p>
-            </div>
-          ))}
-        </div>
-        <VComponent
-          label="Practica tu monólogo / 练习你的独白"
-          text={g}
-          setText={setG}
-          corr={O}
-          setCorr={setO}
-          rec={D}
-          setRec={setD}
-          tipo="monologo"
-          tarea={exam.monologue?.topic1?.title}
-        />
-      </V1Component>
-      <V1Component
-        icon={<MessageCircleIcon size={17} color="#c084fc" />}
-        color="#c084fc"
-        title="Interacción / 互动"
-      >
-        <p className="text-white/70 mb-3">{exam.interaction?.situation}</p>
-        {(exam.interaction?.questions || []).map((t, a) => (
-          <div
-            key={a}
-            className="p-3 rounded-xl mb-2"
-            style={{
-              background: "rgba(255,255,255,.03)",
-            }}
-          >
-            <p className="text-white font-bold text-sm">
-              {a + 1}. {t.question}
+        <details className="rx-gen__transcripcion">
+          <summary>Ver transcripción · 查看原文</summary>
+          <p className="rx-texto">{examen.listening?.transcription}</p>
+        </details>
+        {(examen.listening?.questions || []).map((pregunta, indice) => (
+          <PreguntaTest key={indice} pregunta={pregunta} indice={indice} elegidas={respuestasAudicion} setElegidas={setRespuestasAudicion} />
+        ))}
+      </BloqueExamen>
+      <BloqueExamen icono={<PenToolIcon size={18} aria-hidden="true" />} sello="写" titulo="Escritura · 写作">
+        {["optionA", "optionB"].map((opcion) => (
+          <div key={opcion} className="rx-gen__tarea">
+            <p className="rx-texto">
+              <b>{examen.writing?.[opcion]?.title}</b>
             </p>
-            {t.help && <p className="text-white/40 text-xs mt-1">{t.help}</p>}
-            {t.usefulPhrases?.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {t.usefulPhrases.map((o, i) => (
-                  <span
-                    key={i}
-                    className="text-[11px] px-2 py-0.5 rounded-full"
-                    style={{
-                      background: "rgba(168,85,247,.15)",
-                      color: "#c084fc",
-                    }}
-                  >
-                    {o}
+            <p className="rx-texto-zh">{examen.writing?.[opcion]?.description}</p>
+            <textarea
+              className="rx-input"
+              value={redacciones[opcion] || ""}
+              onChange={(evento) => setRedacciones((previas) => ({ ...previas, [opcion]: evento.target.value }))}
+              rows={4}
+              placeholder="Escribe tu texto… · 写下你的作文…"
+              aria-label={`${examen.writing?.[opcion]?.title || "Redacción"} · 作文`}
+            />
+            <button
+              type="button"
+              className="rx-btn"
+              onClick={() => corregir(redacciones[opcion] || "", "escritura", (datos) => setCorreccionesEscritura((previas) => ({ ...previas, [opcion]: datos })), examen.writing?.[opcion]?.title)}
+              disabled={isCorrecting || !(redacciones[opcion] || "").trim()}
+            >
+              {isCorrecting ? <LoaderCircleIcon size={16} className="animate-spin" aria-hidden="true" /> : <SparklesIcon size={16} aria-hidden="true" />}
+              {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir con IA · AI批改"}
+            </button>
+            {correccionesEscritura[opcion] && <Correccion data={correccionesEscritura[opcion]} />}
+          </div>
+        ))}
+      </BloqueExamen>
+      <BloqueExamen icono={<MicIcon size={18} aria-hidden="true" />} sello="说" titulo="Monólogo · 独白">
+        {["topic1", "topic2"].map((clave) => (
+          <div key={clave} className="rx-gen__tarea">
+            <p className="rx-texto">
+              <b>{examen.monologue?.[clave]?.title}</b>
+            </p>
+            <p className="rx-texto-zh">{examen.monologue?.[clave]?.description}</p>
+          </div>
+        ))}
+        <PracticaOral
+          etiqueta="Practica tu monólogo · 练习你的独白"
+          texto={monologo}
+          setTexto={setMonologo}
+          correccion={correccionMonologo}
+          grabando={grabandoMonologo}
+          corrigiendo={isCorrecting}
+          onGrabar={() => grabar(setGrabandoMonologo, setMonologo, setCorreccionMonologo)}
+          onParar={() => parar(setGrabandoMonologo)}
+          onCorregir={() => corregir(monologo, "monologo", setCorreccionMonologo, examen.monologue?.topic1?.title)}
+        />
+      </BloqueExamen>
+      <BloqueExamen icono={<MessageCircleIcon size={18} aria-hidden="true" />} sello="谈" titulo="Interacción · 互动">
+        <p className="rx-texto">{examen.interaction?.situation}</p>
+        {(examen.interaction?.questions || []).map((pregunta, indice) => (
+          <div key={indice} className="rx-gen__tarea">
+            <p className="rx-texto">
+              <b>
+                {indice + 1}. {pregunta.question}
+              </b>
+            </p>
+            {pregunta.help && <p className="rx-texto-zh">{pregunta.help}</p>}
+            {pregunta.usefulPhrases?.length > 0 && (
+              <div className="rx-filtros">
+                {pregunta.usefulPhrases.map((frase, clave) => (
+                  <span key={clave} className="rx-tag is-plano">
+                    {frase}
                   </span>
                 ))}
               </div>
             )}
           </div>
         ))}
-        <div className="mt-3">
-          <VComponent
-            label="Practica la interacción / 练习互动"
-            text={P}
-            setText={setP}
-            corr={H}
-            setCorr={setH_1}
-            rec={s}
-            setRec={setS_1}
-            tipo="interaccion"
-            tarea={exam.interaction?.situation}
-          />
-        </div>
-      </V1Component>
-    </>
+        <PracticaOral
+          etiqueta="Practica la interacción · 练习互动"
+          texto={interaccion}
+          setTexto={setInteraccion}
+          correccion={correccionInteraccion}
+          grabando={grabandoInteraccion}
+          corrigiendo={isCorrecting}
+          onGrabar={() => grabar(setGrabandoInteraccion, setInteraccion, setCorreccionInteraccion)}
+          onParar={() => parar(setGrabandoInteraccion)}
+          onCorregir={() => corregir(interaccion, "interaccion", setCorreccionInteraccion, examen.interaction?.situation)}
+        />
+      </BloqueExamen>
+    </div>
   );
 }
-export { PeComponent as default };
+export { GeneradorPage as default };

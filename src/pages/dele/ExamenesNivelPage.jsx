@@ -39,10 +39,9 @@ import {
 import * as React from "react";
 import { useParams, Link } from "react-router";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
-import { L as L_2 } from "../../components/LearningImpactScene.jsx";
 import { l as l_1 } from "../../lib/exams-loader.js";
-import { useLanguage } from "../../lib/i18n.jsx";
 import "../../data/generated-content.js";
+import "../../styles/v14-fix-examenes.css";
 const Ba = {
   "Presentaciones y saludos": "自我介绍与问候",
   "La familia": "家庭",
@@ -1355,588 +1354,181 @@ function Ha(theme) {
     bg: `${color}15`,
   };
 }
-const oa = {
-  A1: {
-    title: "Nivel A1 - Acceso",
-    sub: "入门级",
-    color: "#10b981",
-    glow: "#34d399",
-    accent: "#059669",
-    icon: StarIcon,
-    gradient: "from-emerald-400 to-green-600",
-  },
-  A2: {
-    title: "Nivel A2 - Plataforma",
-    sub: "基础级",
-    color: "#f97316",
-    glow: "#fbbf24",
-    accent: "#ea580c",
-    icon: FlameIcon,
-    gradient: "from-orange-400 to-red-600",
-  },
-  B1: {
-    title: "Nivel B1 - Umbral",
-    sub: "进阶级",
-    color: "#3b82f6",
-    glow: "#60a5fa",
-    accent: "#2563eb",
-    icon: CrownIcon,
-    gradient: "from-blue-400 to-indigo-600",
-  },
-  B2: {
-    title: "Nivel B2 - Avanzado",
-    sub: "熟练级",
-    color: "#a855f7",
-    glow: "#c084fc",
-    accent: "#9333ea",
-    icon: SparklesIcon,
-    gradient: "from-violet-400 to-purple-600",
-  },
+const NIVELES_PRACTICA = {
+  A1: { nombre: "Acceso", zh: "入门级", sello: "竹", icon: StarIcon },
+  A2: { nombre: "Plataforma", zh: "基础级", sello: "灯", icon: FlameIcon },
+  B1: { nombre: "Umbral", zh: "进阶级", sello: "山", icon: CrownIcon },
+  B2: { nombre: "Avanzado", zh: "熟练级", sello: "龙", icon: SparklesIcon },
 };
+const PARTES_SIMULACRO = [
+  { icon: BookOpenIcon, es: "Vocabulario", zh: "词汇" },
+  { icon: FileTextIcon, es: "Lectura", zh: "阅读" },
+  { icon: HeadphonesIcon, es: "Audición", zh: "听力" },
+  { icon: PenToolIcon, es: "Escritura", zh: "写作" },
+  { icon: MicIcon, es: "Oral", zh: "口语" },
+];
 function WaComponent() {
   const { level } = useParams();
-  const { t } = useLanguage();
-  const p = level?.toUpperCase() || "A2";
-  const l = oa[p];
-  const [f, setF] = React.useState([]);
-  const [B, setB] = React.useState(true);
+  const nivel = level?.toUpperCase() || "A2";
+  const config = NIVELES_PRACTICA[nivel];
+  const [examenes, setExamenes] = React.useState([]);
+  const [cargando, setCargando] = React.useState(true);
+  const [fallo, setFallo] = React.useState(false);
   React.useEffect(() => {
-    let r = false;
-    setB(true);
-    async function e() {
-      try {
-        const o = await l_1(p);
-        if (!r) {
-          setF(o || []);
-          setB(false);
-        }
-      } catch (error) {
+    let cancelado = false;
+    setCargando(true);
+    setFallo(false);
+    if (!config) {
+      setCargando(false);
+      return undefined;
+    }
+    l_1(nivel)
+      .then((lista) => {
+        if (cancelado) return;
+        setExamenes(lista || []);
+        setCargando(false);
+      })
+      .catch((error) => {
         console.error("Failed to load exams:", error);
-        if (!r) {
-          setF([]);
-          setB(false);
-        }
-      }
-    }
-    e();
+        if (cancelado) return;
+        setExamenes([]);
+        setFallo(true);
+        setCargando(false);
+      });
     return () => {
-      r = true;
+      cancelado = true;
     };
-  }, [p]);
-  const [sa, setSa] = React.useState({});
-  const [na, setNa] = React.useState(null);
-  const TRef = React.useRef([]);
-  React.useEffect(() => {
-    if (!f.length) {
-      return;
-    }
-    setSa({});
-    const r = [];
-    f.forEach((e, o) => {
-      r.push(
-        setTimeout(() => {
-          setSa((v) => ({
-            ...v,
-            [o]: true,
-          }));
-        }, o * 100),
-      );
-    });
-    return () => r.forEach(clearTimeout);
-  }, [f]);
-  const ta = (r, e) => {
-    const o = TRef.current[e];
-    if (!o) {
-      return;
-    }
-    const v = o.getBoundingClientRect();
-    const H = r.clientX - v.left;
-    const X = r.clientY - v.top;
-    const _ = v.width / 2;
-    const m = v.height / 2;
-    const G = ((X - m) / m) * -12;
-    const ga = ((H - _) / _) * 12;
-    o.style.transform = `perspective(1000px) rotateX(${G}deg) rotateY(${ga}deg) scale3d(1.03, 1.03, 1.03) translateZ(20px)`;
-  };
-  const da = (r) => {
-    const e = TRef.current[r];
-    if (e) {
-      e.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateZ(0px)";
-      setNa(null);
-    }
-  };
-  if (!l) {
+  }, [nivel, config]);
+  if (!config) {
     return (
       <StarfieldBackground>
-        <p className="text-white/40 flex items-center justify-center min-h-screen">
-          {t("Nivel no encontrado", "未找到级别")}
-        </p>
+        <div className="xn gm-no-adapt">
+          <div className="xn-vacio" role="alert">
+            <span className="ofx-sello" aria-hidden="true" translate="no">无</span>
+            <p>
+              Nivel no encontrado
+              <span lang="zh-CN">未找到该级别</span>
+            </p>
+            <Link to="/examenes-nivel/A1" className="ofx-btn ofx-btn-laca">
+              <ArrowLeftIcon size={16} aria-hidden="true" /> Ir al nivel A1 · 前往A1级
+            </Link>
+          </div>
+        </div>
       </StarfieldBackground>
     );
   }
-  const ba = [
-    {
-      icon: BookOpenIcon,
-      label: "Vocab",
-    },
-    {
-      icon: FileTextIcon,
-      label: "Lectura",
-    },
-    {
-      icon: HeadphonesIcon,
-      label: "Audicion",
-    },
-    {
-      icon: PenToolIcon,
-      label: "Escritura",
-    },
-    {
-      icon: MicIcon,
-      label: "Monologo",
-    },
-  ];
   return (
     <StarfieldBackground>
-      <style>{`
-    @keyframes iconBounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
-    @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-    @keyframes gradientXY { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-    @keyframes neonPulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
-    @keyframes rotateBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  `}</style>
-      <div
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] pointer-events-none opacity-20"
-        style={{
-          background: `radial-gradient(ellipse at center, ${l.glow}30, transparent 70%)`,
-          filter: "blur(60px)",
-          zIndex: 6,
-        }}
-      />
-      <div className="exam-experience max-w-6xl mx-auto px-4 py-8">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-orange-400 transition-all mb-8 text-sm group"
-        >
-          <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" />
-          {t("Volver al inicio", "返回首页")}
+      <div className="xn gm-no-adapt" data-nivel={nivel}>
+        <Link to="/dashboard" className="xn-volver">
+          <ArrowLeftIcon size={16} aria-hidden="true" /> Volver al inicio · <span lang="zh-CN">返回首页</span>
         </Link>
-        <div className="exam-level-cinematic-hero text-center mb-10">
-          <div className="flex justify-center -mt-5 -mb-5">
-            <L_2 variant="exams" compact />
+        <header className="xn-hero">
+          <div className="xn-hero-sello" aria-hidden="true" translate="no">
+            <span>{config.sello}</span>
+            <b>{nivel}</b>
           </div>
-          <div className="relative inline-block mb-5">
-            <div
-              className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto shadow-2xl transition-all"
-              style={{
-                background: `linear-gradient(135deg, ${l.color}, ${l.accent})`,
-                boxShadow: `0 0 40px ${l.glow}50, 0 8px 30px rgba(0,0,0,0.3)`,
-              }}
-            >
-              <l.icon size={36} className="text-white" />
-            </div>
-            <div
-              className="absolute inset-0 rounded-3xl pointer-events-none"
-              style={{
-                border: `2px solid ${l.glow}30`,
-                animation: "rotateBorder 8s linear infinite",
-                margin: "-8px",
-              }}
-            />
+          <div className="xn-hero-txt">
+            <p className="xn-hero-kicker">
+              Simulacros de práctica · <span lang="zh-CN">练习模拟考试</span>
+            </p>
+            <h1 className="xn-hero-tit">
+              Nivel {nivel} · {config.nombre}
+              <span lang="zh-CN">{config.zh}</span>
+            </h1>
+            <ul className="xn-hero-datos">
+              <li>
+                <b>{cargando ? "…" : examenes.length}</b> simulacros · <span lang="zh-CN">套模拟题</span>
+              </li>
+              <li>
+                <b>5</b> competencias · <span lang="zh-CN">项技能</span>
+              </li>
+            </ul>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white">{l.title}</h1>
-          <p className="xm-nivel-sub gm-no-adapt text-lg">
-            {l.sub} · {f.length} {t("exámenes", "套考试")}
-          </p>
-          <div
-            className="w-32 h-1 rounded-full mx-auto mt-4"
-            style={{
-              background: `linear-gradient(90deg, transparent, ${l.glow}, transparent)`,
-            }}
-          />
-          <div className="exam-level-stats mt-7">
-            <div>
-              <strong>{f.length}</strong>
-              <span>{t("simulacros", "模拟考试")}</span>
-            </div>
-            <div>
-              <strong>5</strong>
-              <span>{t("competencias", "考试技能")}</span>
-            </div>
-            <div>
-              <strong>{p}</strong>
-              <span>{t("nivel activo", "当前等级")}</span>
-            </div>
-          </div>
-        </div>
-        <div className="exam-level-rail flex justify-start md:justify-center gap-4 mb-12 overflow-x-auto no-scrollbar pb-3">
-          {Object.entries(oa).map(([r, e]) => {
-            const o = r === p;
+        </header>
+        <nav className="xn-niveles" aria-label="Niveles · 级别">
+          {Object.entries(NIVELES_PRACTICA).map(([clave, datos]) => {
+            const activo = clave === nivel;
             return (
               <Link
-                key={r}
-                to={`/examenes-nivel/${r}`}
-                className="exam-level-selector-card relative group"
-                style={{
-                  perspective: "800px",
-                }}
+                key={clave}
+                to={`/examenes-nivel/${clave}`}
+                className={`xn-nivel ${activo ? "on" : ""}`}
+                aria-current={activo ? "page" : undefined}
               >
-                <div
-                  className="absolute -inset-[2px] rounded-3xl transition-all duration-500"
-                  style={{
-                    background: o
-                      ? `linear-gradient(135deg, ${e.glow}, ${e.color}, ${e.accent})`
-                      : `linear-gradient(135deg, ${e.color}40, ${e.color}20)`,
-                    opacity: o ? 1 : 0,
-                    transform: o ? "scale(1)" : "scale(0.95)",
-                    filter: o ? "blur(1px)" : "none",
-                  }}
-                />
-                <div
-                  className="relative px-6 py-5 rounded-3xl text-center transition-all duration-500 overflow-hidden min-w-[120px]"
-                  style={{
-                    background: o
-                      ? `linear-gradient(135deg, ${e.color}30 0%, ${e.accent}20 50%, rgba(15,24,60,0.9) 100%)`
-                      : `linear-gradient(135deg, ${e.color}08 0%, rgba(15,24,60,0.8) 100%)`,
-                    border: o ? `2px solid ${e.glow}` : `2px solid ${e.color}15`,
-                    boxShadow: o
-                      ? `0 0 40px ${e.glow}50, 0 0 80px ${e.glow}20, inset 0 0 30px ${e.glow}10`
-                      : `0 0 10px ${e.color}05`,
-                    transform: o ? "translateY(-4px) rotateY(0deg)" : "rotateY(0deg)",
-                  }}
-                >
-                  <div
-                    className="absolute -top-6 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full blur-2xl transition-opacity duration-500"
-                    style={{
-                      background: e.glow,
-                      opacity: o ? 0.4 : 0.1,
-                    }}
-                  />
-                  <div
-                    className="relative mb-3 mx-auto w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500"
-                    style={{
-                      background: o ? `linear-gradient(135deg, ${e.color}, ${e.accent})` : `${e.color}15`,
-                      border: o ? `2px solid ${e.glow}` : `2px solid ${e.color}25`,
-                      boxShadow: o ? `0 0 25px ${e.glow}60, 0 4px 15px rgba(0,0,0,0.3)` : "none",
-                      animation: o ? "iconBounce 2s ease-in-out infinite" : "none",
-                    }}
-                  >
-                    <e.icon size={32} className="text-white" />
-                    {o && (
-                      <div
-                        className="absolute inset-0 rounded-2xl animate-ping opacity-20"
-                        style={{
-                          boxShadow: `0 0 20px ${e.glow}`,
-                        }}
-                      />
-                    )}
-                  </div>
-                  <span
-                    className="relative block text-3xl font-black transition-all duration-300"
-                    style={{
-                      color: o ? "#fff" : `${e.color}80`,
-                      textShadow: o ? `0 0 20px ${e.glow}80, 0 2px 4px rgba(0,0,0,0.5)` : "none",
-                    }}
-                  >
-                    {r}
-                  </span>
-                  <span
-                    className="relative block text-xs font-bold mt-1 transition-all"
-                    style={{
-                      color: o ? `${e.glow}` : `${e.color}40`,
-                    }}
-                  >
-                    {e.sub}
-                  </span>
-                  {o && (
-                    <>
-                      <div
-                        className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full"
-                        style={{
-                          background: e.glow,
-                          boxShadow: `0 0 6px ${e.glow}`,
-                          animation: "floatY 2s ease-in-out infinite",
-                        }}
-                      />
-                      <div
-                        className="absolute top-4 right-3 w-1 h-1 rounded-full"
-                        style={{
-                          background: e.glow,
-                          boxShadow: `0 0 4px ${e.glow}`,
-                          animation: "floatY 2.5s ease-in-out infinite 0.5s",
-                        }}
-                      />
-                      <div
-                        className="absolute bottom-3 left-3 w-1 h-1 rounded-full"
-                        style={{
-                          background: e.glow,
-                          boxShadow: `0 0 4px ${e.glow}`,
-                          animation: "floatY 2s ease-in-out infinite 1s",
-                        }}
-                      />
-                    </>
-                  )}
-                </div>
+                <span className="xn-nivel-sello" aria-hidden="true" translate="no">
+                  {datos.sello}
+                </span>
+                <span className="xn-nivel-txt">
+                  <b>{clave}</b>
+                  <small lang="zh-CN">{datos.zh}</small>
+                </span>
               </Link>
             );
           })}
-        </div>
-        {B && (
-          <div className="flex flex-col items-center justify-center py-20">
-            <div
-              className="w-16 h-16 border-4 border-white/10 border-t-white/60 rounded-full animate-spin mb-6"
-              style={{
-                boxShadow: `0 0 20px ${l.glow}30`,
-              }}
-            />
-            <p className="text-white/50 font-bold text-lg animate-pulse">
-              {t("Cargando examenes...", "加载考试中...")}
+        </nav>
+        {cargando && (
+          <div className="xn-vacio" role="status">
+            <span className="ofx-spinner" aria-hidden="true" />
+            <p>
+              Cargando exámenes…
+              <span lang="zh-CN">正在加载考试…</span>
             </p>
           </div>
         )}
-        {!B && f.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-20 text-white/50">
-            <LayersIcon size={48} className="mb-4 opacity-30" />
-            <p className="font-bold text-lg">
-              {t("No hay exámenes disponibles para este nivel", "此级别暂无考试")}
+        {!cargando && examenes.length === 0 && (
+          <div className="xn-vacio" role={fallo ? "alert" : undefined}>
+            <LayersIcon size={40} aria-hidden="true" />
+            <p>
+              {fallo ? "No se pudieron cargar los exámenes" : "No hay exámenes disponibles para este nivel"}
+              <span lang="zh-CN">{fallo ? "考试加载失败，请稍后重试" : "此级别暂无考试"}</span>
             </p>
           </div>
         )}
-        <div className="exam-mission-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {f.map((r, e) => {
-            const o = Ha(r.theme);
-            const V = o.icon || LayersIcon;
-            const H = sa[e] || false;
-            const X = na === e;
-            const _ = (r.id * 37) % 100;
-            return (
-              <Link
-                key={r.id}
-                to={`/examenes/${p}/${r.id}`}
-                className="exam-mission-card group block h-full"
-                style={{
-                  perspective: "1000px",
-                }}
-                onMouseEnter={() => setNa(e)}
-              >
-                <div
-                  ref={(m) => {
-                    TRef.current[e] = m;
-                  }}
-                  className="relative h-full transition-all duration-300 ease-out"
-                  style={{
-                    opacity: H ? 1 : 0,
-                    transform: H
-                      ? "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateZ(0px)"
-                      : "perspective(1000px) rotateX(15deg) rotateY(-10deg) scale3d(0.9, 0.9, 0.9) translateZ(-50px)",
-                    transition: "transform 0.4s ease-out, opacity 0.6s ease-out",
-                  }}
-                  onMouseMove={(m) => ta(m, e)}
-                  onMouseLeave={() => da(e)}
-                >
-                  <div
-                    className="absolute -inset-[2px] rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 overflow-hidden"
-                    style={{
-                      zIndex: 0,
-                    }}
-                  >
-                    <div
-                      className="absolute inset-0 rounded-2xl"
-                      style={{
-                        background: `conic-gradient(from 0deg, ${o.color}, ${l.glow}, ${l.accent}, ${o.color})`,
-                        animation: "rotateBorder 3s linear infinite",
-                      }}
-                    />
-                    <div
-                      className="absolute inset-[1px] rounded-2xl"
-                      style={{
-                        background: "rgba(10,12,30,0.95)",
-                      }}
-                    />
-                  </div>
-                  <div
-                    className="absolute -inset-4 rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-700 blur-2xl pointer-events-none"
-                    style={{
-                      background: `radial-gradient(circle at center, ${o.color}25, transparent 70%)`,
-                      zIndex: -1,
-                    }}
-                  />
-                  <div
-                    className="relative h-full rounded-2xl flex flex-col overflow-hidden backdrop-blur-xl"
-                    style={{
-                      background: `linear-gradient(135deg, ${o.color}08 0%, rgba(255,255,255,0.02) 40%, rgba(15,24,60,0.9) 100%)`,
-                      border: `1px solid ${o.color}20`,
-                      boxShadow: X
-                        ? `0 0 30px ${o.color}30, 0 0 60px ${l.glow}15, inset 0 1px 0 rgba(255,255,255,0.08)`
-                        : "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
-                      zIndex: 1,
-                    }}
-                  >
-                    <div
-                      className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{
-                        background: `linear-gradient(90deg, transparent, ${o.color}, ${l.glow}, transparent)`,
-                        backgroundSize: "200% 100%",
-                        animation: "shimmer 2s linear infinite",
-                      }}
-                    />
-                    <div
-                      className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full opacity-60 group-hover:opacity-100 transition-opacity"
-                      style={{
-                        background: `linear-gradient(to bottom, ${o.color}, ${l.glow}, ${l.accent})`,
-                        boxShadow: `0 0 10px ${o.color}60`,
-                      }}
-                    />
-                    <div
-                      className="absolute -top-8 -right-8 w-24 h-24 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl"
-                      style={{
-                        background: `${o.color}30`,
-                      }}
-                    />
-                    <div className="exam-mission-content relative z-10 h-full flex flex-col pl-5 p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <span
-                          className="text-xs font-bold px-3 py-1.5 rounded-xl text-white backdrop-blur-md"
-                          style={{
-                            background: `linear-gradient(135deg, ${o.color}40, ${o.color}20)`,
-                            border: `1px solid ${o.color}40`,
-                            boxShadow: `0 0 15px ${o.color}30`,
-                          }}
-                        >
-                          {p}-{r.id}
+        {!cargando && examenes.length > 0 && (
+          <ul className="xn-lista">
+            {examenes.map((examen, indice) => {
+              const IconoTema = Ha(examen.theme || "").icon || LayersIcon;
+              const temaZh = Ba[examen.theme] || examen.themeZh || examen.themeChinese || "";
+              return (
+                <li key={examen.id} style={{ animationDelay: `${Math.min(indice, 14) * 40}ms` }}>
+                  <Link to={`/examenes/${nivel}/${examen.id}`} className="xn-carta">
+                    <span className="xn-carta-num">
+                      <small>N.º · 号</small>
+                      <b>{String(examen.id).padStart(2, "0")}</b>
+                    </span>
+                    <span className="xn-carta-cuerpo">
+                      <span className="xn-carta-cab">
+                        <span className="xn-carta-cod">
+                          {nivel}-{examen.id}
                         </span>
-                        <div className="relative transition-all duration-300 group-hover:scale-125 group-hover:rotate-12">
-                          <div
-                            className="p-2.5 rounded-xl"
-                            style={{
-                              background: `${o.color}15`,
-                              border: `1px solid ${o.color}30`,
-                              boxShadow: `0 0 15px ${o.color}20`,
-                            }}
-                          >
-                            <V
-                              size={22}
-                              style={{
-                                color: o.color,
-                                filter: `drop-shadow(0 0 6px ${o.color}80)`,
-                              }}
-                            />
-                          </div>
-                          <div
-                            className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full animate-ping opacity-50"
-                            style={{
-                              background: o.color,
-                              boxShadow: `0 0 8px ${o.color}`,
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <h3
-                        className="font-black text-xl md:text-2xl mb-1 leading-tight text-white"
-                        style={{
-                          textShadow: `0 0 20px ${o.color}80, 0 0 40px ${o.color}40, 0 2px 4px rgba(0,0,0,0.5)`,
-                          filter: `drop-shadow(0 0 8px ${o.color}60)`,
-                        }}
-                      >
-                        {r.theme}
-                      </h3>
-                      <p
-                        className="text-base font-bold mb-4"
-                        style={{
-                          color: `${o.color}ee`,
-                          textShadow: `0 0 12px ${o.color}50, 0 1px 2px rgba(0,0,0,0.5)`,
-                        }}
-                      >
-                        {Ba[r.theme] || ""}
-                      </p>
-                      <div className="mb-4">
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span
-                            className="text-[10px] font-bold uppercase tracking-wider"
-                            style={{
-                              color: `${o.color}80`,
-                            }}
-                          >
-                            {t("Progreso", "进度")}
-                          </span>
-                          <span
-                            className="text-[10px] font-bold"
-                            style={{
-                              color: o.color,
-                            }}
-                          >
-                            {_}%
-                          </span>
-                        </div>
-                        <div
-                          className="h-1.5 rounded-full overflow-hidden"
-                          style={{
-                            background: "rgba(255,255,255,0.06)",
-                          }}
-                        >
-                          <div
-                            className="h-full rounded-full transition-all duration-1000"
-                            style={{
-                              width: `${_}%`,
-                              background: `linear-gradient(90deg, ${o.color}, ${l.glow})`,
-                              boxShadow: `0 0 10px ${o.color}60, 0 0 20px ${o.color}30`,
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {ba.map((m, G) => (
-                          <span
-                            key={G}
-                            className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg font-bold backdrop-blur-sm"
-                            style={{
-                              background: `${o.color}08`,
-                              color: `${o.color}70`,
-                              border: `1px solid ${o.color}15`,
-                              boxShadow: `0 0 8px ${o.color}08`,
-                            }}
-                          >
-                            <m.icon size={10} />
-                            <span className="uppercase tracking-wide">{m.label}</span>
+                        <IconoTema size={20} aria-hidden="true" className="xn-carta-ico" />
+                      </span>
+                      <span className="xn-carta-tema">{examen.theme}</span>
+                      {temaZh && (
+                        <span className="xn-carta-zh" lang="zh-CN">
+                          {temaZh}
+                        </span>
+                      )}
+                      <span className="xn-carta-partes">
+                        {PARTES_SIMULACRO.map((parte) => (
+                          <span key={parte.es} className="xn-parte">
+                            <parte.icon size={13} aria-hidden="true" />
+                            {parte.es}
                           </span>
                         ))}
-                      </div>
-                      <div className="mt-auto flex items-center justify-between">
-                        <div
-                          className="flex items-center gap-1 text-xs font-bold opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0"
-                          style={{
-                            color: o.color,
-                            textShadow: `0 0 8px ${o.color}40`,
-                          }}
-                        >
-                          <span>{t("Abrir examen", "打开考试")}</span>
-                          <ChevronRightIcon
-                            size={12}
-                            className="transition-transform group-hover:translate-x-1"
-                          />
-                        </div>
-                        <div className="flex gap-0.5 opacity-20 group-hover:opacity-50 transition-opacity">
-                          {[0, 1, 2].map((m) => (
-                            <div
-                              key={m}
-                              className="w-3 h-4 rounded-sm"
-                              style={{
-                                background: `${o.color}20`,
-                                border: `1px solid ${o.color}15`,
-                                boxShadow: `0 0 4px ${o.color}10`,
-                              }}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                      </span>
+                      <span className="xn-carta-ir">
+                        Abrir examen · <span lang="zh-CN">打开考试</span>
+                        <ChevronRightIcon size={16} aria-hidden="true" />
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </StarfieldBackground>
   );

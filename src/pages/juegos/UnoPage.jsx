@@ -15,13 +15,15 @@ import { Link } from "react-router";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
 import { P } from "../../components/PostGameNav.jsx";
 import { a as a_1, g as g_1 } from "../../lib/juegos-utils.js";
+import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
+// Colores de las cartas (v14 · paleta imperial): laca, jade, azul porcelana y oro
 const B = {
-  red: "#ff3860",
-  green: "#39ff14",
-  blue: "#00d4ff",
-  yellow: "#ffd600",
-  wild: "#333333",
+  red: "#d0213b",
+  green: "#2f9e6a",
+  blue: "#3a6fc4",
+  yellow: "#f2c14e",
+  wild: "#3b2416",
 };
 const be = {
   red: "Rojo",
@@ -38,11 +40,11 @@ const lt = {
   wild: "General / 通用",
 };
 const R = {
-  red: "rgba(255,56,96,0.85)",
-  green: "rgba(57,255,20,0.85)",
-  blue: "rgba(0,212,255,0.85)",
-  yellow: "rgba(255,214,0,0.85)",
-  wild: "rgba(180,180,180,0.6)",
+  red: "rgba(208,33,59,0.85)",
+  green: "rgba(47,158,106,0.85)",
+  blue: "rgba(58,111,196,0.85)",
+  yellow: "rgba(242,193,78,0.85)",
+  wild: "rgba(200,150,30,0.6)",
 };
 let nt = 0;
 function U() {
@@ -165,16 +167,16 @@ function CtComponent({ mood, message }) {
           : "M 16 26 Q 24 28 32 26";
   const fill =
     mood === "happy" || mood === "excited" || mood === "super"
-      ? "rgba(255,105,180,0.7)"
-      : "rgba(255,105,180,0.15)";
+      ? "rgba(224,40,63,0.7)"
+      : "rgba(224,40,63,0.15)";
   const b =
     mood === "happy"
-      ? "#46ff9a"
+      ? "#5fd08a"
       : mood === "sad"
         ? "#ff4444"
         : mood === "excited" || mood === "super"
-          ? "#ffd600"
-          : "#00d4ff";
+          ? "#f2c14e"
+          : "#f2c14e";
   const animation =
     mood === "excited" || mood === "super"
       ? "mascotExcited 0.3s ease-in-out infinite"
@@ -255,8 +257,8 @@ function CtComponent({ mood, message }) {
           <path d="M 39 12 L 37 6 L 32 11" fill="rgba(255,182,193,0.5)" />
           <ellipse cx="16" cy="22" rx={rx} ry={ry} fill="white" />
           <ellipse cx="32" cy="22" rx={rx} ry={ry} fill="white" />
-          <circle cx="16" cy="22" r="3" fill="#1a1a2e" />
-          <circle cx="32" cy="22" r="3" fill="#1a1a2e" />
+          <circle cx="16" cy="22" r="3" fill="#2a160c" />
+          <circle cx="32" cy="22" r="3" fill="#2a160c" />
           <circle cx="17.5" cy="20.5" r="1.2" fill="white" opacity="0.9" />
           <circle cx="33.5" cy="20.5" r="1.2" fill="white" opacity="0.9" />
           <circle cx="14.5" cy="23.5" r="0.6" fill="white" opacity="0.6" />
@@ -270,7 +272,7 @@ function CtComponent({ mood, message }) {
                 cx="4"
                 cy="12"
                 r="1.5"
-                fill="#ffd600"
+                fill="#f2c14e"
                 style={{
                   animation: "sparkle 0.5s ease-in-out infinite",
                 }}
@@ -279,7 +281,7 @@ function CtComponent({ mood, message }) {
                 cx="44"
                 cy="8"
                 r="1"
-                fill="#ff00aa"
+                fill="#e0283f"
                 style={{
                   animation: "sparkle 0.7s ease-in-out infinite 0.2s",
                 }}
@@ -288,7 +290,7 @@ function CtComponent({ mood, message }) {
                 cx="42"
                 cy="38"
                 r="1.5"
-                fill="#00d4ff"
+                fill="#f2c14e"
                 style={{
                   animation: "sparkle 0.6s ease-in-out infinite 0.4s",
                 }}
@@ -297,7 +299,7 @@ function CtComponent({ mood, message }) {
                 cx="2"
                 cy="30"
                 r="1"
-                fill="#39ff14"
+                fill="#5fd08a"
                 style={{
                   animation: "sparkle 0.8s ease-in-out infinite 0.1s",
                 }}
@@ -306,11 +308,11 @@ function CtComponent({ mood, message }) {
           ) : null}
           {o && (
             <>
-              <circle cx="11" cy="26" r="1.5" fill="#00d4ff" opacity="0.8">
+              <circle cx="11" cy="26" r="1.5" fill="#f2c14e" opacity="0.8">
                 <animate attributeName="cy" from="26" to="36" dur="1s" repeatCount="indefinite" />
                 <animate attributeName="opacity" from="0.8" to="0" dur="1s" repeatCount="indefinite" />
               </circle>
-              <circle cx="37" cy="26" r="1.5" fill="#00d4ff" opacity="0.8">
+              <circle cx="37" cy="26" r="1.5" fill="#f2c14e" opacity="0.8">
                 <animate attributeName="cy" from="26" to="36" dur="1.2s" repeatCount="indefinite" />
                 <animate attributeName="opacity" from="0.8" to="0" dur="1.2s" repeatCount="indefinite" />
               </circle>
@@ -318,9 +320,9 @@ function CtComponent({ mood, message }) {
           )}
           <defs>
             <linearGradient id="unoBlobGrad" x1="0" y1="0" x2="48" y2="48">
-              <stop offset="0%" stopColor="#ffd600" />
-              <stop offset="50%" stopColor="#ff6b35" />
-              <stop offset="100%" stopColor="#ff00aa" />
+              <stop offset="0%" stopColor="#f2c14e" />
+              <stop offset="50%" stopColor="#d99a22" />
+              <stop offset="100%" stopColor="#e0283f" />
             </linearGradient>
           </defs>
         </svg>
@@ -347,10 +349,10 @@ function Ge1Component({
       <div
         className={`gm-uno-back relative rounded-2xl cursor-pointer ${j} ${N}`}
         style={{
-          background: "linear-gradient(135deg, #1a1a2e, #0d0d1a)",
+          background: "linear-gradient(135deg, #2a160c, #1a0d07)",
           border: "2px solid rgba(255,255,255,0.15)",
           boxShadow:
-            "0 8px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(123,97,255,0.15)",
+            "0 8px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(165,15,37,0.15)",
           transform: h
             ? "translateY(-6px) scale(1.08) rotateY(-8deg)"
             : "translateY(0) scale(1) rotateY(0deg)",
@@ -365,13 +367,13 @@ function Ge1Component({
           <div
             className="absolute inset-0"
             style={{
-              background: "radial-gradient(ellipse at 30% 20%, rgba(123,97,255,0.2) 0%, transparent 50%)",
+              background: "radial-gradient(ellipse at 30% 20%, rgba(165,15,37,0.2) 0%, transparent 50%)",
             }}
           />
           <div
             className="absolute inset-0 rounded-2xl pointer-events-none opacity-30"
             style={{
-              border: "1px solid rgba(0,212,255,0.25)",
+              border: "1px solid rgba(242,193,78,0.25)",
               animation: "cardBorderPulse 3s ease-in-out infinite",
             }}
           />
@@ -381,7 +383,7 @@ function Ge1Component({
             className="text-xl font-black"
             style={{
               color: "rgba(255,255,255,0.15)",
-              textShadow: "0 0 15px rgba(123,97,255,0.4), 0 0 30px rgba(0,212,255,0.2)",
+              textShadow: "0 0 15px rgba(165,15,37,0.4), 0 0 30px rgba(242,193,78,0.2)",
             }}
           >
             UNO
@@ -478,7 +480,7 @@ function Ge1Component({
             height: D,
             background:
               card.color === "wild"
-                ? "linear-gradient(135deg, #ff3860, #ffd600, #39ff14, #00d4ff)"
+                ? "linear-gradient(135deg, #e0283f, #f2c14e, #5fd08a, #f2c14e)"
                 : `${i}40`,
             boxShadow: `0 0 25px ${l}, inset 0 0 15px ${l}30`,
             border: `3px solid ${i}`,
@@ -558,14 +560,14 @@ function DtComponent({ onPick, onCancel }) {
     <div
       className="fixed inset-0 z-[200] flex items-center justify-center"
       style={{
-        background: "rgba(3,4,17,0.85)",
+        background: "rgba(24,10,6,0.85)",
         backdropFilter: "blur(15px)",
       }}
     >
       <div
         className="p-6 rounded-3xl max-w-sm mx-4 w-full text-center"
         style={{
-          background: "linear-gradient(180deg, rgba(14,22,64,.8), rgba(5,8,27,.6))",
+          background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
           border: "2px solid rgba(255,255,255,0.1)",
           boxShadow: "0 0 60px rgba(0,0,0,0.5)",
         }}
@@ -1060,203 +1062,9 @@ function HtComponent() {
   const F = N[N.length - 1];
   if (s === "select") {
     return (
-      <StarfieldBackground>
-        <div className="max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10">
-          <div className="flex items-center justify-between mb-8">
-            <Link
-              to="/juegos"
-              className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
-            >
-              <ArrowLeftIcon size={16} /> Volver / 返回
-            </Link>
-          </div>
-          <div className="text-center mb-10">
-            <div
-              className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-4 relative"
-              style={{
-                background: "linear-gradient(135deg,#ff3860,#ffd600)",
-                boxShadow: "0 0 80px rgba(255,56,96,0.5), 0 0 160px rgba(255,214,0,0.3)",
-                animation: "unoFloat 3s ease-in-out infinite",
-              }}
-            >
-              <ZapIcon
-                size={48}
-                className="text-white"
-                style={{
-                  filter: "drop-shadow(0 0 15px rgba(255,255,255,0.6))",
-                }}
-              />
-              <div
-                className="absolute -top-2 -right-2"
-                style={{
-                  animation: "sparkle 2s ease-in-out infinite",
-                }}
-              >
-                <StarIcon
-                  size={20}
-                  style={{
-                    color: "#ffd600",
-                    fill: "#ffd600",
-                  }}
-                />
-              </div>
-            </div>
-            <h1
-              className="text-5xl md:text-7xl font-black mb-2"
-              style={{
-                background: "linear-gradient(135deg,#ff3860 0%,#ffd600 50%,#39ff14 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 50px rgba(255,56,96,.4))",
-                animation: "unoTitlePulse 3s ease-in-out infinite alternate",
-              }}
-            >
-              UNO
-            </h1>
-            <p className="text-white/50 text-lg font-medium">
-              El clásico juego de cartas en español / 西班牙语UNO卡牌游戏
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <button
-              onClick={() => {
-                playClick();
-                ze(null);
-              }}
-              className="group rounded-xl p-5 text-left transition-all relative overflow-hidden"
-              style={{
-                background: "linear-gradient(180deg, rgba(14,22,64,.6), rgba(5,8,27,.5))",
-                border: "1px solid rgba(255,0,170,.3)",
-                transform: "perspective(600px) translateZ(10px)",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              <div
-                className="absolute -inset-[1px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  background: "linear-gradient(90deg, rgba(255,0,170,0), rgba(255,0,170), rgba(255,0,170,0))",
-                  backgroundSize: "200% 100%",
-                  animation: "borderRotate 2s linear infinite",
-                  zIndex: -1,
-                }}
-              />
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
-                style={{
-                  background: "linear-gradient(135deg, #ff00aa, #b829dd)",
-                  transform: "translateZ(20px)",
-                  boxShadow: "0 0 20px rgba(255,0,170,0.4)",
-                }}
-              >
-                <LayersIcon size={24} className="text-white" />
-              </div>
-              <h3
-                className="text-white font-black text-base mb-1"
-                style={{
-                  transform: "translateZ(15px)",
-                }}
-              >
-                Todos los módulos
-              </h3>
-              <p
-                className="text-xs font-medium mb-1"
-                style={{
-                  color: "rgba(255,0,170,.7)",
-                  transform: "translateZ(10px)",
-                }}
-              >
-                所有模块
-              </p>
-              <p
-                className="text-xs font-medium text-white/40"
-                style={{
-                  transform: "translateZ(5px)",
-                }}
-              >
-                Mezcla todo el vocabulario
-              </p>
-            </button>
-            {Ke.map((t) => (
-              <button
-                key={t.id}
-                onClick={() => {
-                  playClick();
-                  ze(t.id);
-                }}
-                className="group rounded-xl p-5 text-left transition-all relative overflow-hidden"
-                style={{
-                  background: "linear-gradient(180deg, rgba(14,22,64,.6), rgba(5,8,27,.5))",
-                  border: `1px solid ${t.color}40`,
-                  transform: "perspective(600px) translateZ(10px)",
-                  transformStyle: "preserve-3d",
-                }}
-              >
-                <div
-                  className="absolute -inset-[1px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: `linear-gradient(90deg, ${t.color}00, ${t.color}, ${t.color}00)`,
-                    backgroundSize: "200% 100%",
-                    animation: "borderRotate 2s linear infinite",
-                    zIndex: -1,
-                  }}
-                />
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
-                  style={{
-                    background: `linear-gradient(135deg, ${t.color}, ${t.color}88)`,
-                    transform: "translateZ(20px)",
-                    boxShadow: `0 0 20px ${t.color}60`,
-                  }}
-                >
-                  <BookOpenIcon size={24} className="text-white" />
-                </div>
-                <h3
-                  className="text-white font-black text-base mb-1"
-                  style={{
-                    transform: "translateZ(15px)",
-                  }}
-                >
-                  {t.titulo}
-                </h3>
-                <p
-                  className="text-xs font-medium mb-1"
-                  style={{
-                    color: `${t.color}aa`,
-                    transform: "translateZ(10px)",
-                  }}
-                >
-                  {t.tituloChino}
-                </p>
-                <p
-                  className="text-xs font-medium text-white/40"
-                  style={{
-                    transform: "translateZ(5px)",
-                  }}
-                >
-                  {t.vocabularioCount} palabras / 词
-                </p>
-              </button>
-            ))}
-          </div>
-          <div className="mt-8 text-center">
-            <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-white/40"
-              style={{
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
-            >
-              <ZapIcon size={12} /> 108 cartas • 2 jugadores • 4 colores
-            </div>
-          </div>
-          <style
-            dangerouslySetInnerHTML={{
-              __html:
-                "@keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} } @keyframes unoFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} } @keyframes unoTitlePulse { from{filter:drop-shadow(0 0 50px rgba(255,56,96,.4)) brightness(1)} to{filter:drop-shadow(0 0 100px rgba(255,56,96,.6)) brightness(1.2)} } @keyframes sparkle { 0%,100%{opacity:0.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.3)} }",
-            }}
-          />
-        </div>
-      </StarfieldBackground>
+      <>
+        <SelectorTemaJuego juego="uno" onIniciar={(id) => { playClick(); ze(id); }} />
+      </>
     );
   }
   if (s === "gameover") {
@@ -1267,7 +1075,7 @@ function HtComponent() {
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center"
           style={{
-            background: "rgba(3,4,17,.85)",
+            background: "rgba(24,10,6,.85)",
             backdropFilter: "blur(20px)",
             perspective: "1000px",
           }}
@@ -1275,9 +1083,9 @@ function HtComponent() {
           <div
             className="text-center p-8 rounded-3xl max-w-md mx-4 relative overflow-hidden"
             style={{
-              background: "linear-gradient(180deg, rgba(14,22,64,.8), rgba(5,8,27,.6))",
-              border: `2px solid ${t ? "rgba(57,255,20,.3)" : "rgba(255,56,96,.3)"}`,
-              boxShadow: `0 0 60px ${t ? "rgba(57,255,20,.2)" : "rgba(255,56,96,.2)"}, 0 0 120px ${t ? "rgba(57,255,20,.1)" : "rgba(255,56,96,.1)"}`,
+              background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
+              border: `2px solid ${t ? "rgba(95,208,138,.3)" : "rgba(224,40,63,.3)"}`,
+              boxShadow: `0 0 60px ${t ? "rgba(95,208,138,.2)" : "rgba(224,40,63,.2)"}, 0 0 120px ${t ? "rgba(95,208,138,.1)" : "rgba(224,40,63,.1)"}`,
               transform: "translateZ(50px)",
               animation: "victoryBounce 1s ease-out",
             }}
@@ -1286,8 +1094,8 @@ function HtComponent() {
               className="absolute -inset-[2px] rounded-[26px] -z-10 opacity-50"
               style={{
                 background: t
-                  ? "linear-gradient(135deg, #39ff14, #00d4ff)"
-                  : "linear-gradient(135deg, #ff3860, #ff6b35)",
+                  ? "linear-gradient(135deg, #5fd08a, #f2c14e)"
+                  : "linear-gradient(135deg, #e0283f, #d99a22)",
                 filter: "blur(25px)",
                 animation: "victoryGlow 2s ease-in-out infinite alternate",
               }}
@@ -1295,9 +1103,9 @@ function HtComponent() {
             <TrophyIcon
               size={56}
               style={{
-                color: t ? "#39ff14" : "#ff3860",
+                color: t ? "#5fd08a" : "#e0283f",
                 margin: "0 auto 16px",
-                filter: `drop-shadow(0 0 15px ${t ? "rgba(57,255,20,.5)" : "rgba(255,56,96,.5)"})`,
+                filter: `drop-shadow(0 0 15px ${t ? "rgba(95,208,138,.5)" : "rgba(224,40,63,.5)"})`,
                 animation: "trophySpin 3s ease-in-out infinite",
               }}
             />
@@ -1305,11 +1113,11 @@ function HtComponent() {
               className="text-4xl font-black mb-2"
               style={{
                 background: t
-                  ? "linear-gradient(135deg, #39ff14, #00d4ff)"
-                  : "linear-gradient(135deg, #ff3860, #ff6b35)",
+                  ? "linear-gradient(135deg, #5fd08a, #f2c14e)"
+                  : "linear-gradient(135deg, #e0283f, #d99a22)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                filter: `drop-shadow(0 0 20px ${t ? "rgba(57,255,20,.3)" : "rgba(255,56,96,.3)"})`,
+                filter: `drop-shadow(0 0 20px ${t ? "rgba(95,208,138,.3)" : "rgba(224,40,63,.3)"})`,
               }}
             >
               {t ? "¡Victoria!" : "Derrota..."}
@@ -1321,22 +1129,22 @@ function HtComponent() {
               <div
                 className="p-3 rounded-xl"
                 style={{
-                  background: "rgba(0,212,255,.1)",
-                  border: "1px solid rgba(0,212,255,.15)",
-                  boxShadow: "0 0 10px rgba(0,212,255,.1)",
+                  background: "rgba(242,193,78,.1)",
+                  border: "1px solid rgba(242,193,78,.15)",
+                  boxShadow: "0 0 10px rgba(242,193,78,.1)",
                 }}
               >
                 <ZapIcon
                   size={16}
                   style={{
-                    color: "#00d4ff",
+                    color: "#f2c14e",
                     margin: "0 auto 4px",
                   }}
                 />
                 <p
                   className="text-xs"
                   style={{
-                    color: "rgba(207,216,255,.5)",
+                    color: "rgba(255,236,200,.5)",
                   }}
                 >
                   Turnos
@@ -1344,8 +1152,8 @@ function HtComponent() {
                 <p
                   className="text-lg font-black"
                   style={{
-                    color: "#00d4ff",
-                    textShadow: "0 0 10px rgba(0,212,255,.3)",
+                    color: "#f2c14e",
+                    textShadow: "0 0 10px rgba(242,193,78,.3)",
                   }}
                 >
                   {re}
@@ -1354,22 +1162,22 @@ function HtComponent() {
               <div
                 className="p-3 rounded-xl"
                 style={{
-                  background: "rgba(57,255,20,.1)",
-                  border: "1px solid rgba(57,255,20,.15)",
-                  boxShadow: "0 0 10px rgba(57,255,20,.1)",
+                  background: "rgba(95,208,138,.1)",
+                  border: "1px solid rgba(95,208,138,.15)",
+                  boxShadow: "0 0 10px rgba(95,208,138,.1)",
                 }}
               >
                 <StarIcon
                   size={16}
                   style={{
-                    color: "#39ff14",
+                    color: "#5fd08a",
                     margin: "0 auto 4px",
                   }}
                 />
                 <p
                   className="text-xs"
                   style={{
-                    color: "rgba(207,216,255,.5)",
+                    color: "rgba(255,236,200,.5)",
                   }}
                 >
                   Palabras
@@ -1377,8 +1185,8 @@ function HtComponent() {
                 <p
                   className="text-lg font-black"
                   style={{
-                    color: "#39ff14",
-                    textShadow: "0 0 10px rgba(57,255,20,.3)",
+                    color: "#5fd08a",
+                    textShadow: "0 0 10px rgba(95,208,138,.3)",
                   }}
                 >
                   {a}
@@ -1387,22 +1195,22 @@ function HtComponent() {
               <div
                 className="p-3 rounded-xl"
                 style={{
-                  background: "rgba(255,214,0,.1)",
-                  border: "1px solid rgba(255,214,0,.15)",
-                  boxShadow: "0 0 10px rgba(255,214,0,.1)",
+                  background: "rgba(242,193,78,.1)",
+                  border: "1px solid rgba(242,193,78,.15)",
+                  boxShadow: "0 0 10px rgba(242,193,78,.1)",
                 }}
               >
                 <TrophyIcon
                   size={16}
                   style={{
-                    color: "#ffd600",
+                    color: "#f2c14e",
                     margin: "0 auto 4px",
                   }}
                 />
                 <p
                   className="text-xs"
                   style={{
-                    color: "rgba(207,216,255,.5)",
+                    color: "rgba(255,236,200,.5)",
                   }}
                 >
                   Puntos
@@ -1410,8 +1218,8 @@ function HtComponent() {
                 <p
                   className="text-lg font-black"
                   style={{
-                    color: "#ffd600",
-                    textShadow: "0 0 10px rgba(255,214,0,.3)",
+                    color: "#f2c14e",
+                    textShadow: "0 0 10px rgba(242,193,78,.3)",
                   }}
                 >
                   {t ? Ze : Ee}
@@ -1435,9 +1243,9 @@ function HtComponent() {
                         key={key}
                         className="px-2 py-0.5 rounded-full text-[10px] font-bold"
                         style={{
-                          background: "rgba(0,212,255,.15)",
-                          color: "#00d4ff",
-                          border: "1px solid rgba(0,212,255,.2)",
+                          background: "rgba(242,193,78,.15)",
+                          color: "#f2c14e",
+                          border: "1px solid rgba(242,193,78,.2)",
                         }}
                       >
                         {r[0]} = {r[1]}
@@ -1452,8 +1260,8 @@ function HtComponent() {
                 onClick={Me}
                 className="px-6 py-3 rounded-full text-white font-black transition-all hover:scale-105 text-sm"
                 style={{
-                  background: "linear-gradient(135deg, #ffd600, #ff6b35)",
-                  boxShadow: "0 0 25px rgba(255,214,0,.3)",
+                  background: "linear-gradient(135deg, #f2c14e, #d99a22)",
+                  boxShadow: "0 0 25px rgba(242,193,78,.3)",
                 }}
               >
                 <RotateCcwIcon size={14} className="inline mr-1" /> Reintentar / 重试
@@ -1479,17 +1287,17 @@ function HtComponent() {
           <div
             className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] px-6 py-3 rounded-2xl text-center"
             style={{
-              background: "linear-gradient(135deg, rgba(14,22,64,.9), rgba(5,8,27,.9))",
-              border: "2px solid rgba(0,212,255,.4)",
-              boxShadow: "0 0 40px rgba(0,212,255,.3)",
+              background: "linear-gradient(135deg, rgba(52,26,16,.9), rgba(30,14,8,.9))",
+              border: "2px solid rgba(242,193,78,.4)",
+              boxShadow: "0 0 40px rgba(242,193,78,.3)",
               animation: "wordPopupIn 0.5s ease-out forwards",
             }}
           >
             <p
               className="text-xl font-black mb-1"
               style={{
-                color: "#00d4ff",
-                textShadow: "0 0 15px rgba(0,212,255,.5)",
+                color: "#f2c14e",
+                textShadow: "0 0 15px rgba(242,193,78,.5)",
               }}
             >
               {le.es}
@@ -1497,7 +1305,7 @@ function HtComponent() {
             <p
               className="text-sm font-bold"
               style={{
-                color: "#ffd600",
+                color: "#f2c14e",
               }}
             >
               {le.zh}
@@ -1508,7 +1316,7 @@ function HtComponent() {
         <div className="flex items-center justify-between mb-2">
           <Link
             to="/juegos"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold"
           >
             <ArrowLeftIcon size={16} /> Volver / 返回
           </Link>
@@ -1541,10 +1349,10 @@ function HtComponent() {
           <h1
             className="text-3xl md:text-4xl font-black mb-1"
             style={{
-              background: "linear-gradient(135deg,#ff3860,#ffd600)",
+              background: "linear-gradient(135deg,#e0283f,#f2c14e)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 25px rgba(255,56,96,.4))",
+              filter: "drop-shadow(0 0 25px rgba(224,40,63,.4))",
             }}
           >
             UNO
@@ -1553,10 +1361,10 @@ function HtComponent() {
             <span
               className="px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(0,212,255,.1)",
-                color: "#00d4ff",
-                border: "1px solid rgba(0,212,255,.2)",
-                textShadow: "0 0 8px rgba(0,212,255,.4)",
+                background: "rgba(242,193,78,.1)",
+                color: "#f2c14e",
+                border: "1px solid rgba(242,193,78,.2)",
+                textShadow: "0 0 8px rgba(242,193,78,.4)",
               }}
             >
               Color: {be[z]}
@@ -1564,10 +1372,10 @@ function HtComponent() {
             <span
               className="px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(255,214,0,.1)",
-                color: "#ffd600",
-                border: "1px solid rgba(255,214,0,.2)",
-                textShadow: "0 0 8px rgba(255,214,0,.4)",
+                background: "rgba(242,193,78,.1)",
+                color: "#f2c14e",
+                border: "1px solid rgba(242,193,78,.2)",
+                textShadow: "0 0 8px rgba(242,193,78,.4)",
               }}
             >
               Turno {re}
@@ -1575,10 +1383,10 @@ function HtComponent() {
             <span
               className="px-2 py-0.5 rounded-full"
               style={{
-                background: y === 0 ? "rgba(57,255,20,.1)" : "rgba(255,56,96,.1)",
-                color: y === 0 ? "#39ff14" : "#ff3860",
-                border: `1px solid ${y === 0 ? "rgba(57,255,20,.2)" : "rgba(255,56,96,.2)"}`,
-                textShadow: `0 0 8px ${y === 0 ? "rgba(57,255,20,.4)" : "rgba(255,56,96,.4)"}`,
+                background: y === 0 ? "rgba(95,208,138,.1)" : "rgba(224,40,63,.1)",
+                color: y === 0 ? "#5fd08a" : "#e0283f",
+                border: `1px solid ${y === 0 ? "rgba(95,208,138,.2)" : "rgba(224,40,63,.2)"}`,
+                textShadow: `0 0 8px ${y === 0 ? "rgba(95,208,138,.4)" : "rgba(224,40,63,.4)"}`,
               }}
             >
               {y === 0 ? "Tu turno / 你的回合" : "CPU / 电脑"}
@@ -1591,7 +1399,7 @@ function HtComponent() {
             style={{
               background: "rgba(255,255,255,0.03)",
               border: "1px solid rgba(255,255,255,0.06)",
-              boxShadow: "0 0 10px rgba(0,212,255,0.05)",
+              boxShadow: "0 0 10px rgba(242,193,78,0.05)",
             }}
           >
             <ClockIcon size={10} /> {Fe[0] || "¡Comienza el juego!"}
@@ -1603,18 +1411,18 @@ function HtComponent() {
             <BotIcon
               size={14}
               style={{
-                color: "#ff3860",
-                filter: "drop-shadow(0 0 5px rgba(255,56,96,0.5))",
+                color: "#e0283f",
+                filter: "drop-shadow(0 0 5px rgba(224,40,63,0.5))",
               }}
             />
             <span className="text-xs font-bold text-white/60">CPU</span>
             <span
               className="px-2 py-0.5 rounded-full text-[10px] font-bold"
               style={{
-                background: "rgba(255,56,96,.15)",
-                color: "#ff3860",
-                border: "1px solid rgba(255,56,96,.3)",
-                textShadow: "0 0 6px rgba(255,56,96,0.4)",
+                background: "rgba(224,40,63,.15)",
+                color: "#e0283f",
+                border: "1px solid rgba(224,40,63,.3)",
+                textShadow: "0 0 6px rgba(224,40,63,0.4)",
               }}
             >
               {l.length} cartas
@@ -1648,17 +1456,17 @@ function HtComponent() {
               <div
                 className="w-20 h-28 rounded-2xl flex items-center justify-center relative"
                 style={{
-                  background: "linear-gradient(135deg, #1a1a2e, #0d0d1a)",
+                  background: "linear-gradient(135deg, #2a160c, #1a0d07)",
                   border: "2px solid rgba(255,255,255,0.2)",
                   boxShadow:
-                    "0 0 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(123,97,255,0.2)",
+                    "0 0 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(165,15,37,0.2)",
                   animation: "floatCard 3s ease-in-out infinite",
                 }}
               >
                 <span
                   className="text-sm font-black text-white/25"
                   style={{
-                    textShadow: "0 0 15px rgba(123,97,255,0.4)",
+                    textShadow: "0 0 15px rgba(165,15,37,0.4)",
                   }}
                 >
                   UNO
@@ -1666,11 +1474,11 @@ function HtComponent() {
                 <div
                   className="absolute -top-2 -right-2 px-1.5 py-0.5 rounded-full text-[9px] font-black"
                   style={{
-                    background: "rgba(0,212,255,.25)",
-                    color: "#00d4ff",
-                    border: "1px solid rgba(0,212,255,.4)",
-                    textShadow: "0 0 6px rgba(0,212,255,0.5)",
-                    boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+                    background: "rgba(242,193,78,.25)",
+                    color: "#f2c14e",
+                    border: "1px solid rgba(242,193,78,.4)",
+                    textShadow: "0 0 6px rgba(242,193,78,0.5)",
+                    boxShadow: "0 0 10px rgba(242,193,78,0.2)",
                   }}
                 >
                   {b.length}
@@ -1680,7 +1488,7 @@ function HtComponent() {
                     className="absolute inset-0 rounded-2xl"
                     style={{
                       animation: "drawPulse 0.5s ease-in-out",
-                      background: "radial-gradient(circle, rgba(0,212,255,0.4) 0%, transparent 70%)",
+                      background: "radial-gradient(circle, rgba(242,193,78,0.4) 0%, transparent 70%)",
                     }}
                   />
                 )}
@@ -1688,8 +1496,8 @@ function HtComponent() {
                   <div
                     className="absolute -top-4 left-1/2 -translate-x-1/2 font-black text-xl"
                     style={{
-                      color: "#ff3860",
-                      textShadow: "0 0 15px rgba(255,56,96,0.7), 0 0 30px rgba(255,56,96,0.4)",
+                      color: "#e0283f",
+                      textShadow: "0 0 15px rgba(224,40,63,0.7), 0 0 30px rgba(224,40,63,0.4)",
                       animation: "drawCountPop 0.8s ease-out forwards",
                     }}
                   >
@@ -1739,18 +1547,18 @@ function HtComponent() {
             <UserIcon
               size={14}
               style={{
-                color: "#39ff14",
-                filter: "drop-shadow(0 0 5px rgba(57,255,20,0.5))",
+                color: "#5fd08a",
+                filter: "drop-shadow(0 0 5px rgba(95,208,138,0.5))",
               }}
             />
             <span className="text-xs font-bold text-white/60">Tú / 你</span>
             <span
               className="px-2 py-0.5 rounded-full text-[10px] font-bold"
               style={{
-                background: "rgba(57,255,20,.15)",
-                color: "#39ff14",
-                border: "1px solid rgba(57,255,20,.3)",
-                textShadow: "0 0 6px rgba(57,255,20,0.4)",
+                background: "rgba(95,208,138,.15)",
+                color: "#5fd08a",
+                border: "1px solid rgba(95,208,138,.3)",
+                textShadow: "0 0 6px rgba(95,208,138,0.4)",
               }}
             >
               {o.length} cartas

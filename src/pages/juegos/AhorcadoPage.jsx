@@ -17,6 +17,7 @@ import { Link } from "react-router";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
 import { P } from "../../components/PostGameNav.jsx";
 import { g, a } from "../../lib/juegos-utils.js";
+import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
 const Ye = ["QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM"];
 const maxTime = 90;
@@ -36,12 +37,12 @@ function Ze(word) {
 function HeComponent({ mood }) {
   const stroke = React.useMemo(() => {
     if (mood === "happy" || mood === "excited") {
-      return "#39ff14";
+      return "#5fd08a";
     }
     if (mood === "sad" || mood === "worried") {
       return "#ff4444";
     }
-    return "#ffd700";
+    return "#f2c14e";
   }, [mood]);
   const i = React.useMemo(() => {
     if (mood === "excited" || mood === "happy") {
@@ -100,17 +101,17 @@ function HeComponent({ mood }) {
         <div style={a} />
         <svg width="100" height="100" viewBox="0 0 100 100" fill="none" style={s}>
           <circle cx="50" cy="50" r="40" fill="url(#monoGrad)" stroke={stroke} strokeWidth="2" />
-          <circle cx="38" cy="42" r="5" fill="#1a1a2e" />
-          <circle cx="62" cy="42" r="5" fill="#1a1a2e" />
+          <circle cx="38" cy="42" r="5" fill="#2a160c" />
+          <circle cx="62" cy="42" r="5" fill="#2a160c" />
           <circle cx="39.5" cy="40.5" r="2" fill="white" />
           <circle cx="63.5" cy="40.5" r="2" fill="white" />
-          <path d={d} stroke="#1a1a2e" strokeWidth="3" strokeLinecap="round" fill="none" />
-          <circle cx="30" cy="52" r="4" fill="rgba(255,105,180,0.5)" />
-          <circle cx="70" cy="52" r="4" fill="rgba(255,105,180,0.5)" />
+          <path d={d} stroke="#2a160c" strokeWidth="3" strokeLinecap="round" fill="none" />
+          <circle cx="30" cy="52" r="4" fill="rgba(224,40,63,0.5)" />
+          <circle cx="70" cy="52" r="4" fill="rgba(224,40,63,0.5)" />
           <defs>
             <radialGradient id="monoGrad" cx="50%" cy="30%" r="60%">
-              <stop offset="0%" stopColor="#ffd600" />
-              <stop offset="100%" stopColor="#ff8a00" />
+              <stop offset="0%" stopColor="#f2c14e" />
+              <stop offset="100%" stopColor="#d99a22" />
             </radialGradient>
           </defs>
         </svg>
@@ -214,7 +215,7 @@ function OeComponent({ active }) {
         l.push(
           window.setTimeout(() => {
             const iRef_current = iRef.current;
-            const g = ["#ff00aa", "#00d4ff", "#ffd600", "#39ff14", "#ff6b35", "#b829dd"];
+            const g = ["#e0283f", "#f2c14e", "#f2c14e", "#5fd08a", "#d99a22", "#a50f25"];
             for (let x = 0; x < 70; x++) {
               const u = Math.random() * Math.PI * 2;
               const p = 3 + Math.random() * 15;
@@ -257,7 +258,7 @@ function OeComponent({ active }) {
 function VeComponent({ wrongCount, gameStatus }) {
   const i = gameStatus === "lost";
   const c = gameStatus === "won";
-  const a = i ? "#ff4444" : c ? "#39ff14" : "#00d4ff";
+  const a = i ? "#ff4444" : c ? "#5fd08a" : "#f2c14e";
   const l = React.useCallback((b) => wrongCount >= b + 1 || c, [wrongCount, c]);
   const s = React.useCallback(
     (b, k, F) => {
@@ -383,8 +384,8 @@ function VeComponent({ wrongCount, gameStatus }) {
             </feMerge>
           </filter>
           <linearGradient id={id} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={i ? "#ff4444" : "#00d4ff"} />
-            <stop offset="100%" stopColor={i ? "#ff6b35" : "#b829dd"} />
+            <stop offset="0%" stopColor={i ? "#ff4444" : "#f2c14e"} />
+            <stop offset="100%" stopColor={i ? "#d99a22" : "#a50f25"} />
           </linearGradient>
         </defs>
         <g
@@ -486,10 +487,10 @@ function VeComponent({ wrongCount, gameStatus }) {
                 }}
               >
                 <ellipse cx="143" cy="89" rx="3.5" ry={p ? 3.5 : 3} fill="#fff" filter="url(#softGlow)" />
-                <circle cx="143" cy="89" r="2" fill="#1a1a2e" />
+                <circle cx="143" cy="89" r="2" fill="#2a160c" />
                 <circle cx="144" cy="88" r="0.8" fill="#fff" opacity="0.9" />
                 <ellipse cx="157" cy="89" rx="3.5" ry={p ? 3.5 : 3} fill="#fff" filter="url(#softGlow)" />
-                <circle cx="157" cy="89" r="2" fill="#1a1a2e" />
+                <circle cx="157" cy="89" r="2" fill="#2a160c" />
                 <circle cx="158" cy="88" r="0.8" fill="#fff" opacity="0.9" />
                 <path
                   d={p ? "M 140 98 Q 150 107 160 98" : "M 142 98 Q 150 103 158 98"}
@@ -499,8 +500,8 @@ function VeComponent({ wrongCount, gameStatus }) {
                   fill="none"
                   filter="url(#softGlow)"
                 />
-                <circle cx="135" cy="96" r="3.5" fill="rgba(255,105,180,0.5)" filter="url(#softGlow)" />
-                <circle cx="165" cy="96" r="3.5" fill="rgba(255,105,180,0.5)" filter="url(#softGlow)" />
+                <circle cx="135" cy="96" r="3.5" fill="rgba(224,40,63,0.5)" filter="url(#softGlow)" />
+                <circle cx="165" cy="96" r="3.5" fill="rgba(224,40,63,0.5)" filter="url(#softGlow)" />
               </g>
             )}
             {u && (
@@ -690,16 +691,16 @@ function XeComponent({ ch, isRevealed, gameLost, index }) {
   }, [isRevealed, index, a]);
   const s = React.useMemo(() => {
     const d = a
-      ? "linear-gradient(135deg, rgba(57,255,20,.25), rgba(57,255,20,.08))"
+      ? "linear-gradient(135deg, rgba(95,208,138,.25), rgba(95,208,138,.08))"
       : "rgba(255,255,255,.03)";
     const g = a
-      ? "2px solid rgba(57,255,20,.6)"
+      ? "2px solid rgba(95,208,138,.6)"
       : gameLost
         ? "1px solid rgba(255,68,68,.3)"
         : "1px solid rgba(255,255,255,.1)";
-    const x = a ? "#39ff14" : "transparent";
+    const x = a ? "#5fd08a" : "transparent";
     const u = a
-      ? "0 0 30px rgba(57,255,20,.4), inset 0 0 15px rgba(57,255,20,.15), 0 8px 32px rgba(0,0,0,.3)"
+      ? "0 0 30px rgba(95,208,138,.4), inset 0 0 15px rgba(95,208,138,.15), 0 8px 32px rgba(0,0,0,.3)"
       : "0 4px 16px rgba(0,0,0,.2)";
     const p = index * 0.05;
     const n = a ? `letterReveal 0.6s cubic-bezier(.2,.9,.2,1) ${p}s both` : "none";
@@ -713,7 +714,7 @@ function XeComponent({ ch, isRevealed, gameLost, index }) {
       boxShadow: u,
       transition: "all 0.4s cubic-bezier(.2,.9,.2,1)",
       animation: n,
-      textShadow: a ? "0 0 15px rgba(57,255,20,.8), 0 0 30px rgba(57,255,20,.4)" : "none",
+      textShadow: a ? "0 0 15px rgba(95,208,138,.8), 0 0 30px rgba(95,208,138,.4)" : "none",
       transform: a ? "translateZ(20px) rotateX(5deg)" : "translateZ(0) rotateX(0deg)",
       display: "flex",
       alignItems: "center",
@@ -738,34 +739,34 @@ function EComponent({ ch, isUsed, isCorrect, isWrong, onClick, disabled }) {
     }
   };
   const p = React.useMemo(() => {
-    const n = isCorrect ? "#46ff9a" : isWrong ? "#ff4444" : "#00d4ff";
+    const n = isCorrect ? "#5fd08a" : isWrong ? "#ff4444" : "#f2c14e";
     const j = isCorrect
-      ? "linear-gradient(145deg, rgba(70,255,154,.35), rgba(70,255,154,.1))"
+      ? "linear-gradient(145deg, rgba(95,208,138,.35), rgba(95,208,138,.1))"
       : isWrong
         ? "linear-gradient(145deg, rgba(255,68,68,.15), rgba(255,68,68,.05))"
         : s
-          ? "rgba(0,212,255,.25)"
+          ? "rgba(242,193,78,.25)"
           : g
-            ? "rgba(0,212,255,.12)"
+            ? "rgba(242,193,78,.12)"
             : "rgba(255,255,255,.07)";
     const S = isCorrect
       ? `1.5px solid ${n}`
       : isWrong
         ? "1px solid rgba(255,68,68,.2)"
         : s
-          ? "1px solid rgba(0,212,255,.6)"
+          ? "1px solid rgba(242,193,78,.6)"
           : g
-            ? "1px solid rgba(0,212,255,.4)"
+            ? "1px solid rgba(242,193,78,.4)"
             : "1px solid rgba(255,255,255,.15)";
-    const W = isCorrect ? "#46ff9a" : isWrong ? "rgba(255,68,68,.3)" : "#fff";
+    const W = isCorrect ? "#5fd08a" : isWrong ? "rgba(255,68,68,.3)" : "#fff";
     const N = isCorrect
       ? `0 0 15px ${n}40, 0 4px 8px rgba(0,0,0,.3)`
       : isWrong
         ? "none"
         : s
-          ? "0 0 20px rgba(0,212,255,.4), 0 2px 4px rgba(0,0,0,.3)"
+          ? "0 0 20px rgba(242,193,78,.4), 0 2px 4px rgba(0,0,0,.3)"
           : g
-            ? "0 0 15px rgba(0,212,255,.3), 0 6px 12px rgba(0,0,0,.3)"
+            ? "0 0 15px rgba(242,193,78,.3), 0 6px 12px rgba(0,0,0,.3)"
             : "0 4px 6px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.05)";
     return {
       background: j,
@@ -777,7 +778,7 @@ function EComponent({ ch, isUsed, isCorrect, isWrong, onClick, disabled }) {
         : g
           ? "translateY(-2px) translateZ(10px) rotateX(-5deg)"
           : "translateY(0) translateZ(0) rotateX(0deg)",
-      textShadow: isCorrect ? "0 0 8px rgba(70,255,154,.6)" : s ? "0 0 8px rgba(0,212,255,.6)" : "none",
+      textShadow: isCorrect ? "0 0 8px rgba(95,208,138,.6)" : s ? "0 0 8px rgba(242,193,78,.6)" : "none",
       borderRadius: "0.5rem",
       fontSize: "0.875rem",
       fontWeight: 700,
@@ -813,7 +814,7 @@ function QeComponent({ timeLeft, maxTime }) {
   const r_1 = 40;
   const strokeDasharray = 2 * Math.PI * r_1;
   const strokeDashoffset = strokeDasharray * (1 - i);
-  const s = i > 0.5 ? "#10b981" : i > 0.25 ? "#ffd700" : "#ef4444";
+  const s = i > 0.5 ? "#10b981" : i > 0.25 ? "#f2c14e" : "#ef4444";
   const d = `${s}80`;
   return (
     <div
@@ -885,7 +886,7 @@ function UeComponent({ m, onClick }) {
     const transform = i ? "translateY(-12px) scale(1.03) rotateX(5deg) rotateY(2deg)" : "";
     const d = i ? `0 0 60px ${m.color}30, 0 25px 60px rgba(0,0,0,.5)` : "";
     return {
-      background: "linear-gradient(180deg,rgba(14,22,64,.65),rgba(5,8,27,.5))",
+      background: "linear-gradient(180deg,rgba(52,26,16,.65),rgba(30,14,8,.5))",
       border: `1px solid ${i ? `${m.color}60` : "rgba(255,255,255,.14)"}`,
       backdropFilter: "blur(14px)",
       transformStyle: "preserve-3d",
@@ -1101,7 +1102,7 @@ function OtComponent() {
             x: v.width / 2 - 30,
             y: v.height / 2 - 40,
             text: `+${C}`,
-            color: "#46ff9a",
+            color: "#5fd08a",
             life: 2,
             scale: 1.5,
           },
@@ -1200,7 +1201,7 @@ function OtComponent() {
   }, [B]);
   const Se = React.useMemo(
     () => ({
-      background: "rgba(3,4,17,.92)",
+      background: "rgba(24,10,6,.92)",
       backdropFilter: "blur(30px)",
       animation: "fadeIn 0.5s ease-out",
     }),
@@ -1208,10 +1209,10 @@ function OtComponent() {
   );
   const Ne = React.useMemo(
     () => ({
-      background: "linear-gradient(135deg,#39ff14,#00d4ff)",
+      background: "linear-gradient(135deg,#5fd08a,#f2c14e)",
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
-      filter: "drop-shadow(0 0 40px rgba(57,255,20,0.5))",
+      filter: "drop-shadow(0 0 40px rgba(95,208,138,0.5))",
       animation: "popIn 0.6s cubic-bezier(.34,1.56,.64,1)",
     }),
     [],
@@ -1226,12 +1227,12 @@ function OtComponent() {
   );
   const U = React.useMemo(
     () => ({
-      background: "linear-gradient(135deg, rgba(0,212,255,.08), rgba(184,41,221,.04))",
+      background: "linear-gradient(135deg, rgba(242,193,78,.08), rgba(165,15,37,.04))",
       backdropFilter: "blur(20px)",
-      border: "1px solid rgba(0,212,255,.25)",
+      border: "1px solid rgba(242,193,78,.25)",
       borderRadius: "20px",
       padding: "20px",
-      boxShadow: "0 0 30px rgba(0,212,255,.15), 0 12px 40px rgba(0,0,0,.4)",
+      boxShadow: "0 0 30px rgba(242,193,78,.15), 0 12px 40px rgba(0,0,0,.4)",
       transform: "translateZ(30px) rotateX(3deg)",
       transition: "all 0.4s",
     }),
@@ -1239,155 +1240,9 @@ function OtComponent() {
   );
   if (l === "select") {
     return (
-      <StarfieldBackground>
-        <div
-          className="max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10"
-          style={{
-            perspective: "1000px",
-          }}
-        >
-          <div className="flex items-center justify-between mb-8">
-            <Link
-              to="/juegos"
-              onClick={() => playClick()}
-              className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
-            >
-              <ArrowLeftIcon size={16} /> Volver / 返回
-            </Link>
-          </div>
-          <div className="text-center mb-10">
-            <div
-              className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-4 relative"
-              style={{
-                background: "linear-gradient(135deg,#00d4ff,#b829dd)",
-                boxShadow: "0 0 60px rgba(0,212,255,0.5), 0 0 120px rgba(184,41,221,0.2)",
-                animation: "ahorcadoFloat 3s ease-in-out infinite",
-              }}
-            >
-              <MoonIcon
-                size={48}
-                className="text-white"
-                style={{
-                  filter: "drop-shadow(0 0 10px rgba(255,255,255,0.5))",
-                }}
-              />
-              <div
-                className="absolute -top-2 -right-2"
-                style={{
-                  animation: "sparkle 2s ease-in-out infinite",
-                }}
-              >
-                <SparklesIcon
-                  size={20}
-                  style={{
-                    color: "#ffd600",
-                  }}
-                />
-              </div>
-            </div>
-            <h1
-              className="text-5xl md:text-7xl font-black mb-2"
-              style={{
-                background: "linear-gradient(135deg,#00d4ff 0%,#b829dd 50%,#ff00aa 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 40px rgba(0,212,255,.4))",
-                animation: "ahorcadoTitlePulse 3s ease-in-out infinite alternate",
-              }}
-            >
-              Ahorcado
-            </h1>
-            <p className="text-white/50 text-lg font-medium">Adivina la palabra / 猜单词</p>
-            {ae && (
-              <div
-                className="mt-4 mx-auto max-w-lg p-4 rounded-xl text-sm font-bold"
-                style={{
-                  background: "rgba(255,68,68,.12)",
-                  border: "1px solid rgba(255,68,68,.3)",
-                  color: "#ff6b35",
-                }}
-              >
-                {ae}
-              </div>
-            )}
-          </div>
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-            style={{
-              perspective: "1000px",
-            }}
-          >
-            <button
-              onClick={() => {
-                setAe("");
-                ne(null);
-              }}
-              className="group relative rounded-2xl p-5 text-left cursor-pointer block overflow-hidden transition-all duration-500"
-              style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.65),rgba(5,8,27,.5))",
-                border: "1px solid rgba(255,255,255,.14)",
-                backdropFilter: "blur(14px)",
-                transformStyle: "preserve-3d",
-              }}
-              onMouseEnter={(r) => {
-                r.currentTarget.style.transform = "translateY(-12px) scale(1.03) rotateX(5deg) rotateY(2deg)";
-                r.currentTarget.style.boxShadow = "0 0 60px rgba(0,212,255,.3),0 25px 60px rgba(0,0,0,.5)";
-                r.currentTarget.style.borderColor = "#00d4ff60";
-              }}
-              onMouseLeave={(r) => {
-                r.currentTarget.style.transform = "";
-                r.currentTarget.style.boxShadow = "";
-                r.currentTarget.style.borderColor = "rgba(255,255,255,.14)";
-              }}
-            >
-              <div
-                className="absolute -inset-[2px] rounded-[26px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  background: "linear-gradient(90deg, #00d4ff00, #00d4ff, #00d4ff00)",
-                  backgroundSize: "200% 100%",
-                  animation: "borderRotate 3s linear infinite",
-                  zIndex: -1,
-                }}
-              />
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
-                style={{
-                  background: "linear-gradient(135deg, #ff00aa, #b829dd)",
-                  boxShadow: "0 0 20px rgba(255,0,170,0.3)",
-                }}
-              >
-                <LayersIcon size={24} className="text-white" />
-              </div>
-              <h3 className="text-white font-black text-base mb-1">Todos los modulos</h3>
-              <p
-                className="text-xs font-medium mb-1"
-                style={{
-                  color: "rgba(255,0,170,.7)",
-                }}
-              >
-                所有模块
-              </p>
-              <p className="text-xs font-medium text-white/40">Mezcla todo el vocabulario</p>
-            </button>
-            {we.map((m) => (
-              <UeComponent
-                key={m.id}
-                m={m}
-                onClick={() => {
-                  setAe("");
-                  ne(m.id);
-                }}
-              />
-            ))}
-          </div>
-          <style>{`
-            @keyframes ahorcadoFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-            @keyframes ahorcadoTitlePulse { from{filter:drop-shadow(0 0 40px rgba(0,212,255,.4)) brightness(1)} to{filter:drop-shadow(0 0 80px rgba(0,212,255,.6)) brightness(1.15)} }
-            @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
-            @keyframes sparkle { 0%,100%{opacity:0.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.3)} }
-          `}</style>
-        </div>
-      </StarfieldBackground>
+      <>
+        <SelectorTemaJuego juego="ahorcado" error={ae} onIniciar={(id) => { setAe(""); ne(id); }} />
+      </>
     );
   }
   return (
@@ -1415,7 +1270,7 @@ function OtComponent() {
           <Link
             to="/juegos"
             onClick={() => playClick()}
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold"
           >
             <ArrowLeftIcon size={16} /> Volver / 返回
           </Link>
@@ -1437,9 +1292,9 @@ function OtComponent() {
             <div
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
               style={{
-                background: "rgba(255,0,170,.1)",
-                border: "1px solid rgba(255,0,170,.2)",
-                color: "#ff00aa",
+                background: "rgba(224,40,63,.1)",
+                border: "1px solid rgba(224,40,63,.2)",
+                color: "#e0283f",
               }}
             >
               <TrophyIcon size={12} /> Racha: {b}
@@ -1447,11 +1302,11 @@ function OtComponent() {
             <div
               className="px-3 py-1.5 rounded-full text-xs font-bold"
               style={{
-                background: "rgba(0,212,255,.1)",
-                border: "1px solid rgba(0,212,255,.2)",
-                color: "#00d4ff",
-                textShadow: "0 0 8px rgba(0,212,255,.5)",
-                boxShadow: "0 0 15px rgba(0,212,255,.15)",
+                background: "rgba(242,193,78,.1)",
+                border: "1px solid rgba(242,193,78,.2)",
+                color: "#f2c14e",
+                textShadow: "0 0 8px rgba(242,193,78,.5)",
+                boxShadow: "0 0 15px rgba(242,193,78,.15)",
               }}
             >
               Score: {W}
@@ -1462,18 +1317,18 @@ function OtComponent() {
           <h1
             className="text-5xl md:text-6xl font-black mb-2"
             style={{
-              background: "linear-gradient(135deg,#00d4ff,#b829dd)",
+              background: "linear-gradient(135deg,#f2c14e,#a50f25)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 30px rgba(0,212,255,.3))",
+              filter: "drop-shadow(0 0 30px rgba(242,193,78,.3))",
             }}
           >
             <MoonIcon
               size={40}
               className="inline mr-3"
               style={{
-                color: "#ffd600",
-                filter: "drop-shadow(0 0 10px rgba(255,214,0,.5))",
+                color: "#f2c14e",
+                filter: "drop-shadow(0 0 10px rgba(242,193,78,.5))",
               }}
             />
             Ahorcado
@@ -1485,9 +1340,9 @@ function OtComponent() {
           <div
             className="px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5"
             style={{
-              background: "rgba(255,0,170,.08)",
-              border: "1px solid rgba(255,0,170,.15)",
-              color: "#ff00aa",
+              background: "rgba(224,40,63,.08)",
+              border: "1px solid rgba(224,40,63,.15)",
+              color: "#e0283f",
             }}
           >
             <ZapIcon size={12} /> Categoria: {x.category}
@@ -1495,9 +1350,9 @@ function OtComponent() {
           <div
             className="px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5"
             style={{
-              background: "rgba(0,212,255,.08)",
-              border: "1px solid rgba(0,212,255,.15)",
-              color: "#00d4ff",
+              background: "rgba(242,193,78,.08)",
+              border: "1px solid rgba(242,193,78,.15)",
+              color: "#f2c14e",
             }}
           >
             <LightbulbIcon size={12} /> {A.length} letras / {A.length} 字母
@@ -1513,10 +1368,10 @@ function OtComponent() {
                 <HeartIcon
                   key={m}
                   size={18}
-                  fill={m < length - j ? "#ff446d" : "none"}
+                  fill={m < length - j ? "#e0283f" : "none"}
                   style={{
-                    color: m < length - j ? "#ff446d" : "rgba(255,255,255,0.18)",
-                    filter: m < length - j ? "drop-shadow(0 0 8px rgba(255,68,109,.7))" : "none",
+                    color: m < length - j ? "#e0283f" : "rgba(255,255,255,0.18)",
+                    filter: m < length - j ? "drop-shadow(0 0 8px rgba(224,40,63,.7))" : "none",
                     transition: "all 0.3s",
                   }}
                 />
@@ -1528,8 +1383,8 @@ function OtComponent() {
               <div
                 className="px-5 py-3 rounded-xl text-center relative overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, rgba(255,0,170,.15), rgba(184,41,221,.1))",
-                  border: "1px solid rgba(255,0,170,.3)",
+                  background: "linear-gradient(135deg, rgba(224,40,63,.15), rgba(165,15,37,.1))",
+                  border: "1px solid rgba(224,40,63,.3)",
                   animation: "fadeIn 0.5s ease-out",
                 }}
               >
@@ -1544,8 +1399,8 @@ function OtComponent() {
                 <p
                   className="text-xl font-black mt-1"
                   style={{
-                    color: "#ff00aa",
-                    textShadow: "0 0 15px rgba(255,0,170,0.4)",
+                    color: "#e0283f",
+                    textShadow: "0 0 15px rgba(224,40,63,0.4)",
                   }}
                 >
                   {x.hint}
@@ -1596,8 +1451,8 @@ function OtComponent() {
           <div
             className="text-center mt-2 text-sm font-bold"
             style={{
-              color: "#ff8a2a",
-              textShadow: "0 0 15px rgba(255,138,42,0.4)",
+              color: "#d99a22",
+              textShadow: "0 0 15px rgba(217,154,34,0.4)",
               animation: "fadeIn 0.3s ease-out",
             }}
           >
@@ -1665,8 +1520,8 @@ function OtComponent() {
                 <div
                   className="text-2xl font-black"
                   style={{
-                    color: "#00d4ff",
-                    textShadow: "0 0 10px rgba(0,212,255,.5)",
+                    color: "#f2c14e",
+                    textShadow: "0 0 10px rgba(242,193,78,.5)",
                   }}
                 >
                   {W}
@@ -1677,8 +1532,8 @@ function OtComponent() {
                 <div
                   className="text-2xl font-black"
                   style={{
-                    color: "#ff00aa",
-                    textShadow: "0 0 10px rgba(255,0,170,.5)",
+                    color: "#e0283f",
+                    textShadow: "0 0 10px rgba(224,40,63,.5)",
                   }}
                 >
                   {b}
@@ -1689,8 +1544,8 @@ function OtComponent() {
                 <div
                   className="text-2xl font-black"
                   style={{
-                    color: "#ffd700",
-                    textShadow: "0 0 10px rgba(255,215,0,.5)",
+                    color: "#f2c14e",
+                    textShadow: "0 0 10px rgba(242,193,78,.5)",
                   }}
                 >
                   {F}
@@ -1702,8 +1557,8 @@ function OtComponent() {
                 onClick={je}
                 className="px-8 py-3 rounded-full text-white font-black text-lg transition-all hover:scale-105"
                 style={{
-                  background: "linear-gradient(135deg,#00d4ff,#b829dd)",
-                  boxShadow: "0 0 40px rgba(0,212,255,0.4), 0 8px 30px rgba(0,0,0,0.4)",
+                  background: "linear-gradient(135deg,#f2c14e,#a50f25)",
+                  boxShadow: "0 0 40px rgba(242,193,78,0.4), 0 8px 30px rgba(0,0,0,0.4)",
                 }}
               >
                 <SparklesIcon size={20} className="inline mr-2" /> Siguiente / 下一个

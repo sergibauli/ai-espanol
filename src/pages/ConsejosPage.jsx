@@ -1,26 +1,14 @@
-import {
-  AwardIcon,
-  LightbulbIcon,
-  ChevronDownIcon,
-  ZapIcon,
-  ArrowLeftIcon,
-  EyeIcon,
-  HeadphonesIcon,
-  PenToolIcon,
-  MessageCircleIcon,
-  TargetIcon,
-} from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 import * as React from "react";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
-import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
-const v = [
+import "../styles/v14-fix-recursos.css";
+const SECCIONES = [
   {
     id: "general",
     title: "Consejos Generales",
     titleCn: "通用建议",
-    icon: LightbulbIcon,
-    color: "#ffd600",
+    sello: "通",
     tips: [
       {
         text: "Lee atentamente todas las instrucciones antes de empezar cada tarea.",
@@ -48,8 +36,7 @@ const v = [
     id: "reading",
     title: "Comprensión de Lectura",
     titleCn: "阅读理解",
-    icon: EyeIcon,
-    color: "#00d4ff",
+    sello: "读",
     tips: [
       {
         text: "Lee el título y las preguntas antes del texto para saber qué buscar.",
@@ -77,8 +64,7 @@ const v = [
     id: "listening",
     title: "Comprensión Auditiva",
     titleCn: "听力理解",
-    icon: HeadphonesIcon,
-    color: "#ff6b35",
+    sello: "听",
     tips: [
       {
         text: "Antes de escuchar, lee las opciones y anticipa el tema.",
@@ -106,8 +92,7 @@ const v = [
     id: "writing",
     title: "Expresión e Interacción Escritas",
     titleCn: "书面表达与互动",
-    icon: PenToolIcon,
-    color: "#39ff14",
+    sello: "写",
     tips: [
       {
         text: "Lee bien el enunciado y asegúrate de cumplir todos los requisitos.",
@@ -135,8 +120,7 @@ const v = [
     id: "speaking",
     title: "Expresión e Interacción Orales",
     titleCn: "口语表达与互动",
-    icon: MessageCircleIcon,
-    color: "#b829dd",
+    sello: "说",
     tips: [
       {
         text: "Escucha atentamente las preguntas antes de responder.",
@@ -164,8 +148,7 @@ const v = [
     id: "grammar",
     title: "Gramática y Vocabulario",
     titleCn: "语法与词汇",
-    icon: TargetIcon,
-    color: "#2080ff",
+    sello: "法",
     tips: [
       {
         text: "Estudia los tiempos verbales más comunes: presente, pretérito, futuro, subjuntivo.",
@@ -190,254 +173,87 @@ const v = [
     ],
   },
 ];
-function ZComponent() {
-  const [l, setL] = React.useState(new Set(["general"]));
-  const c = (t) => {
-    setL((s) => {
-      const a = new Set(s);
-      if (a.has(t)) {
-        a.delete(t);
-      } else {
-        a.add(t);
-      }
-      return a;
+function ConsejosPage() {
+  const [abiertas, setAbiertas] = React.useState(new Set(["general"]));
+  const alternarSeccion = (id) =>
+    setAbiertas((previo) => {
+      const siguiente = new Set(previo);
+      if (siguiente.has(id)) siguiente.delete(id);
+      else siguiente.add(id);
+      return siguiente;
     });
-  };
   return (
-    <StarfieldBackground>
-      <div className="max-w-4xl mx-auto px-4 py-6 min-h-screen">
-        <div style={{ marginBottom: 24 }}>
-          <div className="gm-no-adapt">
-          <SectionHero
-            icon={AwardIcon}
-            accent="#ff3d8b"
-            eyebrow="Examen DELE · DELE考试"
-            title="Consejos para aprobar"
-            titleZh="DELE 通关技巧"
-            description="Estrategias por prueba (comprensión, expresión e interacción) y errores que más penalizan en el examen."
-            descriptionZh="按考试部分整理的策略，以及最容易丢分的错误。"
-            actions={
-              <Link className="ui-btn primary" to="/examenes/generador">
-                Hacer un simulacro · 模拟考试
-              </Link>
-            }
-          />
-          </div>
-        </div>
-        <div className="space-y-5 fx-stagger">
-          {v.map((t) => {
-            const Icon = t.icon;
-            const a = l.has(t.id);
+    <div className="rx-page rx-hoja gm-no-adapt">
+      <div className="rx-wrap is-estrecho">
+        <SectionHero
+          eyebrow="Examen DELE · DELE考试"
+          title="Consejos para aprobar"
+          titleZh="DELE 通关技巧"
+          description="Estrategias por prueba (comprensión, expresión e interacción) y errores que más penalizan en el examen."
+          descriptionZh="按考试部分整理的策略，以及最容易丢分的错误。"
+          actions={
+            <Link className="ui-btn primary" to="/examenes/generador">
+              Hacer un simulacro · 模拟考试
+            </Link>
+          }
+        />
+        <div className="rx-acc" style={{ marginTop: 8 }}>
+          {SECCIONES.map((seccion) => {
+            const abierta = abiertas.has(seccion.id);
             return (
-              <div
-                key={t.id}
-                className="fx-card fx-tilt overflow-hidden"
-                data-fx-tilt-max="3"
-                style={{
-                  "--fx-accent": t.color,
-                  borderColor: a ? `${t.color}45` : undefined,
-                  boxShadow: a ? `0 18px 50px rgba(0,0,0,.4), 0 0 38px ${t.color}22` : undefined,
-                }}
-              >
-                <div
-                  className="h-[3px] w-full"
-                  style={{
-                    background: `linear-gradient(90deg, transparent, ${t.color}, transparent)`,
-                    opacity: a ? 1 : 0.35,
-                    transition: "opacity .4s ease",
-                  }}
-                />
-                <button
-                  onClick={() => c(t.id)}
-                  className="w-full flex items-center justify-between px-5 py-5 text-left transition-colors group"
-                  style={{
-                    background: a ? `${t.color}0a` : "transparent",
-                  }}
-                >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
-                      style={{
-                        background: `linear-gradient(135deg, ${t.color}30, ${t.color}10)`,
-                        border: `1px solid ${t.color}50`,
-                        boxShadow: `0 0 22px ${t.color}35`,
-                      }}
-                    >
-                      <Icon
-                        size={20}
-                        style={{
-                          color: t.color,
-                          filter: `drop-shadow(0 0 6px ${t.color})`,
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <h3
-                        className="text-base font-black text-white"
-                        style={{
-                          textShadow: a ? `0 0 16px ${t.color}55` : "none",
-                        }}
-                      >
-                        {t.title}
-                      </h3>
-                      <p
-                        className="text-[11px] font-bold"
-                        style={{
-                          color: `${t.color}99`,
-                        }}
-                      >
-                        {t.titleCn}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="text-[10px] font-bold px-2.5 py-1 rounded-full"
-                      style={{
-                        background: `${t.color}14`,
-                        border: `1px solid ${t.color}30`,
-                        color: t.color,
-                      }}
-                    >
-                      {t.tips.length} tips
-                    </span>
-                    <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
-                      style={{
-                        background: a ? `${t.color}20` : "rgba(255,255,255,.05)",
-                        border: `1px solid ${a ? `${t.color}50` : "rgba(255,255,255,.1)"}`,
-                        transform: a ? "rotate(180deg)" : "rotate(0deg)",
-                      }}
-                    >
-                      <ChevronDownIcon
-                        size={15}
-                        style={{
-                          color: a ? t.color : "rgba(207,216,255,.4)",
-                        }}
-                      />
-                    </div>
-                  </div>
+              <div key={seccion.id} className={`rx-acc__item ${abierta ? "is-abierto" : ""}`}>
+                <button type="button" className="rx-acc__btn" aria-expanded={abierta} aria-controls={`consejos-${seccion.id}`} onClick={() => alternarSeccion(seccion.id)}>
+                  <span className="rx-sello" aria-hidden="true">
+                    {seccion.sello}
+                  </span>
+                  <span className="rx-acc__titulo rx-h3">
+                    {seccion.title}
+                    <span className="rx-zh">{seccion.titleCn}</span>
+                  </span>
+                  <span className="rx-tag is-plano">
+                    {seccion.tips.length} consejos · {seccion.tips.length} 条
+                  </span>
+                  <span className="rx-acc__chev" aria-hidden="true">
+                    <ChevronDownIcon size={20} />
+                  </span>
                 </button>
-                {a && (
-                  <div
-                    className="px-5 pb-5 space-y-2.5"
-                    style={{
-                      animation: "contentFadeIn 0.35s ease",
-                    }}
-                  >
-                    {t.tips.map((n, r) => (
-                      <div
-                        key={r}
-                        className="flex gap-3 p-3.5 rounded-2xl transition-all duration-300 hover:translate-x-1.5"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015))",
-                          border: "1px solid rgba(255,255,255,.07)",
-                          animation: `tipSlideIn 0.35s ease-out ${r * 0.06}s both`,
-                        }}
-                      >
-                        <div
-                          className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
-                          style={{
-                            background: `linear-gradient(135deg, ${t.color}35, ${t.color}12)`,
-                            border: `1px solid ${t.color}45`,
-                            color: t.color,
-                            boxShadow: `0 0 14px ${t.color}30`,
-                          }}
-                        >
-                          <span className="text-[11px] font-black">{r + 1}</span>
-                        </div>
+                {abierta && (
+                  <ol className="rx-acc__cuerpo rx-consejos" id={`consejos-${seccion.id}`}>
+                    {seccion.tips.map((consejo, indice) => (
+                      <li key={indice} className="rx-consejo">
+                        <span className="rx-consejo__num" aria-hidden="true">
+                          {indice + 1}
+                        </span>
                         <div>
-                          <p
-                            className="text-sm font-medium"
-                            style={{
-                              color: "rgba(230,240,255,.88)",
-                            }}
-                          >
-                            {n.text}
-                          </p>
-                          <p
-                            className="text-[11px] mt-0.5"
-                            style={{
-                              color: "rgba(207,216,255,.45)",
-                            }}
-                          >
-                            {n.textCn}
-                          </p>
+                          <p className="rx-texto">{consejo.text}</p>
+                          <p className="rx-texto-zh">{consejo.textCn}</p>
                         </div>
-                      </div>
+                      </li>
                     ))}
-                  </div>
+                  </ol>
                 )}
               </div>
             );
           })}
         </div>
-        <div
-          className="fx-border-glow fx-reveal mt-12 text-center p-8 rounded-3xl"
-          style={{
-            "--fx-c1": "#ff00aa",
-            "--fx-c2": "#b829dd",
-            "--fx-c3": "#00d4ff",
-            background: "linear-gradient(165deg, rgba(255,0,170,.09), rgba(0,212,255,.05))",
-          }}
-        >
-          <div className="fx-mascot-float inline-block">
-            <ZapIcon
-              size={30}
-              style={{
-                color: "#ff36d7",
-                margin: "0 auto 12px",
-                filter: "drop-shadow(0 0 14px rgba(255,54,215,.7))",
-              }}
-            />
-          </div>
-          <p
-            className="text-lg font-black mb-1 text-white"
-            style={{
-              textShadow: "0 0 18px rgba(255,54,215,.4)",
-            }}
-          >
-            ¡La práctica hace al maestro!
+        <div className="rx-card rx-consejos__final">
+          <span className="rx-sello" aria-hidden="true">
+            练
+          </span>
+          <p className="rx-h2" style={{ justifyContent: "center" }}>
+            ¡La práctica hace al maestro! <span className="rx-zh">熟能生巧！</span>
           </p>
-          <p
-            className="text-xs mb-5"
-            style={{
-              color: "rgba(207,216,255,.5)",
-            }}
-          >
-            熟能生巧！
-          </p>
-          <div className="flex gap-3 justify-center flex-wrap">
-            <Link
-              to="/examenes"
-              className="fx-btn px-6 py-3 text-xs font-black text-white"
-              style={{
-                background: "linear-gradient(135deg, #ff00aa, #b829dd)",
-                boxShadow: "0 0 26px rgba(255,0,170,.35)",
-              }}
-            >
-              Ver exámenes / 查看考试
+          <div className="rx-filtros" style={{ justifyContent: "center" }}>
+            <Link to="/examenes" className="rx-btn">
+              Ver exámenes · 查看考试
             </Link>
-            <Link
-              to="/modulos"
-              className="fx-btn px-6 py-3 text-xs font-black"
-              style={{
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.16)",
-                color: "rgba(220,230,255,.85)",
-              }}
-            >
-              Módulos / 模块
+            <Link to="/modulos" className="rx-btn is-papel">
+              Unidades · 单元
             </Link>
           </div>
         </div>
-        <style>{`
-          @keyframes contentFadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-          @keyframes tipSlideIn { from{transform:translateX(14px);opacity:0} to{transform:translateX(0);opacity:1} }
-        `}</style>
       </div>
-    </StarfieldBackground>
+    </div>
   );
 }
-export { ZComponent as default };
+export { ConsejosPage as default };

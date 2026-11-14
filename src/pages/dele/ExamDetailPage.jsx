@@ -46,11 +46,11 @@ import * as React from "react";
 import { useParams, Link } from "react-router";
 import { u, C as C_1 } from "../../components/CorrectionDisplay.jsx";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
-import { L as L_2 } from "../../components/LearningImpactScene.jsx";
 import { GRAMMAR_TOPICS } from "../../data/gramatica.js";
 import { a } from "../../lib/exams-loader.js";
 import { useLanguage } from "../../lib/i18n.jsx";
 import "../../data/generated-content.js";
+import "../../styles/v14-fix-examenes.css";
 function BsComponent({ onClose }) {
   return (
     <div
@@ -63,9 +63,9 @@ function BsComponent({ onClose }) {
       <div
         className="relative max-w-sm w-full rounded-3xl p-8 text-center"
         style={{
-          background: "linear-gradient(135deg, rgba(15,24,60,0.95), rgba(10,15,40,0.98))",
-          border: "2px solid rgba(251,191,36,0.3)",
-          boxShadow: "0 0 40px rgba(251,191,36,0.15)",
+          background: "linear-gradient(135deg, rgba(107,74,43,0.95), rgba(10,15,40,0.98))",
+          border: "2px solid rgba(138,90,26,0.3)",
+          boxShadow: "0 0 40px rgba(138,90,26,0.15)",
         }}
       >
         <button
@@ -77,11 +77,11 @@ function BsComponent({ onClose }) {
         <div
           className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5"
           style={{
-            background: "rgba(251,191,36,0.12)",
-            border: "2px solid rgba(251,191,36,0.25)",
+            background: "rgba(138,90,26,0.12)",
+            border: "2px solid rgba(138,90,26,0.25)",
           }}
         >
-          <SparklesIcon size={28} className="text-amber-400" />
+          <SparklesIcon size={28} className="xd-oro" />
         </div>
         <h3 className="text-white font-black text-xl mb-2">Limite alcanzado / 已达到限制</h3>
         <p className="text-white/50 text-sm mb-6">
@@ -92,8 +92,8 @@ function BsComponent({ onClose }) {
           onClick={onClose}
           className="px-6 py-3 rounded-xl text-white font-bold transition-all hover:scale-105"
           style={{
-            background: "linear-gradient(135deg, #f59e0b, #d97706)",
-            boxShadow: "0 0 20px rgba(245,158,11,0.2)",
+            background: "linear-gradient(135deg, #8a5a1a, #a8741e)",
+            boxShadow: "0 0 20px rgba(138,90,26,0.2)",
           }}
         >
           Entendido / 明白
@@ -122,43 +122,43 @@ function Ys(text) {
 const Lt = {
   trueFalse: {
     icon: ListChecksIcon,
-    color: "#f59e0b",
+    color: "#8a5a1a",
     title: "Verdadero o falso",
     titleCn: "判断对错",
   },
   matching: {
     icon: ArrowLeftRightIcon,
-    color: "#818cf8",
+    color: "#6b4a2b",
     title: "Emparejar",
     titleCn: "配对",
   },
   fillBlanks: {
     icon: PenLineIcon,
-    color: "#22c55e",
+    color: "#2e6b3f",
     title: "Rellenar huecos",
     titleCn: "完形填空",
   },
   order: {
     icon: ShuffleIcon,
-    color: "#22d3ee",
+    color: "#6b4a2b",
     title: "Ordenar la frase",
     titleCn: "组词成句",
   },
   transform: {
     icon: RepeatIcon,
-    color: "#a855f7",
+    color: "#8f0c21",
     title: "Transformar frases",
     titleCn: "改写句子",
   },
   dictation: {
     icon: Volume2Icon,
-    color: "#ec4899",
+    color: "#8f0c21",
     title: "Dictado con audio",
     titleCn: "听写",
   },
   cloze: {
     icon: LayersIcon,
-    color: "#f97316",
+    color: "#a8741e",
     title: "Rellenar huecos en el texto",
     titleCn: "文本填空",
   },
@@ -168,7 +168,7 @@ function Ne1Component({ color, title, titleCn, children, right }) {
     <div
       className="rounded-2xl overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, rgba(14,22,64,.5), rgba(5,8,27,.4))",
+        background: "linear-gradient(180deg, rgba(107,74,43,.5), rgba(5,8,27,.4))",
         border: `1px solid ${color}30`,
       }}
     >
@@ -251,7 +251,7 @@ function DsComponent({ exercises }) {
       </div>
       {exercises.trueFalse?.length ? (
         <Ne1Component
-          color="#f59e0b"
+          color="#8a5a1a"
           title="Verdadero o falso"
           titleCn="判断对错"
           right={
@@ -259,9 +259,9 @@ function DsComponent({ exercises }) {
               onClick={() => setM(true)}
               className="px-3 py-1.5 rounded-lg text-xs font-black"
               style={{
-                background: "rgba(245,158,11,0.2)",
-                border: "1px solid rgba(245,158,11,0.4)",
-                color: "#fbbf24",
+                background: "rgba(138,90,26,0.2)",
+                border: "1px solid rgba(138,90,26,0.4)",
+                color: "#8a5a1a",
               }}
             >
               {t("Comprobar", "检查")}
@@ -276,7 +276,7 @@ function DsComponent({ exercises }) {
                 className="rounded-xl p-3"
                 style={{
                   background: "rgba(0,0,0,0.25)",
-                  border: `1px solid ${m ? (f ? "rgba(34,197,94,.4)" : "rgba(239,68,68,.4)") : "rgba(255,255,255,.08)"}`,
+                  border: `1px solid ${m ? (f ? "rgba(46,107,63,.4)" : "rgba(200,16,46,.4)") : "rgba(255,255,255,.08)"}`,
                 }}
               >
                 <p className="text-white/90 text-sm font-medium">
@@ -296,9 +296,9 @@ function DsComponent({ exercises }) {
                     style={
                       s[r.id] === true
                         ? {
-                            background: "rgba(34,197,94,.2)",
-                            border: "1px solid rgba(34,197,94,.5)",
-                            color: "#4ade80",
+                            background: "rgba(46,107,63,.2)",
+                            border: "1px solid rgba(46,107,63,.5)",
+                            color: "#2e6b3f",
                           }
                         : {
                             background: "rgba(255,255,255,.04)",
@@ -321,9 +321,9 @@ function DsComponent({ exercises }) {
                     style={
                       s[r.id] === false
                         ? {
-                            background: "rgba(239,68,68,.2)",
-                            border: "1px solid rgba(239,68,68,.5)",
-                            color: "#f87171",
+                            background: "rgba(200,16,46,.2)",
+                            border: "1px solid rgba(200,16,46,.5)",
+                            color: "#c8102e",
                           }
                         : {
                             background: "rgba(255,255,255,.04)",
@@ -338,7 +338,7 @@ function DsComponent({ exercises }) {
                     <span
                       className="flex items-center gap-1 text-xs font-bold"
                       style={{
-                        color: f ? "#4ade80" : "#f87171",
+                        color: f ? "#2e6b3f" : "#c8102e",
                       }}
                     >
                       {f ? <CircleCheckBigIcon size={14} /> : <CircleXIcon size={14} />}{" "}
@@ -357,7 +357,7 @@ function DsComponent({ exercises }) {
         </Ne1Component>
       ) : null}
       {exercises.matching?.length ? (
-        <Ne1Component color="#818cf8" title="Emparejar" titleCn="配对">
+        <Ne1Component color="#6b4a2b" title="Emparejar" titleCn="配对">
           {exercises.matching.map((r) => (
             <div
               key={r.id}
@@ -384,9 +384,9 @@ function DsComponent({ exercises }) {
                     style={
                       C[r.id] === y.id
                         ? {
-                            background: "rgba(99,102,241,.3)",
-                            border: "1px solid rgba(99,102,241,.6)",
-                            color: "#c7d2fe",
+                            background: "rgba(107,74,43,.3)",
+                            border: "1px solid rgba(107,74,43,.6)",
+                            color: "#6b4a2b",
                           }
                         : {
                             background: "rgba(255,255,255,.04)",
@@ -400,7 +400,7 @@ function DsComponent({ exercises }) {
                 ))}
               </div>
               {C[r.id] === r.id && (
-                <p className="flex items-center gap-1 text-xs font-bold mt-1.5 text-green-400">
+                <p className="flex items-center gap-1 text-xs font-bold mt-1.5 xd-ok">
                   <CircleCheckBigIcon size={13} /> {t("¡Correcto!", "正确！")}
                 </p>
               )}
@@ -410,7 +410,7 @@ function DsComponent({ exercises }) {
       ) : null}
       {exercises.fillBlanks?.length ? (
         <Ne1Component
-          color="#22c55e"
+          color="#2e6b3f"
           title="Rellenar huecos"
           titleCn="完形填空"
           right={
@@ -418,9 +418,9 @@ function DsComponent({ exercises }) {
               onClick={() => setK(true)}
               className="px-3 py-1.5 rounded-lg text-xs font-black"
               style={{
-                background: "rgba(34,197,94,0.2)",
-                border: "1px solid rgba(34,197,94,0.4)",
-                color: "#4ade80",
+                background: "rgba(46,107,63,0.2)",
+                border: "1px solid rgba(46,107,63,0.4)",
+                color: "#2e6b3f",
               }}
             >
               {t("Comprobar", "检查")}
@@ -435,16 +435,16 @@ function DsComponent({ exercises }) {
                 className="rounded-xl p-3"
                 style={{
                   background: "rgba(0,0,0,0.25)",
-                  border: `1px solid ${k ? (f ? "rgba(34,197,94,.4)" : "rgba(239,68,68,.4)") : "rgba(255,255,255,.08)"}`,
+                  border: `1px solid ${k ? (f ? "rgba(46,107,63,.4)" : "rgba(200,16,46,.4)") : "rgba(255,255,255,.08)"}`,
                 }}
               >
                 <p className="text-white/90 text-sm">
                   {r.id}. {r.before}{" "}
                   <span
-                    className="px-2 py-0.5 rounded font-bold text-amber-300"
+                    className="px-2 py-0.5 rounded font-bold xd-oro"
                     style={{
-                      background: "rgba(245,158,11,.15)",
-                      border: "1px dashed rgba(245,158,11,.4)",
+                      background: "rgba(138,90,26,.15)",
+                      border: "1px dashed rgba(138,90,26,.4)",
                     }}
                   >
                     ____
@@ -466,9 +466,9 @@ function DsComponent({ exercises }) {
                       style={
                         g[r.id] === T
                           ? {
-                              background: "rgba(34,197,94,.2)",
-                              border: "1px solid rgba(34,197,94,.5)",
-                              color: "#4ade80",
+                              background: "rgba(46,107,63,.2)",
+                              border: "1px solid rgba(46,107,63,.5)",
+                              color: "#2e6b3f",
                             }
                           : {
                               background: "rgba(255,255,255,.04)",
@@ -486,7 +486,7 @@ function DsComponent({ exercises }) {
                     <span
                       className="flex items-center gap-1 text-xs font-bold mt-2"
                       style={{
-                        color: f ? "#4ade80" : "#f87171",
+                        color: f ? "#2e6b3f" : "#c8102e",
                       }}
                     >
                       {f ? <CircleCheckBigIcon size={14} /> : <CircleXIcon size={14} />}{" "}
@@ -502,7 +502,7 @@ function DsComponent({ exercises }) {
       ) : null}
       {exercises.dictation?.length ? (
         <Ne1Component
-          color="#ec4899"
+          color="#8f0c21"
           title="Dictado con audio"
           titleCn="听写"
           right={
@@ -510,9 +510,9 @@ function DsComponent({ exercises }) {
               onClick={() => setXe(true)}
               className="px-3 py-1.5 rounded-lg text-xs font-black"
               style={{
-                background: "rgba(236,72,153,0.2)",
-                border: "1px solid rgba(236,72,153,0.4)",
-                color: "#f9a8d4",
+                background: "rgba(143,12,33,0.2)",
+                border: "1px solid rgba(143,12,33,0.4)",
+                color: "#8f0c21",
               }}
             >
               {t("Comprobar", "检查")}
@@ -536,9 +536,9 @@ function DsComponent({ exercises }) {
                     onClick={() => Ys(r.text)}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:scale-105"
                     style={{
-                      background: "rgba(236,72,153,0.18)",
-                      border: "1px solid rgba(236,72,153,0.4)",
-                      color: "#f9a8d4",
+                      background: "rgba(143,12,33,0.18)",
+                      border: "1px solid rgba(143,12,33,0.4)",
+                      color: "#8f0c21",
                     }}
                   >
                     <PlayIcon size={13} fill="currentColor" /> {t("Escuchar", "播放")}
@@ -564,7 +564,7 @@ function DsComponent({ exercises }) {
                   <p
                     className="flex items-center gap-1 text-xs font-bold mt-2"
                     style={{
-                      color: f ? "#4ade80" : "#f87171",
+                      color: f ? "#2e6b3f" : "#c8102e",
                     }}
                   >
                     {f ? <CircleCheckBigIcon size={14} /> : <CircleXIcon size={14} />}{" "}
@@ -577,7 +577,7 @@ function DsComponent({ exercises }) {
         </Ne1Component>
       ) : null}
       {exercises.cloze?.length ? (
-        <Ne1Component color="#f97316" title="Rellenar huecos en el texto" titleCn="文本填空">
+        <Ne1Component color="#a8741e" title="Rellenar huecos en el texto" titleCn="文本填空">
           {exercises.cloze.map((r) => (
             <div
               key={r.id}
@@ -593,10 +593,10 @@ function DsComponent({ exercises }) {
                     return (
                       <span
                         key={f}
-                        className="inline-block px-2 py-0.5 mx-0.5 rounded font-bold text-amber-300"
+                        className="inline-block px-2 py-0.5 mx-0.5 rounded font-bold xd-oro"
                         style={{
-                          background: "rgba(245,158,11,.15)",
-                          border: "1px dashed rgba(245,158,11,.5)",
+                          background: "rgba(138,90,26,.15)",
+                          border: "1px dashed rgba(138,90,26,.5)",
                         }}
                       >
                         {y}
@@ -634,14 +634,14 @@ function DsComponent({ exercises }) {
                               X
                                 ? fe
                                   ? {
-                                      background: "rgba(34,197,94,.25)",
-                                      border: "1px solid rgba(34,197,94,.6)",
-                                      color: "#4ade80",
+                                      background: "rgba(46,107,63,.25)",
+                                      border: "1px solid rgba(46,107,63,.6)",
+                                      color: "#2e6b3f",
                                     }
                                   : {
-                                      background: "rgba(239,68,68,.25)",
-                                      border: "1px solid rgba(239,68,68,.6)",
-                                      color: "#f87171",
+                                      background: "rgba(200,16,46,.25)",
+                                      border: "1px solid rgba(200,16,46,.6)",
+                                      color: "#c8102e",
                                     }
                                 : {
                                     background: "rgba(255,255,255,.04)",
@@ -663,7 +663,7 @@ function DsComponent({ exercises }) {
         </Ne1Component>
       ) : null}
       {exercises.order?.length ? (
-        <Ne1Component color="#22d3ee" title="Ordenar la frase" titleCn="组词成句">
+        <Ne1Component color="#6b4a2b" title="Ordenar la frase" titleCn="组词成句">
           {exercises.order.map((r) => (
             <div
               key={r.id}
@@ -677,10 +677,10 @@ function DsComponent({ exercises }) {
                 {r.words.map((y, f) => (
                   <span
                     key={f}
-                    className="px-2 py-1 rounded-lg text-xs font-bold text-cyan-200"
+                    className="px-2 py-1 rounded-lg text-xs font-bold xd-tinta"
                     style={{
-                      background: "rgba(6,182,212,.15)",
-                      border: "1px solid rgba(6,182,212,.3)",
+                      background: "rgba(107,74,43,.15)",
+                      border: "1px solid rgba(107,74,43,.3)",
                     }}
                   >
                     {y}
@@ -703,7 +703,7 @@ function DsComponent({ exercises }) {
                 }}
               />
               {(E[r.id] || "").trim() && ae(E[r.id]) === ae(r.answer) && (
-                <p className="text-xs font-bold mt-2 text-green-400">
+                <p className="text-xs font-bold mt-2 xd-ok">
                   ✅ {t("¡Correcto!", "正确！")}
                 </p>
               )}
@@ -715,10 +715,10 @@ function DsComponent({ exercises }) {
                       [r.id]: r.answer,
                     }))
                   }
-                  className="flex items-center gap-1.5 text-xs font-bold mt-2 text-white/40 hover:text-amber-300 transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-bold mt-2 text-white/40 transition-colors"
                 >
                   <EyeIcon size={13} /> {t("Ver respuesta", "看答案")}:{" "}
-                  <span className="text-amber-300">
+                  <span className="xd-oro">
                     {r.answer} ({r.answerCn})
                   </span>
                 </button>
@@ -729,7 +729,7 @@ function DsComponent({ exercises }) {
       ) : null}
       {exercises.transform?.length ? (
         <Ne1Component
-          color="#a855f7"
+          color="#8f0c21"
           title="Transformar frases"
           titleCn="改写句子"
           right={
@@ -737,9 +737,9 @@ function DsComponent({ exercises }) {
               onClick={() => setI(true)}
               className="px-3 py-1.5 rounded-lg text-xs font-black"
               style={{
-                background: "rgba(168,85,247,0.2)",
-                border: "1px solid rgba(168,85,247,0.4)",
-                color: "#c084fc",
+                background: "rgba(143,12,33,0.2)",
+                border: "1px solid rgba(143,12,33,0.4)",
+                color: "#8f0c21",
               }}
             >
               {t("Comprobar", "检查")}
@@ -781,7 +781,7 @@ function DsComponent({ exercises }) {
                   <p
                     className="flex items-center gap-1 text-xs font-bold mt-2"
                     style={{
-                      color: f ? "#4ade80" : "#f87171",
+                      color: f ? "#2e6b3f" : "#c8102e",
                     }}
                   >
                     {f ? <CircleCheckBigIcon size={14} /> : <CircleXIcon size={14} />}{" "}
@@ -1032,66 +1032,66 @@ function ie() {
 }
 const It = {
   vocabulario: {
-    label: "Vocabulario / 词汇",
+    label: "Vocabulario · 词汇",
     icon: BookOpenIcon,
-    color: "#f97316",
-    glow: "rgba(249,115,22,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-orange-500 to-red-500",
   },
   lectura: {
-    label: "Lectura / 阅读",
+    label: "Lectura · 阅读",
     icon: FileTextIcon,
-    color: "#3b82f6",
-    glow: "rgba(59,130,246,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-blue-500 to-indigo-500",
   },
   audicion: {
-    label: "Audicion / 听力",
+    label: "Audición · 听力",
     icon: HeadphonesIcon,
-    color: "#10b981",
-    glow: "rgba(16,185,129,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-emerald-500 to-teal-500",
   },
   ejercicios: {
-    label: "Ejercicios / 练习",
+    label: "Ejercicios · 练习",
     icon: ZapIcon,
-    color: "#f59e0b",
-    glow: "rgba(245,158,11,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-amber-500 to-yellow-500",
   },
   gramatica: {
-    label: "Gramatica / 语法",
+    label: "Gramática · 语法",
     icon: LightbulbIcon,
-    color: "#22d3ee",
-    glow: "rgba(34,211,238,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-cyan-500 to-sky-500",
   },
   "descripcion-fotografia": {
-    label: "Fotografia / 照片",
+    label: "Fotografía · 照片",
     icon: CameraIcon,
-    color: "#ff8a2a",
-    glow: "rgba(255,138,42,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-orange-400 to-amber-500",
   },
   escritura: {
-    label: "Escritura / 写作",
+    label: "Escritura · 写作",
     icon: PenToolIcon,
-    color: "#a855f7",
-    glow: "rgba(168,85,247,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-violet-500 to-purple-500",
   },
   monologo: {
-    label: "Monologo / 独白",
+    label: "Monólogo · 独白",
     icon: MicIcon,
-    color: "#ec4899",
-    glow: "rgba(236,72,153,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-pink-500 to-rose-500",
   },
   interaccion: {
-    label: "Interaccion / 互动",
+    label: "Interacción · 互动",
     icon: MessageCircleIcon,
-    color: "#06b6d4",
-    glow: "rgba(6,182,212,0.4)",
+    color: "#c8102e",
+    glow: "rgba(200,16,46,0.35)",
     gradient: "from-cyan-500 to-blue-500",
   },
 };
@@ -1147,7 +1147,7 @@ function WComponent({ children, className = "", delay = 0 }) {
   );
 }
 function OComponent({ children, className = "", glowColor, color, tilt = true }) {
-  const background = glowColor || "#f59e0b";
+  const background = glowColor || "#8a5a1a";
   const C = color || background;
   const hRef = React.useRef(null);
   const [g, setG] = React.useState({
@@ -1228,7 +1228,7 @@ function OComponent({ children, className = "", glowColor, color, tilt = true })
           className="relative rounded-3xl overflow-hidden h-full"
           style={{
             background:
-              "linear-gradient(135deg, rgba(15,24,60,0.95) 0%, rgba(15,24,60,0.98) 50%, rgba(10,15,40,0.99) 100%)",
+              "linear-gradient(135deg, rgba(107,74,43,0.95) 0%, rgba(107,74,43,0.98) 50%, rgba(10,15,40,0.99) 100%)",
             border: `2px solid ${background}50`,
             boxShadow: E
               ? `0 0 35px ${background}30, 0 20px 50px rgba(0,0,0,0.4), inset 0 0 30px ${background}06`
@@ -1376,7 +1376,7 @@ function FtComponent({ show }) {
       x: Math.random() * 300 - 150,
       y: Math.random() * -250 - 50,
       rot: Math.random() * 720,
-      color: ["#ff00aa", "#00d4ff", "#ffd600", "#39ff14", "#ff6b35", "#b829dd"][id % 6],
+      color: ["#8f0c21", "#6b4a2b", "#8a5a1a", "#2e6b3f", "#a8741e", "#8f0c21"][id % 6],
       size: 5 + Math.random() * 10,
       delay: Math.random() * 0.25,
       shape: id % 3 === 0 ? "50%" : id % 3 === 1 ? "2px" : "0px",
@@ -1756,7 +1756,7 @@ function WaComponent() {
       name: "Lectura / 阅读",
       score: Math.round((a / x) * 100),
       icon: FileTextIcon,
-      color: "text-blue-400",
+      color: "xd-tinta",
     });
     const l = n?.listening?.questions?.filter((p) => Y[p.id] === p.correctAnswer).length || 0;
     const d = n?.listening?.questions?.length || 1;
@@ -1764,25 +1764,25 @@ function WaComponent() {
       name: "Audicion / 听力",
       score: Math.round((l / d) * 100),
       icon: HeadphonesIcon,
-      color: "text-emerald-400",
+      color: "xd-ok",
     });
     t.push({
       name: "Escritura / 写作",
       score: Ke?.puntuacion || 0,
       icon: PenToolIcon,
-      color: "text-violet-400",
+      color: "xd-laca",
     });
     t.push({
       name: "Monologo / 独白",
       score: qe?.puntuacion || 0,
       icon: MicIcon,
-      color: "text-pink-400",
+      color: "xd-laca",
     });
     t.push({
       name: "Interaccion / 互动",
       score: tt?.puntuacion || 0,
       icon: MessageCircleIcon,
-      color: "text-cyan-400",
+      color: "xd-tinta",
     });
     setBe(t);
     setTs(true);
@@ -1793,7 +1793,7 @@ function WaComponent() {
       return {
         label: "Sobresaliente",
         labelCn: "优秀",
-        color: "text-yellow-400",
+        color: "xd-oro",
         bg: "from-yellow-500/20 to-amber-500/10",
         border: "border-yellow-500/20",
       };
@@ -1802,7 +1802,7 @@ function WaComponent() {
       return {
         label: "Notable",
         labelCn: "良好",
-        color: "text-emerald-400",
+        color: "xd-ok",
         bg: "from-emerald-500/20 to-green-500/10",
         border: "border-emerald-500/20",
       };
@@ -1811,7 +1811,7 @@ function WaComponent() {
       return {
         label: "Aprobado",
         labelCn: "及格",
-        color: "text-blue-400",
+        color: "xd-tinta",
         bg: "from-blue-500/20 to-cyan-500/10",
         border: "border-blue-500/20",
       };
@@ -1820,7 +1820,7 @@ function WaComponent() {
       return {
         label: "En progreso",
         labelCn: "进行中",
-        color: "text-orange-400",
+        color: "xd-oro",
         bg: "from-orange-500/20 to-amber-500/10",
         border: "border-orange-500/20",
       };
@@ -1828,7 +1828,7 @@ function WaComponent() {
     return {
       label: "Necesita practica",
       labelCn: "需练习",
-      color: "text-red-400",
+      color: "xd-mal",
       bg: "from-red-500/20 to-pink-500/10",
       border: "border-red-500/20",
     };
@@ -1836,20 +1836,11 @@ function WaComponent() {
   if (ns) {
     return (
       <StarfieldBackground>
-        <div className="min-h-screen text-white flex items-center justify-center px-6">
-          <div className="w-full max-w-md rounded-3xl border border-emerald-400/20 bg-slate-950/70 p-8 text-center shadow-2xl shadow-emerald-500/10 backdrop-blur-xl">
-            <div className="relative mx-auto mb-6 h-20 w-20">
-              <div className="absolute inset-0 rounded-full border border-emerald-400/30 animate-ping" />
-              <div className="absolute inset-2 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                <BookOpenIcon size={30} />
-              </div>
-            </div>
-            <p className="text-lg font-black">
-              {t_1("Preparando tu examen", "正在准备考试")}
-            </p>
-            <p className="mt-2 text-sm text-white/45">
-              {t_1("Cargamos únicamente este nivel para entrar más rápido.", "仅加载当前级别，进入更快。")}
-            </p>
+        <div className="ofx-estado gm-no-adapt" role="status" aria-live="polite">
+          <div className="ofx-estado-card">
+            <span className="ofx-spinner" aria-hidden="true" />
+            <p className="ofx-estado-es">Preparando tu examen…</p>
+            <p className="ofx-estado-zh" lang="zh-CN">正在准备考试…</p>
           </div>
         </div>
       </StarfieldBackground>
@@ -1857,18 +1848,22 @@ function WaComponent() {
   }
   if (!n || is) {
     return (
-      <div className="min-h-screen text-white flex items-center justify-center">
-        <div className="text-center">
-          <BookOpenIcon className="mx-auto text-white/10 mb-4" size={56} />
-          <p className="text-white/40 text-lg">{t_1("Examen no encontrado", "未找到考试")}</p>
-          <Link
-            to={`/examenes-nivel/${De}`}
-            className="text-orange-400 text-sm mt-4 inline-block hover:underline"
-          >
-            {t_1("Volver a examenes", "返回考试列表")}
-          </Link>
+      <StarfieldBackground>
+        <div className="ofx-estado gm-no-adapt">
+          <div className="ofx-estado-card" role="alert">
+            <span className="ofx-sello" aria-hidden="true" translate="no">无</span>
+            <h1 className="ofx-estado-titulo">
+              Examen no encontrado
+              <span className="ofx-estado-zh" lang="zh-CN">未找到该考试</span>
+            </h1>
+            <div className="ofx-estado-acciones">
+              <Link to={`/examenes-nivel/${De}`} className="ofx-btn ofx-btn-laca">
+                <ArrowLeftIcon size={16} aria-hidden="true" /> Volver a los exámenes · 返回考试列表
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      </StarfieldBackground>
     );
   }
   return (
@@ -1891,10 +1886,10 @@ function WaComponent() {
         @keyframes borderGlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes pulseGlow { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
         @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
-        @keyframes flashGreen { 0% { background: rgba(34,197,94,0); } 50% { background: rgba(34,197,94,0.2); } 100% { background: rgba(34,197,94,0); } }
+        @keyframes flashGreen { 0% { background: rgba(46,107,63,0); } 50% { background: rgba(46,107,63,0.2); } 100% { background: rgba(46,107,63,0); } }
         @keyframes barBounce { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.5); } }
         @keyframes confettiFly { 0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, -200px))) rotate(var(--tr, 360deg)) scale(0); opacity: 0; } }
-        @keyframes scrollGlow { 0%, 100% { box-shadow: 0 0 30px rgba(59,130,246,0.3), inset 0 0 60px rgba(59,130,246,0.08); } 50% { box-shadow: 0 0 60px rgba(59,130,246,0.5), inset 0 0 80px rgba(59,130,246,0.15); } }
+        @keyframes scrollGlow { 0%, 100% { box-shadow: 0 0 30px rgba(107,74,43,0.3), inset 0 0 60px rgba(107,74,43,0.08); } 50% { box-shadow: 0 0 60px rgba(107,74,43,0.5), inset 0 0 80px rgba(107,74,43,0.15); } }
         @keyframes floatParticle { 0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; } 50% { transform: translateY(-20px) scale(1.2); opacity: 1; } }
         @keyframes spinBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes sparkleTwinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 1; transform: scale(1.8); } }
@@ -1906,7 +1901,7 @@ function WaComponent() {
         @keyframes voiceAvatarFloat { 0%, 100% { transform: translateY(0) rotateY(-8deg); } 50% { transform: translateY(-7px) rotateY(8deg); } }
         @keyframes voiceWave { 0%, 100% { transform: scaleY(.35); opacity: .45; } 50% { transform: scaleY(1); opacity: 1; } }
         @keyframes voiceHalo { to { transform: rotate(360deg); } }
-        .voice-cockpit { width: 100%; border: 1px solid rgba(52,211,153,.16); background: linear-gradient(145deg,rgba(4,20,31,.78),rgba(8,12,34,.92)); box-shadow: inset 0 1px 0 rgba(255,255,255,.06),0 24px 70px rgba(0,0,0,.32),0 0 50px rgba(16,185,129,.07); border-radius: 28px; padding: 20px; overflow: hidden; position: relative; }
+        .voice-cockpit { width: 100%; border: 1px solid rgba(46,107,63,.16); background: linear-gradient(145deg,rgba(4,20,31,.78),rgba(8,12,34,.92)); box-shadow: inset 0 1px 0 rgba(255,255,255,.06),0 24px 70px rgba(0,0,0,.32),0 0 50px rgba(46,107,63,.07); border-radius: 28px; padding: 20px; overflow: hidden; position: relative; }
         .voice-character-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(132px,1fr)); gap: 12px; }
         .voice-character-card { min-height: 154px; border-radius: 22px; padding: 14px 10px; border: 1px solid rgba(255,255,255,.08); background: linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.018)); position: relative; overflow: hidden; transform: perspective(700px) rotateX(0) translateY(0); transition: transform .28s ease,border-color .28s ease,box-shadow .28s ease; }
         .voice-character-card:hover { transform: perspective(700px) rotateX(4deg) translateY(-5px); }
@@ -1918,7 +1913,7 @@ function WaComponent() {
         .voice-character-card.is-active .voice-wave-mini span { animation-play-state:running; }
         .voice-speed-button { border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.045); color:rgba(255,255,255,.5); border-radius:16px; min-width:58px; padding:10px 12px; font-weight:900; transition:.25s ease; }
         .voice-speed-button:hover { transform:translateY(-2px); color:white; }
-        .voice-speed-button.is-active { color:#071a16; background:linear-gradient(135deg,#6ee7b7,#22d3ee); border-color:transparent; box-shadow:0 10px 28px rgba(52,211,153,.28); }
+        .voice-speed-button.is-active { color:#071a16; background:linear-gradient(135deg,#2e6b3f,#6b4a2b); border-color:transparent; box-shadow:0 10px 28px rgba(46,107,63,.28); }
         @media (max-width: 640px) { .voice-cockpit { padding:14px; border-radius:22px; } .voice-character-grid { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; padding:3px 2px 10px; } .voice-character-card { min-width:138px; scroll-snap-align:center; } }
         .dele-medal-inner { transition: transform 0.7s cubic-bezier(0.2,0.9,0.3,1); transform-style: preserve-3d; }
         .group\\/medal:hover .dele-medal-inner { transform: rotateY(180deg); }
@@ -1931,15 +1926,16 @@ function WaComponent() {
         <div className="exam-experience relative max-w-5xl mx-auto px-4 py-8">
           <Link
             to={`/examenes-nivel/${De}`}
-            className="inline-flex items-center gap-2 text-white/40 hover:text-orange-400 transition-all mb-6 text-sm group"
+            className="inline-flex items-center gap-2 text-white/40 transition-all mb-6 text-sm group"
           >
             <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" />
             {t_1("Volver", "返回")}
           </Link>
           <OComponent glowColor={activeCfg.glow} color={activeCfg.color} className="mb-8">
             <div className="p-8 relative">
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 hidden lg:block opacity-80">
-                <L_2 variant="exams" compact />
+              <div className="xd-sello gm-no-adapt hidden lg:flex" aria-hidden="true" translate="no">
+                <span>考</span>
+                <b>DELE</b>
               </div>
               <div
                 className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-40"
@@ -2136,23 +2132,23 @@ function WaComponent() {
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center"
                   style={{
-                    background: "rgba(249,115,22,0.2)",
-                    border: "2px solid rgba(249,115,22,0.4)",
-                    boxShadow: "0 0 25px rgba(249,115,22,0.2)",
+                    background: "rgba(168,116,30,0.2)",
+                    border: "2px solid rgba(168,116,30,0.4)",
+                    boxShadow: "0 0 25px rgba(168,116,30,0.2)",
                   }}
                 >
-                  <BookOpenIcon size={26} className="text-orange-400" />
+                  <BookOpenIcon size={26} className="xd-oro" />
                 </div>
                 <div>
                   <h2
                     className="text-white font-black text-2xl"
                     style={{
-                      textShadow: "0 0 20px rgba(249,115,22,0.3)",
+                      textShadow: "0 0 20px rgba(168,116,30,0.3)",
                     }}
                   >
                     {t_1("Vocabulario del examen", "考试词汇")}
                   </h2>
-                  <p className="text-orange-300/50 text-sm font-bold">
+                  <p className="xd-oro text-sm font-bold">
                     {n.vocabulary.length} {t_1("palabras", "词")}
                   </p>
                 </div>
@@ -2160,14 +2156,14 @@ function WaComponent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {n.vocabulary.map((t, a) => {
                   const x = [
-                    "#f97316",
-                    "#f59e0b",
-                    "#84cc16",
-                    "#22c55e",
-                    "#06b6d4",
-                    "#3b82f6",
-                    "#a855f7",
-                    "#ec4899",
+                    "#a8741e",
+                    "#8a5a1a",
+                    "#2e6b3f",
+                    "#2e6b3f",
+                    "#6b4a2b",
+                    "#6b4a2b",
+                    "#8f0c21",
+                    "#8f0c21",
                   ];
                   const l = x[a % x.length];
                   return (
@@ -2268,32 +2264,32 @@ function WaComponent() {
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center"
                   style={{
-                    background: "rgba(59,130,246,0.2)",
-                    border: "2px solid rgba(59,130,246,0.4)",
-                    boxShadow: "0 0 30px rgba(59,130,246,0.2)",
+                    background: "rgba(107,74,43,0.2)",
+                    border: "2px solid rgba(107,74,43,0.4)",
+                    boxShadow: "0 0 30px rgba(107,74,43,0.2)",
                   }}
                 >
-                  <FileTextIcon size={32} className="text-blue-400" />
+                  <FileTextIcon size={32} className="xd-tinta" />
                 </div>
                 <div>
                   <h2
                     className="text-white font-black text-2xl md:text-3xl"
                     style={{
-                      textShadow: "0 0 25px rgba(59,130,246,0.3)",
+                      textShadow: "0 0 25px rgba(107,74,43,0.3)",
                     }}
                   >
                     {n.reading.title}
                   </h2>
-                  <span className="text-blue-300/50 text-sm font-bold">{n.reading.textType}</span>
+                  <span className="xd-tinta text-sm font-bold">{n.reading.textType}</span>
                 </div>
               </div>
-              <OComponent glowColor="rgba(59,130,246,0.8)" color="#3b82f6">
+              <OComponent glowColor="rgba(107,74,43,0.8)" color="#6b4a2b">
                 <div className="p-6 md:p-8">
                   <div
                     className="xm-dr-frame relative rounded-2xl p-[2px] overflow-hidden"
                     style={{
                       animation: "gradientRotate 3s linear infinite",
-                      background: "linear-gradient(90deg, #3b82f6, #60a5fa, #818cf8, #3b82f6)",
+                      background: "linear-gradient(90deg, #6b4a2b, #6b4a2b, #6b4a2b, #6b4a2b)",
                       backgroundSize: "300% 300%",
                     }}
                   >
@@ -2301,9 +2297,9 @@ function WaComponent() {
                       className="dele-reading-scroll rounded-2xl p-8 md:p-10 relative overflow-hidden"
                       style={{
                         background:
-                          "linear-gradient(135deg, rgba(20,30,70,0.95) 0%, rgba(15,25,55,0.98) 50%, rgba(10,18,40,0.99) 100%)",
-                        border: "1px solid rgba(59,130,246,0.25)",
-                        boxShadow: "0 0 50px rgba(59,130,246,0.25), inset 0 0 80px rgba(59,130,246,0.1)",
+                          "linear-gradient(135deg, rgba(107,74,43,0.95) 0%, rgba(107,74,43,0.98) 50%, rgba(10,18,40,0.99) 100%)",
+                        border: "1px solid rgba(107,74,43,0.25)",
+                        boxShadow: "0 0 50px rgba(107,74,43,0.25), inset 0 0 80px rgba(107,74,43,0.1)",
                         animation: "scrollGlow 4s ease-in-out infinite",
                       }}
                     >
@@ -2318,7 +2314,7 @@ function WaComponent() {
                             height: 3 + (a % 4),
                             top: `${14 + ((a * 31) % 70)}%`,
                             left: `${7 + ((a * 43) % 86)}%`,
-                            background: ["#3b82f6", "#60a5fa", "#93c5fd"][a % 3],
+                            background: ["#6b4a2b", "#6b4a2b", "#6b4a2b"][a % 3],
                             boxShadow: "0 0 8px currentColor",
                             animation: `floatParticle ${2.4 + (a % 3) * 0.7}s ease-in-out ${(a % 4) * 0.35}s infinite`,
                           }}
@@ -2329,18 +2325,18 @@ function WaComponent() {
                           className="h-px flex-1"
                           style={{
                             background:
-                              "linear-gradient(90deg, transparent, rgba(59,130,246,0.6), transparent)",
+                              "linear-gradient(90deg, transparent, rgba(107,74,43,0.6), transparent)",
                           }}
                         />
                         <div
                           className="w-10 h-10 rounded-xl flex items-center justify-center"
                           style={{
-                            background: "rgba(59,130,246,0.15)",
-                            border: "1px solid rgba(59,130,246,0.3)",
-                            boxShadow: "0 0 15px rgba(59,130,246,0.3)",
+                            background: "rgba(107,74,43,0.15)",
+                            border: "1px solid rgba(107,74,43,0.3)",
+                            boxShadow: "0 0 15px rgba(107,74,43,0.3)",
                           }}
                         >
-                          <BookOpenIcon size={20} className="text-blue-400" />
+                          <BookOpenIcon size={20} className="xd-tinta" />
                         </div>
                         <span
                           className="text-sm font-bold uppercase tracking-widest"
@@ -2354,7 +2350,7 @@ function WaComponent() {
                           className="h-px flex-1"
                           style={{
                             background:
-                              "linear-gradient(90deg, transparent, rgba(59,130,246,0.6), transparent)",
+                              "linear-gradient(90deg, transparent, rgba(107,74,43,0.6), transparent)",
                           }}
                         />
                       </div>
@@ -2365,20 +2361,20 @@ function WaComponent() {
                         <div
                           className="h-px w-12"
                           style={{
-                            background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.5))",
+                            background: "linear-gradient(90deg, transparent, rgba(107,74,43,0.5))",
                           }}
                         />
                         <div
                           className="w-2 h-2 rounded-full"
                           style={{
-                            background: "#60a5fa",
-                            boxShadow: "0 0 10px #60a5fa",
+                            background: "#6b4a2b",
+                            boxShadow: "0 0 10px #6b4a2b",
                           }}
                         />
                         <div
                           className="h-px w-12"
                           style={{
-                            background: "linear-gradient(270deg, transparent, rgba(59,130,246,0.5))",
+                            background: "linear-gradient(270deg, transparent, rgba(107,74,43,0.5))",
                           }}
                         />
                       </div>
@@ -2386,19 +2382,19 @@ function WaComponent() {
                   </div>
                 </div>
               </OComponent>
-              <OComponent glowColor="rgba(59,130,246,0.6)" color="#3b82f6" tilt={false}>
+              <OComponent glowColor="rgba(107,74,43,0.6)" color="#6b4a2b" tilt={false}>
                 <div className="p-6 md:p-8">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-white font-bold text-xl flex items-center gap-2">
-                      <TargetIcon size={20} className="text-blue-400" /> {t_1("Preguntas", "问题")}
+                      <TargetIcon size={20} className="xd-tinta" /> {t_1("Preguntas", "问题")}
                     </h3>
                     <div className="flex items-center gap-3">
                       <span
                         className="text-lg font-black px-5 py-2 rounded-xl"
                         style={{
-                          background: "rgba(59,130,246,0.1)",
-                          color: "#60a5fa",
-                          border: "1px solid rgba(59,130,246,0.2)",
+                          background: "rgba(107,74,43,0.1)",
+                          color: "#6b4a2b",
+                          border: "1px solid rgba(107,74,43,0.2)",
                         }}
                       >
                         {Object.keys(A).length}/{n.reading.questions.length} {t_1("verificadas", "已验证")}
@@ -2421,9 +2417,9 @@ function WaComponent() {
                   </div>
                   <div className="space-y-8">
                     {n.reading.questions.map((t, a) => {
-                      const x = ["#3b82f6", "#60a5fa", "#818cf8", "#a78bfa"];
+                      const x = ["#6b4a2b", "#6b4a2b", "#6b4a2b", "#6b4a2b"];
                       const l = x[a % x.length];
-                      const d = ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"];
+                      const d = ["#c8102e", "#6b4a2b", "#2e6b3f", "#8a5a1a"];
                       const p = [TargetIcon, StarIcon, HeartIcon, ZapIcon];
                       const u = A[t.id];
                       const N = u && z[t.id] === t.correctAnswer;
@@ -2435,19 +2431,19 @@ function WaComponent() {
                           style={{
                             background: u
                               ? N
-                                ? "linear-gradient(135deg, rgba(34,197,94,0.15), rgba(0,0,0,0.25))"
-                                : "linear-gradient(135deg, rgba(239,68,68,0.15), rgba(0,0,0,0.25))"
-                              : "linear-gradient(135deg, rgba(59,130,246,0.12), rgba(0,0,0,0.25))",
+                                ? "linear-gradient(135deg, rgba(46,107,63,0.15), rgba(0,0,0,0.25))"
+                                : "linear-gradient(135deg, rgba(200,16,46,0.15), rgba(0,0,0,0.25))"
+                              : "linear-gradient(135deg, rgba(107,74,43,0.12), rgba(0,0,0,0.25))",
                             border: u
                               ? N
-                                ? "2px solid rgba(34,197,94,0.6)"
-                                : "2px solid rgba(239,68,68,0.6)"
-                              : "2px solid rgba(59,130,246,0.3)",
+                                ? "2px solid rgba(46,107,63,0.6)"
+                                : "2px solid rgba(200,16,46,0.6)"
+                              : "2px solid rgba(107,74,43,0.3)",
                             boxShadow: u
                               ? N
-                                ? "0 0 40px rgba(34,197,94,0.25)"
-                                : "0 0 40px rgba(239,68,68,0.25)"
-                              : "0 0 40px rgba(59,130,246,0.15)",
+                                ? "0 0 40px rgba(46,107,63,0.25)"
+                                : "0 0 40px rgba(200,16,46,0.25)"
+                              : "0 0 40px rgba(107,74,43,0.15)",
                           }}
                         >
                           <FtComponent show={show} />
@@ -2464,12 +2460,12 @@ function WaComponent() {
                               style={{
                                 background: u
                                   ? N
-                                    ? "rgba(34,197,94,0.2)"
-                                    : "rgba(239,68,68,0.2)"
+                                    ? "rgba(46,107,63,0.2)"
+                                    : "rgba(200,16,46,0.2)"
                                   : `${l}20`,
-                                border: `2px solid ${u ? (N ? "rgba(34,197,94,0.7)" : "rgba(239,68,68,0.7)") : `${l}50`}`,
-                                color: u ? (N ? "#4ade80" : "#f87171") : l,
-                                boxShadow: `0 0 25px ${u ? (N ? "rgba(34,197,94,0.4)" : "rgba(239,68,68,0.4)") : `${l}40`}`,
+                                border: `2px solid ${u ? (N ? "rgba(46,107,63,0.7)" : "rgba(200,16,46,0.7)") : `${l}50`}`,
+                                color: u ? (N ? "#2e6b3f" : "#c8102e") : l,
+                                boxShadow: `0 0 25px ${u ? (N ? "rgba(46,107,63,0.4)" : "rgba(200,16,46,0.4)") : `${l}40`}`,
                               }}
                             >
                               {t.id}
@@ -2481,9 +2477,9 @@ function WaComponent() {
                               <span
                                 className="px-3 py-1 rounded-xl text-xs font-black uppercase"
                                 style={{
-                                  background: N ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)",
-                                  color: N ? "#4ade80" : "#f87171",
-                                  border: `1px solid ${N ? "rgba(34,197,94,0.4)" : "rgba(239,68,68,0.4)"}`,
+                                  background: N ? "rgba(46,107,63,0.2)" : "rgba(200,16,46,0.2)",
+                                  color: N ? "#2e6b3f" : "#c8102e",
+                                  border: `1px solid ${N ? "rgba(46,107,63,0.4)" : "rgba(200,16,46,0.4)"}`,
                                 }}
                               >
                                 {N ? "✓ Correcta" : "✗ Incorrecta"}
@@ -2515,26 +2511,26 @@ function WaComponent() {
                                     background: ve
                                       ? u
                                         ? se
-                                          ? "rgba(34,197,94,0.25)"
-                                          : "rgba(239,68,68,0.25)"
+                                          ? "rgba(46,107,63,0.25)"
+                                          : "rgba(200,16,46,0.25)"
                                         : `${V}20`
                                       : u && se
-                                        ? "rgba(34,197,94,0.25)"
+                                        ? "rgba(46,107,63,0.25)"
                                         : "rgba(255,255,255,0.05)",
                                     borderColor: ve
                                       ? u
                                         ? se
-                                          ? "rgba(34,197,94,0.9)"
-                                          : "rgba(239,68,68,0.9)"
+                                          ? "rgba(46,107,63,0.9)"
+                                          : "rgba(200,16,46,0.9)"
                                         : `${V}70`
                                       : u && se
-                                        ? "rgba(34,197,94,0.9)"
+                                        ? "rgba(46,107,63,0.9)"
                                         : "rgba(255,255,255,0.15)",
                                     boxShadow:
                                       ve && !u
                                         ? `0 0 35px ${V}50, inset 0 0 30px ${V}20`
                                         : u && se
-                                          ? "0 0 30px rgba(34,197,94,0.4)"
+                                          ? "0 0 30px rgba(46,107,63,0.4)"
                                           : "none",
                                     transform: ve && !u ? "scale(1.04)" : "scale(1)",
                                     animation: gs
@@ -2559,9 +2555,9 @@ function WaComponent() {
                                   {u && se && (
                                     <CircleCheckBigIcon
                                       size={22}
-                                      className="text-green-400 ml-auto shrink-0"
+                                      className="xd-ok ml-auto shrink-0"
                                       style={{
-                                        filter: "drop-shadow(0 0 6px #22c55e)",
+                                        filter: "drop-shadow(0 0 6px #2e6b3f)",
                                       }}
                                     />
                                   )}
@@ -2586,8 +2582,8 @@ function WaComponent() {
                                 disabled={z[t.id] === undefined}
                                 className="px-6 py-3 rounded-2xl text-white font-bold text-sm transition-all shadow-lg hover:scale-105 disabled:opacity-40 disabled:hover:scale-100 flex items-center gap-2"
                                 style={{
-                                  background: "linear-gradient(135deg, #3b82f6, #2563eb)",
-                                  boxShadow: "0 0 25px rgba(59,130,246,0.3)",
+                                  background: "linear-gradient(135deg, #6b4a2b, #6b4a2b)",
+                                  boxShadow: "0 0 25px rgba(107,74,43,0.3)",
                                 }}
                               >
                                 <CircleCheckBigIcon size={16} /> {t_1("Comprobar", "检查")}
@@ -2598,11 +2594,11 @@ function WaComponent() {
                             <div
                               className="mt-4 p-5 rounded-2xl text-base font-medium"
                               style={{
-                                background: N ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)",
-                                border: `1px solid ${N ? "rgba(34,197,94,0.25)" : "rgba(239,68,68,0.25)"}`,
+                                background: N ? "rgba(46,107,63,0.1)" : "rgba(200,16,46,0.1)",
+                                border: `1px solid ${N ? "rgba(46,107,63,0.25)" : "rgba(200,16,46,0.25)"}`,
                               }}
                             >
-                              <p className={N ? "text-green-400" : "text-red-400"}>{t.explanation}</p>
+                              <p className={N ? "xd-ok" : "xd-mal"}>{t.explanation}</p>
                             </div>
                           )}
                         </Ue1Component>
@@ -2620,12 +2616,12 @@ function WaComponent() {
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center"
                   style={{
-                    background: "rgba(16,185,129,0.2)",
-                    border: "2px solid rgba(16,185,129,0.4)",
-                    boxShadow: "0 0 30px rgba(16,185,129,0.2)",
+                    background: "rgba(46,107,63,0.2)",
+                    border: "2px solid rgba(46,107,63,0.4)",
+                    boxShadow: "0 0 30px rgba(46,107,63,0.2)",
                   }}
                 >
-                  <HeadphonesIcon size={32} className="text-emerald-400" />
+                  <HeadphonesIcon size={32} className="xd-ok" />
                 </div>
                 <div>
                   <h2 className="text-white font-black text-2xl md:text-3xl">
@@ -2636,20 +2632,20 @@ function WaComponent() {
                   </p>
                 </div>
               </div>
-              <OComponent glowColor="#10b981" tilt={false}>
+              <OComponent glowColor="#2e6b3f" tilt={false}>
                 <div className="p-6 md:p-8">
                   <div
                     className="absolute top-0 left-0 right-0 h-[3px] opacity-100"
                     style={{
-                      background: "linear-gradient(90deg, transparent, #10b981, transparent)",
+                      background: "linear-gradient(90deg, transparent, #2e6b3f, transparent)",
                     }}
                   />
                   <div
                     className="rounded-2xl p-6 mb-6 overflow-hidden"
                     style={{
                       background: "rgba(0,0,0,0.4)",
-                      border: "2px solid rgba(16,185,129,0.3)",
-                      boxShadow: "0 0 40px rgba(16,185,129,0.15), inset 0 0 40px rgba(16,185,129,0.05)",
+                      border: "2px solid rgba(46,107,63,0.3)",
+                      boxShadow: "0 0 40px rgba(46,107,63,0.15), inset 0 0 40px rgba(46,107,63,0.05)",
                     }}
                   >
                     <div className="h-28 flex items-center justify-center gap-[3px] px-4 overflow-hidden">
@@ -2681,21 +2677,21 @@ function WaComponent() {
                   <div
                     className="h-3 bg-white/5 rounded-full overflow-hidden relative mb-8"
                     style={{
-                      boxShadow: "0 0 15px rgba(16,185,129,0.1)",
+                      boxShadow: "0 0 15px rgba(46,107,63,0.1)",
                     }}
                   >
                     <div
                       className="h-full rounded-full relative transition-all duration-200"
                       style={{
                         width: `${Ht}%`,
-                        background: "linear-gradient(90deg, #059669, #34d399, #22d3ee)",
-                        boxShadow: "0 0 25px rgba(52,211,153,0.8), 0 0 50px rgba(52,211,153,0.3)",
+                        background: "linear-gradient(90deg, #2e6b3f, #2e6b3f, #6b4a2b)",
+                        boxShadow: "0 0 25px rgba(46,107,63,0.8), 0 0 50px rgba(46,107,63,0.3)",
                       }}
                     >
                       <div
                         className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white"
                         style={{
-                          boxShadow: "0 0 30px rgba(52,211,153,1), 0 0 60px rgba(52,211,153,0.5)",
+                          boxShadow: "0 0 30px rgba(46,107,63,1), 0 0 60px rgba(46,107,63,0.5)",
                         }}
                       />
                     </div>
@@ -2705,8 +2701,8 @@ function WaComponent() {
                       onClick={ds}
                       className="relative w-20 h-20 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
                       style={{
-                        background: "linear-gradient(135deg, #10b981, #059669)",
-                        boxShadow: "0 0 50px rgba(16,185,129,0.5), 0 0 100px rgba(16,185,129,0.2)",
+                        background: "linear-gradient(135deg, #2e6b3f, #2e6b3f)",
+                        boxShadow: "0 0 50px rgba(46,107,63,0.5), 0 0 100px rgba(46,107,63,0.2)",
                       }}
                     >
                       {_ ? (
@@ -2719,7 +2715,7 @@ function WaComponent() {
                           <span
                             className="absolute inset-0 rounded-full animate-ping opacity-20"
                             style={{
-                              background: "#10b981",
+                              background: "#2e6b3f",
                             }}
                           />
                           <span className="absolute -inset-3 rounded-full border-2 border-emerald-400/30 animate-pulse" />
@@ -2730,7 +2726,7 @@ function WaComponent() {
                       <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 mb-4">
                         <div>
                           <p className="flex items-center gap-2 text-sm font-black text-white">
-                            <Volume2Icon size={17} className="text-emerald-300" />{" "}
+                            <Volume2Icon size={17} className="xd-ok" />{" "}
                             {t_1("Estudio de voces", "语音工作室")}
                           </p>
                           <p className="mt-1 text-xs text-white/40">
@@ -2740,13 +2736,13 @@ function WaComponent() {
                             )}
                           </p>
                         </div>
-                        <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[.18em] text-emerald-300">
+                        <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] font-black uppercase tracking-[.18em] xd-ok">
                           Audio DELE
                         </span>
                       </div>
                       {T.length === 0 ? (
                         <div className="flex items-center justify-center gap-3 rounded-2xl border border-white/5 bg-white/[.025] py-8 text-sm text-white/35">
-                          <LoaderCircleIcon size={18} className="animate-spin text-emerald-300" />{" "}
+                          <LoaderCircleIcon size={18} className="animate-spin xd-ok" />{" "}
                           {t_1("Preparando voces del dispositivo…", "正在准备设备语音…")}
                         </div>
                       ) : (
@@ -2761,18 +2757,18 @@ function WaComponent() {
                             );
                             const d = x
                               ? {
-                                  color: "#f472b6",
+                                  color: "#8f0c21",
                                   avatar: "👩‍🏫",
                                   role: t_1("Mentora", "女导师"),
                                 }
                               : l
                                 ? {
-                                    color: "#60a5fa",
+                                    color: "#6b4a2b",
                                     avatar: "👨‍🎙️",
                                     role: t_1("Locutor", "男播音员"),
                                   }
                                 : {
-                                    color: "#a78bfa",
+                                    color: "#6b4a2b",
                                     avatar: "🧑‍🚀",
                                     role: t_1("Voz digital", "数字语音"),
                                   };
@@ -2814,7 +2810,7 @@ function WaComponent() {
                                   {d.avatar}
                                 </div>
                                 <p className="text-sm font-black text-white">{d.role}</p>
-                                <p className="mt-1 truncate text-[10px] text-white/38">{t.name}</p>
+                                <p className="mt-1 truncate text-[11px] text-white/38">{t.name}</p>
                                 <div
                                   className="voice-wave-mini mt-3"
                                   style={{
@@ -2838,17 +2834,17 @@ function WaComponent() {
                       <div className="relative z-10 mt-5 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 rounded-2xl border border-white/[.07] bg-black/20 p-3">
                         <div className="flex items-center justify-between gap-3 px-2">
                           <div className="flex items-center gap-2">
-                            <GaugeIcon size={18} className="text-cyan-300" />
+                            <GaugeIcon size={18} className="xd-tinta" />
                             <div>
                               <p className="text-xs font-black text-white">
                                 {t_1("Ritmo de escucha", "播放速度")}
                               </p>
-                              <p className="text-[10px] text-white/35">
+                              <p className="text-[11px] text-white/35">
                                 {t_1("Adáptalo a tu nivel", "适应你的水平")}
                               </p>
                             </div>
                           </div>
-                          <span className="text-xl font-black text-emerald-300">
+                          <span className="text-xl font-black xd-ok">
                             {r.toFixed(2).replace(/0$/, "")}x
                           </span>
                         </div>
@@ -2878,7 +2874,7 @@ function WaComponent() {
                             setGt_1(-1);
                             setHt(0);
                           }}
-                          className="flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 text-xs font-black text-white/45 transition hover:border-emerald-400/30 hover:text-emerald-300"
+                          className="flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 text-xs font-black text-white/45 transition hover:border-emerald-400/30"
                         >
                           <RotateCcwIcon size={16} /> {t_1("Reiniciar", "重新开始")}
                         </button>
@@ -2887,20 +2883,20 @@ function WaComponent() {
                   </div>
                 </div>
               </OComponent>
-              <OComponent glowColor="#10b981" tilt={false}>
+              <OComponent glowColor="#2e6b3f" tilt={false}>
                 <div className="p-6 md:p-8">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-white font-bold text-lg flex items-center gap-2">
-                      <FileTextIcon size={20} className="text-emerald-400" /> {t_1("Transcripcion", "转录")}
+                      <FileTextIcon size={20} className="xd-ok" /> {t_1("Transcripcion", "转录")}
                     </h3>
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={xs}
                         className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold transition-all hover:scale-105"
                         style={{
-                          background: "rgba(16,185,129,0.1)",
-                          border: "1px solid rgba(16,185,129,0.28)",
-                          color: "#6ee7b7",
+                          background: "rgba(46,107,63,0.1)",
+                          border: "1px solid rgba(46,107,63,0.28)",
+                          color: "#2e6b3f",
                         }}
                       >
                         <RepeatIcon size={14} /> {t_1("Frase a frase", "逐句播放")}
@@ -2909,9 +2905,9 @@ function WaComponent() {
                         onClick={bs}
                         className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold transition-all hover:scale-105"
                         style={{
-                          background: "rgba(6,182,212,0.1)",
-                          border: "1px solid rgba(6,182,212,0.28)",
-                          color: "#67e8f9",
+                          background: "rgba(107,74,43,0.1)",
+                          border: "1px solid rgba(107,74,43,0.28)",
+                          color: "#6b4a2b",
                         }}
                       >
                         <PenToolIcon size={14} /> {t_1("Dictado", "听写")}
@@ -2926,9 +2922,9 @@ function WaComponent() {
                         }}
                         className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all"
                         style={{
-                          background: X ? "rgba(16,185,129,0.12)" : "rgba(255,255,255,0.05)",
-                          border: `1px solid ${X ? "rgba(16,185,129,0.2)" : "rgba(255,255,255,0.08)"}`,
-                          color: X ? "#34d399" : "rgba(255,255,255,0.5)",
+                          background: X ? "rgba(46,107,63,0.12)" : "rgba(255,255,255,0.05)",
+                          border: `1px solid ${X ? "rgba(46,107,63,0.2)" : "rgba(255,255,255,0.08)"}`,
+                          color: X ? "#2e6b3f" : "rgba(255,255,255,0.5)",
                         }}
                       >
                         {X ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
@@ -2941,20 +2937,20 @@ function WaComponent() {
                       className="rounded-2xl p-6 backdrop-blur-md"
                       style={{
                         background: "rgba(0,0,0,0.3)",
-                        border: "1px solid rgba(6,182,212,0.25)",
+                        border: "1px solid rgba(107,74,43,0.25)",
                       }}
                     >
                       <p className="text-white/70 text-sm font-bold mb-3 flex items-center gap-2">
-                        <HeadphonesIcon size={16} className="text-cyan-300" />{" "}
+                        <HeadphonesIcon size={16} className="xd-tinta" />{" "}
                         {t_1("Escucha y escribe lo que oyes", "听并写下你听到的内容")}
                       </p>
                       <button
                         onClick={() => q(n.listening.transcription)}
                         className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all mb-3"
                         style={{
-                          background: "rgba(6,182,212,0.15)",
-                          border: "1px solid rgba(6,182,212,0.3)",
-                          color: "#67e8f9",
+                          background: "rgba(107,74,43,0.15)",
+                          border: "1px solid rgba(107,74,43,0.3)",
+                          color: "#6b4a2b",
                         }}
                       >
                         <PlayIcon size={14} fill="currentColor" /> {t_1("Escuchar audio", "播放音频")}
@@ -2975,9 +2971,9 @@ function WaComponent() {
                           onClick={() => set_t(true)}
                           className="px-4 py-2 rounded-xl text-xs font-black transition-all"
                           style={{
-                            background: "linear-gradient(135deg, #06b6d4, #0891b2)",
+                            background: "linear-gradient(135deg, #6b4a2b, #6b4a2b)",
                             color: "#fff",
-                            boxShadow: "0 0 15px rgba(6,182,212,0.25)",
+                            boxShadow: "0 0 15px rgba(107,74,43,0.25)",
                           }}
                         >
                           {t_1("Comprobar", "检查")}
@@ -3018,8 +3014,8 @@ function WaComponent() {
                             <div
                               className="mt-4 rounded-xl p-4"
                               style={{
-                                background: "rgba(6,182,212,0.08)",
-                                border: "1px solid rgba(6,182,212,0.25)",
+                                background: "rgba(107,74,43,0.08)",
+                                border: "1px solid rgba(107,74,43,0.25)",
                               }}
                             >
                               <p className="text-white font-black">
@@ -3040,8 +3036,8 @@ function WaComponent() {
                       className="rounded-2xl p-6 md:p-8 backdrop-blur-md"
                       style={{
                         background: "rgba(0,0,0,0.3)",
-                        border: "1px solid rgba(16,185,129,0.2)",
-                        boxShadow: "0 0 30px rgba(16,185,129,0.1), inset 0 0 60px rgba(16,185,129,0.02)",
+                        border: "1px solid rgba(46,107,63,0.2)",
+                        boxShadow: "0 0 30px rgba(46,107,63,0.1), inset 0 0 60px rgba(46,107,63,0.02)",
                       }}
                     >
                       {$e ? (
@@ -3056,7 +3052,7 @@ function WaComponent() {
                                   setGt(a);
                                   q(t);
                                 }}
-                                className={`transition-all duration-200 inline rounded px-1.5 py-0.5 cursor-pointer ${Gt === a ? "bg-emerald-500/30 text-emerald-200 font-bold shadow-lg shadow-emerald-500/30" : "text-white/70 hover:bg-white/5"}`}
+                                className={`transition-all duration-200 inline rounded px-1.5 py-0.5 cursor-pointer ${Gt === a ? "bg-emerald-500/30 xd-ok font-bold shadow-lg shadow-emerald-500/30" : "text-white/70 hover:bg-white/5"}`}
                               >
                                 {t}{" "}
                               </span>
@@ -3070,7 +3066,7 @@ function WaComponent() {
                             .map((t, a) => (
                               <span
                                 key={a}
-                                className={`transition-all duration-150 inline-block mr-[0.3em] rounded px-1.5 py-0.5 ${_ && a === gt ? "bg-emerald-500/30 text-emerald-200 font-bold shadow-lg shadow-emerald-500/30 scale-110 border border-emerald-500/30" : _ && a < gt ? "text-emerald-400/60" : "text-white/70"}`}
+                                className={`transition-all duration-150 inline-block mr-[0.3em] rounded px-1.5 py-0.5 ${_ && a === gt ? "bg-emerald-500/30 xd-ok font-bold shadow-lg shadow-emerald-500/30 scale-110 border border-emerald-500/30" : _ && a < gt ? "xd-ok" : "text-white/70"}`}
                               >
                                 {t}
                               </span>
@@ -3082,9 +3078,9 @@ function WaComponent() {
                           onClick={() => q(n.listening.transcription)}
                           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-105"
                           style={{
-                            background: "linear-gradient(135deg, #10b981, #059669)",
+                            background: "linear-gradient(135deg, #2e6b3f, #2e6b3f)",
                             color: "#fff",
-                            boxShadow: "0 0 15px rgba(16,185,129,0.2)",
+                            boxShadow: "0 0 15px rgba(46,107,63,0.2)",
                           }}
                         >
                           <Volume2Icon size={16} /> {t_1("Escuchar", "听")}
@@ -3101,12 +3097,12 @@ function WaComponent() {
                             <button
                               key={t}
                               onClick={() => setR(t)}
-                              className="px-2 py-1 rounded text-[10px] font-bold transition-all"
+                              className="px-2 py-1 rounded text-[11px] font-bold transition-all"
                               style={
                                 r === t
                                   ? {
-                                      background: "rgba(16,185,129,0.15)",
-                                      color: "#34d399",
+                                      background: "rgba(46,107,63,0.15)",
+                                      color: "#2e6b3f",
                                     }
                                   : {
                                       color: "rgba(255,255,255,0.3)",
@@ -3135,9 +3131,9 @@ function WaComponent() {
                         onClick={() => setX(true)}
                         className="mt-4 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:scale-105"
                         style={{
-                          background: "rgba(16,185,129,0.1)",
-                          color: "#34d399",
-                          border: "1px solid rgba(16,185,129,0.2)",
+                          background: "rgba(46,107,63,0.1)",
+                          color: "#2e6b3f",
+                          border: "1px solid rgba(46,107,63,0.2)",
                         }}
                       >
                         {t_1("Revelar texto", "显示文本")}
@@ -3146,12 +3142,12 @@ function WaComponent() {
                   )}
                 </div>
               </OComponent>
-              <OComponent glowColor="#10b981" tilt={false}>
+              <OComponent glowColor="#2e6b3f" tilt={false}>
                 <div className="p-6 md:p-8">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
                     <div>
                       <h3 className="text-white font-bold text-xl flex items-center gap-2">
-                        <TargetIcon size={20} className="text-emerald-400" />{" "}
+                        <TargetIcon size={20} className="xd-ok" />{" "}
                         {t_1("Preguntas de audición", "听力问题")}
                       </h3>
                       <p className="text-white/35 text-sm mt-1">
@@ -3168,10 +3164,10 @@ function WaComponent() {
                         }
                         className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-black transition-all hover:-translate-y-0.5"
                         style={{
-                          background: "linear-gradient(135deg, rgba(16,185,129,.28), rgba(6,182,212,.2))",
-                          border: "1px solid rgba(52,211,153,.45)",
-                          color: "#a7f3d0",
-                          boxShadow: "0 0 22px rgba(16,185,129,.14)",
+                          background: "linear-gradient(135deg, rgba(46,107,63,.28), rgba(107,74,43,.2))",
+                          border: "1px solid rgba(46,107,63,.45)",
+                          color: "#2e6b3f",
+                          boxShadow: "0 0 22px rgba(46,107,63,.14)",
                         }}
                       >
                         <PlayIcon size={15} fill="currentColor" /> {t_1("Escuchar todas", "收听全部")}
@@ -3190,10 +3186,10 @@ function WaComponent() {
                         style={
                           Ae === "all"
                             ? {
-                                background: "rgba(34,211,238,.18)",
-                                border: "1px solid rgba(34,211,238,.55)",
-                                color: "#67e8f9",
-                                boxShadow: "0 0 22px rgba(34,211,238,.16)",
+                                background: "rgba(107,74,43,.18)",
+                                border: "1px solid rgba(107,74,43,.55)",
+                                color: "#6b4a2b",
+                                boxShadow: "0 0 22px rgba(107,74,43,.16)",
                               }
                             : {
                                 background: "rgba(255,255,255,.05)",
@@ -3213,7 +3209,7 @@ function WaComponent() {
                     <div
                       className="rounded-3xl overflow-hidden"
                       style={{
-                        border: "1px solid rgba(52,211,153,.24)",
+                        border: "1px solid rgba(46,107,63,.24)",
                         background: "rgba(2,12,22,.55)",
                         boxShadow: "inset 0 1px rgba(255,255,255,.05), 0 24px 70px rgba(0,0,0,.28)",
                       }}
@@ -3222,10 +3218,10 @@ function WaComponent() {
                         <article key={t.id} className="p-4 md:p-5 border-b border-white/5 last:border-b-0">
                           <div className="flex items-start gap-3">
                             <span
-                              className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-sm font-black text-emerald-300"
+                              className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-sm font-black xd-ok"
                               style={{
-                                background: "rgba(16,185,129,.15)",
-                                border: "1px solid rgba(52,211,153,.3)",
+                                background: "rgba(46,107,63,.15)",
+                                border: "1px solid rgba(46,107,63,.3)",
                               }}
                             >
                               {a + 1}
@@ -3238,10 +3234,10 @@ function WaComponent() {
                                 <button
                                   onClick={() => q(t.question)}
                                   aria-label={t_1(`Escuchar pregunta ${a + 1}`, `收听问题 ${a + 1}`)}
-                                  className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-emerald-300 transition-all hover:scale-105"
+                                  className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center xd-ok transition-all hover:scale-105"
                                   style={{
-                                    background: "rgba(16,185,129,.14)",
-                                    border: "1px solid rgba(52,211,153,.3)",
+                                    background: "rgba(46,107,63,.14)",
+                                    border: "1px solid rgba(46,107,63,.3)",
                                   }}
                                 >
                                   <PlayIcon size={15} fill="currentColor" />
@@ -3267,15 +3263,15 @@ function WaComponent() {
                                       style={{
                                         background:
                                           $ && p
-                                            ? "rgba(34,197,94,.18)"
+                                            ? "rgba(46,107,63,.18)"
                                             : d
-                                              ? "rgba(16,185,129,.18)"
+                                              ? "rgba(46,107,63,.18)"
                                               : "rgba(255,255,255,.035)",
-                                        border: `1px solid ${$ && p ? "rgba(74,222,128,.65)" : d ? "rgba(52,211,153,.55)" : "rgba(255,255,255,.08)"}`,
+                                        border: `1px solid ${$ && p ? "rgba(46,107,63,.65)" : d ? "rgba(46,107,63,.55)" : "rgba(255,255,255,.08)"}`,
                                         color: d || ($ && p) ? "#fff" : "rgba(255,255,255,.62)",
                                       }}
                                     >
-                                      <span className="text-emerald-400 mr-2">
+                                      <span className="xd-ok mr-2">
                                         {String.fromCharCode(65 + l)}
                                       </span>
                                       {nt(x)}
@@ -3291,16 +3287,16 @@ function WaComponent() {
                   ) : (
                     <div className="space-y-8">
                       {n.listening.questions.map((t, a) => {
-                        const x = ["#10b981", "#34d399", "#6ee7b7", "#a7f3d0"];
+                        const x = ["#2e6b3f", "#2e6b3f", "#2e6b3f", "#2e6b3f"];
                         const l = x[a % x.length];
                         return (
                           <Ue1Component
                             key={t.id}
                             className="dele-question-card dele-question-audio rounded-3xl p-6 md:p-8 relative overflow-hidden group"
                             style={{
-                              background: "linear-gradient(135deg, rgba(16,185,129,0.1), rgba(0,0,0,0.2))",
-                              border: "2px solid rgba(16,185,129,0.25)",
-                              boxShadow: "0 0 30px rgba(16,185,129,0.1)",
+                              background: "linear-gradient(135deg, rgba(46,107,63,0.1), rgba(0,0,0,0.2))",
+                              border: "2px solid rgba(46,107,63,0.25)",
+                              boxShadow: "0 0 30px rgba(46,107,63,0.1)",
                             }}
                           >
                             <div
@@ -3328,7 +3324,7 @@ function WaComponent() {
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               {t.options.map((d, p) => {
-                                const u = ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"];
+                                const u = ["#c8102e", "#6b4a2b", "#2e6b3f", "#8a5a1a"];
                                 const N = u[p % u.length];
                                 const P = Y[t.id] === p;
                                 const S = p === t.correctAnswer;
@@ -3351,26 +3347,26 @@ function WaComponent() {
                                       background: P
                                         ? $
                                           ? S
-                                            ? "rgba(34,197,94,0.2)"
-                                            : "rgba(239,68,68,0.2)"
+                                            ? "rgba(46,107,63,0.2)"
+                                            : "rgba(200,16,46,0.2)"
                                           : `${N}18`
                                         : $ && S
-                                          ? "rgba(34,197,94,0.2)"
+                                          ? "rgba(46,107,63,0.2)"
                                           : "rgba(255,255,255,0.05)",
                                       borderColor: P
                                         ? $
                                           ? S
-                                            ? "rgba(34,197,94,0.8)"
-                                            : "rgba(239,68,68,0.8)"
+                                            ? "rgba(46,107,63,0.8)"
+                                            : "rgba(200,16,46,0.8)"
                                           : `${N}60`
                                         : $ && S
-                                          ? "rgba(34,197,94,0.8)"
+                                          ? "rgba(46,107,63,0.8)"
                                           : "rgba(255,255,255,0.12)",
                                       boxShadow:
                                         P && !$
                                           ? `0 0 30px ${N}40, inset 0 0 25px ${N}15`
                                           : $ && S
-                                            ? "0 0 25px rgba(34,197,94,0.3)"
+                                            ? "0 0 25px rgba(46,107,63,0.3)"
                                             : "none",
                                       transform: P && !$ ? "scale(1.03)" : "scale(1)",
                                       animation: R
@@ -3395,7 +3391,7 @@ function WaComponent() {
                                     {$ && S && (
                                       <CircleCheckBigIcon
                                         size={22}
-                                        className="text-green-400 ml-auto shrink-0"
+                                        className="xd-ok ml-auto shrink-0"
                                       />
                                     )}
                                   </button>
@@ -3408,13 +3404,13 @@ function WaComponent() {
                                 style={{
                                   background:
                                     Y[t.id] === t.correctAnswer
-                                      ? "rgba(34,197,94,0.08)"
-                                      : "rgba(239,68,68,0.08)",
-                                  border: `1px solid ${Y[t.id] === t.correctAnswer ? "rgba(34,197,94,0.15)" : "rgba(239,68,68,0.15)"}`,
+                                      ? "rgba(46,107,63,0.08)"
+                                      : "rgba(200,16,46,0.08)",
+                                  border: `1px solid ${Y[t.id] === t.correctAnswer ? "rgba(46,107,63,0.15)" : "rgba(200,16,46,0.15)"}`,
                                 }}
                               >
                                 <p
-                                  className={Y[t.id] === t.correctAnswer ? "text-green-400" : "text-red-400"}
+                                  className={Y[t.id] === t.correctAnswer ? "xd-ok" : "xd-mal"}
                                 >
                                   {t.explanation}
                                 </p>
@@ -3446,8 +3442,8 @@ function WaComponent() {
                         disabled={Object.keys(Y).length < (n.listening?.questions?.length || 0)}
                         className="px-8 py-4 rounded-2xl text-white font-bold text-base transition-all shadow-lg hover:scale-105 disabled:opacity-40 disabled:hover:scale-100"
                         style={{
-                          background: "linear-gradient(135deg, #10b981, #059669)",
-                          boxShadow: "0 0 30px rgba(16,185,129,0.3)",
+                          background: "linear-gradient(135deg, #2e6b3f, #2e6b3f)",
+                          boxShadow: "0 0 30px rgba(46,107,63,0.3)",
                         }}
                       >
                         {t_1("Comprobar", "检查")}
@@ -3465,18 +3461,18 @@ function WaComponent() {
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center"
                   style={{
-                    background: "rgba(245,158,11,0.2)",
-                    border: "2px solid rgba(245,158,11,0.4)",
-                    boxShadow: "0 0 30px rgba(245,158,11,0.2)",
+                    background: "rgba(138,90,26,0.2)",
+                    border: "2px solid rgba(138,90,26,0.4)",
+                    boxShadow: "0 0 30px rgba(138,90,26,0.2)",
                   }}
                 >
-                  <ZapIcon size={32} className="text-amber-400" />
+                  <ZapIcon size={32} className="xd-oro" />
                 </div>
                 <div>
                   <h2 className="text-white font-black text-2xl md:text-3xl">
                     {t_1("Ejercicios variados", "多样练习")}
                   </h2>
-                  <p className="text-amber-300/50 text-sm font-bold">
+                  <p className="xd-oro text-sm font-bold">
                     {t_1(
                       "Estilo DELE: verdadero/falso, emparejar, huecos, ordenar y transformar",
                       "DELE风格：判断、配对、填空、排序和改写",
@@ -3494,18 +3490,18 @@ function WaComponent() {
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center"
                   style={{
-                    background: "rgba(34,211,238,0.2)",
-                    border: "2px solid rgba(34,211,238,0.4)",
-                    boxShadow: "0 0 30px rgba(34,211,238,0.2)",
+                    background: "rgba(107,74,43,0.2)",
+                    border: "2px solid rgba(107,74,43,0.4)",
+                    boxShadow: "0 0 30px rgba(107,74,43,0.2)",
                   }}
                 >
-                  <LightbulbIcon size={32} className="text-cyan-400" />
+                  <LightbulbIcon size={32} className="xd-tinta" />
                 </div>
                 <div>
                   <h2 className="text-white font-black text-2xl md:text-3xl">
                     {t_1("Gramatica del nivel", "本级语法")} {n.level}
                   </h2>
-                  <p className="text-cyan-300/50 text-sm font-bold">
+                  <p className="xd-tinta text-sm font-bold">
                     {t_1("Puntos clave para tu nivel DELE", "你的DELE级别的关键语法点")}
                   </p>
                 </div>
@@ -3516,23 +3512,23 @@ function WaComponent() {
                     key={t.id}
                     className="rounded-2xl p-4"
                     style={{
-                      background: "linear-gradient(180deg, rgba(14,22,64,.55), rgba(5,8,27,.45))",
-                      border: "1px solid rgba(34,211,238,0.2)",
+                      background: "linear-gradient(180deg, rgba(107,74,43,.55), rgba(5,8,27,.45))",
+                      border: "1px solid rgba(107,74,43,0.2)",
                     }}
                   >
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span
                         className="text-xs font-black px-2 py-0.5 rounded-full"
                         style={{
-                          background: "rgba(34,211,238,0.15)",
-                          color: "#67e8f9",
-                          border: "1px solid rgba(34,211,238,0.3)",
+                          background: "rgba(107,74,43,0.15)",
+                          color: "#6b4a2b",
+                          border: "1px solid rgba(107,74,43,0.3)",
                         }}
                       >
                         {t.level}
                       </span>
                       <h3 className="text-white font-black">
-                        {t.title} <span className="text-sm font-bold text-cyan-300">{t.titleCn}</span>
+                        {t.title} <span className="text-sm font-bold xd-tinta">{t.titleCn}</span>
                       </h3>
                     </div>
                     <p className="text-white/70 text-sm leading-relaxed">{t.explanationCn}</p>
@@ -3543,7 +3539,7 @@ function WaComponent() {
                     )}
                     <Link
                       to="/gramatica"
-                      className="inline-block mt-2 text-xs font-bold text-cyan-400 hover:text-cyan-300"
+                      className="inline-block mt-2 text-xs font-bold xd-tinta"
                     >
                       {t_1("Ver gramática completa", "查看完整语法")} →
                     </Link>
@@ -3560,18 +3556,18 @@ function WaComponent() {
                   <div
                     className="w-16 h-16 rounded-2xl flex items-center justify-center"
                     style={{
-                      background: "rgba(255,138,42,0.2)",
-                      border: "2px solid rgba(255,138,42,0.4)",
-                      boxShadow: "0 0 30px rgba(255,138,42,0.2)",
+                      background: "rgba(168,116,30,0.2)",
+                      border: "2px solid rgba(168,116,30,0.4)",
+                      boxShadow: "0 0 30px rgba(168,116,30,0.2)",
                     }}
                   >
-                    <CameraIcon size={32} className="text-orange-400" />
+                    <CameraIcon size={32} className="xd-oro" />
                   </div>
                   <div>
                     <h2
                       className="text-white font-black text-2xl md:text-3xl"
                       style={{
-                        textShadow: "0 0 25px rgba(255,138,42,0.3)",
+                        textShadow: "0 0 25px rgba(168,116,30,0.3)",
                       }}
                     >
                       {t_1("Descripcion de fotografia", "照片描述")}
@@ -3588,14 +3584,14 @@ function WaComponent() {
                     style={
                       vt
                         ? {
-                            background: "linear-gradient(135deg, #f59e0b, #f97316)",
+                            background: "linear-gradient(135deg, #8a5a1a, #a8741e)",
                             color: "#fff",
-                            boxShadow: "0 0 30px rgba(255,138,42,0.4)",
+                            boxShadow: "0 0 30px rgba(168,116,30,0.4)",
                           }
                         : {
-                            background: "rgba(255,138,42,0.12)",
-                            border: "1px solid rgba(255,138,42,0.35)",
-                            color: "#fb923c",
+                            background: "rgba(168,116,30,0.12)",
+                            border: "1px solid rgba(168,116,30,0.35)",
+                            color: "#a8741e",
                           }
                     }
                   >
@@ -3605,8 +3601,8 @@ function WaComponent() {
                     onClick={() => setAt(Math.floor(Math.random() * 10000))}
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-bold transition-all hover:scale-105"
                     style={{
-                      background: "linear-gradient(135deg, #ff8a2a, #f97316)",
-                      boxShadow: "0 0 30px rgba(255,138,42,0.4)",
+                      background: "linear-gradient(135deg, #a8741e, #a8741e)",
+                      boxShadow: "0 0 30px rgba(168,116,30,0.4)",
                     }}
                   >
                     <RotateCcwIcon size={16} /> {t_1("Nueva foto", "新照片")}
@@ -3616,16 +3612,16 @@ function WaComponent() {
               <Ue1Component
                 className="rounded-3xl overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, rgba(255,138,42,0.08), rgba(0,0,0,0.15))",
-                  border: "2px solid rgba(255,138,42,0.25)",
-                  boxShadow: "0 0 40px rgba(255,138,42,0.15), 0 0 80px rgba(255,138,42,0.08)",
+                  background: "linear-gradient(135deg, rgba(168,116,30,0.08), rgba(0,0,0,0.15))",
+                  border: "2px solid rgba(168,116,30,0.25)",
+                  boxShadow: "0 0 40px rgba(168,116,30,0.15), 0 0 80px rgba(168,116,30,0.08)",
                 }}
               >
                 <div
                   className="absolute top-0 left-0 right-0 h-[3px]"
                   style={{
-                    background: "linear-gradient(90deg, transparent, #ff8a2a, transparent)",
-                    boxShadow: "0 0 15px #ff8a2a",
+                    background: "linear-gradient(90deg, transparent, #a8741e, transparent)",
+                    boxShadow: "0 0 15px #a8741e",
                   }}
                 />
                 <div className="p-4 md:p-6">
@@ -3633,14 +3629,14 @@ function WaComponent() {
                     className="relative rounded-2xl p-[3px] overflow-hidden"
                     style={{
                       animation: "gradientRotate 3s linear infinite",
-                      background: "linear-gradient(90deg, #ff8a2a, #f59e0b, #f97316, #ff8a2a)",
+                      background: "linear-gradient(90deg, #a8741e, #8a5a1a, #a8741e, #a8741e)",
                       backgroundSize: "300% 300%",
                     }}
                   >
                     <div
                       className="relative rounded-2xl overflow-hidden"
                       style={{
-                        boxShadow: "0 0 60px rgba(255,138,42,0.3), inset 0 0 30px rgba(255,138,42,0.1)",
+                        boxShadow: "0 0 60px rgba(168,116,30,0.3), inset 0 0 30px rgba(168,116,30,0.1)",
                       }}
                     >
                       <img
@@ -3663,29 +3659,29 @@ function WaComponent() {
                       <div
                         className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full"
                         style={{
-                          background: "#ff8a2a",
-                          boxShadow: "0 0 10px #ff8a2a",
+                          background: "#a8741e",
+                          boxShadow: "0 0 10px #a8741e",
                         }}
                       />
                       <div
                         className="absolute top-3 right-3 w-2 h-2 rounded-full"
                         style={{
-                          background: "#f59e0b",
-                          boxShadow: "0 0 8px #f59e0b",
+                          background: "#8a5a1a",
+                          boxShadow: "0 0 8px #8a5a1a",
                         }}
                       />
                       <div
                         className="absolute bottom-3 left-3 w-2 h-2 rounded-full"
                         style={{
-                          background: "#f97316",
-                          boxShadow: "0 0 8px #f97316",
+                          background: "#a8741e",
+                          boxShadow: "0 0 8px #a8741e",
                         }}
                       />
                       <div
                         className="absolute bottom-3 right-3 w-2.5 h-2.5 rounded-full"
                         style={{
-                          background: "#ff8a2a",
-                          boxShadow: "0 0 10px #ff8a2a",
+                          background: "#a8741e",
+                          boxShadow: "0 0 10px #a8741e",
                         }}
                       />
                     </div>
@@ -3693,10 +3689,10 @@ function WaComponent() {
                 </div>
               </Ue1Component>
               {vt && (
-                <OComponent glowColor="#f59e0b" color="#ff8a2a" tilt={false}>
+                <OComponent glowColor="#8a5a1a" color="#a8741e" tilt={false}>
                   <div className="p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-4">
-                      <CameraIcon size={20} className="text-orange-400" />
+                      <CameraIcon size={20} className="xd-oro" />
                       <h3 className="text-white font-black text-lg">
                         {t_1("Compara las dos fotos", "比较两张照片")}
                       </h3>
@@ -3705,7 +3701,7 @@ function WaComponent() {
                       <div
                         className="rounded-xl overflow-hidden"
                         style={{
-                          border: "2px solid rgba(255,138,42,0.3)",
+                          border: "2px solid rgba(168,116,30,0.3)",
                         }}
                       >
                         <img
@@ -3716,8 +3712,8 @@ function WaComponent() {
                         <p
                           className="text-center text-xs font-bold py-1"
                           style={{
-                            background: "rgba(255,138,42,0.15)",
-                            color: "#fb923c",
+                            background: "rgba(168,116,30,0.15)",
+                            color: "#a8741e",
                           }}
                         >
                           Foto A
@@ -3726,7 +3722,7 @@ function WaComponent() {
                       <div
                         className="rounded-xl overflow-hidden"
                         style={{
-                          border: "2px solid rgba(255,138,42,0.3)",
+                          border: "2px solid rgba(168,116,30,0.3)",
                         }}
                       >
                         <img
@@ -3737,8 +3733,8 @@ function WaComponent() {
                         <p
                           className="text-center text-xs font-bold py-1"
                           style={{
-                            background: "rgba(255,138,42,0.15)",
-                            color: "#fb923c",
+                            background: "rgba(168,116,30,0.15)",
+                            color: "#a8741e",
                           }}
                         >
                           Foto B
@@ -3757,30 +3753,30 @@ function WaComponent() {
                   </div>
                 </OComponent>
               )}
-              <OComponent glowColor="#ff8a2a" color="#f59e0b" tilt={false}>
+              <OComponent glowColor="#a8741e" color="#8a5a1a" tilt={false}>
                 <div className="p-6 md:p-8 relative">
                   <div
                     className="absolute top-0 left-0 right-0 h-[3px]"
                     style={{
-                      background: "linear-gradient(90deg, transparent, #ff8a2a, transparent)",
-                      boxShadow: "0 0 15px #ff8a2a",
+                      background: "linear-gradient(90deg, transparent, #a8741e, transparent)",
+                      boxShadow: "0 0 15px #a8741e",
                     }}
                   />
                   <div className="flex items-center gap-3 mb-5">
                     <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center"
                       style={{
-                        background: "rgba(255,138,42,0.15)",
-                        border: "1px solid rgba(255,138,42,0.3)",
-                        boxShadow: "0 0 15px rgba(255,138,42,0.3)",
+                        background: "rgba(168,116,30,0.15)",
+                        border: "1px solid rgba(168,116,30,0.3)",
+                        boxShadow: "0 0 15px rgba(168,116,30,0.3)",
                       }}
                     >
-                      <TypeIcon size={20} className="text-orange-400" />
+                      <TypeIcon size={20} className="xd-oro" />
                     </div>
                     <h3
                       className="text-white font-black text-lg"
                       style={{
-                        textShadow: "0 0 15px rgba(255,138,42,0.3)",
+                        textShadow: "0 0 15px rgba(168,116,30,0.3)",
                       }}
                     >
                       {t_1("Practica tu descripcion", "练习你的描述")}
@@ -3796,18 +3792,18 @@ function WaComponent() {
                     className="w-full h-56 rounded-2xl p-5 text-white text-base placeholder-white/25 focus:outline-none resize-none leading-relaxed font-medium"
                     style={{
                       background: "rgba(0,0,0,0.3)",
-                      border: "2px solid rgba(255,138,42,0.3)",
-                      boxShadow: "0 0 30px rgba(255,138,42,0.15), inset 0 0 30px rgba(255,138,42,0.05)",
+                      border: "2px solid rgba(168,116,30,0.3)",
+                      boxShadow: "0 0 30px rgba(168,116,30,0.15), inset 0 0 30px rgba(168,116,30,0.05)",
                     }}
                     onFocus={(t) => {
-                      t.target.style.borderColor = "rgba(255,138,42,0.8)";
+                      t.target.style.borderColor = "rgba(168,116,30,0.8)";
                       t.target.style.boxShadow =
-                        "0 0 40px rgba(255,138,42,0.3), 0 0 80px rgba(255,138,42,0.1), inset 0 0 30px rgba(255,138,42,0.1)";
+                        "0 0 40px rgba(168,116,30,0.3), 0 0 80px rgba(168,116,30,0.1), inset 0 0 30px rgba(168,116,30,0.1)";
                     }}
                     onBlur={(t) => {
-                      t.target.style.borderColor = "rgba(255,138,42,0.3)";
+                      t.target.style.borderColor = "rgba(168,116,30,0.3)";
                       t.target.style.boxShadow =
-                        "0 0 30px rgba(255,138,42,0.15), inset 0 0 30px rgba(255,138,42,0.05)";
+                        "0 0 30px rgba(168,116,30,0.15), inset 0 0 30px rgba(168,116,30,0.05)";
                     }}
                   />
                   <div className="flex items-center justify-between mt-4">
@@ -3818,9 +3814,9 @@ function WaComponent() {
                       <span
                         className="text-xs px-3 py-1 rounded-lg font-bold"
                         style={{
-                          background: remainingTokens === 0 ? "rgba(239,68,68,0.15)" : "rgba(255,138,42,0.1)",
-                          color: remainingTokens === 0 ? "#f87171" : "#fb923c",
-                          border: `1px solid ${remainingTokens === 0 ? "rgba(239,68,68,0.3)" : "rgba(255,138,42,0.2)"}`,
+                          background: remainingTokens === 0 ? "rgba(200,16,46,0.15)" : "rgba(168,116,30,0.1)",
+                          color: remainingTokens === 0 ? "#c8102e" : "#a8741e",
+                          border: `1px solid ${remainingTokens === 0 ? "rgba(200,16,46,0.3)" : "rgba(168,116,30,0.2)"}`,
                         }}
                       >
                         {remainingTokens.toLocaleString()} {t_1("tokens hoy", "tokens今日剩余")}
@@ -3831,8 +3827,8 @@ function WaComponent() {
                       disabled={isCorrecting || !Ye.trim() || C}
                       className="flex items-center gap-2 px-6 py-3 rounded-2xl text-white font-bold transition-all hover:scale-105 disabled:opacity-40"
                       style={{
-                        background: "linear-gradient(135deg, #ff8a2a, #f97316)",
-                        boxShadow: "0 0 40px rgba(255,138,42,0.5), 0 0 80px rgba(255,138,42,0.2)",
+                        background: "linear-gradient(135deg, #a8741e, #a8741e)",
+                        boxShadow: "0 0 40px rgba(168,116,30,0.5), 0 0 80px rgba(168,116,30,0.2)",
                       }}
                     >
                       {isCorrecting ? (
@@ -3855,11 +3851,11 @@ function WaComponent() {
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center"
                   style={{
-                    background: "rgba(168,85,247,0.15)",
-                    border: "2px solid rgba(168,85,247,0.25)",
+                    background: "rgba(143,12,33,0.15)",
+                    border: "2px solid rgba(143,12,33,0.25)",
                   }}
                 >
-                  <PenToolIcon size={20} className="text-violet-400" />
+                  <PenToolIcon size={20} className="xd-laca" />
                 </div>
                 <div>
                   <h2 className="text-white font-bold text-lg">{t_1("Escritura", "写作")}</h2>
@@ -3881,10 +3877,10 @@ function WaComponent() {
                     style={
                       Te === t
                         ? {
-                            background: "linear-gradient(135deg, #a855f7, #9333ea)",
+                            background: "linear-gradient(135deg, #8f0c21, #8f0c21)",
                             color: "#fff",
-                            boxShadow: "0 0 30px rgba(168,85,247,0.5), 0 0 60px rgba(168,85,247,0.2)",
-                            border: "2px solid rgba(168,85,247,0.6)",
+                            boxShadow: "0 0 30px rgba(143,12,33,0.5), 0 0 60px rgba(143,12,33,0.2)",
+                            border: "2px solid rgba(143,12,33,0.6)",
                           }
                         : {
                             background: "rgba(255,255,255,0.04)",
@@ -3897,7 +3893,7 @@ function WaComponent() {
                       <span
                         className="absolute inset-0 animate-pulse rounded-xl opacity-30"
                         style={{
-                          boxShadow: "0 0 40px #a855f7",
+                          boxShadow: "0 0 40px #8f0c21",
                         }}
                       />
                     )}
@@ -3914,23 +3910,23 @@ function WaComponent() {
                     <Ue1Component
                       className="rounded-3xl overflow-hidden"
                       style={{
-                        background: "linear-gradient(135deg, rgba(168,85,247,0.12), rgba(0,0,0,0.2))",
-                        border: "2px solid rgba(168,85,247,0.3)",
-                        boxShadow: "0 0 40px rgba(168,85,247,0.15)",
+                        background: "linear-gradient(135deg, rgba(143,12,33,0.12), rgba(0,0,0,0.2))",
+                        border: "2px solid rgba(143,12,33,0.3)",
+                        boxShadow: "0 0 40px rgba(143,12,33,0.15)",
                       }}
                     >
                       <div
                         className="absolute top-0 left-0 right-0 h-[3px]"
                         style={{
-                          background: "linear-gradient(90deg, transparent, #a855f7, transparent)",
-                          boxShadow: "0 0 15px #a855f7",
+                          background: "linear-gradient(90deg, transparent, #8f0c21, transparent)",
+                          boxShadow: "0 0 15px #8f0c21",
                         }}
                       />
                       <div className="p-6 md:p-8 relative">
                         <h3
                           className="text-white font-black text-xl md:text-2xl mb-3"
                           style={{
-                            textShadow: "0 0 15px rgba(168,85,247,0.2)",
+                            textShadow: "0 0 15px rgba(143,12,33,0.2)",
                           }}
                         >
                           {t.title}
@@ -3944,12 +3940,12 @@ function WaComponent() {
                               key={x}
                               className="rounded-2xl p-4 text-center transition-all hover:-translate-y-0.5"
                               style={{
-                                background: "rgba(168,85,247,0.15)",
-                                border: "1px solid rgba(168,85,247,0.3)",
-                                boxShadow: "0 0 15px rgba(168,85,247,0.1)",
+                                background: "rgba(143,12,33,0.15)",
+                                border: "1px solid rgba(143,12,33,0.3)",
+                                boxShadow: "0 0 15px rgba(143,12,33,0.1)",
                               }}
                             >
-                              <span className="text-violet-400 text-sm font-black">{a.split(" / ")[0]}</span>
+                              <span className="xd-laca text-sm font-black">{a.split(" / ")[0]}</span>
                               <p className="text-white/30 text-xs mt-2 font-medium">
                                 {[t.structure.intro, t.structure.body, t.structure.conclusion][x]}
                               </p>
@@ -3966,9 +3962,9 @@ function WaComponent() {
                               onClick={() => setRe((l) => l + (l ? " " : "") + a)}
                               className="text-sm px-3 py-1 rounded-lg transition-all hover:scale-105 font-bold"
                               style={{
-                                background: "rgba(168,85,247,0.1)",
-                                color: "#c084fc",
-                                border: "1px solid rgba(168,85,247,0.15)",
+                                background: "rgba(143,12,33,0.1)",
+                                color: "#8f0c21",
+                                border: "1px solid rgba(143,12,33,0.15)",
                               }}
                             >
                               {a}
@@ -3984,16 +3980,16 @@ function WaComponent() {
                     <div
                       className="rounded-3xl overflow-hidden relative"
                       style={{
-                        background: "linear-gradient(135deg, rgba(168,85,247,0.08), rgba(0,0,0,0.15))",
-                        border: "2px solid rgba(168,85,247,0.2)",
-                        boxShadow: "0 0 30px rgba(168,85,247,0.1)",
+                        background: "linear-gradient(135deg, rgba(143,12,33,0.08), rgba(0,0,0,0.15))",
+                        border: "2px solid rgba(143,12,33,0.2)",
+                        boxShadow: "0 0 30px rgba(143,12,33,0.1)",
                       }}
                     >
                       <div
                         className="absolute top-0 left-0 right-0 h-[3px]"
                         style={{
-                          background: "linear-gradient(90deg, transparent, #a855f7, transparent)",
-                          boxShadow: "0 0 15px #a855f7",
+                          background: "linear-gradient(90deg, transparent, #8f0c21, transparent)",
+                          boxShadow: "0 0 15px #8f0c21",
                         }}
                       />
                       <div className="p-6 relative">
@@ -4004,18 +4000,18 @@ function WaComponent() {
                           className="w-full h-52 rounded-2xl p-5 text-white text-base placeholder-white/25 focus:outline-none resize-none leading-relaxed font-medium"
                           style={{
                             background: "rgba(0,0,0,0.3)",
-                            border: "2px solid rgba(168,85,247,0.3)",
-                            boxShadow: "0 0 30px rgba(168,85,247,0.15), inset 0 0 30px rgba(168,85,247,0.05)",
+                            border: "2px solid rgba(143,12,33,0.3)",
+                            boxShadow: "0 0 30px rgba(143,12,33,0.15), inset 0 0 30px rgba(143,12,33,0.05)",
                           }}
                           onFocus={(a) => {
-                            a.target.style.borderColor = "rgba(168,85,247,0.8)";
+                            a.target.style.borderColor = "rgba(143,12,33,0.8)";
                             a.target.style.boxShadow =
-                              "0 0 40px rgba(168,85,247,0.3), 0 0 80px rgba(168,85,247,0.1), inset 0 0 30px rgba(168,85,247,0.1)";
+                              "0 0 40px rgba(143,12,33,0.3), 0 0 80px rgba(143,12,33,0.1), inset 0 0 30px rgba(143,12,33,0.1)";
                           }}
                           onBlur={(a) => {
-                            a.target.style.borderColor = "rgba(168,85,247,0.3)";
+                            a.target.style.borderColor = "rgba(143,12,33,0.3)";
                             a.target.style.boxShadow =
-                              "0 0 30px rgba(168,85,247,0.15), inset 0 0 30px rgba(168,85,247,0.05)";
+                              "0 0 30px rgba(143,12,33,0.15), inset 0 0 30px rgba(143,12,33,0.05)";
                           }}
                         />
                         <div className="flex items-center justify-between mt-4">
@@ -4027,9 +4023,9 @@ function WaComponent() {
                               className="text-xs px-3 py-1 rounded-lg font-bold"
                               style={{
                                 background:
-                                  remainingTokens === 0 ? "rgba(239,68,68,0.15)" : "rgba(251,191,36,0.1)",
-                                color: remainingTokens === 0 ? "#f87171" : "#fbbf24",
-                                border: `1px solid ${remainingTokens === 0 ? "rgba(239,68,68,0.3)" : "rgba(251,191,36,0.2)"}`,
+                                  remainingTokens === 0 ? "rgba(200,16,46,0.15)" : "rgba(138,90,26,0.1)",
+                                color: remainingTokens === 0 ? "#c8102e" : "#8a5a1a",
+                                border: `1px solid ${remainingTokens === 0 ? "rgba(200,16,46,0.3)" : "rgba(138,90,26,0.2)"}`,
                               }}
                             >
                               {remainingTokens.toLocaleString()} {t_1("tokens hoy", "tokens今日剩余")}
@@ -4048,8 +4044,8 @@ function WaComponent() {
                             disabled={isCorrecting || !Re.trim() || C}
                             className="flex items-center gap-2 px-6 py-3 rounded-2xl text-white font-bold transition-all hover:scale-105 disabled:opacity-40"
                             style={{
-                              background: "linear-gradient(135deg, #a855f7, #9333ea)",
-                              boxShadow: "0 0 40px rgba(168,85,247,0.5), 0 0 80px rgba(168,85,247,0.2)",
+                              background: "linear-gradient(135deg, #8f0c21, #8f0c21)",
+                              boxShadow: "0 0 40px rgba(143,12,33,0.5), 0 0 80px rgba(143,12,33,0.2)",
                             }}
                           >
                             {isCorrecting ? (
@@ -4077,11 +4073,11 @@ function WaComponent() {
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center"
                   style={{
-                    background: "rgba(236,72,153,0.15)",
-                    border: "2px solid rgba(236,72,153,0.25)",
+                    background: "rgba(143,12,33,0.15)",
+                    border: "2px solid rgba(143,12,33,0.25)",
                   }}
                 >
-                  <MicIcon size={20} className="text-pink-400" />
+                  <MicIcon size={20} className="xd-laca" />
                 </div>
                 <div>
                   <h2 className="text-white font-bold text-lg">{t_1("Monologo", "独白")}</h2>
@@ -4091,7 +4087,7 @@ function WaComponent() {
                 </div>
               </div>
               {[n.monologue.topic1, n.monologue.topic2].map((t, a) => {
-                const x = ["#ec4899", "#f43f5e", "#fb7185"];
+                const x = ["#8f0c21", "#c8102e", "#c8102e"];
                 const l = x[a % x.length];
                 return (
                   <Ue1Component
@@ -4203,16 +4199,16 @@ function WaComponent() {
                   </Ue1Component>
                 );
               })}
-              <OComponent glowColor="#ec4899" tilt={false}>
+              <OComponent glowColor="#8f0c21" tilt={false}>
                 <div className="p-6">
                   <div
                     className="absolute top-0 left-0 right-0 h-[2px] opacity-100"
                     style={{
-                      background: "linear-gradient(90deg, transparent, #ec4899, transparent)",
+                      background: "linear-gradient(90deg, transparent, #8f0c21, transparent)",
                     }}
                   />
                   <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                    <ZapIcon size={18} className="text-pink-400" />{" "}
+                    <ZapIcon size={18} className="xd-laca" />{" "}
                     {t_1("Practica tu monologo", "练习你的独白")}
                   </h3>
                   <div className="flex gap-2 mb-5">
@@ -4228,9 +4224,9 @@ function WaComponent() {
                         style={
                           ut === t
                             ? {
-                                background: "rgba(236,72,153,0.12)",
-                                color: "#f472b6",
-                                border: "1px solid rgba(236,72,153,0.25)",
+                                background: "rgba(143,12,33,0.12)",
+                                color: "#8f0c21",
+                                border: "1px solid rgba(143,12,33,0.25)",
                               }
                             : {
                                 background: "rgba(255,255,255,0.04)",
@@ -4253,18 +4249,18 @@ function WaComponent() {
                         className="w-full h-48 rounded-2xl p-5 text-white text-base placeholder-white/25 focus:outline-none resize-none leading-relaxed font-medium"
                         style={{
                           background: "rgba(0,0,0,0.3)",
-                          border: "2px solid rgba(236,72,153,0.3)",
-                          boxShadow: "0 0 30px rgba(236,72,153,0.15), inset 0 0 30px rgba(236,72,153,0.05)",
+                          border: "2px solid rgba(143,12,33,0.3)",
+                          boxShadow: "0 0 30px rgba(143,12,33,0.15), inset 0 0 30px rgba(143,12,33,0.05)",
                         }}
                         onFocus={(t) => {
-                          t.target.style.borderColor = "rgba(236,72,153,0.8)";
+                          t.target.style.borderColor = "rgba(143,12,33,0.8)";
                           t.target.style.boxShadow =
-                            "0 0 40px rgba(236,72,153,0.3), 0 0 80px rgba(236,72,153,0.1), inset 0 0 30px rgba(236,72,153,0.1)";
+                            "0 0 40px rgba(143,12,33,0.3), 0 0 80px rgba(143,12,33,0.1), inset 0 0 30px rgba(143,12,33,0.1)";
                         }}
                         onBlur={(t) => {
-                          t.target.style.borderColor = "rgba(236,72,153,0.3)";
+                          t.target.style.borderColor = "rgba(143,12,33,0.3)";
                           t.target.style.boxShadow =
-                            "0 0 30px rgba(236,72,153,0.15), inset 0 0 30px rgba(236,72,153,0.05)";
+                            "0 0 30px rgba(143,12,33,0.15), inset 0 0 30px rgba(143,12,33,0.05)";
                         }}
                       />
                       <div className="flex items-center justify-between mt-4">
@@ -4276,9 +4272,9 @@ function WaComponent() {
                             className="text-xs px-3 py-1 rounded-lg font-bold"
                             style={{
                               background:
-                                remainingTokens === 0 ? "rgba(239,68,68,0.15)" : "rgba(236,72,153,0.1)",
-                              color: remainingTokens === 0 ? "#f87171" : "#f472b6",
-                              border: `1px solid ${remainingTokens === 0 ? "rgba(239,68,68,0.3)" : "rgba(236,72,153,0.2)"}`,
+                                remainingTokens === 0 ? "rgba(200,16,46,0.15)" : "rgba(143,12,33,0.1)",
+                              color: remainingTokens === 0 ? "#c8102e" : "#8f0c21",
+                              border: `1px solid ${remainingTokens === 0 ? "rgba(200,16,46,0.3)" : "rgba(143,12,33,0.2)"}`,
                             }}
                           >
                             {remainingTokens.toLocaleString()} {t_1("tokens hoy", "tokens今日剩余")}
@@ -4289,8 +4285,8 @@ function WaComponent() {
                           disabled={isCorrecting || !Le.trim() || C}
                           className="flex items-center gap-2 px-6 py-3 rounded-2xl text-white font-bold transition-all hover:scale-105 disabled:opacity-40"
                           style={{
-                            background: "linear-gradient(135deg, #a855f7, #9333ea)",
-                            boxShadow: "0 0 40px rgba(168,85,247,0.5), 0 0 80px rgba(168,85,247,0.2)",
+                            background: "linear-gradient(135deg, #8f0c21, #8f0c21)",
+                            boxShadow: "0 0 40px rgba(143,12,33,0.5), 0 0 80px rgba(143,12,33,0.2)",
                           }}
                         >
                           {isCorrecting ? (
@@ -4315,16 +4311,16 @@ function WaComponent() {
                             onClick={() => Et(setKt)}
                             className="flex-1 py-3 rounded-xl font-medium animate-pulse flex items-center justify-center gap-2"
                             style={{
-                              background: "rgba(239,68,68,0.2)",
-                              color: "#f87171",
-                              border: "2px solid rgba(239,68,68,0.4)",
-                              boxShadow: "0 0 30px rgba(239,68,68,0.4)",
+                              background: "rgba(200,16,46,0.2)",
+                              color: "#c8102e",
+                              border: "2px solid rgba(200,16,46,0.4)",
+                              boxShadow: "0 0 30px rgba(200,16,46,0.4)",
                             }}
                           >
                             <div
                               className="w-3 h-3 rounded-full bg-red-400 animate-ping"
                               style={{
-                                boxShadow: "0 0 10px #f87171",
+                                boxShadow: "0 0 10px #c8102e",
                               }}
                             />{" "}
                             {t_1("Detener", "停止")}
@@ -4334,10 +4330,10 @@ function WaComponent() {
                             onClick={() => zt(setKt, setJe, setQe)}
                             className="flex-1 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 hover:scale-[1.02]"
                             style={{
-                              background: "rgba(236,72,153,0.2)",
-                              color: "#f472b6",
-                              border: "2px solid rgba(236,72,153,0.4)",
-                              boxShadow: "0 0 25px rgba(236,72,153,0.3)",
+                              background: "rgba(143,12,33,0.2)",
+                              color: "#8f0c21",
+                              border: "2px solid rgba(143,12,33,0.4)",
+                              boxShadow: "0 0 25px rgba(143,12,33,0.3)",
                             }}
                           >
                             <MicIcon size={18} /> {t_1("Grabar", "录音")}
@@ -4363,7 +4359,7 @@ function WaComponent() {
                             disabled={isCorrecting}
                             className="mt-3 flex items-center gap-2 px-5 py-2 rounded-xl text-white text-sm font-medium disabled:opacity-40 transition-all hover:scale-105"
                             style={{
-                              background: "linear-gradient(135deg, #a855f7, #9333ea)",
+                              background: "linear-gradient(135deg, #8f0c21, #8f0c21)",
                             }}
                           >
                             {isCorrecting ? (
@@ -4391,11 +4387,11 @@ function WaComponent() {
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center"
                   style={{
-                    background: "rgba(6,182,212,0.15)",
-                    border: "2px solid rgba(6,182,212,0.25)",
+                    background: "rgba(107,74,43,0.15)",
+                    border: "2px solid rgba(107,74,43,0.25)",
                   }}
                 >
-                  <MessageCircleIcon size={20} className="text-cyan-400" />
+                  <MessageCircleIcon size={20} className="xd-tinta" />
                 </div>
                 <div>
                   <h2 className="text-white font-bold text-lg">{t_1("Interaccion oral", "口语互动")}</h2>
@@ -4404,30 +4400,30 @@ function WaComponent() {
                   </p>
                 </div>
               </div>
-              <OComponent glowColor="#06b6d4">
+              <OComponent glowColor="#6b4a2b">
                 <div className="p-6">
                   <div
                     className="absolute top-0 left-0 right-0 h-[3px] opacity-100"
                     style={{
-                      background: "linear-gradient(90deg, transparent, #06b6d4, transparent)",
-                      boxShadow: "0 0 15px #06b6d4",
+                      background: "linear-gradient(90deg, transparent, #6b4a2b, transparent)",
+                      boxShadow: "0 0 15px #6b4a2b",
                     }}
                   />
                   <div className="flex items-center gap-2 mb-4">
                     <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center"
                       style={{
-                        background: "rgba(6,182,212,0.2)",
-                        border: "1px solid rgba(6,182,212,0.3)",
-                        boxShadow: "0 0 10px rgba(6,182,212,0.3)",
+                        background: "rgba(107,74,43,0.2)",
+                        border: "1px solid rgba(107,74,43,0.3)",
+                        boxShadow: "0 0 10px rgba(107,74,43,0.3)",
                       }}
                     >
-                      <LightbulbIcon size={18} className="text-cyan-400" />
+                      <LightbulbIcon size={18} className="xd-tinta" />
                     </div>
                     <h3
                       className="text-white font-black text-lg"
                       style={{
-                        textShadow: "0 0 15px rgba(6,182,212,0.4)",
+                        textShadow: "0 0 15px rgba(107,74,43,0.4)",
                       }}
                     >
                       {t_1("Situacion", "情境")}
@@ -4436,7 +4432,7 @@ function WaComponent() {
                   <p
                     className="text-white/80 text-base leading-relaxed font-medium"
                     style={{
-                      textShadow: "0 0 10px rgba(6,182,212,0.1)",
+                      textShadow: "0 0 10px rgba(107,74,43,0.1)",
                     }}
                   >
                     {n.interaction.situation}
@@ -4444,16 +4440,16 @@ function WaComponent() {
                 </div>
               </OComponent>
               {n.interaction.questions.map((t, a) => (
-                <OComponent key={a} glowColor="#06b6d4">
+                <OComponent key={a} glowColor="#6b4a2b">
                   <div className="p-6">
                     <div className="flex items-start gap-3 mb-4">
                       <span
                         className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black shrink-0"
                         style={{
-                          background: "rgba(6,182,212,0.2)",
-                          color: "#22d3ee",
-                          border: "1px solid rgba(6,182,212,0.35)",
-                          boxShadow: "0 0 15px rgba(6,182,212,0.3)",
+                          background: "rgba(107,74,43,0.2)",
+                          color: "#6b4a2b",
+                          border: "1px solid rgba(107,74,43,0.35)",
+                          boxShadow: "0 0 15px rgba(107,74,43,0.3)",
                         }}
                       >
                         {a + 1}
@@ -4461,7 +4457,7 @@ function WaComponent() {
                       <h4
                         className="text-white font-bold text-base leading-relaxed flex-1"
                         style={{
-                          textShadow: "0 0 10px rgba(6,182,212,0.2)",
+                          textShadow: "0 0 10px rgba(107,74,43,0.2)",
                         }}
                       >
                         {t.question}
@@ -4471,22 +4467,22 @@ function WaComponent() {
                       className="rounded-xl p-4 mb-4"
                       style={{
                         background: "rgba(0,0,0,0.25)",
-                        border: "1px solid rgba(6,182,212,0.15)",
-                        boxShadow: "0 0 15px rgba(6,182,212,0.05)",
+                        border: "1px solid rgba(107,74,43,0.15)",
+                        boxShadow: "0 0 15px rgba(107,74,43,0.05)",
                       }}
                     >
-                      <p className="text-cyan-300/50 text-xs mb-1 font-bold uppercase tracking-wider">
+                      <p className="xd-tinta text-xs mb-1 font-bold uppercase tracking-wider">
                         {t_1("Ayuda / 帮助", "帮助")}:
                       </p>
                       <p className="text-white/65 text-base font-medium">{t.help}</p>
                     </div>
                     <div>
-                      <p className="text-cyan-300/30 text-xs mb-2 font-bold uppercase tracking-wider">
+                      <p className="xd-tinta text-xs mb-2 font-bold uppercase tracking-wider">
                         {t_1("Frases utiles / 有用的句子", "有用的句子")}:
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {t.usefulPhrases.map((x, l) => {
-                          const d = ["#06b6d4", "#22d3ee", "#67e8f9", "#a5f3fc"];
+                          const d = ["#6b4a2b", "#6b4a2b", "#6b4a2b", "#6b4a2b"];
                           const p = d[l % d.length];
                           return (
                             <button
@@ -4509,16 +4505,16 @@ function WaComponent() {
                   </div>
                 </OComponent>
               ))}
-              <OComponent glowColor="#06b6d4" tilt={false}>
+              <OComponent glowColor="#6b4a2b" tilt={false}>
                 <div className="p-6">
                   <div
                     className="absolute top-0 left-0 right-0 h-[2px] opacity-100"
                     style={{
-                      background: "linear-gradient(90deg, transparent, #06b6d4, transparent)",
+                      background: "linear-gradient(90deg, transparent, #6b4a2b, transparent)",
                     }}
                   />
                   <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                    <ZapIcon size={18} className="text-cyan-400" />{" "}
+                    <ZapIcon size={18} className="xd-tinta" />{" "}
                     {t_1("Practica la interaccion oral", "练习口语互动")}
                   </h3>
                   <div className="flex gap-2 mb-5">
@@ -4534,9 +4530,9 @@ function WaComponent() {
                         style={
                           jt === t
                             ? {
-                                background: "rgba(6,182,212,0.12)",
-                                color: "#67e8f9",
-                                border: "1px solid rgba(6,182,212,0.25)",
+                                background: "rgba(107,74,43,0.12)",
+                                color: "#6b4a2b",
+                                border: "1px solid rgba(107,74,43,0.25)",
                               }
                             : {
                                 background: "rgba(255,255,255,0.04)",
@@ -4559,18 +4555,18 @@ function WaComponent() {
                         className="w-full h-48 rounded-2xl p-5 text-white text-base placeholder-white/25 focus:outline-none resize-none leading-relaxed font-medium"
                         style={{
                           background: "rgba(0,0,0,0.3)",
-                          border: "2px solid rgba(6,182,212,0.3)",
-                          boxShadow: "0 0 30px rgba(6,182,212,0.15), inset 0 0 30px rgba(6,182,212,0.05)",
+                          border: "2px solid rgba(107,74,43,0.3)",
+                          boxShadow: "0 0 30px rgba(107,74,43,0.15), inset 0 0 30px rgba(107,74,43,0.05)",
                         }}
                         onFocus={(t) => {
-                          t.target.style.borderColor = "rgba(6,182,212,0.8)";
+                          t.target.style.borderColor = "rgba(107,74,43,0.8)";
                           t.target.style.boxShadow =
-                            "0 0 40px rgba(6,182,212,0.3), 0 0 80px rgba(6,182,212,0.1), inset 0 0 30px rgba(6,182,212,0.1)";
+                            "0 0 40px rgba(107,74,43,0.3), 0 0 80px rgba(107,74,43,0.1), inset 0 0 30px rgba(107,74,43,0.1)";
                         }}
                         onBlur={(t) => {
-                          t.target.style.borderColor = "rgba(6,182,212,0.3)";
+                          t.target.style.borderColor = "rgba(107,74,43,0.3)";
                           t.target.style.boxShadow =
-                            "0 0 30px rgba(6,182,212,0.15), inset 0 0 30px rgba(6,182,212,0.05)";
+                            "0 0 30px rgba(107,74,43,0.15), inset 0 0 30px rgba(107,74,43,0.05)";
                         }}
                       />
                       <div className="flex items-center justify-between mt-3">
@@ -4579,12 +4575,12 @@ function WaComponent() {
                             {Fe.split(/\s+/).filter(Boolean).length} {t_1("palabras", "词")}
                           </span>
                           <span
-                            className="text-[10px] px-2 py-0.5 rounded-lg"
+                            className="text-[11px] px-2 py-0.5 rounded-lg"
                             style={{
                               background:
-                                remainingTokens === 0 ? "rgba(239,68,68,0.15)" : "rgba(6,182,212,0.1)",
-                              color: remainingTokens === 0 ? "#f87171" : "#67e8f9",
-                              border: `1px solid ${remainingTokens === 0 ? "rgba(239,68,68,0.3)" : "rgba(6,182,212,0.2)"}`,
+                                remainingTokens === 0 ? "rgba(200,16,46,0.15)" : "rgba(107,74,43,0.1)",
+                              color: remainingTokens === 0 ? "#c8102e" : "#6b4a2b",
+                              border: `1px solid ${remainingTokens === 0 ? "rgba(200,16,46,0.3)" : "rgba(107,74,43,0.2)"}`,
                             }}
                           >
                             {remainingTokens.toLocaleString()} {t_1("tokens hoy", "tokens今日剩余")}
@@ -4595,8 +4591,8 @@ function WaComponent() {
                           disabled={isCorrecting || !Fe.trim() || C}
                           className="flex items-center gap-2 px-5 py-2 rounded-xl text-white text-sm font-medium disabled:opacity-40 transition-all hover:scale-105"
                           style={{
-                            background: "linear-gradient(135deg, #a855f7, #9333ea)",
-                            boxShadow: "0 0 20px rgba(168,85,247,0.25)",
+                            background: "linear-gradient(135deg, #8f0c21, #8f0c21)",
+                            boxShadow: "0 0 20px rgba(143,12,33,0.25)",
                           }}
                         >
                           {isCorrecting ? (
@@ -4618,16 +4614,16 @@ function WaComponent() {
                             onClick={() => Et(setEs)}
                             className="flex-1 py-3 rounded-xl font-medium animate-pulse flex items-center justify-center gap-2"
                             style={{
-                              background: "rgba(239,68,68,0.2)",
-                              color: "#f87171",
-                              border: "2px solid rgba(239,68,68,0.4)",
-                              boxShadow: "0 0 30px rgba(239,68,68,0.4)",
+                              background: "rgba(200,16,46,0.2)",
+                              color: "#c8102e",
+                              border: "2px solid rgba(200,16,46,0.4)",
+                              boxShadow: "0 0 30px rgba(200,16,46,0.4)",
                             }}
                           >
                             <div
                               className="w-3 h-3 rounded-full bg-red-400 animate-ping"
                               style={{
-                                boxShadow: "0 0 10px #f87171",
+                                boxShadow: "0 0 10px #c8102e",
                               }}
                             />{" "}
                             {t_1("Detener", "停止")}
@@ -4637,10 +4633,10 @@ function WaComponent() {
                             onClick={() => zt(setEs, setEt, setTt)}
                             className="flex-1 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 hover:scale-[1.02]"
                             style={{
-                              background: "rgba(6,182,212,0.2)",
-                              color: "#67e8f9",
-                              border: "2px solid rgba(6,182,212,0.4)",
-                              boxShadow: "0 0 25px rgba(6,182,212,0.3)",
+                              background: "rgba(107,74,43,0.2)",
+                              color: "#6b4a2b",
+                              border: "2px solid rgba(107,74,43,0.4)",
+                              boxShadow: "0 0 25px rgba(107,74,43,0.3)",
                             }}
                           >
                             <MicIcon size={18} /> {t_1("Grabar respuesta", "录制回答")}
@@ -4666,7 +4662,7 @@ function WaComponent() {
                             disabled={isCorrecting}
                             className="mt-3 flex items-center gap-2 px-5 py-2 rounded-xl text-white text-sm font-medium disabled:opacity-40 transition-all hover:scale-105"
                             style={{
-                              background: "linear-gradient(135deg, #a855f7, #9333ea)",
+                              background: "linear-gradient(135deg, #8f0c21, #8f0c21)",
                             }}
                           >
                             {isCorrecting ? (
@@ -4690,16 +4686,16 @@ function WaComponent() {
                   onClick={ps}
                   className="relative flex items-center gap-3 px-10 py-4 rounded-2xl font-bold text-lg transition-all hover:scale-105 overflow-hidden"
                   style={{
-                    background: "linear-gradient(135deg, rgba(234,179,8,0.2), rgba(217,119,6,0.2))",
-                    border: "1px solid rgba(234,179,8,0.3)",
-                    color: "#facc15",
-                    boxShadow: "0 0 30px rgba(234,179,8,0.1)",
+                    background: "linear-gradient(135deg, rgba(138,90,26,0.2), rgba(168,116,30,0.2))",
+                    border: "1px solid rgba(138,90,26,0.3)",
+                    color: "#8a5a1a",
+                    boxShadow: "0 0 30px rgba(138,90,26,0.1)",
                   }}
                 >
                   <span
                     className="absolute inset-0 animate-pulse rounded-2xl opacity-10"
                     style={{
-                      boxShadow: "0 0 40px rgba(234,179,8,0.3)",
+                      boxShadow: "0 0 40px rgba(138,90,26,0.3)",
                     }}
                   />
                   <AwardIcon size={24} />{" "}
@@ -4724,28 +4720,28 @@ function WaComponent() {
             <div
               className="relative w-full max-w-2xl rounded-3xl border overflow-hidden"
               style={{
-                background: "linear-gradient(135deg, #1a2744, #0f1d36)",
-                borderColor: "rgba(234,179,8,0.2)",
-                boxShadow: "0 0 60px rgba(234,179,8,0.15), 0 40px 100px rgba(0,0,0,0.5)",
+                background: "linear-gradient(135deg, #6b4a2b, #6b4a2b)",
+                borderColor: "rgba(138,90,26,0.2)",
+                boxShadow: "0 0 60px rgba(138,90,26,0.15), 0 40px 100px rgba(0,0,0,0.5)",
                 animation: "modalRiseIn 0.55s cubic-bezier(0.2,0.9,0.25,1)",
               }}
             >
               <div
                 className="absolute top-0 left-0 right-0 h-1.5"
                 style={{
-                  background: "linear-gradient(90deg, #eab308, #f59e0b, #f97316)",
+                  background: "linear-gradient(90deg, #8a5a1a, #8a5a1a, #a8741e)",
                 }}
               />
               <div
                 className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl"
                 style={{
-                  background: "rgba(234,179,8,0.08)",
+                  background: "rgba(138,90,26,0.08)",
                 }}
               />
               <div
                 className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full blur-3xl"
                 style={{
-                  background: "rgba(249,115,22,0.06)",
+                  background: "rgba(168,116,30,0.06)",
                 }}
               />
               <button
@@ -4769,24 +4765,24 @@ function WaComponent() {
                   <div
                     className="absolute -inset-2 rounded-full border pointer-events-none"
                     style={{
-                      borderColor: "rgba(234,179,8,0.25)",
+                      borderColor: "rgba(138,90,26,0.25)",
                       animation: "ringOrbit 6s linear infinite",
                     }}
                   />
                   <div
                     className="relative w-full h-full rounded-full flex items-center justify-center"
                     style={{
-                      background: "linear-gradient(135deg, rgba(234,179,8,0.2), rgba(217,119,6,0.1))",
-                      border: "2px solid rgba(234,179,8,0.3)",
-                      boxShadow: "0 0 40px rgba(234,179,8,0.15)",
+                      background: "linear-gradient(135deg, rgba(138,90,26,0.2), rgba(168,116,30,0.1))",
+                      border: "2px solid rgba(138,90,26,0.3)",
+                      boxShadow: "0 0 40px rgba(138,90,26,0.15)",
                       animation: "trophySpinIn 0.9s cubic-bezier(0.2,0.9,0.25,1)",
                     }}
                   >
-                    <TrophyIcon size={40} className="text-yellow-400" />
+                    <TrophyIcon size={40} className="xd-oro" />
                     <div
                       className="absolute inset-0 rounded-full animate-pulse opacity-20"
                       style={{
-                        boxShadow: "0 0 30px rgba(234,179,8,0.4)",
+                        boxShadow: "0 0 30px rgba(138,90,26,0.4)",
                       }}
                     />
                   </div>
@@ -4800,9 +4796,9 @@ function WaComponent() {
                 <div
                   className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-mono mb-6"
                   style={{
-                    background: "rgba(234,179,8,0.1)",
-                    border: "1px solid rgba(234,179,8,0.2)",
-                    color: "#facc15",
+                    background: "rgba(138,90,26,0.1)",
+                    border: "1px solid rgba(138,90,26,0.2)",
+                    color: "#8a5a1a",
                   }}
                 >
                   <StarIcon size={10} /> {t_1("Evaluacion completada", "评估已完成")}
@@ -4853,12 +4849,12 @@ function WaComponent() {
                             width: `${t.score}%`,
                             background:
                               t.score >= 75
-                                ? "#10b981"
+                                ? "#2e6b3f"
                                 : t.score >= 60
-                                  ? "#3b82f6"
+                                  ? "#6b4a2b"
                                   : t.score >= 40
-                                    ? "#f97316"
-                                    : "#ef4444",
+                                    ? "#a8741e"
+                                    : "#c8102e",
                           }}
                         />
                       </div>
@@ -4873,8 +4869,8 @@ function WaComponent() {
                   }}
                 >
                   <div className="flex items-center gap-2 justify-center mb-2">
-                    <CrownIcon size={16} className="text-yellow-400" />
-                    <TrendingUpIcon size={16} className="text-emerald-400" />
+                    <CrownIcon size={16} className="xd-oro" />
+                    <TrendingUpIcon size={16} className="xd-ok" />
                   </div>
                   <p className="text-white/45 text-sm">
                     {U >= 75
@@ -4896,34 +4892,14 @@ function WaComponent() {
     )
   );
 }
-function Re1Component({ onNext, onPrev, activeCfg }) {
+function Re1Component({ onNext, onPrev }) {
   return (
-    <div
-      className="flex justify-between mt-6"
-      style={{
-        perspective: "600px",
-      }}
-    >
-      <button
-        onClick={onPrev}
-        className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-all hover:scale-105 active:scale-95"
-        style={{
-          background: "rgba(255,255,255,0.05)",
-          border: "1px solid rgba(255,255,255,0.1)",
-          color: "rgba(255,255,255,0.5)",
-        }}
-      >
-        <ChevronLeftIcon size={16} /> Anterior / 上一步
+    <div className="xd-pasos gm-no-adapt">
+      <button type="button" onClick={onPrev} className="ofx-btn xd-paso-ant">
+        <ChevronLeftIcon size={18} aria-hidden="true" /> Anterior · 上一步
       </button>
-      <button
-        onClick={onNext}
-        className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all hover:scale-105 active:scale-95"
-        style={{
-          background: `linear-gradient(135deg, ${activeCfg.color}, ${activeCfg.color}dd)`,
-          boxShadow: `0 0 20px ${activeCfg.glow}30`,
-        }}
-      >
-        Siguiente / 下一步 <ChevronRightIcon size={16} />
+      <button type="button" onClick={onNext} className="ofx-btn ofx-btn-laca">
+        Siguiente · 下一步 <ChevronRightIcon size={18} aria-hidden="true" />
       </button>
     </div>
   );

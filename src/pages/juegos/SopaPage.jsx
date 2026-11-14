@@ -16,6 +16,7 @@ import {
   TargetIcon,
   TimerIcon,
 } from "lucide-react";
+import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import * as React from "react";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
@@ -23,18 +24,18 @@ import { P } from "../../components/PostGameNav.jsx";
 import { g as g_1, a as a_1 } from "../../lib/juegos-utils.js";
 const length_1 = 12;
 const n = [
-  "#00f0ff",
-  "#ff00aa",
-  "#ffd600",
-  "#39ff14",
-  "#ff6b35",
-  "#b829dd",
-  "#2080ff",
-  "#ff3f8f",
-  "#00f0ff",
-  "#ff8a2a",
-  "#46ff9a",
-  "#a855f7",
+  "#f2c14e",
+  "#e0283f",
+  "#f2c14e",
+  "#5fd08a",
+  "#d99a22",
+  "#a50f25",
+  "#f2c14e",
+  "#e0283f",
+  "#f2c14e",
+  "#d99a22",
+  "#5fd08a",
+  "#a50f25",
 ];
 function nt(espanol) {
   return espanol
@@ -105,16 +106,16 @@ function ot(a) {
 }
 function lt() {
   const a = [
-    "#ff00aa",
-    "#00d4ff",
-    "#ffd600",
-    "#39ff14",
-    "#ff6b35",
-    "#b829dd",
-    "#ff6ec7",
-    "#7b61ff",
-    "#ff3f8f",
-    "#00f0ff",
+    "#e0283f",
+    "#f2c14e",
+    "#f2c14e",
+    "#5fd08a",
+    "#d99a22",
+    "#a50f25",
+    "#e0283f",
+    "#a50f25",
+    "#e0283f",
+    "#f2c14e",
   ];
   const r = ["circle", "star", "square"];
   for (let g = 0; g < 200; g++) {
@@ -167,15 +168,15 @@ function GeComponent() {
   const aRef = React.useRef([]);
   if (aRef.current.length === 0) {
     const r = [
-      "#00d4ff",
-      "#ffd600",
-      "#ff00aa",
-      "#39ff14",
-      "#b829dd",
-      "#ff6b35",
-      "#00f0ff",
-      "#46ff9a",
-      "#a855f7",
+      "#f2c14e",
+      "#f2c14e",
+      "#e0283f",
+      "#5fd08a",
+      "#a50f25",
+      "#d99a22",
+      "#f2c14e",
+      "#5fd08a",
+      "#a50f25",
     ];
     for (let id = 0; id < 60; id++) {
       aRef.current.push({
@@ -262,13 +263,13 @@ function TeComponent() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 30% 20%, rgba(32,128,255,.15) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(184,41,221,.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(255,0,170,.08) 0%, transparent 60%), radial-gradient(ellipse at 10% 90%, rgba(0,212,255,.1) 0%, transparent 50%)",
+            "radial-gradient(ellipse at 30% 20%, rgba(242,193,78,.15) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(165,15,37,.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(224,40,63,.08) 0%, transparent 60%), radial-gradient(ellipse at 10% 90%, rgba(242,193,78,.1) 0%, transparent 50%)",
         }}
       />
       <div
         className="absolute top-0 left-1/4 w-1 h-full opacity-15"
         style={{
-          background: "linear-gradient(180deg, transparent, #00d4ff, transparent)",
+          background: "linear-gradient(180deg, transparent, #f2c14e, transparent)",
           animation: "nebulaRay 8s ease-in-out infinite",
           filter: "blur(20px)",
         }}
@@ -276,7 +277,7 @@ function TeComponent() {
       <div
         className="absolute top-0 right-1/3 w-1 h-full opacity-15"
         style={{
-          background: "linear-gradient(180deg, transparent, #ff00aa, transparent)",
+          background: "linear-gradient(180deg, transparent, #e0283f, transparent)",
           animation: "nebulaRay 10s ease-in-out infinite 2s",
           filter: "blur(25px)",
         }}
@@ -284,7 +285,7 @@ function TeComponent() {
       <div
         className="absolute top-0 left-1/2 w-1 h-full opacity-10"
         style={{
-          background: "linear-gradient(180deg, transparent, #ffd600, transparent)",
+          background: "linear-gradient(180deg, transparent, #f2c14e, transparent)",
           animation: "nebulaRay 12s ease-in-out infinite 4s",
           filter: "blur(30px)",
         }}
@@ -292,7 +293,7 @@ function TeComponent() {
       <div
         className="absolute top-0 right-1/4 w-1 h-full opacity-10"
         style={{
-          background: "linear-gradient(180deg, transparent, #39ff14, transparent)",
+          background: "linear-gradient(180deg, transparent, #5fd08a, transparent)",
           animation: "nebulaRay 9s ease-in-out infinite 1s",
           filter: "blur(22px)",
         }}
@@ -318,16 +319,16 @@ function ItComponent({ mood, combo }) {
           : "M 18 26 Q 24 28 30 26";
   const fill =
     mood === "happy" || mood === "excited" || mood === "combo"
-      ? "rgba(255,105,180,0.7)"
-      : "rgba(255,105,180,0.15)";
+      ? "rgba(224,40,63,0.7)"
+      : "rgba(224,40,63,0.15)";
   const u =
     mood === "happy"
-      ? "#46ff9a"
+      ? "#5fd08a"
       : mood === "sad"
         ? "#ff4444"
         : mood === "excited" || mood === "combo"
-          ? "#ffd600"
-          : "#00d4ff";
+          ? "#f2c14e"
+          : "#f2c14e";
   const animation =
     mood === "excited" || mood === "combo"
       ? "mascotExcited 0.25s ease-in-out infinite"
@@ -347,10 +348,10 @@ function ItComponent({ mood, combo }) {
           <div
             className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap font-black text-lg px-3 py-1 rounded-full"
             style={{
-              background: "linear-gradient(135deg, #ff00aa, #ff6b35)",
+              background: "linear-gradient(135deg, #e0283f, #d99a22)",
               color: "#fff",
               textShadow: "0 0 10px #fff",
-              boxShadow: "0 0 20px #ff00aa80",
+              boxShadow: "0 0 20px #e0283f80",
               animation: "comboPop 0.5s ease-out",
             }}
           >
@@ -396,9 +397,9 @@ function ItComponent({ mood, combo }) {
             cx="24"
             cy="8"
             r="2"
-            fill="#ffd600"
+            fill="#f2c14e"
             style={{
-              filter: "drop-shadow(0 0 4px #ffd600)",
+              filter: "drop-shadow(0 0 4px #f2c14e)",
               animation:
                 mood === "excited" || mood === "combo" ? "starPulse 0.5s ease-in-out infinite" : "none",
             }}
@@ -442,8 +443,8 @@ function ItComponent({ mood, combo }) {
                 mood === "excited" || mood === "combo" ? "eyeBounce 0.5s ease-in-out infinite 0.1s" : "none",
             }}
           />
-          <circle cx="17" cy="24" r="2.5" fill="#1a1a2e" />
-          <circle cx="31" cy="24" r="2.5" fill="#1a1a2e" />
+          <circle cx="17" cy="24" r="2.5" fill="#2a160c" />
+          <circle cx="31" cy="24" r="2.5" fill="#2a160c" />
           <circle cx="18.2" cy="22.8" r="1" fill="white" opacity="0.9" />
           <circle cx="32.2" cy="22.8" r="1" fill="white" opacity="0.9" />
           <circle cx="15.8" cy="25.2" r="0.5" fill="white" opacity="0.6" />
@@ -457,7 +458,7 @@ function ItComponent({ mood, combo }) {
                 cx="4"
                 cy="12"
                 r="1.5"
-                fill="#ffd600"
+                fill="#f2c14e"
                 style={{
                   animation: "sparkle 0.5s ease-in-out infinite",
                 }}
@@ -466,7 +467,7 @@ function ItComponent({ mood, combo }) {
                 cx="44"
                 cy="8"
                 r="1"
-                fill="#ff00aa"
+                fill="#e0283f"
                 style={{
                   animation: "sparkle 0.7s ease-in-out infinite 0.2s",
                 }}
@@ -475,7 +476,7 @@ function ItComponent({ mood, combo }) {
                 cx="42"
                 cy="40"
                 r="1.5"
-                fill="#00d4ff"
+                fill="#f2c14e"
                 style={{
                   animation: "sparkle 0.6s ease-in-out infinite 0.4s",
                 }}
@@ -484,7 +485,7 @@ function ItComponent({ mood, combo }) {
                 cx="8"
                 cy="44"
                 r="1"
-                fill="#39ff14"
+                fill="#5fd08a"
                 style={{
                   animation: "sparkle 0.8s ease-in-out infinite 0.3s",
                 }}
@@ -493,11 +494,11 @@ function ItComponent({ mood, combo }) {
           )}
           {m && (
             <>
-              <circle cx="12" cy="28" r="1.5" fill="#00d4ff" opacity="0.8">
+              <circle cx="12" cy="28" r="1.5" fill="#f2c14e" opacity="0.8">
                 <animate attributeName="cy" from="28" to="38" dur="1s" repeatCount="indefinite" />
                 <animate attributeName="opacity" from="0.8" to="0" dur="1s" repeatCount="indefinite" />
               </circle>
-              <circle cx="36" cy="28" r="1.5" fill="#00d4ff" opacity="0.8">
+              <circle cx="36" cy="28" r="1.5" fill="#f2c14e" opacity="0.8">
                 <animate attributeName="cy" from="28" to="38" dur="1.2s" repeatCount="indefinite" />
                 <animate attributeName="opacity" from="0.8" to="0" dur="1.2s" repeatCount="indefinite" />
               </circle>
@@ -505,9 +506,9 @@ function ItComponent({ mood, combo }) {
           )}
           <defs>
             <linearGradient id="sopaGrad" x1="0" y1="0" x2="48" y2="48">
-              <stop offset="0%" stopColor="#2080ff" />
-              <stop offset="50%" stopColor="#b829dd" />
-              <stop offset="100%" stopColor="#ff00aa" />
+              <stop offset="0%" stopColor="#f2c14e" />
+              <stop offset="50%" stopColor="#a50f25" />
+              <stop offset="100%" stopColor="#e0283f" />
             </linearGradient>
           </defs>
         </svg>
@@ -556,7 +557,7 @@ function Ct1Component({ m: m_1, onClick }) {
       onMouseLeave={u}
       className="group rounded-xl p-5 text-left transition-all relative overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, rgba(14,22,64,.6), rgba(5,8,27,.5))",
+        background: "linear-gradient(180deg, rgba(52,26,16,.6), rgba(30,14,8,.5))",
         border: `1px solid ${m_1.color}40`,
         transform: `perspective(600px) rotateX(${g.x}deg) rotateY(${g.y}deg) translateZ(15px)`,
         transformStyle: "preserve-3d",
@@ -633,7 +634,7 @@ function DtComponent({ seconds }) {
         viewBox="0 0 60 60"
         style={{
           transform: "rotate(-90deg)",
-          filter: "drop-shadow(0 0 4px #00d4ff)",
+          filter: "drop-shadow(0 0 4px #f2c14e)",
         }}
       >
         <circle cx="30" cy="30" r="26" fill="none" stroke="rgba(255,255,255,.06)" strokeWidth="3" />
@@ -642,14 +643,14 @@ function DtComponent({ seconds }) {
           cy="30"
           r="26"
           fill="none"
-          stroke="#00d4ff"
+          stroke="#f2c14e"
           strokeWidth="3"
           strokeDasharray={strokeDasharray}
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
           style={{
             transition: "stroke-dashoffset 1s linear",
-            filter: "drop-shadow(0 0 6px #00d4ff)",
+            filter: "drop-shadow(0 0 6px #f2c14e)",
           }}
         />
       </svg>
@@ -657,8 +658,8 @@ function DtComponent({ seconds }) {
         <span
           className="text-[10px] font-black"
           style={{
-            color: "#00d4ff",
-            textShadow: "0 0 8px #00d4ff",
+            color: "#f2c14e",
+            textShadow: "0 0 8px #f2c14e",
           }}
         >
           {h}
@@ -667,8 +668,8 @@ function DtComponent({ seconds }) {
       <div
         className="absolute inset-0 rounded-full pointer-events-none"
         style={{
-          border: "1px solid rgba(0,212,255,.15)",
-          boxShadow: "0 0 15px rgba(0,212,255,.1), inset 0 0 10px rgba(0,212,255,.05)",
+          border: "1px solid rgba(242,193,78,.15)",
+          boxShadow: "0 0 15px rgba(242,193,78,.1), inset 0 0 10px rgba(242,193,78,.05)",
           animation: "timerPulse 2s ease-in-out infinite",
         }}
       />
@@ -680,26 +681,26 @@ function FtComponent({ score }) {
     <div
       className="relative px-3 py-1.5 rounded-xl flex items-center gap-2"
       style={{
-        background: "linear-gradient(135deg, rgba(255,214,0,.12), rgba(255,107,53,.06))",
-        border: "1.5px solid rgba(255,214,0,.35)",
+        background: "linear-gradient(135deg, rgba(242,193,78,.12), rgba(217,154,34,.06))",
+        border: "1.5px solid rgba(242,193,78,.35)",
         transform: "perspective(600px) rotateX(5deg) translateZ(12px)",
         boxShadow:
-          "0 0 20px rgba(255,214,0,.2), 0 0 40px rgba(255,214,0,.1), inset 0 0 20px rgba(255,214,0,.05)",
+          "0 0 20px rgba(242,193,78,.2), 0 0 40px rgba(242,193,78,.1), inset 0 0 20px rgba(242,193,78,.05)",
         animation: "scoreFloat 3s ease-in-out infinite",
       }}
     >
       <ZapIcon
         size={14}
         style={{
-          color: "#ffd600",
-          filter: "drop-shadow(0 0 4px #ffd600)",
+          color: "#f2c14e",
+          filter: "drop-shadow(0 0 4px #f2c14e)",
         }}
       />
       <span
         className="text-sm font-black"
         style={{
-          color: "#ffd600",
-          textShadow: "0 0 8px rgba(255,214,0,.5), 0 0 16px rgba(255,214,0,.3)",
+          color: "#f2c14e",
+          textShadow: "0 0 8px rgba(242,193,78,.5), 0 0 16px rgba(242,193,78,.3)",
         }}
       >
         {score}
@@ -737,7 +738,7 @@ function Ie1Component({ icon, label, value, color, delay }) {
       onMouseLeave={N}
       className="rounded-xl p-4 text-center relative overflow-hidden group"
       style={{
-        background: "linear-gradient(180deg, rgba(14,22,64,.5), rgba(5,8,27,.3))",
+        background: "linear-gradient(180deg, rgba(52,26,16,.5), rgba(30,14,8,.3))",
         border: `1.5px solid ${color}30`,
         transform: `perspective(500px) rotateX(${y.x}deg) rotateY(${y.y}deg) translateZ(15px)`,
         transformStyle: "preserve-3d",
@@ -1114,7 +1115,7 @@ function CtComponent() {
           text: `+${F}${X}`,
           x: v.left + v.width / 2,
           y: v.top,
-          color: f >= 3 ? "#ff00aa" : "#ffd600",
+          color: f >= 3 ? "#e0283f" : "#f2c14e",
         });
         setTimeout(() => setA_1(null), 1500);
       }
@@ -1165,12 +1166,12 @@ function CtComponent() {
     }
     if (x) {
       return {
-        background: "linear-gradient(135deg, rgba(0,212,255,.55), rgba(0,212,255,.25))",
-        border: "2.5px solid rgba(0,212,255,.95)",
-        color: "#00f0ff",
+        background: "linear-gradient(135deg, rgba(242,193,78,.55), rgba(242,193,78,.25))",
+        border: "2.5px solid rgba(242,193,78,.95)",
+        color: "#f2c14e",
         boxShadow:
-          "0 0 40px rgba(0,212,255,.8), 0 0 80px rgba(0,212,255,.5), 0 0 120px rgba(0,212,255,.2), inset 0 0 30px rgba(0,212,255,.35)",
-        textShadow: "0 0 20px rgba(0,212,255,.9), 0 0 40px rgba(0,212,255,.5)",
+          "0 0 40px rgba(242,193,78,.8), 0 0 80px rgba(242,193,78,.5), 0 0 120px rgba(242,193,78,.2), inset 0 0 30px rgba(242,193,78,.35)",
+        textShadow: "0 0 20px rgba(242,193,78,.9), 0 0 40px rgba(242,193,78,.5)",
         transform: f ? "scale(1.1) translateX(2px) translateZ(20px)" : "scale(1.22) translateZ(25px)",
         animation: f ? "cellShake 0.4s ease-in-out" : "cellSelectedPulse 1.5s ease-in-out infinite",
         transition: "all 0.15s ease",
@@ -1179,7 +1180,7 @@ function CtComponent() {
     return {
       background: "linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02))",
       border: "1px solid rgba(255,255,255,.12)",
-      color: "rgba(207,216,255,.8)",
+      color: "rgba(255,236,200,.8)",
       boxShadow: "none",
       textShadow: "0 0 6px rgba(255,255,255,.2)",
       transform: "scale(1) translateZ(0)",
@@ -1210,176 +1211,9 @@ function CtComponent() {
   const qe = d.length > 0 ? (length / d.length) * 100 : 0;
   if (a === "select") {
     return (
-      <StarfieldBackground>
-        <GeComponent />
-        <TeComponent />
-        <div
-          className="max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10"
-          style={{
-            perspective: "1000px",
-          }}
-        >
-          <div className="flex items-center justify-between mb-8">
-            <Link
-              to="/juegos"
-              className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
-            >
-              <ArrowLeftIcon size={16} /> Volver / 返回
-            </Link>
-          </div>
-          <div className="text-center mb-10">
-            <div
-              className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-4 relative"
-              style={{
-                background: "linear-gradient(135deg,#2080ff,#b829dd)",
-                boxShadow: "0 0 60px rgba(32,128,255,0.4), 0 0 120px rgba(184,41,221,0.2)",
-                animation: "sopaFloat 3s ease-in-out infinite",
-              }}
-            >
-              <SparklesIcon
-                size={48}
-                className="text-white"
-                style={{
-                  filter: "drop-shadow(0 0 10px rgba(255,255,255,0.5))",
-                }}
-              />
-              <div
-                className="absolute -top-2 -right-2"
-                style={{
-                  animation: "sparkle 2s ease-in-out infinite",
-                }}
-              >
-                <StarIcon
-                  size={20}
-                  style={{
-                    color: "#ffd600",
-                    fill: "#ffd600",
-                  }}
-                />
-              </div>
-              <div
-                className="absolute -bottom-1 -left-1"
-                style={{
-                  animation: "sparkle 2s ease-in-out infinite 0.5s",
-                }}
-              >
-                <StarIcon
-                  size={14}
-                  style={{
-                    color: "#ff00aa",
-                    fill: "#ff00aa",
-                  }}
-                />
-              </div>
-            </div>
-            <h1
-              className="text-5xl md:text-7xl font-black mb-2"
-              style={{
-                background: "linear-gradient(135deg,#2080ff 0%,#b829dd 50%,#ff00aa 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 40px rgba(32,128,255,.3))",
-                animation: "sopaTitlePulse 3s ease-in-out infinite alternate",
-              }}
-            >
-              Sopa de Letras
-            </h1>
-            <p className="text-white/50 text-lg font-medium">
-              Selecciona un módulo para jugar / 选择模块开始游戏
-            </p>
-            {ve && (
-              <div
-                className="mt-4 mx-auto max-w-lg p-4 rounded-xl text-sm font-bold"
-                style={{
-                  background: "rgba(255,68,68,.12)",
-                  border: "1px solid rgba(255,68,68,.3)",
-                  color: "#ff6b35",
-                }}
-              >
-                {ve}
-              </div>
-            )}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <button
-              onClick={() => {
-                setVe("");
-                we(null);
-              }}
-              className="group rounded-xl p-5 text-left transition-all relative overflow-hidden"
-              style={{
-                background: "linear-gradient(180deg, rgba(14,22,64,.6), rgba(5,8,27,.5))",
-                border: "1px solid rgba(255,0,170,.3)",
-                transform: "perspective(600px) translateZ(15px)",
-                transformStyle: "preserve-3d",
-                boxShadow: "0 15px 50px rgba(0,0,0,.4), 0 0 30px rgba(255,0,170,.15)",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-              }}
-            >
-              <div
-                className="absolute -inset-[1px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  background: "linear-gradient(90deg, rgba(255,0,170,0), rgba(255,0,170), rgba(255,0,170,0))",
-                  backgroundSize: "200% 100%",
-                  animation: "borderRotate 2s linear infinite",
-                  zIndex: -1,
-                }}
-              />
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
-                style={{
-                  background: "linear-gradient(135deg, #ff00aa, #b829dd)",
-                  transform: "translateZ(25px)",
-                  boxShadow: "0 0 20px rgba(255,0,170,0.4)",
-                }}
-              >
-                <LayersIcon size={24} className="text-white" />
-              </div>
-              <h3
-                className="text-white font-black text-base mb-1"
-                style={{
-                  transform: "translateZ(20px)",
-                }}
-              >
-                Todos los módulos
-              </h3>
-              <p
-                className="text-xs font-medium mb-1"
-                style={{
-                  color: "rgba(255,0,170,.7)",
-                  transform: "translateZ(15px)",
-                }}
-              >
-                所有模块
-              </p>
-              <p
-                className="text-xs font-medium text-white/40"
-                style={{
-                  transform: "translateZ(10px)",
-                }}
-              >
-                Mezcla todo el vocabulario
-              </p>
-            </button>
-            {De.map((m_1) => (
-              <Ct1Component
-                key={m_1.id}
-                m={m_1}
-                onClick={() => {
-                  setVe("");
-                  we(m_1.id);
-                }}
-              />
-            ))}
-          </div>
-          <style>{`
-            @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
-            @keyframes sopaFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-            @keyframes sopaTitlePulse { from{filter:drop-shadow(0 0 40px rgba(32,128,255,.3)) brightness(1)} to{filter:drop-shadow(0 0 80px rgba(32,128,255,.5)) brightness(1.15)} }
-            @keyframes sparkle { 0%,100%{opacity:0.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.3)} }
-          `}</style>
-        </div>
-      </StarfieldBackground>
+      <>
+        <SelectorTemaJuego juego="sopa" error={ve} onIniciar={(id) => { setVe(""); we(id); }} />
+      </>
     );
   }
   return (
@@ -1408,18 +1242,18 @@ function CtComponent() {
           >
             <defs>
               <linearGradient id="selGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#00f0ff">
+                <stop offset="0%" stopColor="#f2c14e">
                   <animate
                     attributeName="stop-color"
-                    values="#00f0ff;#ff00aa;#ffd600;#00f0ff"
+                    values="#f2c14e;#e0283f;#f2c14e;#f2c14e"
                     dur="1.5s"
                     repeatCount="indefinite"
                   />
                 </stop>
-                <stop offset="100%" stopColor="#ff00aa">
+                <stop offset="100%" stopColor="#e0283f">
                   <animate
                     attributeName="stop-color"
-                    values="#ff00aa;#ffd600;#00f0ff;#ff00aa"
+                    values="#e0283f;#f2c14e;#f2c14e;#e0283f"
                     dur="1.5s"
                     repeatCount="indefinite"
                   />
@@ -1472,13 +1306,13 @@ function CtComponent() {
               cx={Z.startX}
               cy={Z.startY}
               r="12"
-              fill="#00f0ff"
+              fill="#f2c14e"
               filter="url(#selGlowStrong)"
               opacity="0.9"
             >
               <animate attributeName="r" values="8;14;8" dur="0.6s" repeatCount="indefinite" />
             </circle>
-            <circle cx={Z.endX} cy={Z.endY} r="10" fill="#ff00aa" filter="url(#selGlowStrong)" opacity="0.9">
+            <circle cx={Z.endX} cy={Z.endY} r="10" fill="#e0283f" filter="url(#selGlowStrong)" opacity="0.9">
               <animate attributeName="r" values="6;12;6" dur="0.6s" repeatCount="indefinite" />
             </circle>
           </svg>
@@ -1521,11 +1355,11 @@ function CtComponent() {
             <div
               className="flex items-center gap-2 px-4 py-2 rounded-full font-black text-lg"
               style={{
-                background: "linear-gradient(135deg, #ff00aa30, #ff6b3530)",
-                border: "2px solid #ff00aabb",
-                color: "#ff00aa",
-                textShadow: "0 0 15px #ff00aa",
-                boxShadow: "0 0 30px #ff00aa60, 0 0 60px #ff00aa30",
+                background: "linear-gradient(135deg, #e0283f30, #d99a2230)",
+                border: "2px solid #e0283fbb",
+                color: "#e0283f",
+                textShadow: "0 0 15px #e0283f",
+                boxShadow: "0 0 30px #e0283f60, 0 0 60px #e0283f30",
                 animation: "comboBanner 0.5s ease-out",
               }}
             >
@@ -1542,7 +1376,7 @@ function CtComponent() {
         <div className="flex items-center justify-between mb-6">
           <Link
             to="/juegos"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold"
           >
             <ArrowLeftIcon size={16} /> Volver / 返回
           </Link>
@@ -1568,10 +1402,10 @@ function CtComponent() {
               <div
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
                 style={{
-                  background: "rgba(255,0,170,.1)",
-                  border: "1px solid rgba(255,0,170,.2)",
-                  color: "#ff00aa",
-                  boxShadow: "0 0 10px rgba(255,0,170,.1)",
+                  background: "rgba(224,40,63,.1)",
+                  border: "1px solid rgba(224,40,63,.2)",
+                  color: "#e0283f",
+                  boxShadow: "0 0 10px rgba(224,40,63,.1)",
                 }}
               >
                 <CrownIcon size={12} /> {R}x
@@ -1599,10 +1433,10 @@ function CtComponent() {
           <h1
             className="text-5xl md:text-6xl font-black mb-2"
             style={{
-              background: "linear-gradient(135deg,#2080ff,#b829dd)",
+              background: "linear-gradient(135deg,#f2c14e,#a50f25)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 30px rgba(32,128,255,.3))",
+              filter: "drop-shadow(0 0 30px rgba(242,193,78,.3))",
             }}
           >
             Sopa de Letras
@@ -1628,13 +1462,13 @@ function CtComponent() {
             <div
               className="gm-scroll gm-sopa rounded-3xl p-4 md:p-5 select-none relative"
               style={{
-                background: "linear-gradient(180deg, rgba(14,22,64,.8), rgba(5,8,27,.6))",
+                background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
                 border: "2px solid transparent",
                 backgroundClip: "padding-box",
                 backdropFilter: "blur(20px)",
                 transform: "translateZ(20px) perspective(1500px) rotateX(8deg)",
                 boxShadow:
-                  "0 0 80px rgba(32,128,255,.3), 0 0 160px rgba(32,128,255,.15), 0 0 320px rgba(184,41,221,.1), inset 0 0 80px rgba(32,128,255,.08)",
+                  "0 0 80px rgba(242,193,78,.3), 0 0 160px rgba(242,193,78,.15), 0 0 320px rgba(165,15,37,.1), inset 0 0 80px rgba(242,193,78,.08)",
                 transition: "transform 0.3s ease",
                 animation:
                   "gridContainerFloat 6s ease-in-out infinite, gridContainerPulse 4s ease-in-out infinite",
@@ -1643,7 +1477,7 @@ function CtComponent() {
               <div
                 className="absolute -inset-[2px] rounded-3xl -z-10 pointer-events-none"
                 style={{
-                  background: "linear-gradient(135deg, #2080ff, #b829dd, #ff00aa, #39ff14, #2080ff)",
+                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f, #5fd08a, #f2c14e)",
                   backgroundSize: "400% 400%",
                   animation: "neonBorder 6s linear infinite",
                   opacity: 0.7,
@@ -1653,7 +1487,7 @@ function CtComponent() {
               <div
                 className="absolute -inset-[2px] rounded-3xl -z-10 pointer-events-none"
                 style={{
-                  background: "linear-gradient(135deg, #2080ff, #b829dd, #ff00aa, #39ff14, #2080ff)",
+                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f, #5fd08a, #f2c14e)",
                   backgroundSize: "400% 400%",
                   animation: "neonBorder 6s linear infinite",
                   opacity: 0.4,
@@ -1663,7 +1497,7 @@ function CtComponent() {
               <div
                 className="absolute -inset-[2px] rounded-3xl -z-10 pointer-events-none"
                 style={{
-                  background: "linear-gradient(135deg, #2080ff, #b829dd, #ff00aa, #39ff14, #2080ff)",
+                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f, #5fd08a, #f2c14e)",
                   backgroundSize: "400% 400%",
                   animation: "neonBorder 6s linear infinite",
                   opacity: 0.2,
@@ -1714,7 +1548,7 @@ function CtComponent() {
                           animationDelay: U ? `${b}s` : `${(s + l) * 0.1}s`,
                           fontWeight: f || c ? 900 : 700,
                           fontSize: f || c ? "min(18px, 3.5vw)" : "min(16px, 3.2vw)",
-                          textShadow: f || c ? x.textShadow : "0 0 8px rgba(207,216,255,.3)",
+                          textShadow: f || c ? x.textShadow : "0 0 8px rgba(255,236,200,.3)",
                           transformStyle: "preserve-3d",
                         }}
                       >
@@ -1731,8 +1565,8 @@ function CtComponent() {
                           <div
                             className="absolute inset-0 rounded-[14px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                             style={{
-                              background: "linear-gradient(135deg, rgba(0,212,255,.2), rgba(184,41,221,.15))",
-                              boxShadow: "0 0 25px rgba(0,212,255,.3), inset 0 0 15px rgba(0,212,255,.15)",
+                              background: "linear-gradient(135deg, rgba(242,193,78,.2), rgba(165,15,37,.15))",
+                              boxShadow: "0 0 25px rgba(242,193,78,.3), inset 0 0 15px rgba(242,193,78,.15)",
                               transform: "translateZ(5px)",
                             }}
                           />
@@ -1780,24 +1614,24 @@ function CtComponent() {
             <div
               className="rounded-2xl p-4 relative overflow-hidden"
               style={{
-                background: "linear-gradient(180deg, rgba(14,22,64,.5), rgba(5,8,27,.35))",
+                background: "linear-gradient(180deg, rgba(52,26,16,.5), rgba(30,14,8,.35))",
                 border: "1px solid rgba(255,255,255,.08)",
                 backdropFilter: "blur(10px)",
-                boxShadow: "0 0 40px rgba(32,128,255,.15), 0 8px 32px rgba(0,0,0,.3)",
+                boxShadow: "0 0 40px rgba(242,193,78,.15), 0 8px 32px rgba(0,0,0,.3)",
               }}
             >
               <h3
                 className="text-sm font-black mb-3 flex items-center gap-2"
                 style={{
-                  color: "#2080ff",
-                  textShadow: "0 0 10px rgba(32,128,255,.3)",
+                  color: "#f2c14e",
+                  textShadow: "0 0 10px rgba(242,193,78,.3)",
                 }}
               >
                 <EyeIcon size={14} /> Palabras / 单词{" "}
                 <span
                   className="text-xs font-medium ml-auto"
                   style={{
-                    color: "rgba(207,216,255,.4)",
+                    color: "rgba(255,236,200,.4)",
                   }}
                 >
                   {length}/{d.length}
@@ -1841,7 +1675,7 @@ function CtComponent() {
                       className="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black shrink-0"
                       style={{
                         background: t.found ? `${n[s % n.length]}35` : "rgba(255,255,255,.05)",
-                        color: t.found ? n[s % n.length] : "rgba(207,216,255,.3)",
+                        color: t.found ? n[s % n.length] : "rgba(255,236,200,.3)",
                         boxShadow: t.found ? `0 0 12px ${n[s % n.length]}50` : "none",
                         transform: "translateZ(5px)",
                       }}
@@ -1861,7 +1695,7 @@ function CtComponent() {
                     <span
                       className="text-xs ml-auto relative z-10"
                       style={{
-                        color: "rgba(207,216,255,.4)",
+                        color: "rgba(255,236,200,.4)",
                       }}
                     >
                       {t.meaning}
@@ -1871,7 +1705,7 @@ function CtComponent() {
                         onClick={() => setW(W === s ? null : s)}
                         className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded"
                         style={{
-                          color: W === s ? n[s % n.length] : "rgba(207,216,255,.3)",
+                          color: W === s ? n[s % n.length] : "rgba(255,236,200,.3)",
                         }}
                       >
                         <LightbulbIcon size={12} />
@@ -1887,7 +1721,7 @@ function CtComponent() {
                 background: "rgba(255,255,255,.03)",
                 border: "1px solid rgba(255,255,255,.06)",
                 backdropFilter: "blur(10px)",
-                boxShadow: "0 0 30px rgba(32,128,255,.12), 0 8px 32px rgba(0,0,0,.2)",
+                boxShadow: "0 0 30px rgba(242,193,78,.12), 0 8px 32px rgba(0,0,0,.2)",
               }}
             >
               <div
@@ -1901,8 +1735,8 @@ function CtComponent() {
                   className="h-full rounded-full transition-all duration-700 relative"
                   style={{
                     width: `${qe}%`,
-                    background: "linear-gradient(90deg, #2080ff, #b829dd, #ff00aa)",
-                    boxShadow: "0 0 20px rgba(32,128,255,.6), 0 0 40px rgba(184,41,221,.4)",
+                    background: "linear-gradient(90deg, #f2c14e, #a50f25, #e0283f)",
+                    boxShadow: "0 0 20px rgba(242,193,78,.6), 0 0 40px rgba(165,15,37,.4)",
                     animation: "progressGlow 2s ease-in-out infinite",
                   }}
                 >
@@ -1916,8 +1750,8 @@ function CtComponent() {
                   <div
                     className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full"
                     style={{
-                      background: "radial-gradient(circle, #fff, #ff00aa)",
-                      boxShadow: "0 0 15px #ff00aa, 0 0 30px #ff00aa80",
+                      background: "radial-gradient(circle, #fff, #e0283f)",
+                      boxShadow: "0 0 15px #e0283f, 0 0 30px #e0283f80",
                       animation: "tipSparkle 0.5s ease-in-out infinite alternate",
                     }}
                   />
@@ -1926,7 +1760,7 @@ function CtComponent() {
               <p
                 className="text-xs font-medium"
                 style={{
-                  color: "rgba(207,216,255,.4)",
+                  color: "rgba(255,236,200,.4)",
                 }}
               >
                 Progreso / 进度
@@ -1938,20 +1772,20 @@ function CtComponent() {
                 background: "rgba(255,255,255,.02)",
                 border: "1px solid rgba(255,255,255,.05)",
                 backdropFilter: "blur(10px)",
-                boxShadow: "0 0 20px rgba(32,128,255,.1), 0 4px 16px rgba(0,0,0,.2)",
+                boxShadow: "0 0 20px rgba(242,193,78,.1), 0 4px 16px rgba(0,0,0,.2)",
               }}
             >
               <div className="flex items-center gap-1.5">
                 <TargetIcon
                   size={12}
                   style={{
-                    color: "#00d4ff",
+                    color: "#f2c14e",
                   }}
                 />
                 <span
                   className="text-xs font-bold"
                   style={{
-                    color: "#00d4ff",
+                    color: "#f2c14e",
                   }}
                 >
                   {length}
@@ -1961,13 +1795,13 @@ function CtComponent() {
                 <FlameIcon
                   size={12}
                   style={{
-                    color: L > 1 ? "#ff00aa" : "rgba(207,216,255,.3)",
+                    color: L > 1 ? "#e0283f" : "rgba(255,236,200,.3)",
                   }}
                 />
                 <span
                   className="text-xs font-bold"
                   style={{
-                    color: L > 1 ? "#ff00aa" : "rgba(207,216,255,.3)",
+                    color: L > 1 ? "#e0283f" : "rgba(255,236,200,.3)",
                   }}
                 >
                   {L}x
@@ -1977,13 +1811,13 @@ function CtComponent() {
                 <AwardIcon
                   size={12}
                   style={{
-                    color: R > 1 ? "#ffd600" : "rgba(207,216,255,.3)",
+                    color: R > 1 ? "#f2c14e" : "rgba(255,236,200,.3)",
                   }}
                 />
                 <span
                   className="text-xs font-bold"
                   style={{
-                    color: R > 1 ? "#ffd600" : "rgba(207,216,255,.3)",
+                    color: R > 1 ? "#f2c14e" : "rgba(255,236,200,.3)",
                   }}
                 >
                   {R}x
@@ -1996,7 +1830,7 @@ function CtComponent() {
           <div
             className="fixed inset-0 z-[100] flex items-center justify-center"
             style={{
-              background: "rgba(3,4,17,.85)",
+              background: "rgba(24,10,6,.85)",
               backdropFilter: "blur(20px)",
               perspective: "1000px",
             }}
@@ -2025,10 +1859,10 @@ function CtComponent() {
             <div
               className="text-center p-8 rounded-3xl relative overflow-hidden max-w-sm mx-4"
               style={{
-                background: "linear-gradient(180deg, rgba(14,22,64,.8), rgba(5,8,27,.6))",
-                border: "2px solid rgba(32,128,255,.3)",
+                background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
+                border: "2px solid rgba(242,193,78,.3)",
                 boxShadow:
-                  "0 0 80px rgba(32,128,255,.3), 0 0 160px rgba(32,128,255,.15), 0 0 300px rgba(184,41,221,.1)",
+                  "0 0 80px rgba(242,193,78,.3), 0 0 160px rgba(242,193,78,.15), 0 0 300px rgba(165,15,37,.1)",
                 transform: "translateZ(60px)",
                 animation: "victoryBounce 1s ease-out",
               }}
@@ -2036,7 +1870,7 @@ function CtComponent() {
               <div
                 className="absolute -inset-[2px] rounded-[26px] -z-10 opacity-60"
                 style={{
-                  background: "linear-gradient(135deg, #2080ff, #b829dd, #ff00aa)",
+                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f)",
                   filter: "blur(30px)",
                   animation: "victoryGlow 2s ease-in-out infinite alternate",
                 }}
@@ -2044,19 +1878,19 @@ function CtComponent() {
               <TrophyIcon
                 size={56}
                 style={{
-                  color: "#ffd600",
+                  color: "#f2c14e",
                   margin: "0 auto 16px",
-                  filter: "drop-shadow(0 0 20px rgba(255,214,0,.5))",
+                  filter: "drop-shadow(0 0 20px rgba(242,193,78,.5))",
                   animation: "trophySpin 3s ease-in-out infinite",
                 }}
               />
               <h2
                 className="text-4xl font-black mb-2"
                 style={{
-                  background: "linear-gradient(135deg, #2080ff, #b829dd, #ff00aa)",
+                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 20px rgba(32,128,255,.3))",
+                  filter: "drop-shadow(0 0 20px rgba(242,193,78,.3))",
                 }}
               >
                 ¡Completado!
@@ -2068,14 +1902,14 @@ function CtComponent() {
                     <TrophyIcon
                       size={20}
                       style={{
-                        color: "#ffd600",
-                        filter: "drop-shadow(0 0 4px #ffd600)",
+                        color: "#f2c14e",
+                        filter: "drop-shadow(0 0 4px #f2c14e)",
                       }}
                     />
                   }
                   label="Score"
                   value={String(T)}
-                  color="#ffd600"
+                  color="#f2c14e"
                   delay={0.2}
                 />
                 <Ie1Component
@@ -2083,14 +1917,14 @@ function CtComponent() {
                     <TimerIcon
                       size={20}
                       style={{
-                        color: "#00d4ff",
-                        filter: "drop-shadow(0 0 4px #00d4ff)",
+                        color: "#f2c14e",
+                        filter: "drop-shadow(0 0 4px #f2c14e)",
                       }}
                     />
                   }
                   label="Tiempo"
                   value={`${Math.floor(M / 60)}:${String(M % 60).padStart(2, "0")}`}
-                  color="#00d4ff"
+                  color="#f2c14e"
                   delay={0.4}
                 />
                 <Ie1Component
@@ -2098,14 +1932,14 @@ function CtComponent() {
                     <CrownIcon
                       size={20}
                       style={{
-                        color: "#ff00aa",
-                        filter: "drop-shadow(0 0 4px #ff00aa)",
+                        color: "#e0283f",
+                        filter: "drop-shadow(0 0 4px #e0283f)",
                       }}
                     />
                   }
                   label="Combo"
                   value={`${R}x`}
-                  color="#ff00aa"
+                  color="#e0283f"
                   delay={0.6}
                 />
               </div>
@@ -2113,8 +1947,8 @@ function CtComponent() {
                 <p
                   className="text-sm font-bold mb-4"
                   style={{
-                    color: "#ff00aa",
-                    textShadow: "0 0 15px rgba(255,0,170,.4)",
+                    color: "#e0283f",
+                    textShadow: "0 0 15px rgba(224,40,63,.4)",
                   }}
                 >
                   Mejor combo: {R}x
@@ -2124,8 +1958,8 @@ function CtComponent() {
                 onClick={onClick}
                 className="px-8 py-3 rounded-full text-white font-black transition-all hover:scale-105"
                 style={{
-                  background: "linear-gradient(135deg, #2080ff, #b829dd)",
-                  boxShadow: "0 0 30px rgba(32,128,255,.4), 0 0 60px rgba(184,41,221,.15)",
+                  background: "linear-gradient(135deg, #f2c14e, #a50f25)",
+                  boxShadow: "0 0 30px rgba(242,193,78,.4), 0 0 60px rgba(165,15,37,.15)",
                 }}
               >
                 Jugar de nuevo / 再玩一次
@@ -2141,10 +1975,10 @@ function CtComponent() {
           @keyframes victoryBounce { 0%{transform:translateZ(60px) scale(0.8) rotateY(-10deg); opacity:0} 60%{transform:translateZ(60px) scale(1.02) rotateY(2deg); opacity:1} 100%{transform:translateZ(60px) scale(1) rotateY(0deg); opacity:1} }
           @keyframes victoryGlow { from{opacity:.3} to{opacity:.7} }
           @keyframes trophySpin { 0%,100%{transform:rotateY(0deg) scale(1)} 50%{transform:rotateY(25deg) scale(1.1)} }
-          @keyframes cellFoundGreen { 0%{transform:scale(0) rotate(-10deg) translateZ(0); opacity:0; background:linear-gradient(135deg, #10b981, #39ff14)} 50%{transform:scale(1.3) rotate(5deg) translateZ(40px); opacity:1; background:linear-gradient(135deg, #10b981, #39ff14)} 100%{transform:scale(1.2) rotate(0deg) translateZ(35px); opacity:1} }
+          @keyframes cellFoundGreen { 0%{transform:scale(0) rotate(-10deg) translateZ(0); opacity:0; background:linear-gradient(135deg, #10b981, #5fd08a)} 50%{transform:scale(1.3) rotate(5deg) translateZ(40px); opacity:1; background:linear-gradient(135deg, #10b981, #5fd08a)} 100%{transform:scale(1.2) rotate(0deg) translateZ(35px); opacity:1} }
           @keyframes cellFoundColor { 0%{filter:brightness(1.5)} 100%{filter:brightness(1)} }
           @keyframes cellDisappear { 0%{transform:scale(1.2) translateZ(35px); opacity:1} 50%{transform:scale(1.4) rotate(10deg) translateZ(20px); opacity:0.6} 100%{transform:scale(0.7) rotate(15deg) translateZ(5px); opacity:0.2} }
-          @keyframes cellGlow { 0%,100%{box-shadow:0 0 30px var(--cell-color, #00d4ff)aa, 0 0 60px var(--cell-color, #00d4ff)60} 50%{box-shadow:0 0 50px var(--cell-color, #00d4ff)cc, 0 0 100px var(--cell-color, #00d4ff)80} }
+          @keyframes cellGlow { 0%,100%{box-shadow:0 0 30px var(--cell-color, #f2c14e)aa, 0 0 60px var(--cell-color, #f2c14e)60} 50%{box-shadow:0 0 50px var(--cell-color, #f2c14e)cc, 0 0 100px var(--cell-color, #f2c14e)80} }
           @keyframes cellPulse { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
           @keyframes cellDepthPulse { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
           @keyframes letterFloat { 0%,100%{transform:translateY(0) translateZ(0)} 50%{transform:translateY(-3px) translateZ(5px)} }
@@ -2160,12 +1994,12 @@ function CtComponent() {
           @keyframes flameFlicker { 0%,100%{transform:scale(1) rotate(0deg)} 50%{transform:scale(1.2) rotate(5deg)} }
           @keyframes neonBorder { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
           @keyframes celebrationRing { 0%{transform:scale(1); opacity:0.8} 100%{transform:scale(1.6); opacity:0} }
-          @keyframes gridContainerPulse { 0%,100%{box-shadow:0 0 80px rgba(32,128,255,.3), 0 0 160px rgba(32,128,255,.15), 0 0 320px rgba(184,41,221,.1), inset 0 0 80px rgba(32,128,255,.08)} 50%{box-shadow:0 0 100px rgba(32,128,255,.4), 0 0 200px rgba(32,128,255,.2), 0 0 400px rgba(184,41,221,.15), inset 0 0 100px rgba(32,128,255,.12)} }
+          @keyframes gridContainerPulse { 0%,100%{box-shadow:0 0 80px rgba(242,193,78,.3), 0 0 160px rgba(242,193,78,.15), 0 0 320px rgba(165,15,37,.1), inset 0 0 80px rgba(242,193,78,.08)} 50%{box-shadow:0 0 100px rgba(242,193,78,.4), 0 0 200px rgba(242,193,78,.2), 0 0 400px rgba(165,15,37,.15), inset 0 0 100px rgba(242,193,78,.12)} }
           @keyframes gridContainerFloat { 0%,100%{transform:translateZ(20px) perspective(1500px) rotateX(8deg)} 50%{transform:translateZ(20px) perspective(1500px) rotateX(6deg)} }
-          @keyframes timerPulse { 0%,100%{box-shadow:0 0 15px rgba(0,212,255,.1), inset 0 0 10px rgba(0,212,255,.05)} 50%{box-shadow:0 0 25px rgba(0,212,255,.2), inset 0 0 15px rgba(0,212,255,.1)} }
+          @keyframes timerPulse { 0%,100%{box-shadow:0 0 15px rgba(242,193,78,.1), inset 0 0 10px rgba(242,193,78,.05)} 50%{box-shadow:0 0 25px rgba(242,193,78,.2), inset 0 0 15px rgba(242,193,78,.1)} }
           @keyframes statCardEnter { 0%{transform:perspective(500px) rotateX(0deg) rotateY(0deg) translateZ(-50px) scale(0.8); opacity:0} 100%{transform:perspective(500px) rotateX(0deg) rotateY(0deg) translateZ(15px) scale(1); opacity:1} }
           @keyframes neonFlicker { 0%,100%{opacity:1} 50%{opacity:0.8} }
-          @keyframes cellSelectedPulse { 0%,100%{box-shadow:0 0 30px rgba(0,212,255,.5), 0 0 60px rgba(0,212,255,.3), inset 0 0 20px rgba(0,212,255,.2)} 50%{box-shadow:0 0 50px rgba(0,212,255,.7), 0 0 100px rgba(0,212,255,.4), inset 0 0 30px rgba(0,212,255,.3)} }
+          @keyframes cellSelectedPulse { 0%,100%{box-shadow:0 0 30px rgba(242,193,78,.5), 0 0 60px rgba(242,193,78,.3), inset 0 0 20px rgba(242,193,78,.2)} 50%{box-shadow:0 0 50px rgba(242,193,78,.7), 0 0 100px rgba(242,193,78,.4), inset 0 0 30px rgba(242,193,78,.3)} }
           @keyframes scoreFloat { 0%,100%{transform:perspective(600px) rotateX(5deg) translateZ(12px) translateY(0)} 50%{transform:perspective(600px) rotateX(3deg) translateZ(15px) translateY(-3px)} }
           @keyframes victoryParticle { 0%,100%{transform:translateY(0) rotate(0deg) scale(1); opacity:0.6} 50%{transform:translateY(-30px) rotate(180deg) scale(1.5); opacity:0.3} }
           .animate-screenShake { animation: screenShake 0.5s ease-in-out; }

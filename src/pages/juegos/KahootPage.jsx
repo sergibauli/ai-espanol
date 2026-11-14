@@ -17,7 +17,9 @@ import { Link } from "react-router";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
 import { P as P_1 } from "../../components/PostGameNav.jsx";
 import { SoundToggles } from "../../components/SoundToggles.jsx";
+import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
+import { contenidoJuego, parametrosJuego } from "../../lib/contenidoJuego.js";
 const Ha = {
   modulos: [
     {
@@ -8932,28 +8934,28 @@ const Ha = {
 };
 const aa = [
   {
-    color: "#ff3860",
+    color: "#e0283f",
     label: "Rojo",
-    shadow: "rgba(255,56,96,0.6)",
-    glow: "rgba(255,56,96,0.25)",
+    shadow: "rgba(224,40,63,0.6)",
+    glow: "rgba(224,40,63,0.25)",
   },
   {
-    color: "#2080ff",
+    color: "#f2c14e",
     label: "Azul",
-    shadow: "rgba(32,128,255,0.6)",
-    glow: "rgba(32,128,255,0.25)",
+    shadow: "rgba(242,193,78,0.6)",
+    glow: "rgba(242,193,78,0.25)",
   },
   {
-    color: "#39ff14",
+    color: "#5fd08a",
     label: "Verde",
-    shadow: "rgba(57,255,20,0.6)",
-    glow: "rgba(57,255,20,0.25)",
+    shadow: "rgba(95,208,138,0.6)",
+    glow: "rgba(95,208,138,0.25)",
   },
   {
-    color: "#ffd600",
+    color: "#f2c14e",
     label: "Amarillo",
-    shadow: "rgba(255,214,0,0.6)",
-    glow: "rgba(255,214,0,0.25)",
+    shadow: "rgba(242,193,78,0.6)",
+    glow: "rgba(242,193,78,0.25)",
   },
 ];
 const KAHOOT_TILES = [["#d0343f", "#8f0c21", "#fff"], ["#2f6fd6", "#173f8a", "#fff"], ["#f2c14e", "#c8961e", "#3b2416"], ["#36a35a", "#1e6338", "#fff"]];
@@ -9048,24 +9050,24 @@ function JComponent({ expression, bounce }) {
     expression === "shocked" ||
     expression === "warning" ? (
       <>
-        <circle cx="22" cy="40" r="6" fill="#ff3860" opacity="0.35" />
-        <circle cx="66" cy="40" r="6" fill="#ff3860" opacity="0.35" />
+        <circle cx="22" cy="40" r="6" fill="#e0283f" opacity="0.35" />
+        <circle cx="66" cy="40" r="6" fill="#e0283f" opacity="0.35" />
       </>
     ) : null;
   const l =
     expression === "sad"
       ? "#a0a8ff"
       : expression === "celebrating"
-        ? "#ffd600"
+        ? "#f2c14e"
         : expression === "shocked"
-          ? "#ff7eb3"
+          ? "#e0283f"
           : expression === "warning"
-            ? "#ff8c42"
-            : "#ff7eb3";
+            ? "#d99a22"
+            : "#e0283f";
   const S =
     expression === "celebrating" || expression === "shocked" || expression === "warning"
-      ? "#ff3860"
-      : "#ff00aa";
+      ? "#e0283f"
+      : "#e0283f";
   return (
     <div
       className="fixed bottom-2 right-2 md:bottom-6 md:right-6 z-50 pointer-events-none"
@@ -9135,7 +9137,7 @@ function JComponent({ expression, bounce }) {
               x="70"
               y="18"
               fontSize="16"
-              fill="#ffd600"
+              fill="#f2c14e"
               style={{
                 animation: "mascotQuestionBounce 1s ease-in-out infinite",
               }}
@@ -9149,7 +9151,7 @@ function JComponent({ expression, bounce }) {
                 x="6"
                 y="22"
                 fontSize="14"
-                fill="#ff3860"
+                fill="#e0283f"
                 style={{
                   animation: "starTwinkle 0.8s ease-in-out infinite",
                 }}
@@ -9160,7 +9162,7 @@ function JComponent({ expression, bounce }) {
                 x="72"
                 y="18"
                 fontSize="14"
-                fill="#ffd600"
+                fill="#f2c14e"
                 style={{
                   animation: "starTwinkle 1s ease-in-out infinite 0.2s",
                 }}
@@ -9175,7 +9177,7 @@ function JComponent({ expression, bounce }) {
                 x="6"
                 y="22"
                 fontSize="14"
-                fill="#ffd600"
+                fill="#f2c14e"
                 style={{
                   animation: "starTwinkle 0.8s ease-in-out infinite",
                 }}
@@ -9186,7 +9188,7 @@ function JComponent({ expression, bounce }) {
                 x="72"
                 y="18"
                 fontSize="14"
-                fill="#39ff14"
+                fill="#5fd08a"
                 style={{
                   animation: "starTwinkle 1s ease-in-out infinite 0.2s",
                 }}
@@ -9197,7 +9199,7 @@ function JComponent({ expression, bounce }) {
                 x="76"
                 y="52"
                 fontSize="12"
-                fill="#2080ff"
+                fill="#f2c14e"
                 style={{
                   animation: "starTwinkle 0.6s ease-in-out infinite 0.4s",
                 }}
@@ -9208,7 +9210,7 @@ function JComponent({ expression, bounce }) {
                 x="8"
                 y="55"
                 fontSize="10"
-                fill="#ff3860"
+                fill="#e0283f"
                 style={{
                   animation: "starTwinkle 1.2s ease-in-out infinite 0.1s",
                 }}
@@ -9323,7 +9325,7 @@ function VaComponent({ color }) {
   return null;
 }
 function BaComponent({ won }) {
-  const t = ["#ffd600", "#39ff14", "#2080ff"];
+  const t = ["#f2c14e", "#5fd08a", "#f2c14e"];
   const c = ["160px", "110px", "80px"];
   return (
     <div className="flex items-end gap-2 md:gap-4 mb-6 md:mb-10 w-full max-w-md justify-center">
@@ -9402,11 +9404,11 @@ function BaComponent({ won }) {
 }
 function IaComponent({ timeLeft, maxTime }) {
   const c = (timeLeft / maxTime) * 100;
-  const e = timeLeft <= 3 ? "#ff3860" : timeLeft <= 6 ? "#ffd600" : "#39ff14";
+  const e = timeLeft <= 3 ? "#e0283f" : timeLeft <= 6 ? "#f2c14e" : "#5fd08a";
   const d = timeLeft <= 3 ? "timerPanicPulse" : timeLeft <= 6 ? "timerWarnPulse" : "timerNormalPulse";
   const filter_1 =
     timeLeft <= 3
-      ? "drop-shadow(0 0 20px #ff3860) drop-shadow(0 0 40px #ff3860) drop-shadow(0 0 60px #ff3860)"
+      ? "drop-shadow(0 0 20px #e0283f) drop-shadow(0 0 40px #e0283f) drop-shadow(0 0 60px #e0283f)"
       : "none";
   return (
     <div className="flex flex-col items-center gap-3 mb-4 md:mb-6 w-full max-w-2xl mx-auto">
@@ -9514,7 +9516,7 @@ function XaComponent({ streak, multiplier }) {
       <div
         className="absolute -inset-[2px] rounded-full pointer-events-none opacity-100"
         style={{
-          background: "linear-gradient(90deg, #ffd600, #ff3860, #ff00aa, #ffd600, #ff3860)",
+          background: "linear-gradient(90deg, #f2c14e, #e0283f, #e0283f, #f2c14e, #e0283f)",
           backgroundSize: "200% 200%",
           animation: "borderRotate 2s linear infinite",
           zIndex: -1,
@@ -9523,10 +9525,10 @@ function XaComponent({ streak, multiplier }) {
       <div
         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm md:text-base font-black shadow-2xl border relative overflow-hidden"
         style={{
-          background: "rgba(255,214,0,0.12)",
-          borderColor: "rgba(255,214,0,0.35)",
-          color: "#ffd600",
-          boxShadow: "0 0 30px rgba(255,214,0,0.3), 0 0 60px rgba(255,214,0,0.15)",
+          background: "rgba(242,193,78,0.12)",
+          borderColor: "rgba(242,193,78,0.35)",
+          color: "#f2c14e",
+          boxShadow: "0 0 30px rgba(242,193,78,0.3), 0 0 60px rgba(242,193,78,0.15)",
           animation: "streakPulse 0.8s ease-in-out infinite, streakGlow 2s ease-in-out infinite alternate",
         }}
       >
@@ -9539,8 +9541,8 @@ function XaComponent({ streak, multiplier }) {
               top: "50%",
               width: `${d.size}px`,
               height: `${d.size}px`,
-              background: "#ffd600",
-              boxShadow: "0 0 6px #ffd600, 0 0 12px #ffd600",
+              background: "#f2c14e",
+              boxShadow: "0 0 6px #f2c14e, 0 0 12px #f2c14e",
               animation: `streakGoldConfetti 1.5s ${d.delay}s ease-out infinite`,
               opacity: 0.8,
             }}
@@ -9581,6 +9583,24 @@ function XaComponent({ streak, multiplier }) {
     </div>
   );
 }
+// Preguntas tipo Kahoot (chino → español) con el vocabulario de una unidad o de una de sus clases
+function preguntasDeVocabulario(numero, clase, barajar) {
+  const contenido = contenidoJuego(numero, clase);
+  if (!contenido) return [];
+  const palabras = contenido.vocabulario.filter((v) => v.espanol && v.chino);
+  const unidad = clase ? contenidoJuego(numero, null)?.vocabulario || [] : palabras;
+  const distintas = (lista) => [...new Set(lista.map((v) => v.espanol))];
+  return barajar(palabras)
+    .slice(0, 20)
+    .map((palabra, indice) => {
+      // Distractores: primero de la misma clase; si no hay bastantes, del resto de la unidad
+      const otrasClase = barajar(distintas(palabras).filter((e) => e !== palabra.espanol));
+      const otrasUnidad = barajar(distintas(unidad).filter((e) => e !== palabra.espanol && !otrasClase.includes(e)));
+      const incorrectas = [...otrasClase, ...otrasUnidad].slice(0, 3);
+      return { id: `v${indice}`, tipo: "vocabulario", preguntaChino: palabra.chino, correcta: palabra.espanol, incorrectas };
+    })
+    .filter((pregunta) => pregunta.incorrectas.length === 3);
+}
 function AComponent() {
   const { playCorrect, playWrong, playWin, playLose, playClick } = useSound();
   const [l, setL] = React.useState("select");
@@ -9616,21 +9636,33 @@ function AComponent() {
   const pa = React.useCallback(
     (i) => {
       playClick();
-      const s = Z.find((u) => u.id === i);
-      if (!s || !s.preguntas || s.preguntas.length === 0) {
+      const barajar = (lista) => {
+        const copia = [...lista];
+        for (let k = copia.length - 1; k > 0; k--) {
+          const r = Math.floor(Math.random() * (k + 1));
+          [copia[k], copia[r]] = [copia[r], copia[k]];
+        }
+        return copia;
+      };
+      // Preguntas: de la clase abierta (?m=N&clase=K) o de una unidad sin banco → con su vocabulario;
+      // de una unidad con banco → el banco; «Todas las unidades» → 20 preguntas mezcladas de todo el banco.
+      let preguntasElegidas;
+      if (i === null) {
+        preguntasElegidas = barajar(Z.flatMap((modulo) => modulo.preguntas || [])).slice(0, 20);
+      } else {
+        const numero = Number(String(i).replace("modulo-", ""));
+        const ruta = parametrosJuego();
+        const deClase = ruta.clase && ruta.numero === numero;
+        const banco = Z.find((modulo) => modulo.id === i)?.preguntas || [];
+        preguntasElegidas = deClase || banco.length === 0 ? preguntasDeVocabulario(numero, deClase ? ruta.clase : null, barajar) : banco;
+      }
+      if (!preguntasElegidas || preguntasElegidas.length === 0) {
         setCa("Este módulo no tiene preguntas disponibles. Prueba con otro módulo.");
         return;
       }
       setCa("");
-      const o = (u) => {
-        const p = [...u];
-        for (let C = p.length - 1; C > 0; C--) {
-          const m = Math.floor(Math.random() * (C + 1));
-          [p[C], p[m]] = [p[m], p[C]];
-        }
-        return p;
-      };
-      const b = o(s.preguntas).map((u) => {
+      const o = barajar;
+      const b = o(preguntasElegidas).map((u) => {
         const allAnswers = o([u.correcta, ...u.incorrectas]);
         return {
           ...u,
@@ -9725,7 +9757,7 @@ function AComponent() {
           return ga;
         });
         setP((x) => Math.min(x + 0.5, 4));
-        setColor("rgba(57,255,20,0.2)");
+        setColor("rgba(95,208,138,0.2)");
         setBounce(true);
         setTimeout(() => setBounce(false), 600);
         const text = u > 50 ? `+${U} Speed!` : `+${U}`;
@@ -9747,7 +9779,7 @@ function AComponent() {
         setK(0);
         setP(1);
         setSa(true);
-        setColor("rgba(255,56,96,0.25)");
+        setColor("rgba(224,40,63,0.25)");
         setTimeout(() => {
           setSa(false);
         }, 500);
@@ -9862,10 +9894,10 @@ function AComponent() {
     @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
     @keyframes timerNormalPulse { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.1)} }
     @keyframes timerWarnPulse { 0%,100%{transform:scale(1);filter:brightness(1)} 50%{transform:scale(1.05);filter:brightness(1.2)} }
-    @keyframes timerPanicPulse { 0%,100%{transform:scale(1);filter:brightness(1)} 50%{transform:scale(1.2);filter:brightness(1.6);text-shadow:0 0 40px #ff3860,0 0 80px #ff3860,0 0 120px #ff3860} }
+    @keyframes timerPanicPulse { 0%,100%{transform:scale(1);filter:brightness(1)} 50%{transform:scale(1.2);filter:brightness(1.6);text-shadow:0 0 40px #e0283f,0 0 80px #e0283f,0 0 120px #e0283f} }
     @keyframes streakPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
     @keyframes streakGoldConfetti { 0%{transform:translateY(0) scale(1);opacity:0.8} 50%{transform:translateY(-20px) scale(1.2);opacity:1} 100%{transform:translateY(-40px) scale(0.8);opacity:0} }
-    @keyframes streakGlow { 0%{box-shadow:0 0 30px rgba(255,214,0,0.3),0 0 60px rgba(255,214,0,0.15)} 100%{box-shadow:0 0 50px rgba(255,214,0,0.5),0 0 100px rgba(255,214,0,0.25)} }
+    @keyframes streakGlow { 0%{box-shadow:0 0 30px rgba(242,193,78,0.3),0 0 60px rgba(242,193,78,0.15)} 100%{box-shadow:0 0 50px rgba(242,193,78,0.5),0 0 100px rgba(242,193,78,0.25)} }
     @keyframes flameFlicker { 0%{transform:scale(1) rotate(-5deg)} 100%{transform:scale(1.2) rotate(5deg)} }
     @keyframes streak-enter { 0%{opacity:0;transform:translateY(-20px) scale(0.8)} 60%{opacity:1;transform:translateY(5px) scale(1.1)} 100%{transform:translateY(0) scale(1)} }
     @keyframes question-enter { 0%{opacity:0;transform:translateY(40px) scale(0.95) rotateX(-5deg)} 60%{opacity:1;transform:translateY(-5px) scale(1.02) rotateX(2deg)} 100%{opacity:1;transform:translateY(0) scale(1) rotateX(0)} }
@@ -9880,11 +9912,11 @@ function AComponent() {
     @keyframes trophySpin { 0%,100%{transform:rotateY(0) scale(1)} 50%{transform:rotateY(180deg) scale(1.1)} }
     @keyframes trophyFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
     @keyframes podiumBounce { 0%{opacity:0;transform:translateY(60px) scale(0.8)} 60%{opacity:1;transform:translateY(-5px) scale(1.05)} 100%{opacity:1;transform:translateY(0) scale(1)} }
-    @keyframes podiumGlow { 0%{box-shadow:0 0 40px rgba(255,214,0,0.3)} 100%{box-shadow:0 0 80px rgba(255,214,0,0.6),0 0 120px rgba(255,214,0,0.3)} }
+    @keyframes podiumGlow { 0%{box-shadow:0 0 40px rgba(242,193,78,0.3)} 100%{box-shadow:0 0 80px rgba(242,193,78,0.6),0 0 120px rgba(242,193,78,0.3)} }
     @keyframes podiumShine { 0%{filter:brightness(1)} 50%{filter:brightness(1.3)} 100%{filter:brightness(1)} }
     @keyframes speedBonus { 0%{opacity:0;transform:translateY(20px) scale(0.8)} 20%{opacity:1;transform:translateY(-5px) scale(1.1)} 80%{opacity:1;transform:translateY(-5px) scale(1)} 100%{opacity:0;transform:translateY(-30px) scale(0.9)} }
     @keyframes kahootFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-    @keyframes kahootTitlePulse { from{filter:drop-shadow(0 0 50px rgba(255,56,96,0.5)) brightness(1)} to{filter:drop-shadow(0 0 100px rgba(255,56,96,0.7)) brightness(1.15)} }
+    @keyframes kahootTitlePulse { from{filter:drop-shadow(0 0 50px rgba(224,40,63,0.5)) brightness(1)} to{filter:drop-shadow(0 0 100px rgba(224,40,63,0.7)) brightness(1.15)} }
     @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
     @keyframes shineRotate { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
     @keyframes gradientBg { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
@@ -9893,16 +9925,16 @@ function AComponent() {
     @keyframes glowTextPulse { 0%,100%{text-shadow:0 0 20px var(--glow-color),0 0 40px var(--glow-color)66} 50%{text-shadow:0 0 30px var(--glow-color),0 0 60px var(--glow-color)88,0 0 90px var(--glow-color)44} }
     @keyframes answerCorrectBurst { 0%{transform:scale(1) translateZ(0)} 30%{transform:scale(1.08) translateZ(60px)} 60%{transform:scale(1.04) translateZ(40px)} 100%{transform:scale(1.04) translateZ(40px)} }
     @keyframes answerWrongShake { 0%{transform:translateX(0) translateZ(0)} 15%{transform:translateX(-8px) translateZ(0)} 30%{transform:translateX(8px) translateZ(0)} 45%{transform:translateX(-5px) translateZ(0)} 60%{transform:translateX(5px) translateZ(0)} 75%{transform:translateX(-2px) translateZ(0)} 100%{transform:translateX(0) translateZ(0)} }
-    @keyframes moduleCardGlow { 0%{box-shadow:0 0 20px rgba(255,56,96,0.15),0 10px 30px rgba(0,0,0,0.3)} 50%{box-shadow:0 0 40px rgba(255,56,96,0.3),0 15px 50px rgba(0,0,0,0.4)} 100%{box-shadow:0 0 20px rgba(255,56,96,0.15),0 10px 30px rgba(0,0,0,0.3)} }
-    @keyframes questionCardGlow { 0%{box-shadow:0 0 40px rgba(255,0,170,0.15),0 20px 60px rgba(0,0,0,0.4),inset 0 0 60px rgba(255,255,255,0.02)} 50%{box-shadow:0 0 70px rgba(255,0,170,0.25),0 25px 80px rgba(0,0,0,0.5),inset 0 0 80px rgba(255,255,255,0.04)} 100%{box-shadow:0 0 40px rgba(255,0,170,0.15),0 20px 60px rgba(0,0,0,0.4),inset 0 0 60px rgba(255,255,255,0.02)} }
-    @keyframes progressGlow { 0%{box-shadow:0 0 20px rgba(32,128,255,0.6),0 0 40px rgba(255,56,96,0.3)} 50%{box-shadow:0 0 35px rgba(32,128,255,0.8),0 0 70px rgba(255,56,96,0.5)} 100%{box-shadow:0 0 20px rgba(32,128,255,0.6),0 0 40px rgba(255,56,96,0.3)} }
+    @keyframes moduleCardGlow { 0%{box-shadow:0 0 20px rgba(224,40,63,0.15),0 10px 30px rgba(0,0,0,0.3)} 50%{box-shadow:0 0 40px rgba(224,40,63,0.3),0 15px 50px rgba(0,0,0,0.4)} 100%{box-shadow:0 0 20px rgba(224,40,63,0.15),0 10px 30px rgba(0,0,0,0.3)} }
+    @keyframes questionCardGlow { 0%{box-shadow:0 0 40px rgba(224,40,63,0.15),0 20px 60px rgba(0,0,0,0.4),inset 0 0 60px rgba(255,255,255,0.02)} 50%{box-shadow:0 0 70px rgba(224,40,63,0.25),0 25px 80px rgba(0,0,0,0.5),inset 0 0 80px rgba(255,255,255,0.04)} 100%{box-shadow:0 0 40px rgba(224,40,63,0.15),0 20px 60px rgba(0,0,0,0.4),inset 0 0 60px rgba(255,255,255,0.02)} }
+    @keyframes progressGlow { 0%{box-shadow:0 0 20px rgba(242,193,78,0.6),0 0 40px rgba(224,40,63,0.3)} 50%{box-shadow:0 0 35px rgba(242,193,78,0.8),0 0 70px rgba(224,40,63,0.5)} 100%{box-shadow:0 0 20px rgba(242,193,78,0.6),0 0 40px rgba(224,40,63,0.3)} }
     @keyframes scoreFloat { 0%,100%{transform:translateY(0) translateZ(0)} 50%{transform:translateY(-4px) translateZ(15px)} }
     @keyframes answerHoverGlow { 0%{box-shadow:0 0 20px var(--shadow-color)33,0 8px 20px rgba(0,0,0,0.2)} 50%{box-shadow:0 0 50px var(--shadow-color)66,0 0 80px var(--shadow-color)33,0 12px 40px rgba(0,0,0,0.3)} 100%{box-shadow:0 0 20px var(--shadow-color)33,0 8px 20px rgba(0,0,0,0.2)} }
     @keyframes flipIn3D { 0%{opacity:0;transform:perspective(1000px) rotateY(-90deg) translateZ(-100px)} 60%{opacity:1;transform:perspective(1000px) rotateY(10deg) translateZ(20px)} 100%{opacity:1;transform:perspective(1000px) rotateY(0) translateZ(0)} }
     @keyframes slideOut3D { 0%{opacity:1;transform:perspective(1000px) rotateX(0) translateZ(0)} 100%{opacity:0;transform:perspective(1000px) rotateX(15deg) translateZ(-200px) translateY(-60px)} }
     @keyframes neonBorderSweep { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    @keyframes correctAnswerGlow { 0%,100%{box-shadow:0 0 50px rgba(57,255,20,0.5),0 0 100px rgba(57,255,20,0.25),inset 0 0 30px rgba(57,255,20,0.1)} 50%{box-shadow:0 0 80px rgba(57,255,20,0.7),0 0 150px rgba(57,255,20,0.4),inset 0 0 50px rgba(57,255,20,0.2)} }
-    @keyframes wrongAnswerGlow { 0%,100%{box-shadow:0 0 30px rgba(255,56,96,0.4),0 0 60px rgba(255,56,96,0.2)} 50%{box-shadow:0 0 50px rgba(255,56,96,0.6),0 0 100px rgba(255,56,96,0.3)} }
+    @keyframes correctAnswerGlow { 0%,100%{box-shadow:0 0 50px rgba(95,208,138,0.5),0 0 100px rgba(95,208,138,0.25),inset 0 0 30px rgba(95,208,138,0.1)} 50%{box-shadow:0 0 80px rgba(95,208,138,0.7),0 0 150px rgba(95,208,138,0.4),inset 0 0 50px rgba(95,208,138,0.2)} }
+    @keyframes wrongAnswerGlow { 0%,100%{box-shadow:0 0 30px rgba(224,40,63,0.4),0 0 60px rgba(224,40,63,0.2)} 50%{box-shadow:0 0 50px rgba(224,40,63,0.6),0 0 100px rgba(224,40,63,0.3)} }
     @keyframes resultCardFloat { 0%,100%{transform:translateY(0) rotateX(0) rotateY(0)} 50%{transform:translateY(-8px) rotateX(3deg) rotateY(-2deg)} }
     .animate-streak-enter { animation: streak-enter 0.5s ease-out both; }
     .animate-question-enter { animation: question-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
@@ -9915,160 +9947,10 @@ function AComponent() {
   `;
   if (l === "select") {
     return (
-      <StarfieldBackground>
-        <Component />
-        <JComponent expression={expression} bounce={bounce} />
-        <div
-          className="max-w-6xl mx-auto px-4 py-6 md:py-8 min-h-screen relative z-10"
-          style={{
-            perspective: "1200px",
-          }}
-        >
-          <SoundToggles />
-          <Link
-            to="/juegos"
-            onClick={() => playClick()}
-            className="inline-flex items-center gap-2 text-white/60 hover:text-cyan-300 transition-colors mb-6 text-sm font-bold drop-shadow-lg hover:drop-shadow-cyan-400/50"
-          >
-            <ArrowLeftIcon size={18} /> Volver / 返回
-          </Link>
-          <div className="text-center mb-8 md:mb-12">
-            <div
-              className="w-20 h-20 md:w-24 md:h-24 rounded-3xl flex items-center justify-center mx-auto mb-4 relative"
-              style={{
-                background: "linear-gradient(135deg,#ff3860,#ff00aa)",
-                boxShadow: "0 0 50px rgba(255,56,96,0.5), 0 0 100px rgba(255,0,170,0.3)",
-                animation: "kahootFloat 3s ease-in-out infinite",
-              }}
-            >
-              <ZapIcon
-                size={44}
-                className="text-white drop-shadow-lg"
-                style={{
-                  animation: "trophyFloat 2s ease-in-out infinite",
-                }}
-              />
-              <div
-                className="absolute inset-0 rounded-3xl"
-                style={{
-                  background: "linear-gradient(135deg,transparent,rgba(255,255,255,0.2))",
-                  animation: "shineRotate 4s linear infinite",
-                }}
-              />
-            </div>
-            <h1
-              className="text-4xl md:text-7xl font-black mb-2 tracking-tight"
-              style={{
-                background: "linear-gradient(135deg,#ff3860 0%,#ff00aa 40%,#ffd600 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 50px rgba(255,56,96,.5))",
-                animation: "kahootTitlePulse 3s ease-in-out infinite alternate",
-              }}
-            >
-              Kahoot Quiz
-            </h1>
-            <p className="text-white/50 text-base md:text-lg font-medium drop-shadow-sm">
-              Selecciona un módulo para comenzar / 选择模块开始
-            </p>
-            {ca && (
-              <div
-                className="mt-4 mx-auto max-w-lg p-4 rounded-xl text-sm font-bold animate-bounce-in"
-                style={{
-                  background: "rgba(255,68,68,.12)",
-                  border: "1px solid rgba(255,68,68,.4)",
-                  color: "#ff6b35",
-                  boxShadow: "0 0 20px rgba(255,68,68,.2)",
-                }}
-              >
-                {ca}
-              </div>
-            )}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
-            {Z.map((i, s) => (
-              <button
-                key={i.id}
-                onClick={() => pa(i.id)}
-                className="group relative rounded-2xl md:rounded-3xl p-5 md:p-6 text-left cursor-pointer block overflow-hidden transition-all duration-500"
-                style={{
-                  background: "linear-gradient(180deg,rgba(14,22,64,.65),rgba(5,8,27,.5))",
-                  border: "1px solid rgba(255,255,255,.14)",
-                  backdropFilter: "blur(14px)",
-                  transformStyle: "preserve-3d",
-                  animation: `cardEnter 0.6s ${s * 0.08}s ease-out both, moduleCardGlow 4s ease-in-out infinite`,
-                  transition:
-                    "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease",
-                }}
-                onMouseEnter={(o) => {
-                  o.currentTarget.style.transform =
-                    "translateY(-14px) scale(1.04) rotateX(6deg) rotateY(3deg) translateZ(30px)";
-                  o.currentTarget.style.boxShadow =
-                    "0 0 60px rgba(255,56,96,.5),0 0 120px rgba(255,0,170,.25),0 25px 60px rgba(0,0,0,.5)";
-                  o.currentTarget.style.borderColor = "#ff3860cc";
-                }}
-                onMouseLeave={(o) => {
-                  o.currentTarget.style.transform = "";
-                  o.currentTarget.style.boxShadow = "";
-                  o.currentTarget.style.borderColor = "rgba(255,255,255,.14)";
-                }}
-              >
-                <div
-                  className="absolute -inset-[2px] rounded-[26px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: "linear-gradient(90deg, #ff386000, #ff3860, #ff00aa, #00d4ff, #ff386000)",
-                    backgroundSize: "200% 100%",
-                    animation: "borderRotate 3s linear infinite",
-                    zIndex: -1,
-                  }}
-                />
-                <div className="flex items-center gap-3 mb-3">
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-lg shadow-lg"
-                    style={{
-                      background: "rgba(255,0,170,.2)",
-                      boxShadow: "0 0 15px rgba(255,0,170,.3)",
-                      animation: "neonPulse 2s ease-in-out infinite",
-                    }}
-                  >
-                    <BookOpenIcon
-                      size={22}
-                      style={{
-                        color: "#ff00aa",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <p
-                      className="text-sm md:text-base font-black text-white drop-shadow-md"
-                      style={{
-                        textShadow: "0 0 10px rgba(255,255,255,.2)",
-                      }}
-                    >
-                      {i.titulo}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p
-                    className="text-xs font-bold"
-                    style={{
-                      color: "rgba(207,216,255,.5)",
-                    }}
-                  >
-                    {i.preguntas?.length || 20} preguntas / 题
-                  </p>
-                  <Gamepad2Icon
-                    size={16}
-                    className="text-white/20 group-hover:text-white/60 transition-colors"
-                  />
-                </div>
-              </button>
-            ))}
-          </div>
-          <style>{O}</style>
-        </div>
-      </StarfieldBackground>
+      <>
+        <SoundToggles />
+        <SelectorTemaJuego juego="kahoot" error={ca} onIniciar={pa} />
+      </>
     );
   }
   if (l === "result") {
@@ -10090,11 +9972,11 @@ function AComponent() {
             className="w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center mb-6 relative"
             style={{
               background: won
-                ? "linear-gradient(135deg,#ffd600,#ff3860)"
-                : "linear-gradient(135deg,#2080ff,#39ff14)",
+                ? "linear-gradient(135deg,#f2c14e,#e0283f)"
+                : "linear-gradient(135deg,#f2c14e,#5fd08a)",
               boxShadow: won
-                ? "0 0 60px rgba(255,214,0,0.4), 0 0 120px rgba(255,56,96,0.2)"
-                : "0 0 60px rgba(32,128,255,0.4), 0 0 120px rgba(57,255,20,0.2)",
+                ? "0 0 60px rgba(242,193,78,0.4), 0 0 120px rgba(224,40,63,0.2)"
+                : "0 0 60px rgba(242,193,78,0.4), 0 0 120px rgba(95,208,138,0.2)",
               animation: "trophySpin 3s ease-in-out infinite",
             }}
           >
@@ -10110,13 +9992,13 @@ function AComponent() {
             className="text-4xl md:text-7xl font-black mb-2 tracking-tight animate-bounce-in"
             style={{
               background: won
-                ? "linear-gradient(135deg,#ffd600,#ff3860)"
-                : "linear-gradient(135deg,#2080ff,#39ff14)",
+                ? "linear-gradient(135deg,#f2c14e,#e0283f)"
+                : "linear-gradient(135deg,#f2c14e,#5fd08a)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               filter: won
-                ? "drop-shadow(0 0 40px rgba(255,214,0,.5))"
-                : "drop-shadow(0 0 40px rgba(57,255,20,.4))",
+                ? "drop-shadow(0 0 40px rgba(242,193,78,.5))"
+                : "drop-shadow(0 0 40px rgba(95,208,138,.4))",
             }}
           >
             ¡Resultados!
@@ -10127,7 +10009,7 @@ function AComponent() {
             <div
               className="rounded-2xl md:rounded-3xl p-4 md:p-6 relative overflow-hidden group"
               style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.6),rgba(5,8,27,.45))",
+                background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
                 border: "1px solid rgba(255,255,255,.12)",
                 backdropFilter: "blur(14px)",
                 transformStyle: "preserve-3d",
@@ -10137,7 +10019,7 @@ function AComponent() {
               onMouseEnter={(o) => {
                 o.currentTarget.style.transform =
                   "perspective(600px) rotateX(4deg) rotateY(-3deg) translateZ(20px) scale(1.03)";
-                o.currentTarget.style.boxShadow = "0 0 50px rgba(255,214,0,0.3),0 20px 60px rgba(0,0,0,0.5)";
+                o.currentTarget.style.boxShadow = "0 0 50px rgba(242,193,78,0.3),0 20px 60px rgba(0,0,0,0.5)";
               }}
               onMouseLeave={(o) => {
                 o.currentTarget.style.transform = "";
@@ -10147,7 +10029,7 @@ function AComponent() {
               <div
                 className="absolute -inset-[1px] rounded-[18px] opacity-40 group-hover:opacity-60 transition-opacity"
                 style={{
-                  background: "linear-gradient(135deg,#ffd600,#ff3860)",
+                  background: "linear-gradient(135deg,#f2c14e,#e0283f)",
                   filter: "blur(15px)",
                   zIndex: -1,
                 }}
@@ -10156,8 +10038,8 @@ function AComponent() {
               <p
                 className="text-3xl md:text-4xl font-black"
                 style={{
-                  color: "#ffd600",
-                  textShadow: "0 0 25px rgba(255,214,0,.6), 0 0 50px rgba(255,214,0,.3)",
+                  color: "#f2c14e",
+                  textShadow: "0 0 25px rgba(242,193,78,.6), 0 0 50px rgba(242,193,78,.3)",
                 }}
               >
                 {ia}
@@ -10166,7 +10048,7 @@ function AComponent() {
             <div
               className="rounded-2xl md:rounded-3xl p-4 md:p-6 relative overflow-hidden group"
               style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.6),rgba(5,8,27,.45))",
+                background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
                 border: "1px solid rgba(255,255,255,.12)",
                 backdropFilter: "blur(14px)",
                 transformStyle: "preserve-3d",
@@ -10176,7 +10058,7 @@ function AComponent() {
               onMouseEnter={(o) => {
                 o.currentTarget.style.transform =
                   "perspective(600px) rotateX(4deg) rotateY(3deg) translateZ(20px) scale(1.03)";
-                o.currentTarget.style.boxShadow = "0 0 50px rgba(57,255,20,0.3),0 20px 60px rgba(0,0,0,0.5)";
+                o.currentTarget.style.boxShadow = "0 0 50px rgba(95,208,138,0.3),0 20px 60px rgba(0,0,0,0.5)";
               }}
               onMouseLeave={(o) => {
                 o.currentTarget.style.transform = "";
@@ -10186,7 +10068,7 @@ function AComponent() {
               <div
                 className="absolute -inset-[1px] rounded-[18px] opacity-40 group-hover:opacity-60 transition-opacity"
                 style={{
-                  background: "linear-gradient(135deg,#39ff14,#00d4ff)",
+                  background: "linear-gradient(135deg,#5fd08a,#f2c14e)",
                   filter: "blur(15px)",
                   zIndex: -1,
                 }}
@@ -10195,8 +10077,8 @@ function AComponent() {
               <p
                 className="text-3xl md:text-4xl font-black"
                 style={{
-                  color: "#39ff14",
-                  textShadow: "0 0 25px rgba(57,255,20,.6), 0 0 50px rgba(57,255,20,.3)",
+                  color: "#5fd08a",
+                  textShadow: "0 0 25px rgba(95,208,138,.6), 0 0 50px rgba(95,208,138,.3)",
                 }}
               >
                 {y}/{h.length}
@@ -10205,7 +10087,7 @@ function AComponent() {
             <div
               className="rounded-2xl md:rounded-3xl p-4 md:p-6 relative overflow-hidden group"
               style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.6),rgba(5,8,27,.45))",
+                background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
                 border: "1px solid rgba(255,255,255,.12)",
                 backdropFilter: "blur(14px)",
                 transformStyle: "preserve-3d",
@@ -10215,7 +10097,7 @@ function AComponent() {
               onMouseEnter={(o) => {
                 o.currentTarget.style.transform =
                   "perspective(600px) rotateX(4deg) rotateY(-3deg) translateZ(20px) scale(1.03)";
-                o.currentTarget.style.boxShadow = "0 0 50px rgba(255,56,96,0.3),0 20px 60px rgba(0,0,0,0.5)";
+                o.currentTarget.style.boxShadow = "0 0 50px rgba(224,40,63,0.3),0 20px 60px rgba(0,0,0,0.5)";
               }}
               onMouseLeave={(o) => {
                 o.currentTarget.style.transform = "";
@@ -10225,7 +10107,7 @@ function AComponent() {
               <div
                 className="absolute -inset-[1px] rounded-[18px] opacity-40 group-hover:opacity-60 transition-opacity"
                 style={{
-                  background: "linear-gradient(135deg,#ff3860,#ff00aa)",
+                  background: "linear-gradient(135deg,#e0283f,#e0283f)",
                   filter: "blur(15px)",
                   zIndex: -1,
                 }}
@@ -10234,8 +10116,8 @@ function AComponent() {
               <p
                 className="text-3xl md:text-4xl font-black"
                 style={{
-                  color: "#ff3860",
-                  textShadow: "0 0 25px rgba(255,56,96,.5), 0 0 50px rgba(255,56,96,.3)",
+                  color: "#e0283f",
+                  textShadow: "0 0 25px rgba(224,40,63,.5), 0 0 50px rgba(224,40,63,.3)",
                 }}
               >
                 {s}%
@@ -10244,7 +10126,7 @@ function AComponent() {
             <div
               className="rounded-2xl md:rounded-3xl p-4 md:p-6 relative overflow-hidden group"
               style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.6),rgba(5,8,27,.45))",
+                background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
                 border: "1px solid rgba(255,255,255,.12)",
                 backdropFilter: "blur(14px)",
                 transformStyle: "preserve-3d",
@@ -10254,7 +10136,7 @@ function AComponent() {
               onMouseEnter={(o) => {
                 o.currentTarget.style.transform =
                   "perspective(600px) rotateX(4deg) rotateY(3deg) translateZ(20px) scale(1.03)";
-                o.currentTarget.style.boxShadow = "0 0 50px rgba(32,128,255,0.3),0 20px 60px rgba(0,0,0,0.5)";
+                o.currentTarget.style.boxShadow = "0 0 50px rgba(242,193,78,0.3),0 20px 60px rgba(0,0,0,0.5)";
               }}
               onMouseLeave={(o) => {
                 o.currentTarget.style.transform = "";
@@ -10264,7 +10146,7 @@ function AComponent() {
               <div
                 className="absolute -inset-[1px] rounded-[18px] opacity-40 group-hover:opacity-60 transition-opacity"
                 style={{
-                  background: "linear-gradient(135deg,#2080ff,#ffd600)",
+                  background: "linear-gradient(135deg,#f2c14e,#f2c14e)",
                   filter: "blur(15px)",
                   zIndex: -1,
                 }}
@@ -10273,8 +10155,8 @@ function AComponent() {
               <p
                 className="text-3xl md:text-4xl font-black"
                 style={{
-                  color: "#2080ff",
-                  textShadow: "0 0 25px rgba(32,128,255,.5), 0 0 50px rgba(32,128,255,.3)",
+                  color: "#f2c14e",
+                  textShadow: "0 0 25px rgba(242,193,78,.5), 0 0 50px rgba(242,193,78,.3)",
                 }}
               >
                 {ja}
@@ -10291,20 +10173,20 @@ function AComponent() {
               onClick={onClick}
               className="px-8 py-3 md:px-10 md:py-4 rounded-full text-white font-black text-sm md:text-base transition-all hover:scale-110 active:scale-95 hover:shadow-2xl"
               style={{
-                background: "linear-gradient(135deg,#ff3860,#ff00aa)",
-                boxShadow: "0 0 40px rgba(255,56,96,0.5), 0 0 80px rgba(255,0,170,0.25)",
+                background: "linear-gradient(135deg,#e0283f,#e0283f)",
+                boxShadow: "0 0 40px rgba(224,40,63,0.5), 0 0 80px rgba(224,40,63,0.25)",
                 transformStyle: "preserve-3d",
                 transition: "transform 0.3s ease, box-shadow 0.3s ease",
               }}
               onMouseEnter={(o) => {
                 o.currentTarget.style.transform = "translateZ(30px) rotateX(5deg) scale(1.08)";
                 o.currentTarget.style.boxShadow =
-                  "0 0 60px rgba(255,56,96,0.7), 0 0 120px rgba(255,0,170,0.4)";
+                  "0 0 60px rgba(224,40,63,0.7), 0 0 120px rgba(224,40,63,0.4)";
               }}
               onMouseLeave={(o) => {
                 o.currentTarget.style.transform = "";
                 o.currentTarget.style.boxShadow =
-                  "0 0 40px rgba(255,56,96,0.5), 0 0 80px rgba(255,0,170,0.25)";
+                  "0 0 40px rgba(224,40,63,0.5), 0 0 80px rgba(224,40,63,0.25)";
               }}
             >
               Otro módulo / 其他模块
@@ -10313,20 +10195,20 @@ function AComponent() {
               onClick={() => oa && pa(oa)}
               className="px-8 py-3 md:px-10 md:py-4 rounded-full text-white font-black text-sm md:text-base transition-all hover:scale-110 active:scale-95 flex items-center gap-2 hover:shadow-2xl"
               style={{
-                background: "linear-gradient(135deg,#2080ff,#00d4ff)",
-                boxShadow: "0 0 40px rgba(32,128,255,0.5), 0 0 80px rgba(0,212,255,0.25)",
+                background: "linear-gradient(135deg,#f2c14e,#f2c14e)",
+                boxShadow: "0 0 40px rgba(242,193,78,0.5), 0 0 80px rgba(242,193,78,0.25)",
                 transformStyle: "preserve-3d",
                 transition: "transform 0.3s ease, box-shadow 0.3s ease",
               }}
               onMouseEnter={(o) => {
                 o.currentTarget.style.transform = "translateZ(30px) rotateX(5deg) scale(1.08)";
                 o.currentTarget.style.boxShadow =
-                  "0 0 60px rgba(32,128,255,0.7), 0 0 120px rgba(0,212,255,0.4)";
+                  "0 0 60px rgba(242,193,78,0.7), 0 0 120px rgba(242,193,78,0.4)";
               }}
               onMouseLeave={(o) => {
                 o.currentTarget.style.transform = "";
                 o.currentTarget.style.boxShadow =
-                  "0 0 40px rgba(32,128,255,0.5), 0 0 80px rgba(0,212,255,0.25)";
+                  "0 0 40px rgba(242,193,78,0.5), 0 0 80px rgba(242,193,78,0.25)";
               }}
             >
               <RotateCcwIcon size={18} /> Reintentar / 重试
@@ -10362,10 +10244,10 @@ function AComponent() {
             <div
               className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all hover:scale-105"
               style={{
-                background: "rgba(255,214,0,.12)",
-                border: "1px solid rgba(255,214,0,.25)",
-                color: "#ffd600",
-                boxShadow: "0 0 15px rgba(255,214,0,.15), inset 0 0 10px rgba(255,214,0,.05)",
+                background: "rgba(242,193,78,.12)",
+                border: "1px solid rgba(242,193,78,.25)",
+                color: "#f2c14e",
+                boxShadow: "0 0 15px rgba(242,193,78,.15), inset 0 0 10px rgba(242,193,78,.05)",
                 animation: "scoreFloat 3s ease-in-out infinite",
                 transformStyle: "preserve-3d",
               }}
@@ -10375,10 +10257,10 @@ function AComponent() {
             <div
               className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all hover:scale-105"
               style={{
-                background: "rgba(255,0,170,.12)",
-                border: "1px solid rgba(255,0,170,.25)",
-                color: "#ff00aa",
-                boxShadow: "0 0 15px rgba(255,0,170,.15), inset 0 0 10px rgba(255,0,170,.05)",
+                background: "rgba(224,40,63,.12)",
+                border: "1px solid rgba(224,40,63,.25)",
+                color: "#e0283f",
+                boxShadow: "0 0 15px rgba(224,40,63,.15), inset 0 0 10px rgba(224,40,63,.05)",
                 animation: "scoreFloat 3s ease-in-out infinite 0.5s",
                 transformStyle: "preserve-3d",
               }}
@@ -10411,8 +10293,8 @@ function AComponent() {
             className="h-full rounded-full transition-all duration-700 relative"
             style={{
               width: `${Na}%`,
-              background: "linear-gradient(90deg,#ff3860,#ff00aa,#2080ff,#39ff14)",
-              boxShadow: "0 0 20px rgba(32,128,255,0.6), 0 0 40px rgba(255,56,96,0.3)",
+              background: "linear-gradient(90deg,#e0283f,#e0283f,#f2c14e,#5fd08a)",
+              boxShadow: "0 0 20px rgba(242,193,78,0.6), 0 0 40px rgba(224,40,63,0.3)",
               animation: "progressGlow 3s ease-in-out infinite",
             }}
           >
@@ -10432,8 +10314,8 @@ function AComponent() {
             <div
               className="text-4xl md:text-6xl font-black animate-speed-bonus"
               style={{
-                color: "#ffd600",
-                textShadow: "0 0 40px rgba(255,214,0,0.8), 0 0 80px rgba(255,214,0,0.5)",
+                color: "#f2c14e",
+                textShadow: "0 0 40px rgba(242,193,78,0.8), 0 0 80px rgba(242,193,78,0.5)",
                 WebkitTextStroke: "1px rgba(255,255,255,0.3)",
               }}
             >
@@ -10453,7 +10335,7 @@ function AComponent() {
             <div
               className="absolute -inset-[3px] rounded-3xl pointer-events-none"
               style={{
-                background: "linear-gradient(90deg, #ff3860, #ff00aa, #00d4ff, #39ff14, #ffd600, #ff3860)",
+                background: "linear-gradient(90deg, #e0283f, #e0283f, #f2c14e, #5fd08a, #f2c14e, #e0283f)",
                 backgroundSize: "300% 300%",
                 animation: "borderRotate 4s linear infinite, neonPulse 2s ease-in-out infinite alternate",
                 zIndex: -1,
@@ -10463,12 +10345,12 @@ function AComponent() {
             <div
               className="relative inline-block px-5 py-4 md:px-8 md:py-6 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl z-10"
               style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.85),rgba(5,8,27,.7))",
+                background: "linear-gradient(180deg,rgba(52,26,16,.85),rgba(30,14,8,.7))",
                 border: "1px solid rgba(255,255,255,.2)",
                 backdropFilter: "blur(20px) saturate(1.5)",
                 transformStyle: "preserve-3d",
                 boxShadow:
-                  "0 0 50px rgba(255,0,170,.2), 0 25px 80px rgba(0,0,0,.5), inset 0 0 80px rgba(255,255,255,.03)",
+                  "0 0 50px rgba(224,40,63,.2), 0 25px 80px rgba(0,0,0,.5), inset 0 0 80px rgba(255,255,255,.03)",
                 transition: "transform 0.15s ease-out, box-shadow 0.3s ease",
                 animation: "questionCardGlow 4s ease-in-out infinite",
               }}
@@ -10482,7 +10364,7 @@ function AComponent() {
                 const m = ((o - u) / u) * 12;
                 i.currentTarget.style.transform = `perspective(800px) rotateX(${C}deg) rotateY(${m}deg) scale(1.03) translateZ(40px)`;
                 i.currentTarget.style.boxShadow =
-                  "0 0 70px rgba(255,0,170,.3), 0 30px 90px rgba(0,0,0,.6), inset 0 0 100px rgba(255,255,255,.05)";
+                  "0 0 70px rgba(224,40,63,.3), 0 30px 90px rgba(0,0,0,.6), inset 0 0 100px rgba(255,255,255,.05)";
               }}
               onMouseLeave={(i) => {
                 i.currentTarget.style.transform = "";
@@ -10492,7 +10374,7 @@ function AComponent() {
               <div
                 className="absolute -inset-[1px] rounded-[18px] opacity-50"
                 style={{
-                  background: "linear-gradient(135deg,#ff3860,#2080ff,#00d4ff)",
+                  background: "linear-gradient(135deg,#e0283f,#f2c14e,#f2c14e)",
                   filter: "blur(15px)",
                   zIndex: -1,
                   animation: "neonPulse 3s ease-in-out infinite",
@@ -10502,7 +10384,7 @@ function AComponent() {
                 className="absolute top-0 left-0 right-0 h-0.5 opacity-80"
                 style={{
                   background:
-                    "linear-gradient(90deg,transparent,#ff3860,#ff00aa,#00d4ff,#39ff14,transparent)",
+                    "linear-gradient(90deg,transparent,#e0283f,#e0283f,#f2c14e,#5fd08a,transparent)",
                   animation: "shimmer 3s linear infinite",
                 }}
               />
@@ -10510,7 +10392,7 @@ function AComponent() {
                 className="text-3xl md:text-5xl font-black text-white mb-2 md:mb-3 drop-shadow-xl"
                 style={{
                   textShadow:
-                    "0 0 30px rgba(255,255,255,.4), 0 0 60px rgba(255,0,170,.3), 0 0 90px rgba(255,56,96,.15), 0 0 120px rgba(0,212,255,.1)",
+                    "0 0 30px rgba(255,255,255,.4), 0 0 60px rgba(224,40,63,.3), 0 0 90px rgba(224,40,63,.15), 0 0 120px rgba(242,193,78,.1)",
                 }}
               >
                 {f.preguntaChino}
@@ -10527,8 +10409,8 @@ function AComponent() {
               key={i.id}
               className="kahoot-floating-score absolute left-1/2 font-black text-2xl md:text-3xl pointer-events-none drop-shadow-xl"
               style={{
-                color: "#ffd600",
-                textShadow: "0 0 25px rgba(255,214,0,.65)",
+                color: "#f2c14e",
+                textShadow: "0 0 25px rgba(242,193,78,.65)",
                 "--score-x": `${i.x}px`,
               }}
             >
@@ -10603,7 +10485,7 @@ function AComponent() {
                 <div
                   className="absolute -inset-[2px] rounded-2xl md:rounded-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{
-                    background: `linear-gradient(90deg, ${o.color}, #ff00aa, #00d4ff, ${o.color})`,
+                    background: `linear-gradient(90deg, ${o.color}, #e0283f, #f2c14e, ${o.color})`,
                     backgroundSize: "200% 200%",
                     animation: "borderRotate 3s linear infinite",
                     zIndex: -1,
@@ -10690,7 +10572,7 @@ function AComponent() {
                       className="absolute top-2 right-3 text-xs md:text-sm font-black animate-bounce-in"
                       style={{
                         color: "#fff",
-                        textShadow: "0 0 10px rgba(255,56,96,0.8)",
+                        textShadow: "0 0 10px rgba(224,40,63,0.8)",
                       }}
                     >
                       ✗
@@ -10706,11 +10588,11 @@ function AComponent() {
             <p
               className="text-2xl md:text-4xl font-black drop-shadow-xl mb-1"
               style={{
-                color: w === f.correcta ? "#39ff14" : "#ff3860",
+                color: w === f.correcta ? "#5fd08a" : "#e0283f",
                 textShadow:
                   w === f.correcta
-                    ? "0 0 30px rgba(57,255,20,.8), 0 0 60px rgba(57,255,20,.5), 0 0 90px rgba(57,255,20,.3), 0 0 120px rgba(57,255,20,.2)"
-                    : "0 0 30px rgba(255,56,96,.8), 0 0 60px rgba(255,56,96,.5), 0 0 90px rgba(255,56,96,.3), 0 0 120px rgba(255,56,96,.2)",
+                    ? "0 0 30px rgba(95,208,138,.8), 0 0 60px rgba(95,208,138,.5), 0 0 90px rgba(95,208,138,.3), 0 0 120px rgba(95,208,138,.2)"
+                    : "0 0 30px rgba(224,40,63,.8), 0 0 60px rgba(224,40,63,.5), 0 0 90px rgba(224,40,63,.3), 0 0 120px rgba(224,40,63,.2)",
               }}
             >
               {w === f.correcta ? "¡Correcto! / 正确！ 🎉" : "¡Incorrecto! / 错误！ 💥"}
@@ -10732,7 +10614,7 @@ function AComponent() {
                 <span
                   className="text-white/90 font-bold"
                   style={{
-                    textShadow: "0 0 15px rgba(57,255,20,0.6), 0 0 30px rgba(57,255,20,0.3)",
+                    textShadow: "0 0 15px rgba(95,208,138,0.6), 0 0 30px rgba(95,208,138,0.3)",
                   }}
                 >
                   {f.correcta}

@@ -18,21 +18,22 @@ import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx
 import { P as P_1 } from "../../components/PostGameNav.jsx";
 import { SoundToggles } from "../../components/SoundToggles.jsx";
 import { g, a as a_1 } from "../../lib/juegos-utils.js";
+import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
 const pe = 15;
 const s = {
   1: {
-    main: "#00f0ff",
-    glow: "rgba(0,240,255,0.7)",
-    bg: "rgba(0,240,255,0.15)",
-    border: "rgba(0,240,255,0.45)",
+    main: "#f2c14e",
+    glow: "rgba(242,193,78,0.7)",
+    bg: "rgba(242,193,78,0.15)",
+    border: "rgba(242,193,78,0.45)",
     label: "Jugador 1",
   },
   2: {
-    main: "#ff2a6d",
-    glow: "rgba(255,42,109,0.7)",
-    bg: "rgba(255,42,109,0.15)",
-    border: "rgba(255,42,109,0.45)",
+    main: "#e0283f",
+    glow: "rgba(224,40,63,0.7)",
+    bg: "rgba(224,40,63,0.15)",
+    border: "rgba(224,40,63,0.45)",
     label: "Jugador 2",
   },
 };
@@ -101,28 +102,28 @@ const he = {
 };
 const ra = {
   DL: {
-    bg: "rgba(0,240,255,.22)",
-    border: "rgba(0,240,255,.55)",
-    text: "#00f0ff",
-    glow: "0 0 10px rgba(0,240,255,.4)",
+    bg: "rgba(242,193,78,.22)",
+    border: "rgba(242,193,78,.55)",
+    text: "#f2c14e",
+    glow: "0 0 10px rgba(242,193,78,.4)",
   },
   TL: {
-    bg: "rgba(57,255,20,.22)",
-    border: "rgba(57,255,20,.55)",
-    text: "#39ff14",
-    glow: "0 0 10px rgba(57,255,20,.4)",
+    bg: "rgba(95,208,138,.22)",
+    border: "rgba(95,208,138,.55)",
+    text: "#5fd08a",
+    glow: "0 0 10px rgba(95,208,138,.4)",
   },
   DW: {
-    bg: "rgba(255,0,220,.22)",
-    border: "rgba(255,0,220,.55)",
-    text: "#ff00dc",
-    glow: "0 0 10px rgba(255,0,220,.4)",
+    bg: "rgba(224,40,63,.22)",
+    border: "rgba(224,40,63,.55)",
+    text: "#e0283f",
+    glow: "0 0 10px rgba(224,40,63,.4)",
   },
   TW: {
-    bg: "rgba(255,220,0,.22)",
-    border: "rgba(255,220,0,.55)",
-    text: "#ffea00",
-    glow: "0 0 10px rgba(255,220,0,.4)",
+    bg: "rgba(242,193,78,.22)",
+    border: "rgba(242,193,78,.55)",
+    text: "#f2c14e",
+    glow: "0 0 10px rgba(242,193,78,.4)",
   },
 };
 const Ja = {
@@ -1281,8 +1282,8 @@ function Sa1Component({ expression }) {
         <path d={d} stroke="#2a1a2e" strokeWidth="0.9" fill="none" strokeLinecap="round" />
         {I && (
           <>
-            <circle cx="5" cy="11.5" r="1.6" fill="#ff69b6" opacity="0.5" />
-            <circle cx="17" cy="11.5" r="1.6" fill="#ff69b6" opacity="0.5" />
+            <circle cx="5" cy="11.5" r="1.6" fill="#e0283f" opacity="0.5" />
+            <circle cx="17" cy="11.5" r="1.6" fill="#e0283f" opacity="0.5" />
           </>
         )}
         {re && (
@@ -1291,7 +1292,7 @@ function Sa1Component({ expression }) {
             <circle cx="17" cy="11.5" r="1.3" fill="#ff99cc" opacity="0.35" />
           </>
         )}
-        <ellipse cx="11" cy="18.5" rx="3" ry="2" fill="#ff69b6" opacity="0.2" />
+        <ellipse cx="11" cy="18.5" rx="3" ry="2" fill="#e0283f" opacity="0.2" />
       </svg>
     </div>
   );
@@ -1494,16 +1495,16 @@ function StComponent() {
   }, [De.length]);
   const ma = React.useCallback(() => {
     const a = [
-      "#00f0ff",
-      "#ff2a6d",
-      "#ffea00",
-      "#39ff14",
-      "#ff00dc",
+      "#f2c14e",
+      "#e0283f",
+      "#f2c14e",
+      "#5fd08a",
+      "#e0283f",
       "#ffffff",
       "#ffa600",
-      "#b829dd",
+      "#a50f25",
       "#ff85d4",
-      "#00d4a0",
+      "#5fd08a",
     ];
     const l = ["square", "circle", "triangle"];
     const t = Array.from({
@@ -2268,225 +2269,35 @@ function StComponent() {
   const se_length = se.length;
   if (te === "select") {
     return (
-      <StarfieldBackground>
+      <>
         <SoundToggles />
-        <div className="max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10 flex flex-col items-center justify-center">
-          <div className="text-center mb-12">
-            <div
-              className="inline-flex items-center justify-center w-24 h-24 rounded-2xl mb-6 animate-float"
-              style={{
-                background: "linear-gradient(135deg, #ffd600, #ff6b35, #ff00aa)",
-                boxShadow:
-                  "0 0 60px rgba(255,214,0,.6), 0 0 100px rgba(255,107,53,.4), 0 0 140px rgba(255,0,170,.2)",
-                transform: "rotateX(15deg)",
-                perspective: "800px",
-              }}
-            >
-              <HashIcon size={48} className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" />
-            </div>
-            <h1
-              className="text-5xl md:text-6xl font-black mb-4"
-              style={{
-                textShadow:
-                  "0 0 50px rgba(255,214,0,0.5), 0 0 100px rgba(255,107,53,0.3), 0 0 150px rgba(255,0,170,0.15)",
-                transform: "rotateX(5deg)",
-                perspective: "800px",
-              }}
-            >
-              Apalabrados
-            </h1>
-            <p className="text-white/50 text-base font-medium mb-2">
-              2 Jugadores - Scrabble en español / 双人西班牙语拼字游戏
-            </p>
-            <p className="text-white/30 text-xs font-medium">
-              Diccionario amplio de palabras españolas / 海量西班牙语词汇
-            </p>
-            <div className="flex justify-center gap-6 mt-6">
-              <div
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold"
-                style={{
-                  background: s[1].bg,
-                  border: `1px solid ${s[1].border}`,
-                  color: s[1].main,
-                  boxShadow: `0 0 20px ${s[1].glow}`,
-                }}
-              >
-                <UserIcon size={14} /> Jugador 1 (Neón Cyan)
-              </div>
-              <div
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold"
-                style={{
-                  background: s[2].bg,
-                  border: `1px solid ${s[2].border}`,
-                  color: s[2].main,
-                  boxShadow: `0 0 20px ${s[2].glow}`,
-                }}
-              >
-                <UserIcon size={14} /> Jugador 2 (Neón Rosa)
-              </div>
-            </div>
+        <SelectorTemaJuego juego="apalabrados" sinUnidades>
+          <div className="v14j-apal-jugadores">
+            <span className="v14j-apal-jugador v14j-apal-jugador--1">
+              <UserIcon size={16} aria-hidden="true" /> Jugador 1 · 玩家一
+            </span>
+            <span className="v14j-apal-jugador v14j-apal-jugador--2">
+              <UserIcon size={16} aria-hidden="true" /> Jugador 2 · 玩家二
+            </span>
           </div>
           <button
+            type="button"
+            className="v14j-apal-empezar"
             onClick={() => {
               setSe_1("");
               Qe();
             }}
-            className="group relative px-16 py-5 rounded-full text-white font-black text-xl transition-all hover:scale-110 active:scale-95"
-            style={{
-              background: "linear-gradient(135deg, #ffd600, #ff6b35, #ff00aa)",
-              boxShadow:
-                "0 0 40px rgba(255,214,0,.4), 0 0 80px rgba(255,107,53,.3), 0 0 120px rgba(255,0,170,.2)",
-            }}
           >
-            <span className="relative z-10 flex items-center gap-3">
-              <SparklesIcon size={24} /> JUGAR / 开始游戏
-            </span>
-            <div
-              className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{
-                background: "linear-gradient(135deg, #ff00aa, #ffd600, #ff6b35)",
-                boxShadow: "0 0 60px rgba(255,0,170,.5), 0 0 100px rgba(255,214,0,.4)",
-              }}
-            />
+            <SparklesIcon size={22} aria-hidden="true" /> Jugar · 开始游戏
           </button>
-          <div className="mt-8 grid grid-cols-2 gap-4 max-w-md">
-            <div
-              className="rounded-xl p-3 text-center"
-              style={{
-                background: "rgba(0,240,255,.08)",
-                border: "1px solid rgba(0,240,255,.2)",
-                boxShadow: "0 0 15px rgba(0,240,255,.1)",
-              }}
-            >
-              <p className="text-[10px] text-white/40 font-bold uppercase">Tablero</p>
-              <p
-                className="text-sm font-black"
-                style={{
-                  color: "#00f0ff",
-                }}
-              >
-                15×15
-              </p>
-            </div>
-            <div
-              className="rounded-xl p-3 text-center"
-              style={{
-                background: "rgba(255,42,109,.08)",
-                border: "1px solid rgba(255,42,109,.2)",
-                boxShadow: "0 0 15px rgba(255,42,109,.1)",
-              }}
-            >
-              <p className="text-[10px] text-white/40 font-bold uppercase">Fichas</p>
-              <p
-                className="text-sm font-black"
-                style={{
-                  color: "#ff2a6d",
-                }}
-              >
-                7 c/u
-              </p>
-            </div>
-            <div
-              className="rounded-xl p-3 text-center"
-              style={{
-                background: "rgba(255,214,0,.08)",
-                border: "1px solid rgba(255,214,0,.2)",
-                boxShadow: "0 0 15px rgba(255,214,0,.1)",
-              }}
-            >
-              <p className="text-[10px] text-white/40 font-bold uppercase">Diccionario</p>
-              <p
-                className="text-sm font-black"
-                style={{
-                  color: "#ffd600",
-                }}
-              >
-                1000+ palabras
-              </p>
-            </div>
-            <div
-              className="rounded-xl p-3 text-center"
-              style={{
-                background: "rgba(57,255,20,.08)",
-                border: "1px solid rgba(57,255,20,.2)",
-                boxShadow: "0 0 15px rgba(57,255,20,.1)",
-              }}
-            >
-              <p className="text-[10px] text-white/40 font-bold uppercase">Descarte</p>
-              <p
-                className="text-sm font-black"
-                style={{
-                  color: "#39ff14",
-                }}
-              >
-                Activo
-              </p>
-            </div>
-          </div>
-          <Link
-            to="/juegos"
-            className="mt-8 inline-flex items-center gap-2 text-white/40 hover:text-[#39ecff] transition-colors text-sm font-bold group"
-          >
-            <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" /> Volver /
-            返回
-          </Link>
-        </div>
-        <Sa1Component expression="neutral" />
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-        @keyframes tilePlacePop { 0%{transform:scale(0.6) translateZ(-30px);opacity:0} 60%{transform:scale(1.2) translateZ(15px);opacity:1} 100%{transform:scale(1) translateZ(0);opacity:1} }
-        @keyframes tileGlowPulse { 0%{box-shadow:0 0 0px transparent} 50%{box-shadow:0 0 30px rgba(255,255,255,0.8)} 100%{box-shadow:0 0 0px transparent} }
-        @keyframes premiumPulse { 0%,100%{box-shadow:0 0 8px var(--glow-color), inset 0 0 8px var(--glow-color); transform:scale(1)} 50%{box-shadow:0 0 20px var(--glow-color), inset 0 0 12px var(--glow-color); transform:scale(1.05)} }
-        @keyframes boardAmbient { 0%,100%{box-shadow:0 0 60px var(--board-glow), 0 25px 70px rgba(0,0,0,.6), inset 0 0 30px rgba(255,255,255,.05), 0 0 120px var(--board-glow-dim)} 50%{box-shadow:0 0 90px var(--board-glow), 0 25px 70px rgba(0,0,0,.6), inset 0 0 30px rgba(255,255,255,.08), 0 0 160px var(--board-glow-dim)} }
-        @keyframes tileFloat { 0%,100%{transform:translateY(0) translateZ(5px)} 50%{transform:translateY(-3px) translateZ(8px)} }
-        @keyframes rackGlow { 0%,100%{box-shadow:0 0 40px var(--rack-glow), 0 8px 24px rgba(0,0,0,.3), inset 0 0 30px rgba(255,255,255,.03)} 50%{box-shadow:0 0 60px var(--rack-glow), 0 8px 24px rgba(0,0,0,.3), inset 0 0 30px rgba(255,255,255,.05)} }
-        @keyframes shuffleSpin { 0%{transform:rotateY(0deg)} 100%{transform:rotateY(360deg)} }
-        @keyframes neonFlicker { 0%,19%,21%,23%,25%,54%,56%,100%{opacity:1} 20%,24%,55%{opacity:0.6} }
-        @keyframes glassShine { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
-        @keyframes winTrophy { 0%{transform:scale(0) rotateY(180deg)} 50%{transform:scale(1.2) rotateY(0deg)} 100%{transform:scale(1) rotateY(0deg)} }
-        @keyframes scorePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
-        @keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(110vh) rotate(720deg);opacity:0} }
-        @keyframes floatUp { 0%{transform:translateX(-50%) translateY(0);opacity:1} 100%{transform:translateX(-50%) translateY(-60px);opacity:0} }
-        @keyframes celebrationPop { 0%{transform:scale(0.5) rotateX(90deg);opacity:0} 50%{transform:scale(1.3) rotateX(0deg);opacity:1} 70%{transform:scale(1) rotateX(0deg);opacity:1} 100%{transform:scale(1) rotateX(0deg);opacity:0} }
-        @keyframes mascotFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        @keyframes mascotBounce { 0%,100%{transform:translateY(0) scale(1)} 25%{transform:translateY(-12px) scale(1.05)} 50%{transform:translateY(0) scale(1)} 75%{transform:translateY(-6px) scale(1.03)} }
-        @keyframes mascotWiggle { 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(-8deg)} 75%{transform:rotate(8deg)} }
-        @keyframes mascotSigh { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
-        @keyframes mascotThink { 0%,100%{transform:translateY(0) rotate(0deg)} 25%{transform:translateY(-4px) rotate(-3deg)} 75%{transform:translateY(-4px) rotate(3deg)} }
-        @keyframes pulseSoft { 0%,100%{opacity:1} 50%{opacity:.7} }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-        @keyframes modalIn { 0%{transform:scale(.8) translateY(20px);opacity:0} 100%{transform:scale(1) translateY(0);opacity:1} }
-        @keyframes glow { 0%,100%{filter:drop-shadow(0 0 25px rgba(255,214,0,.4))} 50%{filter:drop-shadow(0 0 40px rgba(255,214,0,.7))} }
-        @keyframes shake { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-4px)} 20%,40%,60%,80%{transform:translateX(4px)} }
-        @keyframes flashPulse { 0%{opacity:0} 50%{opacity:1} 100%{opacity:0} }
-        @keyframes pulseSlow { 0%,100%{opacity:.7} 50%{opacity:1} }
-        @keyframes tileSelectFloat { 0%,100%{transform:translateY(-8px) scale(1.12) rotateX(-5deg) translateZ(20px)} 50%{transform:translateY(-12px) scale(1.15) rotateX(-5deg) translateZ(30px)} }
-        @keyframes woodGrain { 0%{background-position:0 0} 100%{background-position:100% 100%} }
-        .animate-celebration-pop { animation: celebrationPop 1.5s ease-out forwards; }
-        .animate-pulse-soft { animation: pulseSoft 2s ease-in-out infinite; }
-        .animate-blink { animation: blink 1.5s ease-in-out infinite; }
-        .animate-modal-in { animation: modalIn 0.4s ease-out forwards; }
-        .animate-glow { animation: glow 2s ease-in-out infinite; }
-        .animate-shake { animation: shake 0.5s ease-in-out; }
-        .animate-pulse-slow { animation: pulseSlow 3s ease-in-out infinite; }
-        .perspective-1200 { perspective: 1200px; }
-        .board-3d { transform-style: preserve-3d; backface-visibility: hidden; animation: boardAmbient 4s ease-in-out infinite; }
-        .cell-glow:hover { z-index: 2; transform: scale(1.1) translateZ(10px); }
-        .rack-tile:hover { z-index: 2; }
-        .btn-neon:hover { box-shadow: 0 0 40px rgba(0,240,255,.5), 0 4px 20px rgba(0,0,0,.3) !important; }
-        .tile-3d-new { animation: tilePlacePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), tileFloat 3s ease-in-out infinite 0.5s; }
-        .tile-wood { background: linear-gradient(135deg, #f0e6d2, #c9a96e, #d4b896, #b8956a); background-size: 200% 200%; }
-        .tile-3d-placed { transform-style: preserve-3d; box-shadow: 0 3px 8px rgba(0,0,0,.5), inset 0 1px 4px rgba(255,255,255,.5); }
-        .premium-square { animation: premiumPulse 2.5s ease-in-out infinite; }
-        .glass-card { background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.15); position: relative; overflow: hidden; }
-        .glass-card::before { content:''; position: absolute; top: 0; left: -100%; width: 200%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent); animation: glassShine 3s ease-in-out infinite; pointer-events: none; }
-        .score-3d { transform-style: preserve-3d; transform: rotateX(5deg); text-shadow: 0 1px 0 rgba(255,255,255,.2), 0 2px 0 rgba(255,255,255,.15), 0 3px 0 rgba(255,255,255,.1); }
-        .trophy-anim { animation: winTrophy 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    `,
-          }}
-        />
-      </StarfieldBackground>
+          <ul className="v14j-apal-datos">
+            <li><small>Tablero · 棋盘</small><b>15×15</b></li>
+            <li><small>Fichas · 字母牌</small><b>7 c/u · 每人7张</b></li>
+            <li><small>Diccionario · 词库</small><b>1000+ palabras · 词</b></li>
+            <li><small>Descarte · 换牌</small><b>Pasa turno · 跳过</b></li>
+          </ul>
+        </SelectorTemaJuego>
+      </>
     );
   }
   const Pa = u + O;
@@ -2501,7 +2312,7 @@ function StComponent() {
         <div className="flex items-center justify-between mb-2 md:mb-3 flex-wrap gap-2">
           <Link
             to="/juegos"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#39ecff] transition-colors text-sm font-bold group"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold group"
           >
             <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" /> Volver /
             返回
@@ -2525,10 +2336,10 @@ function StComponent() {
             <div
               className="px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1"
               style={{
-                background: "rgba(255,214,0,.12)",
-                border: "1px solid rgba(255,214,0,.25)",
-                color: "#ffd600",
-                boxShadow: "0 0 10px rgba(255,214,0,.15)",
+                background: "rgba(242,193,78,.12)",
+                border: "1px solid rgba(242,193,78,.25)",
+                color: "#f2c14e",
+                boxShadow: "0 0 10px rgba(242,193,78,.15)",
               }}
             >
               <HashIcon size={12} /> Total: {Pa}
@@ -2536,10 +2347,10 @@ function StComponent() {
             <div
               className="px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1"
               style={{
-                background: "rgba(57,255,20,.12)",
-                border: "1px solid rgba(57,255,20,.25)",
-                color: "#39ff14",
-                boxShadow: "0 0 10px rgba(57,255,20,.15)",
+                background: "rgba(95,208,138,.12)",
+                border: "1px solid rgba(95,208,138,.25)",
+                color: "#5fd08a",
+                boxShadow: "0 0 10px rgba(95,208,138,.15)",
               }}
             >
               <LayersIcon size={12} /> Saco: {se_length}
@@ -2550,10 +2361,10 @@ function StComponent() {
           <h1
             className="text-2xl md:text-3xl font-black mb-1 animate-glow"
             style={{
-              background: "linear-gradient(135deg,#ffd600,#ff6b35)",
+              background: "linear-gradient(135deg,#f2c14e,#d99a22)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 25px rgba(255,214,0,.4))",
+              filter: "drop-shadow(0 0 25px rgba(242,193,78,.4))",
             }}
           >
             Apalabrados
@@ -2586,8 +2397,8 @@ function StComponent() {
             className="relative flex-1 max-w-[220px] rounded-2xl p-2 md:p-3 transition-all duration-500"
             style={{
               background: S
-                ? "linear-gradient(135deg, rgba(0,240,255,.15), rgba(0,240,255,.05))"
-                : "rgba(14,22,64,.5)",
+                ? "linear-gradient(135deg, rgba(242,193,78,.15), rgba(242,193,78,.05))"
+                : "rgba(52,26,16,.5)",
               border: S ? `2px solid ${s[1].main}` : "1px solid rgba(255,255,255,.1)",
               boxShadow: S
                 ? `0 0 30px ${s[1].glow}, inset 0 0 25px ${s[1].glow}, 0 8px 32px rgba(0,0,0,.3)`
@@ -2663,8 +2474,8 @@ function StComponent() {
             className="relative flex-1 max-w-[220px] rounded-2xl p-2 md:p-3 transition-all duration-500"
             style={{
               background: W
-                ? "linear-gradient(135deg, rgba(255,42,109,.15), rgba(255,42,109,.05))"
-                : "rgba(14,22,64,.5)",
+                ? "linear-gradient(135deg, rgba(224,40,63,.15), rgba(224,40,63,.05))"
+                : "rgba(52,26,16,.5)",
               border: W ? `2px solid ${s[2].main}` : "1px solid rgba(255,255,255,.1)",
               boxShadow: W
                 ? `0 0 30px ${s[2].glow}, inset 0 0 25px ${s[2].glow}, 0 8px 32px rgba(0,0,0,.3)`
@@ -2731,11 +2542,11 @@ function StComponent() {
               className="grid gap-[1px] md:gap-[2px] p-2 md:p-3 rounded-xl md:rounded-2xl board-3d"
               style={{
                 gridTemplateColumns: `repeat(${pe}, 1fr)`,
-                background: "linear-gradient(135deg, rgba(14,22,64,.95), rgba(5,8,27,.9))",
+                background: "linear-gradient(135deg, rgba(52,26,16,.95), rgba(30,14,8,.9))",
                 border: `2px solid ${S ? s[1].main : s[2].main}`,
-                boxShadow: `0 0 60px ${S ? s[1].glow : s[2].glow}, 0 25px 70px rgba(0,0,0,.6), inset 0 0 30px rgba(255,255,255,.05), 0 0 120px ${S ? "rgba(0,240,255,.12)" : "rgba(255,42,109,.12)"}`,
+                boxShadow: `0 0 60px ${S ? s[1].glow : s[2].glow}, 0 25px 70px rgba(0,0,0,.6), inset 0 0 30px rgba(255,255,255,.05), 0 0 120px ${S ? "rgba(242,193,78,.12)" : "rgba(224,40,63,.12)"}`,
                 "--board-glow": S ? s[1].glow : s[2].glow,
-                "--board-glow-dim": S ? "rgba(0,240,255,.12)" : "rgba(255,42,109,.12)",
+                "--board-glow-dim": S ? "rgba(242,193,78,.12)" : "rgba(224,40,63,.12)",
                 width: "min(96vw, 540px)",
                 aspectRatio: "1",
                 transition: "border-color 0.5s, box-shadow 0.5s",
@@ -2763,10 +2574,10 @@ function StComponent() {
                     style={{
                       background: g
                         ? Q === "green"
-                          ? "linear-gradient(135deg, rgba(57,255,20,.5), rgba(0,240,255,.3))"
-                          : "linear-gradient(135deg, rgba(255,0,60,.5), rgba(255,42,109,.3))"
+                          ? "linear-gradient(135deg, rgba(95,208,138,.5), rgba(242,193,78,.3))"
+                          : "linear-gradient(135deg, rgba(224,40,63,.5), rgba(224,40,63,.3))"
                         : T
-                          ? "linear-gradient(135deg, rgba(255,214,0,.4), rgba(255,107,53,.3))"
+                          ? "linear-gradient(135deg, rgba(242,193,78,.4), rgba(217,154,34,.3))"
                           : o
                             ? o.player === 1
                               ? "linear-gradient(135deg, #0a4a6e, #0d5a82)"
@@ -2775,22 +2586,22 @@ function StComponent() {
                               ? c.bg
                               : "rgba(255,255,255,.04)",
                       border: g
-                        ? `2px solid ${Q === "green" ? "#39ff14" : "#ff0040"}`
+                        ? `2px solid ${Q === "green" ? "#5fd08a" : "#ff0040"}`
                         : T
-                          ? "2px solid #ffd600"
+                          ? "2px solid #f2c14e"
                           : f
-                            ? "1px solid rgba(255,214,0,.7)"
+                            ? "1px solid rgba(242,193,78,.7)"
                             : o
                               ? `1px solid ${o.player === 1 ? s[1].main : s[2].main}`
                               : c
                                 ? `1px solid ${c.border}`
                                 : "1px solid rgba(255,255,255,.06)",
                       boxShadow: g
-                        ? `0 0 25px ${Q === "green" ? "rgba(57,255,20,.6)" : "rgba(255,0,60,.6)"}, inset 0 0 15px ${Q === "green" ? "rgba(57,255,20,.3)" : "rgba(255,0,60,.3)"}`
+                        ? `0 0 25px ${Q === "green" ? "rgba(95,208,138,.6)" : "rgba(224,40,63,.6)"}, inset 0 0 15px ${Q === "green" ? "rgba(95,208,138,.3)" : "rgba(224,40,63,.3)"}`
                         : T
-                          ? "0 0 25px rgba(255,214,0,.6), inset 0 0 15px rgba(255,214,0,.3)"
+                          ? "0 0 25px rgba(242,193,78,.6), inset 0 0 15px rgba(242,193,78,.3)"
                           : f
-                            ? "0 0 15px rgba(255,214,0,.3)"
+                            ? "0 0 15px rgba(242,193,78,.3)"
                             : o
                               ? `0 2px 8px rgba(0,0,0,.5), inset 0 1px 4px rgba(255,255,255,.5), 0 0 15px ${o.player === 1 ? s[1].glow : s[2].glow}`
                               : c
@@ -2853,11 +2664,11 @@ function StComponent() {
                 style={{
                   background:
                     Q === "green"
-                      ? "radial-gradient(circle, rgba(57,255,20,.3), transparent 70%)"
-                      : "radial-gradient(circle, rgba(255,0,60,.3), transparent 70%)",
+                      ? "radial-gradient(circle, rgba(95,208,138,.3), transparent 70%)"
+                      : "radial-gradient(circle, rgba(224,40,63,.3), transparent 70%)",
                   animation: "flashPulse 0.6s ease-out",
                   mixBlendMode: "screen",
-                  boxShadow: `inset 0 0 60px ${Q === "green" ? "rgba(57,255,20,.4)" : "rgba(255,0,60,.4)"}`,
+                  boxShadow: `inset 0 0 60px ${Q === "green" ? "rgba(95,208,138,.4)" : "rgba(224,40,63,.4)"}`,
                 }}
               />
             )}
@@ -2868,8 +2679,8 @@ function StComponent() {
             className="flex items-center gap-2 md:gap-3 p-2 md:p-3 rounded-2xl transition-all duration-500 rack-glow"
             style={{
               background: S
-                ? "linear-gradient(135deg, rgba(0,240,255,.12), rgba(0,240,255,.02))"
-                : "linear-gradient(135deg, rgba(255,42,109,.12), rgba(255,42,109,.02))",
+                ? "linear-gradient(135deg, rgba(242,193,78,.12), rgba(242,193,78,.02))"
+                : "linear-gradient(135deg, rgba(224,40,63,.12), rgba(224,40,63,.02))",
               border: `2px solid ${S ? s[1].border : s[2].border}`,
               boxShadow: `0 0 40px ${S ? s[1].glow : s[2].glow}, 0 8px 24px rgba(0,0,0,.3), inset 0 0 30px rgba(255,255,255,.03)`,
               transform: "rotateX(5deg)",
@@ -2883,7 +2694,7 @@ function StComponent() {
               const i = "linear-gradient(135deg, #f0e6d2, #c9a96e)";
               const r =
                 v === "discard"
-                  ? "linear-gradient(135deg, #ff6b35, #ff2a6d)"
+                  ? "linear-gradient(135deg, #d99a22, #e0283f)"
                   : `linear-gradient(135deg, ${s[x].main}, ${x === 1 ? "#0077ff" : "#ff0040"})`;
               return (
                 <button
@@ -2896,11 +2707,11 @@ function StComponent() {
                     background: t || n ? r : i,
                     border:
                       t || n
-                        ? `3px solid ${v === "discard" ? "#ff6b35" : s[x].main}`
+                        ? `3px solid ${v === "discard" ? "#d99a22" : s[x].main}`
                         : "2px solid rgba(255,255,255,.6)",
                     boxShadow:
                       t || n
-                        ? `0 0 30px ${v === "discard" ? "rgba(255,42,109,.7)" : s[x].glow}, 0 6px 16px rgba(0,0,0,.6), inset 0 0 10px rgba(255,255,255,.3)`
+                        ? `0 0 30px ${v === "discard" ? "rgba(224,40,63,.7)" : s[x].glow}, 0 6px 16px rgba(0,0,0,.6), inset 0 0 10px rgba(255,255,255,.3)`
                         : "0 4px 12px rgba(0,0,0,.6), inset 0 1px 6px rgba(255,255,255,.7), 0 0 12px rgba(232,213,181,.4), inset 0 0 10px rgba(255,255,255,.15)",
                     borderRadius: 12,
                     transform:
@@ -2934,7 +2745,7 @@ function StComponent() {
                       style={{
                         boxShadow:
                           `0 0 30px ${v}` == "discard" || `${s[x].main}, inset 0 0 20px ${v}` == "discard"
-                            ? "#ff6b35"
+                            ? "#d99a22"
                             : s[x].main,
                       }}
                     />
@@ -2951,7 +2762,7 @@ function StComponent() {
                 onClick={ha}
                 className="flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-white font-bold text-sm transition-all hover:scale-110 hover:-translate-y-0.5 active:scale-95 btn-neon"
                 style={{
-                  background: `linear-gradient(135deg,${s[x].main},${x === 1 ? "#00d4a0" : "#ff00aa"})`,
+                  background: `linear-gradient(135deg,${s[x].main},${x === 1 ? "#5fd08a" : "#e0283f"})`,
                   boxShadow: `0 0 25px ${s[x].glow}, 0 4px 15px rgba(0,0,0,.3)`,
                 }}
               >
@@ -2961,9 +2772,9 @@ function StComponent() {
                 onClick={Ia}
                 className="flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-white font-bold text-sm transition-all hover:scale-110 hover:-translate-y-0.5 active:scale-95"
                 style={{
-                  background: "linear-gradient(135deg, rgba(255,214,0,.2), rgba(255,214,0,.05))",
-                  border: "1px solid rgba(255,214,0,.4)",
-                  boxShadow: "0 0 20px rgba(255,214,0,.15), 0 4px 15px rgba(0,0,0,.2)",
+                  background: "linear-gradient(135deg, rgba(242,193,78,.2), rgba(242,193,78,.05))",
+                  border: "1px solid rgba(242,193,78,.4)",
+                  boxShadow: "0 0 20px rgba(242,193,78,.15), 0 4px 15px rgba(0,0,0,.2)",
                 }}
               >
                 <SkipForwardIcon size={16} /> Pasar / 跳过
@@ -2974,10 +2785,10 @@ function StComponent() {
                 style={{
                   background:
                     v === "discard" && H.size > 0
-                      ? "linear-gradient(135deg, rgba(255,42,109,.3), rgba(255,107,53,.2))"
+                      ? "linear-gradient(135deg, rgba(224,40,63,.3), rgba(217,154,34,.2))"
                       : "linear-gradient(135deg, rgba(255,68,68,.15), rgba(255,68,68,.05))",
-                  border: `1px solid ${v === "discard" && H.size > 0 ? "rgba(255,42,109,.6)" : "rgba(255,68,68,.4)"}`,
-                  boxShadow: `0 0 20px ${v === "discard" && H.size > 0 ? "rgba(255,42,109,.25)" : "rgba(255,68,68,.1)"}, 0 4px 15px rgba(0,0,0,.2)`,
+                  border: `1px solid ${v === "discard" && H.size > 0 ? "rgba(224,40,63,.6)" : "rgba(255,68,68,.4)"}`,
+                  boxShadow: `0 0 20px ${v === "discard" && H.size > 0 ? "rgba(224,40,63,.25)" : "rgba(255,68,68,.1)"}, 0 4px 15px rgba(0,0,0,.2)`,
                 }}
               >
                 <Trash2Icon size={16} /> {ka}
@@ -2997,9 +2808,9 @@ function StComponent() {
                 onClick={Ta}
                 className="flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-white font-bold text-sm transition-all hover:scale-110 hover:-translate-y-0.5 active:scale-95"
                 style={{
-                  background: "linear-gradient(135deg, rgba(57,255,20,.12), rgba(57,255,20,.02))",
-                  border: "1px solid rgba(57,255,20,.3)",
-                  boxShadow: "0 0 15px rgba(57,255,20,.08), 0 4px 15px rgba(0,0,0,.2)",
+                  background: "linear-gradient(135deg, rgba(95,208,138,.12), rgba(95,208,138,.02))",
+                  border: "1px solid rgba(95,208,138,.3)",
+                  boxShadow: "0 0 15px rgba(95,208,138,.08), 0 4px 15px rgba(0,0,0,.2)",
                 }}
               >
                 <ZapIcon size={16} /> Mezclar / 洗牌
@@ -3008,9 +2819,9 @@ function StComponent() {
                 onClick={ya}
                 className="flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-white font-bold text-sm transition-all hover:scale-110 hover:-translate-y-0.5 active:scale-95"
                 style={{
-                  background: "linear-gradient(135deg, rgba(255,214,0,.15), rgba(255,107,53,.1))",
-                  border: "1px solid rgba(255,214,0,.5)",
-                  boxShadow: "0 0 20px rgba(255,214,0,.15), 0 4px 15px rgba(0,0,0,.2)",
+                  background: "linear-gradient(135deg, rgba(242,193,78,.15), rgba(217,154,34,.1))",
+                  border: "1px solid rgba(242,193,78,.5)",
+                  boxShadow: "0 0 20px rgba(242,193,78,.15), 0 4px 15px rgba(0,0,0,.2)",
                 }}
               >
                 <XIcon size={16} /> Descartar palabra rival
@@ -3023,8 +2834,8 @@ function StComponent() {
                 onClick={La}
                 className="flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-white font-bold text-sm transition-all hover:scale-110 hover:-translate-y-0.5 active:scale-95 btn-neon"
                 style={{
-                  background: "linear-gradient(135deg, #ffd600, #ff6b35)",
-                  boxShadow: "0 0 25px rgba(255,214,0,.4), 0 4px 15px rgba(0,0,0,.3)",
+                  background: "linear-gradient(135deg, #f2c14e, #d99a22)",
+                  boxShadow: "0 0 25px rgba(242,193,78,.4), 0 4px 15px rgba(0,0,0,.3)",
                 }}
               >
                 <CheckIcon size={16} /> Confirmar descarte
@@ -3048,8 +2859,8 @@ function StComponent() {
             <p
               className="text-sm font-bold"
               style={{
-                color: "#ffd600",
-                textShadow: "0 0 10px rgba(255,214,0,.3)",
+                color: "#f2c14e",
+                textShadow: "0 0 10px rgba(242,193,78,.3)",
               }}
             >
               {B
@@ -3092,7 +2903,7 @@ function StComponent() {
             <div
               className="text-5xl md:text-6xl font-black animate-celebration-pop"
               style={{
-                background: `linear-gradient(135deg,${s[oe ?? x].main},${(oe ?? x) === 1 ? "#39ff14" : "#ff00aa"})`,
+                background: `linear-gradient(135deg,${s[oe ?? x].main},${(oe ?? x) === 1 ? "#5fd08a" : "#e0283f"})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 filter: `drop-shadow(0 0 40px ${s[oe ?? x].glow})`,
@@ -3157,14 +2968,14 @@ function StComponent() {
           <div
             className="fixed inset-0 z-[70] flex items-center justify-center"
             style={{
-              background: "rgba(3,4,17,.85)",
+              background: "rgba(24,10,6,.85)",
               backdropFilter: "blur(12px)",
             }}
           >
             <div
               className="p-5 md:p-6 rounded-2xl max-w-sm mx-4 animate-modal-in glass-card"
               style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.9),rgba(5,8,27,.8))",
+                background: "linear-gradient(180deg,rgba(52,26,16,.9),rgba(30,14,8,.8))",
                 border: "1px solid rgba(255,255,255,.2)",
                 boxShadow: "0 0 60px rgba(0,0,0,.5)",
                 transform: "rotateX(3deg)",
@@ -3175,7 +2986,7 @@ function StComponent() {
               <h3
                 className="text-xl font-black mb-3 text-center"
                 style={{
-                  color: "#ffd600",
+                  color: "#f2c14e",
                 }}
               >
                 Revisar palabras
@@ -3201,10 +3012,10 @@ function StComponent() {
                       onClick={() => Na(a)}
                       className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-110 active:scale-95"
                       style={{
-                        background: "linear-gradient(135deg, rgba(255,42,109,.3), rgba(255,107,53,.2))",
-                        border: "1px solid rgba(255,42,109,.5)",
+                        background: "linear-gradient(135deg, rgba(224,40,63,.3), rgba(217,154,34,.2))",
+                        border: "1px solid rgba(224,40,63,.5)",
                         color: "#ff6b6b",
-                        boxShadow: "0 0 15px rgba(255,42,109,.2)",
+                        boxShadow: "0 0 15px rgba(224,40,63,.2)",
                       }}
                     >
                       <XIcon size={12} /> Invalidar
@@ -3216,9 +3027,9 @@ function StComponent() {
                 onClick={Ra}
                 className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-white font-bold text-sm transition-all hover:scale-105 active:scale-95"
                 style={{
-                  background: "linear-gradient(135deg, rgba(57,255,20,.3), rgba(0,240,255,.2))",
-                  border: "1px solid rgba(57,255,20,.5)",
-                  boxShadow: "0 0 20px rgba(57,255,20,.2)",
+                  background: "linear-gradient(135deg, rgba(95,208,138,.3), rgba(242,193,78,.2))",
+                  border: "1px solid rgba(95,208,138,.5)",
+                  boxShadow: "0 0 20px rgba(95,208,138,.2)",
                 }}
               >
                 <CheckIcon size={16} /> Confirmar todas
@@ -3230,16 +3041,16 @@ function StComponent() {
           <div
             className="fixed inset-0 z-[100] flex items-center justify-center"
             style={{
-              background: "rgba(3,4,17,.92)",
+              background: "rgba(24,10,6,.92)",
               backdropFilter: "blur(24px)",
             }}
           >
             <div
               className="text-center p-6 md:p-8 rounded-3xl max-w-sm mx-4 relative overflow-hidden animate-modal-in glass-card"
               style={{
-                background: "linear-gradient(180deg,rgba(14,22,64,.85),rgba(5,8,27,.7))",
-                border: `1px solid ${u > O ? s[1].border : O > u ? s[2].border : "rgba(255,214,0,.3)"}`,
-                boxShadow: `0 0 70px ${u > O ? s[1].glow : O > u ? s[2].glow : "rgba(255,214,0,.2)"}`,
+                background: "linear-gradient(180deg,rgba(52,26,16,.85),rgba(30,14,8,.7))",
+                border: `1px solid ${u > O ? s[1].border : O > u ? s[2].border : "rgba(242,193,78,.3)"}`,
+                boxShadow: `0 0 70px ${u > O ? s[1].glow : O > u ? s[2].glow : "rgba(242,193,78,.2)"}`,
                 transformStyle: "preserve-3d",
                 perspective: "800px",
               }}
@@ -3249,10 +3060,10 @@ function StComponent() {
                 style={{
                   background:
                     u > O
-                      ? `linear-gradient(135deg,${s[1].main},#00d4a0)`
+                      ? `linear-gradient(135deg,${s[1].main},#5fd08a)`
                       : O > u
-                        ? `linear-gradient(135deg,${s[2].main},#ff00aa)`
-                        : "linear-gradient(135deg,#ffd600,#ff6b35)",
+                        ? `linear-gradient(135deg,${s[2].main},#e0283f)`
+                        : "linear-gradient(135deg,#f2c14e,#d99a22)",
                   filter: "blur(30px)",
                 }}
               />
@@ -3265,22 +3076,22 @@ function StComponent() {
                   style={{
                     left: `${Math.random() * 100}%`,
                     top: `${Math.random() * 100}%`,
-                    background: [s[1].main, s[2].main, "#ffd600", "#39ff14", "#b829dd", "#ff00dc", "#00f0ff"][
+                    background: [s[1].main, s[2].main, "#f2c14e", "#5fd08a", "#a50f25", "#e0283f", "#f2c14e"][
                       l % 7
                     ],
                     animation: `confettiFall ${2 + Math.random() * 3}s ease-in infinite`,
                     animationDelay: `${Math.random() * 2}s`,
                     opacity: 0.8,
-                    boxShadow: `0 0 8px ${[s[1].main, s[2].main, "#ffd600", "#39ff14", "#b829dd", "#ff00dc", "#00f0ff"][l % 7]}`,
+                    boxShadow: `0 0 8px ${[s[1].main, s[2].main, "#f2c14e", "#5fd08a", "#a50f25", "#e0283f", "#f2c14e"][l % 7]}`,
                   }}
                 />
               ))}
               <TrophyIcon
                 size={56}
                 style={{
-                  color: u > O ? s[1].main : O > u ? s[2].main : "#ffd600",
+                  color: u > O ? s[1].main : O > u ? s[2].main : "#f2c14e",
                   margin: "0 auto 16px",
-                  filter: `drop-shadow(0 0 20px ${u > O ? s[1].glow : O > u ? s[2].glow : "rgba(255,214,0,.5)"})`,
+                  filter: `drop-shadow(0 0 20px ${u > O ? s[1].glow : O > u ? s[2].glow : "rgba(242,193,78,.5)"})`,
                 }}
               />
               <h2
@@ -3288,10 +3099,10 @@ function StComponent() {
                 style={{
                   background:
                     u > O
-                      ? `linear-gradient(135deg,${s[1].main},#00d4a0)`
+                      ? `linear-gradient(135deg,${s[1].main},#5fd08a)`
                       : O > u
-                        ? `linear-gradient(135deg,${s[2].main},#ff00aa)`
-                        : "linear-gradient(135deg,#ffd600,#ff6b35)",
+                        ? `linear-gradient(135deg,${s[2].main},#e0283f)`
+                        : "linear-gradient(135deg,#f2c14e,#d99a22)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   filter: "drop-shadow(0 0 20px rgba(255,255,255,.1))",
@@ -3323,7 +3134,7 @@ function StComponent() {
                   <p
                     className="text-xs"
                     style={{
-                      color: "rgba(207,216,255,.5)",
+                      color: "rgba(255,236,200,.5)",
                     }}
                   >
                     Jugador 1
@@ -3357,7 +3168,7 @@ function StComponent() {
                   <p
                     className="text-xs"
                     style={{
-                      color: "rgba(207,216,255,.5)",
+                      color: "rgba(255,236,200,.5)",
                     }}
                   >
                     Jugador 2
@@ -3374,9 +3185,9 @@ function StComponent() {
                 <div
                   className="p-3 rounded-xl glass-card"
                   style={{
-                    background: "rgba(0,240,255,.1)",
-                    border: "1px solid rgba(0,240,255,.2)",
-                    boxShadow: "0 0 10px rgba(0,240,255,.1)",
+                    background: "rgba(242,193,78,.1)",
+                    border: "1px solid rgba(242,193,78,.2)",
+                    boxShadow: "0 0 10px rgba(242,193,78,.1)",
                     transform: "rotateX(5deg)",
                     transformStyle: "preserve-3d",
                   }}
@@ -3384,14 +3195,14 @@ function StComponent() {
                   <HashIcon
                     size={16}
                     style={{
-                      color: "#00f0ff",
+                      color: "#f2c14e",
                       margin: "0 auto 4px",
                     }}
                   />
                   <p
                     className="text-xs"
                     style={{
-                      color: "rgba(207,216,255,.5)",
+                      color: "rgba(255,236,200,.5)",
                     }}
                   >
                     Palabras J1
@@ -3399,7 +3210,7 @@ function StComponent() {
                   <p
                     className="text-lg font-black score-3d"
                     style={{
-                      color: "#00f0ff",
+                      color: "#f2c14e",
                     }}
                   >
                     {Ye}
@@ -3408,9 +3219,9 @@ function StComponent() {
                 <div
                   className="p-3 rounded-xl glass-card"
                   style={{
-                    background: "rgba(255,42,109,.1)",
-                    border: "1px solid rgba(255,42,109,.2)",
-                    boxShadow: "0 0 10px rgba(255,42,109,.1)",
+                    background: "rgba(224,40,63,.1)",
+                    border: "1px solid rgba(224,40,63,.2)",
+                    boxShadow: "0 0 10px rgba(224,40,63,.1)",
                     transform: "rotateX(5deg)",
                     transformStyle: "preserve-3d",
                   }}
@@ -3418,14 +3229,14 @@ function StComponent() {
                   <HashIcon
                     size={16}
                     style={{
-                      color: "#ff2a6d",
+                      color: "#e0283f",
                       margin: "0 auto 4px",
                     }}
                   />
                   <p
                     className="text-xs"
                     style={{
-                      color: "rgba(207,216,255,.5)",
+                      color: "rgba(255,236,200,.5)",
                     }}
                   >
                     Palabras J2
@@ -3433,7 +3244,7 @@ function StComponent() {
                   <p
                     className="text-lg font-black score-3d"
                     style={{
-                      color: "#ff2a6d",
+                      color: "#e0283f",
                     }}
                   >
                     {Je}
@@ -3498,7 +3309,7 @@ function StComponent() {
         @keyframes pulseSoft { 0%,100%{opacity:1} 50%{opacity:.7} }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
         @keyframes modalIn { 0%{transform:scale(.8) translateY(20px);opacity:0} 100%{transform:scale(1) translateY(0);opacity:1} }
-        @keyframes glow { 0%,100%{filter:drop-shadow(0 0 25px rgba(255,214,0,.4))} 50%{filter:drop-shadow(0 0 40px rgba(255,214,0,.7))} }
+        @keyframes glow { 0%,100%{filter:drop-shadow(0 0 25px rgba(242,193,78,.4))} 50%{filter:drop-shadow(0 0 40px rgba(242,193,78,.7))} }
         @keyframes shake { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-4px)} 20%,40%,60%,80%{transform:translateX(4px)} }
         @keyframes flashPulse { 0%{opacity:0} 50%{opacity:1} 100%{opacity:0} }
         @keyframes pulseSlow { 0%,100%{opacity:.7} 50%{opacity:1} }
@@ -3515,7 +3326,7 @@ function StComponent() {
         .board-3d { transform-style: preserve-3d; backface-visibility: hidden; animation: boardAmbient 4s ease-in-out infinite; }
         .cell-glow:hover { z-index: 2; transform: scale(1.1) translateZ(10px); }
         .rack-tile:hover { z-index: 2; }
-        .btn-neon:hover { box-shadow: 0 0 40px rgba(0,240,255,.5), 0 4px 20px rgba(0,0,0,.3) !important; }
+        .btn-neon:hover { box-shadow: 0 0 40px rgba(242,193,78,.5), 0 4px 20px rgba(0,0,0,.3) !important; }
         .tile-3d-new { animation: tilePlacePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), tileFloat 3s ease-in-out infinite 0.5s; }
         .tile-wood { background: linear-gradient(135deg, #f0e6d2, #c9a96e, #d4b896, #b8956a); background-size: 200% 200%; }
         .tile-3d-placed { transform-style: preserve-3d; box-shadow: 0 3px 8px rgba(0,0,0,.5), inset 0 1px 4px rgba(255,255,255,.5); }

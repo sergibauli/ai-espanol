@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import TextoDele from "../../components/dele/TextoDele.jsx";
+import "../../styles/v14-fix-examenes.css";
 import { turnosDeAudio, anuncioAudio } from "../../lib/vocesDele.js";
 
 // Índice de MP3 con voces nativas (Piper) generados por scripts/voces-dele.py; se carga solo al abrir un audio
@@ -65,23 +66,14 @@ import {
 } from "../../lib/oficial-loader.js";
 const c = "#e0b566";
 const C = "#f6dfa8";
-const be = {
-  A1: {
-    color: "#10b981",
-    glow: "#34d399",
-  },
-  A2: {
-    color: "#f97316",
-    glow: "#fbbf24",
-  },
-  B1: {
-    color: "#3b82f6",
-    glow: "#60a5fa",
-  },
-  B2: {
-    color: "#a855f7",
-    glow: "#c084fc",
-  },
+// Paleta imperial (laca roja + tinta) igual para todos los niveles: el papel es claro, el acento debe ser oscuro (AA)
+const ACENTO_IMPERIAL = { color: "#c8102e", glow: "#8f0c21" };
+const be = { A1: ACENTO_IMPERIAL, A2: ACENTO_IMPERIAL, B1: ACENTO_IMPERIAL, B2: ACENTO_IMPERIAL };
+const ETIQUETA_CORTA_PRUEBA = {
+  1: { es: "Lectura", zh: "阅读", zhLargo: "阅读理解" },
+  2: { es: "Audición", zh: "听力", zhLargo: "听力理解" },
+  3: { es: "Escritura", zh: "写作", zhLargo: "书面表达" },
+  4: { es: "Oral", zh: "口语", zhLargo: "口语表达" },
 };
 const $s = {
   1: BookOpenIcon,
@@ -261,7 +253,7 @@ function zs(t) {
 function ZComponent({ children, color = c }) {
   return (
     <span
-      className="inline-flex items-center px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide"
+      className="inline-flex items-center px-2 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wide"
       style={{
         background: `${color}14`,
         color: `${color}dd`,
@@ -304,7 +296,7 @@ function YComponent({ titulo, icono, color = c, children, abiertoInicial = false
         </span>
         {contador !== undefined && (
           <span
-            className="text-[10px] font-black px-2 py-0.5 rounded-md"
+            className="text-[11px] font-black px-2 py-0.5 rounded-md"
             style={{
               background: `${color}18`,
               color: `${color}cc`,
@@ -359,7 +351,7 @@ function Ne1Component({ texto, color = c }) {
       }}
     >
       <div
-        className="text-[10px] font-black uppercase tracking-[0.16em] mb-1"
+        className="text-[11px] font-black uppercase tracking-[0.16em] mb-1"
         style={{
           color,
         }}
@@ -395,7 +387,7 @@ function EsComponent({ texto }) {
           }}
         />
         <span
-          className="text-[10px] font-black uppercase tracking-[0.2em]"
+          className="text-[11px] font-black uppercase tracking-[0.2em]"
           style={{
             color: C,
           }}
@@ -449,7 +441,7 @@ function TsComponent({ escena, semilla }) {
           }}
         >
           <div
-            className="text-[10px] font-black uppercase tracking-wider mb-1"
+            className="text-[11px] font-black uppercase tracking-wider mb-1"
             style={{
               color: c,
             }}
@@ -664,7 +656,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
                   onClick();
                 }
               }}
-              className="px-2 py-1 rounded-md text-[10.5px] font-black transition-colors"
+              className="px-2 py-1 rounded-md text-[11px] font-black transition-colors"
               style={{
                 background: velocidad === y ? `${c}25` : "rgba(255,255,255,.04)",
                 color: velocidad === y ? C : "rgba(255,255,255,.4)",
@@ -693,7 +685,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
       {n.length > 0 && (
         <div className="mt-3.5">
           <div
-            className="text-[10px] font-black uppercase tracking-[0.16em] mb-2"
+            className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
             style={{
               color: `${c}bb`,
             }}
@@ -761,7 +753,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
           {n.map((y, A) => (
             <span key={A} className="block mb-2">
               <span
-                className="font-mono text-[10.5px] font-black mr-1.5"
+                className="font-mono text-[11px] font-black mr-1.5"
                 style={{
                   color: c,
                 }}
@@ -784,7 +776,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
           <TextoDele texto={guion} variante="guion" />
         </div>
       )}
-      <p className="mt-2.5 text-[10.5px] text-white/25">
+      <p className="mt-2.5 text-[11px] text-white/25">
         {t_1(
           "Cada audio se reproduce con la voz española de tu dispositivo.",
           "音频使用设备的西班牙语语音合成播放。",
@@ -964,12 +956,12 @@ function VeComponent({ rubrica, color }) {
               {(s.bandas || []).map((i, n) => (
                 <div key={n} className="flex items-start gap-3 px-3.5 py-2.5">
                   <span
-                    className="shrink-0 mt-0.5 px-2 py-0.5 rounded-md text-[10px] font-black"
+                    className="shrink-0 mt-0.5 px-2 py-0.5 rounded-md text-[11px] font-black"
                     style={{
                       background: /no apto|insuficiente|0|1/i.test(i.banda)
-                        ? "rgba(248,113,113,.13)"
-                        : "rgba(52,211,153,.13)",
-                      color: /no apto|insuficiente|0|1/i.test(i.banda) ? "#fca5a5" : "#6ee7b7",
+                        ? "rgba(200,16,46,.13)"
+                        : "rgba(46,107,63,.13)",
+                      color: /no apto|insuficiente|0|1/i.test(i.banda) ? "#a3122a" : "#2e6b3f",
                     }}
                   >
                     {i.banda}
@@ -981,7 +973,7 @@ function VeComponent({ rubrica, color }) {
             </div>
           </div>
         ))}
-        <p className="text-[10.5px] text-white/25">
+        <p className="text-[11px] text-white/25">
           {t_1(
             "En el examen real, la expresión escrita la valoran dos calificadores y la oral, el entrevistador (40 %) y un calificador (60 %).",
             "真实考试中，书面表达由两位评分员评定，口语由面试官（40%）和评分员（60%）评定。",
@@ -999,23 +991,23 @@ function OsComponent({ entrevistador, color }) {
       <div
         className="rounded-2xl overflow-hidden mb-3.5"
         style={{
-          background: "linear-gradient(140deg, rgba(168,85,247,.06), rgba(0,0,0,.26))",
-          border: "1px solid rgba(168,85,247,.22)",
+          background: "linear-gradient(140deg, rgba(200,150,30,.06), rgba(0,0,0,.26))",
+          border: "1px solid rgba(200,150,30,.22)",
         }}
       >
         <div
           className="flex items-center gap-2 px-4 py-3"
           style={{
             background: "rgba(0,0,0,.28)",
-            borderBottom: "1px solid rgba(168,85,247,.18)",
+            borderBottom: "1px solid rgba(200,150,30,.18)",
           }}
         >
-          <UserCheckIcon size={14} className="text-purple-300" />
-          <span className="text-[11px] font-black uppercase tracking-[0.18em] text-purple-300">
+          <UserCheckIcon size={14} className="ofx-acento" />
+          <span className="text-[11px] font-black uppercase tracking-[0.18em] ofx-acento">
             {t_1("Guion del entrevistador", "考官脚本")}
           </span>
           {entrevistador.tiempos && (
-            <span className="ml-auto text-[10.5px] font-bold text-white/40">
+            <span className="ml-auto text-[11px] font-bold text-white/40">
               <ClockIcon size={10} className="inline mr-1" />
               {entrevistador.tiempos}
             </span>
@@ -1035,9 +1027,9 @@ function OsComponent({ entrevistador, color }) {
                 <span className="text-[11.5px] font-black text-white/85">{s.fase}</span>
                 {s.tiempo && (
                   <span
-                    className="text-[10px] font-bold px-2 py-0.5 rounded-md"
+                    className="text-[11px] font-bold px-2 py-0.5 rounded-md"
                     style={{
-                      background: "rgba(168,85,247,.14)",
+                      background: "rgba(200,150,30,.14)",
                       color: "#d8b4fe",
                     }}
                   >
@@ -1051,7 +1043,7 @@ function OsComponent({ entrevistador, color }) {
                   {(s.preguntas || []).map((i, n) => (
                     <li key={n} className="flex items-start gap-2 text-[12.5px] text-white/70">
                       <span
-                        className="font-mono text-[10px] mt-0.5 shrink-0"
+                        className="font-mono text-[11px] mt-0.5 shrink-0"
                         style={{
                           color,
                         }}
@@ -1073,7 +1065,7 @@ function OsComponent({ entrevistador, color }) {
                 border: "1px solid rgba(255,255,255,.07)",
               }}
             >
-              <div className="text-[10px] font-black uppercase tracking-[0.16em] text-white/35 mb-2">
+              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-white/35 mb-2">
                 {t_1("Preguntas de apoyo", "辅助提问")}
               </div>
               <ul className="space-y-1.5">
@@ -1096,7 +1088,7 @@ function OsComponent({ entrevistador, color }) {
             >
               <TriangleAlertIcon size={13} className="text-amber-300 shrink-0 mt-0.5" />
               <div>
-                <div className="text-[10px] font-black uppercase tracking-[0.16em] text-amber-300 mb-1">
+                <div className="text-[11px] font-black uppercase tracking-[0.16em] text-amber-300 mb-1">
                   {t_1("Si el candidato se bloquea", "若考生卡住")}
                 </div>
                 <p className="text-white/60 text-[12px] leading-relaxed">{s(entrevistador)}</p>
@@ -1122,7 +1114,7 @@ function RsComponent({ encuesta }) {
       }}
     >
       <div
-        className="text-[10px] font-black uppercase tracking-[0.16em] mb-2"
+        className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
         style={{
           color: c,
         }}
@@ -1207,11 +1199,11 @@ function PsComponent({ tarea }) {
             }}
           >
             {tarea.palabras ? (
-              <span className="text-[10.5px] font-bold text-white/25">
+              <span className="text-[11px] font-bold text-white/25">
                 {tarea.palabras} {t_1("palabras", "词")}
               </span>
             ) : null}
-            {tarea.fuente && <span className="text-[10.5px] italic text-white/25">{tarea.fuente}</span>}
+            {tarea.fuente && <span className="text-[11px] italic text-white/25">{tarea.fuente}</span>}
           </div>
         </div>
       )}
@@ -1253,7 +1245,7 @@ function PsComponent({ tarea }) {
           }}
         >
           <div
-            className="text-[10px] font-black uppercase tracking-[0.16em] mb-2"
+            className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
             style={{
               color: c,
             }}
@@ -1264,7 +1256,7 @@ function PsComponent({ tarea }) {
             {tarea_material.enunciados.map((s, g) => (
               <li key={g} className="flex items-start gap-2 text-[12.5px] text-white/55">
                 <span
-                  className="font-mono text-[10px] mt-0.5 shrink-0"
+                  className="font-mono text-[11px] mt-0.5 shrink-0"
                   style={{
                     color: C,
                   }}
@@ -1276,7 +1268,7 @@ function PsComponent({ tarea }) {
             ))}
           </ul>
           {typeof tarea_material.sobrantes === "number" && tarea_material.sobrantes > 0 && (
-            <p className="text-[10.5px] text-white/25 mt-2">
+            <p className="text-[11px] text-white/25 mt-2">
               Hay {tarea_material.sobrantes} {t_1("opciones que no se utilizan.", "个选项不使用。")}
             </p>
           )}
@@ -1291,7 +1283,7 @@ function PsComponent({ tarea }) {
           }}
         >
           <div
-            className="text-[10px] font-black uppercase tracking-[0.16em] mb-2"
+            className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
             style={{
               color: c,
             }}
@@ -1333,7 +1325,7 @@ function PsComponent({ tarea }) {
               )}
               <TextoDele texto={s.texto} variante="compacto" />
               {s.palabras ? (
-                <div className="text-[10px] text-white/25 mt-1.5">
+                <div className="text-[11px] text-white/25 mt-1.5">
                   {s.palabras} {t_1("palabras", "词")}
                 </div>
               ) : null}
@@ -1349,8 +1341,11 @@ function IaComponent() {
   const nivel = String(level).toUpperCase();
   const { t: t_1 } = useLanguage();
   const { correctText, isCorrecting } = u_1();
-  const [n, setN] = React.useState(null);
-  const [u, setU] = React.useState(true);
+  const [examen, setExamen] = React.useState(null);
+  const [cargando, setCargando] = React.useState(true);
+  // null | "no-encontrado" | "error"
+  const [fallo, setFallo] = React.useState(null);
+  const [intento, setIntento] = React.useState(0);
   const [b, setB] = React.useState("p1");
   const [j, setJ] = React.useState({});
   const [N, setN_1] = React.useState(false);
@@ -1363,9 +1358,10 @@ function IaComponent() {
   const [de, setDe] = React.useState(null);
   const GRef = React.useRef(null);
   React.useEffect(() => {
-    let a = true;
-    setU(true);
-    setN(null);
+    let activo = true;
+    setCargando(true);
+    setFallo(null);
+    setExamen(null);
     setJ({});
     setN_1(false);
     setO(false);
@@ -1374,27 +1370,34 @@ function IaComponent() {
     setP({});
     setK({});
     setB("p1");
-    if (i_2(nivel)) {
-      return (
-        b_1(nivel, Number(examId)).then((o) => {
-          if (a) {
-            setN(zs(o));
-            setU(false);
-          }
-        }),
-        () => {
-          a = false;
-          B()?.cancel();
-        }
-      );
+    const numeroModelo = /^\d+$/.test(String(examId)) ? Number(examId) : NaN;
+    if (!i_2(nivel) || !Number.isFinite(numeroModelo)) {
+      setFallo("no-encontrado");
+      setCargando(false);
+      return () => {
+        activo = false;
+      };
     }
-    return (
-      setU(false),
-      () => {
-        a = false;
-      }
-    );
-  }, [nivel, examId]);
+    b_1(nivel, numeroModelo)
+      .then((modelo) => {
+        if (!activo) return;
+        if (modelo && Array.isArray(modelo.pruebas)) {
+          setExamen(zs(modelo));
+        } else {
+          setFallo("no-encontrado");
+        }
+        setCargando(false);
+      })
+      .catch(() => {
+        if (!activo) return;
+        setFallo("error");
+        setCargando(false);
+      });
+    return () => {
+      activo = false;
+      B()?.cancel();
+    };
+  }, [nivel, examId, intento]);
   const p = be[nivel] || be.A1;
   const q = React.useCallback(
     (a, o) =>
@@ -1406,7 +1409,7 @@ function IaComponent() {
   );
   const D = React.useCallback(
     (a) => {
-      const o = (n ? c_2(n, a)?.tareas : []) || [];
+      const o = (examen ? c_2(examen, a)?.tareas : []) || [];
       let bien = 0;
       let total = 0;
       o.forEach(($) =>
@@ -1423,7 +1426,7 @@ function IaComponent() {
         pct: total ? Math.round((bien / total) * 100) : 0,
       };
     },
-    [n, j],
+    [examen, j],
   );
   const Q = React.useMemo(() => D(1), [D]);
   const W = React.useMemo(() => D(2), [D]);
@@ -1444,7 +1447,7 @@ function IaComponent() {
   const mediaEsc = React.useMemo(() => ae(P), [P, ae]);
   const mediaOral = React.useMemo(() => ae(K), [K, ae]);
   React.useEffect(() => {
-    if (!n || (!N && !O)) {
+    if (!examen || (!N && !O)) {
       return;
     }
     const a = [];
@@ -1457,7 +1460,7 @@ function IaComponent() {
     const total = a.length ? Math.round(a.reduce((acc, item) => acc + item, 0) / a.length) : 0;
     try {
       localStorage.setItem(
-        `oficial_res_${nivel}_${n.modelo}`,
+        `oficial_res_${nivel}_${examen.modelo}`,
         JSON.stringify({
           lectura: N ? Q.pct : null,
           audicion: O ? W.pct : null,
@@ -1466,7 +1469,7 @@ function IaComponent() {
         }),
       );
     } catch {}
-  }, [N, O, Q.pct, W.pct, n, nivel]);
+  }, [N, O, Q.pct, W.pct, examen, nivel]);
   const Ce = React.useCallback(
     async (a, o, h, m) => {
       if (!o.trim()) {
@@ -1552,45 +1555,67 @@ function IaComponent() {
     } catch {}
     setDe(null);
   }, []);
-  if (u) {
+  if (cargando) {
     return (
       <StarfieldBackground>
-        <div className="py-32 text-center">
-          <div
-            className="w-11 h-11 mx-auto rounded-full mb-4"
-            style={{
-              border: `3px solid ${p.color}30`,
-              borderTopColor: p.glow,
-              animation: "spin 1s linear infinite",
-            }}
-          />
-          <p className="text-white/40 text-sm">{t_1("Cargando el modelo oficial…", "正在加载官方模型…")}</p>
+        <div className="ofx-estado gm-no-adapt" role="status" aria-live="polite">
+          <div className="ofx-estado-card">
+            <span className="ofx-spinner" aria-hidden="true" />
+            <p className="ofx-estado-es">Cargando el modelo oficial…</p>
+            <p className="ofx-estado-zh" lang="zh-CN">正在加载官方试卷…</p>
+          </div>
         </div>
       </StarfieldBackground>
     );
   }
-  if (!n) {
+  if (!examen) {
+    const nivelValido = i_2(nivel);
+    const rutaVuelta = nivelValido ? `/oficial/${nivel}` : "/oficial";
+    const esError = fallo === "error";
     return (
       <StarfieldBackground>
-        <div className="max-w-2xl mx-auto px-4 py-28 text-center">
-          <TriangleAlertIcon size={34} className="mx-auto mb-4 text-amber-400/70" />
-          <h1 className="text-white/80 font-black text-xl mb-2">
-            {t_1("Modelo no encontrado", "未找到该模型")}
-          </h1>
-          <Link to={`/oficial/${nivel}`} className="text-amber-300 text-sm font-bold hover:underline">
-            {t_1("Volver a la lista de modelos", "返回模型列表")}
-          </Link>
+        <div className="ofx-estado gm-no-adapt">
+          <div className="ofx-estado-card" role="alert">
+            <span className="ofx-sello" aria-hidden="true" translate="no">
+              {esError ? "误" : "无"}
+            </span>
+            <h1 className="ofx-estado-titulo">
+              {esError ? "No se pudo cargar el examen" : "Examen no encontrado"}
+              <span className="ofx-estado-zh" lang="zh-CN">
+                {esError ? "试卷加载失败" : "未找到该试卷"}
+              </span>
+            </h1>
+            <p className="ofx-estado-texto">
+              {esError
+                ? "Revisa tu conexión e inténtalo de nuevo."
+                : `No existe el modelo «${examId}» en el nivel ${nivelValido ? nivel : "indicado"}.`}
+              <span className="ofx-estado-zh" lang="zh-CN">
+                {esError ? "请检查网络连接后重试。" : `${nivelValido ? nivel + " 级别中" : ""}没有编号为「${examId}」的试卷。`}
+              </span>
+            </p>
+            <div className="ofx-estado-acciones">
+              {esError && (
+                <button type="button" className="ofx-btn ofx-btn-oro" onClick={() => setIntento((v) => v + 1)}>
+                  <RotateCcwIcon size={16} aria-hidden="true" /> Reintentar · 重试
+                </button>
+              )}
+              <Link to={rutaVuelta} className="ofx-btn ofx-btn-laca">
+                <ArrowLeftIcon size={16} aria-hidden="true" />
+                {nivelValido ? `Modelos ${nivel} · 返回${nivel}试卷列表` : "Exámenes oficiales · 返回官方试卷"}
+              </Link>
+            </div>
+          </div>
         </div>
       </StarfieldBackground>
     );
   }
-  const _ = r_2(n);
-  const ee = c_2(n, 1);
-  const se = c_2(n, 2);
-  const Se = c_2(n, 3);
-  const te = c_2(n, 4);
-  const xe = b === "claves" ? null : c_2(n, Number(b.slice(1)));
-  const n_evaluacion = n.evaluacion;
+  const _ = r_2(examen);
+  const ee = c_2(examen, 1);
+  const se = c_2(examen, 2);
+  const Se = c_2(examen, 3);
+  const te = c_2(examen, 4);
+  const xe = b === "claves" ? null : c_2(examen, Number(b.slice(1)));
+  const n_evaluacion = examen.evaluacion;
   return (
     <StarfieldBackground>
       <style>{`
@@ -1634,16 +1659,16 @@ function IaComponent() {
               </div>
               <div>
                 <div
-                  className="text-[10px] font-black uppercase tracking-[0.2em]"
+                  className="text-[11px] font-black uppercase tracking-[0.2em]"
                   style={{
                     color: `${c}99`,
                   }}
                 >
-                  {n.codigo || `MODELO ${String(n.modelo).padStart(2, "0")}`}
+                  {examen.codigo || `MODELO ${String(examen.modelo).padStart(2, "0")}`}
                 </div>
-                <h1 className="text-white font-black text-xl md:text-2xl leading-tight">{n.temaCentral}</h1>
+                <h1 className="text-white font-black text-xl md:text-2xl leading-tight">{examen.temaCentral}</h1>
                 <div className="ofe-ribbon-zh">
-                  {/Simulacro nuevo/.test(n.titulo || "") ? (
+                  {/Simulacro nuevo/.test(examen.titulo || "") ? (
                     <>
                       模拟题 <span className="ofe-seal">新</span>
                     </>
@@ -1653,7 +1678,7 @@ function IaComponent() {
                     </>
                   )}
                 </div>
-                <p className="text-white/35 text-[12px] font-bold mt-0.5">{n.titulo}</p>
+                <p className="text-white/35 text-[12px] font-bold mt-0.5">{examen.titulo}</p>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-[11px] font-bold text-white/40">
@@ -1679,7 +1704,7 @@ function IaComponent() {
           </div>
           {(_.generosLectura.length > 0 || _.variedadesAudio.length > 0) && (
             <div className="flex flex-wrap gap-1.5 mt-4">
-              {n.ambito && <ZComponent color="#94a3b8">{e(n.ambito)}</ZComponent>}
+              {examen.ambito && <ZComponent color="#94a3b8">{e(examen.ambito)}</ZComponent>}
               {_.generosLectura.slice(0, 4).map((a, o) => (
                 <ZComponent key={`g${o}`} color={p.glow}>
                   {a}
@@ -1698,28 +1723,32 @@ function IaComponent() {
             </div>
           )}
         </div>
-        <div className="ofe-tabs grid grid-cols-2 md:grid-cols-5 gap-2.5 mb-5">
-          {n.pruebas.map((a) => {
-            const o = `p${a.prueba}`;
-            const h = b === o;
-            const M1 = $s[a.prueba] || BookOpenIcon;
+        <div className="ofe-tabs ofx-tabs grid grid-cols-2 md:grid-cols-5 gap-2.5 mb-5" role="tablist" aria-label="Pruebas del examen · 考试科目">
+          {examen.pruebas.map((prueba) => {
+            const idPestana = `p${prueba.prueba}`;
+            const activa = b === idPestana;
+            const IconoPrueba = $s[prueba.prueba] || BookOpenIcon;
+            const corta = ETIQUETA_CORTA_PRUEBA[prueba.prueba] || { es: `Prueba ${prueba.prueba}`, zh: "" };
             return (
               <button
-                key={a.prueba}
+                key={prueba.prueba}
+                type="button"
+                role="tab"
+                aria-selected={activa}
                 onClick={() => {
                   B()?.cancel();
-                  setB(o);
+                  setB(idPestana);
                 }}
-                className="ofe-tab relative rounded-2xl p-3.5 text-left transition-all overflow-hidden"
+                className="ofe-tab ofx-tab relative rounded-2xl p-3.5 text-left transition-all overflow-hidden"
                 style={{
-                  background: h
+                  background: activa
                     ? `linear-gradient(140deg, ${p.color}26, rgba(12,16,34,.9))`
                     : "rgba(255,255,255,.03)",
-                  border: `1px solid ${h ? `${p.glow}55` : "rgba(255,255,255,.07)"}`,
-                  boxShadow: h ? `0 0 26px ${p.glow}25` : "none",
+                  border: `1px solid ${activa ? `${p.glow}55` : "rgba(255,255,255,.07)"}`,
+                  boxShadow: activa ? `0 0 26px ${p.glow}25` : "none",
                 }}
               >
-                {h && (
+                {activa && (
                   <div
                     className="absolute top-0 left-0 right-0 h-[2px]"
                     style={{
@@ -1727,38 +1756,32 @@ function IaComponent() {
                     }}
                   />
                 )}
-                <M1
-                  size={15}
-                  style={{
-                    color: h ? p.glow : "rgba(255,255,255,.35)",
-                  }}
-                />
-                <div
-                  className="text-[9px] font-black uppercase tracking-[0.16em] mt-2"
-                  style={{
-                    color: h ? `${c}bb` : "rgba(255,255,255,.25)",
-                  }}
-                >
-                  PRUEBA {a.prueba}
-                  {a.duracion ? ` · ${a.duracion} min` : ""}
+                <IconoPrueba size={15} aria-hidden="true" />
+                <div className="ofx-tab-meta text-[11px] font-black uppercase tracking-[0.16em] mt-2">
+                  PRUEBA {prueba.prueba}
+                  {prueba.duracion ? ` · ${prueba.duracion} min` : ""}
                 </div>
-                <div
-                  className="text-[12px] font-black leading-tight"
-                  style={{
-                    color: h ? "#fff" : "rgba(255,255,255,.5)",
-                  }}
-                >
-                  {a.nombre}
+                <div className="ofx-tab-nombre text-[12px] font-black leading-tight">
+                  <span className="ofx-tab-larga">{prueba.nombre}</span>
+                  <span className="ofx-tab-corta">{corta.es}</span>
+                  {corta.zh && (
+                    <span className="ofx-tab-zh" lang="zh-CN">
+                      {corta.zhLargo}
+                    </span>
+                  )}
                 </div>
               </button>
             );
           })}
           <button
+            type="button"
+            role="tab"
+            aria-selected={b === "claves"}
             onClick={() => {
               B()?.cancel();
               setB("claves");
             }}
-            className="ofe-tab relative rounded-2xl p-3.5 text-left transition-all overflow-hidden"
+            className="ofe-tab ofx-tab relative rounded-2xl p-3.5 text-left transition-all overflow-hidden"
             style={{
               background:
                 b === "claves"
@@ -1775,58 +1798,51 @@ function IaComponent() {
                 }}
               />
             )}
-            <KeyRoundIcon
-              size={15}
-              style={{
-                color: b === "claves" ? p.glow : "rgba(255,255,255,.35)",
-              }}
-            />
-            <div
-              className="text-[9px] font-black uppercase tracking-[0.16em] mt-2"
-              style={{
-                color: b === "claves" ? `${c}bb` : "rgba(255,255,255,.25)",
-              }}
-            >
-              {t_1("CORRECCIÓN", "评分")}
-            </div>
-            <div
-              className="text-[12px] font-black leading-tight"
-              style={{
-                color: b === "claves" ? "#fff" : "rgba(255,255,255,.5)",
-              }}
-            >
-              {t_1("Claves y evaluación", "答案与评分")}
+            <KeyRoundIcon size={15} aria-hidden="true" />
+            <div className="ofx-tab-meta text-[11px] font-black uppercase tracking-[0.16em] mt-2">CORRECCIÓN</div>
+            <div className="ofx-tab-nombre text-[12px] font-black leading-tight">
+              <span className="ofx-tab-larga">Claves y evaluación</span>
+              <span className="ofx-tab-corta">Claves</span>
+              <span className="ofx-tab-zh" lang="zh-CN">
+                答案与评分
+              </span>
             </div>
           </button>
         </div>
         {xe && (xe.tareas || []).length > 1 && (
-          <div className="flex flex-wrap items-center gap-2 mb-5">
-            <span className="text-[10px] font-black uppercase tracking-[0.16em] text-white/25">
-              {t_1("Ir a", "跳至")}
+          <nav className="ofx-saltos gm-no-adapt" aria-label="Ir a la tarea · 跳至任务">
+            <span className="ofx-saltos-rot">
+              Ir a · <span lang="zh-CN">跳至</span>
             </span>
-            {(xe.tareas || []).map((a) => (
-              <button
-                key={a.num}
-                onClick={() =>
-                  document.getElementById(`tarea-${a.num}`)?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  })
-                }
-                className="px-2.5 py-1.5 rounded-lg text-[11px] font-bold text-white/55 hover:text-white/90 transition-colors"
-                style={{
-                  background: "rgba(255,255,255,.04)",
-                  border: "1px solid rgba(255,255,255,.09)",
-                }}
-              >
-                T{a.num} ·{" "}
-                <span className="text-white/35">
-                  {a.titulo?.slice(0, 28)}
-                  {(a.titulo || "").length > 28 ? "…" : ""}
-                </span>
-              </button>
-            ))}
-          </div>
+            {(xe.tareas || []).map((tarea) => {
+              const tituloCorto = (tarea.titulo || "").trim();
+              return (
+                <button
+                  key={tarea.num}
+                  type="button"
+                  title={tituloCorto || `Tarea ${tarea.num}`}
+                  onClick={() =>
+                    document.getElementById(`tarea-${tarea.num}`)?.scrollIntoView({
+                      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+                      block: "start",
+                    })
+                  }
+                >
+                  <b>T{tarea.num}</b>
+                  {tituloCorto ? (
+                    <span>
+                      {tituloCorto.slice(0, 28)}
+                      {tituloCorto.length > 28 ? "…" : ""}
+                    </span>
+                  ) : (
+                    <span>
+                      Tarea {tarea.num} · <span lang="zh-CN">任务{tarea.num}</span>
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         )}
         {b === "p1" && ee && (
           <div className="of-in">
@@ -1909,7 +1925,7 @@ function IaComponent() {
                       setVelocidad={setVelocidad}
                     />
                   ) : (
-                    <Ge1Component icono={TriangleAlertIcon} color="#fbbf24">
+                    <Ge1Component icono={TriangleAlertIcon} color="#a8741e">
                       {t_1("Este modelo no incluye el guion de audio.", "该模型未包含音频脚本。")}
                     </Ge1Component>
                   )}
@@ -1961,7 +1977,7 @@ function IaComponent() {
                           </div>
                         ))}
                         {typeof a.sobrantes === "number" && a.sobrantes > 0 && (
-                          <p className="text-[10.5px] text-white/25">
+                          <p className="text-[11px] text-white/25">
                             {a.sobrantes} {t_1("opciones no se utilizan.", "个选项不使用。")}
                           </p>
                         )}
@@ -2016,7 +2032,7 @@ function IaComponent() {
                     color={p.glow}
                     extra={
                       <span
-                        className="text-[10px] font-black uppercase tracking-wider"
+                        className="text-[11px] font-black uppercase tracking-wider"
                         style={{
                           color: `${c}aa`,
                         }}
@@ -2037,7 +2053,7 @@ function IaComponent() {
                               border: "1px solid rgba(59,130,246,.2)",
                             }}
                           >
-                            <div className="text-[9.5px] font-black uppercase tracking-[0.16em] text-blue-300 mb-1">
+                            <div className="text-[11px] font-black uppercase tracking-[0.16em] ofx-acento mb-1">
                               {t_1("Situación", "情境")}
                             </div>
                             <p className="text-white/65 text-[12px] leading-relaxed">{a.situacion}</p>
@@ -2047,11 +2063,11 @@ function IaComponent() {
                           <div
                             className="rounded-xl p-3"
                             style={{
-                              background: "rgba(168,85,247,.07)",
-                              border: "1px solid rgba(168,85,247,.2)",
+                              background: "rgba(200,150,30,.07)",
+                              border: "1px solid rgba(200,150,30,.2)",
                             }}
                           >
-                            <div className="text-[9.5px] font-black uppercase tracking-[0.16em] text-purple-300 mb-1">
+                            <div className="text-[11px] font-black uppercase tracking-[0.16em] ofx-acento mb-1">
                               {t_1("Destinatario", "收件人")}
                             </div>
                             <p className="text-white/65 text-[12px] leading-relaxed">{a.destinatario}</p>
@@ -2061,11 +2077,11 @@ function IaComponent() {
                           <div
                             className="rounded-xl p-3"
                             style={{
-                              background: "rgba(52,211,153,.07)",
-                              border: "1px solid rgba(52,211,153,.2)",
+                              background: "rgba(46,107,63,.07)",
+                              border: "1px solid rgba(46,107,63,.2)",
                             }}
                           >
-                            <div className="text-[9.5px] font-black uppercase tracking-[0.16em] text-emerald-300 mb-1">
+                            <div className="text-[11px] font-black uppercase tracking-[0.16em] ofx-acento mb-1">
                               {t_1("Propósito", "目的")}
                             </div>
                             <p className="text-white/65 text-[12px] leading-relaxed">{a.proposito}</p>
@@ -2082,7 +2098,7 @@ function IaComponent() {
                         }}
                       >
                         <div
-                          className="text-[10px] font-black uppercase tracking-[0.16em] mb-2"
+                          className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
                           style={{
                             color: c,
                           }}
@@ -2115,7 +2131,7 @@ function IaComponent() {
                         }}
                       >
                         <div
-                          className="text-[10px] font-black uppercase tracking-[0.16em] mb-2"
+                          className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
                           style={{
                             color: `${c}bb`,
                           }}
@@ -2126,7 +2142,7 @@ function IaComponent() {
                           {(a.puntosGuia || []).map((L, le) => (
                             <li key={le} className="flex items-start gap-2 text-[12.5px] text-white/60">
                               <span
-                                className="font-mono text-[10px] mt-0.5 shrink-0"
+                                className="font-mono text-[11px] mt-0.5 shrink-0"
                                 style={{
                                   color: p.glow,
                                 }}
@@ -2152,14 +2168,14 @@ function IaComponent() {
                       className="w-full rounded-xl p-3.5 text-[13.5px] text-white/85 outline-none resize-y leading-relaxed placeholder:text-white/20"
                       style={{
                         background: "rgba(0,0,0,.28)",
-                        border: `1px solid ${w ? "rgba(52,211,153,.35)" : "rgba(255,255,255,.09)"}`,
+                        border: `1px solid ${w ? "rgba(46,107,63,.35)" : "rgba(255,255,255,.09)"}`,
                       }}
                     />
                     <div className="flex flex-wrap items-center justify-between gap-3 mt-3">
                       <span
                         className="text-[11px] font-bold"
                         style={{
-                          color: w ? "#6ee7b7" : "rgba(255,255,255,.35)",
+                          color: w ? "#2e6b3f" : "rgba(255,255,255,.35)",
                         }}
                       >
                         {h} {t_1("palabras", "词")} ·{" "}
@@ -2172,8 +2188,9 @@ function IaComponent() {
                         disabled={isCorrecting || !(E[o] || "").trim()}
                         className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.02] disabled:opacity-40 disabled:hover:scale-100"
                         style={{
-                          background: `linear-gradient(135deg, ${p.color}, ${p.glow})`,
-                          color: "#0b0f1e",
+                          background: `linear-gradient(180deg, ${p.color}, ${p.glow})`,
+                          color: "#fff6e0",
+                          border: "2px solid #f2c14e",
                         }}
                       >
                         {isCorrecting ? (
@@ -2241,7 +2258,7 @@ function IaComponent() {
                     extra={
                       a.obligatoria ? (
                         <span
-                          className="text-[9px] font-black px-1.5 py-0.5 rounded"
+                          className="text-[11px] font-black px-1.5 py-0.5 rounded"
                           style={{
                             background: "#b3382f30",
                             color: "#f8a9a2",
@@ -2263,7 +2280,7 @@ function IaComponent() {
                           border: "1px solid rgba(59,130,246,.2)",
                         }}
                       >
-                        <div className="text-[10px] font-black uppercase tracking-[0.16em] mb-1 text-blue-300">
+                        <div className="text-[11px] font-black uppercase tracking-[0.16em] mb-1 ofx-acento">
                           SITUACIÓN
                         </div>
                         <p className="text-white/65 text-[12.5px] leading-relaxed">{a.situacion}</p>
@@ -2272,7 +2289,7 @@ function IaComponent() {
                     {(a.opciones || []).length > 0 && (
                       <div className="mb-3.5">
                         <div
-                          className="text-[10px] font-black uppercase tracking-[0.16em] mb-2"
+                          className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
                           style={{
                             color: `${c}aa`,
                           }}
@@ -2304,7 +2321,7 @@ function IaComponent() {
                         }}
                       >
                         <div
-                          className="text-[10px] font-black uppercase tracking-[0.16em] mb-2"
+                          className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
                           style={{
                             color: c,
                           }}
@@ -2315,7 +2332,7 @@ function IaComponent() {
                           {(a.propuestas || []).map(($, w) => (
                             <li key={w} className="flex items-start gap-2 text-[12.5px] text-white/60">
                               <span
-                                className="font-mono text-[10px] mt-0.5 shrink-0"
+                                className="font-mono text-[11px] mt-0.5 shrink-0"
                                 style={{
                                   color: p.glow,
                                 }}
@@ -2330,7 +2347,7 @@ function IaComponent() {
                     )}
                     {a.foto && <EsComponent texto={a.foto} />}
                     {!a.foto && a.escena && (
-                      <TsComponent escena={a.escena} semilla={(n.modelo || 0) + a.num} />
+                      <TsComponent escena={a.escena} semilla={(examen.modelo || 0) + a.num} />
                     )}
                     {a.encuesta && <RsComponent encuesta={a.encuesta} />}
                     {a.cuadernilloCandidato && a.cuadernilloCandidato !== a.instrucciones && (
@@ -2347,7 +2364,7 @@ function IaComponent() {
                         {(a.puntosGuia || []).map(($, w) => (
                           <li key={w} className="flex items-start gap-2 text-[12.5px] text-white/55">
                             <span
-                              className="font-mono text-[10px] mt-0.5 shrink-0"
+                              className="font-mono text-[11px] mt-0.5 shrink-0"
                               style={{
                                 color: p.glow,
                               }}
@@ -2391,7 +2408,7 @@ function IaComponent() {
                           style={{
                             background: m ? "rgba(239,68,68,.16)" : "rgba(255,255,255,.05)",
                             border: `1px solid ${m ? "rgba(239,68,68,.45)" : "rgba(255,255,255,.1)"}`,
-                            color: m ? "#fca5a5" : "rgba(255,255,255,.6)",
+                            color: m ? "#a3122a" : "rgba(255,255,255,.6)",
                           }}
                         >
                           {m ? <SquareIcon size={12} /> : <MicIcon size={12} />}
@@ -2408,8 +2425,9 @@ function IaComponent() {
                         disabled={isCorrecting || !(E[o] || "").trim()}
                         className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.02] disabled:opacity-40 disabled:hover:scale-100"
                         style={{
-                          background: `linear-gradient(135deg, ${p.color}, ${p.glow})`,
-                          color: "#0b0f1e",
+                          background: `linear-gradient(180deg, ${p.color}, ${p.glow})`,
+                          color: "#fff6e0",
+                          border: "2px solid #f2c14e",
                         }}
                       >
                         {isCorrecting ? (
@@ -2458,7 +2476,7 @@ function IaComponent() {
           <div className="of-in">
             <GsComponent
               evaluacion={n_evaluacion}
-              materia={n}
+              materia={examen}
               res1={Q}
               res2={W}
               corregido1={N}
@@ -2468,17 +2486,15 @@ function IaComponent() {
               color={p.glow}
             />
             <UeComponent
-              titulo={t_1("Claves · Comprensión de lectura", "答案 · 阅读理解")}
-              claves={n.claves?.lectura || []}
+              titulo="Claves · Comprensión de lectura · 答案 · 阅读理解"
+              claves={examen.claves?.lectura || []}
               tareas={ee?.tareas || []}
-              color={be[nivel]?.glow || c}
               t={t_1}
             />
             <UeComponent
-              titulo={t_1("Claves · Comprensión auditiva", "答案 · 听力理解")}
-              claves={n.claves?.auditiva || qs(n, 2)}
+              titulo="Claves · Comprensión auditiva · 答案 · 听力理解"
+              claves={examen.claves?.auditiva || qs(examen, 2)}
               tareas={se?.tareas || []}
-              color="#60a5fa"
               t={t_1}
             />
           </div>
@@ -2493,7 +2509,7 @@ function IaComponent() {
               if (w === "claves") {
                 return t_1("Claves y evaluación", "答案与评分");
               }
-              return c_2(n, Number(w.slice(1)))?.nombre || "";
+              return c_2(examen, Number(w.slice(1)))?.nombre || "";
             };
             return (
               <>
@@ -2522,8 +2538,9 @@ function IaComponent() {
                     }}
                     className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12.5px] font-black transition-transform hover:scale-[1.02]"
                     style={{
-                      background: `linear-gradient(135deg, ${p.color}, ${p.glow})`,
-                      color: "#0b0f1e",
+                      background: `linear-gradient(180deg, ${p.color}, ${p.glow})`,
+                      color: "#fff6e0",
+                      border: "2px solid #f2c14e",
                     }}
                   >
                     {$(m)} <ChevronRightIcon size={13} />
@@ -2559,78 +2576,52 @@ function qs(t, r) {
     })),
   }));
 }
-function MsComponent({ minutos, color }) {
-  const { t: t_1 } = useLanguage();
-  const s = Math.max(0, Math.round((minutos || 0) * 60));
-  const [g, setG] = React.useState(s);
-  const [n, setN] = React.useState(true);
+function MsComponent({ minutos }) {
+  const totalSegundos = Math.max(0, Math.round((minutos || 0) * 60));
+  const [restantes, setRestantes] = React.useState(totalSegundos);
+  const [enMarcha, setEnMarcha] = React.useState(true);
   React.useEffect(() => {
-    if (!n || g <= 0) {
+    if (!enMarcha || restantes <= 0) {
       return;
     }
-    const v = window.setInterval(
-      () =>
-        setG((N) => {
-          if (N <= 1) {
-            return 0;
-          }
-          return N - 1;
-        }),
-      1000,
-    );
-    return () => window.clearInterval(v);
-  }, [n, g]);
-  if (!s) {
+    const intervalo = window.setInterval(() => setRestantes((seg) => (seg <= 1 ? 0 : seg - 1)), 1000);
+    return () => window.clearInterval(intervalo);
+  }, [enMarcha, restantes]);
+  if (!totalSegundos) {
     return null;
   }
-  const u = String(Math.floor(g / 60)).padStart(2, "0");
-  const d = String(g % 60).padStart(2, "0");
-  const b = g <= 300;
-  const j = g === 0 ? "#fca5a5" : b ? "#fbbf24" : color;
+  const mm = String(Math.floor(restantes / 60)).padStart(2, "0");
+  const ss = String(restantes % 60).padStart(2, "0");
+  const estado = restantes === 0 ? "fin" : restantes <= 300 ? "aviso" : "normal";
   return (
-    <div
-      className="flex items-center gap-2 px-3 py-2 rounded-xl"
-      style={{
-        background: `${j}14`,
-        border: `1px solid ${j}45`,
-      }}
-    >
-      <ClockIcon
-        size={13}
-        style={{
-          color: j,
-        }}
-      />
-      <span
-        className="font-mono font-black text-[15px] tabular-nums leading-none"
-        style={{
-          color: j,
-        }}
-      >
-        {u}:{d}
+    <div className={`ofx-reloj gm-no-adapt ofx-reloj-${estado}`} role="timer" aria-label={`Tiempo restante · 剩余时间 ${mm}:${ss}`}>
+      <ClockIcon size={16} aria-hidden="true" />
+      <span className="ofx-reloj-cifra">
+        {mm}:{ss}
       </span>
       <button
-        onClick={() => setN((v) => !v)}
-        title={n ? t_1("Pausar", "暂停") : t_1("Reanudar", "继续")}
-        className="text-white/45 hover:text-white/80 transition-colors"
+        type="button"
+        onClick={() => setEnMarcha((v) => !v)}
+        title={enMarcha ? "Pausar · 暂停" : "Reanudar · 继续"}
+        aria-label={enMarcha ? "Pausar · 暂停" : "Reanudar · 继续"}
       >
-        {n ? <PauseIcon size={12} /> : <PlayIcon size={12} />}
+        {enMarcha ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
       </button>
       <button
+        type="button"
         onClick={() => {
-          setG(s);
-          setN(true);
+          setRestantes(totalSegundos);
+          setEnMarcha(true);
         }}
-        title={t_1("Reiniciar la cuenta", "重置计时")}
-        className="text-white/45 hover:text-white/80 transition-colors"
+        title="Reiniciar la cuenta · 重置计时"
+        aria-label="Reiniciar la cuenta · 重置计时"
       >
-        <RotateCcwIcon size={12} />
+        <RotateCcwIcon size={16} />
       </button>
     </div>
   );
 }
 function EComponent({ titulo, res, corregido, onCorregir, onVerClaves, mostrarClaves, color, duracion }) {
-  const { t: t_1 } = useLanguage();
   return (
     <div
       className="ofe-phead rounded-2xl p-4 mb-6 flex flex-wrap items-center justify-between gap-3"
@@ -2650,29 +2641,16 @@ function EComponent({ titulo, res, corregido, onCorregir, onVerClaves, mostrarCl
           <div className="text-white/80 font-black text-[13.5px]">{titulo}</div>
           <div className="text-[11px] font-bold text-white/30">
             {duracion ? `${duracion} min · ` : ""}
-            {t_1("Responde y corrige para ver tu puntuación", "作答后批改查看得分")}
+            Responde y corrige para ver tu puntuación · <span lang="zh-CN">作答后批改查看得分</span>
           </div>
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-3">
-        <MsComponent minutos={duracion} color={color} />
+        <MsComponent minutos={duracion} />
         {corregido && (
-          <div
-            className="flex items-center gap-2 px-3 py-2 rounded-xl"
-            style={{
-              background: res.pct >= 60 ? "rgba(52,211,153,.1)" : "rgba(248,113,113,.1)",
-              border: `1px solid ${res.pct >= 60 ? "rgba(52,211,153,.3)" : "rgba(248,113,113,.3)"}`,
-            }}
-          >
-            <span
-              className="font-mono font-black text-lg"
-              style={{
-                color: res.pct >= 60 ? "#6ee7b7" : "#fca5a5",
-              }}
-            >
-              {res.pct}%
-            </span>
-            <span className="text-[11px] font-bold text-white/45">
+          <div className={`ofx-nota gm-no-adapt ${res.pct >= 60 ? "ofx-nota-apto" : "ofx-nota-noapto"}`}>
+            <span className="ofx-nota-pct">{res.pct}%</span>
+            <span className="ofx-nota-frac">
               {res.bien}/{res.total}
             </span>
           </div>
@@ -2687,9 +2665,7 @@ function EComponent({ titulo, res, corregido, onCorregir, onVerClaves, mostrarCl
           }}
         >
           {mostrarClaves ? <EyeOffIcon size={13} /> : <KeyRoundIcon size={13} />}
-          {mostrarClaves
-            ? t_1("Ocultar claves", "隐藏答案")
-            : t_1("Ver claves y justificación", "查看答案与依据")}
+          {mostrarClaves ? "Ocultar claves · 隐藏答案" : "Ver claves · 查看答案"}
         </button>
         <button
           onClick={onCorregir}
@@ -2701,7 +2677,7 @@ function EComponent({ titulo, res, corregido, onCorregir, onVerClaves, mostrarCl
           }}
         >
           <CircleCheckIcon size={14} />{" "}
-          {corregido ? t_1("Corregido", "已批改") : t_1("Corregir prueba", "批改本项")}
+          {corregido ? "Corregido · 已批改" : "Corregir prueba · 批改本项"}
         </button>
       </div>
     </div>
@@ -2772,7 +2748,7 @@ function GsComponent({
           <div className="text-white font-black text-[15px] leading-tight">
             {t_1("Sistema de calificación", "评分系统")}
           </div>
-          <div className="text-[10.5px] font-bold uppercase tracking-wider text-white/30">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-white/30">
             {evaluacion?.criterio || t_1("APTO si ≥30,00 puntos en cada grupo", "两组各≥30分即通过")}
           </div>
         </div>
@@ -2780,12 +2756,12 @@ function GsComponent({
           <div
             className="font-mono font-black text-xl"
             style={{
-              color: A === null ? "rgba(255,255,255,.35)" : A ? "#6ee7b7" : "#fca5a5",
+              color: A === null ? "rgba(255,255,255,.35)" : A ? "#2e6b3f" : "#a3122a",
             }}
           >
             {A === null ? "—" : A ? "APTO" : "NO APTO"}
           </div>
-          <div className="text-[9.5px] font-bold uppercase tracking-wider text-white/25">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-white/25">
             {t_1("provisional", "暂定")}
           </div>
         </div>
@@ -2801,7 +2777,7 @@ function GsComponent({
                 border: "1px solid rgba(255,255,255,.07)",
               }}
             >
-              <div className="text-[9.5px] font-black uppercase tracking-wider text-white/30 mb-1">{R}</div>
+              <div className="text-[11px] font-black uppercase tracking-wider text-white/30 mb-1">{R}</div>
               <div
                 className="font-mono font-black text-lg"
                 style={{
@@ -2836,7 +2812,7 @@ function GsComponent({
               border: `1px solid ${c}28`,
             }}
           >
-            <div className="text-[9.5px] font-black uppercase tracking-wider text-white/30 mb-1">
+            <div className="text-[11px] font-black uppercase tracking-wider text-white/30 mb-1">
               {t_1("Total", "总分")}
             </div>
             <div
@@ -2850,21 +2826,21 @@ function GsComponent({
             </div>
           </div>
         </div>
-        <p className="text-[10.5px] text-white/25 mt-3 leading-relaxed">
+        <p className="text-[11px] text-white/25 mt-3 leading-relaxed">
           {t_1(
             "Las pruebas objetivas puntúan con la clave oficial (1 punto por acierto). La escritura y el oral se estiman a partir de la corrección por IA y solo se muestran si has pedido la corrección.",
             "客观题按官方答案计分（答对得1分）。写作与口语根据AI批改估算，仅在你请求批改后显示。",
           )}
         </p>
         {(!U || !y) && (
-          <p className="text-[10.5px] text-amber-300/70 mt-1">
+          <p className="text-[11px] text-amber-300/70 mt-1">
             {t_1(
               "Completa las pruebas y sus correcciones para obtener un veredicto definitivo.",
               "完成所有测试及批改后可获得最终判定。",
             )}
           </p>
         )}
-        <div className="mt-3 text-[10.5px] text-white/30">
+        <div className="mt-3 text-[11px] text-white/30">
           {t_1("Modelo", "模型")} {materia.codigo || materia.modelo} · {materia.temaCentral}
         </div>
       </div>
@@ -2879,14 +2855,14 @@ function BeComponent({ etiqueta, valor, max, min, color }) {
       className="rounded-xl p-3"
       style={{
         background: "rgba(0,0,0,.22)",
-        border: `1px solid ${valor === null ? "rgba(255,255,255,.07)" : i ? "rgba(52,211,153,.28)" : "rgba(248,113,113,.28)"}`,
+        border: `1px solid ${valor === null ? "rgba(255,255,255,.07)" : i ? "rgba(46,107,63,.28)" : "rgba(200,16,46,.28)"}`,
       }}
     >
-      <div className="text-[9.5px] font-black uppercase tracking-wider text-white/30 mb-1">{etiqueta}</div>
+      <div className="text-[11px] font-black uppercase tracking-wider text-white/30 mb-1">{etiqueta}</div>
       <div
         className="font-mono font-black text-lg"
         style={{
-          color: valor === null ? "rgba(255,255,255,.3)" : i ? "#6ee7b7" : "#fca5a5",
+          color: valor === null ? "rgba(255,255,255,.3)" : i ? "#2e6b3f" : "#a3122a",
         }}
       >
         {valor === null ? "—" : valor.toFixed(2).replace(".", ",")}
@@ -2902,135 +2878,79 @@ function BeComponent({ etiqueta, valor, max, min, color }) {
           className="h-full rounded-full transition-all duration-500"
           style={{
             width: `${n}%`,
-            background: i ? "linear-gradient(90deg,#34d399,#6ee7b7)" : `linear-gradient(90deg,${color},${C})`,
+            background: i ? "linear-gradient(90deg,#3f8a5a,#2e6b3f)" : `linear-gradient(90deg,${color},${C})`,
           }}
         />
       </div>
-      <div className="text-[9.5px] font-bold text-white/25 mt-1.5">min. {min}</div>
+      <div className="text-[11px] font-bold text-white/25 mt-1.5">min. {min}</div>
     </div>
   );
 }
-function UeComponent({ titulo, claves, tareas, color, t: t_1 }) {
-  const [i, setI] = React.useState(true);
-  const x = claves.reduce((acc, clave) => acc + (clave.items || []).length, 0);
-  if (claves.length) {
-    return (
-      <div
-        className="rounded-3xl overflow-hidden mb-6"
-        style={{
-          background: "linear-gradient(150deg, rgba(255,255,255,.045), rgba(255,255,255,.012))",
-          border: "1px solid rgba(255,255,255,.08)",
-        }}
-      >
-        <button
-          onClick={() => setI((u) => !u)}
-          className="w-full flex items-center gap-3 px-5 py-3.5 text-left"
-          style={{
-            background: "rgba(0,0,0,.22)",
-            borderBottom: i ? `1px solid ${c}18` : "none",
-          }}
-        >
-          <KeyRoundIcon
-            size={15}
-            style={{
-              color,
-            }}
-          />
-          <div className="flex-1">
-            <div className="text-white font-black text-[14.5px] leading-tight">{titulo}</div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-white/30">
-              {x} {t_1("ítems con justificación", "题含依据")}
-            </div>
-          </div>
-          <ChevronDownIcon
-            size={15}
-            className="text-white/30 transition-transform"
-            style={{
-              transform: i ? "rotate(180deg)" : "none",
-            }}
-          />
-        </button>
-        {i && (
-          <div className="p-5 space-y-4">
-            {claves.map((u) => {
-              const d = tareas.find((b) => b.num === u.tarea);
-              return (
-                <div key={u.tarea}>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span
-                      className="font-mono font-black text-[11px] px-2 py-1 rounded-lg"
-                      style={{
-                        background: `${c}16`,
-                        color: C,
-                        border: `1px solid ${c}30`,
-                      }}
-                    >
-                      TAREA {u.tarea}
-                    </span>
-                    {d?.titulo && (
-                      <span className="text-white/50 text-[12px] font-bold truncate">{d.titulo}</span>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    {(u.items || []).map((b) => {
-                      const k = (d?.items || []).find((N) => N.num === b.num)?.opciones?.[b.correcta];
-                      const j = b.fraseSoporte || (d?.items || []).find((N) => N.num === b.num)?.fraseSoporte;
-                      const v =
-                        b.justificacion || (d?.items || []).find((N) => N.num === b.num)?.justificacion;
-                      return (
-                        <div
-                          key={b.num}
-                          className="rounded-xl p-3"
-                          style={{
-                            background: "rgba(0,0,0,.22)",
-                            border: "1px solid rgba(255,255,255,.07)",
-                          }}
-                        >
-                          <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                            <span
-                              className="font-mono text-[11px] font-black w-6 h-6 rounded-lg flex items-center justify-center"
-                              style={{
-                                background: `${c}18`,
-                                color: C,
-                                border: `1px solid ${c}30`,
-                              }}
-                            >
-                              {b.num}
-                            </span>
-                            <span
-                              className="font-mono text-[11px] font-black px-2 py-0.5 rounded"
-                              style={{
-                                background: "rgba(52,211,153,.15)",
-                                color: "#6ee7b7",
-                              }}
-                            >
-                              {g(b.correcta)}
-                              {k ? ` · ${k}` : ""}
-                            </span>
-                          </div>
-                          {v && <p className="text-white/55 text-[12px] leading-relaxed pl-8">{v}</p>}
-                          {j && (
-                            <p
-                              className="text-[11.5px] italic leading-relaxed pl-8 mt-1.5"
-                              style={{
-                                color: C,
-                              }}
-                            >
-                              «{j}»
-                            </p>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    );
+function UeComponent({ titulo, claves, tareas, t: t_1 }) {
+  const [abierto, setAbierto] = React.useState(true);
+  const totalItems = claves.reduce((acc, clave) => acc + (clave.items || []).length, 0);
+  if (!claves.length) {
+    return null;
   }
-  return null;
+  return (
+    <section className="ofx-claves gm-no-adapt">
+      <button
+        type="button"
+        onClick={() => setAbierto((v) => !v)}
+        className="ofx-claves-cab"
+        aria-expanded={abierto}
+      >
+        <KeyRoundIcon size={18} aria-hidden="true" className="ofx-claves-ico" />
+        <span className="ofx-claves-tit">
+          <strong>{titulo}</strong>
+          <small>
+            {totalItems} ítems con justificación · {totalItems} 题含依据
+          </small>
+        </span>
+        <ChevronDownIcon size={18} aria-hidden="true" className={abierto ? "ofx-rot" : ""} />
+      </button>
+      {abierto && (
+        <div className="ofx-claves-cuerpo">
+          {claves.map((clave) => {
+            const tarea = tareas.find((t) => t.num === clave.tarea);
+            return (
+              <div key={clave.tarea} className="ofx-claves-tarea">
+                <div className="ofx-claves-tarea-cab">
+                  <span className="ofx-claves-chip">
+                    Tarea {clave.tarea} · <span lang="zh-CN">任务{clave.tarea}</span>
+                  </span>
+                  {tarea?.titulo && <span className="ofx-claves-tarea-tit">{tarea.titulo}</span>}
+                </div>
+                <ol className="ofx-claves-lista">
+                  {(clave.items || []).map((itemClave) => {
+                    const itemTarea = (tarea?.items || []).find((it) => it.num === itemClave.num);
+                    const letra = g(itemClave.correcta);
+                    const textoOpcion = itemTarea?.opciones?.[itemClave.correcta];
+                    const mostrarTexto =
+                      textoOpcion && String(textoOpcion).trim().toUpperCase() !== String(letra).trim().toUpperCase();
+                    const frase = itemClave.fraseSoporte || itemTarea?.fraseSoporte;
+                    const justificacion = itemClave.justificacion || itemTarea?.justificacion;
+                    return (
+                      <li key={itemClave.num} className="ofx-clave">
+                        <div className="ofx-clave-cab">
+                          <span className="ofx-clave-num">{itemClave.num}</span>
+                          <span className="ofx-clave-resp">
+                            <b>{letra}</b>
+                            {mostrarTexto ? ` · ${textoOpcion}` : ""}
+                          </span>
+                        </div>
+                        {justificacion && <p className="ofx-clave-just">{justificacion}</p>}
+                        {frase && <p className="ofx-clave-frase">«{frase}»</p>}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
 }
 export { IaComponent as default };

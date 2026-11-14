@@ -1,9 +1,8 @@
-import { YoutubeIcon, ArrowLeftIcon, PlayIcon, FunnelIcon, ExternalLinkIcon } from "lucide-react";
+import { PlayIcon, FunnelIcon, ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
-import { Link } from "react-router";
-import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
-const g = [
+import "../styles/v14-fix-recursos.css";
+const VIDEOS = [
   {
     id: "v1",
     titulo: "Entrevistas en la calle",
@@ -181,163 +180,95 @@ const g = [
     descripcion: "Ejemplos y consejos para las pruebas orales del examen DELE.",
   },
 ];
-const y = ["Todos", "A1", "A2", "B1", "B2"];
-const v = ["Todos", "España", "México", "Colombia", "Argentina", "Varios"];
-const n = {
-  España: "#ff6b35",
-  México: "#39ff14",
-  Colombia: "#ffd600",
-  Argentina: "#66e7ff",
-  Varios: "#c084fc",
-};
-function NComponent() {
-  const [s, setS] = React.useState("Todos");
-  const [i, setI] = React.useState("Todos");
-  const l = React.useMemo(
-    () => g.filter((a) => (s === "Todos" || a.nivel === s) && (i === "Todos" || a.acento === i)),
-    [s, i],
+const NIVELES = ["Todos", "A1", "A2", "B1", "B2"];
+const ACENTOS = ["Todos", "España", "México", "Colombia", "Argentina", "Varios"];
+const ACENTO_ZH = { Todos: "全部", España: "西班牙", México: "墨西哥", Colombia: "哥伦比亚", Argentina: "阿根廷", Varios: "多种" };
+const claseAcento = (acento) => `rx-ac-${acento.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()}`;
+function VideosPage() {
+  const [nivel, setNivel] = React.useState("Todos");
+  const [acento, setAcento] = React.useState("Todos");
+  const filtrados = React.useMemo(
+    () => VIDEOS.filter((video) => (nivel === "Todos" || video.nivel === nivel) && (acento === "Todos" || video.acento === acento)),
+    [nivel, acento],
   );
+  const limpiar = () => {
+    setNivel("Todos");
+    setAcento("Todos");
+  };
   return (
-    <StarfieldBackground>
-      <div className="max-w-6xl mx-auto px-4 py-6 min-h-screen relative z-10">
-        <div style={{ marginBottom: 24 }}>
-          <div className="gm-no-adapt">
-          <SectionHero
-            icon={YoutubeIcon}
-            accent="#ff4d4d"
-            eyebrow="Vídeos · 视频"
-            title="Conversaciones y acentos"
-            titleZh="真实西语视频"
-            description="Español real de España, México, Colombia y Argentina, ordenado por nivel y acento."
-            descriptionZh="来自西班牙、墨西哥、哥伦比亚和阿根廷的真实西语，按级别和口音分类。"
-            stats={[{ value: g.length, label: "canales y listas · 个频道" }]}
-          />
+    <div className="rx-page rx-hoja gm-no-adapt">
+      <div className="rx-wrap">
+        <SectionHero
+          eyebrow="Vídeos · 视频"
+          title="Conversaciones y acentos"
+          titleZh="真实西语视频"
+          description="Español real de España, México, Colombia y Argentina, ordenado por nivel y acento."
+          descriptionZh="来自西班牙、墨西哥、哥伦比亚和阿根廷的真实西语，按级别和口音分类。"
+          stats={[{ value: VIDEOS.length, label: "canales y listas · 个频道" }]}
+        />
+        <div className="rx-videos__filtros" role="group" aria-label="Filtros · 筛选">
+          <div className="rx-filtros">
+            <p className="rx-filtros__titulo">Nivel · 级别</p>
+            {NIVELES.map((opcion) => (
+              <button key={opcion} type="button" aria-pressed={nivel === opcion} onClick={() => setNivel(opcion)} className={`rx-chip ${opcion !== "Todos" ? `rx-nv-${opcion}` : ""}`}>
+                {opcion === "Todos" ? "Todos · 全部" : opcion}
+              </button>
+            ))}
+          </div>
+          <div className="rx-filtros">
+            <p className="rx-filtros__titulo">Acento · 口音</p>
+            {ACENTOS.map((opcion) => (
+              <button key={opcion} type="button" aria-pressed={acento === opcion} onClick={() => setAcento(opcion)} className="rx-chip">
+                {opcion} <small>{ACENTO_ZH[opcion]}</small>
+              </button>
+            ))}
           </div>
         </div>
-        <div className="flex flex-wrap gap-2 justify-center mb-8">
-          {y.map((a) => (
-            <button
-              key={a}
-              onClick={() => setS(a)}
-              className="px-4 py-1.5 rounded-full text-xs font-black transition-all"
-              style={
-                s === a
-                  ? {
-                      background: "rgba(255,56,96,.2)",
-                      border: "1px solid rgba(255,56,96,.5)",
-                      color: "#ff6b6b",
-                    }
-                  : {
-                      background: "rgba(255,255,255,.04)",
-                      border: "1px solid rgba(255,255,255,.1)",
-                      color: "rgba(255,255,255,.5)",
-                    }
-              }
-            >
-              {a}
-            </button>
-          ))}
-          <span className="mx-2 self-center text-white/20">|</span>
-          {v.map((a) => (
-            <button
-              key={a}
-              onClick={() => setI(a)}
-              className="px-4 py-1.5 rounded-full text-xs font-black transition-all"
-              style={
-                i === a
-                  ? {
-                      background: `${n[a] || "#fff"}20`,
-                      border: `1px solid ${n[a] || "#fff"}55`,
-                      color: n[a] || "#fff",
-                    }
-                  : {
-                      background: "rgba(255,255,255,.04)",
-                      border: "1px solid rgba(255,255,255,.1)",
-                      color: "rgba(255,255,255,.5)",
-                    }
-              }
-            >
-              {a}
-            </button>
-          ))}
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 fx-stagger">
-          {l.map((a) => (
-            <div
-              key={a.id}
-              className="fx-card fx-tilt p-5 flex flex-col"
-              data-fx-tilt-max="4"
-              style={{
-                "--fx-accent": n[a.acento] || "#ff3860",
-              }}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span
-                  className="text-[10px] font-black px-2 py-0.5 rounded-md"
-                  style={{
-                    background: "rgba(255,255,255,.06)",
-                    color: "rgba(255,255,255,.6)",
-                    border: "1px solid rgba(255,255,255,.1)",
-                  }}
-                >
-                  {a.nivel}
-                </span>
-                <span
-                  className="text-[10px] font-black px-2 py-0.5 rounded-md"
-                  style={{
-                    background: `${n[a.acento] || "#fff"}18`,
-                    color: n[a.acento] || "#fff",
-                    border: `1px solid ${n[a.acento] || "#fff"}40`,
-                  }}
-                >
-                  {a.acento}
-                </span>
-              </div>
-              <h3 className="text-white font-black mb-1">{a.titulo}</h3>
-              <p className="text-white/40 text-xs font-bold mb-2">
-                {a.canal} · {a.tema}
-              </p>
-              <p className="text-white/55 text-xs leading-relaxed flex-1 mb-4">{a.descripcion}</p>
-              <div className="flex gap-2">
-                <a
-                  href={`https://www.youtube.com/results?search_query=${encodeURIComponent(a.query)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-black transition-transform hover:scale-105"
-                  style={{
-                    background: "rgba(255,56,96,.2)",
-                    border: "1px solid rgba(255,56,96,.4)",
-                    color: "#ff6b6b",
-                  }}
-                >
-                  <PlayIcon size={13} /> Ver vídeos
-                </a>
-                {a.canalHandle && (
-                  <a
-                    href={`https://www.youtube.com/${a.canalHandle}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3 py-2.5 rounded-xl text-xs font-black transition-transform hover:scale-105 flex items-center gap-1.5"
-                    style={{
-                      background: "rgba(255,255,255,.05)",
-                      border: "1px solid rgba(255,255,255,.12)",
-                      color: "rgba(255,255,255,.6)",
-                    }}
-                  >
-                    <ExternalLinkIcon size={12} /> Canal
+        <p className="rx-videos__cuenta" role="status">
+          {filtrados.length} {filtrados.length === 1 ? "canal" : "canales"} · {filtrados.length} 个频道
+        </p>
+        {filtrados.length > 0 ? (
+          <div className="rx-grid">
+            {filtrados.map((video) => (
+              <article key={video.id} className={`rx-card is-interactiva is-video ${claseAcento(video.acento)}`}>
+                <div className="rx-video__cabeza">
+                  <span className={`rx-tag rx-nv-${video.nivel}`}>{video.nivel}</span>
+                  <span className="rx-tag is-acento">
+                    {video.acento} · {ACENTO_ZH[video.acento]}
+                  </span>
+                </div>
+                <h3 className="rx-video__titulo">{video.titulo}</h3>
+                <p className="rx-video__canal">
+                  {video.canal} · {video.tema}
+                </p>
+                <p className="rx-video__desc">{video.descripcion}</p>
+                <div className="rx-video__acciones">
+                  <a href={`https://www.youtube.com/results?search_query=${encodeURIComponent(video.query)}`} target="_blank" rel="noreferrer" className="rx-btn is-mini">
+                    <PlayIcon size={16} aria-hidden="true" /> Ver vídeos · 看视频
                   </a>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-        {l.length === 0 && (
-          <p className="text-center text-white/30 py-10">
-            <FunnelIcon size={24} className="mx-auto mb-2 opacity-30" /> Sin resultados / 无结果
-          </p>
+                  {video.canalHandle && (
+                    <a href={`https://www.youtube.com/${video.canalHandle}`} target="_blank" rel="noreferrer" className="rx-btn is-papel is-mini" aria-label={`Canal ${video.canal} · 频道`}>
+                      <ExternalLinkIcon size={16} aria-hidden="true" /> Canal · 频道
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="rx-vacio" role="status">
+            <span className="rx-sello" aria-hidden="true">无</span>
+            <p>
+              No hay vídeos con estos filtros
+              <span>没有符合筛选条件的视频</span>
+            </p>
+            <button type="button" className="rx-btn is-oro" onClick={limpiar}>
+              <FunnelIcon size={16} aria-hidden="true" /> Quitar filtros · 清除筛选
+            </button>
+          </div>
         )}
       </div>
-    </StarfieldBackground>
+    </div>
   );
 }
-export { NComponent as default };
+export { VideosPage as default };

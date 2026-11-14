@@ -20,6 +20,7 @@ import { teoriaTraducida } from "../lib/traductorDom.js";
 import { ParticulasNivel } from "../components/ui/ParticulasNivel.jsx";
 
 import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
+import "../styles/v14-fix-juegos.css";
 import { u as useCorrection, C as CorrectionCard } from "../components/CorrectionDisplay.jsx";
 const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));

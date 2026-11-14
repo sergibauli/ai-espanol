@@ -179,15 +179,82 @@ function partirTeoria(teoria, K) {
 }
 
 const minuscula = (s) => (s && /^\p{Lu}\p{Ll}/u.test(s) ? s[0].toLowerCase() + s.slice(1) : s);
+// Títulos cortos (las tarjetas de clase a 390 px solo muestran ~40 caracteres en español y ~20 en chino).
+// Regla, de más a menos completo, se usa la primera opción que cabe:
+//  1) los títulos de teoría de la clase unidos con « y » (o « · » si alguno ya lleva «y»);
+//  2) lo mismo con cada título «limpio»: sin paréntesis ni lo que va tras «:» / « - » (si lo de delante
+//     tiene ≥ 2 palabras; en chino, ≥ 2 caracteres chinos);
+//  3) solo el primer título (el de la clase), completo y luego limpio — en español y chino a la vez, para
+//     que digan lo mismo;
+//  4) si aún no cabe, se corta por « y » o por palabras sin dejar «de/y/en/cómo…» colgando.
+// El título completo se guarda en `tituloLargo` / `tituloLargoChino` cuando difiere.
+const MAX_ES = 40;
+const MAX_ZH = 20;
+const largoZh = (s) => [...s].reduce((n, ch) => n + (/[\x00-\xff]/.test(ch) ? 0.5 : 1), 0);
+function limpiarEs(t) {
+  let s = String(t || "").replace(/\s*\([^)]*\)/g, "").trim();
+  for (const sep of [":", " - ", " – "]) {
+    const k = s.indexOf(sep);
+    if (k > 0 && s.slice(0, k).trim().split(/\s+/).length >= 2) s = s.slice(0, k).trim();
+  }
+  return s;
+}
+function limpiarZh(t) {
+  let s = String(t || "").replace(/\s*[（(][^）)]*[）)]/g, "").trim();
+  for (const sep of ["：", ":", " - ", " – "]) {
+    const k = s.indexOf(sep);
+    const antes = s.slice(0, k);
+    if (k > 0 && (antes.match(/[\u3400-\u9fff]/g) || []).length >= 2) s = antes.trim();
+  }
+  return s;
+}
+const COLA = new Set(["de", "del", "y", "e", "o", "u", "en", "con", "a", "al", "el", "la", "los", "las", "un", "una", "para", "por", "vs", "sobre", "como", "cómo", "que", "qué", "se", "su", "sus", "mi", "tu"]);
+function cortarEs(s, max) {
+  if (s.length <= max) return s;
+  const k = s.lastIndexOf(" y ", max);
+  if (k >= 12) return s.slice(0, k);
+  const palabras = s.split(/\s+/);
+  while (palabras.length > 1 && palabras.join(" ").length > max) palabras.pop();
+  while (palabras.length > 1 && COLA.has(palabras[palabras.length - 1].toLowerCase())) palabras.pop();
+  return palabras.join(" ").replace(/[,:;·]$/, "");
+}
+function cortarZh(s, max) {
+  if (largoZh(s) <= max) return s;
+  const piezas = s.split(/(?<=[、，,与和 ])/).filter(Boolean);
+  let out = "";
+  for (const p of piezas) {
+    if (largoZh(out + p) > max) break;
+    out += p;
+  }
+  if (!out) out = [...s].reduce((acc, ch) => (largoZh(acc + ch) <= max ? acc + ch : acc), "");
+  return out.replace(/[、，,与和 ]+$/, "");
+}
+const unirEs = (lista) => (lista.length < 2 ? lista[0] || "" : lista.some((t) => /\sy\s/i.test(t)) ? lista.join(" · ") : `${lista[0]} y ${minuscula(lista[1])}`);
+const cabeEs = (s) => s.length <= MAX_ES;
+const cabeZh = (s) => largoZh(s) <= MAX_ZH;
 function tituloClase(teorias) {
   const es = teorias.map((t) => String(t.titulo || "").trim()).filter(Boolean);
   const zh = teorias.map((t) => String(t.tituloChino || "").trim()).filter(Boolean);
-  let tituloEs = es[0] || "";
-  if (es.length > 1) tituloEs = es.some((t) => /\sy\s/.test(t)) || es.join("").length > 52 ? es.join(" · ") : `${es[0]} y ${minuscula(es[1])}`;
-  return { titulo: tituloEs, tituloChino: zh.join("、") };
+  const tituloLargo = unirEs(es);
+  const tituloLargoChino = zh.join("、");
+  const opciones = (listaEs, listaZh) => ({ es: [unirEs(listaEs), unirEs(listaEs.map(limpiarEs))], zh: [listaZh.join("、"), listaZh.map(limpiarZh).join("、")] });
+  // Juntos solo si caben las dos lenguas; si no, primer título en las dos
+  const juntos = opciones(es, zh);
+  const elegido = es.length > 1 && juntos.es.some(cabeEs) && juntos.zh.some(cabeZh) ? juntos : opciones(es.slice(0, 1), zh.slice(0, 1));
+  // Si el español necesitó la versión limpia, el chino también (para que digan lo mismo)
+  const iEs = elegido.es.findIndex(cabeEs);
+  const iZh = elegido.zh.findIndex((z, i) => i >= Math.max(0, iEs) && cabeZh(z));
+  const out = {
+    titulo: iEs >= 0 ? elegido.es[iEs] : cortarEs(elegido.es[1], MAX_ES),
+    tituloChino: iZh >= 0 ? elegido.zh[iZh] : cortarZh(elegido.zh[1], MAX_ZH),
+  };
+  if (out.titulo !== tituloLargo) out.tituloLargo = tituloLargo;
+  if (out.tituloChino !== tituloLargoChino) out.tituloLargoChino = tituloLargoChino;
+  return out;
 }
 
 // ---------- Reparto de una unidad ----------
+const estadistica = { palabras: 0, conPistas: 0, enClaseAfin: 0, _raw: [] };
 function clasesDeUnidad(u) {
   const plus = leerPlus(u.numero);
   const teoria = u.teoria || [];
@@ -248,19 +315,74 @@ function clasesDeUnidad(u) {
   // 3) Vocabulario definitivo: teoría (peso 2) + diálogos de la clase (peso 1)
   // Una palabra se presenta la primera vez que se usa: la primera clase donde aparece recibe un bonus
   // (mayor cuanto más se reutiliza después: es una palabra núcleo) y las clases posteriores, menos peso.
+  // Núcleo de la clase 1: las palabras del título de la unidad («Hola» en «Hola y Adiós») y las más usadas
+  // en la teoría y los diálogos de la clase 1 (y en el conjunto de ejercicios) se presentan primero.
+  const textoTitulo = preparado(`${u.titulo || ""}`);
+  const textoClase1 = [...teoria.map((_, i) => (claseDeTeoria[i] === 0 ? textoTeoria[i].cuerpo : null)), ...dialogos.map((_, d) => (claseDeDialogo[d] === 0 ? textoDialogo[d] : null))].filter(Boolean);
+  const textoEjercicios = preparado(textos([u.ejercicios, u.ejerciciosPracticos, u.preguntas], SIN_ID));
+  const usos = (w, texto) => {
+    let n = 0;
+    for (const t of vars[w]) {
+      const frase = ` ${t.join(" ")} `;
+      for (let k = texto.frase.indexOf(frase); k >= 0; k = texto.frase.indexOf(frase, k + 1)) n++;
+    }
+    return n;
+  };
   const puntosVocab = vocab.map((_, w) => {
     const s = afinTeoria[w].map((x) => x * 2);
     const enDialogo = new Set(dialogos.map((_, d) => (coincide(vars[w], textoDialogo[d]) ? claseDeDialogo[d] : -1)));
     for (let c = 0; c < K; c++) if (enDialogo.has(c)) s[c] += 1;
     const primera = s.findIndex((x) => x > 0);
-    if (primera < 0) return s;
-    const reusos = s.filter((x, c) => c > primera && x > 0).length;
-    return s.map((x, c) => (c === primera ? x + 3 + 2 * reusos : c > primera ? x * 0.4 : x));
+    let r = s;
+    if (primera >= 0) {
+      const reusos = s.filter((x, c) => c > primera && x > 0).length;
+      r = s.map((x, c) => (c === primera ? x + 3 + 2 * reusos : c > primera ? x * 0.4 : x));
+    }
+    if (K > 1) {
+      const enClase1 = textoClase1.reduce((n, t) => n + usos(w, t), 0);
+      const enEjercicios = usos(w, textoEjercicios);
+      if (coincide(vars[w], textoTitulo)) r[0] += 12;
+      // Teoría inicial (el primer punto de la unidad): lo más básico va en la clase 1
+      if (T && coincide(vars[w], textoTeoria[0].titulo)) r[0] += 4;
+      else if (T && coincide(vars[w], textoTeoria[0].cuerpo)) r[0] += 2;
+      if (enClase1) r[0] += Math.min(4, enClase1) + Math.min(2, Math.log2(1 + enEjercicios));
+      // El orden de la lista es el del autor (lo básico primero): desempata a favor de las primeras palabras
+      if (r[0] > 0) r[0] += 6 * (1 - w / Math.max(1, V));
+    }
+    return r;
   });
   if (process.env.DEBUG == u.numero) console.log(puntosVocab.map((s, w) => vocab[w].espanol + " " + s.map((x) => x.toFixed(1)).join("/")).join("\n"));
-  const claseDePalabra = repartir(puntosVocab, K, { capacidad: Math.ceil(V / K), minimo: Math.min(3, Math.floor(V / K)), prior: 1.5 });
+  for (let w = 0; w < V; w++) {
+    const raw = afinTeoria[w].map((x, c) => x + (dialogos.some((_, d) => claseDeDialogo[d] === c && coincide(vars[w], textoDialogo[d])) ? 1 : 0));
+    estadistica.palabras++;
+    if (raw.some((x) => x > 0)) estadistica.conPistas++;
+    estadistica._raw.push(raw);
+  }
+  const claseDePalabra = repartir(puntosVocab, K, { capacidad: Math.ceil(V / K) + 1, minimo: Math.max(Math.min(3, Math.floor(V / K)), Math.floor(V / K) - 1), prior: 0.5 });
 
   // 4) Ejercicios y plus: vocabulario de la clase (peso 3) + palabras distintivas de su teoría y diálogos
+  // Huecos en series: si una palabra queda fuera de la clase que tienen sus dos vecinas en la lista
+  // («ocho, [nueve], diez»), se intercambia con la palabra de esa clase que menos pierde al salir.
+  for (let w = 1; w < V - 1; w++) {
+    const c = claseDePalabra[w - 1];
+    const otra = claseDePalabra[w];
+    if (c === otra || claseDePalabra[w + 1] !== c || puntosVocab[w][c] <= 0) continue;
+    const candidatas = [];
+    for (let x = 0; x < V; x++) {
+      if (claseDePalabra[x] !== c || x === w - 1 || x === w + 1) continue;
+      if (x > 0 && x < V - 1 && claseDePalabra[x - 1] === c && claseDePalabra[x + 1] === c) continue;
+      candidatas.push([puntosVocab[x][c] - puntosVocab[x][otra], x]);
+    }
+    candidatas.sort((a, b) => a[0] - b[0] || b[1] - a[1]);
+    // Solo si sale una palabra casi tan ligada a la clase como la que entra (margen de 3 puntos)
+    if (!candidatas.length || candidatas[0][0] > puntosVocab[w][c] - puntosVocab[w][otra] + 3) continue;
+    const x = candidatas[0][1];
+    claseDePalabra[x] = otra;
+    claseDePalabra[w] = c;
+  }
+  estadistica._raw.splice(0).forEach((raw, w) => {
+    if (raw[claseDePalabra[w]] > 0) estadistica.enClaseAfin++;
+  });
   const tokensClase = Array.from({ length: K }, (_, c) => new Set(tokensTeoria[c]));
   dialogos.forEach((_, d) => textoDialogo[d].tokens.filter((x) => x.length >= 4 && !VACIAS.has(x)).forEach((x) => tokensClase[claseDeDialogo[d]].add(x)));
   const distClase = distintivas(tokensClase);
@@ -349,4 +471,5 @@ const mayor = Object.entries(salida)
 const vacias = lista.filter((c) => !c.teoria.length || !c.vocabulario.length).length;
 console.log(`clases.json: ${todas.length} unidades → ${lista.length} clases (${(fs.statSync(path.join(dir, "clases.json")).size / 1024).toFixed(0)} KB)`);
 console.log(`media por clase: ${media((c) => c.vocabulario.length)} palabras · ${media((c) => c.teoria.length)} teorías · ${media((c) => c.dialogos.length)} diálogos · ${media(nEj)} ejercicios`);
+console.log(`palabras en una clase cuya teoría o diálogos las usan: ${estadistica.enClaseAfin}/${estadistica.conPistas} (de ${estadistica.palabras} palabras)`);
 console.log(`clase más grande: unidad ${mayor.u}, clase ${mayor.c.n} (${mayor.c.vocabulario.length} palabras, ${nEj(mayor.c)} ejercicios) · clases sin teoría o sin vocabulario: ${vacias}`);

@@ -3,6 +3,7 @@ import * as React from "react";
 import { Link } from "react-router";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { speak } from "../components/lesson/fx.js";
+import "../styles/v14-fix-recursos.css";
 import { useFavorites } from "../lib/favorites.js";
 import { getSrsStats, getDueSrsCards, getSrsCards, SRS_BOX_LABELS_ES, SRS_BOX_LABELS_ZH, removeSrsCard, reviewSrsCard, importSrsCards } from "../lib/srs.js";
 
@@ -54,7 +55,7 @@ function MemoriaPage() {
   const porCaja = SRS_BOX_LABELS_ES.map((_, caja) => tarjetas.filter((t) => t.box === caja).length);
 
   return (
-    <div className="jd-legacy gm-no-adapt">
+    <div className="jd-legacy gm-no-adapt rx-page rx-hoja">
       <SectionHero
         eyebrow="Repaso inteligente · 记忆复习"
         title="Repaso espaciado"

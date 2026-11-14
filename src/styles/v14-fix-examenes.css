@@ -1,0 +1,284 @@
+/* ===== v14 · Bloque B · Exámenes (oficiales y de práctica) ===== */
+:root {
+  --ofx-laca: #c8102e;
+  --ofx-laca-osc: #8f0c21;
+  --ofx-oro: #f2c14e;
+  --ofx-oro-osc: #c8961e;
+  --ofx-tinta: #3b2416;
+  --ofx-tinta-suave: #5b3e22;
+  --ofx-papel: #fbf3df;
+  --ofx-cali: "STKaiti", "KaiTi", "Kaiti SC", "Songti SC", serif;
+}
+
+/* ---------- Estados de carga / no encontrado / error (OficialExamPage) ---------- */
+.ofx-estado { max-width: 560px; margin: 0 auto; padding: 72px 16px 96px; }
+.ofx-estado-card {
+  position: relative; text-align: center; padding: 34px 24px 28px; border-radius: 10px;
+  background: radial-gradient(120% 90% at 50% 0%, #fffaf0, #f3e4c0 70%, #e6cf9c);
+  border: 2px solid var(--ofx-oro-osc);
+  box-shadow: inset 0 0 0 4px #fbf3df, inset 0 0 0 5px rgba(200,150,30,.6), 0 14px 30px rgba(40,20,5,.35);
+  color: var(--ofx-tinta);
+}
+.ofx-estado-titulo { margin: 14px 0 8px; font: 800 24px/1.25 "Cinzel", "Times New Roman", Georgia, serif; color: var(--ofx-laca-osc); }
+.ofx-estado-zh { display: block; margin-top: 4px; font-family: var(--ofx-cali); font-weight: 700; color: var(--ofx-tinta); }
+.ofx-estado-titulo .ofx-estado-zh { font-size: 22px; letter-spacing: 2px; color: var(--ofx-laca); }
+.ofx-estado-texto { margin: 0 0 22px; font-size: 15px; line-height: 1.55; color: var(--ofx-tinta-suave); }
+.ofx-estado-texto .ofx-estado-zh { font-size: 16px; color: var(--ofx-tinta-suave); }
+.ofx-estado-es { margin: 14px 0 2px; font-size: 15px; font-weight: 700; color: var(--ofx-tinta); }
+.ofx-estado-card > .ofx-estado-zh { font-size: 17px; }
+.ofx-estado-acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.ofx-sello {
+  display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 8px;
+  font: 700 38px/1 var(--ofx-cali); color: #fff3e0; background: linear-gradient(160deg, var(--ofx-laca), var(--ofx-laca-osc));
+  border: 2px solid #ffb3a0; box-shadow: inset 0 0 0 3px rgba(255,255,255,.18), 0 4px 10px rgba(143,12,33,.45); transform: rotate(-6deg);
+}
+.ofx-spinner {
+  display: inline-block; width: 46px; height: 46px; border-radius: 50%;
+  border: 4px solid rgba(200,150,30,.3); border-top-color: var(--ofx-laca);
+  animation: ofx-giro 1s linear infinite;
+}
+@keyframes ofx-giro { to { transform: rotate(360deg); } }
+.ofx-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 18px;
+  border-radius: 999px; font-weight: 800; font-size: 15px; text-decoration: none; cursor: pointer; border: 2px solid var(--ofx-oro);
+}
+.ofx-btn-laca { color: #fff6e0 !important; background: linear-gradient(180deg, #b81c2e, var(--ofx-laca-osc)); box-shadow: 0 4px 10px rgba(143,12,33,.35); }
+.ofx-btn-oro { color: var(--ofx-tinta) !important; background: linear-gradient(180deg, #ffe08a, var(--ofx-oro-osc)); }
+.ofx-btn:focus-visible { outline: 3px solid var(--ofx-laca); outline-offset: 2px; }
+
+/* ---------- Pestañas de pruebas del examen oficial ---------- */
+.ofx-tab { min-height: 44px; }
+.ofx-tab .ofx-tab-nombre > span { display: block; }
+.ofx-tab .ofx-tab-corta { display: none !important; }
+.ofx-tab .ofx-tab-zh {
+  margin-top: 3px; font-family: var(--ofx-cali) !important; font-size: 15px; font-weight: 700; letter-spacing: 1px;
+  text-shadow: 0 1px 0 rgba(0,0,0,.35);
+}
+.light-page .ofe .ofx-tab > div:last-child { hyphens: manual; -webkit-hyphens: manual; overflow-wrap: normal; word-break: normal; }
+.light-page .ofe .ofx-tab:focus-visible { outline: 3px solid #fff3c4; outline-offset: 2px; }
+
+@media (max-width: 760px) {
+  .light-page .ofe .ofe-tabs.ofx-tabs {
+    display: flex !important; gap: 8px !important; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity; margin-left: -14px; margin-right: -14px; padding: 6px 14px 10px;
+    scrollbar-width: thin; scrollbar-color: var(--ofx-oro-osc) transparent;
+  }
+  .light-page .ofe .ofx-tab {
+    flex: 0 0 auto; min-width: 88px; min-height: 64px !important; padding: 8px 10px !important; scroll-snap-align: start;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  }
+  .light-page .ofe .ofx-tab svg { width: 18px; height: 18px; }
+  .light-page .ofe .ofx-tab .ofx-tab-larga { display: none !important; }
+  .light-page .ofe .ofx-tab .ofx-tab-corta { display: block !important; }
+  .light-page .ofe .ofx-tab > div:last-child {
+    font-size: 13px !important; line-height: 1.2 !important; white-space: nowrap;
+    hyphens: manual !important; -webkit-hyphens: manual !important; overflow-wrap: normal !important;
+  }
+  .light-page .ofe .ofx-tab .ofx-tab-zh { font-size: 14px !important; margin-top: 1px; }
+}
+
+/* ---------- Pieza a pieza del examen oficial ---------- */
+.ofx-estado-card { background: url("../../public/theme/papel.jpg") center / cover, #f6ead0; }
+.ofx-acento { color: #8f0c21 !important; }
+.ofe .ofx-tab-meta { font-size: 11px !important; letter-spacing: .08em !important; }
+
+/* Ir a la tarea */
+.ofx-saltos { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 20px; }
+.ofx-saltos-rot { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ofx-tinta-suave); }
+.ofx-saltos-rot span { font-family: var(--ofx-cali); letter-spacing: 1px; text-transform: none; font-size: 14px; }
+.ofx-saltos button {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; max-width: 100%; padding: 6px 12px; border-radius: 999px;
+  background: #fffaf0; border: 1.5px solid #dcc595; color: var(--ofx-tinta); font-size: 13px; font-weight: 700; text-align: left;
+  box-shadow: 0 2px 4px rgba(110,80,30,.12); transition: background .15s, border-color .15s;
+}
+.ofx-saltos button b { color: var(--ofx-laca-osc); }
+.ofx-saltos button > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ofx-tinta-suave); }
+.ofx-saltos button:hover { background: #fff1cc; border-color: var(--ofx-oro-osc); }
+.ofx-saltos button:focus-visible { outline: 3px solid var(--ofx-laca); outline-offset: 2px; }
+
+/* Reloj de la prueba */
+.ofx-reloj {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 4px 2px 12px; border-radius: 999px;
+  background: #fffaf0; border: 2px solid var(--ofx-oro-osc); color: var(--ofx-laca-osc);
+}
+.ofx-reloj-cifra { font: 800 17px/1 ui-monospace, "SFMono-Regular", Menlo, monospace; font-variant-numeric: tabular-nums; margin: 0 4px 0 2px; color: inherit; }
+.ofx-reloj button {
+  display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%;
+  color: var(--ofx-tinta); background: transparent;
+}
+.ofx-reloj button:hover { background: rgba(200,150,30,.18); }
+.ofx-reloj button:focus-visible { outline: 3px solid var(--ofx-laca); outline-offset: 1px; }
+.ofx-reloj-aviso { border-color: #b7791f; color: #8a4b0f; background: #fff3d1; }
+.ofx-reloj-fin { border-color: var(--ofx-laca); color: #fff6e0; background: linear-gradient(180deg, #b81c2e, var(--ofx-laca-osc)); }
+.ofx-reloj-fin button { color: #fff6e0; }
+
+/* Nota de la prueba corregida */
+.ofx-nota { display: inline-flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-radius: 10px; border: 2px solid; }
+.ofx-nota-pct { font: 800 20px/1 ui-monospace, Menlo, monospace; }
+.ofx-nota-frac { font-size: 13px; font-weight: 700; color: var(--ofx-tinta-suave); }
+.ofx-nota-apto { background: #eef6ec; border-color: #2e6b3f; color: #22553a; }
+.ofx-nota-noapto { background: #fdecec; border-color: var(--ofx-laca); color: var(--ofx-laca-osc); }
+
+/* Claves y justificación */
+.ofx-claves {
+  margin: 0 0 24px; border-radius: 14px; overflow: hidden; background: #fffaf0; color: var(--ofx-tinta);
+  border: 2px solid #dcc595; box-shadow: inset 0 0 0 3px #fffaf0, inset 0 0 0 4px rgba(200,150,30,.45), 0 4px 10px rgba(110,80,30,.15);
+}
+.ofx-claves-cab {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 12px 18px; text-align: left;
+  background: linear-gradient(180deg, #b81c2e, var(--ofx-laca-osc)); color: #fff6e0; border-bottom: 2px solid var(--ofx-oro);
+}
+.ofx-claves-cab:focus-visible { outline: 3px solid var(--ofx-oro); outline-offset: -4px; }
+.ofx-claves-ico { color: var(--ofx-oro); flex: none; }
+.ofx-claves-tit { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ofx-claves-tit strong { font-size: 16px; line-height: 1.3; color: #ffe08a; }
+.ofx-claves-tit small { font-size: 12.5px; font-weight: 700; color: #f8dca0; }
+.ofx-claves-cab .ofx-rot { transform: rotate(180deg); }
+.ofx-claves-cab svg { transition: transform .2s; }
+.ofx-claves-cuerpo { padding: 16px; display: grid; gap: 18px; }
+.ofx-claves-tarea-cab { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px; }
+.ofx-claves-chip {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; font-size: 13px; font-weight: 800;
+  background: linear-gradient(180deg, #ffe08a, #e2b24a); color: var(--ofx-tinta); border: 1px solid var(--ofx-oro-osc);
+}
+.ofx-claves-chip span { font-family: var(--ofx-cali); font-size: 14px; }
+.ofx-claves-tarea-tit { font-size: 15px; font-weight: 800; color: var(--ofx-tinta); }
+.ofx-claves-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ofx-clave { padding: 12px 14px; border-radius: 10px; background: #fff; border: 1px solid #e6d3a8; }
+.ofx-clave-cab { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+.ofx-clave-num {
+  display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%;
+  font-weight: 800; font-size: 13px; color: #fff6e0; background: var(--ofx-laca); border: 1.5px solid var(--ofx-oro);
+}
+.ofx-clave-resp { padding: 3px 10px; border-radius: 6px; background: #eef6ec; border: 1px solid #9cc3a6; color: #1f4d33; font-size: 14px; font-weight: 700; }
+.ofx-clave-resp b { font-family: "Cinzel", Georgia, serif; }
+.ofx-clave-just { margin: 0; padding-left: 36px; font-size: 14.5px; line-height: 1.55; color: var(--ofx-tinta); }
+.ofx-clave-frase { margin: 6px 0 0; padding-left: 36px; font-size: 13.5px; line-height: 1.5; font-style: italic; color: #6b4a2b; }
+@media (max-width: 760px) {
+  .ofx-claves-cuerpo { padding: 12px 10px; }
+  .ofx-clave-just, .ofx-clave-frase { padding-left: 0; }
+  .ofx-saltos button { max-width: calc(100vw - 80px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ofx-claves-cab svg, .ofx-saltos button { transition: none; }
+  .ofx-spinner { animation-duration: 3s; }
+  .light-page .ofe .ofx-tab { transition: none !important; }
+}
+
+/* Sello «TAREA» de la cabecera de cada tarea: 9.5px → legible */
+html body .light-page .ofe .ofe-tarea .xm-thead-seal small, html body .light-page .ofe .xm-thead-seal small { font-size: 11px; letter-spacing: .1em; }
+html body .light-page .ofe .ofe-phead .ofx-reloj button { background: transparent !important; border: 0 !important; border-radius: 50% !important; color: var(--ofx-tinta) !important; }
+html body .light-page .ofe .ofe-phead .ofx-reloj button:hover { background: rgba(200,150,30,.18) !important; }
+html body .light-page .ofe .ofe-phead .ofx-reloj-fin button { color: #fff6e0 !important; }
+
+/* ---------- Exámenes de práctica por nivel (/examenes-nivel/:level) ---------- */
+.xn { max-width: 1100px; margin: 0 auto; padding: 18px 16px 48px; color: var(--ofx-tinta); }
+.xn-volver { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-bottom: 10px; font-size: 15px; font-weight: 700; color: var(--ofx-tinta-suave); text-decoration: none; }
+.xn-volver:hover { color: var(--ofx-laca); }
+.xn-volver span { font-family: var(--ofx-cali); }
+.xn-hero {
+  position: relative; display: flex; align-items: center; gap: 22px; padding: 24px 28px; margin-bottom: 18px; border-radius: 6px;
+  background: radial-gradient(70% 120% at 50% 0%, rgba(255,120,80,.25), transparent 60%), linear-gradient(180deg, #b81c2e, var(--ofx-laca-osc));
+  border: 2px solid var(--ofx-oro); box-shadow: inset 0 0 0 5px var(--ofx-laca-osc), inset 0 0 0 6px rgba(242,193,78,.75), 0 10px 18px rgba(0,0,0,.3);
+  color: #f8dca0;
+}
+.xn-hero-sello {
+  position: relative; flex: none; display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe08a, var(--ofx-oro-osc)); border: 3px solid #fff3c4; box-shadow: 0 0 0 3px var(--ofx-laca-osc), 0 6px 16px rgba(0,0,0,.35);
+}
+.xn-hero-sello span { position: absolute; font: 700 58px/1 var(--ofx-cali); color: rgba(143,12,33,.22); }
+.xn-hero-sello b { position: relative; font: 900 30px/1 "Cinzel", Georgia, serif; color: var(--ofx-laca-osc); }
+.xn-hero-txt { min-width: 0; }
+.xn-hero-kicker { margin: 0 0 4px; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #ffd86e; }
+.xn-hero-kicker span { font-family: var(--ofx-cali); letter-spacing: 2px; font-size: 15px; }
+.xn-hero-tit { margin: 0; font: 800 clamp(24px, 3.4vw, 36px)/1.15 "Cinzel", "Times New Roman", Georgia, serif; color: #ffe08a; text-shadow: 0 2px 0 #4a0a12; }
+.xn-hero-tit span { display: block; margin-top: 4px; font: 700 clamp(20px, 2.6vw, 26px)/1.2 var(--ofx-cali); letter-spacing: 4px; color: #ffd86e; text-shadow: none; }
+.xn-hero-datos { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 10px 0 0; padding: 0; list-style: none; font-size: 14px; font-weight: 700; color: #f8dca0; }
+.xn-hero-datos b { font-size: 18px; color: #fff3c4; }
+.xn-hero-datos span { font-family: var(--ofx-cali); font-size: 15px; }
+
+.xn-niveles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 22px; }
+.xn-nivel {
+  display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 8px 10px; border-radius: 10px; text-decoration: none;
+  background: linear-gradient(180deg, #fffaf0, #f3e4c0); border: 2px solid #dcc595; color: var(--ofx-tinta);
+  box-shadow: 0 3px 6px rgba(110,80,30,.15); transition: transform .15s, box-shadow .15s;
+}
+.xn-nivel:hover { transform: translateY(-2px); border-color: var(--ofx-oro-osc); }
+.xn-nivel:focus-visible { outline: 3px solid var(--ofx-laca); outline-offset: 2px; }
+.xn-nivel-sello {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 6px; flex: none;
+  font: 700 22px/1 var(--ofx-cali); color: #fff3e0; background: linear-gradient(160deg, var(--ofx-laca), var(--ofx-laca-osc)); border: 1.5px solid #ffb3a0; transform: rotate(-4deg);
+}
+.xn-nivel-txt b { display: block; font: 900 19px/1.1 "Cinzel", Georgia, serif; }
+.xn-nivel-txt small { display: block; font: 700 14px/1.2 var(--ofx-cali); color: var(--ofx-tinta-suave); }
+.xn-nivel.on { background: linear-gradient(180deg, #b81c2e, var(--ofx-laca-osc)); border-color: var(--ofx-oro); color: #ffe08a; box-shadow: 0 0 0 2px #fff3c4, 0 6px 14px rgba(143,12,33,.35); }
+.xn-nivel.on .xn-nivel-txt small { color: #f8dca0; }
+.xn-nivel.on .xn-nivel-sello { background: linear-gradient(160deg, #ffe08a, var(--ofx-oro-osc)); color: var(--ofx-laca-osc); border-color: #fff3c4; }
+
+.xn-vacio { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 48px 16px; text-align: center; color: var(--ofx-tinta-suave); }
+.xn-vacio p { margin: 0; font-size: 17px; font-weight: 700; color: var(--ofx-tinta); }
+.xn-vacio p span { display: block; margin-top: 2px; font-family: var(--ofx-cali); font-size: 18px; color: var(--ofx-tinta-suave); }
+
+.xn-lista { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.xn-lista li { animation: xnEntra .45s cubic-bezier(.2,1,.3,1) both; }
+@keyframes xnEntra { from { opacity: 0; transform: translateY(10px); } }
+.xn-carta {
+  position: relative; display: flex; gap: 14px; height: 100%; padding: 14px; border-radius: 10px; text-decoration: none; color: var(--ofx-tinta);
+  background: url("../../public/theme/papel.jpg") center / 600px auto, #fbf3df; border: 2px solid #dcc595;
+  box-shadow: inset 0 0 0 3px rgba(255,250,240,.7), inset 0 0 0 4px rgba(200,150,30,.4), 0 6px 14px rgba(110,80,30,.18);
+  transition: transform .18s, box-shadow .18s, border-color .18s;
+}
+.xn-carta:hover { transform: translateY(-3px); border-color: var(--ofx-oro-osc); box-shadow: inset 0 0 0 3px rgba(255,250,240,.7), inset 0 0 0 4px rgba(200,150,30,.6), 0 12px 22px rgba(110,80,30,.28); }
+.xn-carta:focus-visible { outline: 3px solid var(--ofx-laca); outline-offset: 3px; }
+.xn-carta-num {
+  display: grid; place-content: center; text-align: center; width: 70px; flex: none; border-radius: 8px; color: #ffe08a;
+  background: linear-gradient(180deg, #b81c2e, var(--ofx-laca-osc)); border: 2px solid var(--ofx-oro); box-shadow: inset 0 0 0 2px rgba(255,230,160,.35);
+}
+.xn-carta-num small { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #f8dca0; }
+.xn-carta-num b { font: 900 28px/1.1 "Cinzel", Georgia, serif; }
+.xn-carta-cuerpo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.xn-carta-cab { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.xn-carta-cod { font-size: 12px; font-weight: 800; letter-spacing: .1em; color: var(--ofx-laca-osc); }
+.xn-carta-ico { color: var(--ofx-oro-osc); }
+.xn-carta-tema { font: 800 18px/1.25 "Cinzel", Georgia, serif; color: var(--ofx-tinta); }
+.xn-carta-zh { font: 700 17px/1.3 var(--ofx-cali); color: var(--ofx-laca); }
+.xn-carta-partes { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.xn-parte { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; color: var(--ofx-tinta-suave); background: rgba(255,250,240,.85); border: 1px solid #dcc595; }
+.xn-parte svg { color: var(--ofx-oro-osc); }
+.xn-carta-ir { display: inline-flex; align-items: center; gap: 4px; margin-top: auto; padding-top: 8px; font-size: 14px; font-weight: 800; color: var(--ofx-laca-osc); }
+.xn-carta-ir span { font-family: var(--ofx-cali); }
+@media (max-width: 600px) {
+  .xn { padding: 10px 12px 32px; }
+  .xn-hero { flex-direction: column; text-align: center; padding: 20px 16px; gap: 12px; }
+  .xn-hero-datos { justify-content: center; }
+  .xn-niveles { gap: 6px; }
+  .xn-nivel { flex-direction: column; gap: 4px; padding: 8px 4px; min-height: 72px; }
+  .xn-nivel-sello { width: 30px; height: 30px; font-size: 18px; }
+  .xn-lista { grid-template-columns: 1fr; }
+  .xn-carta-num { width: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .xn-lista li { animation: none; }
+  .xn-carta, .xn-nivel { transition: none; }
+  .xn-carta:hover, .xn-nivel:hover { transform: none; }
+}
+.xn .xn-hero .xn-hero-tit { color: #ffe08a !important; -webkit-text-fill-color: #ffe08a; }
+.xn .xn-hero .xn-hero-tit span { color: #ffd86e !important; -webkit-text-fill-color: #ffd86e; }
+
+/* ---------- Examen de práctica (/examenes/:level/:id): colores de texto imperiales ---------- */
+.xd-ok { color: #2e6b3f !important; }
+.xd-mal { color: #a3122a !important; }
+.xd-laca { color: #8f0c21 !important; }
+.xd-oro { color: #8a5a1a !important; }
+.xd-tinta { color: #6b4a2b !important; }
+.xd-pasos { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-top: 24px; }
+.xd-paso-ant { color: var(--ofx-tinta) !important; background: linear-gradient(180deg, #fffaf0, #f3e4c0); border-color: #dcc595; }
+.xd-paso-ant:hover { border-color: var(--ofx-oro-osc); }
+.xd-sello {
+  position: absolute; right: 26px; top: 50%; transform: translateY(-50%) rotate(-6deg); width: 92px; height: 92px; border-radius: 10px;
+  flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  background: linear-gradient(160deg, var(--ofx-laca), var(--ofx-laca-osc)); border: 2px solid #ffb3a0; box-shadow: inset 0 0 0 4px rgba(255,255,255,.15), 0 6px 14px rgba(143,12,33,.4);
+}
+.xd-sello span { font: 700 44px/1 var(--ofx-cali); color: #fff3e0; }
+.xd-sello b { font: 800 13px/1 "Cinzel", Georgia, serif; letter-spacing: .14em; color: #ffe08a; }
