@@ -1,0 +1,55 @@
+/* ===== v19 · Unidad: el contenido aparece poco a poco (con useAparicion) y las tarjetas tienen relieve ===== */
+
+.unit-page .v19-pre { opacity: 0; }
+.unit-page .v19-ver { animation: v19-sube 0.7s cubic-bezier(0.2, 1.1, 0.35, 1) backwards; animation-delay: calc(var(--v19-i, 0) * 70ms); }
+
+/* cabecera de la unidad: entra girando y la medalla da vueltas como una moneda */
+.unit-page .unit-hero.v19-ver { animation: v19-heroe 0.9s cubic-bezier(0.2, 1.15, 0.35, 1) backwards; }
+.unit-hero-art { animation: v19-moneda 1.5s 0.35s cubic-bezier(0.25, 1, 0.35, 1) backwards; }
+.unit-hero-text > * { animation: v19-izquierda 0.7s cubic-bezier(0.2, 1, 0.3, 1) backwards; }
+.unit-hero-text > :nth-child(1) { animation-delay: 0.25s; } .unit-hero-text > :nth-child(2) { animation-delay: 0.36s; } .unit-hero-text > :nth-child(3) { animation-delay: 0.47s; }
+.unit-hero-text > :nth-child(4) { animation-delay: 0.58s; } .unit-hero-text > :nth-child(5) { animation-delay: 0.69s; } .unit-hero-text > :nth-child(n + 6) { animation-delay: 0.8s; }
+.unit-cta { animation: v19-latido 2.4s 1.6s ease-in-out infinite; }
+
+/* rollos y cintas */
+.unit-page .cls-selector.v19-ver, .unit-page .gd.v19-ver { animation: v19-rollo 0.9s cubic-bezier(0.2, 1, 0.3, 1) backwards; }
+.unit-page .unit-h2.v19-ver { animation: v19-cinta 0.8s cubic-bezier(0.2, 1, 0.3, 1) backwards; }
+.unit-page .cls-objetivo.v19-ver, .unit-page .unit-jump.v19-ver { animation-name: v19-izquierda; }
+
+/* tarjetas que se voltean o saltan, escalonadas */
+.unit-page :is(.cls-tarjeta, .unit-game, .unit-more-card).v19-ver { animation: v19-voltea 0.75s cubic-bezier(0.2, 1.2, 0.35, 1) backwards; animation-delay: calc(var(--v19-i, 0) * 90ms); transform-origin: 50% 100%; }
+.unit-page .unit-lesson.v19-ver { animation: v19-cae 0.7s cubic-bezier(0.2, 1.3, 0.35, 1) backwards; animation-delay: calc(var(--v19-i, 0) * 100ms); }
+.unit-page .unit-dialog.v19-ver { animation: v19-izquierda 0.7s cubic-bezier(0.2, 1.1, 0.35, 1) backwards; animation-delay: calc(var(--v19-i, 0) * 110ms); }
+.unit-page .unit-dialog:nth-child(even).v19-ver { animation-name: v19-derecha; }
+.unit-page :is(.unit-ptype, .gd-plaque, .gd-row).v19-ver { animation: v19-salta 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) backwards; animation-delay: calc(var(--v19-i, 0) * 60ms); }
+.unit-page .unit-word.v19-ver { animation: v19-ficha 0.6s cubic-bezier(0.2, 1.2, 0.35, 1) backwards; animation-delay: calc(var(--v19-i, 0) * 45ms); }
+.unit-page :is(.gd-items > *, .gd-ex, .gd-table, .gd-notes > *).v19-ver { animation: v19-izquierda 0.6s cubic-bezier(0.2, 1.1, 0.35, 1) backwards; animation-delay: calc(0.15s + var(--v19-i, 0) * 90ms); }
+.unit-page :is(.gd-h, .gd-intro, .gd-text).v19-ver { animation: v19-tinta 0.9s ease-out backwards; animation-delay: calc(var(--v19-i, 0) * 80ms); }
+.unit-page .unit-practice-go.v19-ver, .unit-page .cls-fin.v19-ver { animation: v19-salta 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) backwards; }
+
+/* relieve al pasar el ratón */
+@media (hover: hover) {
+  .unit-page :is(.unit-lesson, .unit-game, .unit-word, .unit-dialog, .cls-tarjeta, .gd-ex, .unit-more-card) { transition: transform 0.22s cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow 0.22s, filter 0.22s; }
+  .unit-page :is(.unit-lesson, .unit-game, .cls-tarjeta, .unit-more-card):hover { transform: perspective(900px) translateY(-8px) rotateX(7deg); filter: brightness(1.06); }
+  .unit-page :is(.unit-word, .gd-ex):hover { transform: translateY(-4px) scale(1.03); }
+  .unit-page .unit-dialog:hover { transform: translateY(-4px) rotateY(-3deg); }
+}
+
+@keyframes v19-sube { from { opacity: 0; transform: translateY(38px); } }
+@keyframes v19-heroe { from { opacity: 0; transform: perspective(1400px) rotateX(-24deg) translateY(-30px) scale(0.94); } }
+@keyframes v19-moneda { from { opacity: 0; transform: rotateY(-720deg) scale(0.3); } }
+@keyframes v19-izquierda { from { opacity: 0; transform: translateX(-46px); } }
+@keyframes v19-derecha { from { opacity: 0; transform: translateX(46px); } }
+@keyframes v19-rollo { from { opacity: 0; clip-path: inset(0 48% 0 48% round 20px); transform: scale(0.96); } to { clip-path: inset(-20px -20px -20px -20px); } }
+@keyframes v19-cinta { from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateX(-20px); } to { clip-path: inset(-10px -10px -10px -10px); } }
+@keyframes v19-voltea { from { opacity: 0; transform: perspective(900px) rotateX(-80deg) translateY(30px) scale(0.9); } }
+@keyframes v19-cae { from { opacity: 0; transform: translateY(-70px) rotateZ(-6deg) scale(0.85); } }
+@keyframes v19-salta { from { opacity: 0; transform: scale(0.4); } }
+@keyframes v19-ficha { from { opacity: 0; transform: perspective(700px) rotateY(90deg) scale(0.8); } }
+@keyframes v19-tinta { from { opacity: 0; filter: blur(8px); transform: translateY(10px); } }
+@keyframes v19-latido { 0%, 100% { filter: none; } 50% { filter: brightness(1.14) drop-shadow(0 0 14px rgba(255, 190, 90, 0.8)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .unit-page .v19-pre { opacity: 1; }
+  .unit-page .v19-ver, .unit-hero-art, .unit-hero-text > *, .unit-cta { animation: none !important; }
+}

@@ -1,3 +1,5 @@
+import { useAparicion } from "../lib/aparicion.js";
+import "../styles/v19-unidad.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
@@ -563,11 +565,18 @@ function CelebrarClase({ estado, siguiente, onIrClase, onExamen, onCerrar }) {
   );
 }
 
+// Piezas que entran animadas al llegar a la pantalla (ver src/lib/aparicion.js y v19-unidad.css)
+const APARICION =
+  ".unit-hero, .cls-selector, .cls-tarjeta, .cls-objetivo, .unit-jump, .gd, .gd-row, .gd-h, .gd-intro, .gd-text, .gd-items > *, .gd-table, .gd-plaque, .gd-notes > *, .gd-ex, " +
+  ".unit-h2, .unit-lesson, .unit-dialog, .unit-ptype, .unit-practice-go, .unit-prod, .unit-game, .unit-word, .unit-more-card, .cls-fin";
+
 export default function UnitPage() {
   const { moduloId } = useParams();
   const [params, setParams] = useSearchParams();
   const numero = Number(String(moduloId).replace(/\D/g, ""));
   const meta = CATALOG.find((m) => m.numero === numero);
+  const refPagina = React.useRef(null);
+  useAparicion(refPagina, APARICION);
   const [modCompleto, setModCompleto] = React.useState(null);
   const [plusCompleto, setPlusCompleto] = React.useState(null);
   const [story, setStory] = React.useState(undefined);
@@ -669,7 +678,7 @@ export default function UnitPage() {
 
   return (
     <LightShell>
-      <div className="unit-page" data-nivel={meta.nivel}>
+      <div ref={refPagina} className="unit-page" data-nivel={meta.nivel}>
         <Link to={`/ruta?nivel=${meta.nivel}`} className="unit-back">
           <ArrowLeftIcon size={16} /> Ruta {meta.nivel} · 学习路线
         </Link>
