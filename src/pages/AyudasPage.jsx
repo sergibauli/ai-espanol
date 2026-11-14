@@ -1,9 +1,8 @@
-import { SparklesIcon, ChevronDownIcon, ArrowLeftIcon, SearchIcon, ChevronUpIcon } from "lucide-react";
+import { ChevronDownIcon, SearchIcon, LightbulbIcon, FileTextIcon } from "lucide-react";
 import * as React from "react";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
-import { Link } from "react-router";
-import { StarfieldBackground } from "../components/fx/StarfieldBackground.jsx";
-const g = [
+import "../styles/v14-fix-recursos.css";
+const TIPOS_TEXTO = [
   {
     type: "Texto narrativo",
     typeCn: "叙述文本",
@@ -1575,429 +1574,187 @@ const g = [
     ],
   },
 ];
-const C = {
-  "Texto narrativo": "#ffb33b",
-  "Texto descriptivo": "#00d4ff",
-  "Texto argumentativo": "#ff00aa",
-  "Texto crítico / Reseña": "#b829dd",
-  Noticia: "#46ff9a",
-  Email: "#2080ff",
+const SELLO_TIPO = {
+  "Texto narrativo": "叙",
+  "Texto descriptivo": "描",
+  "Texto argumentativo": "论",
+  "Texto crítico / Reseña": "评",
+  Noticia: "闻",
+  Email: "信",
 };
-const T = {
-  "Texto narrativo": "from-amber-400 to-orange-500",
-  "Texto descriptivo": "from-cyan-400 to-blue-500",
-  "Texto argumentativo": "from-pink-400 to-rose-600",
-  "Texto crítico / Reseña": "from-violet-400 to-purple-600",
-  Noticia: "from-emerald-400 to-green-500",
-  Email: "from-blue-400 to-indigo-500",
-};
-const M = ["A1", "A2", "B1", "B2", "Todos"];
-function L(level, l) {
-  if (l === "Todos") {
-    return true;
-  }
-  return level.includes(l);
+const NIVELES = ["Todos", "A1", "A2", "B1", "B2"];
+const encajaNivel = (nivelConector, filtro) => filtro === "Todos" || nivelConector.includes(filtro);
+function encajaBusqueda(conector, busqueda) {
+  if (!busqueda.trim()) return true;
+  const texto = busqueda.toLowerCase();
+  return [conector.word, conector.function, conector.functionCn, conector.example, conector.exampleCn].some((campo) => campo.toLowerCase().includes(texto));
 }
-function k(s, l) {
-  if (!l.trim()) {
-    return true;
-  }
-  const c = l.toLowerCase();
-  return (
-    s.word.toLowerCase().includes(c) ||
-    s.function.toLowerCase().includes(c) ||
-    s.functionCn.toLowerCase().includes(c) ||
-    s.example.toLowerCase().includes(c) ||
-    s.exampleCn.toLowerCase().includes(c)
-  );
-}
-function DComponent() {
-  const s = React.useMemo(
-    () =>
-      Array.from(
-        {
-          length: 40,
-        },
-        (l, id) => ({
-          id,
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          size: Math.random() * 3 + 1,
-          delay: `${Math.random() * 4}s`,
-          duration: `${Math.random() * 2 + 2}s`,
-        }),
-      ),
-    [],
-  );
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {s.map((l) => (
-        <div
-          key={l.id}
-          className="absolute rounded-full bg-white"
-          style={{
-            left: l.left,
-            top: l.top,
-            width: l.size,
-            height: l.size,
-            animation: `starTwinkle ${l.duration} ease-in-out ${l.delay} infinite`,
-            opacity: 0.6,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-function UComponent() {
-  const [s, setS] = React.useState(0);
-  const [c, setC] = React.useState("Todos");
-  const [m, setM] = React.useState("");
-  const [w, setW] = React.useState(new Set());
-  const t = g[s];
-  const n = C[t?.type] || "#ffffff";
-  const j = T[t?.type] || "from-white to-white";
-  const E = (a) => {
-    setW((o) => {
-      const r = new Set(o);
-      if (r.has(a)) {
-        r.delete(a);
-      } else {
-        r.add(a);
-      }
-      return r;
+function AyudasPage() {
+  const [tipoActivo, setTipoActivo] = React.useState(0);
+  const [nivel, setNivel] = React.useState("Todos");
+  const [busqueda, setBusqueda] = React.useState("");
+  const [abiertas, setAbiertas] = React.useState(new Set([0]));
+  const tipo = TIPOS_TEXTO[tipoActivo];
+  const alternarCategoria = (indice) =>
+    setAbiertas((previo) => {
+      const siguiente = new Set(previo);
+      if (siguiente.has(indice)) siguiente.delete(indice);
+      else siguiente.add(indice);
+      return siguiente;
     });
+  const categorias = React.useMemo(() => {
+    if (!tipo) return [];
+    return tipo.categories
+      .map((categoria) => ({ ...categoria, items: categoria.items.filter((conector) => encajaNivel(conector.level, nivel) && encajaBusqueda(conector, busqueda)) }))
+      .filter((categoria) => categoria.items.length > 0);
+  }, [tipo, nivel, busqueda]);
+  const totalConectores = categorias.reduce((suma, categoria) => suma + categoria.items.length, 0);
+  const filtrando = nivel !== "Todos" || busqueda.trim() !== "";
+  const limpiarFiltros = () => {
+    setNivel("Todos");
+    setBusqueda("");
   };
-  const p = React.useMemo(() => {
-    if (t) {
-      return t.categories
-        .map((a) => ({
-          ...a,
-          items: a.items.filter((o) => L(o.level, c) && k(o, m)),
-        }))
-        .filter((a) => a.items.length > 0);
-    }
-    return [];
-  }, [t, c, m]);
-  const q = p.reduce((acc, item) => acc + item.items.length, 0);
   return (
-    <StarfieldBackground>
-      <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen relative">
-        <DComponent />
-        <div className="relative z-10" style={{ marginBottom: 24 }}>
-          <div className="gm-no-adapt">
-          <SectionHero
-            icon={SparklesIcon}
-            accent="#3b82f6"
-            eyebrow="Escritura · 写作"
-            title="Ayudas de escritura"
-            titleZh="西班牙语写作助手"
-            description="Conectores, plantillas y técnicas para escribir textos del DELE: narrar, opinar, argumentar, cartas y correos."
-            descriptionZh="DELE写作用的连接词、模板和技巧：叙述、观点、论证、信件和邮件。"
-          />
-          </div>
-        </div>
-        <div className="relative z-10 mb-8">
-          <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-            {g.map((a, o) => {
-              const background = C[a.type] || "#ffffff";
-              const i = o === s;
-              return (
-                <button
-                  key={a.type}
-                  onClick={() => {
-                    setS(o);
-                    setW(new Set());
-                  }}
-                  className="flex-shrink-0 relative group"
-                >
-                  <div
-                    className={`px-5 py-3 rounded-2xl border transition-all duration-300 min-w-[140px] text-center ${i ? "border-white/20 bg-white/10 backdrop-blur-md" : "border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10"}`}
-                    style={
-                      i
-                        ? {
-                            boxShadow: `0 0 20px ${background}30, 0 0 60px ${background}15, inset 0 0 20px ${background}10`,
-                            borderColor: `${background}50`,
-                          }
-                        : {}
-                    }
-                  >
-                    <div
-                      className="text-sm font-bold mb-0.5"
-                      style={{
-                        color: i ? background : undefined,
-                      }}
-                    >
-                      {a.type}
-                    </div>
-                    <div className="text-xs text-white/40">{a.typeCn}</div>
-                  </div>
-                  {i && (
-                    <div
-                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full"
-                      style={{
-                        background,
-                        boxShadow: `0 0 10px ${background}`,
-                      }}
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        {t && t.sampleText && (
-          <div className="relative z-10 mb-8 space-y-4">
-            <div
-              className="fx-card fx-reveal p-6"
-              style={{
-                "--fx-accent": n,
-                borderColor: `${n}30`,
+    <div className="rx-page rx-hoja gm-no-adapt">
+      <div className="rx-wrap">
+        <SectionHero
+          eyebrow="Escritura · 写作"
+          title="Ayudas de escritura"
+          titleZh="西班牙语写作助手"
+          description="Conectores, plantillas y técnicas para escribir textos del DELE: narrar, opinar, argumentar, cartas y correos."
+          descriptionZh="DELE写作用的连接词、模板和技巧：叙述、观点、论证、信件和邮件。"
+        />
+        <div className="rx-ay__tipos" role="group" aria-label="Tipo de texto · 文本类型">
+          {TIPOS_TEXTO.map((item, indice) => (
+            <button
+              key={item.type}
+              type="button"
+              aria-pressed={indice === tipoActivo}
+              className="rx-ay__tipo"
+              onClick={() => {
+                setTipoActivo(indice);
+                setAbiertas(new Set([0]));
               }}
             >
-              <h3
-                className="font-black text-lg mb-3"
-                style={{
-                  color: n,
-                  textShadow: `0 0 16px ${n}55`,
-                }}
-              >
-                💡 Consejos para escribir / 写作技巧
-              </h3>
-              <ul className="space-y-2">
-                {(t.tricks || []).map((a, o) => (
-                  <li key={o} className="text-sm text-white/70 flex gap-2">
-                    <span
-                      style={{
-                        color: n,
-                      }}
-                    >
-                      •
-                    </span>
-                    <span>
-                      {a}
-                      {t.tricksCn?.[o] && <span className="text-white/45"> — {t.tricksCn[o]}</span>}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <span className="rx-sello is-mini" aria-hidden="true">
+                {SELLO_TIPO[item.type] || "文"}
+              </span>
+              <span>
+                <b>{item.type}</b>
+                <small>{item.typeCn}</small>
+              </span>
+            </button>
+          ))}
+        </div>
+        {tipo?.tricks?.length > 0 && (
+          <section className="rx-card rx-ay__bloque">
+            <h3 className="rx-h3 rx-ay__titulo">
+              <LightbulbIcon size={18} aria-hidden="true" /> Consejos para escribir · 写作技巧
+            </h3>
+            <ul className="rx-ay__trucos">
+              {tipo.tricks.map((truco, indice) => (
+                <li key={indice}>
+                  <p className="rx-texto">{truco}</p>
+                  {tipo.tricksCn?.[indice] && <p className="rx-texto-zh">{tipo.tricksCn[indice]}</p>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {tipo?.sampleText && (
+          <section className="rx-card rx-ay__bloque">
+            <h3 className="rx-h3 rx-ay__titulo">
+              <FileTextIcon size={18} aria-hidden="true" /> Modelo de texto · 范文: {tipo.sampleTitle}
+            </h3>
+            {tipo.sampleTitleCn && <p className="rx-texto-zh">{tipo.sampleTitleCn}</p>}
+            <div className="rx-ay__modelo" tabIndex={0} aria-label="Texto modelo · 范文">
+              <p className="rx-texto">{tipo.sampleText}</p>
+              {tipo.sampleTextCn && <p className="rx-texto-zh">{tipo.sampleTextCn}</p>}
             </div>
-            <div
-              className="fx-card fx-reveal p-6"
-              style={{
-                "--fx-accent": n,
-                borderColor: `${n}30`,
-              }}
-            >
-              <h3
-                className="font-black text-lg mb-1"
-                style={{
-                  color: n,
-                  textShadow: `0 0 16px ${n}55`,
-                }}
-              >
-                📝 Modelo de texto / 范文 · {t.sampleTitle}
-              </h3>
-              <p className="text-white/45 text-sm mb-3">{t.sampleTitleCn}</p>
-              <div
-                className="rounded-xl p-4 max-h-80 overflow-y-auto"
-                style={{
-                  background: "rgba(0,0,0,.25)",
-                  border: "1px solid rgba(255,255,255,.08)",
-                }}
-              >
-                <p className="text-sm text-white/85 leading-relaxed whitespace-pre-line">{t.sampleText}</p>
-                <div className="mt-3 pt-3 border-t border-white/5">
-                  <p className="text-xs text-white/50 leading-relaxed">{t.sampleTextCn}</p>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {(t.connectorsInText || []).map((a, key) => (
-                  <span
-                    key={key}
-                    className="text-xs font-bold px-2.5 py-1 rounded-full"
-                    style={{
-                      background: `${n}18`,
-                      color: n,
-                      border: `1px solid ${n}40`,
-                    }}
-                  >
-                    {a}
+            {tipo.connectorsInText?.length > 0 && (
+              <div className="rx-filtros">
+                {tipo.connectorsInText.map((conector) => (
+                  <span key={conector} className="rx-tag is-plano">
+                    {conector}
                   </span>
                 ))}
               </div>
-            </div>
-          </div>
+            )}
+          </section>
         )}
-        <div className="relative z-10 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-8">
-          <div className="flex flex-wrap gap-2">
-            {M.map((a) => {
-              const o = c === a;
+        <div className="rx-ay__filtros">
+          <div className="rx-filtros" role="group" aria-label="Nivel · 级别">
+            {NIVELES.map((opcion) => (
+              <button key={opcion} type="button" aria-pressed={nivel === opcion} onClick={() => setNivel(opcion)} className={`rx-chip ${opcion !== "Todos" ? `rx-nv-${opcion}` : ""}`}>
+                {opcion === "Todos" ? "Todos · 全部" : opcion}
+              </button>
+            ))}
+          </div>
+          <label className="rx-ay__buscar">
+            <SearchIcon size={18} aria-hidden="true" />
+            <input className="rx-input" type="search" value={busqueda} onChange={(evento) => setBusqueda(evento.target.value)} placeholder="Buscar conectores… · 搜索连接词…" aria-label="Buscar conectores · 搜索连接词" />
+          </label>
+        </div>
+        <p className="rx-videos__cuenta" role="status">
+          {totalConectores} conectores encontrados · 找到 {totalConectores} 个连接词
+        </p>
+        {categorias.length > 0 ? (
+          <div className="rx-acc">
+            {categorias.map((categoria, indice) => {
+              const abierta = abiertas.has(indice) || filtrando;
               return (
-                <button
-                  key={a}
-                  onClick={() => setC(a)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-bold transition-all duration-300 border ${o ? "text-white border-white/20" : "text-white/40 border-white/5 hover:text-white/70 hover:border-white/10"}`}
-                  style={
-                    o
-                      ? {
-                          background: `${n}20`,
-                          boxShadow: `0 0 12px ${n}40`,
-                          borderColor: `${n}60`,
-                          color: n,
-                        }
-                      : {}
-                  }
-                >
-                  {a}
-                </button>
+                <div key={categoria.category} className={`rx-acc__item ${abierta ? "is-abierto" : ""}`}>
+                  <button type="button" className="rx-acc__btn" aria-expanded={abierta} onClick={() => alternarCategoria(indice)} disabled={filtrando}>
+                    <span className="rx-acc__titulo rx-h3">
+                      {categoria.category}
+                      <span className="rx-zh">{categoria.categoryCn}</span>
+                    </span>
+                    <span className="rx-tag is-plano">{categoria.items.length}</span>
+                    <span className="rx-acc__chev" aria-hidden="true">
+                      <ChevronDownIcon size={20} />
+                    </span>
+                  </button>
+                  {abierta && (
+                    <div className="rx-acc__cuerpo">
+                      <div className="rx-grid">
+                        {categoria.items.map((conector, clave) => (
+                          <article key={conector.word + clave} className="rx-card is-interactiva rx-ay__conector">
+                            <div className="rx-ay__conector-cabeza">
+                              <h4>{conector.word}</h4>
+                              <span className={`rx-tag rx-nv-${conector.level.slice(0, 2)}`}>{conector.level}</span>
+                            </div>
+                            {conector.neutral && <p className="rx-ay__neutral">≈ {conector.neutral}</p>}
+                            <p className="rx-ay__zh">{conector.functionCn}</p>
+                            <p className="rx-ay__etiqueta">Función · 功能</p>
+                            <p className="rx-texto">{conector.function}</p>
+                            <p className="rx-ay__etiqueta">Ejemplo · 例句</p>
+                            <p className="rx-texto rx-ay__ejemplo">“{conector.example}”</p>
+                            <p className="rx-texto-zh">{conector.exampleCn}</p>
+                          </article>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
-          <div className="relative w-full md:w-80">
-            <SearchIcon
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none"
-            />
-            <input
-              type="text"
-              value={m}
-              onChange={(a) => setM(a.target.value)}
-              placeholder="Buscar conectores... / 搜索连接词..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/30 focus:bg-white/[0.07] transition-all backdrop-blur-sm"
-            />
+        ) : (
+          <div className="rx-vacio" role="status">
+            <span className="rx-sello" aria-hidden="true">
+              无
+            </span>
+            <p>
+              No se encontraron conectores
+              <span>未找到连接词，试试其他级别或搜索词。</span>
+            </p>
+            <button type="button" className="rx-btn is-oro" onClick={limpiarFiltros}>
+              Quitar filtros · 清除筛选
+            </button>
           </div>
-        </div>
-        <div className="relative z-10 text-white/40 text-sm mb-6 flex items-center gap-2">
-          <span
-            className="inline-block w-2 h-2 rounded-full"
-            style={{
-              background: n,
-              boxShadow: `0 0 8px ${n}`,
-            }}
-          />
-          {q} conectores / 连接词 encontrados
-        </div>
-        <div className="relative z-10 space-y-4">
-          {p.map((a, o) => {
-            const r = w.has(o);
-            return (
-              <div
-                key={a.category}
-                className="fx-card overflow-hidden"
-                style={{
-                  "--fx-accent": n,
-                  animation: `cardEntrance 0.5s ease-out ${o * 0.1}s both`,
-                  borderColor: r ? `${n}40` : undefined,
-                  boxShadow: r ? `0 18px 50px rgba(0,0,0,.4), 0 0 34px ${n}18` : undefined,
-                }}
-              >
-                <button
-                  onClick={() => E(o)}
-                  className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-white/[0.03] transition-colors"
-                >
-                  <div>
-                    <h3 className="text-lg font-bold text-white">{a.category}</h3>
-                    <p className="text-sm text-white/40">{a.categoryCn}</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="text-xs font-bold px-2.5 py-1 rounded-full border"
-                      style={{
-                        color: n,
-                        borderColor: `${n}40`,
-                        background: `${n}15`,
-                      }}
-                    >
-                      {a.items.length}
-                    </span>
-                    {r ? (
-                      <ChevronUpIcon size={20} className="text-white/50" />
-                    ) : (
-                      <ChevronDownIcon size={20} className="text-white/50" />
-                    )}
-                  </div>
-                </button>
-                {r && (
-                  <div className="px-6 pb-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {a.items.map((i, v) => (
-                        <div
-                          key={i.word + v}
-                          className="group relative rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-5 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-white/30 overflow-hidden"
-                          style={{
-                            animation: `cardEntrance 0.5s ease-out ${v * 0.05}s both`,
-                          }}
-                          onMouseEnter={(f) => {
-                            const f_currentTarget = f.currentTarget;
-                            f_currentTarget.style.boxShadow = `0 0 20px ${n}25, 0 8px 32px rgba(0,0,0,0.3)`;
-                            f_currentTarget.style.borderColor = `${n}50`;
-                          }}
-                          onMouseLeave={(f) => {
-                            const f_currentTarget = f.currentTarget;
-                            f_currentTarget.style.boxShadow = "";
-                            f_currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-                          }}
-                        >
-                          <div
-                            className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full"
-                            style={{
-                              background: n,
-                              boxShadow: `0 0 10px ${n}`,
-                            }}
-                          />
-                          <div className="mb-2 pr-4">
-                            <h4
-                              className={`text-xl font-black leading-tight bg-gradient-to-r ${j} bg-clip-text text-transparent`}
-                            >
-                              {i.word}
-                            </h4>
-                            {i.neutral && <p className="text-xs text-white/30 mt-0.5">{i.neutral}</p>}
-                          </div>
-                          <p className="text-lg text-white/80 mb-3">{i.functionCn}</p>
-                          <div className="flex items-center gap-2 mb-3">
-                            <span
-                              className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border"
-                              style={{
-                                color: n,
-                                borderColor: `${n}40`,
-                                background: `${n}15`,
-                              }}
-                            >
-                              {i.level}
-                            </span>
-                          </div>
-                          <div className="mb-3">
-                            <p className="text-xs text-white/30 uppercase tracking-wider mb-1">
-                              Función / 功能
-                            </p>
-                            <p className="text-sm text-white/70 leading-relaxed">{i.function}</p>
-                          </div>
-                          <div className="border-t border-white/5 pt-3">
-                            <p className="text-xs text-white/30 uppercase tracking-wider mb-1">
-                              Ejemplo / 例句
-                            </p>
-                            <p className="text-sm text-white/80 italic leading-relaxed mb-1">"{i.example}"</p>
-                            <p className="text-sm text-white/50 leading-relaxed">{i.exampleCn}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-          {p.length === 0 && (
-            <div className="text-center py-16 text-white/30">
-              <SearchIcon size={40} className="mx-auto mb-4 opacity-30" />
-              <p className="text-lg">No se encontraron conectores / 未找到连接词</p>
-              <p className="text-sm mt-1">Prueba con otro nivel o búsqueda / 尝试其他级别或搜索</p>
-            </div>
-          )}
-        </div>
-        <div className="h-12" />
+        )}
       </div>
-    </StarfieldBackground>
+    </div>
   );
 }
-export { UComponent as default };
+export { AyudasPage as default };

@@ -1,0 +1,23 @@
+{
+ "¿diga? / ¿dígame?|喂？（西班牙接电话用语）": "expr",
+ "¿podrías…?|你能不能……？（委婉）": "expr",
+ "bajo|贝斯": "sust",
+ "casado|已婚": "adj",
+ "constipado|感冒了": "adj",
+ "contable / contador|会计": "sust",
+ "embarazada|怀孕了": "adj",
+ "estimado/a…|尊敬的……": "expr",
+ "fenomenal|棒极了": "expr",
+ "fuera|他是(假设)": "verbo",
+ "igual (coloquial)|说不定（口语）": "expr",
+ "informativo|新闻节目": "sust",
+ "muchísimas gracias|非常感谢（强调）": "expr",
+ "oscar|奥斯卡": "sust",
+ "preposición a|前置词 a": "sust",
+ "preservativo|避孕套": "sust",
+ "regular|一般般": "expr",
+ "singular|单数": "sust",
+ "solo|孤独的": "adj",
+ "soy... (nacionalidad)|我是...人": "expr",
+ "un día|有一天": "expr"
+}
