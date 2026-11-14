@@ -5,7 +5,7 @@ import { useAppAuth } from "../lib/auth.jsx";
 import { Logo } from "../../packages/imperial/src/index.js";
 import { SelectorIdioma } from "../components/ui/SelectorIdioma.jsx";
 import { VideoEscena } from "../components/portada/VideoEscena.jsx";
-import { useEntradaAlVer } from "../components/portada/vida.js";
+import { useEntradaAlVer, useParallaxPuntero, prefiereQuietud } from "../components/portada/vida.js";
 import {
   LogInIcon,
   MessageCircleIcon,
@@ -14,8 +14,15 @@ import {
   LandmarkIcon,
   SparklesIcon,
   Gamepad2Icon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  BookOpenIcon,
+  MicIcon,
+  BotIcon,
+  MapIcon,
 } from "lucide-react";
 import "../styles/v15-portada.css";
+import "../styles/v19-portada.css";
 
 const HERE = () => `${location.origin}${location.pathname}#/ruta`;
 
@@ -140,6 +147,103 @@ function NotaWeChat({ conQr = true }) {
   );
 }
 
+// v19 · Lo que hay dentro: seis tarjetas en un anillo 3D que gira solo (se detiene al tocarlo) y se puede girar a mano.
+const MUNDOS = [
+  { Icono: MapIcon, sello: "路", es: "Ruta por China", zh: "中国之旅", detalle: "Avanza de Pekín a la Ruta de la Seda, clase a clase.", detalleZh: "从北京到丝绸之路，一课一课前进。" },
+  { Icono: BookOpenIcon, sello: "课", es: "90 unidades", zh: "90个单元", detalle: "Teoría, vocabulario, diálogos y ejercicios del A1 al B2.", detalleZh: "语法、词汇、对话和练习，A1到B2。" },
+  { Icono: Gamepad2Icon, sello: "玩", es: "Juegos en 3D", zh: "3D游戏", detalle: "Kahoot, UNO, ruleta, memory… para repasar jugando.", detalleZh: "抢答、UNO、轮盘、记忆配对，边玩边复习。" },
+  { Icono: LandmarkIcon, sello: "考", es: "DELE oficial", zh: "DELE真题", detalle: "80 modelos de examen con corrección y nota.", detalleZh: "80套模拟真题，自动批改评分。" },
+  { Icono: MicIcon, sello: "音", es: "Pronunciación", zh: "发音", detalle: "Sílabas, palabras y frases con voz real.", detalleZh: "音节、单词和句子，真人发音。" },
+  { Icono: BotIcon, sello: "师", es: "Tutor IA", zh: "AI导师", detalle: "Pregunta en chino y practica la conversación.", detalleZh: "用中文提问，练习口语对话。" },
+];
+function Carrusel3D() {
+  const [paso, setPaso] = React.useState(0);
+  const [pausa, setPausa] = React.useState(false);
+  const arrastre = React.useRef(null);
+  React.useEffect(() => {
+    if (pausa || prefiereQuietud()) return;
+    const reloj = setInterval(() => setPaso((n) => n + 1), 3200);
+    return () => clearInterval(reloj);
+  }, [pausa]);
+  const total = MUNDOS.length;
+  const activo = ((paso % total) + total) % total;
+  return (
+    <div
+      className="pc-anillo"
+      onPointerEnter={() => setPausa(true)}
+      onPointerLeave={() => { setPausa(false); arrastre.current = null; }}
+      onPointerDown={(evento) => { arrastre.current = evento.clientX; setPausa(true); }}
+      onPointerUp={(evento) => {
+        if (arrastre.current === null) return;
+        const dx = evento.clientX - arrastre.current;
+        arrastre.current = null;
+        if (Math.abs(dx) > 40) setPaso((n) => n + (dx < 0 ? 1 : -1));
+      }}
+    >
+      <div className="pc-anillo-escena">
+        <div className="pc-anillo-giro" style={{ "--giro": `${-paso * (360 / total)}deg` }}>
+          {MUNDOS.map(({ Icono, sello, es, zh, detalle, detalleZh }, indice) => (
+            <article key={es} className={`pc-carta ${indice === activo ? "activa" : ""}`} style={{ "--a": `${indice * (360 / total)}deg` }} aria-hidden={indice !== activo}>
+              <span className="pc-carta-sello" aria-hidden="true" translate="no">{sello}</span>
+              <span className="pc-carta-medallon" aria-hidden="true">
+                <Icono size={34} strokeWidth={2} />
+              </span>
+              <h3>
+                {es}
+                <small lang="zh-Hans">{zh}</small>
+              </h3>
+              <p>
+                {detalle}
+                <small lang="zh-Hans">{detalleZh}</small>
+              </p>
+            </article>
+          ))}
+        </div>
+        <span className="pc-anillo-suelo" aria-hidden="true" />
+      </div>
+      <div className="pc-anillo-mandos">
+        <button type="button" onClick={() => setPaso((n) => n - 1)} aria-label="Anterior · 上一个">
+          <ChevronLeftIcon size={22} strokeWidth={2.6} />
+        </button>
+        <span aria-hidden="true">
+          {MUNDOS.map((mundo, indice) => (
+            <i key={mundo.es} className={indice === activo ? "activo" : ""} />
+          ))}
+        </span>
+        <button type="button" onClick={() => setPaso((n) => n + 1)} aria-label="Siguiente · 下一个">
+          <ChevronRightIcon size={22} strokeWidth={2.6} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Cifra que sube desde cero cuando entra en pantalla
+function Cifra({ valor }) {
+  const numero = parseInt(valor, 10);
+  const resto = String(valor).replace(/^\d+/, "");
+  const [visto, setVisto] = React.useState(Number.isNaN(numero) ? valor : prefiereQuietud() ? numero : 0);
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    if (Number.isNaN(numero) || prefiereQuietud() || !ref.current) return;
+    let cuadro = 0;
+    const ojo = new IntersectionObserver(([entrada]) => {
+      if (!entrada.isIntersecting) return;
+      ojo.disconnect();
+      const inicio = performance.now();
+      const subir = (ahora) => {
+        const t = Math.min(1, (ahora - inicio) / 1400);
+        setVisto(Math.round(numero * (1 - (1 - t) ** 3)));
+        if (t < 1) cuadro = requestAnimationFrame(subir);
+      };
+      cuadro = requestAnimationFrame(subir);
+    }, { threshold: 0.6 });
+    ojo.observe(ref.current);
+    return () => { ojo.disconnect(); cancelAnimationFrame(cuadro); };
+  }, [numero]);
+  return <span ref={ref}>{Number.isNaN(numero) ? valor : `${visto}${resto}`}</span>;
+}
+
 // Portada pública: el Rey Mono cruza la puerta celestial (vídeo a pantalla completa) y el panel de acceso sube sobre la escena.
 // Solo se inicia sesión: las cuentas las da la academia (no hay registro libre).
 export default function WelcomePage() {
@@ -150,6 +254,9 @@ export default function WelcomePage() {
   const refViaje = React.useRef(null);
   useAvanceApertura(refRaiz, refApertura);
   useEntradaAlVer(refViaje);
+  const refMundo = React.useRef(null);
+  useEntradaAlVer(refMundo);
+  useParallaxPuntero(refRaiz);
 
   if (!isLoading && isAuthenticated) return <Navigate to="/ruta" replace />;
 
@@ -169,6 +276,9 @@ export default function WelcomePage() {
             <VideoEscena variantes={APERTURA} prioridad retraso={250} className="pc-fondo-video" />
             <span className="pc-sombra" aria-hidden="true" />
             <span className="pc-rayos" aria-hidden="true" />
+            {Array.from({ length: 7 }, (_, indice) => (
+              <span key={`farol-${indice}`} className="pc-farol" aria-hidden="true" style={{ "--x": `${4 + ((indice * 29) % 92)}%`, "--d": `${-indice * 2.7}s`, "--t": `${15 + (indice % 3) * 4}s`, "--s": 0.6 + (indice % 3) * 0.25 }} />
+            ))}
             {Array.from({ length: 10 }, (_, indice) => (
               <span
                 key={indice}
@@ -197,7 +307,13 @@ export default function WelcomePage() {
             <i aria-hidden="true" />
           </p>
           <h1 id="pc-titulo" className="pc-titulo">
-            <span className="pc-titulo-es">Cruza la puerta del español</span>
+            <span className="pc-titulo-es" aria-label="Cruza la puerta del español">
+              {"Cruza la puerta del español".split(" ").map((palabra, indice) => (
+                <span key={indice} className="pc-palabra" style={{ "--i": indice }} aria-hidden="true">
+                  {palabra}
+                </span>
+              ))}
+            </span>
             <span className="pc-titulo-zh" lang="zh-Hans">
               跨进西班牙语之门
             </span>
@@ -248,6 +364,22 @@ export default function WelcomePage() {
         </div>
       </section>
 
+      <section ref={refMundo} className="pc-mundo" aria-labelledby="pc-mundo-titulo">
+        <header className="pc-viaje-cabecera">
+          <p className="pc-ceja">
+            <i aria-hidden="true" />
+            <span>Dentro te espera</span>
+            <span lang="zh-Hans">里面有什么</span>
+            <i aria-hidden="true" />
+          </p>
+          <h2 id="pc-mundo-titulo" className="pc-mundo-titulo">
+            Un palacio entero para aprender
+            <span lang="zh-Hans">一整座学习的宫殿</span>
+          </h2>
+        </header>
+        <Carrusel3D />
+      </section>
+
       <section ref={refViaje} className="pc-viaje" aria-labelledby="pc-viaje-titulo">
         <span className="pc-viaje-nubes" aria-hidden="true" />
         <header className="pc-viaje-cabecera">
@@ -276,7 +408,7 @@ export default function WelcomePage() {
                 <Icono size={22} strokeWidth={2.2} />
               </span>
               <b className="pc-ventaja-cifra" translate="no">
-                {cifra}
+                <Cifra valor={cifra} />
               </b>
               <span className="pc-ventaja-titulo">
                 {es}

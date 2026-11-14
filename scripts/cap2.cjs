@@ -5,7 +5,7 @@ const { chromium } = require('playwright');
   const b = await chromium.launch();
   const p = await b.newPage({ viewport: { width: +w||1366, height: +h||860 } });
   p.on('pageerror', e => console.log('PAGEERROR', e.message));
-  await p.addInitScript(() => { sessionStorage.setItem('dele_auth','true'); sessionStorage.setItem('dele_expiry', String(Date.now()+3600e3)); });
+  if (!process.env.SIN_SESION) await p.addInitScript(() => { sessionStorage.setItem('dele_auth','true'); sessionStorage.setItem('dele_expiry', String(Date.now()+3600e3)); });
   await p.goto('http://localhost:5173/#' + route); await p.waitForTimeout(+process.env.WAIT||5000);
   await p.screenshot({ path: out + '-0.png' });
   let n = 1;
