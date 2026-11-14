@@ -6,8 +6,6 @@ import { MascotProvider } from "./components/Mascot.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
 import { CampusProvider } from "./lib/campus.jsx";
-import MODULE_CATALOG from "./data/modulos/catalog.json";
-const MODULE_TITLES = Object.fromEntries(MODULE_CATALOG.map((m) => [m.numero, m.titulo]));
 import { LIGHT_ROUTES, LEGACY_LIGHT, STAGE_ROUTES, LightShell } from "./components/layout/LightShell.jsx";
 import WelcomePage from "./pages/WelcomePage.jsx";
 import { SECCIONES } from "./lib/precarga.js";
@@ -87,73 +85,11 @@ function RequireAuth({ children }) {
   }
   return <Navigate to="/" replace />;
 }
+// Marco de las rutas de juego. El selector de temática (SelectorTemaJuego) ya arranca solo con ?m=N&clase=K.
 function PageTransition({ children }) {
-  const tRef = React.useRef(null);
-  // Desde una unidad (?m=N): pulsa sola la tarjeta del módulo en el menú del juego
-  React.useEffect(() => {
-    const m = Number(new URLSearchParams(window.location.hash.split("?")[1] || "").get("m"));
-    if (!m || !tRef.current) return;
-    const titulo = MODULE_TITLES[m];
-    if (!titulo) return;
-    let done = false;
-    const tryPick = () => {
-      if (done || !tRef.current) return;
-      const btn = [...tRef.current.querySelectorAll("button, [role=button], a")].find((b) => (b.textContent || "").includes(titulo));
-      if (btn) {
-        done = true;
-        btn.click();
-      }
-    };
-    const mo = new MutationObserver(tryPick);
-    mo.observe(tRef.current, { childList: true, subtree: true });
-    tryPick();
-    const t = setTimeout(() => mo.disconnect(), 8000);
-    return () => {
-      mo.disconnect();
-      clearTimeout(t);
-    };
-  }, []);
-  React.useEffect(() => {
-    const tRef_current = tRef.current;
-    if (!tRef_current) {
-      return;
-    }
-    let u = 0;
-    let s = 0;
-    const d = () => {
-      cancelAnimationFrame(u);
-      u = requestAnimationFrame(() => {
-        let v = 0;
-        tRef_current.querySelectorAll("button").forEach((f) => {
-          const E = (f.textContent || "").replace(/\s+/g, " ").trim();
-          if (/(palabras\s*\/\s*词|palabras\b|Todos los módulos|所有模块)/i.test(E)) {
-            f.classList.add("game-module-choice");
-            f.style.setProperty("--game-module-delay", `${(v++ % 12) * 70}ms`);
-          }
-        });
-      });
-    };
-    const m = () => {
-      const v = performance.now();
-      if (!(v - s < 600)) {
-        s = v;
-        d();
-      }
-    };
-    d();
-    const g = new MutationObserver(m);
-    g.observe(tRef_current, {
-      childList: true,
-      subtree: true,
-    });
-    return () => {
-      cancelAnimationFrame(u);
-      g.disconnect();
-    };
-  }, []);
   return (
     <MascotProvider>
-      <div ref={tRef} className="game-route-shell">
+      <div className="game-route-shell">
         {children}
       </div>
     </MascotProvider>

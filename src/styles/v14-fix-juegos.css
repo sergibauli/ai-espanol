@@ -370,3 +370,13 @@ main.game-bg .app-stage:has(.v14j-marca) button.rounded-full:is(.text-xs, .text-
   background: linear-gradient(180deg, #fff4c8, #f2c14e 60%, #d9a336) !important; box-shadow: inset 0 0 0 2px #fff7dc, 0 0 0 2px #8f0c21 !important; font-weight: 900 !important;
 }
 @media (max-width: 520px) { main.game-bg .app-stage:has(.v14j-marca) .gm-sopa { padding: 12px !important; } }
+/* Texto jade / oro / laca sobre paneles de pergamino (.la-paper del adaptador): tonos oscuros para AA */
+.app-stage:has(.v14j-marca) .la-paper [style*="color: rgb(95, 208, 138)"], .app-stage:has(.v14j-marca) .la-paper[style*="color: rgb(95, 208, 138)"] { color: #1f6f5c !important; -webkit-text-fill-color: #1f6f5c !important; background: none !important; }
+.app-stage:has(.v14j-marca) .la-paper [style*="color: rgb(242, 193, 78)"], .app-stage:has(.v14j-marca) .la-paper[style*="color: rgb(242, 193, 78)"] { color: #7a4f00 !important; -webkit-text-fill-color: #7a4f00 !important; }
+.app-stage:has(.v14j-marca) .la-paper [style*="color: rgb(224, 40, 63)"], .app-stage:has(.v14j-marca) .la-paper[style*="color: rgb(224, 40, 63)"] { color: #8f0c21 !important; -webkit-text-fill-color: #8f0c21 !important; }
+/* Destacadas que App.jsx también marca como .game-module-choice (su texto puede contener «palabras») */
+.v14j-selector .v14j-destacada.game-module-choice { overflow: visible !important; border: 0 !important; border-radius: 18px !important; background: linear-gradient(180deg, #fff4c8, #f2c14e 60%, #dcaa38) !important; box-shadow: inset 0 0 0 2px #fff7dc, inset 0 0 0 4px #c8961e, 0 10px 24px rgba(0, 0, 0, 0.4) !important; }
+.v14j-selector .v14j-destacada--clase.game-module-choice { background: linear-gradient(160deg, #d3243f, #c8102e 50%, #8f0c21) !important; box-shadow: inset 0 0 0 2px #f2c14e, inset 0 0 0 4px #8f0c21, 0 10px 24px rgba(0, 0, 0, 0.4) !important; }
+.v14j-selector .v14j-destacada.game-module-choice::before, .v14j-selector .v14j-destacada.game-module-choice::after { display: none !important; }
+.v14j-selector .v14j-destacada.game-module-choice:hover { transform: translateY(-1px) !important; }
+.v14j-selector .v14j-destacada.game-module-choice:active { transform: scale(0.97) !important; }

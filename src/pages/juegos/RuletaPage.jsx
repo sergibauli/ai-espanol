@@ -2005,11 +2005,11 @@ function YtComponent() {
           </h1>
           </div>
           <p
-            className="mt-2 font-medium tracking-wider"
+            className="mt-2 font-medium tracking-wider gm-no-adapt"
             style={{
-              color: "rgba(255,236,200,.5)",
+              color: "#ffe9b8",
               fontSize: "16px",
-              textShadow: "0 0 15px rgba(242,193,78,0.4)",
+              textShadow: "0 1px 0 #3b0a12, 0 0 12px rgba(0,0,0,.6)",
             }}
           >
             GIRA, ADIVINA Y APRENDE / 转动、猜测、学习
