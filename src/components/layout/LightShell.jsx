@@ -171,19 +171,30 @@ export function LightShell({ children, legacy = false, stage = false }) {
       {createPortal(
         <>
           <nav className="bottom-nav in-barra" aria-label="Navegación móvil">
+            <span className="in-barra__marco" aria-hidden="true" />
             {MOVIL_FIJAS.map((m) => (
-              <Link key={m.to} to={m.to} className={active(m.to) ? "on" : ""} aria-current={active(m.to) ? "page" : undefined} onTouchStart={() => precargar(m.to)} onPointerEnter={() => precargar(m.to)}>
-                <NavIcon name={m.icon} size={30} />
-                <small>{m.es}</small>
+              <Link key={m.to} to={m.to} className={`${active(m.to) ? "on" : ""} ${m.to === "/oficial" ? "in-barra__centro" : ""}`} aria-current={active(m.to) ? "page" : undefined} onTouchStart={() => precargar(m.to)} onPointerEnter={() => precargar(m.to)}>
+                <span className="in-barra__ic">
+                  <NavIcon name={m.icon} size={30} />
+                </span>
+                <small>
+                  {m.es}
+                  <b lang="zh">{m.zh}</b>
+                </small>
               </Link>
             ))}
             <button type="button" className={`in-barra__mas ${MOVIL_MAS.some((m) => active(m.to)) ? "on" : ""}`} aria-haspopup="dialog" aria-expanded={masAbierto} onClick={() => setMasAbierto((v) => !v)}>
-              <span className="in-barra__puntos" aria-hidden="true">
-                <i />
-                <i />
-                <i />
+              <span className="in-barra__ic">
+                <span className="in-barra__puntos" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
               </span>
-              <small>Más · 更多</small>
+              <small>
+                Más
+                <b lang="zh">更多</b>
+              </small>
             </button>
           </nav>
           <HojaMas abierta={masAbierto} onCerrar={cerrarMas} activo={active} />

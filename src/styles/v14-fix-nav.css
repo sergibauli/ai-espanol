@@ -1,0 +1,238 @@
+/* ===== v14-fix · Navegación de app: dock inferior lacado (móvil) y placas doradas del menú lateral ===== */
+
+/* ---------- Dock inferior móvil ---------- */
+@media (max-width: 1023px) {
+  html body .bottom-nav.in-barra {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: calc(6px + env(safe-area-inset-bottom)) !important;
+    gap: 0;
+    align-items: flex-end;
+    min-height: 66px;
+    padding: 6px 4px 6px !important;
+    border-radius: 24px;
+    border: 2px solid #f2c14e !important;
+    background:
+      radial-gradient(14px 7px at 18% 30%, rgba(255, 214, 120, 0.12), transparent 70%),
+      radial-gradient(18px 9px at 82% 65%, rgba(255, 214, 120, 0.1), transparent 70%),
+      radial-gradient(120% 140% at 50% -40%, rgba(255, 196, 110, 0.32), transparent 60%),
+      linear-gradient(180deg, #b0122b 0%, #7e0a1d 55%, #560613 100%) !important;
+    box-shadow:
+      inset 0 0 0 2px #7a0a1c,
+      inset 0 0 0 3px rgba(242, 193, 78, 0.55),
+      inset 0 1px 0 4px rgba(255, 255, 255, 0.04),
+      0 10px 26px rgba(40, 4, 10, 0.55),
+      0 2px 0 #3d040d !important;
+    overflow: visible;
+  }
+  /* filigrana dorada superior con nudo central */
+  html body .bottom-nav.in-barra > .in-barra__marco {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    top: -2px;
+    height: 2px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, #fff1c2 20%, #f2c14e 50%, #fff1c2 80%, transparent);
+  }
+
+  html body .bottom-nav.in-barra > a,
+  html body .bottom-nav.in-barra > .in-barra__mas {
+    min-height: 54px;
+    padding: 2px 1px 2px;
+    gap: 3px;
+    border: 0 !important;
+    border-radius: 16px;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #fff3d6;
+    transform: none;
+    transition: transform 0.25s cubic-bezier(0.2, 1.4, 0.4, 1);
+  }
+  html body .bottom-nav.in-barra > a:active,
+  html body .bottom-nav.in-barra > .in-barra__mas:active {
+    transform: scale(0.92);
+    box-shadow: none !important;
+  }
+
+  /* medallón del icono */
+  html body .bottom-nav.in-barra .in-barra__ic {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1), filter 0.3s;
+    filter: saturate(0.85) brightness(0.95);
+  }
+  html body .bottom-nav.in-barra .nav-ic,
+  html body .bottom-nav.in-barra .in-barra__puntos {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* etiquetas: español + chino */
+  html body .bottom-nav.in-barra > a small,
+  html body .bottom-nav.in-barra > .in-barra__mas small {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    font: 800 10.5px/1.1 var(--in-ui, system-ui);
+    color: #fff3d6;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  }
+  html body .bottom-nav.in-barra small b {
+    font: 700 10px/1.15 "STKaiti", "KaiTi", "Kaiti SC", serif;
+    color: #f2c14e;
+    letter-spacing: 0.08em;
+  }
+
+  /* activo: el medallón sube, brilla y lleva una pincelada dorada debajo */
+  html body .bottom-nav.in-barra > a.on,
+  html body .bottom-nav.in-barra > .in-barra__mas.on {
+    transform: none;
+    background: radial-gradient(70% 60% at 50% 35%, rgba(255, 214, 120, 0.28), transparent 75%) !important;
+  }
+  html body .bottom-nav.in-barra > a.on .in-barra__ic,
+  html body .bottom-nav.in-barra > .in-barra__mas.on .in-barra__ic {
+    transform: translateY(-9px) scale(1.16);
+    filter: none;
+  }
+  html body .bottom-nav.in-barra > a.on .in-barra__ic::before,
+  html body .bottom-nav.in-barra > .in-barra__mas.on .in-barra__ic::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #fff1c2, #f2c14e, #c8961e, #fff1c2, #f2c14e, #c8961e, #fff1c2);
+    box-shadow: 0 0 16px rgba(255, 214, 120, 0.85), 0 4px 10px rgba(0, 0, 0, 0.4);
+    z-index: -1;
+    animation: v14nav-halo 8s linear infinite;
+  }
+  html body .bottom-nav.in-barra > a.on small,
+  html body .bottom-nav.in-barra > .in-barra__mas.on small { color: #fff; margin-top: -6px; }
+  html body .bottom-nav.in-barra > a.on small b,
+  html body .bottom-nav.in-barra > .in-barra__mas.on small b { color: #ffe08a; }
+  html body .bottom-nav.in-barra > a.on::after,
+  html body .bottom-nav.in-barra > .in-barra__mas.on::after {
+    bottom: -3px;
+    width: 26px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, transparent, #ffe08a, transparent);
+    box-shadow: 0 0 8px #ffe08a;
+  }
+
+  /* DELE en el centro: sello lacado que sobresale del dock */
+  html body .bottom-nav.in-barra > a.in-barra__centro .in-barra__ic {
+    width: 52px;
+    height: 52px;
+    margin-top: -26px;
+    filter: none;
+    background: radial-gradient(circle at 35% 30%, #e0243f, #a80f26 55%, #6f0918);
+    box-shadow:
+      0 0 0 2.5px #f2c14e,
+      0 0 0 5px #7a0a1c,
+      0 0 0 6px rgba(242, 193, 78, 0.6),
+      0 8px 16px rgba(30, 2, 6, 0.55);
+  }
+  html body .bottom-nav.in-barra > a.in-barra__centro .nav-ic { width: 38px; height: 38px; }
+  html body .bottom-nav.in-barra > a.in-barra__centro.on .in-barra__ic { transform: translateY(-4px) scale(1.06); }
+  html body .bottom-nav.in-barra > a.in-barra__centro.on .in-barra__ic::before { inset: -9px; }
+
+  html body .bottom-nav.in-barra > a:focus-visible,
+  html body .bottom-nav.in-barra > .in-barra__mas:focus-visible { outline: 3px solid #fff3d6; outline-offset: 1px; }
+
+  /* el contenido no queda tapado por el dock flotante */
+  html body .light-page main { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+
+  /* ---------- Barra superior móvil: lacada con filete dorado ---------- */
+  html body .light-page .light-top {
+    background:
+      radial-gradient(120% 160% at 50% -60%, rgba(255, 196, 110, 0.3), transparent 60%),
+      linear-gradient(180deg, #a80f26, #6f0918) !important;
+    box-shadow: 0 2px 0 #f2c14e, 0 4px 0 #6f0918, 0 5px 0 rgba(242, 193, 78, 0.5), 0 10px 20px rgba(30, 2, 6, 0.35) !important;
+  }
+}
+
+@keyframes v14nav-halo { to { transform: rotate(360deg); } }
+
+/* ---------- Menú lateral (escritorio): placas doradas con brillo ---------- */
+html body .light-page .side-link { overflow: hidden; isolation: isolate; }
+html body .light-page .side-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.6s ease;
+}
+html body .light-page .side-link:hover::before,
+html body .light-page .side-link:focus-visible::before { left: 120%; }
+html body .light-page .side-link > * { position: relative; z-index: 1; }
+html body .light-page .side-link.on {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), transparent 55%),
+    linear-gradient(90deg, #fff3cf, #f2c14e) !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 0 2px #8f0c21, 0 0 0 3.5px #f2c14e, 0 0 20px rgba(255, 214, 120, 0.75), 0 4px 0 #6e4210 !important;
+}
+/* sello rojo a la derecha de la sección activa */
+html body .light-page .side-link.on::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  left: auto;
+  bottom: auto;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 2px;
+  background: #c8102e;
+  box-shadow: 0 0 0 2px #fff3cf, 0 0 0 3px #8f0c21;
+  transform: rotate(45deg);
+  z-index: 1;
+}
+html body .light-page .side-link:focus-visible { outline: 3px solid #fff3d6; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html body .bottom-nav.in-barra .in-barra__ic,
+  html body .bottom-nav.in-barra > a,
+  html body .light-page .side-link::before { transition: none !important; }
+  html body .bottom-nav.in-barra .in-barra__ic::before { animation: none !important; }
+}
+@media (max-width: 1023px) {
+  html body .bottom-nav.in-barra > a.in-barra__centro.on small { margin-top: 2px; position: relative; z-index: 1; }
+}
+
+/* ---------- Botón «Inicio · 首页» de las cabeceras: píldora lacada con filete dorado ---------- */
+html body .sh-back,
+html body a.sh-back.jd-back {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px 0 14px !important;
+  border-radius: 999px !important;
+  border: 1.5px solid #f2c14e !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 50%), linear-gradient(180deg, #b0122b, #7e0a1d) !important;
+  color: #fff3d6 !important;
+  font-weight: 800 !important;
+  font-size: 13.5px !important;
+  text-decoration: none !important;
+  box-shadow: 0 0 0 1px #6f0918, 0 3px 0 #4d0510, 0 6px 14px rgba(40, 4, 10, 0.25) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+html body .sh-back:hover { transform: translateX(-2px); }
+html body .sh-back:active { transform: translateY(2px); box-shadow: 0 0 0 1px #6f0918, 0 1px 0 #4d0510 !important; }
+html body .sh-back:focus-visible { outline: 3px solid #f2c14e; outline-offset: 2px; }
+html body .sh-back svg { color: #f2c14e; }
