@@ -70,6 +70,45 @@ export async function speakIA(text, voz = "profesor") {
 }
 
 export function speak(text, rate = 0.9, voice = "m") {
+  play(text, rate, voice, null);
+}
+
+// Igual que speak, pero devuelve una promesa que se resuelve cuando termina la frase
+// (o cuando otra frase la interrumpe). La usa el escenario de diálogos para ir frase a frase.
+export function speakWait(text, rate = 0.9, voice = "m") {
+  return new Promise((resolve) => play(text, rate, voice, resolve));
+}
+
+// Corta lo que esté sonando (y resuelve las promesas pendientes de speakWait)
+export function stopSpeak() {
+  try {
+    current?.pause();
+    speechSynthesis?.cancel?.();
+  } catch {}
+  settle();
+}
+
+let pending = null;
+function settle() {
+  const r = pending;
+  pending = null;
+  r?.();
+}
+
+function play(text, rate, voice, onEnd) {
+  settle();
+  let finished = false;
+  const done = () => {
+    if (finished) return;
+    finished = true;
+    if (pending === done) pending = null;
+    onEnd?.();
+  };
+  if (onEnd) {
+    pending = done;
+    // Red de seguridad por si el navegador no avisa del final
+    setTimeout(done, 2500 + String(text || "").length * 110);
+  }
   const t = String(text || "").trim();
   const fk = fnv("F|" + t);
   const key = voice === "f" && AUDIO_F.has(fk) ? fk : fnv(t);
@@ -77,26 +116,34 @@ export function speak(text, rate = 0.9, voice = "m") {
     try {
       current?.pause();
       speechSynthesis?.cancel?.();
-      current = new Audio(`./audio/${key}.mp3`);
-      current.playbackRate = rate < 0.7 ? 0.75 : 1;
+      const a = new Audio(`./audio/${key}.mp3`);
+      current = a;
+      a.playbackRate = rate < 0.7 ? 0.75 : 1;
+      a.onended = done;
       // Si el navegador bloquea el audio (p. ej. iPhone tras usar el micrófono), usa la voz del sistema
-      current.play().catch(() => synth(t, rate));
+      a.play().catch(() => synth(t, rate, done));
       return;
     } catch {}
   }
-  synth(t, rate);
+  synth(t, rate, done);
 }
 
-function synth(text, rate) {
+function synth(text, rate, onEnd) {
   try {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "es-ES";
     u.rate = rate;
     const voice = speechSynthesis.getVoices().find((v) => v.lang?.startsWith("es"));
     if (voice) u.voice = voice;
+    if (onEnd) {
+      u.onend = onEnd;
+      u.onerror = onEnd;
+    }
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
-  } catch {}
+  } catch {
+    onEnd?.();
+  }
 }
 
 // Confeti en un canvas temporal (sin dependencias)

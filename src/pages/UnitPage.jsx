@@ -8,6 +8,7 @@ import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { StoryPlayer, CAST } from "../components/lesson/StoryPlayer.jsx";
+import { DialogStage } from "../components/lesson/DialogStage.jsx";
 import { speak } from "../components/lesson/fx.js";
 import { useGame, getGame } from "../lib/gamification.js";
 import { buildLesson, lessonId, LESSON_META, buildPractice, PRACTICE_TYPES, dialogToStory, buildAIChallenge } from "../lib/lessons.js";
@@ -875,7 +876,7 @@ export default function UnitPage() {
       </div>
       {lesson && <LessonPlayer lesson={lesson} onClose={alCerrarLeccion} />}
       {playStory && story && <StoryPlayer story={story} onClose={() => setPlayStory(false)} />}
-      {dialog && <StoryPlayer story={dialog} onClose={() => setDialog(null)} />}
+      {dialog && <DialogStage story={dialog} onClose={() => setDialog(null)} />}
       {celebrar && !lesson && (
         <CelebrarClase
           estado={progreso.clases.find((c) => c.n === celebrar) || estado}
