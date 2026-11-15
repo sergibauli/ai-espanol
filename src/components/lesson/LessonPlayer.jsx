@@ -413,25 +413,64 @@ function Build({ step, value = [], onChange, locked }) {
   );
 }
 
+// Tapa la solución si aparece dentro de un texto de ayuda (pistas o traducción): nunca se debe dar la respuesta en pantalla
+function taparSolucion(texto, answer) {
+  let t = String(texto || "");
+  const quita = (x) => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const letra = (c) => /[a-zñ0-9]/i.test(c || "");
+  for (const a of String(answer || "").split(/\s*\/\s*/).map((x) => x.trim()).filter(Boolean)) {
+    const buscado = quita(a);
+    let desde = 0;
+    for (;;) {
+      const plano = quita(t);
+      const i = plano.indexOf(buscado, desde);
+      if (i < 0) break;
+      // Solo palabras enteras: «en» no tapa «enero»
+      if (letra(plano[i - 1]) || letra(plano[i + buscado.length])) {
+        desde = i + 1;
+        continue;
+      }
+      t = t.slice(0, i) + "_".repeat(buscado.length) + t.slice(i + buscado.length);
+      desde = i + buscado.length;
+    }
+  }
+  return t;
+}
+
 function TypeIt({ step, value = "", onChange, locked, onEnter }) {
+  const [verPista, setVerPista] = React.useState(false);
+  const pista = taparSolucion(step.hint, step.answer);
+  const zh = taparSolucion(step.promptZh, step.answer);
   return (
     <div className="ej ej--type">
       <Cabecera tipo="type" es="Escribe en español" zh="用西语写" />
       {step.character ? <Character text={step.prompt} /> : <Enunciado texto={step.prompt} />}
-      {step.promptZh && <div className="ej-enunciado__zh ej-suelto">{step.promptZh}</div>}
+      {zh && <div className="ej-enunciado__zh ej-suelto">{zh}</div>}
       <div className="ej-escribir">
         <input
           className="ej-input"
           autoFocus
           value={value}
           disabled={locked}
-          placeholder={step.hint || "Escribe aquí · 在这里输入"}
+          placeholder="Escribe aquí · 在这里输入"
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && onEnter()}
           autoCapitalize="off"
           autoComplete="off"
           spellCheck={false}
         />
+        {pista && !locked && (
+          verPista ? (
+            <div className="ej-pista" role="status">
+              <IconoTipo tipo="tip" size={20} />
+              <span>{pista}</span>
+            </div>
+          ) : (
+            <button type="button" className="ej-pista-btn" onClick={() => setVerPista(true)}>
+              <IconoTipo tipo="tip" size={18} /> Pista · 提示
+            </button>
+          )
+        )}
       </div>
       <div className="ej-teclado" aria-label="Teclado español">
         {["áéíóúüñ¿¡", "qwertyuiop", "asdfghjklñ", "zxcvbnm"].map((row) => (

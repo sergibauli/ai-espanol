@@ -260,3 +260,12 @@ html.lp-abierta .side-nav *, html.lp-abierta .side-nav *::before, html.lp-abiert
   .lp-root .lp-foot:is(.ok, .bad) .lp-explain { font-size: 14.5px !important; margin-top: 6px; padding: 6px 10px; }
   .lp-root .lp-foot-inner { gap: 10px; padding-top: 12px; }
 }
+/* Pista bajo petición (nunca como texto de fondo del campo) */
+.ej-escribir { display: grid; justify-items: center; gap: 10px; }
+.ej-input::placeholder { letter-spacing: .02em; font-size: .7em; font-weight: 600; }
+.ej-pista-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 0; border-radius: 99px; cursor: pointer; font: 800 13px var(--im-font-ui, var(--ui-font)); color: #6b3f10;
+  background: linear-gradient(#fff6dc, #f6dfa0); box-shadow: 0 0 0 1.5px #d9ae4c, 0 3px 0 #b0843a; }
+.ej-pista-btn:active { transform: translateY(2px); }
+.ej-pista { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 10px; font: 600 15px var(--im-font-ui, var(--ui-font)); color: #4a2a10;
+  background: #fff8e4; box-shadow: 0 0 0 1.5px #d9ae4c; animation: ejSelloMini .3s ease both; }
+@media (prefers-reduced-motion: reduce) { .ej-pista { animation: none; } }
