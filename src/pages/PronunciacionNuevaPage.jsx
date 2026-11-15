@@ -83,6 +83,8 @@ const normalizar = (t) =>
     .trim();
 
 const TITULO = "El templo de los sonidos";
+// Orden de los templos en la panorámica de la portada: el primero va en el centro, grande
+const ORDEN_TEMPLOS = ["labios", "bambu", "trueno", "campana", "montana", "linterna"];
 
 // Pronunciación: un solo templo. Nivel 1 = las seis salas con sus familias; nivel 2 = una familia con sus sílabas,
 // y para cada sílaba sus palabras, frases y textos para escuchar, pronunciar y practicar.
@@ -203,7 +205,7 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
         <ArrowLeftIcon size={14} /> Inicio · 首页
       </Link>
 
-      <section className={`pv-hero ph-hero${puertas ? " con-puertas" : ""}`} aria-labelledby="pv-titulo">
+      <section className={`pv-hero ph-hero ph-panorama${puertas ? " con-puertas" : ""}`} aria-labelledby="pv-titulo">
         {puertas && (
           <div className="pv-puertas" aria-hidden="true">
             <span className="is-izq">
@@ -214,23 +216,22 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
             </span>
           </div>
         )}
-        <span className="ph-ondas" aria-hidden="true">
-          {[0, 1, 2, 3].map((i) => (
-            <i key={i} style={{ "--i": i }} />
+        <div className="ph-cielo" aria-hidden="true">
+          <span className="ph-luna" />
+          <span className="ph-rayos" />
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <i key={i} className="ph-farol" style={{ "--i": i }} />
           ))}
-        </span>
-        <span className="ph-esquina is-a" aria-hidden="true" />
-        <span className="ph-esquina is-b" aria-hidden="true" />
-        <span className="ph-esquina is-c" aria-hidden="true" />
-        <span className="ph-esquina is-d" aria-hidden="true" />
-        <div className="pv-hero__texto">
-          <span className="pv-hero__ceja">
+        </div>
+
+        <div className="ph-placa">
+          <span className="ph-placa__ceja">
             <span className="pv-sello-mini" translate="no">
               音
             </span>
             Pronunciación · 发音
           </span>
-          <h1 id="pv-titulo" className="pv-hero__titulo" aria-label={TITULO}>
+          <h1 id="pv-titulo" className="pv-hero__titulo ph-titulo" aria-label={TITULO}>
             {TITULO.split(" ").map((palabra, p, palabras) => (
               <span key={p} className="pv-hero__palabra" aria-hidden="true">
                 {[...palabra].map((letra, l) => (
@@ -241,98 +242,63 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
               </span>
             ))}
           </h1>
-          <div className="pv-hero__zh">声音殿堂</div>
-          <p className="pv-hero__desc ph-desc">
-            Escucha, repite y graba cada sílaba. Cada sílaba que dominas recibe el sello 印.
-            <span>听、跟读并录下每个音节，每掌握一个就盖上一枚“印”章。</span>
+          <div className="ph-placa__zh" translate="no">
+            声音殿堂
+          </div>
+        </div>
+
+        <div className="ph-ciudad">
+          {ORDEN_TEMPLOS.map((id, n) => {
+            const s = SALAS.find((x) => x.id === id);
+            const fams = FAMILIAS.filter((f) => s.familias.includes(f.id));
+            const total = fams.reduce((a, f) => a + f.silabas.length, 0);
+            const oidasSala = fams.reduce((a, f) => a + oidasDe(f), 0);
+            const primera = fams[0];
+            return (
+              <button
+                key={id}
+                type="button"
+                className={`ph-templo is-${id}${n === 0 ? " is-centro" : ""}`}
+                style={{ "--sala": s.color, "--n": n, "--p": total ? oidasSala / total : 0 }}
+                onClick={() => primera && ir(primera, primera.silabas[0])}
+                aria-label={`${s.es} · ${s.zh}: ${oidasSala}/${total}`}
+              >
+                <img src={`./theme/templos/${id}.webp`} alt="" draggable="false" />
+                <span className="ph-templo__puerta" aria-hidden="true" />
+                <span className="ph-templo__sello" aria-hidden="true">
+                  <i translate="no">{s.sello}</i>
+                  <small>{s.zh}</small>
+                </span>
+              </button>
+            );
+          })}
+          <span className="ph-bruma is-a" aria-hidden="true" />
+          <span className="ph-bruma is-b" aria-hidden="true" />
+          <img className="ph-mono" src="./mono/saluda.png" alt="" aria-hidden="true" />
+        </div>
+
+        <div className="ph-pie">
+          <button type="button" className="jd-btn-oro pv-btn-oro ph-continuar" onClick={continuar}>
+            <PlayIcon size={16} fill="currentColor" />
+            {visitadas.size ? "Continuar · 继续" : "Empezar · 开始"}
+            {siguienteVisita && (
+              <b translate="no" className="ph-continuar__silaba">
+                {siguienteVisita.silaba.s}
+              </b>
+            )}
+          </button>
+          <div className="ph-progreso" title="Escuchadas y dominadas · 已听 / 已掌握">
+            <span>
+              <i className="is-oro" /> <b>{escuchadas}</b>/{TOTAL_SILABAS} escuchadas · 已听
+            </span>
+            <span>
+              <i className="is-laca" /> <b>{totalDominadas}</b> dominadas · 已掌握
+            </span>
+            <span className="ph-progreso__barra" style={{ "--p": escuchadas / TOTAL_SILABAS, "--d": totalDominadas / TOTAL_SILABAS }} />
+          </div>
+          <p className="ph-pista">
+            Toca un templo para entrar · 点击殿堂进入
           </p>
-
-          <div className="ph-salas" aria-label="Las seis salas · 六个殿堂">
-            {SALAS.map((s, n) => {
-              const fams = FAMILIAS.filter((f) => s.familias.includes(f.id));
-              const total = fams.reduce((a, f) => a + f.silabas.length, 0);
-              const hechas = fams.reduce((a, f) => a + dominadasDe(f), 0);
-              const oidasSala = fams.reduce((a, f) => a + oidasDe(f), 0);
-              const primera = fams[0];
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  className="ph-sala"
-                  style={{ "--sala": s.color, "--i": n, "--p": total ? oidasSala / total : 0, "--d": total ? hechas / total : 0 }}
-                  onClick={() => primera && ir(primera, primera.silabas[0])}
-                  title={`${s.es} · ${s.zh}`}
-                >
-                  <span className="ph-sala__sello" translate="no">
-                    {s.sello}
-                  </span>
-                  <span className="ph-sala__txt">
-                    <b>{s.zh}</b>
-                    <small>{s.rasgo}</small>
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="pv-hero__acciones ph-acciones">
-            <button type="button" className="jd-btn-oro pv-btn-oro ph-continuar" onClick={continuar}>
-              <PlayIcon size={16} fill="currentColor" />
-              {visitadas.size ? "Continuar · 继续" : "Empezar · 开始"}
-              {siguienteVisita && (
-                <b translate="no" className="ph-continuar__silaba">
-                  {siguienteVisita.silaba.s}
-                </b>
-              )}
-            </button>
-            <span className="ph-dificiles">
-              <i translate="no">难</i> {DIFICILES} familias difíciles para chinos · 中国学生难点
-            </span>
-          </div>
-        </div>
-
-        <div className="pv-hero__escena ph-escena" aria-hidden="true">
-          <svg className="pv-anillo ph-anillo" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="54" className="pv-anillo__fondo" />
-            <circle cx="60" cy="60" r="54" className="ph-anillo__oidas" style={{ "--p": escuchadas / TOTAL_SILABAS }} />
-            <circle cx="60" cy="60" r="47" className="pv-anillo__fondo" />
-            <circle cx="60" cy="60" r="47" className="ph-anillo__dom" style={{ "--p": porcentaje / 100 }} />
-          </svg>
-          <span className="pv-hero__halo" />
-          <img className="pv-hero__nube" src="./theme/nube-oro.png" alt="" />
-          <img className="pv-hero__mono" src="./mono/saluda.png" alt="" />
-        </div>
-
-        <div className="ph-marcador">
-          <div className="ph-dato">
-            <b>{TOTAL_SILABAS}</b>
-            <span>
-              sílabas · 音节
-              <small>
-                en {FAMILIAS.length} familias · {FAMILIAS.length}组
-              </small>
-            </span>
-          </div>
-          <div className="ph-dato is-oro">
-            <b>
-              {escuchadas}
-              <small>/{TOTAL_SILABAS}</small>
-            </b>
-            <span>
-              escuchadas · 已听
-              <i className="ph-barra" style={{ "--p": escuchadas / TOTAL_SILABAS }} />
-            </span>
-          </div>
-          <div className="ph-dato is-laca">
-            <b>
-              {totalDominadas}
-              <small>/{TOTAL_SILABAS}</small>
-            </b>
-            <span>
-              dominadas · 已掌握 印
-              <i className="ph-barra" style={{ "--p": totalDominadas / TOTAL_SILABAS }} />
-            </span>
-          </div>
         </div>
       </section>
 

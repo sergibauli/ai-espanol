@@ -1,169 +1,124 @@
-/* ===== v1 · Pronunciación › portada: cabecera «El templo de los sonidos» =====
-   Seis salas como sellos con su progreso, marcador legible, Rey Mono dentro de un doble anillo y ondas de sonido.
-   Animaciones solo con transform/opacity; se apagan con prefers-reduced-motion. */
+/* ===== v2 · Pronunciación › portada: panorámica animada «El templo de los sonidos» =====
+   Gran templo central y las otras cinco salas a los lados, placa de título, rayos de luz, faroles y bruma.
+   Cada templo lleva a su sala. Solo transform/opacity; se apaga con prefers-reduced-motion. */
 
-.ph-hero {
-  grid-template-columns: minmax(0, 1fr) clamp(220px, 27%, 300px);
-  grid-template-areas: "texto escena" "marcador marcador";
-  row-gap: 18px;
+.ph-panorama {
+  display: block;
+  padding: 0;
+  min-height: 0;
   isolation: isolate;
   background:
-    radial-gradient(ellipse 50% 70% at 84% 42%, rgba(255, 210, 120, 0.32), transparent 65%),
-    radial-gradient(ellipse 80% 60% at 0% 0%, rgba(255, 90, 100, 0.25), transparent 60%),
-    linear-gradient(150deg, #c8102e 0%, #9a0c25 45%, #5e0614 100%);
+    radial-gradient(ellipse 45% 60% at 50% 62%, rgba(255, 196, 110, 0.45), transparent 70%),
+    linear-gradient(180deg, #14082a 0%, #3a0c2e 38%, #7a1430 70%, #4a0818 100%);
 }
-/* nubes auspiciosas en relieve, muy suaves */
-.ph-hero::before {
-  background:
-    radial-gradient(circle at 0 100%, transparent 15px, rgba(242, 193, 78, 0.12) 16px, rgba(242, 193, 78, 0.12) 18px, transparent 19px) 0 0 / 60px 30px,
-    radial-gradient(circle at 100% 100%, transparent 15px, rgba(242, 193, 78, 0.12) 16px, rgba(242, 193, 78, 0.12) 18px, transparent 19px) 30px 15px / 60px 30px;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%, #000 70%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 45%, #000 70%, transparent);
-}
-.ph-hero > .pv-hero__texto { grid-area: texto; }
-.ph-hero > .ph-escena { grid-area: escena; }
-.ph-hero > .ph-marcador { grid-area: marcador; }
+.ph-panorama::before { display: none; }
 
-/* esquinas de oro (marco de laca) */
-.ph-esquina { position: absolute; z-index: 2; width: 38px; height: 38px; border: 3px solid var(--pv-oro); pointer-events: none; opacity: 0.9; }
-.ph-esquina::after { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--pv-oro); box-shadow: 0 0 8px rgba(242, 193, 78, 0.8); }
-.ph-esquina.is-a { left: 14px; top: 14px; border-right: 0; border-bottom: 0; border-radius: 10px 0 0 0; }
-.ph-esquina.is-b { right: 14px; top: 14px; border-left: 0; border-bottom: 0; border-radius: 0 10px 0 0; }
-.ph-esquina.is-c { left: 14px; bottom: 14px; border-right: 0; border-top: 0; border-radius: 0 0 0 10px; }
-.ph-esquina.is-d { right: 14px; bottom: 14px; border-left: 0; border-top: 0; border-radius: 0 0 10px 0; }
-.ph-esquina.is-a::after { left: 6px; top: 6px; } .ph-esquina.is-b::after { right: 6px; top: 6px; }
-.ph-esquina.is-c::after { left: 6px; bottom: 6px; } .ph-esquina.is-d::after { right: 6px; bottom: 6px; }
+/* cielo */
+.ph-cielo { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  background-image: radial-gradient(1.4px 1.4px at 12% 18%, #fff7d6, transparent), radial-gradient(1.2px 1.2px at 28% 8%, #fff, transparent), radial-gradient(1.6px 1.6px at 44% 22%, #ffe9a8, transparent), radial-gradient(1.2px 1.2px at 63% 12%, #fff, transparent), radial-gradient(1.5px 1.5px at 79% 26%, #fff3c4, transparent), radial-gradient(1.2px 1.2px at 90% 10%, #fff, transparent), radial-gradient(1.2px 1.2px at 6% 36%, #fff, transparent), radial-gradient(1.2px 1.2px at 94% 40%, #ffe9a8, transparent); }
+.ph-luna { position: absolute; right: 9%; top: 9%; width: 86px; height: 86px; border-radius: 50%; background: radial-gradient(circle at 40% 38%, #fffbe6, #ffe7a6 60%, #f2c14e); box-shadow: 0 0 40px 12px rgba(255, 220, 140, 0.45); opacity: 0.95; }
+.ph-rayos { position: absolute; left: 50%; top: 62%; width: 1100px; height: 1100px; margin: -550px 0 0 -550px; border-radius: 50%; opacity: 0.5;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 214, 130, 0.22) 0deg 5deg, transparent 5deg 18deg);
+  -webkit-mask-image: radial-gradient(circle, #000 8%, transparent 52%); mask-image: radial-gradient(circle, #000 8%, transparent 52%);
+  animation: ph-gira 60s linear infinite; }
+@keyframes ph-gira { to { transform: rotate(360deg); } }
+.ph-farol { position: absolute; bottom: -40px; left: calc(8% + var(--i) * 16%); width: 14px; height: 18px; border-radius: 6px 6px 8px 8px; background: radial-gradient(circle at 50% 40%, #ffe7a0, #ff8a3d 70%); box-shadow: 0 0 14px 4px rgba(255, 160, 70, 0.55); opacity: 0;
+  animation: ph-farol 14s linear infinite; animation-delay: calc(var(--i) * -2.3s); }
+.ph-farol:nth-child(odd) { width: 10px; height: 13px; }
+@keyframes ph-farol { 0% { opacity: 0; transform: translate3d(0, 0, 0); } 10% { opacity: 0.9; } 80% { opacity: 0.7; } 100% { opacity: 0; transform: translate3d(30px, -420px, 0); } }
 
-/* ondas de sonido que salen del Rey Mono */
-.ph-ondas { position: absolute; z-index: 0; right: calc(clamp(220px, 27%, 300px) / 2 + clamp(18px, 3vw, 36px) - 150px); top: 50%; width: 300px; height: 300px; margin-top: -190px; pointer-events: none; }
-.ph-ondas i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(255, 220, 140, 0.55); opacity: 0; animation: ph-onda 4.8s ease-out infinite; animation-delay: calc(var(--i) * 1.2s); }
-@keyframes ph-onda { from { opacity: 0.8; transform: scale(0.45); } to { opacity: 0; transform: scale(1.7); } }
+/* placa con el título */
+.ph-placa { position: relative; z-index: 6; display: grid; justify-items: center; width: max-content; max-width: calc(100% - 32px); margin: 18px auto 0; padding: 10px 34px 12px; border-radius: 10px; text-align: center;
+  background: linear-gradient(180deg, #1d2d6b, #0f1a45); box-shadow: inset 0 0 0 2px var(--pv-oro), inset 0 0 0 6px #0f1a45, inset 0 0 0 7px rgba(242, 193, 78, 0.6), 0 0 0 3px #5e0614, 0 12px 26px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 200, 110, 0.25);
+  animation: ph-placa 0.9s 0.2s var(--pv-rebote) both; }
+.con-puertas .ph-placa { animation-delay: 1.1s; }
+.ph-placa::before, .ph-placa::after { content: ""; position: absolute; top: -26px; width: 2px; height: 26px; background: linear-gradient(var(--pv-oro), #8a5a1e); }
+.ph-placa::before { left: 22%; } .ph-placa::after { right: 22%; }
+@keyframes ph-placa { from { opacity: 0; transform: translateY(-30px) rotate(-3deg); } 70% { transform: translateY(4px) rotate(1deg); } to { opacity: 1; transform: none; } }
+.ph-placa__ceja { display: inline-flex; align-items: center; gap: 8px; font: 800 11px/1 var(--pv-ui); letter-spacing: 0.16em; text-transform: uppercase; color: var(--pv-oro); }
+.ph-panorama .ph-titulo { margin: 6px 0 0; font-size: clamp(24px, 3vw, 38px); }
+.ph-placa__zh { margin-top: 2px; font: 700 clamp(18px, 2vw, 24px) / 1.2 var(--pv-cali); letter-spacing: 0.35em; color: var(--pv-oro); }
 
-.ph-desc { max-width: 600px; font-size: 16px; }
-.ph-desc span { font-size: 14.5px; }
+/* ciudad de templos */
+.ph-ciudad { position: relative; z-index: 3; height: clamp(250px, 25vw, 330px); margin-top: -10px; }
+.ph-templo { position: absolute; bottom: 0; left: var(--x); width: var(--w); padding: 0; border: 0; background: none; cursor: pointer; transform: translateX(-50%); z-index: var(--z, 2);
+  -webkit-tap-highlight-color: transparent; }
+.ph-templo img { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55)) brightness(var(--b, 0.85)); transform-origin: 50% 100%;
+  animation: ph-sube 1s var(--pv-rebote) both; animation-delay: calc(var(--d, 0) * 1s + 0.3s); transition: transform 0.35s var(--pv-rebote), filter 0.35s; }
+.con-puertas .ph-templo img { animation-delay: calc(var(--d, 0) * 1s + 1.2s); }
+@keyframes ph-sube { from { opacity: 0; transform: translateY(40%) scale(0.9); } to { opacity: 1; transform: none; } }
+.ph-templo:hover img, .ph-templo:focus-visible img { transform: translateY(-8px) scale(1.04); filter: drop-shadow(0 0 18px rgba(255, 210, 120, 0.7)) drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5)) brightness(1.08); }
+.ph-templo:focus-visible { outline: none; }
+.ph-templo.is-labios { --x: 50%; --w: 30%; --z: 5; --b: 1; --d: 0; bottom: -4%; }
+.ph-templo.is-bambu { --x: 32%; --w: 18%; --z: 4; --d: 0.18; bottom: 6%; }
+.ph-templo.is-trueno { --x: 68%; --w: 18%; --z: 4; --d: 0.24; bottom: 6%; }
+.ph-templo.is-campana { --x: 18%; --w: 15%; --z: 3; --d: 0.36; bottom: 12%; --b: 0.75; }
+.ph-templo.is-montana { --x: 83%; --w: 15%; --z: 3; --d: 0.42; bottom: 12%; --b: 0.75; }
+.ph-templo.is-linterna { --x: 6%; --w: 13%; --z: 2; --d: 0.5; bottom: 16%; --b: 0.65; }
+/* luz de la puerta del templo central */
+.ph-templo__puerta { position: absolute; left: 50%; bottom: 10%; width: 22%; height: 30%; margin-left: -11%; border-radius: 40% 40% 4px 4px; background: radial-gradient(ellipse at 50% 80%, rgba(255, 230, 160, 0.95), rgba(255, 170, 70, 0.4) 60%, transparent 75%); pointer-events: none; opacity: 0; }
+.ph-templo.is-centro .ph-templo__puerta { animation: ph-puerta 3.4s 1.4s ease-in-out infinite; }
+@keyframes ph-puerta { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.9; } }
+/* sello con el nombre de la sala, con aro de progreso (escuchadas) */
+.ph-templo__sello { position: absolute; left: 50%; bottom: -6px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 3px; border-radius: 99px; transform: translateX(-50%); white-space: nowrap;
+  background: rgba(20, 4, 10, 0.82); box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.7); font: 700 12px var(--pv-cali); color: #fff3d6; opacity: 0; animation: pv-aparece 0.5s both; animation-delay: calc(var(--d, 0) * 1s + 1.1s); }
+.con-puertas .ph-templo__sello { animation-delay: calc(var(--d, 0) * 1s + 2s); }
+.ph-templo__sello i { position: relative; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font: 900 13px/1 var(--pv-cali); font-style: normal; background: var(--sala); }
+.ph-templo__sello i::before { content: ""; position: absolute; inset: -3px; border-radius: 50%; background: conic-gradient(var(--pv-oro) calc(var(--p) * 360deg), rgba(242, 193, 78, 0.25) 0); -webkit-mask: radial-gradient(circle, transparent 12px, #000 13px); mask: radial-gradient(circle, transparent 12px, #000 13px); }
 
-/* las seis salas */
-.ph-salas { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; max-width: 760px; margin-top: 18px; }
-.ph-sala {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  gap: 6px;
-  padding: 10px 4px 8px;
-  border: 0;
-  border-radius: 14px;
-  cursor: pointer;
-  color: #fff3d6;
-  background: linear-gradient(180deg, rgba(40, 4, 12, 0.5), rgba(40, 4, 12, 0.25));
-  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.45);
-  font-family: var(--pv-ui);
-  animation: pv-aparece 0.6s both;
-  animation-delay: calc(var(--i) * 80ms + 1.2s);
-  transition: transform 0.25s var(--pv-rebote), box-shadow 0.25s, background 0.25s;
-}
-.con-puertas .ph-sala { animation-delay: calc(var(--i) * 80ms + 2s); }
-.ph-sala:hover, .ph-sala:focus-visible { transform: translateY(-4px); background: linear-gradient(180deg, rgba(60, 6, 18, 0.7), rgba(40, 4, 12, 0.4)); box-shadow: inset 0 0 0 1.5px var(--pv-oro), 0 10px 18px rgba(20, 0, 6, 0.4); outline: none; }
-/* sello de la sala con aro de progreso (oro = escuchadas) */
-.ph-sala__sello {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  font: 900 24px/1 var(--pv-cali);
-  color: #fff3d6;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.28), transparent 50%),
-    radial-gradient(circle, var(--sala) 60%, color-mix(in srgb, var(--sala) 60%, #000) 100%);
-  box-shadow: 0 0 0 2px #fff3cf, 0 4px 10px rgba(0, 0, 0, 0.35);
-}
-.ph-sala__sello::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  background: conic-gradient(var(--pv-oro) calc(var(--p) * 360deg), rgba(242, 193, 78, 0.18) 0);
-  -webkit-mask: radial-gradient(circle, transparent 28px, #000 29px);
-  mask: radial-gradient(circle, transparent 28px, #000 29px);
-}
-.ph-sala:hover .ph-sala__sello { animation: ph-latido 0.6s ease-in-out; }
-@keyframes ph-latido { 30% { transform: scale(1.12) rotate(-6deg); } 60% { transform: scale(0.96) rotate(3deg); } }
-.ph-sala__txt { display: grid; justify-items: center; line-height: 1.15; text-align: center; }
-.ph-sala__txt b { font: 800 14px var(--pv-cali); color: var(--pv-oro); letter-spacing: 0.1em; }
-.ph-sala__txt small { font-size: 11px; font-weight: 600; color: #f6d9a8; }
+.ph-templo.is-labios .ph-templo__sello { bottom: 4%; font-size: 13.5px; }
 
-/* acciones */
-.ph-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 18px; animation-delay: 1.5s; }
-.con-puertas .ph-acciones { animation-delay: 2.4s; }
-.ph-continuar { position: relative; overflow: hidden; padding: 12px 14px 12px 20px; font-size: 15px; }
+/* bruma */
+.ph-bruma { position: absolute; left: -10%; right: -10%; height: 70px; border-radius: 50%; pointer-events: none; z-index: 6; background: radial-gradient(ellipse at center, rgba(255, 220, 230, 0.32), transparent 70%); }
+.ph-bruma.is-a { bottom: -10px; animation: ph-bruma 16s ease-in-out infinite alternate; }
+.ph-bruma.is-b { bottom: 30px; z-index: 2; opacity: 0.7; animation: ph-bruma 22s ease-in-out infinite alternate-reverse; }
+@keyframes ph-bruma { from { transform: translateX(-6%); } to { transform: translateX(6%); } }
+
+/* Rey Mono sobre su nube, junto al templo */
+.ph-mono { position: absolute; right: 1%; bottom: 2%; z-index: 7; width: clamp(80px, 9vw, 120px); filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.5)); animation: pv-mono-entra 0.9s 1.4s var(--pv-rebote) both, pv-flotar 5s 2.4s ease-in-out infinite; }
+
+/* barra inferior */
+.ph-pie { position: relative; z-index: 8; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 18px; padding: 14px 20px 16px; background: linear-gradient(180deg, rgba(40, 4, 12, 0.75), rgba(30, 3, 10, 0.95)); box-shadow: inset 0 1px 0 rgba(242, 193, 78, 0.6); }
+.ph-continuar { position: relative; overflow: hidden; padding: 11px 14px 11px 20px; font-size: 15px; }
 .ph-continuar::after { content: ""; position: absolute; inset: -40% auto -40% -40%; width: 30%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent); transform: translateX(-120%) skewX(-18deg); animation: ph-brillo 3.6s 2.5s ease-in-out infinite; }
 @keyframes ph-brillo { 0% { transform: translateX(-120%) skewX(-18deg); } 35%, 100% { transform: translateX(520%) skewX(-18deg); } }
 .ph-continuar__silaba { margin-left: 6px; padding: 3px 12px; border-radius: 99px; font: 900 17px/1.1 Georgia, serif; color: #fff3d6; background: linear-gradient(var(--pv-laca), var(--pv-laca-osc)); box-shadow: inset 0 0 0 1.5px var(--pv-oro); }
-.ph-dificiles { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #fbe6c4; }
-.ph-dificiles i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; font: 900 14px/1 var(--pv-cali); font-style: normal; color: var(--pv-laca-negra); background: var(--pv-oro); transform: rotate(-6deg); }
-
-/* Rey Mono dentro del doble anillo: exterior oro = escuchadas, interior laca clara = dominadas */
-.ph-escena { align-self: center; }
-.ph-anillo circle { stroke-width: 5; }
-.ph-anillo__oidas, .ph-anillo__dom { fill: none; stroke-linecap: round; transition: stroke-dashoffset 1s var(--pv-ease); }
-.ph-anillo__oidas { stroke: var(--pv-oro); stroke-dasharray: 339.3; stroke-dashoffset: calc(339.3 * (1 - var(--p, 0))); filter: drop-shadow(0 0 5px rgba(242, 193, 78, 0.8)); }
-.ph-anillo__dom { stroke: #ff8fa0; stroke-dasharray: 295.3; stroke-dashoffset: calc(295.3 * (1 - var(--p, 0))); }
-
-/* marcador inferior */
-.ph-marcador { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; animation: pv-aparece 0.8s 1.7s both; }
-.con-puertas .ph-marcador { animation-delay: 2.5s; }
-.ph-dato {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border-radius: 14px;
-  color: var(--pv-tinta);
-  background: linear-gradient(180deg, rgba(255, 246, 220, 0.97), rgba(243, 226, 187, 0.97));
-  box-shadow: 0 0 0 1.5px var(--pv-oro), 0 0 0 3.5px rgba(94, 6, 20, 0.85), 0 8px 18px rgba(20, 0, 6, 0.35);
-}
-.ph-dato > b { font: 900 30px/1 var(--pv-display); color: var(--pv-laca-osc); white-space: nowrap; }
-.ph-dato > b small { font-size: 15px; color: var(--pv-tinta-2); }
-.ph-dato > span { display: grid; gap: 4px; flex: 1; min-width: 0; font: 700 14px/1.2 var(--pv-ui); }
-.ph-dato > span small { font-size: 12px; font-weight: 600; color: var(--pv-tinta-2); }
-.ph-dato.is-oro > b { color: #a8741a; }
-.ph-barra { display: block; height: 7px; border-radius: 4px; background: rgba(139, 94, 52, 0.18); overflow: hidden; }
-.ph-barra::after { content: ""; display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f7d77a, var(--pv-oro), #c8961e); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform 1s var(--pv-ease); }
-.is-laca .ph-barra::after { background: linear-gradient(90deg, #e8344f, var(--pv-laca), var(--pv-laca-osc)); }
-
-/* ---------- Tableta ---------- */
-@media (max-width: 1100px) {
-  .ph-salas { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 460px; }
-}
+.ph-progreso { display: grid; grid-template-columns: auto auto; gap: 4px 16px; font: 700 13.5px var(--pv-ui); color: #fbe6c4; }
+.ph-progreso b { font: 900 18px var(--pv-display); color: var(--pv-oro); }
+.ph-progreso i { display: inline-block; width: 9px; height: 9px; margin-right: 2px; border-radius: 50%; vertical-align: 1px; }
+.ph-progreso i.is-oro { background: var(--pv-oro); } .ph-progreso i.is-laca { background: #ff6b80; }
+.ph-progreso__barra { grid-column: 1 / -1; position: relative; height: 6px; border-radius: 3px; overflow: hidden; background: rgba(242, 193, 78, 0.2); }
+.ph-progreso__barra::before, .ph-progreso__barra::after { content: ""; position: absolute; inset: 0; border-radius: inherit; transform-origin: left; transition: transform 1s var(--pv-ease); }
+.ph-progreso__barra::before { background: var(--pv-oro); transform: scaleX(var(--p)); }
+.ph-progreso__barra::after { background: #ff6b80; transform: scaleX(var(--d)); }
+.ph-pista { margin: 0; font-size: 12.5px; font-weight: 600; color: #f2d8a8; opacity: 0.85; }
 
 /* ---------- Móvil ---------- */
 @media (max-width: 760px) {
-  .ph-hero { grid-template-columns: 1fr; grid-template-areas: "texto" "marcador"; }
-  .ph-hero .pv-hero__desc, .ph-hero .pv-hero__acciones { margin-right: 0; }
-  .ph-hero .pv-hero__texto { padding-right: 0; }
-  .ph-hero .pv-hero__titulo, .ph-hero .pv-hero__zh, .ph-hero .pv-hero__ceja { padding-right: 104px; }
-  .ph-hero .ph-escena { position: absolute; right: 2px; top: 8px; width: 124px; }
-  .ph-ondas { right: -88px; top: 70px; margin-top: 0; width: 240px; height: 240px; }
-  .ph-esquina { width: 26px; height: 26px; border-width: 2px; }
-  .ph-esquina.is-a, .ph-esquina.is-c { left: 8px; } .ph-esquina.is-b, .ph-esquina.is-d { right: 8px; }
-  .ph-esquina.is-a, .ph-esquina.is-b { top: 8px; } .ph-esquina.is-c, .ph-esquina.is-d { bottom: 8px; }
-  .ph-desc { font-size: 14.5px; }
-  .ph-desc span { font-size: 13.5px; }
-  .ph-salas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .ph-sala__sello { width: 44px; height: 44px; font-size: 20px; }
-  .ph-sala__sello::before { -webkit-mask: radial-gradient(circle, transparent 24px, #000 25px); mask: radial-gradient(circle, transparent 24px, #000 25px); }
-  .ph-acciones { gap: 10px; }
-  .ph-acciones .ph-continuar { width: 100%; justify-content: center; }
-  .ph-dificiles { display: block; line-height: 1.4; }
-  .ph-dificiles i { display: inline-grid; vertical-align: middle; margin-right: 6px; }
-  .ph-marcador { grid-template-columns: 1fr; gap: 10px; }
-  .ph-dato { padding: 10px 14px; }
-  .ph-dato > b { font-size: 26px; min-width: 76px; }
+  .ph-placa { margin-top: 14px; padding: 6px 14px 8px; }
+  .ph-panorama .ph-titulo { font-size: 19px; padding-right: 0; }
+  .ph-placa__ceja { font-size: 9.5px; }
+  .ph-placa__zh { font-size: 15px; }
+  .ph-luna { width: 52px; height: 52px; right: 6%; top: 4%; }
+  .ph-ciudad { height: 200px; margin-top: 0; }
+  .ph-templo.is-labios { --w: 46%; }
+  .ph-templo.is-bambu { --x: 22%; --w: 30%; }
+  .ph-templo.is-trueno { --x: 78%; --w: 30%; }
+  .ph-templo.is-campana { --x: 12%; --w: 20%; bottom: 18%; }
+  .ph-templo.is-montana { --x: 88%; --w: 20%; bottom: 18%; }
+  .ph-templo.is-linterna { display: none; }
+  .ph-templo__sello small { display: none; }
+  .ph-templo__sello { padding-right: 3px; }
+  .ph-templo.is-labios .ph-templo__sello small { display: inline; }
+  .ph-templo.is-labios .ph-templo__sello { padding-right: 10px; }
+  .ph-mono { display: none; }
+  .ph-pie { padding: 12px 12px 14px; }
+  .ph-continuar { width: 100%; justify-content: center; }
+  .ph-progreso { font-size: 12.5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ph-ondas, .ph-continuar::after { display: none; }
-  .ph-sala, .ph-marcador { animation: none; }
-  .ph-sala:hover .ph-sala__sello { animation: none; }
+  .ph-rayos, .ph-farol, .ph-bruma, .ph-continuar::after, .ph-templo__puerta { animation: none !important; }
+  .ph-farol { display: none; }
+  .ph-templo img, .ph-templo__sello, .ph-placa, .ph-mono { animation: none !important; opacity: 1; }
 }
