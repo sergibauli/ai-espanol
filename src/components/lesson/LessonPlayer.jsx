@@ -10,6 +10,7 @@ import CATALOG from "../../data/modulos/catalog.json";
 
 const levelOf = (n) => CATALOG.find((m) => m.numero === Number(n))?.nivel || "A1";
 import { CAST } from "./StoryPlayer.jsx";
+import { Pergamino, FondoCielo } from "./Pergamino.jsx";
 
 const TEACH = new Set(["learn", "tip", "dialog", "speak"]);
 const norm = (s) =>
@@ -98,7 +99,7 @@ function Learn({ step, level, onNext }) {
   return (
     <div className="lp-center">
       <div className="lp-eyebrow">Palabra nueva · 新词</div>
-      <div className="lp-rollo">
+      <Pergamino className="lp-rollo">
         <Emoji3D emoji={step.emoji} size={96} float />
         <div className="lp-word">{step.es}</div>
         <div className="lp-zh-big">{step.zh}</div>
@@ -107,7 +108,7 @@ function Learn({ step, level, onNext }) {
           <Pronunciar texto={step.es} level={level} onExito={() => (avance.current = setTimeout(onNext, 1400))} />
         </div>
         {step.example && <div className="lp-example">{step.example}</div>}
-      </div>
+      </Pergamino>
       {SR && <div className="lp-pista">Di la palabra en voz alta para pasar a la siguiente · 读出这个词就能继续</div>}
     </div>
   );
@@ -120,7 +121,7 @@ function Hablar({ step, level, onNext }) {
   return (
     <div className="lp-center">
       <div className="lp-eyebrow">🎙️ Di en voz alta · 读出来</div>
-      <div className="lp-rollo">
+      <Pergamino className="lp-rollo">
         {step.emoji && <Emoji3D emoji={step.emoji} size={80} float />}
         <div className="lp-word">{step.es}</div>
         <div className="lp-zh-big">{step.zh}</div>
@@ -128,7 +129,7 @@ function Hablar({ step, level, onNext }) {
           <SpeakButtons text={step.es} big />
           <Pronunciar texto={step.es} level={level} onExito={() => (avance.current = setTimeout(onNext, 1300))} />
         </div>
-      </div>
+      </Pergamino>
       <div className="lp-pista">Escúchala y repítela: si la dices bien, pasas sola · 听一遍再读，读对了自动继续</div>
     </div>
   );
@@ -501,11 +502,25 @@ export function LessonPlayer({ lesson, onClose }) {
     setResult({ xp, accuracy, perfect, unit, clase, unitDone, seconds: Math.round((Date.now() - startedAt) / 1000), ...r });
   }, [lesson, mistakes, startedAt]);
 
-  const next = () => {
+  // Pantallas con pergamino (palabra nueva, «di en voz alta» y todos los ejercicios sobre el paisaje)
+  const conPergamino = !result && step && !["dialog", "tip"].includes(step.type);
+  const [cerrando, setCerrando] = React.useState(false);
+  const cierre = React.useRef(null);
+  React.useEffect(() => () => clearTimeout(cierre.current), []);
+  const avanzar = () => {
+    setCerrando(false);
     setFeedback(null);
     setValue(undefined);
     if (pos + 1 >= queue.length) finish();
     else setPos((p) => p + 1);
+  };
+  // Antes de cambiar de pantalla el pergamino se enrolla (300 ms); sin animaciones se pasa directamente
+  const next = () => {
+    if (cerrando) return;
+    const sinMovimiento = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (!conPergamino || sinMovimiento) return avanzar();
+    setCerrando(true);
+    cierre.current = setTimeout(avanzar, 300);
   };
 
   const check = () => {
@@ -615,7 +630,8 @@ export function LessonPlayer({ lesson, onClose }) {
   );
 
   return createPortal(
-    <div className={`lp-root ${!result && ["dialog", "tip"].includes(step?.type) ? "lp-fondo-pergamino" : "lp-fondo-paisaje"} lp-paso-${result ? "fin" : step?.type}`} role="dialog" aria-modal="true" aria-label={lesson.es}>
+    <div className={`lp-root ${!result && ["dialog", "tip"].includes(step?.type) ? "lp-fondo-pergamino" : "lp-fondo-paisaje"} lp-paso-${result ? "fin" : step?.type} ${cerrando ? "pg-cierra" : ""}`} role="dialog" aria-modal="true" aria-label={lesson.es}>
+      {!(!result && ["dialog", "tip"].includes(step?.type)) && <FondoCielo />}
       <header className="lp-top">
         <button className="lp-close" onClick={() => onClose(null)} aria-label="Salir">
           <XIcon size={22} />
@@ -631,7 +647,7 @@ export function LessonPlayer({ lesson, onClose }) {
         </div>
       </header>
       <main className="lp-main" key={result ? "end" : `${pos}-${queue[pos]}`}>
-        {body}
+        {conPergamino && !["learn", "speak"].includes(step.type) ? <Pergamino>{body}</Pergamino> : body}
       </main>
       <footer className={`lp-foot ${feedback ? (feedback.ok ? "ok" : "bad") : ""}`}>
         <div className="lp-foot-inner">

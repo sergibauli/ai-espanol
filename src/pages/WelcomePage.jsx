@@ -5,6 +5,7 @@ import { useAppAuth } from "../lib/auth.jsx";
 import { Logo } from "../../packages/imperial/src/index.js";
 import { SelectorIdioma } from "../components/ui/SelectorIdioma.jsx";
 import { VideoEscena } from "../components/portada/VideoEscena.jsx";
+import { EscenaMundo } from "../components/portada/EscenasMundo.jsx";
 import { useEntradaAlVer, useParallaxPuntero, prefiereQuietud } from "../components/portada/vida.js";
 import {
   LogInIcon,
@@ -23,6 +24,7 @@ import {
 } from "lucide-react";
 import "../styles/v15-portada.css";
 import "../styles/v19-portada.css";
+import "../styles/v20-mundos.css";
 
 const HERE = () => `${location.origin}${location.pathname}#/ruta`;
 
@@ -147,14 +149,15 @@ function NotaWeChat({ conQr = true }) {
   );
 }
 
-// v19 · Lo que hay dentro: seis tarjetas en un anillo 3D que gira solo (se detiene al tocarlo) y se puede girar a mano.
+// v20 · Lo que hay dentro: seis mundos en un anillo 3D, cada uno con su color, su medallón y su escena animada.
+// Gira solo (se detiene al tocarlo), se puede girar a mano o con las flechas, y el halo de la sala toma el color del mundo activo.
 const MUNDOS = [
-  { Icono: MapIcon, sello: "路", es: "Ruta por China", zh: "中国之旅", detalle: "Avanza de Pekín a la Ruta de la Seda, clase a clase.", detalleZh: "从北京到丝绸之路，一课一课前进。" },
-  { Icono: BookOpenIcon, sello: "课", es: "90 unidades", zh: "90个单元", detalle: "Teoría, vocabulario, diálogos y ejercicios del A1 al B2.", detalleZh: "语法、词汇、对话和练习，A1到B2。" },
-  { Icono: Gamepad2Icon, sello: "玩", es: "Juegos en 3D", zh: "3D游戏", detalle: "Kahoot, UNO, ruleta, memory… para repasar jugando.", detalleZh: "抢答、UNO、轮盘、记忆配对，边玩边复习。" },
-  { Icono: LandmarkIcon, sello: "考", es: "DELE oficial", zh: "DELE真题", detalle: "80 modelos de examen con corrección y nota.", detalleZh: "80套模拟真题，自动批改评分。" },
-  { Icono: MicIcon, sello: "音", es: "Pronunciación", zh: "发音", detalle: "Sílabas, palabras y frases con voz real.", detalleZh: "音节、单词和句子，真人发音。" },
-  { Icono: BotIcon, sello: "师", es: "Tutor IA", zh: "AI导师", detalle: "Pregunta en chino y practica la conversación.", detalleZh: "用中文提问，练习口语对话。" },
+  { tema: "ruta", tono: "#e0a63a", Icono: MapIcon, sello: "路", es: "Ruta por China", zh: "中国之旅", detalle: "Avanza de Pekín a la Ruta de la Seda, clase a clase.", detalleZh: "从北京到丝绸之路，一课一课前进。" },
+  { tema: "unidades", tono: "#e8283f", Icono: BookOpenIcon, sello: "课", es: "90 unidades", zh: "90个单元", detalle: "Teoría, vocabulario, diálogos y ejercicios del A1 al B2.", detalleZh: "语法、词汇、对话和练习，A1到B2。" },
+  { tema: "juegos", tono: "#22c38e", Icono: Gamepad2Icon, sello: "玩", es: "Juegos en 3D", zh: "3D游戏", detalle: "Kahoot, UNO, ruleta, memory… para repasar jugando.", detalleZh: "抢答、UNO、轮盘、记忆配对，边玩边复习。" },
+  { tema: "dele", tono: "#f2c14e", Icono: LandmarkIcon, sello: "考", es: "DELE oficial", zh: "DELE真题", detalle: "80 modelos de examen con corrección y nota.", detalleZh: "80套模拟真题，自动批改评分。" },
+  { tema: "pronunciacion", tono: "#4f7dff", Icono: MicIcon, sello: "音", es: "Pronunciación", zh: "发音", detalle: "Sílabas, palabras y frases con voz real.", detalleZh: "音节、单词和句子，真人发音。" },
+  { tema: "tutor", tono: "#b25cff", Icono: BotIcon, sello: "师", es: "Tutor IA", zh: "AI导师", detalle: "Pregunta en chino y practica la conversación.", detalleZh: "用中文提问，练习口语对话。" },
 ];
 function Carrusel3D() {
   const [paso, setPaso] = React.useState(0);
@@ -162,15 +165,17 @@ function Carrusel3D() {
   const arrastre = React.useRef(null);
   React.useEffect(() => {
     if (pausa || prefiereQuietud()) return;
-    const reloj = setInterval(() => setPaso((n) => n + 1), 3200);
+    const reloj = setInterval(() => setPaso((n) => n + 1), 4200);
     return () => clearInterval(reloj);
   }, [pausa]);
   const total = MUNDOS.length;
   const activo = ((paso % total) + total) % total;
+  const irA = (indice) => setPaso((n) => n + ((((indice - activo) % total) + total + Math.floor(total / 2)) % total) - Math.floor(total / 2));
   return (
     <div
       className="pc-anillo"
-      onPointerEnter={() => setPausa(true)}
+      style={{ "--tono": MUNDOS[activo].tono }}
+      onPointerEnter={(evento) => evento.pointerType === "mouse" && setPausa(true)}
       onPointerLeave={() => { setPausa(false); arrastre.current = null; }}
       onPointerDown={(evento) => { arrastre.current = evento.clientX; setPausa(true); }}
       onPointerUp={(evento) => {
@@ -179,25 +184,42 @@ function Carrusel3D() {
         arrastre.current = null;
         if (Math.abs(dx) > 40) setPaso((n) => n + (dx < 0 ? 1 : -1));
       }}
+      onKeyDown={(evento) => {
+        if (evento.key === "ArrowRight") setPaso((n) => n + 1);
+        if (evento.key === "ArrowLeft") setPaso((n) => n - 1);
+      }}
     >
       <div className="pc-anillo-escena">
-        <div className="pc-anillo-giro" style={{ "--giro": `${-paso * (360 / total)}deg` }}>
-          {MUNDOS.map(({ Icono, sello, es, zh, detalle, detalleZh }, indice) => (
-            <article key={es} className={`pc-carta ${indice === activo ? "activa" : ""}`} style={{ "--a": `${indice * (360 / total)}deg` }} aria-hidden={indice !== activo}>
-              <span className="pc-carta-sello" aria-hidden="true" translate="no">{sello}</span>
-              <span className="pc-carta-medallon" aria-hidden="true">
-                <Icono size={34} strokeWidth={2} />
-              </span>
-              <h3>
-                {es}
-                <small lang="zh-Hans">{zh}</small>
-              </h3>
-              <p>
-                {detalle}
-                <small lang="zh-Hans">{detalleZh}</small>
-              </p>
-            </article>
-          ))}
+        <span className="pc-anillo-aura" aria-hidden="true" />
+        <span className="pc-anillo-halo" aria-hidden="true" />
+        <div className="pc-anillo-vuelo">
+          <div className="pc-anillo-giro" style={{ "--giro": `${-paso * (360 / total)}deg` }}>
+            {MUNDOS.map(({ tema, Icono, sello, es, zh, detalle, detalleZh }, indice) => (
+              <article
+                key={es}
+                className={`pc-carta pc-carta--${tema} ${indice === activo ? "activa" : ""}`}
+                style={{ "--a": `${indice * (360 / total)}deg` }}
+                aria-hidden={indice !== activo}
+                onClick={() => indice !== activo && irA(indice)}
+              >
+                <EscenaMundo tema={tema} />
+                <span className="pc-carta-sello" aria-hidden="true" translate="no">{sello}</span>
+                <span className="pc-carta-medallon" aria-hidden="true">
+                  <Icono size={30} strokeWidth={2.2} />
+                </span>
+                <h3>
+                  {es}
+                  <small lang="zh-Hans">{zh}</small>
+                </h3>
+                <p>
+                  {detalle}
+                  <small lang="zh-Hans">{detalleZh}</small>
+                </p>
+                <span className="pc-carta-destello" aria-hidden="true" />
+                <span className="pc-carta-velo" aria-hidden="true" />
+              </article>
+            ))}
+          </div>
         </div>
         <span className="pc-anillo-suelo" aria-hidden="true" />
       </div>
@@ -205,9 +227,17 @@ function Carrusel3D() {
         <button type="button" onClick={() => setPaso((n) => n - 1)} aria-label="Anterior · 上一个">
           <ChevronLeftIcon size={22} strokeWidth={2.6} />
         </button>
-        <span aria-hidden="true">
+        <span>
           {MUNDOS.map((mundo, indice) => (
-            <i key={mundo.es} className={indice === activo ? "activo" : ""} />
+            <button
+              type="button"
+              key={mundo.es}
+              className={indice === activo ? "activo" : ""}
+              style={{ "--tono-punto": mundo.tono }}
+              onClick={() => irA(indice)}
+              aria-label={`${mundo.es} · ${mundo.zh}`}
+              aria-current={indice === activo}
+            />
           ))}
         </span>
         <button type="button" onClick={() => setPaso((n) => n + 1)} aria-label="Siguiente · 下一个">
@@ -276,9 +306,6 @@ export default function WelcomePage() {
             <VideoEscena variantes={APERTURA} prioridad retraso={250} className="pc-fondo-video" />
             <span className="pc-sombra" aria-hidden="true" />
             <span className="pc-rayos" aria-hidden="true" />
-            {Array.from({ length: 7 }, (_, indice) => (
-              <span key={`farol-${indice}`} className="pc-farol" aria-hidden="true" style={{ "--x": `${4 + ((indice * 29) % 92)}%`, "--d": `${-indice * 2.7}s`, "--t": `${15 + (indice % 3) * 4}s`, "--s": 0.6 + (indice % 3) * 0.25 }} />
-            ))}
             {Array.from({ length: 10 }, (_, indice) => (
               <span
                 key={indice}

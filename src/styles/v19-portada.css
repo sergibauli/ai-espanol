@@ -1,4 +1,4 @@
-/* ===== v19 · Portada más viva: título palabra a palabra, panel con inclinación 3D y borde de luz, faroles, carrusel 3D y cifras que suben ===== */
+/* ===== v19 · Portada más viva: título palabra a palabra, panel con inclinación 3D y borde de luz, faroles, cifras que suben ===== */
 .pc { --px: 0; --py: 0; }
 /* título: cada palabra cae girando y un brillo recorre el oro */
 .pc-titulo { perspective: 900px; }
@@ -22,9 +22,6 @@
 .pc-panel-sello { transform: translateZ(40px) rotate(8deg); }
 .pc-panel .pc-btn { transform: translateZ(24px); }
 
-/* faroles que suben por la escena */
-.pc-farol { position: absolute; left: var(--x); bottom: -60px; width: 18px; height: 24px; border-radius: 7px 7px 5px 5px; pointer-events: none; scale: var(--s);
-  background: linear-gradient(180deg, #ffe08a, #ff7a3d 70%, #c8102e); box-shadow: 0 0 22px 8px rgba(255, 150, 70, 0.6), 0 0 70px 26px rgba(255, 130, 60, 0.22); animation: pc-farol var(--t) linear infinite; animation-delay: var(--d); opacity: 0; }
 
 /* sección «Dentro te espera» */
 .pc-mundo { position: relative; z-index: 2; padding: clamp(48px, 8vh, 90px) 16px clamp(40px, 7vh, 80px); text-align: center; overflow: hidden;
@@ -36,31 +33,6 @@
 .pc-mundo-titulo { margin: 10px 0 0; display: flex; flex-direction: column; gap: 6px; font: 700 clamp(26px, 5vw, 46px)/1.1 var(--im-font-display, "Cinzel", Georgia, serif);
   background: linear-gradient(180deg, #fffbea, #f2c14e 60%, #d9a032); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 0 rgba(90, 40, 8, 0.65)); }
 .pc-mundo-titulo span { font: 700 clamp(16px, 3vw, 22px)/1.2 STKaiti, KaiTi, serif; letter-spacing: 0.3em; color: #ffe0a3; -webkit-text-fill-color: #ffe0a3; }
-.pc-anillo { --ancho: clamp(210px, 26vw, 270px); --radio: clamp(230px, 25vw, 310px); margin-top: clamp(20px, 4vh, 40px); touch-action: pan-y; user-select: none; }
-.pc-anillo-escena { position: relative; height: calc(var(--ancho) * 1.5); perspective: 1400px; perspective-origin: 50% 30%; }
-.pc-anillo-giro { position: absolute; left: 50%; top: 4%; width: var(--ancho); height: calc(var(--ancho) * 1.24); margin-left: calc(var(--ancho) / -2); transform-style: preserve-3d;
-  transform: translateZ(calc(var(--radio) * -1)) rotateY(var(--giro)); transition: transform 1.1s cubic-bezier(0.3, 1.15, 0.4, 1); }
-.pc-carta { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 16px 16px; border-radius: 20px; color: #3b2416; cursor: grab;
-  transform: rotateY(var(--a)) translateZ(var(--radio)); backface-visibility: hidden;
-  background: radial-gradient(120% 70% at 50% 0%, rgba(255, 255, 255, 0.7), transparent 60%), linear-gradient(180deg, #fff8e4, #f1dfb4); border: 2px solid #c8961e;
-  box-shadow: inset 0 0 0 4px #fff3d0, inset 0 0 0 5px rgba(200, 150, 30, 0.55), 0 10px 0 #7a5413, 0 30px 40px rgba(0, 0, 0, 0.55); filter: brightness(0.62) saturate(0.85); transition: filter 0.8s, box-shadow 0.8s; }
-.pc-carta.activa { filter: none; box-shadow: inset 0 0 0 4px #fff3d0, inset 0 0 0 5px rgba(200, 150, 30, 0.55), 0 10px 0 #7a5413, 0 30px 40px rgba(0, 0, 0, 0.55), 0 0 70px 10px rgba(242, 193, 78, 0.55); }
-.pc-carta-sello { position: absolute; top: 12px; left: 12px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; font: 400 20px/1 STKaiti, KaiTi, serif; color: #fff3c4; background: linear-gradient(160deg, #e0283f, #8f0c21); box-shadow: 0 3px 0 #5e0614; transform: rotate(-6deg); }
-.pc-carta-medallon { width: 44%; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; color: #fff; margin-top: 6px;
-  background: radial-gradient(circle at 35% 30%, #7fe6c0, #1f9d77 55%, #0d5a44); border: 5px solid #f2c14e; box-shadow: 0 0 0 2px #8a5a0a, inset 0 -8px 12px rgba(0, 60, 40, 0.5), 0 10px 16px rgba(0, 0, 0, 0.3); }
-.pc-carta.activa .pc-carta-medallon { animation: pc-medallon 2.6s ease-in-out infinite; }
-.pc-carta h3 { margin: 6px 0 0; display: flex; flex-direction: column; font: 800 clamp(17px, 1.7vw, 21px)/1.15 var(--im-font-ui, inherit); color: #8f0c21; }
-.pc-carta h3 small { font: 700 15px/1.3 STKaiti, KaiTi, serif; color: #8a5a0a; letter-spacing: 0.1em; }
-.pc-carta p { margin: 0; display: flex; flex-direction: column; gap: 2px; font: 500 13px/1.4 var(--im-font-ui, inherit); color: #4a3323; }
-.pc-carta p small { font-size: 12.5px; color: #6b4a2a; }
-.pc-anillo-suelo { position: absolute; left: 50%; bottom: 0; width: min(90%, 760px); height: 60px; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(242, 193, 78, 0.45), transparent); filter: blur(8px); }
-.pc-anillo-mandos { display: inline-flex; align-items: center; gap: 16px; margin-top: 10px; }
-.pc-anillo-mandos button { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; cursor: pointer; color: #3b2416; background: linear-gradient(180deg, #ffe9a8, #e2a92f); border: 2px solid #fff3c4; box-shadow: 0 5px 0 #8a5a0a, 0 12px 18px rgba(0, 0, 0, 0.4); transition: transform 0.1s, box-shadow 0.1s; }
-.pc-anillo-mandos button:hover { transform: translateY(-2px); } .pc-anillo-mandos button:active { transform: translateY(4px); box-shadow: 0 1px 0 #8a5a0a; }
-.pc-anillo-mandos button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-.pc-anillo-mandos span { display: inline-flex; gap: 7px; }
-.pc-anillo-mandos i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 233, 176, 0.3); transition: background 0.3s, transform 0.3s; }
-.pc-anillo-mandos i.activo { background: #f2c14e; transform: scale(1.4); box-shadow: 0 0 10px #f2c14e; }
 /* ventajas: tarjetas que se levantan */
 .pc-ventaja { transition: transform 0.25s cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow 0.25s; }
 .pc-ventaja:hover { transform: perspective(700px) rotateX(6deg) translateY(-8px); }
@@ -71,16 +43,13 @@
 @keyframes pc-flota { 0%, 100% { --pc-flota: 0px; } 50% { --pc-flota: -10px; } }
 @keyframes pc-panel-entra { from { opacity: 0; transform: perspective(1100px) rotateY(-40deg) translateX(80px) scale(0.9); } }
 @keyframes pc-giro { to { --pc-giro: 360deg; } }
-@keyframes pc-farol { 0% { opacity: 0; transform: translate3d(0, 0, 0); } 10% { opacity: 0.9; } 50% { transform: translate3d(40px, -55vh, 0); } 90% { opacity: 0.8; } 100% { opacity: 0; transform: translate3d(-20px, -112vh, 0); } }
 @keyframes pc-suelo { from { background-position: 0 0, 0 0, 0 0; } to { background-position: 0 0, 0 84px, 0 84px; } }
-@keyframes pc-medallon { 0%, 100% { transform: translateY(0) rotateY(0); } 50% { transform: translateY(-6px) rotateY(18deg); } }
 
 @media (max-width: 760px) {
-  .pc-anillo { --ancho: min(64vw, 240px); --radio: min(62vw, 250px); }
   .pc-panel { transform: none; animation: pc-sube 0.9s 0.6s backwards; }
   .pc-intro, .pc-fondo-video { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pc-palabra, .pc-titulo-zh, .pc-sub, .pc-intro-acciones, .pc-panel, .pc-panel::before, .pc-farol, .pc-mundo::before, .pc-carta .pc-carta-medallon { animation: none !important; }
-  .pc-farol { display: none; } .pc-mundo > * { opacity: 1; transform: none; } .pc-anillo-giro { transition: none; }
+  .pc-palabra, .pc-titulo-zh, .pc-sub, .pc-intro-acciones, .pc-panel, .pc-panel::before, .pc-mundo::before { animation: none !important; }
+  .pc-mundo > * { opacity: 1; transform: none; }
 }
