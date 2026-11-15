@@ -24,6 +24,7 @@ const MAIN = [
   { to: "/oficial", icon: "dele", es: "DELE", zh: "考试" },
   { to: "/mi-dele", icon: "progreso", es: "Mi DELE", zh: "我的进度" },
   { to: "/juegos", icon: "juegos", es: "Juegos", zh: "游戏" },
+  { to: "/tv", icon: "tv", es: "TV", zh: "电视" },
   { to: "/diccionarios", icon: "diccionario", es: "Diccionario", zh: "词典" },
   { to: "/pronunciacion", icon: "pronunciacion", es: "Pronunciación", zh: "发音" },
   { to: "/memoria", icon: "repaso", es: "Repaso", zh: "记忆" },
@@ -213,7 +214,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
   );
 }
 
-export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/mi-dele", "/diagnostico", "/examinador-oral", "/audicion", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz", "/enjambre", "/diccionarios", "/pronunciacion", "/examenes"].includes(p) || /^\/modulos\/[^/]+/.test(p) || NIVEL_DELE(p);
+export const LIGHT_ROUTES = (p) => ["/ruta", "/dashboard", "/mi-dele", "/diagnostico", "/examinador-oral", "/audicion", "/modulos", "/juegos", "/examenes/generador", "/oficial", "/tutor-voz", "/enjambre", "/diccionarios", "/pronunciacion", "/examenes", "/tv"].includes(p) || /^\/modulos\/[^/]+/.test(p) || NIVEL_DELE(p);
 
 // Páginas antiguas que se muestran dentro del marco claro con la capa de traducción de colores
 export const LEGACY_LIGHT = (p) => /^\/(gramatica|memoria|videos|consejos|ayudas|generador|examenes|examenes-nivel|oficial)(\/|$)/.test(p) && p !== "/oficial" && p !== "/examenes" && p !== "/examenes/generador" && !NIVEL_DELE(p);
