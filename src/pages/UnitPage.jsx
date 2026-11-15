@@ -3,7 +3,7 @@ import "../styles/v19-unidad.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
-import { ArrowLeftIcon, Volume2Icon, ChevronDownIcon, PlayIcon, CheckIcon, EyeIcon, EyeOffIcon } from "lucide-react";
+import { ArrowLeftIcon, Volume2Icon, ChevronDownIcon, PlayIcon, CheckIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
@@ -17,8 +17,8 @@ import { clasesDe, claseValida, moduloDeClase, plusDeClase, progresoUnidad, sinc
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
 import { Moneda } from "../../packages/imperial/src/index.js";
-import { IDIOMAS_AYUDA, useLanguage } from "../lib/i18n.jsx";
-import { teoriaTraducida } from "../lib/traductorDom.js";
+import { Volteable, AvisoVolteo } from "../components/ui/Volteable.jsx";
+import "../styles/v22-volteo.css";
 import { ParticulasNivel } from "../components/ui/ParticulasNivel.jsx";
 
 import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
@@ -113,105 +113,20 @@ function parseTeoria(text) {
   return blocks;
 }
 
-// Traducción oculta por defecto: el botón la muestra debajo, en el idioma de ayuda elegido (se recuerda y se comparte)
-const ZH_KEY = "ai-espanol:ver-chino";
-let ultimoCambioZh = 0;
-export function useVerChino() {
-  const [ver, setVer] = React.useState(() => { try { return localStorage.getItem(ZH_KEY) === "1"; } catch { return false; } });
-  React.useEffect(() => {
-    const f = () => { try { setVer(localStorage.getItem(ZH_KEY) === "1"); } catch {} };
-    window.addEventListener("ver-chino", f);
-    return () => window.removeEventListener("ver-chino", f);
-  }, []);
-  const cambiar = () => { ultimoCambioZh = Date.now(); try { localStorage.setItem(ZH_KEY, ver ? "0" : "1"); } catch {} window.dispatchEvent(new Event("ver-chino")); };
-  return [ver, cambiar];
-}
-export function OjoChino() {
-  const [ver, cambiar] = useVerChino();
-  const { ayuda } = useLanguage();
-  const idioma = IDIOMAS_AYUDA.find((l) => l.code === ayuda) || IDIOMAS_AYUDA[0];
+function Tabla({ filas }) {
   return (
-    <button type="button" className={`ojo-zh ${ver ? "on" : ""}`} onClick={cambiar} aria-pressed={ver} title={ver ? "Ocultar traducción" : "Mostrar traducción"} translate="no">
-      {ver ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
-      <span className="ojo-zh-bandera">{idioma.bandera}</span>
-      <span>{ver ? "Ocultar" : "Traducción"}</span>
-    </button>
-  );
-}
-
-// Traducción completa de la explicación, debajo del texto en español: párrafos, puntos, subtítulos y tablas
-function bloquesTraduccion(texto) {
-  const out = [];
-  for (const raw of String(texto || "").split(/\n+/)) {
-    const l = raw.trim().replace(/\*\*/g, "").replace(/^#+\s*/, "");
-    if (!l || /^\|?[\s|:-]*-{3,}[\s|:-]*$/.test(l)) continue;
-    if (l.startsWith("|")) {
-      const celdas = l.split("|").map((c) => c.trim()).filter(Boolean);
-      const ult = out[out.length - 1];
-      if (ult?.tipo === "tabla") ult.filas.push(celdas);
-      else out.push({ tipo: "tabla", filas: [celdas] });
-    } else if (/^[•\-–*→✅]/.test(l)) out.push({ tipo: "punto", texto: l.replace(/^[•\-–*→]\s*/, "") });
-    else if (/^(📌|❌|💡)/.test(l) || (/[:：]$/.test(l) && l.length <= 60)) out.push({ tipo: "h", texto: l });
-    else out.push({ tipo: "p", texto: l });
-  }
-  return out;
-}
-function TraduccionGuia({ t, numero }) {
-  const { ayuda } = useLanguage();
-  const idioma = IDIOMAS_AYUDA.find((l) => l.code === ayuda) || IDIOMAS_AYUDA[0];
-  const [trad, setTrad] = React.useState(null);
-  const ref = React.useRef(null);
-  React.useEffect(() => {
-    let vivo = true;
-    setTrad(null);
-    teoriaTraducida(ayuda, numero).then((d) => vivo && setTrad(d));
-    return () => (vivo = false);
-  }, [ayuda, numero]);
-  // Solo se desplaza hasta la traducción cuando el alumno acaba de pulsar el botón
-  React.useEffect(() => {
-    if (Date.now() - ultimoCambioZh < 1500) ref.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }, []);
-  const propia = ayuda !== "zh" ? trad?.[t.id] : null;
-  const texto = propia ? propia.descripcion : t.descripcionChino;
-  const titulo = propia ? propia.titulo : t.tituloChino;
-  if (!String(texto || "").trim()) return null;
-  return (
-    <div ref={ref} className={`gd-trad gd-trad--${propia ? ayuda : "zh"}`} lang={propia ? ayuda : "zh"} {...(propia ? { "data-sin-traducir": "" } : {})}>
-      <div className="gd-trad-cab">
-        <span className="gd-trad-bandera">{idioma.bandera}</span>
-        <span>
-          <b translate="no">Traducción · {idioma.nombre}</b>
-          {titulo && <small>{titulo}</small>}
-        </span>
-      </div>
-      <div className="gd-trad-cuerpo">
-        {bloquesTraduccion(texto).map((b, i) =>
-          b.tipo === "tabla" ? (
-            <div key={i} className="gd-trad-tabla">
-              <table>
-                <tbody>
-                  {b.filas.map((f, k) => (
-                    <tr key={k}>{f.map((c, n) => (k === 0 ? <th key={n}>{c}</th> : <td key={n}>{c}</td>))}</tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : b.tipo === "punto" ? (
-            <p key={i} className="gd-trad-punto">{b.texto}</p>
-          ) : b.tipo === "h" ? (
-            <h5 key={i}>{b.texto}</h5>
-          ) : (
-            <p key={i}>{b.texto}</p>
-          ),
-        )}
-      </div>
-    </div>
+    <table>
+      <tbody>
+        {filas.map((r, k) => (
+          <tr key={k}>{r.map((c, n) => (k === 0 ? <th key={n}>{c}</th> : <td key={n}>{c}</td>))}</tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
 // `teoria` = puntos de la clase abierta; `todas` = los de la unidad (para leer las marcas «Visto» antiguas, que eran posiciones)
 function GuideScroll({ teoria, todas = teoria, numero }) {
-  const [verZh] = useVerChino();
   const [sel, setSel] = React.useState(0);
   const key = `dele_guia_visto_${numero}`;
   const [seen, setSeen] = React.useState(() => {
@@ -225,8 +140,17 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
   const t = teoria[sel];
   if (!t) return null;
   const es = parseTeoria(t.descripcion);
-  const zh = parseTeoria(t.descripcionChino);
-  const zhOf = (i) => (zh[i] && zh[i].type === es[i].type ? zh[i] : null);
+  // El chino usa «：» de ancho completo: se normaliza para que tenga la misma estructura que el español
+  const zh = parseTeoria(String(t.descripcionChino || "").replace(/：[ \t]*$/gm, ":"));
+  // Empareja cada bloque con el bloque chino del mismo tipo y el mismo orden (más robusto que la posición)
+  const porTipo = (lista) => {
+    const cuenta = {};
+    return lista.map((b) => (cuenta[b.type] = (cuenta[b.type] ?? -1) + 1));
+  };
+  const ordenEs = porTipo(es);
+  const zhPorTipo = {};
+  zh.forEach((b) => (zhPorTipo[b.type] ||= []).push(b));
+  const zhOf = (i) => (zh[i] && zh[i].type === es[i].type ? zh[i] : zhPorTipo[es[i].type]?.[ordenEs[i]] || null);
   const main = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => !["note", "error", "tip"].includes(b.type));
   const extras = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => ["note", "error", "tip"].includes(b.type));
   const terms = es.flatMap((b) => (b.type === "list" ? b.items.map((x) => x.term) : [])).filter((x) => x.length <= 40);
@@ -241,15 +165,14 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
     } catch {}
   };
   return (
-    <section className={`gd ${verZh ? "gd--zh" : ""}`} id="u-guia">
+    <section className="gd gd--volteo" id="u-guia">
       <div className="gd-ribbon">Guía rápida · 语法要点</div>
       <button className={`gd-visto ${seen.has(idDe(sel)) ? "on" : ""}`} onClick={toggleSeen} title="Marcar como leído · 标记为已读">
         Visto
       </button>
       <div className="gd-head">
-        <h3>{t.titulo}</h3>
-        <p>{t.tituloChino}</p>
-        <OjoChino />
+        <Volteable as="h3" es={t.titulo} zh={t.tituloChino} />
+        <AvisoVolteo />
       </div>
       <div className="gd-scroll">
         <img className="gd-deco" src={`${THEME}sello-monedas.png`} alt="" />
@@ -257,38 +180,43 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
           <div className="gd-text">
             {main.map(([b, z], i) =>
               b.type === "h" ? (
-                <h4 key={i} className="gd-h">
-                  {b.text}
-                </h4>
+                <Volteable key={i} as="h4" className="gd-h" es={b.text} zh={z?.text} />
               ) : b.type === "p" ? (
-                <p key={i} className="gd-intro">
-                  {b.text}
-                </p>
+                <Volteable key={i} as="p" className="gd-intro" es={b.text} zh={z?.text} />
               ) : b.type === "table" ? (
-                <div key={i} className="gd-table">
-                  <table>
-                    <tbody>
-                      {b.rows.map((r, k) => (
-                        <tr key={k}>{r.map((c, n) => (k === 0 ? <th key={n}>{c}</th> : <td key={n}>{c}</td>))}</tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <Volteable key={i} className="gd-table" es={<Tabla filas={b.rows} />} zh={z?.rows ? <Tabla filas={z.rows} /> : null} />
               ) : (
                 <div key={i} className="gd-items">
-                  {b.items.map((p, k) => (
-                    <div key={k} className="gd-point">
-                      <b>{p.term}</b>
-                      {p.def && <span>{p.def}</span>}
-                    </div>
-                  ))}
+                  {b.items.map((p, k) => {
+                    const pz = z?.items?.[k];
+                    return (
+                      <Volteable
+                        key={k}
+                        className="gd-point"
+                        es={
+                          <>
+                            <b>{p.term}</b>
+                            {p.def && <span>{p.def}</span>}
+                          </>
+                        }
+                        zh={
+                          pz ? (
+                            <>
+                              <b>{pz.term}</b>
+                              {pz.def && <span>{pz.def}</span>}
+                            </>
+                          ) : null
+                        }
+                      />
+                    );
+                  })}
                 </div>
               ),
             )}
           </div>
           {plaques.length > 0 && (
             <div className="gd-plaques">
-              <span className="gd-plaques-tag">Escucha · 听</span>
+              <span className="gd-plaques-tag">Escucha</span>
               {plaques.slice(0, 5).map((w, i) => (
                 <button key={i} className="gd-plaque" onClick={() => speak(w)}>
                   {w}
@@ -302,11 +230,13 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
         <div className="gd-notes">
           {extras.map(([b, z], i) => (
             <div key={i} className={b.type === "error" ? "gd-error" : "gd-note"}>
-              <b>{b.type === "error" ? "❌ Error común · 常见错误" : b.type === "tip" ? "💡 Consejo · 小贴士" : "📌 Nota importante · 重要提示"}</b>
+              <Volteable
+                as="b"
+                es={b.type === "error" ? "❌ Error común" : b.type === "tip" ? "💡 Consejo" : "📌 Nota importante"}
+                zh={b.type === "error" ? "❌ 常见错误" : b.type === "tip" ? "💡 小贴士" : "📌 重要提示"}
+              />
               {b.lines.slice(0, 5).map((n, k) => (
-                <p key={k}>
-                  {n}
-                </p>
+                <Volteable key={k} as="p" es={n} zh={z?.lines?.[k]} />
               ))}
             </div>
           ))}
@@ -315,17 +245,28 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
       {(t.ejemplos || []).length > 0 && (
         <div className="gd-examples">
           {t.ejemplos.slice(0, 4).map((e, i) => (
-            <button key={i} className="gd-ex" onClick={() => speak(e.espanol)}>
-              <Volume2Icon size={16} />
-              <span>
-                <b>{e.espanol}</b>
-                <small>{e.chino}</small>
-              </span>
-            </button>
+            <Volteable
+              key={i}
+              className="gd-ex"
+              onToque={() => speak(e.espanol)}
+              es={
+                <>
+                  <Volume2Icon size={16} />
+                  <b>{e.espanol}</b>
+                </>
+              }
+              zh={
+                e.chino ? (
+                  <>
+                    <Volume2Icon size={16} />
+                    <b>{e.chino}</b>
+                  </>
+                ) : null
+              }
+            />
           ))}
         </div>
       )}
-      {verZh && <TraduccionGuia t={t} numero={numero} />}
       {teoria.length > 1 && (
         <div className="gd-list">
           {teoria.map((x, i) => (
@@ -333,7 +274,6 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
               <span className={`gd-tick ${seen.has(idDe(i)) ? "on" : ""}`}>{seen.has(idDe(i)) ? "✓" : i + 1}</span>
               <span>
                 <b>{x.titulo}</b>
-                <small>{x.tituloChino}</small>
               </span>
               <ChevronDownIcon size={16} style={{ transform: "rotate(-90deg)" }} />
             </button>
