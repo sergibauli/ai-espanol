@@ -14,12 +14,18 @@ export function emojiDe(palabra) {
 
 function Tarjeta({ v, i, repaso }) {
   const [visto, setVisto] = React.useState(false);
+  const [girada, setGirada] = React.useState(false);
   React.useEffect(() => setVisto(false), [repaso]);
   const emoji = emojiDe(v.espanol);
   const tapado = repaso && !visto;
+  const girar = () => {
+    speak(v.espanol);
+    setVisto(true);
+    setGirada((g) => !g);
+  };
   return (
     <div
-      className={`ud-palabra ${tapado ? "tapada" : ""}`}
+      className={`ud-palabra ${tapado ? "tapada" : ""} ${girada ? "girada" : ""}`}
       style={{ "--i": i }}
       onPointerMove={(e) => {
         if (e.pointerType !== "mouse") return;
@@ -33,36 +39,43 @@ function Tarjeta({ v, i, repaso }) {
         e.currentTarget.style.removeProperty("--ry");
       }}
     >
-      <span className="ud-palabra-sello" aria-hidden="true" translate="no">
-        {String(i + 1).padStart(2, "0")}
-      </span>
-      <button
-        type="button"
-        className="ud-palabra-main"
-        onClick={() => {
-          speak(v.espanol);
-          setVisto(true);
-        }}
-        aria-label={`Escuchar ${v.espanol}`}
-      >
-        <span className={`ud-palabra-pic ${emoji ? "" : "inicial"}`} aria-hidden="true" translate="no">
-          {emoji || sinArticulo(v.espanol).charAt(0).toUpperCase()}
-        </span>
-        <span className="ud-palabra-txt">
-          <b>{v.espanol}</b>
-          <span className="ud-palabra-zh" lang="zh">
-            {v.chino}
+      <div className="ud-palabra-giro">
+        {/* Cara: emoji, palabra y chino */}
+        <div className="ud-palabra-cara frente">
+          <span className="ud-palabra-sello" aria-hidden="true" translate="no">
+            {String(i + 1).padStart(2, "0")}
           </span>
-        </span>
-        <span className="ud-palabra-audio" aria-hidden="true">
-          <Volume2Icon size={17} />
-        </span>
-      </button>
-      {v.ejemplo && (
-        <button type="button" className="ud-palabra-ej" onClick={() => speak(v.ejemplo)}>
-          «{v.ejemplo}»
-        </button>
-      )}
+          <button type="button" className="ud-palabra-main" onClick={girar} aria-label={`Escuchar y girar: ${v.espanol}`}>
+            <span className={`ud-palabra-pic ${emoji ? "" : "inicial"}`} aria-hidden="true" translate="no">
+              {emoji || sinArticulo(v.espanol).charAt(0).toUpperCase()}
+            </span>
+            <span className="ud-palabra-txt">
+              <b>{v.espanol}</b>
+              <span className="ud-palabra-zh" lang="zh">
+                {v.chino}
+              </span>
+            </span>
+            <span className="ud-palabra-audio" aria-hidden="true">
+              <Volume2Icon size={17} />
+            </span>
+          </button>
+          {v.ejemplo && <span className="ud-palabra-pista">Toca: ejemplo · 看例句</span>}
+        </div>
+        {/* Dorso: el chino en grande y la frase de ejemplo */}
+        <div className="ud-palabra-cara dorso" aria-hidden={!girada}>
+          <button type="button" className="ud-dorso-volver" onClick={() => setGirada(false)} tabIndex={girada ? 0 : -1}>
+            <span className="ud-dorso-zh" lang="zh">
+              {v.chino}
+            </span>
+            <span className="ud-dorso-es">{v.espanol}</span>
+          </button>
+          {v.ejemplo && (
+            <button type="button" className="ud-dorso-ej" onClick={() => speak(v.ejemplo)} tabIndex={girada ? 0 : -1}>
+              <Volume2Icon size={15} /> «{v.ejemplo}»
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

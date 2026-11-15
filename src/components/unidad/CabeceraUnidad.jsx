@@ -116,8 +116,13 @@ export function CabeceraUnidad({ meta, parada, clase, totalClases, progreso, cta
       {[1, 2, 3].map((n) => (
         <img key={n} className={`ud-nube n${n}`} src={TEMA("nube-oro.png")} alt="" aria-hidden="true" />
       ))}
+      <img className="ud-dragon-marco izq" src={TEMA("dragon-luz.webp")} alt="" aria-hidden="true" />
       <ParticulasNivel nivel={meta.nivel} />
-      <img className="ud-hero-mono" src={MONO(mundo.mono)} alt="" onError={(e) => (e.currentTarget.style.display = "none")} />
+      <span className="ud-hero-jinete" aria-hidden="true">
+        <img className="ud-hero-mono" src={MONO(mundo.mono)} alt="" onError={(e) => (e.currentTarget.style.display = "none")} />
+        <img className="ud-hero-nubemono" src={TEMA("nube-oro.png")} alt="" />
+      </span>
+      <span className="ud-hero-suelo" aria-hidden="true" />
 
       <div className="ud-hero-placa">
         <Esquinas />

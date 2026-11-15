@@ -2,6 +2,7 @@ import "../styles/v19-unidad.css";
 import "../styles/v23-unidad.css";
 import "../styles/v24-unidad-espectacular.css";
 import "../styles/v25-unidad-ceremonia.css";
+import "../styles/v26-unidad-portada.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
