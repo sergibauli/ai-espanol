@@ -10,6 +10,7 @@ export const SECCIONES = {
   "/pronunciacion": () => import("../pages/PronunciacionNuevaPage.jsx"),
   "/memoria": () => import("../pages/MemoriaPage.jsx"),
   "/tutor-voz": () => import("../pages/TutorIAPage.jsx"),
+  "/tv": () => import("../pages/TvPage.jsx"),
 };
 
 const hechas = new Set();

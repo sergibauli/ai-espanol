@@ -36,6 +36,15 @@ const PATHS = {
       <path d="M24 38v6" stroke={R} strokeWidth="2.4" />
     </>
   ),
+  tv: (
+    <>
+      <path d="M17 8l7 6 7-6" stroke={R} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <rect x="7" y="14" width="34" height="24" rx="4" fill={R} />
+      <rect x="11" y="18" width="26" height="16" rx="2" fill="#fff6dc" />
+      <path d="M21 21.5v9l8-4.5Z" fill={R} />
+      <path d="M14 38v3M34 38v3" stroke={R} strokeWidth="2.6" strokeLinecap="round" />
+    </>
+  ),
   diccionario: (
     <>
       <path d="M24 14c-4-3-9-3-14-2v24c5-1 10-1 14 2 4-3 9-3 14-2V12c-5-1-10-1-14 2Z" fill="#fff6dc" stroke={R} strokeWidth="2.4" strokeLinejoin="round" />
