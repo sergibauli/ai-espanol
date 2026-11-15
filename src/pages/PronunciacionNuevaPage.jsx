@@ -54,32 +54,6 @@ function useConjunto(clave) {
   return [valor, anadir];
 }
 
-// Añade «is-abierto» a cada pabellón cuando entra en pantalla (puertas, placa y medallones se animan entonces)
-function useRevelar() {
-  const observador = React.useRef(null);
-  React.useEffect(() => () => observador.current?.disconnect(), []);
-  return React.useCallback((el) => {
-    if (!el) return;
-    if (reducido() || typeof IntersectionObserver === "undefined") {
-      el.classList.add("is-abierto");
-      return;
-    }
-    if (!observador.current) {
-      observador.current = new IntersectionObserver(
-        (entradas) =>
-          entradas.forEach((e) => {
-            if (e.isIntersecting) {
-              e.target.classList.add("is-abierto");
-              observador.current.unobserve(e.target);
-            }
-          }),
-        { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
-      );
-    }
-    observador.current.observe(el);
-  }, []);
-}
-
 // Las puertas lacadas del templo se abren una vez por sesión
 function usePuertas() {
   const [abrir] = React.useState(() => {
@@ -213,7 +187,6 @@ export default function PronunciacionNuevaPage() {
 /* ---------- Nivel 1: las salas ---------- */
 function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda, oidasDe, dominadasDe, escuchadas, totalDominadas, porcentaje, visitadas, continuar, ir }) {
   const lista = FAMILIAS.filter((f) => !soloDificiles || f.dificil);
-  const revelar = useRevelar();
   const q = normalizar(busqueda);
   const encontradas = q
     ? [...TODAS.filter((x) => x.silaba.s.startsWith(q)), ...TODAS.filter((x) => !x.silaba.s.startsWith(q) && (x.silaba.s.includes(q) || normalizar(x.silaba.ej).includes(q)))]
@@ -338,14 +311,33 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
             const total = familias.reduce((n, f) => n + f.silabas.length, 0);
             const oidasSala = familias.reduce((n, f) => n + oidasDe(f), 0);
             return (
-              <section key={s.id} ref={revelar} className="pv-pab" style={{ "--sala": s.color, "--tinta": s.tinta, "--k": k }} aria-label={`${s.es} · ${s.zh}`}>
+              <section key={s.id} className="pv-pab" style={{ "--sala": s.color, "--tinta": s.tinta, "--k": k }} aria-label={`${s.es} · ${s.zh}`}>
                 <div className="pv-pab__tejado" aria-hidden="true">
-                  <svg viewBox="0 0 400 96" preserveAspectRatio="none">
-                    <path className="pv-pab__cumbrera" d="M86 14 Q80 4 70 6 Q82 10 84 20 H316 Q318 10 330 6 Q320 4 314 14Z" />
-                    <rect className="pv-pab__cumbrera" x="84" y="12" width="232" height="9" rx="3" />
-                    <path className="pv-pab__tejas" d="M92 21 H308 L356 52 H44Z" />
-                    <path className="pv-pab__alero" d="M0 62 Q26 60 40 46 H360 Q374 60 400 62 L400 70 Q368 70 350 58 H50 Q32 70 0 70Z" />
-                    <path className="pv-pab__friso" d="M50 58 H350 V70 H50Z" />
+                  <svg viewBox="0 0 400 128">
+                    <defs>
+                      <linearGradient id="pvTeja" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stopColor="#4a1420" />
+                        <stop offset="1" stopColor="#1c0509" />
+                      </linearGradient>
+                      <pattern id="pvSurcos" width="9" height="40" patternUnits="userSpaceOnUse">
+                        <rect width="9" height="40" fill="url(#pvTeja)" />
+                        <rect x="0" width="3" height="40" fill="#6b2230" opacity=".7" />
+                      </pattern>
+                    </defs>
+                    {/* tejado superior */}
+                    <path d="M118 22 H282 L318 50 Q342 52 352 40 Q348 58 322 60 H78 Q52 58 48 40 Q58 52 82 50Z" fill="url(#pvSurcos)" stroke="#f2c14e" strokeWidth="1.5" />
+                    <rect x="112" y="14" width="176" height="9" rx="3" fill="#f2c14e" stroke="#8a5a1e" />
+                    <path d="M112 18 Q100 4 92 12 Q104 12 104 24Z M288 18 Q300 4 308 12 Q296 12 296 24Z" fill="#f2c14e" stroke="#8a5a1e" />
+                    <circle cx="200" cy="10" r="6" fill="#f2c14e" stroke="#8a5a1e" />
+                    {/* friso entre aleros */}
+                    <rect x="92" y="60" width="216" height="12" fill="var(--sala)" stroke="#f2c14e" strokeWidth="1.2" />
+                    {/* tejado inferior */}
+                    <path d="M70 72 H330 L370 102 Q392 104 400 88 Q398 112 372 114 H28 Q2 112 0 88 Q8 104 30 102Z" fill="url(#pvSurcos)" stroke="#f2c14e" strokeWidth="1.5" />
+                    <path d="M28 114 H372" stroke="#f2c14e" strokeWidth="3" />
+                    {Array.from({ length: 23 }, (_, n) => (
+                      <circle key={n} cx={35 + n * 15} cy="116" r="4" fill="#f2c14e" stroke="#8a5a1e" strokeWidth="1" />
+                    ))}
+                    <path d="M0 88 q-6 -10 2 -16 M400 88 q6 -10 -2 -16 M48 40 q-6 -9 1 -14 M352 40 q6 -9 -1 -14" stroke="#f2c14e" strokeWidth="3" fill="none" strokeLinecap="round" />
                   </svg>
                   <span className="pv-pab__farol is-izq">
                     <i />
@@ -354,22 +346,14 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
                     <i />
                   </span>
                 </div>
+                <div className="pv-pab__viga" aria-hidden="true" />
                 <header className="pv-pab__placa">
                   <b translate="no">{s.zh}</b>
                   <h2>{s.es}</h2>
                 </header>
                 <div className="pv-pab__salon">
+                  <span className="pv-pab__calado" aria-hidden="true" />
                   <span className="pv-pab__luz" aria-hidden="true" />
-                  <span className="pv-pab__estandarte is-izq" aria-hidden="true" translate="no">
-                    {s.sello}
-                  </span>
-                  <span className="pv-pab__estandarte is-der" aria-hidden="true" translate="no">
-                    {s.sello}
-                  </span>
-                  <div className="pv-pab__puertas" aria-hidden="true">
-                    <span className="is-izq" />
-                    <span className="is-der" />
-                  </div>
                   <p className="pv-pab__rasgo">
                     <i translate="no">{s.sello}</i> {s.rasgo} · {s.rasgoZh}
                   </p>
@@ -405,19 +389,13 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
                       );
                     })}
                   </div>
+                </div>
+                <div className="pv-pab__terraza">
+                  <span className="pv-pab__balaustrada" aria-hidden="true" />
                   <span className="pv-pab__cuenta">
                     {oidasSala}/{total} sílabas escuchadas · 已听音节
                   </span>
-                </div>
-                <div className="pv-pab__escalones" aria-hidden="true">
-                  <span className="pv-pab__incienso">
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                  </span>
-                  <img className="pv-pab__nube" src="./theme/nube-oro.png" alt="" />
+                  <span className="pv-pab__escalera" aria-hidden="true" />
                 </div>
               </section>
             );
