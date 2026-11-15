@@ -1,0 +1,166 @@
+/* ===== v20 · «Dentro te espera»: seis mundos con diseño propio (color, medallón y escena animada), entrada en remolino, halo y foco del color del mundo activo ===== */
+@property --tono { syntax: "<color>"; inherits: true; initial-value: #f2c14e; }
+
+.pc-anillo { --ancho: clamp(230px, 24vw, 282px); --radio: clamp(250px, 27vw, 340px); margin-top: clamp(16px, 3vh, 34px); touch-action: pan-y; user-select: none; transition: --tono 1.1s ease; }
+.pc-anillo-escena { position: relative; height: calc(var(--ancho) * 1.5); perspective: 1400px; perspective-origin: 50% 28%; }
+
+/* halo del color del mundo activo detrás del anillo */
+.pc-anillo-aura { position: absolute; left: 50%; top: 46%; width: min(1100px, 150vw); aspect-ratio: 2 / 1; translate: -50% -50%; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tono) 55%, transparent), color-mix(in srgb, var(--tono) 18%, transparent) 55%, transparent); filter: blur(20px); opacity: 0.85; }
+/* halo plano detrás de la tarjeta de delante (dentro del 3D, Chrome recortaba la sombra en un rectángulo) */
+.pc-anillo-halo { position: absolute; left: 50%; top: calc(3% + var(--ancho) * 0.65); width: calc(var(--ancho) * 1.9); height: calc(var(--ancho) * 2); translate: -50% -50%; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tono) 85%, #fff 15%), color-mix(in srgb, var(--tono) 45%, transparent) 55%, transparent); filter: blur(18px); animation: v20-halo 3.2s ease-in-out infinite; }
+@keyframes v20-halo { 0%, 100% { opacity: 0.75; scale: 1; } 50% { opacity: 1; scale: 1.06; } }
+/* entrada: el anillo llega girando desde lejos cuando la sección aparece */
+.pc-anillo-vuelo { position: absolute; left: 50%; top: 3%; width: var(--ancho); height: calc(var(--ancho) * 1.3); margin-left: calc(var(--ancho) / -2); transform-style: preserve-3d; transform-origin: 50% 50% calc(var(--radio) * -1); }
+.pc-anillo.v14-vista .pc-anillo-vuelo { animation: v20-remolino 2.1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.pc-anillo-giro { position: absolute; inset: 0; transform-style: preserve-3d; transform: translateZ(calc(var(--radio) * -1)) rotateY(var(--giro)); transition: transform 1.2s cubic-bezier(0.3, 1.15, 0.4, 1); }
+
+/* tarjeta base */
+.pc-carta { --fondo: linear-gradient(180deg, #fff8e4, #f1dfb4); --borde: #c8961e; --canto: #7a5413; --titulo: #8f0c21; --sub: #8a5a0a; --texto: #4a3323; --brillo: var(--tono);
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0 14px 14px; border-radius: 22px; overflow: hidden; cursor: grab;
+  transform: rotateY(var(--a)) translateZ(var(--radio)); backface-visibility: hidden; background: var(--fondo); border: 2px solid var(--borde);
+  box-shadow: inset 0 0 0 4px rgba(255, 243, 208, 0.35), 0 10px 0 var(--canto), 0 30px 40px rgba(0, 0, 0, 0.55); transition: box-shadow 0.9s; }
+.pc-carta:not(.activa) { cursor: pointer; }
+.pc-carta.activa { animation: v20-pop 0.9s cubic-bezier(0.2, 1.5, 0.4, 1);
+  box-shadow: inset 0 0 0 4px rgba(255, 243, 208, 0.35), 0 10px 0 var(--canto), 0 30px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px color-mix(in srgb, var(--brillo) 80%, transparent); }
+.pc-carta-escena { position: relative; flex: none; width: calc(100% + 28px); height: 44%; margin: 0 -14px; overflow: hidden; }
+.pc-carta-escena::after { content: ""; position: absolute; inset: auto 0 0; height: 40%; background: linear-gradient(180deg, transparent, var(--funde, transparent)); }
+.pc-carta-escena * { animation-play-state: paused !important; }
+.pc-carta.activa .pc-carta-escena * { animation-play-state: running !important; }
+.esc-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.pc-carta-sello { position: absolute; z-index: 3; top: 10px; left: 10px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; font: 400 20px/1 STKaiti, KaiTi, serif; color: #fff3c4;
+  background: linear-gradient(160deg, #e0283f, #8f0c21); box-shadow: 0 3px 0 #5e0614, 0 0 0 2px rgba(255, 243, 196, 0.5); transform: rotate(-6deg); }
+.pc-carta-medallon { position: relative; z-index: 2; flex: none; width: 66px; height: 66px; margin-top: -36px; display: grid; place-items: center; border-radius: 50%; color: #fff;
+  background: var(--med, radial-gradient(circle at 35% 30%, #ffe9a8, #e2a92f 55%, #8a5a0a)); border: 4px solid var(--med-borde, #f2c14e); box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35), inset 0 -8px 12px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.35); }
+.pc-carta-medallon::before { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 2px dashed color-mix(in srgb, var(--med-borde, #f2c14e) 80%, transparent); opacity: 0; }
+.pc-carta.activa .pc-carta-medallon { animation: v20-medallon 3s ease-in-out infinite; }
+.pc-carta.activa .pc-carta-medallon::before { opacity: 0.8; animation: v20-gira 9s linear infinite; }
+.pc-carta h3 { position: relative; z-index: 2; margin: 2px 0 0; display: flex; flex-direction: column; font: 800 clamp(18px, 1.8vw, 22px)/1.15 var(--im-font-ui, inherit); color: var(--titulo); }
+.pc-carta h3 small { font: 700 15px/1.3 STKaiti, KaiTi, serif; color: var(--sub); letter-spacing: 0.12em; }
+.pc-carta p { position: relative; z-index: 2; margin: 0; display: flex; flex-direction: column; gap: 2px; font: 500 13px/1.4 var(--im-font-ui, inherit); color: var(--texto); }
+.pc-carta p small { font-size: 12.5px; opacity: 0.85; }
+/* velo que oscurece las tarjetas de los lados (con filter el brillo de la activa se recortaba en un rectángulo) */
+.pc-carta-velo { position: absolute; inset: 0; z-index: 5; pointer-events: none; border-radius: inherit; background: rgba(12, 6, 24, 0.55); transition: opacity 0.9s; }
+.pc-carta.activa .pc-carta-velo { opacity: 0; }
+/* destello que barre la tarjeta y anillo de luz que estalla al activarse */
+.pc-carta-destello { position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.55) 47%, rgba(255, 255, 255, 0.1) 53%, transparent 62%) no-repeat; background-size: 300% 100%; background-position: 120% 0; }
+.pc-carta.activa .pc-carta-destello { animation: v20-barrido 4.2s 0.4s ease-in-out infinite; }
+.pc-carta::after { content: ""; position: absolute; left: 50%; top: 44%; width: 40px; height: 40px; margin: -20px; border-radius: 50%; pointer-events: none; z-index: 1; opacity: 0;
+  border: 3px solid var(--brillo); box-shadow: 0 0 24px var(--brillo), inset 0 0 18px var(--brillo); }
+.pc-carta.activa::after { animation: v20-estallido 1.1s 0.25s cubic-bezier(0.1, 0.8, 0.3, 1); }
+
+/* —— 1 · Ruta por China: mapa antiguo con el camino que se dibuja —— */
+.pc-carta--ruta { --fondo: radial-gradient(120% 80% at 50% 0%, #fff6dc, transparent 60%), linear-gradient(180deg, #f6e7c1, #e2c68c); --borde: #a8741e; --canto: #6b4410; --funde: #f2deb0;
+  --med: radial-gradient(circle at 35% 30%, #ff6b6b, #c8102e 55%, #6e0818); --med-borde: #f2c14e; }
+.pc-carta--ruta .pc-carta-escena { background: radial-gradient(120% 120% at 50% 0%, #fbefd0, #ecd5a2); }
+.esc-ruta-dibujo { stroke-dasharray: 100; stroke-dashoffset: 100; animation: v20-dibuja 4.4s linear infinite; }
+.esc-ruta-meta { animation: v20-late 1.1s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+.esc-ruta-brujula { transform-box: fill-box; transform-origin: center; animation: v20-aguja 4s ease-in-out infinite; }
+
+/* —— 2 · 90 unidades: laca roja, celosía dorada y un libro que pasa hojas —— */
+.pc-carta--unidades { --fondo: radial-gradient(110% 70% at 50% 0%, #e8364c, transparent 60%), linear-gradient(180deg, #b3152f, #5e0614); --borde: #f2c14e; --canto: #3d0410;
+  --titulo: #ffd76a; --sub: #ffe0a3; --texto: #ffe9c4; --funde: #8f0c21; --med: radial-gradient(circle at 35% 30%, #fff3c4, #f2c14e 50%, #a8741e); --med-borde: #fff3c4; }
+.pc-carta--unidades .pc-carta-medallon { color: #8f0c21; }
+.pc-carta--unidades .pc-carta-sello { background: linear-gradient(160deg, #fff3c4, #f2c14e); color: #8f0c21; box-shadow: 0 3px 0 #8a5a0a; }
+.esc-celosia { position: absolute; inset: 0; opacity: 0.22;
+  background: repeating-linear-gradient(45deg, #f2c14e 0 1.5px, transparent 1.5px 16px), repeating-linear-gradient(-45deg, #f2c14e 0 1.5px, transparent 1.5px 16px); }
+.esc-libro { position: absolute; left: 50%; bottom: 12%; width: 62%; height: 58%; translate: -50% 0; perspective: 500px; filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.45)); }
+.esc-hoja { position: absolute; top: 0; bottom: 0; width: 50%; background: repeating-linear-gradient(180deg, transparent 0 9px, rgba(120, 70, 20, 0.22) 9px 10px), linear-gradient(90deg, #f6e6c0, #fff8e6); border: 1px solid #c8961e; }
+.esc-hoja.izq { left: 0; border-radius: 6px 0 0 6px; transform: skewY(4deg); transform-origin: right; }
+.esc-hoja.der { right: 0; border-radius: 0 6px 6px 0; transform: skewY(-4deg); transform-origin: left; }
+.esc-hoja.vuela { right: 0; border-radius: 0 6px 6px 0; transform-origin: 0 50%; backface-visibility: visible; animation: v20-hoja 2.7s cubic-bezier(0.5, 0, 0.3, 1) infinite; animation-delay: var(--d); }
+.esc-letra { position: absolute; left: var(--x); bottom: 30%; font: 700 18px/1 STKaiti, KaiTi, serif; color: #ffd76a; text-shadow: 0 0 10px rgba(255, 200, 80, 0.9); opacity: 0; animation: v20-letra 2.8s ease-out infinite; animation-delay: var(--d); }
+
+/* —— 3 · Juegos: mesa de jade con fichas que flotan, ruleta y confeti —— */
+.pc-carta--juegos { --fondo: radial-gradient(110% 70% at 50% 0%, #2fd39c, transparent 60%), linear-gradient(180deg, #11916b, #053a2a); --borde: #7ff0c6; --canto: #02251a;
+  --titulo: #fffbe9; --sub: #b9ffe2; --texto: #e6fff4; --funde: #0b6e50; --med: radial-gradient(circle at 35% 30%, #ffffff, #f3ead2 50%, #c9b98a); --med-borde: #c8102e; }
+.pc-carta--juegos .pc-carta-medallon { color: #0b6e50; }
+.esc-ruleta { position: absolute; right: -16%; top: -26%; width: 62%; aspect-ratio: 1; border-radius: 50%; opacity: 0.85; border: 4px solid #f2c14e;
+  background: conic-gradient(#c8102e 0 45deg, #f2c14e 0 90deg, #1b3f9a 0 135deg, #fff8e4 0 180deg, #c8102e 0 225deg, #f2c14e 0 270deg, #1b3f9a 0 315deg, #fff8e4 0); animation: v20-gira 6s linear infinite; }
+.esc-ficha { position: absolute; left: var(--x); top: var(--y); width: 34px; height: 44px; display: grid; place-items: center; border-radius: 7px; font: 700 20px/1 STKaiti, KaiTi, serif;
+  background: linear-gradient(180deg, #fffdf4, #efe3c2); box-shadow: 0 4px 0 #0f7a58, 0 5px 0 #c9b98a, 0 10px 14px rgba(0, 0, 0, 0.4); rotate: var(--r); animation: v20-flota 2.8s ease-in-out infinite; animation-delay: var(--d); }
+.esc-confeti { position: absolute; left: var(--x); top: -8px; width: 6px; height: 10px; border-radius: 2px; background: hsl(var(--h) 90% 62%); animation: v20-confeti 2.6s linear infinite; animation-delay: var(--d); }
+
+/* —— 4 · DELE oficial: laca negra y oro, palacio y el sello 合格 que cae —— */
+.pc-carta--dele { --fondo: radial-gradient(110% 70% at 50% 0%, #4a3418, transparent 60%), linear-gradient(180deg, #241810, #0b0705); --borde: #f2c14e; --canto: #000;
+  --titulo: #ffd76a; --sub: #f2c14e; --texto: #f3e3c0; --funde: #1a120b; --med: radial-gradient(circle at 35% 30%, #fff3c4, #f2c14e 50%, #8a5a0a); --med-borde: #1a120b; }
+.pc-carta--dele .pc-carta-medallon { color: #1a120b; box-shadow: 0 0 0 2px #f2c14e, 0 0 24px rgba(242, 193, 78, 0.6); }
+.pc-carta--dele::before { content: ""; position: absolute; inset: 7px; border: 1px solid rgba(242, 193, 78, 0.55); border-radius: 16px; pointer-events: none; z-index: 3; box-shadow: inset 0 0 0 3px #0b0705, inset 0 0 0 4px rgba(242, 193, 78, 0.35); }
+.esc-rayos { position: absolute; left: 50%; top: 60%; width: 180%; aspect-ratio: 1; translate: -50% -50%; opacity: 0.4;
+  background: repeating-conic-gradient(rgba(242, 193, 78, 0.55) 0 5deg, transparent 5deg 18deg); -webkit-mask-image: radial-gradient(closest-side, #000, transparent); mask-image: radial-gradient(closest-side, #000, transparent); animation: v20-gira 24s linear infinite; }
+.esc-palacio { filter: drop-shadow(0 0 6px rgba(242, 193, 78, 0.6)); }
+.esc-sello { position: absolute; right: 9%; top: 14%; width: 64px; height: 64px; display: grid; place-content: center; text-align: center; border-radius: 8px; color: #fff3c4; border: 3px double #fff3c4;
+  background: radial-gradient(circle at 30% 30%, #e8364c, #b3152f 60%, #7a0a1a); box-shadow: 0 0 0 3px #b3152f, 0 6px 14px rgba(0, 0, 0, 0.6); rotate: 10deg; opacity: 0; animation: v20-sello 3.2s cubic-bezier(0.5, 0, 0.6, 1.4) infinite; }
+.esc-sello b { font: 700 21px/1 STKaiti, KaiTi, serif; letter-spacing: 0.05em; }
+.esc-sello small { font: 800 9px/1.3 var(--im-font-ui, sans-serif); letter-spacing: 0.25em; }
+.esc-onda { position: absolute; right: calc(9% + 32px); top: calc(14% + 32px); width: 10px; height: 10px; margin: -5px; border-radius: 50%; border: 2px solid #f2c14e; opacity: 0; animation: v20-onda 3.2s ease-out infinite; }
+
+/* —— 5 · Pronunciación: índigo, ondas de sonido y ecualizador —— */
+.pc-carta--pronunciacion { --fondo: radial-gradient(110% 70% at 50% 0%, #5f7cff, transparent 60%), linear-gradient(180deg, #2a3aa0, #0b1140); --borde: #9fd8ff; --canto: #050a2a;
+  --titulo: #fffbe9; --sub: #a9e6ff; --texto: #e3ebff; --funde: #1c2878; --med: radial-gradient(circle at 35% 30%, #c8f2ff, #3ec3f0 50%, #1757b8); --med-borde: #fff3c4; }
+.esc-anillo { position: absolute; left: 50%; bottom: -30px; width: 60px; height: 60px; margin-left: -30px; border-radius: 50%; border: 2px solid #7fe0ff; opacity: 0; animation: v20-eco 2.4s ease-out infinite; animation-delay: var(--d); }
+.esc-barras { position: absolute; left: 8%; right: 8%; bottom: 22%; height: 52%; display: flex; align-items: center; justify-content: space-between; }
+.esc-barras i { width: 5%; height: 100%; border-radius: 4px; background: linear-gradient(180deg, #ffe08a, #7fe0ff 50%, #b98cff); scale: 1 var(--a); transform-origin: center; animation: v20-barra 1.2s ease-in-out infinite alternate; animation-delay: var(--d); box-shadow: 0 0 8px rgba(127, 224, 255, 0.7); }
+.esc-ola { left: 0; width: 200%; animation: v20-ola 3s linear infinite; }
+.esc-hola { position: absolute; left: 50%; top: 12%; translate: -50% 0; font: 900 20px/1 var(--im-font-display, Georgia, serif); color: #fff; letter-spacing: 0.04em; text-shadow: 0 0 12px #7fe0ff; animation: v20-hola 2.4s ease-in-out infinite; }
+
+/* —— 6 · Tutor IA: violeta imperial, estrellas y una conversación que se escribe —— */
+.pc-carta--tutor { --fondo: radial-gradient(110% 70% at 50% 0%, #a35be0, transparent 60%), linear-gradient(180deg, #5b2386, #1e0a33); --borde: #e2b8ff; --canto: #12051f;
+  --titulo: #fffbe9; --sub: #f0d4ff; --texto: #f1e6ff; --funde: #3e1660; --med: radial-gradient(circle at 35% 30%, #ffe9a8, #f2c14e 50%, #b07a12); --med-borde: #e2b8ff; }
+.pc-carta--tutor .pc-carta-medallon { color: #4a1873; }
+.esc-estrella { position: absolute; left: var(--x); top: var(--y); width: 10px; height: 10px; background: #fff3c4; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: v20-titila 2.2s ease-in-out infinite; animation-delay: var(--d); }
+.esc-burbuja { position: absolute; padding: 6px 10px; border-radius: 14px; font: 600 11.5px/1.2 var(--im-font-ui, sans-serif); white-space: nowrap; opacity: 0; animation: v20-burbuja 6s ease-out infinite; }
+.esc-burbuja.izq { left: 50px; top: 16%; background: #fff8e4; color: #3b2416; border-bottom-left-radius: 3px; animation-delay: 0s; }
+.esc-burbuja.der { right: 8%; top: 46%; background: linear-gradient(180deg, #f2c14e, #d99a1f); color: #3b1a05; border-bottom-right-radius: 3px; animation-delay: 2s; }
+.esc-burbuja.escribe { right: 8%; top: 46%; display: flex; gap: 4px; padding: 9px 11px; background: rgba(255, 255, 255, 0.18); animation: v20-escribe 6s ease-out infinite; }
+.esc-burbuja.escribe i { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: v20-punto 0.9s ease-in-out infinite; }
+.esc-burbuja.escribe i:nth-child(2) { animation-delay: 0.15s; } .esc-burbuja.escribe i:nth-child(3) { animation-delay: 0.3s; }
+
+/* mandos: los puntos llevan el color de su mundo */
+.pc-anillo-mandos { display: inline-flex; align-items: center; gap: 16px; margin-top: 10px; }
+.pc-anillo-mandos > button { width: 50px; height: 50px; display: grid; place-items: center; border-radius: 50%; cursor: pointer; color: #3b2416; background: linear-gradient(180deg, #ffe9a8, #e2a92f); border: 2px solid #fff3c4; box-shadow: 0 5px 0 #8a5a0a, 0 12px 18px rgba(0, 0, 0, 0.4), 0 0 24px color-mix(in srgb, var(--tono) 60%, transparent); transition: transform 0.1s, box-shadow 0.1s; }
+.pc-anillo-mandos > button:hover { transform: translateY(-2px); } .pc-anillo-mandos > button:active { transform: translateY(4px); box-shadow: 0 1px 0 #8a5a0a; }
+.pc-anillo-mandos button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.pc-anillo-mandos span { display: inline-flex; gap: 4px; }
+.pc-anillo-mandos span button { width: 22px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.pc-anillo-mandos span button::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: color-mix(in srgb, var(--tono-punto) 40%, transparent); transition: background 0.3s, transform 0.3s, box-shadow 0.3s; }
+.pc-anillo-mandos span button.activo::before { background: var(--tono-punto); transform: scale(1.5); box-shadow: 0 0 12px var(--tono-punto); }
+.pc-anillo-suelo { position: absolute; left: 50%; bottom: 0; width: min(90%, 760px); height: 60px; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--tono) 60%, transparent), transparent); filter: blur(8px); }
+
+@keyframes v20-remolino { from { opacity: 0; rotate: y -320deg; scale: 0.35; } 60% { opacity: 1; } to { opacity: 1; rotate: y 0deg; scale: 1; } }
+@keyframes v20-pop { 0% { scale: 0.9; } 45% { scale: 1.07; } 100% { scale: 1; } }
+@keyframes v20-medallon { 0%, 100% { transform: translateY(0) rotateY(0); } 50% { transform: translateY(-5px) rotateY(20deg); } }
+@keyframes v20-gira { to { rotate: 360deg; } }
+@keyframes v20-barrido { 0%, 55% { background-position: 120% 0; } 85%, 100% { background-position: -20% 0; } }
+@keyframes v20-estallido { 0% { opacity: 1; transform: scale(0.4); } 100% { opacity: 0; transform: scale(9); } }
+@keyframes v20-dibuja { 0% { stroke-dashoffset: 100; } 80%, 100% { stroke-dashoffset: 0; } }
+@keyframes v20-late { 0%, 100% { scale: 1; } 50% { scale: 1.25; } }
+@keyframes v20-aguja { 0%, 100% { rotate: -20deg; } 50% { rotate: 25deg; } }
+@keyframes v20-hoja { 0% { transform: rotateY(0); } 50%, 100% { transform: rotateY(-180deg); } }
+@keyframes v20-letra { 0% { opacity: 0; transform: translateY(10px) scale(0.6); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateY(-46px) scale(1.2); } }
+@keyframes v20-flota { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-8px) rotate(6deg); } }
+@keyframes v20-confeti { from { transform: translateY(0) rotate(0); } to { transform: translateY(150px) rotate(540deg); } }
+@keyframes v20-sello { 0%, 18% { opacity: 0; transform: scale(2.6) rotate(-14deg); } 30% { opacity: 1; transform: scale(0.92) rotate(0); } 36% { transform: scale(1.04); } 42%, 82% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+@keyframes v20-onda { 0%, 28% { opacity: 0; transform: scale(1); } 30% { opacity: 1; } 60%, 100% { opacity: 0; transform: scale(12); } }
+@keyframes v20-eco { 0% { opacity: 0.9; transform: scale(0.4); } 100% { opacity: 0; transform: scale(4.5); } }
+@keyframes v20-barra { from { transform: scaleY(0.25); } to { transform: scaleY(1); } }
+@keyframes v20-ola { to { transform: translateX(-50%); } }
+@keyframes v20-hola { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+@keyframes v20-titila { 0%, 100% { opacity: 0.2; transform: scale(0.6) rotate(0); } 50% { opacity: 1; transform: scale(1.2) rotate(45deg); } }
+@keyframes v20-burbuja { 0% { opacity: 0; transform: translateY(10px) scale(0.8); } 8%, 80% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: none; } }
+@keyframes v20-escribe { 0%, 4% { opacity: 0; } 8%, 30% { opacity: 1; } 33%, 100% { opacity: 0; } }
+@keyframes v20-punto { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(-4px); opacity: 1; } }
+
+@media (max-width: 760px) {
+  .pc-anillo { --ancho: min(66vw, 250px); --radio: min(64vw, 260px); }
+  .pc-carta p { font-size: 12.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc-anillo-vuelo, .pc-anillo-halo, .pc-carta, .pc-carta::after, .pc-carta-destello, .pc-carta-medallon, .pc-carta-medallon::before, .pc-carta-escena * { animation: none !important; }
+  .pc-anillo-giro { transition: none; }
+  .esc-sello, .esc-burbuja.izq, .esc-burbuja.der, .esc-letra { opacity: 1; }
+  .esc-burbuja.escribe { display: none; }
+}
