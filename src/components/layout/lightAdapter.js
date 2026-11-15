@@ -25,11 +25,28 @@ function isDarkPanel(cs) {
   return false;
 }
 
+// Elementos aún sin revisar, saltando de golpe los subárboles excluidos (menús, juegos nuevos .gm-no-adapt, SVG, vídeo)
+const SALTA = /^(svg|video|img|canvas|picture|script|style)$/i;
+function pendientes(root) {
+  const lista = [];
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, {
+    acceptNode: (el) => {
+      if (SALTA.test(el.tagName)) return NodeFilter.FILTER_REJECT;
+      const c = el.classList;
+      if (c.contains("gm-no-adapt") || c.contains("side-nav") || c.contains("bottom-nav") || c.contains("light-top")) return NodeFilter.FILTER_REJECT;
+      return el.hasAttribute("data-la") ? NodeFilter.FILTER_SKIP : NodeFilter.FILTER_ACCEPT;
+    },
+  });
+  let n;
+  while ((n = w.nextNode())) lista.push(n);
+  return lista;
+}
+
 function adapt(root) {
-  const els = root.querySelectorAll("*:not([data-la])");
+  const els = pendientes(root);
+  if (!els.length) return;
   for (const el of els) {
     el.setAttribute("data-la", "1");
-    if (el.closest(".side-nav, .bottom-nav, .light-top, .gm-no-adapt, svg, video, img")) continue;
     const cs = getComputedStyle(el);
     if (isDarkPanel(cs)) {
       // Papel de pergamino: el fondo real lo pone la clase .la-paper en parchment.css
@@ -39,7 +56,6 @@ function adapt(root) {
   }
   // Segunda pasada: textos claros sobre fondo ya claro
   for (const el of els) {
-    if (el.closest("svg, .gm-no-adapt")) continue;
     const c = parse(getComputedStyle(el).color);
     if (!c || lum(c) < 0.72) continue;
     let p = el;
@@ -62,20 +78,25 @@ function adapt(root) {
   }
 }
 
+// v20 · Sin re-escaneo periódico de toda la página (daba un tirón cada 4 s en los juegos):
+// solo se revisa lo que aparece nuevo, en un hueco libre del navegador y como mucho una vez por frame.
 export function attachLightAdapter(root) {
   if (!root) return () => {};
-  let t = 0;
+  const libre = window.requestIdleCallback || ((f) => setTimeout(f, 16));
+  const cancelaLibre = window.cancelIdleCallback || clearTimeout;
+  let id = 0;
   const run = () => {
-    cancelAnimationFrame(t);
-    t = requestAnimationFrame(() => adapt(root));
+    if (id) return;
+    id = libre(() => {
+      id = 0;
+      adapt(root);
+    }, { timeout: 120 });
   };
-  run();
+  adapt(root);
   const mo = new MutationObserver(run);
   mo.observe(root, { childList: true, subtree: true });
-  const iv = setInterval(() => root.querySelectorAll("[data-la]").forEach((e) => e.removeAttribute("data-la")) || run(), 4000);
   return () => {
     mo.disconnect();
-    clearInterval(iv);
-    cancelAnimationFrame(t);
+    if (id) cancelaLibre(id);
   };
 }

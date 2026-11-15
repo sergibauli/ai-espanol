@@ -8,7 +8,7 @@ import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { useGame, BADGES, setDailyGoal } from "../lib/gamification.js";
 import { buildLesson, lessonId, LESSON_META, LESSONS_PER_MODULE } from "../lib/lessons.js";
 import { progresoUnidad, moduloDeClase, plusDeClase } from "../lib/clases.js";
-import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
+import { loadModule, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
 import { Moneda, PanelJade } from "../../packages/imperial/src/index.js";
@@ -230,8 +230,8 @@ export default function RutaPage() {
   // Lección `index` de la clase `clase`: solo con el contenido de esa clase
   const start = async (numero, clase, index) => {
     setLoading(true);
-    const [all, plus] = await Promise.all([loadAllModules(), loadModulePlus(numero)]);
-    const mod = moduloDeClase(all.find((unidad) => unidad.numero === numero), clase);
+    const [unidad, plus] = await Promise.all([loadModule(numero), loadModulePlus(numero)]);
+    const mod = moduloDeClase(unidad, clase);
     setLesson(buildLesson(mod, plusDeClase(plus, numero, clase), index, Date.now(), Boolean(game.lessons[lessonId(numero, index, clase)])));
     setLoading(false);
     setAbierta(null);

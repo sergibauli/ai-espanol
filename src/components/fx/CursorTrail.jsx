@@ -2,49 +2,6 @@ import * as React from "react";
 import { useLocation } from "react-router";
 function CursorTrail() {
   const i = useLocation();
-  const tRef = React.useRef(null);
-  React.useEffect(() => {
-    const matches = window.matchMedia("(pointer: fine)").matches;
-    const matches_1 = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!matches || matches_1) {
-      return;
-    }
-    const tRef_current = tRef.current;
-    if (!tRef_current) {
-      return;
-    }
-    let d = 0;
-    let m = -1000;
-    let g = -1000;
-    let v = -1000;
-    let f = -1000;
-    const E = (_) => {
-      m = _.clientX;
-      g = _.clientY;
-    };
-    const j = () => {
-      v += (m - v) * 0.16;
-      f += (g - f) * 0.16;
-      tRef_current.style.transform = `translate3d(${v}px, ${f}px, 0)`;
-      d = requestAnimationFrame(j);
-    };
-    window.addEventListener("pointermove", E, {
-      passive: true,
-    });
-    d = requestAnimationFrame(j);
-    return () => {
-      window.removeEventListener("pointermove", E);
-      cancelAnimationFrame(d);
-    };
-  }, []);
-  React.useEffect(() => {
-    const c = document.getElementById("root");
-    if (c) {
-      c.classList.remove("fx-page");
-      c.offsetWidth;
-      c.classList.add("fx-page");
-    }
-  }, [i.pathname]);
   React.useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
@@ -67,7 +24,11 @@ function CursorTrail() {
       document.querySelectorAll(".fx-reveal:not(.fx-in)").forEach((m) => u.observe(m));
     };
     s();
-    const d = new MutationObserver(() => s());
+    // Agrupado por frame: el observador de todo el body no debe recorrer el DOM en cada cambio
+    let pendiente = 0;
+    const d = new MutationObserver(() => {
+      if (!pendiente) pendiente = requestAnimationFrame(() => { pendiente = 0; s(); });
+    });
     d.observe(document.body, {
       childList: true,
       subtree: true,
@@ -75,6 +36,7 @@ function CursorTrail() {
     return () => {
       u.disconnect();
       d.disconnect();
+      cancelAnimationFrame(pendiente);
     };
   }, [i.pathname]);
   React.useEffect(() => {
@@ -128,15 +90,7 @@ function CursorTrail() {
       cancelAnimationFrame(d);
     };
   }, []);
-  return (
-    <>
-      <div className="fx-aurora" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </div>
-      <div ref={tRef} className="fx-cursor-glow" aria-hidden="true" />
-    </>
-  );
+  // v20 · Sin aurora ni brillo de cursor: quedaban tapados por el fondo y animaban (blur 70px) en cada frame
+  return null;
 }
 export { CursorTrail };

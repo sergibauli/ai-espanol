@@ -1,0 +1,31 @@
+/* ===== v20 · Fluidez: el navegador no pinta, no maqueta y no anima lo que está fuera de pantalla ===== */
+
+/* Ruta mágica: 23 unidades de ~600 px con cientos de nodos animados cada una. Fuera de pantalla se saltan por completo
+   (salvo la que tiene una ventana abierta, que puede salirse de su caja). */
+.ruta-unit:not(:has(.ruta-node-wrap.abierto)) { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+
+/* Unidades: rejilla de 90 tarjetas con medallón */
+.u18-carta { content-visibility: auto; contain-intrinsic-size: auto 260px; }
+
+/* Unidad: secciones largas por debajo del primer pantallazo */
+.unit-page > :is(.unit-dialogs, .unit-practice, .unit-prod, .unit-games, .unit-words, .unit-more, .cls-fin) { content-visibility: auto; contain-intrinsic-size: auto 320px; }
+
+/* Listas largas de diccionario y exámenes */
+:is(.dic-lista, .dicc-lista, .ex-lista) > * { content-visibility: auto; contain-intrinsic-size: auto 72px; }
+
+/* Pantallas táctiles (móviles y tabletas): el desenfoque de fondo es lo más caro de pintar en sus GPU.
+   Se sustituye por el mismo panel algo más opaco, que se lee igual. */
+@media (pointer: coarse) {
+  *, *::before, *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  /* Capas decorativas que se repiten en todas las pantallas */
+  .v18-bokeh:nth-child(n + 7), .v18-chispa:nth-child(n + 4) { display: none !important; }
+}
+
+/* Pestaña en segundo plano o equipo en modo ahorro: nada de animaciones infinitas */
+html.sin-anim *, html.sin-anim *::before, html.sin-anim *::after { animation-play-state: paused !important; }
+
+/* Respuesta inmediata al tocar: sin retardo de doble toque ni resaltado gris */
+a, button, [role="button"], label, summary { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+/* Bloques fuera de pantalla (los marca src/lib/fluidez.js): animaciones en pausa y sin capas propias */
+[data-fuera], [data-fuera] *, [data-fuera] *::before, [data-fuera] *::after { animation-play-state: paused !important; will-change: auto !important; }

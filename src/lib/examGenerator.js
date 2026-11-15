@@ -4,9 +4,31 @@
 // Todos los ficheros modulos-XX-YY.js (01-20 … 61-80 y los que se añadan: 81-85, 86-90…)
 import { moduloDeClase, plusDeClase } from "./clases.js";
 
-const MODULE_LOADERS = Object.values(import.meta.glob("../data/modulos/modulos-*-*.js")).map(
+const GLOB_MODULOS = import.meta.glob("../data/modulos/modulos-*-*.js");
+const MODULE_LOADERS = Object.values(GLOB_MODULOS).map(
   (load) => () => load().then((m) => Object.values(m).find(Array.isArray) || []),
 );
+// Cada fichero lleva su tramo en el nombre (modulos-21-40.js): así se carga solo el que contiene la unidad
+const TRAMOS = Object.entries(GLOB_MODULOS).map(([ruta, load]) => {
+  const [, desde, hasta] = ruta.match(/modulos-(\d+)-(\d+)\.js$/) || [];
+  return { desde: Number(desde), hasta: Number(hasta), load: () => load().then((m) => Object.values(m).find(Array.isArray) || []) };
+});
+const unidadCache = new Map();
+/** Una sola unidad (solo descarga el fichero de su tramo; si no está, recurre a todas) */
+export function loadModule(numero) {
+  const n = Number(numero);
+  if (!unidadCache.has(n)) {
+    const tramo = TRAMOS.find((t) => n >= t.desde && n <= t.hasta);
+    const promesa = (tramo ? tramo.load() : loadAllModules())
+      .then((lista) => lista.find((m) => m?.numero === n) || (tramo ? loadAllModules().then((all) => all.find((m) => m.numero === n)) : undefined))
+      .catch((error) => {
+        unidadCache.delete(n);
+        throw error;
+      });
+    unidadCache.set(n, promesa);
+  }
+  return unidadCache.get(n);
+}
 const PLUS_LOADERS = import.meta.glob("../data/plus/*.json", { import: "default" });
 
 let allModulesPromise = null;

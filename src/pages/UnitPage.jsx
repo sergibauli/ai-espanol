@@ -11,7 +11,7 @@ import { StoryPlayer, CAST } from "../components/lesson/StoryPlayer.jsx";
 import { speak } from "../components/lesson/fx.js";
 import { useGame, getGame } from "../lib/gamification.js";
 import { buildLesson, lessonId, LESSON_META, buildPractice, PRACTICE_TYPES, dialogToStory, buildAIChallenge } from "../lib/lessons.js";
-import { loadAllModules, loadModulePlus } from "../lib/examGenerator.js";
+import { loadModule, loadModulePlus } from "../lib/examGenerator.js";
 import { markModuleVisited } from "../lib/progress.js";
 import { clasesDe, claseValida, moduloDeClase, plusDeClase, progresoUnidad, sincronizarClase, ultimaClase, recordarClase } from "../lib/clases.js";
 import CATALOG from "../data/modulos/catalog.json";
@@ -602,7 +602,7 @@ export default function UnitPage() {
     if (!meta) return;
     markModuleVisited(`modulo-${numero}`);
     window.scrollTo(0, 0);
-    loadAllModules().then((all) => setModCompleto(all.find((m) => m.numero === numero)));
+    loadModule(numero).then(setModCompleto);
     loadModulePlus(numero).then(setPlusCompleto);
     const load = STORIES[`../data/stories/modulo-${numero}.json`];
     load ? load().then((s) => setStory({ ...s, modulo: numero })) : setStory(null);
