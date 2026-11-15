@@ -5,6 +5,7 @@ import "../styles/v25-unidad-ceremonia.css";
 import "../styles/v26-unidad-portada.css";
 import "../styles/v27-unidad-salas.css";
 import "../styles/v30-guia.css";
+import "../styles/v31-puerta.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";

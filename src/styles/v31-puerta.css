@@ -1,0 +1,111 @@
+/* ===== v31 · Cabecera de la unidad: puerta del palacio (maqueta del usuario «unidad-puerta-palacio»).
+   Tejado dorado recortado de la maqueta con el cartel «第N单元», columnas de laca, muros con medallón,
+   dos hojas tachonadas con aldabas de león que se abren con luz y dejan ver la placa de la unidad ===== */
+
+.ud .ud-hero.pz-hero {
+  --pz-alto: 600px; --pz-techo: 150px; --pz-pilar: 46px; --pz-marco: 72%;
+  display: block; position: relative; isolation: isolate; overflow: hidden; min-height: var(--pz-alto); padding: 0; gap: 0;
+  border-radius: 22px; border: 3px solid #f2c14e; background: #e9b77a;
+  box-shadow: 0 0 0 1px #7a5216, 0 0 0 7px rgba(242, 193, 78, 0.18), 0 22px 44px rgba(40, 10, 0, 0.45);
+  animation: pz-entra 0.7s cubic-bezier(0.2, 1, 0.3, 1) both;
+}
+.ud .ud-hero.pz-hero::after { display: none; }
+@keyframes pz-entra { from { opacity: 0; transform: translateY(14px) scale(0.985); } to { opacity: 1; transform: none; } }
+
+/* Cielo del atardecer y nubes */
+.ud .pz-cielo { position: absolute; inset: 0; z-index: -3; background: radial-gradient(60% 50% at 50% 38%, #fff4d2 0%, rgba(255, 228, 170, 0.6) 35%, transparent 70%), linear-gradient(180deg, #f6c98a 0%, #eaa868 45%, #c9774a 100%); }
+.ud .pz-nube { position: absolute; z-index: -2; width: 190px; opacity: 0.85; filter: drop-shadow(0 6px 10px rgba(120, 60, 10, 0.25)); animation: pz-nube 26s ease-in-out infinite alternate; }
+.ud .pz-nube.n1 { left: 2%; top: 22%; }
+.ud .pz-nube.n2 { right: 3%; top: 16%; width: 150px; animation-duration: 32s; animation-direction: alternate-reverse; }
+@keyframes pz-nube { to { transform: translateX(40px); } }
+
+/* Muros laterales con medallón del dragón */
+.ud .pz-muro { position: absolute; z-index: -1; top: calc(var(--pz-techo) - 14px); bottom: 70px; width: calc((100% - var(--pz-marco)) / 2 - var(--pz-pilar) + 6px); display: grid; place-items: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), transparent 20%), linear-gradient(90deg, #8f1220, #b3192b 50%, #8f1220);
+  box-shadow: inset 0 0 0 6px rgba(80, 6, 12, 0.35), inset 0 0 0 8px rgba(242, 193, 78, 0.55); }
+.ud .pz-muro.izq { left: 0; } .ud .pz-muro.der { right: 0; }
+.ud .pz-muro img { width: min(110px, 70%); opacity: 0.9; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)); }
+
+/* Zócalo de piedra con escalones */
+.ud .pz-suelo { position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; height: 74px;
+  background: repeating-linear-gradient(180deg, #d9d2c4 0 14px, #b9b0a0 14px 16px), #cfc7b8; box-shadow: inset 0 3px 0 #efe9dc, inset 0 -10px 18px rgba(60, 40, 20, 0.25); }
+
+/* Columnas de laca con capitel dorado */
+.ud .pz-pilar { position: absolute; z-index: 2; top: calc(var(--pz-techo) - 12px); bottom: 60px; width: var(--pz-pilar);
+  background: linear-gradient(90deg, #6e0a16, #c41e33 35%, #e0485a 50%, #b0162a 65%, #6e0a16); border-radius: 4px; }
+.ud .pz-pilar::before, .ud .pz-pilar::after { content: ""; position: absolute; left: -7px; right: -7px; height: 30px; border-radius: 4px;
+  background: linear-gradient(180deg, #fff1b8, #f2c14e 40%, #a87412); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35); }
+.ud .pz-pilar::before { top: 0; } .ud .pz-pilar::after { bottom: -6px; height: 22px; background: linear-gradient(180deg, #e8e1d2, #b7ae9c); }
+.ud .pz-pilar.izq { left: calc((100% - var(--pz-marco)) / 2 - var(--pz-pilar) - 4px); }
+.ud .pz-pilar.der { right: calc((100% - var(--pz-marco)) / 2 - var(--pz-pilar) - 4px); }
+
+/* Tejado (recorte de la maqueta) y cartel con el número de la unidad */
+.ud .pz-techo { position: absolute; z-index: 4; left: -2%; right: -2%; top: 0; height: var(--pz-techo); pointer-events: none; }
+.ud .pz-techo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; filter: drop-shadow(0 8px 10px rgba(60, 20, 0, 0.4)); }
+.ud .pz-cartel { position: absolute; z-index: 5; left: 50%; top: calc(var(--pz-techo) * 0.47); transform: translateX(-50%); padding: 8px 28px 9px; border-radius: 6px;
+  font: 700 clamp(22px, 2.4vw, 32px)/1 "STKaiti", "KaiTi", "Kaiti SC", serif; letter-spacing: 0.06em; color: #ffe39a; text-shadow: 0 2px 0 rgba(60, 0, 10, 0.6), 0 0 14px rgba(255, 200, 90, 0.5);
+  background: linear-gradient(180deg, #c41e33, #8f0c21); box-shadow: 0 0 0 2px #f2c14e, 0 0 0 5px #8f0c21, 0 0 0 7px #f2c14e, 0 8px 16px rgba(40, 0, 0, 0.45); white-space: nowrap; }
+
+/* Portal: marco verde y oro, luz del interior, hojas que se abren */
+.ud .pz-portal { position: relative; z-index: 3; width: var(--pz-marco); margin: 0 auto; margin-top: calc(var(--pz-techo) - 8px); margin-bottom: 56px; min-height: calc(var(--pz-alto) - var(--pz-techo) - 64px);
+  display: grid; place-items: center; padding: 34px 6% 30px; perspective: 1400px;
+  background: radial-gradient(55% 60% at 50% 50%, #fff8de 0%, #ffe3a0 30%, #f3b65e 60%, #b8571e 100%);
+  box-shadow: inset 0 0 0 10px #1f4a3a, inset 0 0 0 12px #f2c14e, inset 0 0 0 14px #1f4a3a, inset 0 0 40px 18px rgba(80, 30, 0, 0.45); }
+.ud .pz-luz { position: absolute; inset: 0; z-index: 0; background: radial-gradient(40% 60% at 50% 50%, rgba(255, 255, 240, 0.95), transparent 70%); animation: pz-luz 3.4s 1.4s ease-in-out infinite alternate; }
+.ud .pz-rayos { position: absolute; inset: -20%; z-index: 0; opacity: 0.35; mix-blend-mode: screen;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 245, 200, 0.6) 0 4deg, transparent 4deg 14deg);
+  -webkit-mask: radial-gradient(circle, #000 10%, transparent 60%); mask: radial-gradient(circle, #000 10%, transparent 60%); animation: pz-gira 60s linear infinite; }
+@keyframes pz-luz { to { opacity: 0.65; } }
+@keyframes pz-gira { to { transform: rotate(360deg); } }
+.ud .pz-portal .particulas, .ud .pz-portal [class*="particula"] { z-index: 1; }
+
+.ud .pz-hojas { position: absolute; inset: 14px; z-index: 3; pointer-events: none; transform-style: preserve-3d; }
+.ud .pz-hoja { position: absolute; top: 0; bottom: 0; width: 50%; display: block; backface-visibility: hidden;
+  background:
+    radial-gradient(circle, #fff0b8 0 2.6px, #e0a93a 3.2px, #8a5a10 4.2px, transparent 4.8px) 17px 17px / 34px 34px,
+    linear-gradient(90deg, rgba(0, 0, 0, 0.18), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.22)),
+    linear-gradient(180deg, #b8172b, #8e0d1e 60%, #6e0816);
+  box-shadow: inset 0 0 0 4px #c8961e, inset 0 0 0 6px #6e0816, inset 0 0 0 8px rgba(242, 193, 78, 0.6), 0 0 30px rgba(0, 0, 0, 0.35);
+  transition: transform 1.7s cubic-bezier(0.55, 0.05, 0.2, 1) 0.45s, filter 1.7s 0.45s; }
+.ud .pz-hoja.izq { left: 0; transform-origin: 0 50%; }
+.ud .pz-hoja.der { right: 0; transform-origin: 100% 50%; }
+.ud .pz-aldaba { position: absolute; top: 46%; width: 54px; height: auto; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45)); }
+.ud .pz-hoja.izq .pz-aldaba { right: 14px; }
+.ud .pz-hoja.der .pz-aldaba { left: 14px; transform: scaleX(-1); }
+/* Abiertas: se abaten hacia dentro y dejan pasar la luz */
+.ud .pz-hero.pz-abierta .pz-hoja.izq { transform: rotateY(80deg); filter: brightness(0.75); }
+.ud .pz-hero.pz-abierta .pz-hoja.der { transform: rotateY(-80deg); filter: brightness(0.75); }
+
+/* Placa de la unidad en el centro, aparece al abrirse la puerta */
+.ud .pz-hero .pz-placa { position: relative; z-index: 4; width: 100%; max-width: 560px; margin: 0; opacity: 0; transform: scale(0.92); transition: opacity 0.8s 1.3s, transform 0.9s 1.3s cubic-bezier(0.2, 1.3, 0.4, 1); }
+.ud .pz-hero.pz-abierta .pz-placa { opacity: 1; transform: none; }
+.ud .pz-titulo { display: flex; align-items: center; gap: 16px; }
+.ud .pz-emblema { flex: none; width: 92px; height: 92px; }
+.ud .pz-emblema .ud-anillo { width: 92px; height: 92px; }
+.ud .pz-emblema .ud-moneda { width: 66px; height: 66px; }
+.ud .pz-hero .ud-hero-h1 { margin-top: 2px; font-size: clamp(28px, 3.2vw, 42px); }
+
+@media (max-width: 760px) {
+  .ud .ud-hero.pz-hero { --pz-alto: 540px; --pz-techo: 92px; --pz-pilar: 18px; --pz-marco: 90%; border-radius: 16px; }
+  .ud .pz-muro img { display: none; }
+  .ud .pz-nube { display: none; }
+  .ud .pz-portal { padding: 24px 24px 22px; box-shadow: inset 0 0 0 6px #1f4a3a, inset 0 0 0 7px #f2c14e, inset 0 0 0 8px #1f4a3a, inset 0 0 30px 10px rgba(80, 30, 0, 0.45); }
+  .ud .pz-hojas { inset: 8px; }
+  .ud .pz-aldaba { width: 34px; }
+  .ud .pz-hero.pz-abierta .pz-hoja.izq { transform: rotateY(84deg); }
+  .ud .pz-hero.pz-abierta .pz-hoja.der { transform: rotateY(-84deg); }
+  .ud .pz-hero .pz-placa { margin-top: 0; padding: 18px 14px 16px; }
+  .ud .pz-emblema { display: none; }
+  .ud .pz-hero .ud-hero-h1 { font-size: 25px; overflow-wrap: anywhere; }
+  .ud .pz-cartel { padding: 6px 16px 7px; font-size: 20px; }
+  .ud .pz-hero .ud-btn-laca { font-size: 15px; padding: 10px 16px; white-space: nowrap; }
+  .ud .pz-hero .ud-hero-acciones { gap: 10px; }
+  .ud .pz-hero .ud-hero-zh { font-size: 17px; }
+  .ud .pz-hero .ud-hero-chips { gap: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ud .ud-hero.pz-hero, .ud .pz-nube, .ud .pz-luz, .ud .pz-rayos { animation: none !important; }
+  .ud .pz-hoja, .ud .pz-hero .pz-placa { transition: none !important; }
+}
+.ud .ud-hero.pz-hero.ud-fuera * { animation-play-state: paused !important; }
