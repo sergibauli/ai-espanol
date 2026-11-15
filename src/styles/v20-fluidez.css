@@ -29,3 +29,7 @@ a, button, [role="button"], label, summary { touch-action: manipulation; -webkit
 
 /* Bloques fuera de pantalla (los marca src/lib/fluidez.js): animaciones en pausa y sin capas propias */
 [data-fuera], [data-fuera] *, [data-fuera] *::before, [data-fuera] *::after { animation-play-state: paused !important; will-change: auto !important; }
+
+/* Restos del diseño antiguo que siguen animándose detrás del fondo actual */
+body::after, body::before { animation: none !important; filter: none !important; }
+body::after { display: none !important; }

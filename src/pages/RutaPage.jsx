@@ -66,6 +66,39 @@ function conDemo(progreso, clasesDemo) {
   return { ...progreso, clases, completadas, completa: completadas === clases.length, siguiente: clases.find((clase) => !clase.completada) || null };
 }
 
+// v20 · El camino de cada unidad (escenario, monedas y viñetas: ~500 nodos animados) solo se construye cuando se acerca
+// a la pantalla; mientras tanto se reserva su altura exacta. La unidad actual y sus vecinas se construyen siempre.
+function CaminoPerezoso({ forzar, className, dataVin, style, children }) {
+  const ref = React.useRef(null);
+  const [ver, setVer] = React.useState(Boolean(forzar));
+  React.useEffect(() => {
+    if (forzar) setVer(true);
+  }, [forzar]);
+  React.useEffect(() => {
+    if (ver) return undefined;
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setVer(true);
+      return undefined;
+    }
+    const ojo = new IntersectionObserver(
+      ([entrada]) => {
+        if (!entrada.isIntersecting) return;
+        ojo.disconnect();
+        React.startTransition(() => setVer(true));
+      },
+      { rootMargin: "900px 0px" },
+    );
+    ojo.observe(el);
+    return () => ojo.disconnect();
+  }, [ver]);
+  return (
+    <div ref={ref} className={className} data-vin={dataVin} style={style}>
+      {ver ? children : null}
+    </div>
+  );
+}
+
 export default function RutaPage() {
   const game = useGame();
   const [params, setParams] = useSearchParams();
@@ -297,6 +330,7 @@ export default function RutaPage() {
 
           {mods.map((unidad, idx) => {
             const numero = unidad.numero;
+            const idxActual = Math.max(0, mods.findIndex((m) => current && current.startsWith(`${m.numero}-`)));
             const parada = STOP[numero];
             const prog = progresos[numero];
             const paradas = prog.total;
@@ -366,7 +400,7 @@ export default function RutaPage() {
                     </span>
                   </Link>
                 </header>
-                <div className="ruta-camino-wrap" data-vin={ladoVineta} style={{ height: alto, "--vin-y": `${Math.max(20, masDesviada[1] - 70)}px` }}>
+                <CaminoPerezoso forzar={Math.abs(idx - idxActual) <= 1 || enFiesta} className="ruta-camino-wrap" dataVin={ladoVineta} style={{ height: alto, "--vin-y": `${Math.max(20, masDesviada[1] - 70)}px` }}>
                   <EscenaTramo nivel={lv.key} idx={idx} />
                   <div className="ruta-camino" style={{ width: ANCHO_CARRIL, height: alto }}>
                     <svg className="ruta-carretera" width={ANCHO_CARRIL} height={alto} aria-hidden="true">
@@ -527,7 +561,7 @@ export default function RutaPage() {
                       />
                     )}
                   </div>
-                </div>
+                </CaminoPerezoso>
               </section>
             );
           })}

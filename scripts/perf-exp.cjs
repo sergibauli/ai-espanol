@@ -6,16 +6,18 @@ const { chromium } = require('playwright');
 
   const b = await chromium.launch();
   for (const [nombre, css] of Object.entries(pruebas)) {
-    const p = await b.newPage({ viewport: { width: 1366, height: 860 } });
+    const p = await b.newPage({ viewport: { width: +(process.env.W || 1366), height: +(process.env.H || 860) } });
     await p.addInitScript(() => { sessionStorage.setItem('dele_auth', 'true'); sessionStorage.setItem('dele_expiry', String(Date.now() + 3600e3)); });
     await p.goto('http://localhost:5173/#' + ruta);
     await p.waitForTimeout(6000);
     if (css) await p.addStyleTag({ content: css });
+    if (process.env.REPOSO) await p.evaluate(() => { window.__reposo = 1; });
     await p.waitForTimeout(500);
     const ms = await p.evaluate(async () => {
       const sc = [...document.querySelectorAll('*')].find((e) => e.scrollHeight > e.clientHeight + 200 && /(auto|scroll)/.test(getComputedStyle(e).overflowY)) || document.scrollingElement;
+      sc.scrollBy(0, 1200); await new Promise((r) => setTimeout(r, 400));
       const t = performance.now();
-      for (let i = 0; i < 30; i++) { sc.scrollBy(0, 50); await new Promise((r) => requestAnimationFrame(r)); }
+      for (let i = 0; i < 30; i++) { if (!window.__reposo) sc.scrollBy(0, 50); await new Promise((r) => requestAnimationFrame(r)); }
       return Math.round((performance.now() - t) / 30) + 'ms/paso scroller=' + (sc.className || sc.tagName).toString().slice(0, 30);
     });
     console.log(nombre.padEnd(11), ms);
