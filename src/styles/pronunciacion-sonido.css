@@ -118,7 +118,7 @@
 
 /* ---------- Emblemas (SVG) ---------- */
 .pe-emb { position: relative; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.45)); }
-.pe-emb * { transform-box: fill-box; }
+.pe-emb [class] { transform-box: fill-box; }
 .pe-sombra { fill: rgba(0, 0, 0, 0.45); }
 
 /* Tambor: respira en reposo; al sonar, los palillos golpean, la piel tiembla y salen ondas */
@@ -152,9 +152,9 @@
 /* Flauta */
 .pe-hoja { transform-origin: 0% 50%; animation: pe-hoja 4s ease-in-out infinite; }
 .pe-flauta { transform-origin: 50% 50%; }
-.pe-notas g { opacity: 0; }
+.pe-nota { opacity: 0; }
 .is-sonando .pe-flauta { animation: pe-flauta 0.4s ease-in-out infinite alternate; }
-.is-sonando .pe-notas g { animation: pe-nota 1.3s ease-out infinite; animation-delay: calc(var(--i) * 0.35s); }
+.is-sonando .pe-nota { animation: pe-nota 1.3s ease-out infinite; animation-delay: calc(var(--i) * 0.35s); }
 @keyframes pe-hoja { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-6deg); } }
 @keyframes pe-flauta { from { transform: rotate(0) translateY(0); } to { transform: rotate(2deg) translateY(-2px); } }
 @keyframes pe-nota { 0% { opacity: 0; transform: translate(0, 10px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(10px, -26px); } }
@@ -194,7 +194,7 @@
 }
 .pe-boca::before { content: "Dónde suena · 发音部位"; position: absolute; left: 12px; top: 8px; font: 800 10.5px var(--pv-ui); letter-spacing: 0.06em; text-transform: uppercase; color: var(--pv-laca-osc); }
 .pe-boca svg { display: block; width: 100%; height: auto; margin-top: 10px; }
-.pe-boca svg * { transform-box: fill-box; }
+.pe-boca svg [class] { transform-box: fill-box; }
 .pe-boca figcaption { margin-top: 2px; text-align: center; font: 700 13px var(--pv-ui); color: var(--pv-tinta-2); }
 .pe-boca figcaption b { color: var(--pv-laca-osc); }
 .pe-boca__pulso { transform-origin: center; animation: pe-pulso 1.8s ease-out infinite; }
@@ -525,3 +525,13 @@
 .is-sonando .pe-tambor__ondas circle { animation: pe-onda 0.8s ease-out infinite; animation-delay: calc(var(--i) * 0.26s); }
 .pe-emb--trueno.is-sonando .pe-chispas { animation: none; }
 @keyframes pe-golpe { 0% { transform: scale(0.96); } 40% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+/* Halo y estelas para todos los emblemas (como el tambor) */
+.pe-emb { overflow: visible; }
+.pe-halo__aura { transform-origin: center; animation: pe-respira 3.2s ease-in-out infinite; }
+.pe-halo__estelas { transform-box: view-box; transform-origin: 100px 86px; animation: pe-gira 9s linear infinite; }
+.pe-halo__destellos path { transform-origin: center; animation: pe-destello 2.4s ease-in-out infinite; animation-delay: calc(var(--i) * 0.45s); }
+.is-sonando .pe-halo__estelas { animation-duration: 1.6s; }
+.is-sonando .pe-halo__aura { animation-duration: 0.5s; }
+.pe-emb--campana .pe-halo__estelas ellipse { stroke: #bff0e6; }
+.pe-emb--montana .pe-halo__aura, .pe-emb--bambu .pe-halo__aura { opacity: 0.8; }

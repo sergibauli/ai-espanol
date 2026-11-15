@@ -188,9 +188,11 @@ function Flauta({ id }) {
       </g>
       <g className="pe-notas" fill="#14361d">
         {[0, 1, 2].map((i) => (
-          <g key={i} style={{ "--i": i }} transform={`translate(${70 + i * 28} ${44 - i * 6})`}>
-            <ellipse rx="5" ry="3.6" transform="rotate(-20)" />
-            <rect x="3.5" y="-20" width="2" height="20" />
+          <g key={i} transform={`translate(${70 + i * 28} ${44 - i * 6})`}>
+            <g className="pe-nota" style={{ "--i": i }}>
+              <ellipse rx="5" ry="3.6" transform="rotate(-20)" />
+              <rect x="3.5" y="-20" width="2" height="20" />
+            </g>
           </g>
         ))}
       </g>
@@ -282,13 +284,48 @@ function Linterna({ id }) {
 
 const EMBLEMAS = { trueno: Tambor, labios: Abanico, bambu: Flauta, campana: Campana, montana: Gong, linterna: Linterna };
 
+// Halo dorado, estelas de luz que giran y destellos (como el tambor) para el resto de emblemas
+const DESTELLOS = [[16, 38], [184, 48], [28, 150], [178, 138], [100, -2]];
+const estrella = (x, y) => `M${x} ${y - 6} L${x + 1.6} ${y - 1.6} L${x + 6} ${y} L${x + 1.6} ${y + 1.6} L${x} ${y + 6} L${x - 1.6} ${y + 1.6} L${x - 6} ${y} L${x - 1.6} ${y - 1.6}Z`;
+
+function Halo({ id }) {
+  return (
+    <>
+      <defs>
+        <radialGradient id={`${id}-aura`}>
+          <stop offset="0" stopColor="#ffe08a" stopOpacity=".85" />
+          <stop offset=".55" stopColor="#ffb347" stopOpacity=".38" />
+          <stop offset="1" stopColor="#ff8a3d" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle className="pe-halo__aura" cx="100" cy="86" r="94" fill={`url(#${id}-aura)`} />
+      <g className="pe-halo__estelas" fill="none" strokeLinecap="round">
+        <ellipse cx="100" cy="86" rx="98" ry="40" stroke="#ffd36b" strokeWidth="4" strokeDasharray="150 400" transform="rotate(-22 100 86)" />
+        <ellipse cx="100" cy="86" rx="92" ry="52" stroke="#fff1b8" strokeWidth="2.5" strokeDasharray="90 360" transform="rotate(28 100 86)" />
+        <ellipse cx="100" cy="86" rx="86" ry="86" stroke="#f2c14e" strokeWidth="1.2" strokeDasharray="40 200" opacity=".8" />
+      </g>
+    </>
+  );
+}
+
+const Destellos = () => (
+  <g className="pe-halo__destellos" fill="#fff1b8">
+    {DESTELLOS.map(([x, y], i) => (
+      <path key={i} style={{ "--i": i }} d={estrella(x, y)} />
+    ))}
+  </g>
+);
+
 export function EmblemaSala({ sala, sonando = false }) {
   const Emblema = EMBLEMAS[sala.id] || Linterna;
   const id = `pe-${sala.id}`;
+  const conHalo = sala.id !== "trueno";
   return (
     <svg className={`pe-emb pe-emb--${sala.id}${sonando ? " is-sonando" : ""}`} viewBox="2 0 196 176" aria-hidden="true">
       <Defs id={id} />
+      {conHalo && <Halo id={id} />}
       <Emblema id={id} />
+      {conHalo && <Destellos />}
     </svg>
   );
 }
