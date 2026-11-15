@@ -1,6 +1,7 @@
 import * as React from "react";
 import { XIcon, Volume2Icon, Volume1Icon, MicIcon, CheckIcon, RotateCcwIcon, ArrowRightIcon, SquareIcon, PlayIcon } from "lucide-react";
-import { speak } from "../lesson/fx.js";
+import OndaViva, { useVoz, SelloEstampa } from "./OndaViva.jsx";
+import "../../styles/pronunciacion-v2.css";
 
 // Normaliza: minúsculas, sin tildes (salvo ñ), sin puntuación.
 function norm(t) {
@@ -55,7 +56,11 @@ function matches(kind, transcript, target) {
   return found / tw.length >= 0.7;
 }
 
-export default function PracticePlayer({ item, familia, onClose }) {
+export default function PracticePlayer({ item, familia, onClose, onTerminar, color = "#c8102e" }) {
+  const { nivel: nivelVoz, hablar: speak } = useVoz();
+  const [voz, setVoz] = React.useState(0);
+  const [analizador, setAnalizador] = React.useState(null);
+  const audioCtx = React.useRef(null);
   const steps = React.useMemo(() => {
     const raw = [];
     raw.push({ kind: "silaba", es: item.s, zh: familia.consejoZh, label: "Sílaba · 音节" });
@@ -128,6 +133,17 @@ export default function PracticePlayer({ item, familia, onClose }) {
     };
   }, [index, ended]);
 
+  React.useEffect(() => () => { try { audioCtx.current?.close(); } catch (e) {} }, []);
+
+  // Al terminar, avisa del resultado (para sellar la sílaba como dominada)
+  const avisado = React.useRef(false);
+  React.useEffect(() => {
+    if (!ended) { avisado.current = false; return; }
+    if (avisado.current) return;
+    avisado.current = true;
+    onTerminar?.(results.filter((r) => r === true).length, steps.length);
+  }, [ended]);
+
   // Revoca blob URLs.
   React.useEffect(() => {
     return () => { if (audioUrl) URL.revokeObjectURL(audioUrl); };
@@ -151,6 +167,10 @@ export default function PracticePlayer({ item, familia, onClose }) {
       rec.maxAlternatives = 5;
       rec.continuous = false;
       setPhase("listening");
+      setVoz(0.25);
+      rec.onsoundstart = () => setVoz(0.6);
+      rec.onspeechstart = () => setVoz(1);
+      rec.onspeechend = () => setVoz(0.3);
       rec.onresult = (ev) => {
         const res = ev.results[0];
         const alts = [];
@@ -173,6 +193,7 @@ export default function PracticePlayer({ item, familia, onClose }) {
         }
       };
       rec.onend = () => {
+        setVoz(0);
         setPhase((p) => (p === "listening" ? "idle" : p));
         recRef.current = null;
       };
@@ -205,9 +226,21 @@ export default function PracticePlayer({ item, familia, onClose }) {
         if (audioUrl) URL.revokeObjectURL(audioUrl);
         setAudioUrl(URL.createObjectURL(blob));
         if (streamRef.current) { streamRef.current.getTracks().forEach((t) => t.stop()); streamRef.current = null; }
+        setAnalizador(null);
       };
       mr.start();
       setRecording(true);
+      try {
+        const Contexto = window.AudioContext || window.webkitAudioContext;
+        if (Contexto) {
+          if (!audioCtx.current) audioCtx.current = new Contexto();
+          audioCtx.current.resume?.();
+          const nodo = audioCtx.current.createAnalyser();
+          nodo.fftSize = 1024;
+          audioCtx.current.createMediaStreamSource(stream).connect(nodo);
+          setAnalizador(nodo);
+        }
+      } catch (e) {}
     } catch (e) {
       // getUserMedia falla: solo autoevaluación
       setRecording(false);
@@ -219,11 +252,17 @@ export default function PracticePlayer({ item, familia, onClose }) {
       try { mediaRef.current.stop(); } catch (e) {}
     }
     setRecording(false);
+    setAnalizador(null);
   };
 
   const playRecording = () => {
     if (!audioUrl) return;
-    try { new Audio(audioUrl).play(); } catch (e) {}
+    try {
+      const audio = new Audio(audioUrl);
+      setVoz(0.8);
+      audio.onended = () => setVoz(0);
+      audio.play().catch(() => setVoz(0));
+    } catch (e) {}
   };
 
   const goNext = () => {
@@ -250,14 +289,17 @@ export default function PracticePlayer({ item, familia, onClose }) {
     const title = ratio0 >= 0.7 ? "¡Sílaba dominada! · 音节掌握！" : "¡Buen trabajo! · 做得好！";
     return (
       <div className="pp-overlay" role="dialog" aria-modal="true" onClick={onClose}>
-        <div className="pp-card" onClick={(e) => e.stopPropagation()}>
+        <div className="pp-card pv-pp" style={{ "--sala": color }} onClick={(e) => e.stopPropagation()}>
           <div className="pp-top">
             <button className="pp-close" aria-label="Cerrar · 关闭" onClick={onClose}><XIcon /></button>
             <div className="pp-bar"><i className="pp-bar-fill" style={{ width: pct + "%" }} /></div>
             <span className="pp-count">{total}/{total}</span>
           </div>
           <div className="pp-end">
-            <img className="jd-pp-mono" src={`./mono/${stars === 3 ? "trofeo" : "feliz"}.png`} alt="" />
+            <div className="pv-pp__final">
+              <img className="jd-pp-mono" src={`./mono/${stars === 3 ? "trofeo" : "feliz"}.png`} alt="" />
+              {ratio0 >= 0.7 && <SelloEstampa texto="印" sub="dominada · 掌握" className="pv-pp__sello-final" />}
+            </div>
             <h2>{title}</h2>
             <div className="pp-stars">
               {[0, 1, 2].map((i) => (
@@ -281,7 +323,7 @@ export default function PracticePlayer({ item, familia, onClose }) {
 
   return (
     <div className="pp-overlay" role="dialog" aria-modal="true" onClick={onClose}>
-      <div className="pp-card" onClick={(e) => e.stopPropagation()}>
+      <div className="pp-card pv-pp" style={{ "--sala": color }} onClick={(e) => e.stopPropagation()}>
         <div className="pp-top">
           <button className="pp-close" aria-label="Cerrar · 关闭" onClick={onClose}><XIcon /></button>
           <div className="pp-bar"><i className="pp-bar-fill" style={{ width: pct + "%" }} /></div>
@@ -289,12 +331,22 @@ export default function PracticePlayer({ item, familia, onClose }) {
         </div>
 
         <div className="pp-kind">{step.label}</div>
-        <div className={"pp-target " + step.kind}>{step.es}</div>
+        <div key={index} className={"pp-target pv-pp__objetivo " + step.kind + (phase === "ok" ? " is-ok" : phase === "bad" ? " is-mal" : "")}>
+          {step.es}
+          {phase === "ok" && <SelloEstampa texto="好" sub="¡Bien!" className="pv-pp__sello" />}
+        </div>
         <div className="pp-zh">{step.zh}</div>
 
         <div className="pp-listen">
           <button className="pp-btn-sound" onClick={() => speak(step.es, 0.85)}><Volume2Icon size={18} /> Escuchar · 听</button>
           <button className="pp-btn-sound slow" onClick={() => speak(step.es, 0.55)}><Volume1Icon size={18} /> Lento · 慢速</button>
+        </div>
+
+        <div className={"pv-pp__onda" + (phase === "listening" || recording ? " is-escucha" : nivelVoz > 0 || voz > 0 ? " is-viva" : "")}>
+          <OndaViva nivel={phase === "listening" ? Math.max(voz, 0.15) : Math.max(nivelVoz, voz)} analizador={recording ? analizador : null} color={color} alto={70} />
+          <span>
+            {phase === "listening" || recording ? "Tu voz · 你的声音" : nivelVoz > 0 ? "Escucha · 听" : voz > 0 ? "Tu grabación · 你的录音" : ""}
+          </span>
         </div>
 
         {mode === "speech" ? (
@@ -305,9 +357,7 @@ export default function PracticePlayer({ item, familia, onClose }) {
             <div className="pp-mic-hint">
               {phase === "listening" ? "Te escucho… · 正在听…" : "Pulsa y di la palabra · 点击并说出来"}
             </div>
-            {phase === "listening" && (
-              <div className="pp-wave"><i /><i /><i /><i /><i /></div>
-            )}
+
           </div>
         ) : (
           <div className="pp-self">
