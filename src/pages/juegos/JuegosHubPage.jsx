@@ -18,9 +18,6 @@ import {
   NetworkIcon,
   DramaIcon,
   KeyRoundIcon,
-  LayersIcon,
-  MoveIcon,
-  HighlighterIcon,
 } from "lucide-react";
 import * as React from "react";
 import { Link, useNavigate } from "react-router";
@@ -28,7 +25,7 @@ import { LightShell } from "../../components/layout/LightShell.jsx";
 
 // Los juegos de la app (el resto se retiró para quedarnos solo con los mejores).
 // `gradient` e `icon` los usa también la pestaña de juegos de cada unidad (UnitPage).
-export const READY_GAMES = new Set(["/juegos/kahoot", "/juegos/memory", "/juegos/ruleta", "/juegos/uno", "/juegos/scramble", "/juegos/sopa", "/juegos/ahorcado", "/juegos/apalabrados", "/juegos/mapa-mental", "/juegos/teatro", "/juegos/dragon-jade", "/juegos/escape-palacio", "/juegos/h5p/tarjetas", "/juegos/h5p/arrastrar", "/juegos/h5p/marcar"]);
+export const READY_GAMES = new Set(["/juegos/kahoot", "/juegos/memory", "/juegos/ruleta", "/juegos/uno", "/juegos/scramble", "/juegos/sopa", "/juegos/ahorcado", "/juegos/apalabrados", "/juegos/mapa-mental", "/juegos/teatro", "/juegos/dragon-jade", "/juegos/escape-palacio"]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
 const TONOS = {
@@ -245,55 +242,6 @@ const JUEGOS = [
     jugadores: "1",
     path: "/juegos/escape-palacio",
   },
-  // v21 · Actividades H5P (código abierto, MIT) generadas con el vocabulario y los diálogos de la unidad
-  {
-    id: "h5p-tarjetas",
-    name: "Tarjetas con voz",
-    nameCn: "有声单词卡",
-    desc: "Gira las tarjetas, escucha al profesor y repite las que fallas hasta dominarlas.",
-    descCn: "翻卡听发音，答错的卡片会反复出现，直到你掌握为止。",
-    icon: LayersIcon,
-    sello: "卡",
-    tono: "jade",
-    category: "letras",
-    habilidad: { es: "Vocabulario y escucha", zh: "词汇与听力" },
-    nivel: 1,
-    minutos: 5,
-    jugadores: "1",
-    path: "/juegos/h5p/tarjetas",
-  },
-  {
-    id: "h5p-arrastrar",
-    name: "Completa el diálogo",
-    nameCn: "拖词补全对话",
-    desc: "Arrastra las palabras de la unidad a los huecos de sus diálogos, con pista en chino.",
-    descCn: "把单元单词拖进对话的空格，每个空格都有中文提示。",
-    icon: MoveIcon,
-    sello: "补",
-    tono: "noche",
-    category: "letras",
-    habilidad: { es: "Vocabulario en contexto", zh: "语境词汇" },
-    nivel: 2,
-    minutos: 5,
-    jugadores: "1",
-    path: "/juegos/h5p/arrastrar",
-  },
-  {
-    id: "h5p-marcar",
-    name: "Caza de palabras",
-    nameCn: "找出单词",
-    desc: "Lee el diálogo y marca las palabras que significan lo que pide la lista en chino.",
-    descCn: "阅读对话，点出与中文意思对应的西班牙语单词。",
-    icon: HighlighterIcon,
-    sello: "找",
-    tono: "bronce",
-    category: "letras",
-    habilidad: { es: "Lectura", zh: "阅读" },
-    nivel: 2,
-    minutos: 4,
-    jugadores: "1",
-    path: "/juegos/h5p/marcar",
-  },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 
 const GAMES = JUEGOS.filter((game) => READY_GAMES.has(game.path));
@@ -427,8 +375,8 @@ function JuegosHubPage() {
             </h1>
             <div className="jd-hero__zh">边玩边学西班牙语</div>
             <p className="jd-hero__desc">
-              {GAMES.length} juegos con las palabras de tus unidades: elige una unidad dentro de cada juego y repasa sin darte cuenta.
-              <span>{GAMES.length}个游戏，用你学过的单元词汇，玩着玩着就复习好了。</span>
+              Ocho juegos con las palabras de tus unidades: elige una unidad dentro de cada juego y repasa sin darte cuenta.
+              <span>八个游戏，用你学过的单元词汇，玩着玩着就复习好了。</span>
             </p>
             <div className="jd-hero__acciones">
               <button type="button" className="jd-btn-oro" onClick={partidaRapida}>
