@@ -50,6 +50,7 @@ const DragonJadePage = React.lazy(() => import("./pages/juegos/DragonJadePage.js
 const EscapePalacioPage = React.lazy(() => import("./pages/juegos/EscapePalacioPage.jsx"));
 const MapaMentalPage = React.lazy(() => import("./pages/juegos/MapaMentalPage.jsx"));
 const TeatroDialogosPage = React.lazy(() => import("./pages/juegos/TeatroDialogosPage.jsx"));
+const H5PJuegoPage = React.lazy(() => import("./pages/juegos/H5PJuegoPage.jsx"));
 const ExamGeneratorPage = React.lazy(() => import("./pages/ExamGeneratorPage.jsx"));
 const RutaPage = React.lazy(SECCIONES["/ruta"]);
 
@@ -480,6 +481,7 @@ function AppRoutes() {
           />
           <Route path="/juegos/mapa-mental" element={<RequireAuth><MapaMentalPage /></RequireAuth>} />
           <Route path="/juegos/teatro" element={<RequireAuth><TeatroDialogosPage /></RequireAuth>} />
+          <Route path="/juegos/h5p/:tipo" element={<RequireAuth><H5PJuegoPage /></RequireAuth>} />
           <Route path="/clases" element={<Navigate to="/dashboard" replace />} />
           <Route path="/clase" element={<ClasePage />} />
           <Route path="/promo" element={<PromoPage />} />

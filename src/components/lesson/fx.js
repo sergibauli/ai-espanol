@@ -48,6 +48,11 @@ function fnv(t) {
   return h.toString(16).padStart(8, "0");
 }
 let current = null;
+// URL del MP3 grabado con la voz del profesor para un texto, o null si no existe (lo usan los juegos H5P)
+export function audioGrabado(text) {
+  const key = fnv(String(text || "").trim());
+  return AUDIO.has(key) ? `./audio/${key}.mp3` : null;
+}
 
 // voice: "m" (voz del profesor) o "f" (voz femenina para Lucía, Mei y Carmen)
 // Voz de Fish generada al momento a través del Worker (textos nuevos, p. ej. el entrevistador); si no hay Worker, voz normal
