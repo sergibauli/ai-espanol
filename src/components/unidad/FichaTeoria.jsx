@@ -151,6 +151,30 @@ function Bloque({ b, z, capitular }) {
   );
 }
 
+// Los bloques de la ficha aparecen uno a uno al entrar en pantalla (sin JS o con «reducir movimiento» se ven tal cual)
+function useRevelar(ref, clave) {
+  React.useEffect(() => {
+    const raiz = ref.current;
+    if (!raiz || typeof IntersectionObserver === "undefined" || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const piezas = raiz.querySelectorAll(".ud-ficha-cuerpo > *, .ud-ejemplo, .ud-escucha");
+    raiz.classList.add("v27-revela");
+    let n = 0;
+    const ojo = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) {
+          if (!e.isIntersecting) continue;
+          e.target.style.setProperty("--v27-d", `${(n++ % 6) * 70}ms`);
+          e.target.classList.add("v27-in");
+          ojo.unobserve(e.target);
+        }
+      },
+      { rootMargin: "0px 0px -6% 0px" },
+    );
+    piezas.forEach((el) => ojo.observe(el));
+    return () => ojo.disconnect();
+  }, [ref, clave]);
+}
+
 // `teoria` = puntos de la clase abierta; `todas` = los de la unidad (para leer las marcas «Visto» antiguas, que eran posiciones)
 export function FichaTeoria({ teoria, todas = teoria, numero }) {
   const [sel, setSel] = React.useState(0);
@@ -165,6 +189,8 @@ export function FichaTeoria({ teoria, todas = teoria, numero }) {
     }
   });
   const t = teoria[sel];
+  const refFicha = React.useRef(null);
+  useRevelar(refFicha, `${sel}-${t?.id}`);
   const bloques = React.useMemo(() => (t ? emparejar(analizarTeoria(t.descripcion), analizarTeoria(t.descripcionChino)) : []), [t]);
   if (!t) return null;
   const idDe = (i) => teoria[i]?.id ?? i;
@@ -207,7 +233,7 @@ export function FichaTeoria({ teoria, todas = teoria, numero }) {
         </nav>
       )}
 
-      <article className="ud-ficha" id="ud-ficha" key={`ficha-${idDe(sel)}`} style={{ "--dir": dir }}>
+      <article ref={refFicha} className="ud-ficha" id="ud-ficha" key={`ficha-${idDe(sel)}`} style={{ "--dir": dir }}>
         <span className="ud-rodillo arriba" aria-hidden="true" />
         <Esquinas />
         <span className="ud-ficha-marca" aria-hidden="true" translate="no">

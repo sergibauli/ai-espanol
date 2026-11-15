@@ -1,0 +1,184 @@
+/* ===== v27 · Dentro de la unidad: Guía con letra grande y bloques que aparecen; salas de Práctica y Examen espectaculares ===== */
+
+/* ---------- Guía: más grande y legible ---------- */
+.ud .ud-guia { grid-template-columns: 210px minmax(0, 1fr); }
+.ud .ud-ficha-cuerpo { gap: 16px; font-size: 19px; line-height: 1.7; }
+.ud .ud-ficha-h3 { font-size: clamp(30px, 3.8vw, 42px); background: linear-gradient(100deg, #4e0410 0%, #8f0c21 35%, #c8961e 50%, #8f0c21 65%, #4e0410 100%); background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: v27Oro 6s 0.6s ease-in-out infinite; }
+.ud .ud-ficha-zh { font-size: 21px; }
+.ud .ud-h1 { margin-top: 18px; padding: 10px 18px; font-size: 18px; position: relative; overflow: hidden; }
+.ud .ud-h1::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 35%, rgba(255, 240, 190, 0.5) 50%, transparent 65%); background-size: 300% 100%; animation: v27Barrido 5s 1s ease-in-out infinite; pointer-events: none; }
+.ud .ud-h2 { font-size: 18px; }
+.ud .ud-h1 .ud-h-in::before { font-size: 13px; }
+.ud .ud-par { padding: 10px 14px 10px 8px; gap: 14px; transition: transform 0.25s cubic-bezier(0.2, 1.3, 0.4, 1), box-shadow 0.25s, background 0.25s; }
+.ud .ud-par:hover { transform: translateX(6px); background: #fffaf0; box-shadow: inset 4px 0 0 var(--laca), inset 0 0 0 1px var(--oro), 0 6px 14px rgba(80, 50, 15, 0.12); }
+.ud .ud-par b { min-width: 52px; padding: 6px 12px; font-size: 18px; }
+.ud .ud-punto-in { padding: 10px 14px 10px 36px; }
+.ud .ud-punto-in::before { top: 1.15em; width: 10px; height: 10px; }
+.ud .ud-lista.ordenada .ud-punto-in { padding-left: 48px; }
+.ud .ud-punto-n { top: 10px; width: 28px; height: 28px; font-size: 14px; }
+.ud .ud-punto { transition: transform 0.25s cubic-bezier(0.2, 1.3, 0.4, 1), background 0.25s; }
+.ud .ud-punto:hover { transform: translateX(5px); background: rgba(255, 250, 235, 0.95); }
+.ud .ud-sub li { font-size: 16.5px; padding: 4px 12px; }
+.ud .ud-tabla { font-size: 17.5px; }
+.ud .ud-tabla thead th, .ud .ud-tabla tbody th, .ud .ud-tabla td { padding: 11px 14px; }
+.ud .ud-tabla tbody tr { transition: background 0.2s; }
+.ud .ud-tabla tbody tr:hover td { background: #fff4d4; }
+.ud .ud-tablilla { padding: 18px 20px 16px 74px; font-size: 18px; }
+.ud .ud-tablilla-sello { transform: scale(1.2); transform-origin: left top; }
+.ud .ud-tablilla.error { animation: none; }
+.ud .ud-ejemplos { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.ud .ud-ejemplos-tit { font-size: 14px; }
+.ud .ud-ejemplo { padding: 14px 18px 14px 12px; gap: 14px; }
+.ud .ud-ejemplo-play { width: 50px; height: 50px; position: relative; }
+.ud .ud-ejemplo-play::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--oro); opacity: 0; }
+.ud .ud-ejemplo:hover .ud-ejemplo-play::after { animation: v27Onda 1.2s ease-out infinite; }
+.ud .ud-ejemplo-txt b { font-size: 19px; }
+.ud .ud-ejemplo-txt small { font-size: 16px; }
+.ud .ud-escucha-btn { font-size: 16px; padding: 7px 14px; }
+
+/* Aparición de cada bloque al entrar en pantalla (la clase la pone FichaTeoria; sin ella todo se ve normal) */
+.ud .v27-revela :is(.ud-ficha-cuerpo > *, .ud-ejemplo, .ud-escucha) { opacity: 0; transform: translateY(22px); }
+.ud .v27-revela :is(.ud-ficha-cuerpo > *, .ud-ejemplo, .ud-escucha).v27-in { opacity: 1; transform: none; transition: opacity 0.6s var(--v27-d, 0ms) ease, transform 0.7s var(--v27-d, 0ms) cubic-bezier(0.2, 1.2, 0.3, 1); }
+.ud .v27-revela .ud-h1.v27-in { animation: v27Cinta 0.8s var(--v27-d, 0ms) cubic-bezier(0.2, 1, 0.3, 1) both; }
+.ud .v27-revela .ud-tablilla.v27-in .ud-tablilla-sello { animation: v27Estampa 0.6s calc(var(--v27-d, 0ms) + 0.25s) cubic-bezier(0.2, 1.6, 0.4, 1) both; }
+.ud .v27-revela .ud-tablilla.error.v27-in { animation: v27Sacude 0.5s calc(var(--v27-d, 0ms) + 0.7s) ease both; }
+
+/* ---------- Salas (cabecera de Práctica y Examen) ---------- */
+.v27-sala { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: center; min-height: 190px; margin: 6px 0 18px; padding: 24px 28px 24px 200px; border-radius: 22px; color: #fff8e1;
+  background: radial-gradient(120% 140% at 12% 100%, #f2c14e55, transparent 50%), linear-gradient(135deg, #b0122a, #6e0717 70%, #3d030c);
+  box-shadow: 0 0 0 2px #f2c14e, 0 0 0 5px rgba(60, 0, 0, 0.35), 0 20px 40px -16px rgba(40, 0, 0, 0.7); animation: v27Sala 0.8s cubic-bezier(0.2, 1, 0.3, 1) both; }
+.v27-sala.examen { background: radial-gradient(120% 140% at 12% 100%, #f2c14e55, transparent 50%), linear-gradient(135deg, #3b1f6e, #1e1040 65%, #0c0720); }
+.v27-sala::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(105deg, transparent 40%, rgba(255, 240, 200, 0.22) 50%, transparent 60%); background-size: 300% 100%; animation: v27Barrido 6s 1s ease-in-out infinite; }
+.v27-sala__glifo { position: absolute; right: 3%; top: 50%; z-index: -1; transform: translateY(-50%); font: 700 230px/1 "STKaiti", "KaiTi", "Kaiti SC", serif; color: rgba(255, 236, 190, 0.1); animation: v27Glifo 1.4s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.v27-sala__rayos { position: absolute; left: -10%; top: -60%; width: 60%; aspect-ratio: 1; z-index: -1; opacity: 0.5; mix-blend-mode: screen;
+  background: repeating-conic-gradient(rgba(255, 236, 170, 0.25) 0 5deg, transparent 5deg 16deg); -webkit-mask: radial-gradient(circle, #000, transparent 65%); mask: radial-gradient(circle, #000, transparent 65%); animation: v27Gira 50s linear infinite; }
+.v27-sala__mono { position: absolute; left: 34px; bottom: -14px; width: 130px; height: auto; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 18px rgba(242, 193, 78, 0.45));
+  animation: v27MonoEntra 0.9s 0.2s cubic-bezier(0.2, 1.4, 0.4, 1) both, v27Flota 4s 1.2s ease-in-out infinite; }
+.v27-sala__txt { position: relative; max-width: 640px; }
+.v27-sala__txt small { display: block; font: 800 12.5px var(--ui-font, system-ui); letter-spacing: 0.2em; text-transform: uppercase; color: #f2c14e; }
+.v27-sala__txt h2 { margin: 6px 0 0; font: 700 clamp(30px, 4vw, 44px)/1.05 var(--f-display, "Cinzel", serif); color: #fff3d0; text-shadow: 0 3px 0 rgba(0, 0, 0, 0.3), 0 0 26px rgba(242, 193, 78, 0.45); }
+.v27-sala__txt h2 span { font-size: 0.75em; color: #ffe9ad; }
+.v27-sala__txt p { margin: 10px 0 0; font: 600 16.5px/1.5 var(--ui-font, system-ui); color: rgba(255, 244, 214, 0.92); }
+.v27-sala__cifra { display: inline-flex; align-items: baseline; gap: 6px; margin-top: 14px; padding: 6px 14px; border-radius: 99px; font: 700 14px var(--ui-font, system-ui); color: #fff3d0; background: rgba(0, 0, 0, 0.25); box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.6); }
+.v27-sala__cifra b { font: 800 22px/1 var(--f-display, serif); color: #f2c14e; }
+
+/* ---------- Práctica: tablillas de tipo de ejercicio ---------- */
+.v27-tipos { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.v27-tipo { position: relative; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 0; border-radius: 18px; cursor: pointer; text-align: left; color: #3b2416;
+  background: linear-gradient(180deg, #fffaf0, #f4e3bd); box-shadow: 0 0 0 1.5px rgba(200, 150, 30, 0.6), 0 4px 0 rgba(184, 138, 51, 0.5);
+  transition: transform 0.3s cubic-bezier(0.2, 1.4, 0.4, 1), box-shadow 0.3s, background 0.3s; animation: v27Carta 0.6s calc(var(--i) * 60ms + 0.2s) cubic-bezier(0.2, 1.2, 0.3, 1) both; }
+.v27-tipo:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 0 0 2px #f2c14e, 0 8px 0 rgba(184, 138, 51, 0.45), 0 16px 28px rgba(80, 40, 10, 0.25); }
+.v27-tipo:focus-visible { outline: 3px solid #c8102e; outline-offset: 3px; }
+.v27-tipo.on { background: linear-gradient(180deg, #fff8e6, #ffe7a8); box-shadow: 0 0 0 2.5px #c8102e, 0 0 0 5px rgba(242, 193, 78, 0.5), 0 5px 0 rgba(143, 12, 33, 0.45); }
+.v27-tipo:not(.on) { filter: saturate(0.6); opacity: 0.85; }
+.v27-tipo__medallon { display: grid; place-items: center; width: 62px; height: 62px; flex: none; border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, #fff, #ffe9b0 45%, #e0a93a); box-shadow: 0 0 0 3px #f6d77e, 0 0 0 5px #8a5a1e, 0 6px 12px rgba(0, 0, 0, 0.25); transition: transform 0.4s cubic-bezier(0.2, 1.6, 0.4, 1); }
+.v27-tipo:hover .v27-tipo__medallon { transform: rotate(-10deg) scale(1.1); }
+.v27-tipo__txt { display: grid; min-width: 0; padding-right: 26px; }
+.v27-tipo__txt b { font: 800 18px/1.2 var(--ui-font, system-ui); }
+.v27-tipo__txt small { font: 600 15px/1.3 "STKaiti", "KaiTi", "Songti SC", serif; color: #8f0c21; }
+.v27-tipo__txt em { margin-top: 3px; font: 700 13px var(--ui-font, system-ui); font-style: normal; color: #8a6a3a; }
+.v27-tipo__sello { position: absolute; right: 10px; top: 10px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 6px; font: 700 17px/1 "STKaiti", "KaiTi", serif; color: #fff3e0;
+  background: #c8102e; box-shadow: inset 0 0 0 1.5px rgba(255, 236, 190, 0.7); transform: rotate(10deg) scale(0); transition: transform 0.35s cubic-bezier(0.2, 1.8, 0.4, 1); }
+.v27-tipo.on .v27-tipo__sello { transform: rotate(10deg) scale(1); }
+.v27-tipo:not(.on) .v27-tipo__sello { background: transparent; box-shadow: inset 0 0 0 2px rgba(138, 106, 58, 0.45); transform: rotate(0) scale(0.8); }
+
+.v27-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0 30px; }
+.v27-gran-btn { position: relative; overflow: hidden; display: flex; align-items: center; gap: 14px; min-height: 76px; padding: 12px 22px 12px 14px; border: 0; border-radius: 20px; cursor: pointer; text-align: left; color: #fff;
+  box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.8), 0 6px 0 rgba(0, 0, 0, 0.3), 0 14px 26px rgba(0, 0, 0, 0.25); transition: transform 0.2s, filter 0.2s; }
+.v27-gran-btn.jade { background: linear-gradient(135deg, var(--c, #2f8f52), var(--d, #1d6339)); }
+.v27-gran-btn.laca { background: linear-gradient(135deg, #e0243e, #8f0c21); }
+.v27-gran-btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.4) 50%, transparent 65%); background-size: 300% 100%; animation: v27Barrido 3.5s ease-in-out infinite; pointer-events: none; }
+.v27-gran-btn:hover:not(:disabled) { transform: translateY(-3px) scale(1.01); filter: brightness(1.08); }
+.v27-gran-btn:active:not(:disabled) { transform: translateY(2px); }
+.v27-gran-btn:disabled { opacity: 0.55; cursor: default; }
+.v27-gran-btn__ico { display: grid; place-items: center; width: 52px; height: 52px; flex: none; border-radius: 50%; font-size: 26px; background: rgba(255, 255, 255, 0.18); box-shadow: inset 0 0 0 2px rgba(255, 243, 196, 0.6); }
+.v27-gran-btn > span:nth-child(2) { flex: 1; display: grid; }
+.v27-gran-btn b { font: 800 20px/1.2 var(--ui-font, system-ui); }
+.v27-gran-btn small { font: 600 15px "STKaiti", "KaiTi", "Songti SC", serif; color: rgba(255, 246, 220, 0.95) !important; }
+.v27-sala__txt small { color: #f2c14e !important; }
+.v27-tipo__txt small { color: #8f0c21 !important; }
+.v27-gran-btn.laca:not(:disabled) .v27-gran-btn__ico { animation: v27Destello 2s ease-in-out infinite; }
+
+/* Juegos de la unidad, más grandes y con vida */
+.ud .unit-games .unit-game { transition: transform 0.3s cubic-bezier(0.2, 1.4, 0.4, 1), box-shadow 0.3s; }
+.ud .unit-games .unit-game:hover { transform: translateY(-5px) rotate(-1deg); }
+.ud .unit-games .unit-game-icon { transition: transform 0.4s cubic-bezier(0.2, 1.6, 0.4, 1); }
+.ud .unit-games .unit-game:hover .unit-game-icon { transform: scale(1.15) rotate(-8deg); }
+.ud .unit-games .unit-game b { font-size: 15.5px; }
+
+/* ---------- Examen: dos puertas grandes ---------- */
+.v27-puertas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; perspective: 900px; }
+.v27-puerta { position: relative; overflow: hidden; isolation: isolate; display: flex; align-items: center; gap: 18px; min-height: 170px; padding: 18px 22px 18px 18px; border: 0; border-radius: 22px; cursor: pointer; text-align: left; color: #3b2416;
+  background: linear-gradient(180deg, #fffaf0, #f3dfb0); box-shadow: 0 0 0 2px #c8961e, 0 0 0 6px rgba(255, 248, 225, 0.7), 0 14px 26px -8px rgba(40, 0, 0, 0.5);
+  transition: transform 0.35s cubic-bezier(0.2, 1.3, 0.4, 1), box-shadow 0.3s; animation: v27Carta 0.7s calc(var(--i) * 120ms + 0.25s) cubic-bezier(0.2, 1.2, 0.3, 1) both; }
+.v27-puerta:hover { transform: translateY(-6px) rotateX(4deg); box-shadow: 0 0 0 2.5px #f2c14e, 0 0 0 7px rgba(255, 248, 225, 0.9), 0 0 30px rgba(242, 193, 78, 0.55), 0 22px 34px -10px rgba(40, 0, 0, 0.6); }
+.v27-puerta:focus-visible { outline: 3px solid #c8102e; outline-offset: 4px; }
+.v27-puerta.on { box-shadow: 0 0 0 3px #c8102e, 0 0 0 7px rgba(242, 193, 78, 0.6), 0 14px 26px -8px rgba(40, 0, 0, 0.5); }
+.v27-puerta__arco { position: relative; display: grid; place-items: center; width: 120px; height: 134px; flex: none; border-radius: 60px 60px 14px 14px;
+  background: radial-gradient(circle at 50% 35%, #fff6d8, #f2c14e 55%, #b8811f); box-shadow: inset 0 0 0 3px #fff3c4, inset 0 0 0 6px #8f0c21, 0 8px 16px rgba(0, 0, 0, 0.25); }
+.v27-puerta.examen .v27-puerta__arco { background: radial-gradient(circle at 50% 35%, #f1e6ff, #a78bfa 55%, #4c1d95); }
+.v27-puerta__arco img, .v27-puerta__arco > span:last-child { animation: v27Flota 3.6s ease-in-out infinite; filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.3)); }
+.v27-puerta__sello { position: absolute; right: -8px; top: -6px; z-index: 1; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 8px; transform: rotate(10deg);
+  font: 700 21px/1 "STKaiti", "KaiTi", serif; color: #fff3e0; background: #c8102e; box-shadow: inset 0 0 0 2px rgba(255, 236, 190, 0.7), 0 3px 8px rgba(0, 0, 0, 0.35); }
+.v27-puerta__txt { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.v27-puerta__txt b { font: 700 23px/1.15 var(--f-display, "Cinzel", serif); color: #6e0717; }
+.v27-puerta__txt small { font: 600 17px/1.3 "STKaiti", "KaiTi", "Songti SC", serif; color: #8f0c21; }
+.v27-puerta__txt span { margin-top: 4px; font: 600 15px/1.45 var(--ui-font, system-ui); color: #6b4a2b; }
+.v27-puerta__cta { position: absolute; right: 16px; bottom: 14px; padding: 6px 14px; border-radius: 99px; font: 800 13px var(--ui-font, system-ui); color: #fff3d6; background: linear-gradient(180deg, #c42135, #8f0c21); box-shadow: inset 0 0 0 1.5px #f2c14e; }
+.v27-brillo { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.55) 48%, transparent 60%); background-size: 250% 100%; background-position: 120% 0; opacity: 0; }
+.v27-puerta:hover .v27-brillo { opacity: 1; animation: v27Reflejo 0.9s ease-out both; }
+
+/* ---------- Animaciones ---------- */
+@keyframes v27Oro { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+@keyframes v27Barrido { 0% { background-position: 150% 0; } 45%, 100% { background-position: -50% 0; } }
+@keyframes v27Onda { from { opacity: 0.9; transform: scale(0.9); } to { opacity: 0; transform: scale(1.5); } }
+@keyframes v27Cinta { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+@keyframes v27Estampa { 0% { opacity: 0; transform: scale(2.6) rotate(-20deg); } 70% { opacity: 1; } 100% { transform: scale(1.2); } }
+@keyframes v27Sacude { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+@keyframes v27Sala { from { opacity: 0; transform: translateY(18px) scale(0.98); } }
+@keyframes v27Glifo { from { opacity: 0; transform: translateY(-50%) scale(1.5) rotate(-8deg); filter: blur(8px); } }
+@keyframes v27Gira { to { transform: rotate(1turn); } }
+@keyframes v27MonoEntra { from { opacity: 0; transform: translateY(60px) scale(0.6) rotate(-10deg); } }
+@keyframes v27Flota { 50% { transform: translateY(-7px); } }
+@keyframes v27Carta { from { opacity: 0; transform: translateY(30px) rotateX(20deg) scale(0.92); } }
+@keyframes v27Destello { 50% { box-shadow: inset 0 0 0 2px rgba(255, 243, 196, 0.9), 0 0 18px rgba(255, 236, 170, 0.9); } }
+@keyframes v27Reflejo { from { background-position: 120% 0; } to { background-position: -40% 0; } }
+
+/* ---------- Móvil ---------- */
+@media (max-width: 760px) {
+  .ud .ud-guia { grid-template-columns: minmax(0, 1fr); }
+  .ud .ud-ficha-cuerpo { font-size: 17.5px; line-height: 1.65; }
+  .ud .ud-ficha-h3 { font-size: 28px; }
+  .ud .ud-ficha-zh { font-size: 18px; }
+  .ud .ud-h1 { font-size: 16.5px; }
+  .ud .ud-par b { font-size: 16.5px; }
+  .ud .ud-tabla { font-size: 15.5px; }
+  .ud .ud-tablilla { padding-left: 64px; font-size: 16.5px; }
+  .ud .ud-ejemplos { grid-template-columns: minmax(0, 1fr); }
+  .ud .ud-ejemplo-txt b { font-size: 17.5px; }
+  .v27-sala { min-height: 0; padding: 18px 16px 18px 108px; border-radius: 18px; }
+  .v27-sala__mono { left: 8px; width: 92px; bottom: -8px; }
+  .v27-sala__glifo { font-size: 150px; right: -4%; }
+  .v27-sala__txt h2 { font-size: 26px; }
+  .v27-sala__txt p { font-size: 14px; }
+  .v27-sala__cifra { font-size: 12px; white-space: nowrap; padding: 5px 10px; }
+  .v27-sala__cifra b { font-size: 18px; }
+  .v27-sala__txt small { font-size: 10.5px; letter-spacing: 0.12em; }
+  .v27-tipos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .v27-tipo { flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 14px 8px 12px; }
+  .v27-tipo__medallon { width: 54px; height: 54px; }
+  .v27-tipo__txt b { font-size: 16px; }
+  .v27-tipo__txt { padding-right: 0; }
+  .v27-acciones, .v27-puertas { grid-template-columns: minmax(0, 1fr); }
+  .v27-gran-btn { min-height: 66px; }
+  .v27-gran-btn b { font-size: 18px; }
+  .v27-puerta { min-height: 0; padding: 16px 14px 52px; gap: 14px; }
+  .v27-puerta__arco { width: 92px; height: 108px; }
+  .v27-puerta__txt b { font-size: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v27-sala, .v27-sala *, .v27-sala::after, .v27-tipo, .v27-gran-btn::after, .v27-gran-btn__ico, .v27-puerta, .v27-puerta *, .ud .ud-ficha-h3, .ud .ud-h1::after { animation: none !important; transition: none !important; }
+}

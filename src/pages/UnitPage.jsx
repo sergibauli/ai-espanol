@@ -3,6 +3,7 @@ import "../styles/v23-unidad.css";
 import "../styles/v24-unidad-espectacular.css";
 import "../styles/v25-unidad-ceremonia.css";
 import "../styles/v26-unidad-portada.css";
+import "../styles/v27-unidad-salas.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
@@ -443,28 +444,55 @@ export default function UnitPage() {
 
         {pestana === "practica" && mod && (
           <>
-            <h2 className="unit-h2" id="u-ejercicios">Ejercicios <small>(elige los tipos; cambian de orden en cada intento)</small></h2>
-            <div className="unit-practice">
-              <div className="unit-practice-types">
-                {PRACTICE_TYPES.filter((tipo) => (mod.ejercicios?.[tipo.key] || []).length).map((tipo) => {
-                  const on = types.includes(tipo.key);
-                  return (
-                    <button key={tipo.key} className={`unit-ptype ${on ? "on" : ""}`} style={{ "--c": c1 }} onClick={() => setTypes((lista) => (on ? lista.filter((x) => x !== tipo.key) : [...lista, tipo.key]))}>
-                      <Emoji3D emoji={tipo.emoji} size={30} />
-                      <span>
-                        {tipo.es}
-                        <small>{(mod.ejercicios?.[tipo.key] || []).length} ejercicios</small>
-                      </span>
-                    </button>
-                  );
-                })}
+            <section className="v27-sala practica" aria-labelledby="u-ejercicios">
+              <span className="v27-sala__glifo" aria-hidden="true" translate="no">练</span>
+              <span className="v27-sala__rayos" aria-hidden="true" />
+              <img className="v27-sala__mono" src="./mono/poder.png" alt="" draggable="false" />
+              <div className="v27-sala__txt">
+                <small>Sala de entrenamiento · <span lang="zh">练功房</span></small>
+                <h2 id="u-ejercicios">
+                  Ejercicios <span lang="zh">练习</span>
+                </h2>
+                <p>
+                  Elige los tipos que quieras: cambian de orden en cada intento · <span lang="zh">选择题型，每次顺序都不同</span>
+                </p>
+                <span className="v27-sala__cifra">
+                  <b>{types.reduce((n, k) => n + (mod.ejercicios?.[k] || []).length, 0)}</b> ejercicios elegidos · <span lang="zh">已选题目</span>
+                </span>
               </div>
-              <button className="btn3d unit-practice-go" style={{ "--c": c1, "--d": c2 }} disabled={!types.length} onClick={() => setLesson(buildPractice(mod, types))}>
-                💪 Practicar ahora
+            </section>
+            <div className="v27-tipos" role="group" aria-label="Tipos de ejercicio · 题型">
+              {PRACTICE_TYPES.filter((tipo) => (mod.ejercicios?.[tipo.key] || []).length).map((tipo, i) => {
+                const on = types.includes(tipo.key);
+                return (
+                  <button key={tipo.key} type="button" aria-pressed={on} className={`v27-tipo ${on ? "on" : ""}`} style={{ "--c": c1, "--i": i }} onClick={() => setTypes((lista) => (on ? lista.filter((x) => x !== tipo.key) : [...lista, tipo.key]))}>
+                    <span className="v27-tipo__medallon">
+                      <Emoji3D emoji={tipo.emoji} size={40} />
+                    </span>
+                    <span className="v27-tipo__txt">
+                      <b>{tipo.es}</b>
+                      <small lang="zh">{tipo.zh}</small>
+                      <em>{(mod.ejercicios?.[tipo.key] || []).length} ejercicios</em>
+                    </span>
+                    <span className="v27-tipo__sello" aria-hidden="true" translate="no">
+                      {on ? "选" : ""}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="v27-acciones">
+              <button type="button" className="v27-gran-btn jade" style={{ "--c": c1, "--d": c2 }} disabled={!types.length} onClick={() => setLesson(buildPractice(mod, types))}>
+                <span className="v27-gran-btn__ico" aria-hidden="true">💪</span>
+                <span>
+                  <b>Practicar ahora</b>
+                  <small lang="zh">开始练习</small>
+                </span>
+                <PlayIcon size={20} fill="currentColor" />
               </button>
               <button
-                className="btn3d unit-practice-go unit-reto"
-                style={{ "--c": "#c8102e", "--d": "#8f0c21" }}
+                type="button"
+                className="v27-gran-btn laca"
                 disabled={reto}
                 onClick={async () => {
                   setReto(true);
@@ -473,7 +501,12 @@ export default function UnitPage() {
                   setLesson(retoNuevo);
                 }}
               >
-                {reto ? "Creando preguntas…" : "✨ Reto nuevo con IA"}
+                <span className="v27-gran-btn__ico" aria-hidden="true">✨</span>
+                <span>
+                  <b>{reto ? "Creando preguntas…" : "Reto nuevo con IA"}</b>
+                  <small lang="zh">{reto ? "正在出题…" : "AI 新挑战"}</small>
+                </span>
+                <PlayIcon size={20} fill="currentColor" />
               </button>
             </div>
 
@@ -510,18 +543,35 @@ export default function UnitPage() {
 
         {pestana === "examen" && (
           <>
-        <h2 className="ud-seccion-tit" id="u-extra">
-          Examen y lectura · <span lang="zh">考试</span>
-          <small>{varias ? "Examen corto de la clase o examen de toda la unidad" : "Examen del módulo, lectura y errores típicos"}</small>
-        </h2>
-        <div className="unit-more">
+        <section className="v27-sala examen" aria-labelledby="u-extra">
+          <span className="v27-sala__glifo" aria-hidden="true" translate="no">考</span>
+          <span className="v27-sala__rayos" aria-hidden="true" />
+          <img className="v27-sala__mono" src="./mono/trofeo.png" alt="" draggable="false" />
+          <div className="v27-sala__txt">
+            <small>Sala del examen imperial · <span lang="zh">科举考场</span></small>
+            <h2 id="u-extra">
+              Examen y lectura <span lang="zh">考试</span>
+            </h2>
+            <p>{varias ? "Examen corto de la clase o examen de toda la unidad · 本课小测或单元考试" : "Examen del módulo, lectura y errores típicos · 模块考试、阅读与常见错误"}</p>
+          </div>
+        </section>
+        <div className="v27-puertas">
           {[
-            ["descubre", "📖", plus?.lectura ? "Lectura y cultura" : "Frases y errores típicos", plus?.lectura ? "阅读与文化" : "常用句与常见错误"],
-            ["examen", "📝", varias ? "Examen · clase o unidad" : "Examen del módulo", varias ? "本课小测 · 单元考试" : "模块考试"],
-          ].map(([k, e, es, zh]) => (
-            <button key={k} className={`unit-more-card ${extra === k ? "on" : ""}`} style={{ "--c": c1 }} onClick={() => setExtra(extra === k ? null : k)}>
-              <Emoji3D emoji={e} size={52} />
-              <b>{es}</b>
+            ["descubre", "📖", "读", plus?.lectura ? "Lectura y cultura" : "Frases y errores típicos", plus?.lectura ? "阅读与文化" : "常用句与常见错误", plus?.lectura ? "Lee un texto de la unidad y descubre la cultura" : "Las frases clave y los errores que más se repiten"],
+            ["examen", "📝", "考", varias ? "Examen · clase o unidad" : "Examen del módulo", varias ? "本课小测 · 单元考试" : "模块考试", "Ponte a prueba como en el DELE y gana tu sello"],
+          ].map(([k, e, sello, es, zh, desc], i) => (
+            <button key={k} type="button" aria-expanded={extra === k} className={`v27-puerta ${k} ${extra === k ? "on" : ""}`} style={{ "--i": i }} onClick={() => setExtra(extra === k ? null : k)}>
+              <span className="v27-puerta__arco" aria-hidden="true">
+                <span className="v27-puerta__sello" translate="no">{sello}</span>
+                <Emoji3D emoji={e} size={64} />
+              </span>
+              <span className="v27-puerta__txt">
+                <b>{es}</b>
+                <small lang="zh">{zh}</small>
+                <span>{desc}</span>
+              </span>
+              <span className="v27-puerta__cta">{extra === k ? "Cerrar · 收起" : "Abrir · 打开"}</span>
+              <span className="v27-brillo" aria-hidden="true" />
             </button>
           ))}
         </div>
