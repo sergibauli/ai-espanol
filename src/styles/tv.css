@@ -19,6 +19,10 @@
 .tv-farol { position: absolute; top: -18px; width: 22px; height: 30px; border-radius: 9px 9px 7px 7px; background: linear-gradient(180deg, #ffe08a, #e0283f 60%, #8f0c21); box-shadow: 0 0 18px rgba(255, 140, 60, 0.7); animation: tv-mece 3.2s ease-in-out infinite; transform-origin: 50% -10px; z-index: 2; }
 .tv-farol::before { content: ""; position: absolute; left: 50%; top: -10px; width: 2px; height: 10px; background: #c8961e; }
 .tv-farol.izq { left: 24px; } .tv-farol.der { right: 24px; animation-delay: -1.6s; }
+.tv-ia { position: absolute; right: 10px; top: 10px; z-index: 1; padding: 3px 9px; border-radius: 999px; pointer-events: none; font: 700 11px/1.4 var(--im-font-ui, sans-serif); letter-spacing: 0.04em;
+  color: #fff3c4; background: rgba(43, 18, 8, 0.6); border: 1px solid rgba(242, 193, 78, 0.6); }
+.tv-aviso-ia { margin: 8px 0 0; font: 600 12px/1.4 var(--im-font-ui, sans-serif); color: #f2c14e; }
+.tv-aviso-ia span { font-family: STKaiti, KaiTi, serif; }
 .tv-fin { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 16px; text-align: center; color: #fff3d6;
   background: radial-gradient(closest-side, rgba(143, 12, 33, 0.85), rgba(10, 4, 2, 0.88)); animation: tv-entra 0.5s both; }
 .tv-fin p { margin: 0; display: flex; flex-direction: column; font: 800 20px/1.3 var(--im-font-ui, sans-serif); }

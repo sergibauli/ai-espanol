@@ -61,6 +61,9 @@ export default function TvPage() {
             {serie.sinopsis}
             <span lang="zh-Hans">{serie.sinopsisZh}</span>
           </p>
+          <p className="tv-aviso-ia">
+            Serie creada con inteligencia artificial · <span lang="zh-Hans">本剧由人工智能生成</span>
+          </p>
         </div>
       </header>
 
@@ -80,6 +83,7 @@ export default function TvPage() {
               onEnded={alTerminar}
               onPlay={() => setTerminado(false)}
             />
+            <span className="tv-ia" translate="no">Creado con IA · AI生成</span>
             {terminado && (
               <div className="tv-fin">
                 <p>
