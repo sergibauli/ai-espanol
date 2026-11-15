@@ -1,0 +1,51 @@
+/* ===== v21 · Tarjetas de diálogos de la unidad (TarjetasDialogo): mini escenario con los personajes ===== */
+.td-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 18px; margin: 6px 0 10px; }
+.td-card { position: relative; display: flex; flex-direction: column; padding: 0; border: 0; border-radius: 16px; overflow: hidden; cursor: pointer; text-align: left; font: inherit; color: #3b2416;
+  background: url("../../public/theme/papel.jpg") center/360px, #f6e7c8;
+  box-shadow: 0 0 0 2px #c8961e, 0 0 0 5px #8f0c21, 0 0 0 6.5px #f2c14e, 0 14px 26px rgba(60,20,10,.28);
+  transition: transform .35s cubic-bezier(.3,1.4,.5,1), box-shadow .35s; animation: tdSube .6s calc(var(--i, 0) * .09s) cubic-bezier(.3,1.3,.5,1) both; }
+@keyframes tdSube { from { opacity: 0; transform: translateY(26px) scale(.96); } }
+.td-card:hover, .td-card:focus-visible { transform: translateY(-6px); box-shadow: 0 0 0 2px #f2c14e, 0 0 0 5px #8f0c21, 0 0 0 6.5px #f2c14e, 0 0 26px rgba(242,193,78,.55), 0 22px 34px rgba(60,20,10,.35); outline: none; }
+.td-card:active { transform: translateY(-2px) scale(.99); }
+
+/* Mini escenario */
+.td-escena { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #3a0e10 center 35% / cover no-repeat; border-bottom: 3px solid #c8961e; transition: background-size .6s; background-size: 112%; }
+.td-escena::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(transparent 55%, rgba(40,8,8,.55)), radial-gradient(90% 80% at 50% 40%, transparent 55%, rgba(20,4,6,.55)); }
+.td-escena::after { content: ""; position: absolute; inset: 0 0 auto; z-index: 3; height: 14px; pointer-events: none;
+  background: radial-gradient(circle at 50% 0, #8f0c21 0 9px, transparent 10px) 0 0 / 22px 14px repeat-x; filter: drop-shadow(0 2px 0 #f2c14e); }
+.td-card:hover .td-escena { background-size: 122%; }
+.td-pj { position: absolute; z-index: 1; top: 9%; width: auto; max-width: none; user-select: none; pointer-events: none;
+  -webkit-mask-image: linear-gradient(#000 82%, transparent); mask-image: linear-gradient(#000 82%, transparent);
+  filter: drop-shadow(0 6px 8px rgba(30,6,4,.5)); transition: transform .5s cubic-bezier(.3,1.3,.5,1); }
+.td-pj.flip { scale: -1 1; }
+.td-card:hover .td-pj.izq { transform: translateX(4%) rotate(1.5deg); }
+.td-card:hover .td-pj.der { transform: translateX(-4%) rotate(-1.5deg); }
+.td-play { position: absolute; z-index: 4; left: 50%; top: 50%; translate: -50% -50%; display: grid; place-items: center; width: 50px; height: 50px; padding-left: 3px; border-radius: 50%;
+  color: #8f0c21; background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 58%, #a8741e); box-shadow: 0 0 0 2px #5e0614, 0 0 0 3.5px #f2c14e, 0 6px 14px rgba(0,0,0,.5);
+  opacity: .92; scale: .9; transition: scale .35s cubic-bezier(.3,1.6,.5,1), opacity .3s, box-shadow .3s; }
+.td-card:hover .td-play { opacity: 1; scale: 1.08; box-shadow: 0 0 0 2px #5e0614, 0 0 0 3.5px #f2c14e, 0 0 24px rgba(242,193,78,.9), 0 6px 14px rgba(0,0,0,.5); }
+
+/* Sello del acto y estado */
+.td-acto { position: absolute; z-index: 5; top: 18px; left: 12px; padding: 5px 9px 4px; border-radius: 5px; font: 700 15px/1 "STKaiti", "KaiTi", serif; color: #fff3d6; letter-spacing: .08em; white-space: nowrap;
+  background: #b3122e; box-shadow: 0 0 0 1.5px #f2c14e, 0 4px 8px rgba(0,0,0,.4); rotate: -4deg; }
+.td-estado { position: absolute; z-index: 5; top: 18px; right: 12px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 99px; font-size: 11.5px; font-weight: 900; letter-spacing: .03em;
+  color: #5e3a12; background: linear-gradient(#fff6d0, #f2c14e); box-shadow: 0 0 0 1.5px #8a5a1e, 0 3px 8px rgba(0,0,0,.35); }
+.td-estado.on { color: #fff3d6; background: linear-gradient(#2f8a63, #1d6b58); box-shadow: 0 0 0 1.5px #f2c14e, 0 3px 8px rgba(0,0,0,.35); }
+.td-card.visto .td-escena { filter: saturate(.9); }
+
+/* Texto */
+.td-info { display: flex; flex-direction: column; gap: 4px; padding: 13px 16px 15px; }
+.td-titulo { font: 900 clamp(17px, 1.5vw, 20px)/1.2 var(--ui-display, Georgia); color: #2e1c0f; }
+.td-zh { font: 700 15px/1.2 "STKaiti", "KaiTi", serif; color: #8f0c21; letter-spacing: .04em; }
+.td-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; font-size: 12.5px; font-weight: 800; color: #6b4a2b; }
+.td-caras { display: inline-flex; }
+.td-caras img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px #f2c14e, 0 0 0 3px #8f0c21; }
+.td-caras img + img { margin-left: -8px; }
+.td-nombres { color: #3b2416; }
+.td-frases { margin-left: auto; padding: 2px 9px; border-radius: 99px; color: #8f0c21; background: rgba(242,193,78,.25); box-shadow: inset 0 0 0 1px rgba(200,150,30,.55); }
+.td-lugar { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #9a7448; }
+
+@media (prefers-reduced-motion: reduce) {
+  .td-card, .td-pj, .td-play, .td-escena { animation: none !important; transition: none !important; }
+}
