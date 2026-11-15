@@ -17,6 +17,7 @@ App web (PWA) para que estudiantes chinos aprendan español y preparen el DELE A
 - Estilos: `src/styles/app.css` es Tailwind 3 **ya compilado** (no hay config de Tailwind; solo funcionan las clases que ya existen en ese CSS). `src/styles/overrides.css` = ajustes de diseño. `public/overrides.js` = parches DOM heredados (a eliminar).
 - Clases: `src/lib/clases.js` (`clasesDe`, `moduloDeClase(mod, n)` = mismo módulo filtrado a la clase n, `plusDeClase`, `progresoUnidad`). Unidad `#/modulos/modulo-N?clase=K`; progreso por clase en `dele_class_progress` (`modulo-N#cK`); la clase 1 usa los ids de lección de siempre (`mN-lI`), las demás `mN-cK-lI`.
 - Persistencia: progreso en `localStorage` (claves `dele_*`). Campus (clases, deberes, roles) en `src/lib/campus.jsx` → Worker `worker/` (KV + Clerk); sin `VITE_API_URL` va en modo demo local.
+- Juegos: TODOS eligen unidad con el mismo selector `src/components/juegos/SelectorTemaJuego.jsx` (estilos `styles/selector-juego.css`, prefijo `sj-`): con `onIniciar` (juegos clásicos) o navegando a `?m=N&clase=K` / `?m=todas` (Dragón, Escape; Mapa mental y Teatro con `permiteTodas={false}`). «Unidades que ya he hecho» se guarda en `lib/mezclaJuego.js` (sessionStorage) y la respetan `juegos-utils`, `todasLasPalabras` y Kahoot. Última elección: `dele_juego_ultima_<juego>`.
 - Diseño v3: clases `ui-*` de `src/styles/modern.css` para pantallas nuevas (Inicio, Campus, Generador de exámenes, Profesores).
 
 ## Idiomas de ayuda e IA (v11)

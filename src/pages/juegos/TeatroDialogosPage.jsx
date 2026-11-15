@@ -1,4 +1,5 @@
 // Teatro de diálogos · 对话剧场 — los diálogos de la clase en un escenario imperial: ordenar, elegir réplica y doblaje
+import { SelectorTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import * as React from "react";
 import { ArrowUpIcon, ArrowDownIcon, CheckIcon, MicIcon, Volume2Icon, PlayIcon, RotateCcwIcon, GripVerticalIcon, RepeatIcon, ListIcon, SkipForwardIcon } from "lucide-react";
 import { useSound } from "../../lib/sound.jsx";
@@ -6,7 +7,7 @@ import { speak } from "../../components/lesson/fx.js";
 import { esMujer } from "../../lib/lessons.js";
 import { addXp } from "../../lib/gamification.js";
 import { contenidoJuego } from "../../lib/contenidoJuego.js";
-import { useContenidoJA, CabeceraJA, SelectorUnidadJA, chispasOro, barajar, reducido } from "./ja-comun.jsx";
+import { useContenidoJA, CabeceraJA, chispasOro, barajar, reducido } from "./ja-comun.jsx";
 import "../../styles/v13-juegos-a.css";
 
 const MODOS = [
@@ -85,19 +86,10 @@ function Bocadillo({ linea, actor, estado, nuevo, onOir, mostrarZh = true, child
 }
 
 export default function TeatroDialogosPage() {
-  const { contenido, elegir, quitar } = useContenidoJA();
+  const { contenido, quitar } = useContenidoJA();
   if (!contenido)
     return (
-      <div className="ja-raiz ja-teatro gm-no-adapt">
-        <CabeceraJA titulo="Teatro de diálogos" tituloZh="对话剧场" sello="剧" />
-        <SelectorUnidadJA
-          titulo="Teatro de diálogos"
-          tituloZh="对话剧场"
-          sello="剧"
-          descripcion="Sube al escenario con los diálogos de tu clase: ordena el guion, elige la réplica correcta o dobla a un personaje con tu voz. · 用课堂对话登上舞台：排列台词、选择回答，或用你的声音为角色配音。"
-          onElegir={elegir}
-        />
-      </div>
+      <SelectorTemaJuego juego="teatro" permiteTodas={false} />
     );
   return <Teatro key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} onCambiar={quitar} />;
 }

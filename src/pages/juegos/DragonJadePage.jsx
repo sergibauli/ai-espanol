@@ -1,4 +1,5 @@
 // Dragón de jade · 玉龙 — arcade en canvas 2D: guía al dragón y cómete la perla con la palabra correcta.
+import { SelectorTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router";
@@ -17,7 +18,6 @@ import {
   leerNumero,
   guardarNumero,
   usePrefiereMenosMovimiento,
-  SelectorUnidad,
   Sello,
   Volver,
   etiquetaContenido,
@@ -688,12 +688,7 @@ export default function DragonJadePage() {
   const contenido = useContenidoJuego();
   if (!contenido)
     return (
-      <SelectorUnidad
-        titulo="Dragón de jade"
-        tituloChino="玉龙"
-        icono={<Sello grande>玉龙</Sello>}
-        descripcion="Guía al dragón y cómete las perlas con la palabra correcta · 引导玉龙吃掉正确的词语"
-      />
+      <SelectorTemaJuego juego="dragon-jade" />
     );
   return <JuegoDragon key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} />;
 }

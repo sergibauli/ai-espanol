@@ -1,4 +1,5 @@
 // Mapa mental · 思维导图 — lienzo SVG con zoom, ramas de la clase y fichas de vocabulario que se unen con flechas
+import { SelectorTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import * as React from "react";
 import { createPortal } from "react-dom";
 import {
@@ -19,7 +20,7 @@ import {
 import { useSound } from "../../lib/sound.jsx";
 import { speak } from "../../components/lesson/fx.js";
 import { addXp } from "../../lib/gamification.js";
-import { useContenidoJA, CabeceraJA, SelectorUnidadJA, chispasOro, barajar, reducido } from "./ja-comun.jsx";
+import { useContenidoJA, CabeceraJA, chispasOro, barajar, reducido } from "./ja-comun.jsx";
 import { categoriaPorReglas, claveCategoria } from "../../lib/categoriaReglas.js";
 import CATEGORIAS_REVISADAS from "../../data/categorias-palabras.json";
 import "../../styles/v13-juegos-a.css";
@@ -327,19 +328,10 @@ const MODOS = [
 ];
 
 export default function MapaMentalPage() {
-  const { contenido, elegir, quitar } = useContenidoJA();
+  const { contenido, quitar } = useContenidoJA();
   if (!contenido)
     return (
-      <div className="ja-raiz ja-mapa gm-no-adapt">
-        <CabeceraJA titulo="Mapa mental" tituloZh="思维导图" sello="图" />
-        <SelectorUnidadJA
-          titulo="Mapa mental"
-          tituloZh="思维导图"
-          sello="图"
-          descripcion="Elige una unidad y una clase: ordena su vocabulario en ramas, une español y chino o crea tu propio mapa. · 选择单元和课：把词汇分到分支、连接中西文，或创作你自己的导图。"
-          onElegir={elegir}
-        />
-      </div>
+      <SelectorTemaJuego juego="mapa-mental" permiteTodas={false} />
     );
   return <MapaMental key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} onCambiar={quitar} />;
 }

@@ -1,6 +1,7 @@
 // Contenido de una unidad o de una de sus clases para los juegos (#/juegos/x?m=N&clase=K)
 import { ALL_MODULES } from "../data/modulos/index.js";
 import { moduloDeClase } from "./clases.js";
+import { filtrarPorMezcla } from "./mezclaJuego.js";
 
 // Lee ?m=N&clase=K de la ruta con HashRouter (#/juegos/x?m=8&clase=2)
 export function parametrosJuego() {
@@ -36,4 +37,4 @@ export function contenidoJuego(numero = parametrosJuego().numero, clase = parame
 
 // Todas las palabras de todas las unidades (para juegos sin unidad elegida)
 export const todasLasPalabras = () =>
-  ALL_MODULES.flatMap((modulo) => (modulo.vocabulario || []).map((v) => ({ ...v, numero: modulo.numero }))).filter((v) => v?.espanol && v?.chino);
+  filtrarPorMezcla(ALL_MODULES).flatMap((modulo) => (modulo.vocabulario || []).map((v) => ({ ...v, numero: modulo.numero }))).filter((v) => v?.espanol && v?.chino);

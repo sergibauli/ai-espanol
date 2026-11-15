@@ -1,9 +1,9 @@
-// Piezas comunes de los juegos «Dragón de jade» y «Escape del palacio» (prefijo jb-)
+// Piezas comunes de los juegos «Dragón de jade» y «Escape del palacio» (prefijo jb-).
+// La elección de unidad usa el selector común (components/juegos/SelectorTemaJuego.jsx).
 import * as React from "react";
-import { Link, useLocation, useNavigate } from "react-router";
-import { ArrowLeftIcon, LayersIcon } from "lucide-react";
+import { Link, useLocation } from "react-router";
+import { ArrowLeftIcon } from "lucide-react";
 import CATALOGO from "../../data/modulos/catalog.json";
-import { clasesDe } from "../../lib/clases.js";
 import { contenidoJuego, parametrosJuego, todasLasPalabras } from "../../lib/contenidoJuego.js";
 
 export const NIVELES = ["A1", "A2", "B1", "B2"];
@@ -95,92 +95,6 @@ export function Volver({ to = "/juegos" }) {
       <ArrowLeftIcon size={18} aria-hidden="true" />
       <span>Volver · 返回</span>
     </Link>
-  );
-}
-
-/** Selector de unidad y clase cuando no llega ?m= en la ruta */
-export function SelectorUnidad({ titulo, tituloChino, icono, descripcion }) {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [nivel, setNivel] = React.useState("A1");
-  const [unidad, setUnidad] = React.useState(null);
-  const unidades = CATALOGO.filter((u) => u.nivel === nivel);
-  const ir = (numero, clase) => navigate(`${location.pathname}?m=${numero}${clase ? `&clase=${clase}` : ""}`);
-  const clases = unidad ? clasesDe(unidad.numero) : [];
-  return (
-    <div className="jb-selector gm-no-adapt">
-      <Volver />
-      <header className="jb-selector__cabecera">
-        {icono}
-        <h1 className="jb-titulo">
-          {titulo} <span translate="no">· {tituloChino}</span>
-        </h1>
-        <p className="jb-sub">{descripcion}</p>
-      </header>
-      <div className="jb-pergamino jb-selector__panel">
-        {!unidad ? (
-          <>
-            <p className="jb-selector__paso">1 · Elige una unidad · 选择单元</p>
-            <div className="jb-pestanas" role="tablist" aria-label="Nivel · 级别">
-              {NIVELES.map((n) => (
-                <button key={n} type="button" role="tab" aria-selected={nivel === n} className={`jb-pestana ${nivel === n ? "is-activa" : ""}`} onClick={() => setNivel(n)}>
-                  {n}
-                </button>
-              ))}
-              <button type="button" className="jb-pestana jb-pestana--todas" onClick={() => ir("todas")}>
-                <LayersIcon size={16} aria-hidden="true" /> Todas · 全部
-              </button>
-            </div>
-            <ul className="jb-unidades">
-              {unidades.map((u) => (
-                <li key={u.numero}>
-                  <button type="button" className="jb-unidad" onClick={() => (clasesDe(u.numero).length > 1 ? setUnidad(u) : ir(u.numero))}>
-                    <span className="jb-unidad__num" translate="no">
-                      {u.numero}
-                    </span>
-                    <span className="jb-unidad__txt">
-                      <strong>{u.titulo}</strong>
-                      <small>{u.tituloChino}</small>
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : (
-          <>
-            <button type="button" className="jb-enlace" onClick={() => setUnidad(null)}>
-              <ArrowLeftIcon size={16} aria-hidden="true" /> Otras unidades · 其他单元
-            </button>
-            <p className="jb-selector__paso">
-              2 · Unidad {unidad.numero}: {unidad.titulo} — elige una clase · 选择课
-            </p>
-            <ul className="jb-unidades">
-              <li>
-                <button type="button" className="jb-unidad" onClick={() => ir(unidad.numero)}>
-                  <span className="jb-unidad__num">全</span>
-                  <span className="jb-unidad__txt">
-                    <strong>Toda la unidad</strong>
-                    <small>整个单元</small>
-                  </span>
-                </button>
-              </li>
-              {clases.map((c) => (
-                <li key={c.n}>
-                  <button type="button" className="jb-unidad" onClick={() => ir(unidad.numero, c.n)}>
-                    <span className="jb-unidad__num">{c.n}</span>
-                    <span className="jb-unidad__txt">
-                      <strong>Clase {c.n}{c.titulo ? ` · ${c.titulo}` : ""}</strong>
-                      <small>第{c.n}课{c.tituloChino ? ` · ${c.tituloChino}` : ""}</small>
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
-    </div>
   );
 }
 

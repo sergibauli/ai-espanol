@@ -22,6 +22,7 @@ import { useSound } from "../../lib/sound.jsx";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-kahoot.css";
 import { contenidoJuego, parametrosJuego } from "../../lib/contenidoJuego.js";
+import { filtrarPorMezcla } from "../../lib/mezclaJuego.js";
 const Ha = {
   modulos: [
     {
@@ -9650,7 +9651,7 @@ function AComponent() {
       // de una unidad con banco → el banco; «Todas las unidades» → 20 preguntas mezcladas de todo el banco.
       let preguntasElegidas;
       if (i === null) {
-        preguntasElegidas = barajar(Z.flatMap((modulo) => modulo.preguntas || [])).slice(0, 20);
+        preguntasElegidas = barajar(filtrarPorMezcla(Z).flatMap((modulo) => modulo.preguntas || [])).slice(0, 20);
       } else {
         const numero = Number(String(i).replace("modulo-", ""));
         const ruta = parametrosJuego();

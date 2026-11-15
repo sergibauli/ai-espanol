@@ -1,5 +1,6 @@
 import { ALL_MODULES } from "../data/modulos/index.js";
 import { contenidoJuego, parametrosJuego } from "./contenidoJuego.js";
+import { filtrarPorMezcla } from "./mezclaJuego.js";
 export function g() {
   return ALL_MODULES.map((o) => ({
     id: o.id,
@@ -34,7 +35,8 @@ export function b(o) {
 }
 function a() {
   const o = [];
-  for (const t of ALL_MODULES) {
+  // «Unidades que ya he hecho» (selector común): solo esas; si no, todas
+  for (const t of filtrarPorMezcla(ALL_MODULES)) {
     if (t.vocabulario) {
       for (const n of t.vocabulario) {
         const e = {

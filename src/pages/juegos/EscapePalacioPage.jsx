@@ -1,4 +1,5 @@
 // Escape del palacio · 逃出紫禁城 — sala de escape en 5 puertas con el contenido de la clase.
+import { SelectorTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router";
@@ -18,7 +19,6 @@ import {
   leerNumero,
   guardarNumero,
   usePrefiereMenosMovimiento,
-  SelectorUnidad,
   Sello,
   Volver,
   etiquetaContenido,
@@ -152,12 +152,7 @@ export default function EscapePalacioPage() {
   const contenido = useContenidoJuego();
   if (!contenido)
     return (
-      <SelectorUnidad
-        titulo="Escape del palacio"
-        tituloChino="逃出紫禁城"
-        icono={<Sello grande>逃</Sello>}
-        descripcion="Cinco puertas lacadas, cinco enigmas con tu clase · 五道朱漆门，五个谜题"
-      />
+      <SelectorTemaJuego juego="escape-palacio" />
     );
   return <JuegoEscape key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} />;
 }

@@ -1,14 +1,12 @@
-// Piezas comunes de los juegos «Mapa mental» y «Teatro de diálogos» (prefijo ja-)
+// Piezas comunes de los juegos «Mapa mental» y «Teatro de diálogos» (prefijo ja-).
+// La elección de unidad usa el selector común (components/juegos/SelectorTemaJuego.jsx).
 import * as React from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { ArrowLeftIcon, ChevronRightIcon, XIcon, BookOpenIcon } from "lucide-react";
-import { createPortal } from "react-dom";
+import { ArrowLeftIcon, BookOpenIcon } from "lucide-react";
 import CATALOGO from "../../data/modulos/catalog.json";
 import { contenidoJuego } from "../../lib/contenidoJuego.js";
-import { clasesDe } from "../../lib/clases.js";
 
 export const NIVELES = ["A1", "A2", "B1", "B2"];
-const NIVEL_ZH = { A1: "入门", A2: "初级", B1: "中级", B2: "中高级" };
 
 export const reducido = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 export const nivelDe = (numero) => CATALOGO.find((u) => u.numero === Number(numero))?.nivel || "A1";
@@ -134,81 +132,5 @@ export function CabeceraJA({ titulo, tituloZh, sello, contenido, onCambiar, chil
       )}
       {children}
     </header>
-  );
-}
-
-/** Selector de unidad (90 unidades) y clase */
-export function SelectorUnidadJA({ titulo, tituloZh, sello, descripcion, onElegir }) {
-  const [nivel, setNivel] = React.useState("A1");
-  const [unidad, setUnidad] = React.useState(null);
-  const unidades = CATALOGO.filter((u) => u.nivel === nivel);
-  const clases = unidad ? clasesDe(unidad.numero) : [];
-  return (
-    <div className="ja-selector">
-      <div className="ja-selector-hero">
-        <SelloJA texto={sello} grande />
-        <h2>{titulo}</h2>
-        <p className="ja-selector-zh">{tituloZh}</p>
-        <p className="ja-selector-desc">{descripcion}</p>
-        <img src="./mono/saluda.png" alt="" className="ja-selector-mono" aria-hidden="true" />
-      </div>
-      <div className="ja-niveles" role="tablist" aria-label="Nivel · 级别">
-        {NIVELES.map((n) => (
-          <button key={n} type="button" role="tab" aria-selected={nivel === n} className={`ja-nivel${nivel === n ? " is-on" : ""}`} onClick={() => setNivel(n)}>
-            <b>{n}</b>
-            <small>{NIVEL_ZH[n]}</small>
-          </button>
-        ))}
-      </div>
-      <div className="ja-unidades">
-        {unidades.map((u) => (
-          <button key={u.numero} type="button" className="ja-unidad" onClick={() => setUnidad(u)}>
-            <span className="ja-unidad-num">{u.numero}</span>
-            <span className="ja-unidad-txt">
-              <b>{u.titulo}</b>
-              <small>{u.tituloChino}</small>
-            </span>
-            <ChevronRightIcon size={18} aria-hidden="true" />
-          </button>
-        ))}
-      </div>
-      {unidad &&
-        createPortal(
-          <div className="ja-modal-fondo gm-no-adapt" onClick={() => setUnidad(null)}>
-            <div className="ja-modal" role="dialog" aria-modal="true" aria-label="Elegir clase · 选择课" onClick={(e) => e.stopPropagation()}>
-              <button type="button" className="ja-modal-cerrar" onClick={() => setUnidad(null)} aria-label="Cerrar · 关闭">
-                <XIcon size={20} />
-              </button>
-              <p className="ja-modal-kicker">
-                {unidad.nivel} · Unidad {unidad.numero} · 第{unidad.numero}单元
-              </p>
-              <h3>{unidad.titulo}</h3>
-              <p className="ja-modal-zh">{unidad.tituloChino}</p>
-              <div className="ja-clases">
-                {clases.length > 1 &&
-                  clases.map((c) => (
-                    <button key={c.n} type="button" className="ja-clase" onClick={() => onElegir(unidad.numero, c.n)}>
-                      <span className="ja-clase-n">{c.n}</span>
-                      <span>
-                        <b>{c.titulo || `Clase ${c.n}`}</b>
-                        <small>
-                          Clase {c.n} · 第{c.n}课{c.tituloChino ? ` · ${c.tituloChino}` : ""}
-                        </small>
-                      </span>
-                    </button>
-                  ))}
-                <button type="button" className="ja-clase ja-clase-todo" onClick={() => onElegir(unidad.numero, null)}>
-                  <span className="ja-clase-n">★</span>
-                  <span>
-                    <b>Toda la unidad</b>
-                    <small>整个单元 · 全部内容</small>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>,
-          document.body,
-        )}
-    </div>
   );
 }
