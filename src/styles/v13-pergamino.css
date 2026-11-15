@@ -1,0 +1,143 @@
+/* ===== v13 · Ruta: pergamino que se desenrolla entre dos rodillos y cielo del amanecer con capas en parallax =====
+   Componentes en src/components/lesson/Pergamino.jsx. Solo se animan transform y opacity. */
+
+/* ---------- Pergamino ---------- */
+.lp-root .pg-rollo { --pg-sobra: 16px; --pg-alto: 20px; --pg-abre: 680ms; --pg-retraso: 430ms; position: relative; isolation: isolate; }
+.lp-root .pg-rollo.lp-rollo { --pg-sobra: 22px; --pg-alto: 24px; display: block; }
+/* El papel y los rodillos ya no son el fondo ni los ::before/::after del bloque: son piezas que se animan aparte */
+.lp-root .pg-rollo.pg-rollo { background: none !important; box-shadow: none !important; animation: none !important; }
+.lp-root .pg-rollo.pg-rollo::before, .lp-root .pg-rollo.pg-rollo::after { content: none !important; display: none !important; }
+.lp-root .lp-main > .lp-center:has(> .pg-rollo) { animation: none; }
+.lp-root .lp-main { position: relative; }
+
+.pg-papel { position: absolute; inset: 0; z-index: 0; border-radius: 4px; pointer-events: none; transform-origin: 50% 50%;
+  background: linear-gradient(rgba(255,250,238,.95), rgba(246,232,200,.95)), url("../../public/theme/papel.jpg") center / cover;
+  box-shadow: 0 0 0 2px rgba(217,174,76,.9), inset 0 0 0 6px rgba(255,250,236,.6), 0 0 36px 4px rgba(255,214,120,.55), 0 22px 40px rgba(20,10,0,.4);
+  animation: pgPapelAbre var(--pg-abre) cubic-bezier(.22,.9,.3,1) both; }
+.lp-rollo > .pg-papel {
+  background: radial-gradient(ellipse at 50% 35%, rgba(255,255,248,.96), rgba(250,238,210,.95) 70%, rgba(236,214,170,.95)), url("../../public/theme/papel.jpg") center / cover;
+  box-shadow: 0 0 0 2px rgba(217,174,76,.9), inset 0 0 0 7px rgba(255,250,236,.7), inset 0 0 0 8.5px rgba(217,174,76,.55), 0 0 40px 6px rgba(255,214,120,.75), 0 0 90px 20px rgba(255,200,90,.35), 0 24px 40px rgba(20,10,0,.45); }
+
+/* Ejes: cajas del alto del pergamino; al moverlas un 50 % el rodillo llega justo al centro */
+.pg-eje { position: absolute; top: 0; bottom: 0; left: calc(var(--pg-sobra) * -1); right: calc(var(--pg-sobra) * -1); z-index: 2; pointer-events: none; }
+.pg-eje--arriba { animation: pgEjeArriba var(--pg-abre) cubic-bezier(.22,.9,.3,1) both; }
+.pg-eje--abajo { animation: pgEjeAbajo var(--pg-abre) cubic-bezier(.22,.9,.3,1) both; }
+.pg-rodillo { position: absolute; left: 0; right: 0; height: var(--pg-alto); border-radius: calc(var(--pg-alto) / 2);
+  background:
+    linear-gradient(90deg, transparent 3.5%, #f6d77e 3.5% 4.6%, transparent 4.6% 95.4%, #f6d77e 95.4% 96.5%, transparent 96.5%),
+    linear-gradient(#7a2410, #c65a2e 28%, #8a2a12 55%, #4a1306 85%, #3a0f04);
+  box-shadow: 0 0 0 2px #e2b04a, 0 0 18px rgba(242,193,78,.65), 0 6px 10px rgba(0,0,0,.4), inset 0 2px 0 rgba(255,220,170,.45), inset 0 -3px 4px rgba(0,0,0,.35); }
+.pg-eje--arriba .pg-rodillo { top: calc(var(--pg-alto) * -.58); }
+.pg-eje--abajo .pg-rodillo { bottom: calc(var(--pg-alto) * -.58); }
+/* Remates de oro en los extremos */
+.pg-rodillo::before, .pg-rodillo::after { content: ""; position: absolute; top: 50%; width: 14px; height: calc(var(--pg-alto) + 8px); translate: 0 -50%; border-radius: 6px;
+  background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 50%, #a8741e 85%); box-shadow: 0 0 0 1.5px #6a3c0c, 0 0 12px rgba(242,193,78,.85); }
+.pg-rodillo::before { left: -9px; } .pg-rodillo::after { right: -9px; }
+/* Brillo que recorre la laca */
+.pg-rodillo__brillo { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
+.pg-rodillo__brillo::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 28%; transform: translateX(-120%) skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255,240,190,.85) 50%, transparent); animation: pgBrillo 5.5s ease-in-out .25s infinite; }
+.pg-eje--abajo .pg-rodillo__brillo::before { animation-delay: .4s; }
+
+/* Destello del centro al abrirse y polvo de oro que sale entre los rodillos */
+.pg-destello { position: absolute; left: -10%; right: -10%; top: 50%; height: 90px; margin-top: -45px; z-index: 3; pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,250,220,.95), rgba(255,214,120,.55) 40%, transparent 72%);
+  animation: pgDestello 760ms ease-out both; }
+.pg-polvo { position: absolute; left: 0; right: 0; top: 50%; height: 0; z-index: 3; pointer-events: none; }
+.pg-polvo i { position: absolute; left: calc(50% + var(--x)); top: -3px; width: 6px; height: 6px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, #fffbe6, #f2c14e 55%, transparent 72%); box-shadow: 0 0 8px rgba(255,214,120,.9);
+  animation: pgPolvo 950ms cubic-bezier(.2,.7,.3,1) calc(120ms + var(--r)) both; }
+.pg-polvo i:nth-child(3n) { width: 12px; height: 12px; top: -6px; border-radius: 0; box-shadow: none; background: #fff3c4;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
+
+/* Contenido: aparece cuando el papel ya está abierto, de arriba abajo */
+.pg-contenido { position: relative; z-index: 1; transition: opacity .14s ease; }
+.lp-rollo > .pg-contenido { display: grid; justify-items: center; gap: 8px; }
+.pg-contenido > :not(:only-child), .pg-contenido > :only-child > * { animation: pgAparece .4s cubic-bezier(.2,.8,.3,1) both; animation-delay: calc(var(--pg-retraso) + var(--n, 0) * 75ms); }
+.pg-contenido > :nth-child(2), .pg-contenido > :only-child > :nth-child(2) { --n: 1; }
+.pg-contenido > :nth-child(3), .pg-contenido > :only-child > :nth-child(3) { --n: 2; }
+.pg-contenido > :nth-child(4), .pg-contenido > :only-child > :nth-child(4) { --n: 3; }
+.pg-contenido > :nth-child(5), .pg-contenido > :only-child > :nth-child(5) { --n: 4; }
+.pg-contenido > :nth-child(n+6), .pg-contenido > :only-child > :nth-child(n+6) { --n: 5; }
+
+/* Al pasar de pantalla: el contenido se apaga y el pergamino se enrolla hacia el centro */
+.lp-root.pg-cierra .pg-contenido { opacity: 0; }
+.lp-root.pg-cierra .pg-papel { animation: pgPapelCierra .3s cubic-bezier(.5,0,.75,.4) both; }
+.lp-root.pg-cierra .pg-eje--arriba { animation: pgEjeArribaCierra .3s cubic-bezier(.5,0,.75,.4) both; }
+.lp-root.pg-cierra .pg-eje--abajo { animation: pgEjeAbajoCierra .3s cubic-bezier(.5,0,.75,.4) both; }
+.lp-root.pg-cierra .pg-polvo, .lp-root.pg-cierra .pg-destello { visibility: hidden; }
+.lp-root.pg-cierra .lp-main > .lp-center > :not(.pg-rollo) { opacity: 0; transition: opacity .2s; }
+
+@keyframes pgPapelAbre { 0% { transform: scaleY(.02); } 70% { transform: scaleY(1.03); } 86% { transform: scaleY(.992); } 100% { transform: none; } }
+@keyframes pgPapelCierra { from { transform: none; } to { transform: scaleY(.02); } }
+@keyframes pgEjeArriba { 0% { transform: translateY(calc(50% - var(--pg-alto) * .42)); } 70% { transform: translateY(-7px); } 86% { transform: translateY(2px); } 100% { transform: none; } }
+@keyframes pgEjeAbajo { 0% { transform: translateY(calc(-50% + var(--pg-alto) * .42)); } 70% { transform: translateY(7px); } 86% { transform: translateY(-2px); } 100% { transform: none; } }
+@keyframes pgEjeArribaCierra { to { transform: translateY(calc(50% - var(--pg-alto) * .42)); } }
+@keyframes pgEjeAbajoCierra { to { transform: translateY(calc(-50% + var(--pg-alto) * .42)); } }
+@keyframes pgBrillo { 0% { transform: translateX(-120%) skewX(-20deg); } 22%, 100% { transform: translateX(420%) skewX(-20deg); } }
+@keyframes pgDestello { 0% { opacity: 0; transform: scaleX(.15); } 25% { opacity: 1; } 100% { opacity: 0; transform: scaleX(1.25) scaleY(.6); } }
+@keyframes pgPolvo { 0% { opacity: 0; transform: translate(0, 0) scale(.4); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(calc(var(--x) * .8), calc(var(--dir) * 120px)) scale(1) rotate(160deg); } }
+@keyframes pgAparece { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+
+/* ---------- Cielo del amanecer con capas ---------- */
+.lp-root.lp-fondo-paisaje { background: linear-gradient(180deg, #1c2452 0%, #34407a 18%, #7a5f8e 36%, #d8907a 52%, #f6c27f 62%, #fbe3ad 70%, #e9b88c 82%) !important; }
+.fc-cielo { --px: 0; --py: 0; position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; contain: strict; }
+.fc-cielo > * { position: absolute; }
+.fc-sol { left: 50%; top: 58%; width: 260px; height: 260px; margin: -130px 0 0 -130px; border-radius: 50%;
+  background: radial-gradient(circle, #fffbea 0 22%, #ffe7a6 30%, rgba(255,214,130,.55) 46%, rgba(255,190,110,.18) 62%, transparent 72%);
+  translate: calc(var(--px) * 4px) calc(var(--py) * 3px); transition: translate .9s cubic-bezier(.2,.7,.3,1); }
+.fc-rayos { left: 50%; top: 58%; width: 190vmax; height: 190vmax; margin: -95vmax 0 0 -95vmax; opacity: .55;
+  background: repeating-conic-gradient(from 0deg, rgba(255,240,196,.5) 0deg 4deg, transparent 4deg 15deg);
+  -webkit-mask: radial-gradient(circle, #000 4%, rgba(0,0,0,.5) 18%, transparent 46%); mask: radial-gradient(circle, #000 4%, rgba(0,0,0,.5) 18%, transparent 46%);
+  animation: fcGira 160s linear infinite; }
+.fc-nube { width: 340px; height: 140px; background: url("../../public/theme/nube-oro.png") center / contain no-repeat; left: -380px;
+  filter: drop-shadow(0 0 14px rgba(255,214,120,.45)); translate: calc(var(--px) * 12px) calc(var(--py) * 6px); transition: translate .9s cubic-bezier(.2,.7,.3,1); }
+.fc-nube--1 { top: 9%; opacity: .85; animation: fcDeriva 110s linear -40s infinite; }
+.fc-nube--2 { top: 24%; width: 240px; height: 100px; opacity: .6; animation: fcDeriva 150s linear -100s infinite; }
+.fc-nube--3 { top: 36%; width: 420px; height: 170px; opacity: .5; animation: fcDeriva 130s linear -15s infinite; }
+.fc-pajaros { top: 21%; left: 0; width: 130px; height: 44px; fill: none; stroke: #2e2236; stroke-width: 1.8; stroke-linecap: round; animation: fcVuela 48s linear -20s infinite; }
+.fc-pajaro { transform-box: fill-box; transform-origin: 50% 70%; animation: fcAleteo .55s ease-in-out infinite alternate; }
+.fc-montes { left: -3%; right: -3%; bottom: -2%; width: 106%; height: 100%; transition: translate .9s cubic-bezier(.2,.7,.3,1); }
+.fc-capa--lejos { translate: calc(var(--px) * -6px) calc(var(--py) * -3px); }
+.fc-capa--medio { translate: calc(var(--px) * -14px) calc(var(--py) * -6px); }
+.fc-capa--cerca { translate: calc(var(--px) * -26px) calc(var(--py) * -10px); }
+.fc-niebla { left: 0; width: 200%; height: 26%; background-size: 50% 100%; background-repeat: repeat-x; }
+.fc-niebla--1 { bottom: 20%; opacity: .7; animation: fcNiebla 80s linear infinite;
+  background-image: radial-gradient(ellipse 22% 42% at 22% 55%, rgba(255,240,226,.75), transparent 70%), radial-gradient(ellipse 30% 36% at 70% 50%, rgba(255,232,214,.6), transparent 70%); }
+.fc-niebla--2 { bottom: 4%; opacity: .55; animation: fcNiebla 55s linear -20s infinite reverse;
+  background-image: radial-gradient(ellipse 28% 40% at 30% 60%, rgba(250,226,220,.7), transparent 70%), radial-gradient(ellipse 20% 34% at 82% 45%, rgba(255,240,226,.55), transparent 70%); }
+/* Linternas de papel que suben despacio */
+.fc-linterna { left: var(--x); bottom: -60px; scale: var(--s); opacity: 0; animation: fcSube var(--d) linear var(--r) infinite; }
+.fc-linterna i { display: block; width: 20px; height: 26px; border-radius: 7px 7px 9px 9px;
+  background: radial-gradient(ellipse at 50% 60%, #fff1b8, #ffb347 40%, #d9481c 80%, #8f1a10);
+  box-shadow: 0 0 14px 5px rgba(255,170,70,.55), 0 0 40px 10px rgba(255,150,60,.25); animation: fcBalanceo 3.6s ease-in-out infinite alternate; }
+
+@keyframes fcGira { to { transform: rotate(360deg); } }
+@keyframes fcDeriva { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 800px)); } }
+@keyframes fcVuela { from { transform: translateX(-160px) translateY(0); } 50% { transform: translateX(50vw) translateY(-24px); } to { transform: translateX(calc(100vw + 160px)) translateY(10px); } }
+@keyframes fcAleteo { from { transform: scaleY(1); } to { transform: scaleY(.35); } }
+@keyframes fcNiebla { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes fcSube { 0% { opacity: 0; transform: translateY(0); } 10% { opacity: .95; } 80% { opacity: .8; } 100% { opacity: 0; transform: translateY(-112vh); } }
+@keyframes fcBalanceo { from { transform: translateX(-7px) rotate(-4deg); } to { transform: translateX(7px) rotate(4deg); } }
+
+@media (max-width: 600px) {
+  /* Que los rodillos y sus remates de oro quepan en pantallas estrechas */
+  .lp-root .pg-rollo { --pg-sobra: 6px; }
+  .lp-root.lp-fondo-paisaje:not(.lp-paso-learn):not(.lp-paso-speak):not(.lp-paso-fin) .lp-main > .pg-rollo { margin-left: 14px; margin-right: 14px; }
+  .lp-root .pg-rollo.lp-rollo { --pg-sobra: 10px; width: calc(100vw - 72px); }
+}
+@media (max-width: 700px) {
+  .fc-sol { top: 50%; width: 200px; height: 200px; margin: -100px 0 0 -100px; }
+  .fc-rayos { top: 50%; }
+  .fc-nube--3 { width: 300px; height: 120px; }
+  .fc-montes { left: -8%; right: -8%; width: 116%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-papel, .pg-eje, .pg-contenido > *, .pg-contenido > :only-child > *, .pg-rodillo__brillo::before { animation: none !important; }
+  .pg-polvo, .pg-destello { display: none; }
+  .fc-cielo *, .fc-cielo { animation: none !important; transition: none !important; }
+  .fc-linterna { opacity: .8; bottom: auto; top: calc(30% + var(--s) * 20%); }
+  .fc-nube--1 { left: 8%; } .fc-nube--2 { left: 60%; } .fc-nube--3 { left: 30%; }
+  .fc-pajaros { left: 62%; }
+}
