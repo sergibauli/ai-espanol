@@ -643,3 +643,45 @@
   .pv-medalla__aro { width: 76px; height: 76px; }
   .pv-medalla__cara b { font-size: 32px; }
 }
+
+/* ===== v22.6 · Pabellones más separados y espectaculares ===== */
+.pv-recinto { grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 110px 90px; padding: 60px clamp(10px, 4vw, 60px) 80px; align-items: start; }
+@media (min-width: 900px) { .pv-recinto > .pv-pab:nth-child(even) { margin-top: 120px; } }
+.pv-pab__tejado { aspect-ratio: 400 / 140; margin: 0 -22px -8px; }
+.pv-pab__tejado::after { inset: 18% 4% 10%; }
+.pv-pab__farol { top: 90%; }
+
+/* Halo de luz del color de la sala detrás del pabellón */
+.pv-pab__aura { position: absolute; left: -18%; right: -18%; top: -14%; height: 85%; z-index: 0; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 35%, color-mix(in srgb, var(--sala) 70%, #ffd77a) 0%, transparent 62%); opacity: 0.45; filter: blur(8px); animation: pv-aura 5s ease-in-out infinite alternate; animation-delay: calc(var(--k) * -0.8s); }
+@keyframes pv-aura { from { opacity: 0.3; transform: scale(0.95); } to { opacity: 0.6; transform: scale(1.05); } }
+.pv-pab > :not(.pv-pab__aura):not(.pv-pab__nube) { position: relative; }
+
+/* Dragones y perla de la cumbrera */
+.pv-pab__perla { transform-box: fill-box; transform-origin: center; filter: drop-shadow(0 0 6px #ffe39a); animation: pv-perla 2.8s ease-in-out infinite alternate; }
+@keyframes pv-perla { from { opacity: 0.75; transform: scale(0.9); } to { opacity: 1; transform: scale(1.12); } }
+.pv-pab__dragon { filter: drop-shadow(0 0 4px rgba(255, 227, 154, 0.6)); }
+
+/* Nubes a los pies del pabellón */
+.pv-pab__nube { position: absolute; bottom: -34px; z-index: 6; width: 46%; opacity: 0.75; pointer-events: none; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35)); animation: pv-nube-pie 9s ease-in-out infinite alternate; }
+.pv-pab__nube.is-izq { left: -16%; }
+.pv-pab__nube.is-der { right: -16%; transform: scaleX(-1); animation-name: pv-nube-pie-der; animation-delay: -4s; }
+@keyframes pv-nube-pie { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(18px, -6px, 0); } }
+@keyframes pv-nube-pie-der { from { transform: scaleX(-1) translate3d(0, 0, 0); } to { transform: scaleX(-1) translate3d(18px, -6px, 0); } }
+
+/* Salón y medallones un poco más grandes */
+.pv-pab__salon { padding: 46px 40px 26px; }
+.pv-pab__familias { gap: 20px 18px; }
+.pv-medalla { width: 100px; }
+.pv-medalla__aro { width: 92px; height: 92px; }
+.pv-medalla__cara b { font-size: 40px; }
+
+@media (max-width: 760px) {
+  .pv-recinto { gap: 84px; padding: 40px 8px 60px; }
+  .pv-pab__tejado { margin: 0 -12px -6px; }
+  .pv-pab__salon { padding: 42px 26px 22px; }
+  .pv-pab__nube { width: 50%; bottom: -28px; }
+  .pv-medalla { width: 86px; }
+  .pv-medalla__aro { width: 78px; height: 78px; }
+  .pv-medalla__cara b { font-size: 34px; }
+}

@@ -10,6 +10,7 @@ import {
 } from "../lib/aiTutor.js";
 import { deepseekFetch, usoConversacion } from "../lib/deepseekClient.js";
 import { CuotaIA } from "./ui/CuotaIA.jsx";
+import { MonoFlotante } from "./MonoFlotante.jsx";
 
 // Retrato del Rey Mono: el vídeo solo se descarga mientras habla; en reposo basta su cara
 function TutorAvatar({ size, talking }) {
@@ -167,15 +168,7 @@ function TutorChat() {
   const vacia = mensajes.length === 1 && !pensando;
   return (
     <>
-      {!abierto && (
-        <button type="button" onClick={() => setAbierto(true)} className="tp-chat-fab gm-no-adapt" aria-label="Abrir el tutor IA · 打开AI导师" title="Tutor IA · AI导师">
-          <span className="tp-chat-fab-onda" aria-hidden="true" />
-          <TutorAvatar size={54} talking={pensando} />
-          <span className="tp-chat-fab-sello" aria-hidden="true" translate="no">
-            问
-          </span>
-        </button>
-      )}
+      {!abierto && <MonoFlotante onAbrir={() => setAbierto(true)} />}
       {abierto && (
         <div className="tp-chat gm-no-adapt" role="dialog" aria-modal="false" aria-label="Tutor IA · AI导师">
           <header className="tp-chat-cab">
