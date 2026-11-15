@@ -20,7 +20,10 @@ import {
   fnv1a,
 } from "../src/lib/vocesDele.js";
 
-const pool = JSON.parse(fs.readFileSync("scripts/voces-dele-pool.json", "utf8")).filter((v) => !v.descartada);
+// «reemplazar»: voz descartada después de generar; cuenta en el reparto (para no mover los demás repartos)
+// y luego se cambia en cada examen por otra del mismo sexo que no esté en ese examen
+const pool = JSON.parse(fs.readFileSync("scripts/voces-dele-pool.json", "utf8")).filter((v) => !v.descartada || v.reemplazar);
+const aReemplazar = new Set(pool.filter((v) => v.reemplazar).map((v) => v.id));
 const voces = { hombre: pool.filter((v) => v.sexo === "hombre").map((v) => v.id), mujer: pool.filter((v) => v.sexo === "mujer").map((v) => v.id) };
 
 // ---------- Exámenes oficiales ----------
@@ -70,6 +73,21 @@ const uso = new Map(pool.map((v) => [v.id, 0]));
 const reparto = {};
 let anterior = { nivel: null, voces: new Set() };
 const firmas = new Set();
+const usoSustitutas = new Map();
+function sustituir(elenco, clave) {
+  const presentes = new Set([elenco.narrador, ...elenco.hombres, ...elenco.mujeres]);
+  const cambiar = (id) => {
+    if (!aReemplazar.has(id)) return id;
+    const sexo = id.startsWith("m") ? "mujer" : "hombre";
+    const nueva = voces[sexo]
+      .filter((otra) => !aReemplazar.has(otra) && !presentes.has(otra))
+      .sort((a, b) => (usoSustitutas.get(a) || 0) - (usoSustitutas.get(b) || 0) || fnv1a(clave + a).localeCompare(fnv1a(clave + b)))[0];
+    presentes.add(nueva);
+    usoSustitutas.set(nueva, (usoSustitutas.get(nueva) || 0) + 1);
+    return nueva;
+  };
+  return { narrador: cambiar(elenco.narrador), hombres: elenco.hombres.map(cambiar), mujeres: elenco.mujeres.map(cambiar) };
+}
 function repartir(clave, serie, necesita, indice) {
   if (anterior.nivel !== serie) anterior = { nivel: serie, voces: new Set() };
   for (let intento = 0; ; intento++) {
@@ -95,7 +113,7 @@ function repartir(clave, serie, necesita, indice) {
     if (firmas.has(firma) && intento < 20) continue;
     firmas.add(firma);
     usadas.forEach((id) => uso.set(id, uso.get(id) + 1));
-    reparto[clave] = { narrador, hombres, mujeres };
+    reparto[clave] = sustituir({ narrador, hombres, mujeres }, clave);
     anterior.voces = usadas;
     return;
   }
