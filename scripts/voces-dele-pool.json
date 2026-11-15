@@ -3,787 +3,928 @@
   "id": "h01",
   "sexo": "hombre",
   "voxpopuli": "1337",
-  "f0": 120
+  "f0": 120,
+  "f0_generada": 135
  },
  {
   "id": "h02",
   "sexo": "hombre",
   "voxpopuli": "1351",
-  "f0": 111
+  "f0": 111,
+  "f0_generada": 112
  },
  {
   "id": "h03",
   "sexo": "hombre",
   "voxpopuli": "1352",
-  "f0": 123
+  "f0": 123,
+  "f0_generada": 126
  },
  {
   "id": "h04",
   "sexo": "hombre",
   "voxpopuli": "1665",
-  "f0": 132
+  "f0": 132,
+  "f0_generada": 130
  },
  {
   "id": "h05",
   "sexo": "hombre",
   "voxpopuli": "1882",
-  "f0": 144
+  "f0": 144,
+  "f0_generada": 132
  },
  {
   "id": "h06",
   "sexo": "hombre",
   "voxpopuli": "1973",
-  "f0": 126
+  "f0": 126,
+  "f0_generada": 128
  },
  {
   "id": "h07",
   "sexo": "hombre",
   "voxpopuli": "1992",
-  "f0": 151
+  "f0": 151,
+  "f0_generada": 150
  },
  {
   "id": "h08",
   "sexo": "hombre",
   "voxpopuli": "2002",
-  "f0": 113
+  "f0": 113,
+  "f0_generada": 115
  },
  {
   "id": "h09",
   "sexo": "hombre",
   "voxpopuli": "2187",
-  "f0": 139
+  "f0": 139,
+  "f0_generada": 143
  },
  {
   "id": "h10",
   "sexo": "hombre",
   "voxpopuli": "4328",
-  "f0": 129
+  "f0": 129,
+  "f0_generada": 143
  },
  {
   "id": "h11",
   "sexo": "hombre",
   "voxpopuli": "4337",
-  "f0": 139
+  "f0": 139,
+  "f0_generada": 142
  },
  {
   "id": "h12",
   "sexo": "hombre",
   "voxpopuli": "4346",
-  "f0": 105
+  "f0": 105,
+  "f0_generada": 104
  },
  {
   "id": "h13",
   "sexo": "hombre",
   "voxpopuli": "4348",
-  "f0": 146
+  "f0": 146,
+  "f0_generada": 158,
+  "descartada": true
  },
  {
   "id": "h14",
   "sexo": "hombre",
   "voxpopuli": "4377",
-  "f0": 159
+  "f0": 159,
+  "f0_generada": 179,
+  "descartada": true
  },
  {
   "id": "h15",
   "sexo": "hombre",
   "voxpopuli": "4555",
-  "f0": 160
+  "f0": 160,
+  "f0_generada": 148
  },
  {
   "id": "h16",
   "sexo": "hombre",
   "voxpopuli": "5537",
-  "f0": 149
+  "f0": 149,
+  "f0_generada": 149
  },
  {
   "id": "h17",
   "sexo": "hombre",
   "voxpopuli": "26146",
-  "f0": 131
+  "f0": 131,
+  "f0_generada": 121
  },
  {
   "id": "h18",
   "sexo": "hombre",
   "voxpopuli": "28278",
-  "f0": 134
+  "f0": 134,
+  "f0_generada": 134
  },
  {
   "id": "h19",
   "sexo": "hombre",
   "voxpopuli": "28295",
-  "f0": 158
+  "f0": 158,
+  "f0_generada": 177,
+  "descartada": true
  },
  {
   "id": "h20",
   "sexo": "hombre",
   "voxpopuli": "28347",
-  "f0": 154
+  "f0": 154,
+  "f0_generada": 148
  },
  {
   "id": "h21",
   "sexo": "hombre",
   "voxpopuli": "28362",
-  "f0": 141
+  "f0": 141,
+  "f0_generada": 144
  },
  {
   "id": "h22",
   "sexo": "hombre",
   "voxpopuli": "28397",
-  "f0": 143
+  "f0": 143,
+  "f0_generada": 149
  },
  {
   "id": "h23",
   "sexo": "hombre",
   "voxpopuli": "28399",
-  "f0": 140
+  "f0": 140,
+  "f0_generada": 140
  },
  {
   "id": "h24",
   "sexo": "hombre",
   "voxpopuli": "28407",
-  "f0": 118
+  "f0": 118,
+  "f0_generada": 119
  },
  {
   "id": "h25",
   "sexo": "hombre",
   "voxpopuli": "36215",
-  "f0": 146
+  "f0": 146,
+  "f0_generada": 139
  },
  {
   "id": "h26",
   "sexo": "hombre",
   "voxpopuli": "38733",
-  "f0": 125
+  "f0": 125,
+  "f0_generada": 126
  },
  {
   "id": "h27",
   "sexo": "hombre",
   "voxpopuli": "39321",
-  "f0": 130
+  "f0": 130,
+  "f0_generada": 137
  },
  {
   "id": "h28",
   "sexo": "hombre",
   "voxpopuli": "39563",
-  "f0": 117
+  "f0": 117,
+  "f0_generada": 110
  },
  {
   "id": "h29",
   "sexo": "hombre",
   "voxpopuli": "40600",
-  "f0": 155
+  "f0": 155,
+  "f0_generada": 164,
+  "descartada": true
  },
  {
   "id": "h30",
   "sexo": "hombre",
   "voxpopuli": "40602",
-  "f0": 129
+  "f0": 129,
+  "f0_generada": 137
  },
  {
   "id": "h31",
   "sexo": "hombre",
   "voxpopuli": "96708",
-  "f0": 114
+  "f0": 114,
+  "f0_generada": 113
  },
  {
   "id": "h32",
   "sexo": "hombre",
   "voxpopuli": "96763",
-  "f0": 151
+  "f0": 151,
+  "f0_generada": 148
  },
  {
   "id": "h33",
   "sexo": "hombre",
   "voxpopuli": "96808",
-  "f0": 149
+  "f0": 149,
+  "f0_generada": 142
  },
  {
   "id": "h34",
   "sexo": "hombre",
   "voxpopuli": "96878",
-  "f0": 102
+  "f0": 102,
+  "f0_generada": 103
  },
  {
   "id": "h35",
   "sexo": "hombre",
   "voxpopuli": "96936",
-  "f0": 155
+  "f0": 155,
+  "f0_generada": 167,
+  "descartada": true
  },
  {
   "id": "h36",
   "sexo": "hombre",
   "voxpopuli": "96987",
-  "f0": 130
+  "f0": 130,
+  "f0_generada": 124
  },
  {
   "id": "h37",
   "sexo": "hombre",
   "voxpopuli": "101125",
-  "f0": 128
+  "f0": 128,
+  "f0_generada": 129
  },
  {
   "id": "h38",
   "sexo": "hombre",
   "voxpopuli": "101128",
-  "f0": 143
+  "f0": 143,
+  "f0_generada": 138
  },
  {
   "id": "h39",
   "sexo": "hombre",
   "voxpopuli": "101599",
-  "f0": 151
+  "f0": 151,
+  "f0_generada": 149
  },
  {
   "id": "h40",
   "sexo": "hombre",
   "voxpopuli": "103046",
-  "f0": 111
+  "f0": 111,
+  "f0_generada": 118
  },
  {
   "id": "h41",
   "sexo": "hombre",
   "voxpopuli": "105596",
-  "f0": 146
+  "f0": 146,
+  "f0_generada": 150
  },
  {
   "id": "h42",
   "sexo": "hombre",
   "voxpopuli": "119435",
-  "f0": 144
+  "f0": 144,
+  "f0_generada": 146
  },
  {
   "id": "h43",
   "sexo": "hombre",
   "voxpopuli": "119875",
-  "f0": 159
+  "f0": 159,
+  "f0_generada": 164,
+  "descartada": true
  },
  {
   "id": "h44",
   "sexo": "hombre",
   "voxpopuli": "124856",
-  "f0": 123
+  "f0": 123,
+  "f0_generada": 120
  },
  {
   "id": "h45",
   "sexo": "hombre",
   "voxpopuli": "124933",
-  "f0": 145
+  "f0": 145,
+  "f0_generada": 147
  },
  {
   "id": "h46",
   "sexo": "hombre",
   "voxpopuli": "124972",
-  "f0": 126
+  "f0": 126,
+  "f0_generada": 126
  },
  {
   "id": "h47",
   "sexo": "hombre",
   "voxpopuli": "125005",
-  "f0": 136
+  "f0": 136,
+  "f0_generada": 132
  },
  {
   "id": "h48",
   "sexo": "hombre",
   "voxpopuli": "125006",
-  "f0": 158
+  "f0": 158,
+  "f0_generada": 162,
+  "descartada": true
  },
  {
   "id": "h49",
   "sexo": "hombre",
   "voxpopuli": "125032",
-  "f0": 157
+  "f0": 157,
+  "f0_generada": 131
  },
  {
   "id": "h50",
   "sexo": "hombre",
   "voxpopuli": "125034",
-  "f0": 120
+  "f0": 120,
+  "f0_generada": 120
  },
  {
   "id": "h51",
   "sexo": "hombre",
   "voxpopuli": "125042",
-  "f0": 105
+  "f0": 105,
+  "f0_generada": 110
  },
  {
   "id": "h52",
   "sexo": "hombre",
   "voxpopuli": "125051",
-  "f0": 150
+  "f0": 150,
+  "f0_generada": 145
  },
  {
   "id": "h53",
   "sexo": "hombre",
   "voxpopuli": "125052",
-  "f0": 120
+  "f0": 120,
+  "f0_generada": 122
  },
  {
   "id": "h54",
   "sexo": "hombre",
   "voxpopuli": "127096",
-  "f0": 117
+  "f0": 117,
+  "f0_generada": 122
  },
  {
   "id": "h55",
   "sexo": "hombre",
   "voxpopuli": "129407",
-  "f0": 159
+  "f0": 159,
+  "f0_generada": 166,
+  "descartada": true
  },
  {
   "id": "h56",
   "sexo": "hombre",
   "voxpopuli": "135490",
-  "f0": 138
+  "f0": 138,
+  "f0_generada": 137
  },
  {
   "id": "h57",
   "sexo": "hombre",
   "voxpopuli": "185974",
-  "f0": 129
+  "f0": 129,
+  "f0_generada": 134
  },
  {
   "id": "h58",
   "sexo": "hombre",
   "voxpopuli": "197554",
-  "f0": 142
+  "f0": 142,
+  "f0_generada": 145
  },
  {
   "id": "h59",
   "sexo": "hombre",
   "voxpopuli": "197606",
-  "f0": 127
+  "f0": 127,
+  "f0_generada": 130
  },
  {
   "id": "h60",
   "sexo": "hombre",
   "voxpopuli": "197621",
-  "f0": 116
+  "f0": 116,
+  "f0_generada": 114
  },
  {
   "id": "h61",
   "sexo": "hombre",
   "voxpopuli": "197717",
-  "f0": 131
+  "f0": 131,
+  "f0_generada": 136
  },
  {
   "id": "h62",
   "sexo": "hombre",
   "voxpopuli": "197721",
-  "f0": 159
+  "f0": 159,
+  "f0_generada": 168,
+  "descartada": true
  },
  {
   "id": "h63",
   "sexo": "hombre",
   "voxpopuli": "197722",
-  "f0": 140
+  "f0": 140,
+  "f0_generada": 140
  },
  {
   "id": "h64",
   "sexo": "hombre",
   "voxpopuli": "197779",
-  "f0": 155
+  "f0": 155,
+  "f0_generada": 155
  },
  {
   "id": "h65",
   "sexo": "hombre",
   "voxpopuli": "197829",
-  "f0": 134
+  "f0": 134,
+  "f0_generada": 135
  },
  {
   "id": "h66",
   "sexo": "hombre",
   "voxpopuli": "197831",
-  "f0": 137
+  "f0": 137,
+  "f0_generada": 132
  },
  {
   "id": "h67",
   "sexo": "hombre",
   "voxpopuli": "204413",
-  "f0": 145
+  "f0": 145,
+  "f0_generada": 152
  },
  {
   "id": "m01",
   "sexo": "mujer",
   "voxpopuli": "1313",
   "f0": 211,
-  "f0_generada": 222
+  "f0_generada": 210
  },
  {
   "id": "m02",
   "sexo": "mujer",
   "voxpopuli": "1970",
-  "f0": 227
+  "f0": 227,
+  "f0_generada": 242
  },
  {
   "id": "m03",
   "sexo": "mujer",
   "voxpopuli": "1993",
-  "f0": 219
+  "f0": 219,
+  "f0_generada": 219
  },
  {
   "id": "m04",
   "sexo": "mujer",
   "voxpopuli": "4319",
-  "f0": 217
+  "f0": 217,
+  "f0_generada": 228
  },
  {
   "id": "m05",
   "sexo": "mujer",
   "voxpopuli": "4326",
-  "f0": 322
+  "f0": 322,
+  "f0_generada": 292
  },
  {
   "id": "m06",
   "sexo": "mujer",
   "voxpopuli": "4334",
-  "f0": 185
+  "f0": 185,
+  "f0_generada": 187
  },
  {
   "id": "m07",
   "sexo": "mujer",
   "voxpopuli": "4344",
-  "f0": 235
+  "f0": 235,
+  "f0_generada": 228
  },
  {
   "id": "m08",
   "sexo": "mujer",
   "voxpopuli": "4349",
-  "f0": 208
+  "f0": 208,
+  "f0_generada": 222
  },
  {
   "id": "m09",
   "sexo": "mujer",
   "voxpopuli": "22418",
-  "f0": 190
+  "f0": 190,
+  "f0_generada": 191
  },
  {
   "id": "m10",
   "sexo": "mujer",
   "voxpopuli": "24942",
-  "f0": 255
+  "f0": 255,
+  "f0_generada": 276
  },
  {
   "id": "m11",
   "sexo": "mujer",
   "voxpopuli": "28276",
-  "f0": 268
+  "f0": 268,
+  "f0_generada": 267
  },
  {
   "id": "m12",
   "sexo": "mujer",
   "voxpopuli": "28298",
-  "f0": 216
+  "f0": 216,
+  "f0_generada": 228
  },
  {
   "id": "m13",
   "sexo": "mujer",
   "voxpopuli": "28310",
-  "f0": 248
+  "f0": 248,
+  "f0_generada": 255
  },
  {
   "id": "m14",
   "sexo": "mujer",
   "voxpopuli": "28326",
-  "f0": 256
+  "f0": 256,
+  "f0_generada": 259
  },
  {
   "id": "m15",
   "sexo": "mujer",
   "voxpopuli": "28342",
-  "f0": 185
+  "f0": 185,
+  "f0_generada": 185
  },
  {
   "id": "m16",
   "sexo": "mujer",
   "voxpopuli": "28349",
-  "f0": 225
+  "f0": 225,
+  "f0_generada": 211
  },
  {
   "id": "m17",
   "sexo": "mujer",
   "voxpopuli": "28390",
-  "f0": 207
+  "f0": 207,
+  "f0_generada": 203
  },
  {
   "id": "m18",
   "sexo": "mujer",
   "voxpopuli": "36234",
-  "f0": 224
+  "f0": 224,
+  "f0_generada": 228
  },
  {
   "id": "m19",
   "sexo": "mujer",
   "voxpopuli": "39713",
-  "f0": 217
+  "f0": 217,
+  "f0_generada": 204
  },
  {
   "id": "m20",
   "sexo": "mujer",
   "voxpopuli": "96765",
-  "f0": 244
+  "f0": 244,
+  "f0_generada": 240
  },
  {
   "id": "m21",
   "sexo": "mujer",
   "voxpopuli": "96768",
-  "f0": 246
+  "f0": 246,
+  "f0_generada": 244
  },
  {
   "id": "m22",
   "sexo": "mujer",
   "voxpopuli": "96806",
-  "f0": 242
+  "f0": 242,
+  "f0_generada": 234
  },
  {
   "id": "m23",
   "sexo": "mujer",
   "voxpopuli": "96811",
-  "f0": 203
+  "f0": 203,
+  "f0_generada": 204
  },
  {
   "id": "m24",
   "sexo": "mujer",
   "voxpopuli": "96922",
-  "f0": 242
+  "f0": 242,
+  "f0_generada": 250
  },
  {
   "id": "m25",
   "sexo": "mujer",
   "voxpopuli": "96986",
-  "f0": 232
+  "f0": 232,
+  "f0_generada": 240
  },
  {
   "id": "m26",
   "sexo": "mujer",
   "voxpopuli": "96990",
-  "f0": 222
+  "f0": 222,
+  "f0_generada": 238
  },
  {
   "id": "m27",
   "sexo": "mujer",
   "voxpopuli": "97017",
-  "f0": 200
+  "f0": 200,
+  "f0_generada": 204
  },
  {
   "id": "m28",
   "sexo": "mujer",
   "voxpopuli": "97024",
-  "f0": 223
+  "f0": 223,
+  "f0_generada": 231
  },
  {
   "id": "m29",
   "sexo": "mujer",
   "voxpopuli": "101146",
-  "f0": 227
+  "f0": 227,
+  "f0_generada": 225
  },
  {
   "id": "m30",
   "sexo": "mujer",
   "voxpopuli": "101148",
-  "f0": 255
+  "f0": 255,
+  "f0_generada": 258
  },
  {
   "id": "m31",
   "sexo": "mujer",
   "voxpopuli": "101417",
-  "f0": 191
+  "f0": 191,
+  "f0_generada": 188
  },
  {
   "id": "m32",
   "sexo": "mujer",
   "voxpopuli": "103035",
-  "f0": 246
+  "f0": 246,
+  "f0_generada": 263
  },
  {
   "id": "m33",
   "sexo": "mujer",
   "voxpopuli": "111017",
-  "f0": 220
+  "f0": 220,
+  "f0_generada": 229
  },
  {
   "id": "m34",
   "sexo": "mujer",
   "voxpopuli": "111019",
-  "f0": 205
+  "f0": 205,
+  "f0_generada": 216
  },
  {
   "id": "m35",
   "sexo": "mujer",
   "voxpopuli": "111496",
-  "f0": 205
+  "f0": 205,
+  "f0_generada": 212
  },
  {
   "id": "m36",
   "sexo": "mujer",
   "voxpopuli": "119441",
-  "f0": 191
+  "f0": 191,
+  "f0_generada": 198
  },
  {
   "id": "m37",
   "sexo": "mujer",
   "voxpopuli": "122978",
-  "f0": 279
+  "f0": 279,
+  "f0_generada": 274
  },
  {
   "id": "m38",
   "sexo": "mujer",
   "voxpopuli": "124708",
-  "f0": 219
+  "f0": 219,
+  "f0_generada": 222
  },
  {
   "id": "m39",
   "sexo": "mujer",
   "voxpopuli": "125035",
-  "f0": 220
+  "f0": 220,
+  "f0_generada": 224
  },
  {
   "id": "m40",
   "sexo": "mujer",
   "voxpopuli": "125038",
-  "f0": 185
+  "f0": 185,
+  "f0_generada": 179,
+  "descartada": true
  },
  {
   "id": "m41",
   "sexo": "mujer",
   "voxpopuli": "125040",
-  "f0": 225
+  "f0": 225,
+  "f0_generada": 217
  },
  {
   "id": "m42",
   "sexo": "mujer",
   "voxpopuli": "125041",
-  "f0": 235
+  "f0": 235,
+  "f0_generada": 237
  },
  {
   "id": "m43",
   "sexo": "mujer",
   "voxpopuli": "125043",
-  "f0": 185
+  "f0": 185,
+  "f0_generada": 175,
+  "descartada": true
  },
  {
   "id": "m44",
   "sexo": "mujer",
   "voxpopuli": "125047",
-  "f0": 204
+  "f0": 204,
+  "f0_generada": 207
  },
  {
   "id": "m45",
   "sexo": "mujer",
   "voxpopuli": "125049",
-  "f0": 195
+  "f0": 195,
+  "f0_generada": 209
  },
  {
   "id": "m46",
   "sexo": "mujer",
   "voxpopuli": "127330",
-  "f0": 254
+  "f0": 254,
+  "f0_generada": 252
  },
  {
   "id": "m47",
   "sexo": "mujer",
   "voxpopuli": "131507",
-  "f0": 227
+  "f0": 227,
+  "f0_generada": 218
  },
  {
   "id": "m48",
   "sexo": "mujer",
   "voxpopuli": "131749",
-  "f0": 231
+  "f0": 231,
+  "f0_generada": 246
  },
  {
   "id": "m49",
   "sexo": "mujer",
   "voxpopuli": "135491",
-  "f0": 238
+  "f0": 238,
+  "f0_generada": 245
  },
  {
   "id": "m50",
   "sexo": "mujer",
   "voxpopuli": "197679",
-  "f0": 208
+  "f0": 208,
+  "f0_generada": 202
  },
  {
   "id": "m51",
   "sexo": "mujer",
   "voxpopuli": "197681",
-  "f0": 207
+  "f0": 207,
+  "f0_generada": 211
  },
  {
   "id": "m52",
   "sexo": "mujer",
   "voxpopuli": "197702",
-  "f0": 218
+  "f0": 218,
+  "f0_generada": 226
  },
  {
   "id": "m53",
   "sexo": "mujer",
   "voxpopuli": "197711",
-  "f0": 252
+  "f0": 252,
+  "f0_generada": 232
  },
  {
   "id": "m54",
   "sexo": "mujer",
   "voxpopuli": "197719",
-  "f0": 215
+  "f0": 215,
+  "f0_generada": 211
  },
  {
   "id": "m55",
   "sexo": "mujer",
   "voxpopuli": "197728",
-  "f0": 197
+  "f0": 197,
+  "f0_generada": 204
  },
  {
   "id": "m56",
   "sexo": "mujer",
   "voxpopuli": "197735",
-  "f0": 267
+  "f0": 267,
+  "f0_generada": 269
  },
  {
   "id": "m57",
   "sexo": "mujer",
   "voxpopuli": "197742",
-  "f0": 226
+  "f0": 226,
+  "f0_generada": 228
  },
  {
   "id": "m58",
   "sexo": "mujer",
   "voxpopuli": "197784",
-  "f0": 211
+  "f0": 211,
+  "f0_generada": 193
  },
  {
   "id": "m59",
   "sexo": "mujer",
   "voxpopuli": "197785",
-  "f0": 262
+  "f0": 262,
+  "f0_generada": 277
  },
  {
   "id": "m60",
   "sexo": "mujer",
   "voxpopuli": "197827",
-  "f0": 241
+  "f0": 241,
+  "f0_generada": 250
  },
  {
   "id": "m61",
   "sexo": "mujer",
   "voxpopuli": "197832",
-  "f0": 200
+  "f0": 200,
+  "f0_generada": 210
  },
  {
   "id": "m62",
   "sexo": "mujer",
   "voxpopuli": "198096",
-  "f0": 251
+  "f0": 251,
+  "f0_generada": 251
  },
  {
   "id": "m63",
   "sexo": "mujer",
   "voxpopuli": "198329",
-  "f0": 240
+  "f0": 240,
+  "f0_generada": 253
  },
  {
   "id": "m64",
   "sexo": "mujer",
   "voxpopuli": "204414",
-  "f0": 211
+  "f0": 211,
+  "f0_generada": 225
  }
 ]
