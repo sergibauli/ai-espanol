@@ -17,35 +17,35 @@ const MODULOS_21_40 = [
         descripcion: `Para describir el tiempo atmosférico usamos diferentes verbos:
 
 🔹 EXPRESIONES CON "HACER" (general/temperatura):
-• hace sol = it's sunny
-• hace calor = it's hot
-• hace frío = it's cold
-• hace viento = it's windy
-• hace buen tiempo = the weather is good
-• hace mal tiempo = the weather is bad
-• hace fresco = it's cool
-• hace mucho calor = it's very hot
-• hace muchísimo frío = it's extremely cold
-• hace un calor terrible = it's terribly hot
-• hace un frío que pela = it's freezing cold (colloquial)
+• hace sol
+• hace calor
+• hace frío
+• hace viento
+• hace buen tiempo
+• hace mal tiempo
+• hace fresco
+• hace mucho calor
+• hace muchísimo frío
+• hace un calor terrible
+• hace un frío que pela
 
 🔹 EXPRESIONES CON "ESTAR" (condición momentánea):
-• está nublado = it's cloudy
-• está despejado = it's clear
-• está soleado = it's sunny
-• está lloviendo = it's raining
-• está nevando = it's snowing
-• está granizando = it's hailing
-• está ventoso = it's windy
+• está nublado
+• está despejado
+• está soleado
+• está lloviendo
+• está nevando
+• está granizando
+• está ventoso
 
 🔹 EXPRESIONES CON "HAY" (fenómenos):
 • hay tormenta = there's a storm
-• hay niebla = it's foggy
-• hay nubes = it's cloudy
+• hay niebla
+• hay nubes
 • hay lluvia = there's rain
 • hay nieve = there's snow
 • hay granizo = there's hail
-• hay un temporal = there's a storm (strong)
+• hay un temporal = there's a storm
 • hay una ola de calor = there's a heatwave
 • hay una ola de frío = there's a cold snap
 
@@ -113,45 +113,45 @@ const MODULOS_21_40 = [
         id: "t2",
         titulo: "Fenómenos meteorológicos",
         tituloChino: "气象现象",
-        descripcion: `🔹 FENÓMENOS METEOROLÓGICOS (weather phenomena):
+        descripcion: `🔹 FENÓMENOS METEOROLÓGICOS:
 
-• lluvia = rain
-• llovizna = drizzle
-• chubasco = shower (sudden rain)
-• tormenta = storm
-• tormenta eléctrica = thunderstorm
-• rayo = lightning bolt
-• trueno = thunder
+• lluvia
+• llovizna
+• chubasco
+• tormenta
+• tormenta eléctrica
+• rayo
+• trueno
 • relámpago = lightning flash
-• nieve = snow
-• nevada = snowfall
-• ventisca = blizzard
-• granizo = hail
-• niebla = fog
-• neblina = mist
-• escarcha = frost
-• hielo = ice
-• gota fría = cold drop (Mediterranean phenomenon)
-• huracán = hurricane
-• tornado = tornado
-• tifón = typhoon
-• ciclón = cyclone
-• inundación = flood
-• sequía = drought
-• terremoto = earthquake
+• nieve
+• nevada
+• ventisca
+• granizo
+• niebla
+• neblina
+• escarcha
+• hielo
+• gota fría
+• huracán
+• tornado
+• tifón
+• ciclón
+• inundación
+• sequía
+• terremoto
 
-🔹 ADJETIVOS PARA DESCRIBIR EL CLIMA (adjectives):
-• lluvioso/a = rainy
-• nublado/a = cloudy
-• soleado/a = sunny
-• ventoso/a = windy
-• tormentoso/a = stormy
-• húmedo/a = humid
-• seco/a = dry
-• caluroso/a = hot (weather)
-• frío/a = cold (weather)
-• templado/a = mild
-• fresco/a = cool
+🔹 ADJETIVOS PARA DESCRIBIR EL CLIMA:
+• lluvioso/a
+• nublado/a
+• soleado/a
+• ventoso/a
+• tormentoso/a
+• húmedo/a
+• seco/a
+• caluroso/a
+• frío/a
+• templado/a
+• fresco/a
 
 📌 EJEMPLOS:
 • Hay mucho viento hoy.
@@ -222,16 +222,16 @@ const MODULOS_21_40 = [
         id: "t3",
         titulo: "Preguntar sobre el tiempo",
         tituloChino: "询问天气",
-        descripcion: `🔹 PREGUNTAS COMUNES (common questions):
+        descripcion: `🔹 PREGUNTAS COMUNES:
 • ¿Qué tiempo hace?
 • ¿Cómo está el tiempo?
 • ¿Va a llover?
 • ¿Va a nevar?
 • ¿Qué temperatura hace?
-• ¿Cuál es la previsión del tiempo? (What's the weather forecast?)
-• ¿Hay alerta meteorológica? (Is there a weather alert?)
+• ¿Cuál es la previsión del tiempo?
+• ¿Hay alerta meteorológica?
 
-🔹 CÓMO RESPONDER (how to answer):
+🔹 CÓMO RESPONDER:
 • Hace veinte grados.
 • La temperatura es de veinte grados.
 • Llueve mucho.
@@ -239,23 +239,23 @@ const MODULOS_21_40 = [
 • Se esperan lluvias para mañana.
 • El fin de semana mejorará el tiempo.
 
-🔹 TEMPERATURA (temperature):
+🔹 TEMPERATURA:
 • grados centígrados / Celsius = degrees Celsius
-• bajo cero = below zero
-• temperatura máxima = maximum temperature
-• temperatura mínima = minimum temperature
-• sensación térmica = feels like temperature
+• bajo cero
+• temperatura máxima
+• temperatura mínima
+• sensación térmica
 
-🔹 PRONÓSTICO DEL TIEMPO (weather forecast):
-• soleado = sunny
-• parcialmente nublado = partly cloudy
-• cubierto = overcast
-• lluvias débiles = light rain
-• lluvias fuertes = heavy rain
-• tormentas = thunderstorms
-• nieve = snow
-• viento = wind
-• calima = dust haze (Canary Islands)
+🔹 PRONÓSTICO DEL TIEMPO:
+• soleado
+• parcialmente nublado
+• cubierto
+• lluvias débiles
+• lluvias fuertes
+• tormentas
+• nieve
+• viento
+• calima
 
 📌 EJEMPLOS:
 • ¿Qué tiempo hace hoy?
@@ -321,22 +321,22 @@ const MODULOS_21_40 = [
         id: "t4",
         titulo: "El clima en España",
         tituloChino: "西班牙的气候",
-        descripcion: `🔹 CLIMA EN ESPAÑA (climate in Spain):
+        descripcion: `🔹 CLIMA EN ESPAÑA:
 
-• Clima mediterráneo (Mediterranean climate): veranos calurosos y secos, inviernos suaves. Costa Mediterránea, Andalucía, Cataluña, Valencia, Murcia.
+• Clima mediterráneo: veranos calurosos y secos, inviernos suaves. Costa Mediterránea, Andalucía, Cataluña, Valencia, Murcia.
 
-• Clima oceánico (Oceanic climate): veranos suaves, inviernos frescos, lluvias frecuentes. Norte de España: Galicia, Asturias, Cantabria, País Vasco.
+• Clima oceánico: veranos suaves, inviernos frescos, lluvias frecuentes. Norte de España: Galicia, Asturias, Cantabria, País Vasco.
 
-• Clima continental (Continental climate): veranos calurosos, inviernos fríos. Interior: Madrid, Castilla y León, Aragón.
+• Clima continental: veranos calurosos, inviernos fríos. Interior: Madrid, Castilla y León, Aragón.
 
-• Clima subtropical (Subtropical climate): temperaturas suaves todo el año. Islas Canarias.
+• Clima subtropical: temperaturas suaves todo el año. Islas Canarias.
 
-• Clima de montaña (Mountain climate): inviernos fríos con nieve, veranos frescos. Pirineos, Sierra Nevada.
+• Clima de montaña: inviernos fríos con nieve, veranos frescos. Pirineos, Sierra Nevada.
 
-🔹 REFRANES SOBRE EL TIEMPO (sayings):
+🔹 REFRANES SOBRE EL TIEMPO:
 • "Abril, aguas mil." (April, thousand waters)
-• "Hasta el cuarenta de mayo, no te quites el sayo." (Until May 40th, don't take off your coat)
-• "En enero, busca el sol en el cielo." (In January, look for the sun in the sky)
+• "Hasta el cuarenta de mayo, no te quites el sayo."
+• "En enero, busca el sol en el cielo."
 
 📌 EJEMPLOS:
 • En Madrid el clima es continental: mucho frío en invierno y mucho calor en verano.
@@ -1207,65 +1207,65 @@ const MODULOS_21_40 = [
         descripcion: `🔹 LUGARES URBANOS PRINCIPALES:
 
 CENTRO Y CALLES:
-• centro = city center / downtown
-• plaza = square
-• calle = street
-• avenida = avenue
-• paseo = promenade
-• callejón = alley
-• ronda = ring road
-• glorieta = roundabout
+• centro
+• plaza
+• calle
+• avenida
+• paseo
+• callejón
+• ronda
+• glorieta
 
 SERVICIOS PÚBLICOS:
-• ayuntamiento = town hall
-• comisaría / policía = police station
+• ayuntamiento
+• comisaría / policía
 • hospital = hospital
-• centro de salud = health center
-• biblioteca = library
-• museo = museum
-• teatro = theater
-• cine = cinema
-• parque = park
-• jardín = garden
+• centro de salud
+• biblioteca
+• museo
+• teatro
+• cine
+• parque
+• jardín
 
 TRANSPORTE:
-• estación de tren = train station
-• estación de autobuses = bus station
-• parada (de autobús/metro) = stop
-• aeropuerto = airport
-• puerto = port
-• estación de taxi = taxi stand
+• estación de tren
+• estación de autobuses
+• parada (de autobús/metro)
+• aeropuerto
+• puerto
+• estación de taxi
 
 COMERCIOS:
-• tienda / comercio = shop
-• supermercado = supermarket
-• mercado = market
-• centro comercial = shopping center / mall
-• farmacia = pharmacy
-• banco = bank
-• restaurante = restaurant
+• tienda / comercio
+• supermercado
+• mercado
+• centro comercial
+• farmacia
+• banco
+• restaurante
 • cafetería = café
 • bar = bar
 
 EDUCACIÓN:
-• escuela / colegio = school
-• instituto = high school
-• universidad = university
-• guardería = nursery
+• escuela / colegio
+• instituto
+• universidad
+• guardería
 
 RELIGIÓN:
-• iglesia = church
-• catedral = cathedral
-• sinagoga = synagogue
-• mezquita = mosque
+• iglesia
+• catedral
+• sinagoga
+• mezquita
 
 OTROS:
-• estadio = stadium
-• piscina = swimming pool
-• gimnasio = gym
-• polideportivo = sports center
-• cementerio = cemetery
-• parque de bomberos = fire station
+• estadio
+• piscina
+• gimnasio
+• polideportivo
+• cementerio
+• parque de bomberos
 
 📌 EJEMPLOS:
 • Vivo en el centro de la ciudad.
@@ -1359,15 +1359,15 @@ OTROS:
         tituloChino: "指路",
         descripcion: `🔹 VERBOS Y FRASES PARA DAR DIRECCIONES:
 
-• seguir recto = go straight
-• girar a la izquierda = turn left
-• girar a la derecha = turn right
-• cruzar la calle = cross the street
-• tomar la primera calle = take the first street
-• tomar la segunda calle = take the second street
-• llegar a = arrive at / reach
-• pasar por = go through / pass by
-• continuar = continue
+• seguir recto
+• girar a la izquierda
+• girar a la derecha
+• cruzar la calle
+• tomar la primera calle
+• tomar la segunda calle
+• llegar a
+• pasar por
+• continuar
 
 🔹 PREGUNTAS COMUNES:
 • ¿Dónde está...?
@@ -1388,14 +1388,14 @@ OTROS:
 • En la glorieta, tome la tercera salida.
 
 🔹 VOCABULARIO ÚTIL:
-• cuadra = block
-• semáforo = traffic light
-• esquina = corner
-• acera = sidewalk
-• calzada = roadway
-• paso de cebra = crosswalk
-• rotonda = roundabout
-• calle peatonal = pedestrian street
+• cuadra
+• semáforo
+• esquina
+• acera
+• calzada
+• paso de cebra
+• rotonda
+• calle peatonal
 
 📌 EJEMPLOS:
 • Sigue recto dos cuadras.
@@ -1466,14 +1466,14 @@ OTROS:
         tituloChino: "问路",
         descripcion: `🔹 FRASES PARA PREGUNTAR DIRECCIONES:
 
-• ¿Dónde está...? = Where is...?
-• ¿Cómo llego a...? = How do I get to...?
-• ¿Hay un/una... por aquí? = Is there a... around here?
-• ¿Está lejos? = Is it far?
-• ¿A qué distancia está? = How far is it?
-• ¿Cuánto tiempo se tarda? = How long does it take?
-• ¿Puede ayudarme? = Can you help me?
-• ¿Va por aquí? = Is it this way?
+• ¿Dónde está...?
+• ¿Cómo llego a...?
+• ¿Hay un/una... por aquí?
+• ¿Está lejos?
+• ¿A qué distancia está?
+• ¿Cuánto tiempo se tarda?
+• ¿Puede ayudarme?
+• ¿Va por aquí?
 
 🔹 RESPUESTAS ÚTILES:
 • Está a dos cuadras.
@@ -1549,14 +1549,14 @@ OTROS:
         tituloChino: "描述你的城市",
         descripcion: `🔹 VOCABULARIO PARA DESCRIBIR UNA CIUDAD:
 
-• grande / pequeña = big / small
-• moderna / antigua = modern / old
-• ruidosa / tranquila = noisy / quiet
-• cara / barata = expensive / cheap
-• turística = touristy
-• industrial = industrial
-• cosmopolita = cosmopolitan
-• residencial = residential
+• grande / pequeña
+• moderna / antigua
+• ruidosa / tranquila
+• cara / barata
+• turística
+• industrial
+• cosmopolita
+• residencial
 
 🔹 QUÉ HAY EN TU CIUDAD:
 • Mi ciudad tiene muchos parques.
@@ -2484,37 +2484,37 @@ OTROS:
         id: "t1",
         titulo: "Animales domésticos (mascotas)",
         tituloChino: "家养动物（宠物）",
-        descripcion: `🔹 MASCOTAS COMUNES (common pets):
+        descripcion: `🔹 MASCOTAS COMUNES:
 
-• perro = dog
-• gato = cat
-• pájaro = bird
-• pez = fish
-• conejo = rabbit
-• hámster = hamster
-• cobaya / conejillo de indias = guinea pig
-• tortuga = turtle
-• loro = parrot
-• hurón = ferret
-• ratón = mouse
-• serpiente = snake (exotic pet)
+• perro
+• gato
+• pájaro
+• pez
+• conejo
+• hámster
+• cobaya / conejillo de indias
+• tortuga
+• loro
+• hurón
+• ratón
+• serpiente
 
 🔹 VERBOS RELACIONADOS CON MASCOTAS:
-• ladrar (el perro) = to bark
-• maullar (el gato) = to meow
-• volar (el pájaro) = to fly
-• nadar (el pez) = to swim
-• saltar (el conejo) = to jump
-• comer = to eat
-• dormir = to sleep
-• jugar = to play
+• ladrar (el perro)
+• maullar (el gato)
+• volar (el pájaro)
+• nadar (el pez)
+• saltar (el conejo)
+• comer
+• dormir
+• jugar
 
 🔹 CUIDADO DE MASCOTAS:
-• pasear al perro = to walk the dog
-• alimentar = to feed
-• cepillar = to brush
-• bañar = to bathe
-• llevar al veterinario = to take to the vet
+• pasear al perro
+• alimentar
+• cepillar
+• bañar
+• llevar al veterinario
 
 📌 EJEMPLOS:
 • Tengo un perro muy juguetón.
@@ -2575,59 +2575,59 @@ OTROS:
         id: "t2",
         titulo: "Animales salvajes",
         tituloChino: "野生动物",
-        descripcion: `🔹 ANIMALES SALVAJES (wild animals):
+        descripcion: `🔹 ANIMALES SALVAJES:
 
-MAMÍFEROS (mammals):
-• león = lion
-• leona = lioness
-• tigre = tiger
-• elefante = elephant
-• jirafa = giraffe
-• mono = monkey
-• oso = bear
-• lobo = wolf
-• zorro = fox
-• ciervo = deer
-• cebra = zebra
-• hipopótamo = hippopotamus
-• rinoceronte = rhinoceros
-• canguro = kangaroo
-• koala = koala
-• panda = panda
-• jaguar = jaguar
-• pantera = panther
-• hiena = hyena
+MAMÍFEROS:
+• león
+• leona
+• tigre
+• elefante
+• jirafa
+• mono
+• oso
+• lobo
+• zorro
+• ciervo
+• cebra
+• hipopótamo
+• rinoceronte
+• canguro
+• koala
+• panda
+• jaguar
+• pantera
+• hiena
 
-AVES (birds):
-• águila = eagle
-• búho = owl
-• lechuza = barn owl
-• pingüino = penguin
-• flamenco = flamingo
-• avestruz = ostrich
+AVES:
+• águila
+• búho
+• lechuza
+• pingüino
+• flamenco
+• avestruz
 
-REPTILES Y ANFIBIOS (reptiles and amphibians):
-• serpiente = snake
-• cocodrilo = crocodile
-• lagarto = lizard
-• rana = frog
-• sapo = toad
+REPTILES Y ANFIBIOS:
+• serpiente
+• cocodrilo
+• lagarto
+• rana
+• sapo
 
-ANIMALES MARINOS (marine animals):
-• delfín = dolphin
-• ballena = whale
-• tiburón = shark
-• pulpo = octopus
-• calamar = squid
-• medusa = jellyfish
+ANIMALES MARINOS:
+• delfín
+• ballena
+• tiburón
+• pulpo
+• calamar
+• medusa
 
-INSECTOS (insects):
-• abeja = bee
-• mariposa = butterfly
-• hormiga = ant
-• araña = spider
-• mosquito = mosquito
-• libélula = dragonfly
+INSECTOS:
+• abeja
+• mariposa
+• hormiga
+• araña
+• mosquito
+• libélula
 
 🔹 CARACTERÍSTICAS:
 • El león es el rey de la selva.
@@ -2710,38 +2710,38 @@ INSECTOS (insects):
         id: "t3",
         titulo: "Animales de granja",
         tituloChino: "农场动物",
-        descripcion: `🔹 ANIMALES DE GRANJA (farm animals):
+        descripcion: `🔹 ANIMALES DE GRANJA:
 
-• vaca = cow
-• toro = bull
-• ternero = calf
-• cerdo = pig
-• caballo = horse
-• oveja = sheep
-• cordero = lamb
-• gallina = hen
-• gallo = rooster
-• pollito = chick
-• pato = duck
-• cabra = goat
-• burro = donkey
-• mula = mule
+• vaca
+• toro
+• ternero
+• cerdo
+• caballo
+• oveja
+• cordero
+• gallina
+• gallo
+• pollito
+• pato
+• cabra
+• burro
+• mula
 
-🔹 PRODUCTOS DE LOS ANIMALES (animal products):
-• la vaca da leche = cow gives milk
-• la gallina da huevos = hen gives eggs
-• la oveja da lana = sheep gives wool
-• el cerdo da carne = pig gives meat
+🔹 PRODUCTOS DE LOS ANIMALES:
+• la vaca da leche
+• la gallina da huevos
+• la oveja da lana
+• el cerdo da carne
 
-🔹 SONIDOS DE ANIMALES (animal sounds):
-• la vaca muge = cow moos
-• el caballo relincha = horse neighs
-• la oveja bala = sheep bleats
-• el gallo canta (quiquiriquí) = rooster crows (cock-a-doodle-doo)
-• el perro ladra (guau guau) = dog barks (woof woof)
-• el gato maúlla (miau) = cat meows (meow)
+🔹 SONIDOS DE ANIMALES:
+• la vaca muge
+• el caballo relincha
+• la oveja bala
+• el gallo canta (quiquiriquí)
+• el perro ladra (guau guau)
+• el gato maúlla (miau)
 • el pato hace "cuac cuac" = duck says "quack quack"
-• la rana croa (croac croac) = frog croaks (ribbit)
+• la rana croa (croac croac) (ribbit)
 
 📌 EJEMPLOS:
 • Las vacas dan leche.
@@ -2803,12 +2803,12 @@ INSECTOS (insects):
         id: "t4",
         titulo: "Hablar de animales",
         tituloChino: "谈论动物",
-        descripcion: `🔹 PREGUNTAS COMUNES (common questions):
-• ¿Tienes mascota? (Do you have a pet?)
-• ¿Qué animales te gustan? (What animals do you like?)
-• ¿Cuál es tu animal favorito? (What's your favorite animal?)
-• ¿Tienes miedo a algún animal? (Are you afraid of any animal?)
-• ¿Has visitado un zoo? (Have you visited a zoo?)
+        descripcion: `🔹 PREGUNTAS COMUNES:
+• ¿Tienes mascota?
+• ¿Qué animales te gustan?
+• ¿Cuál es tu animal favorito?
+• ¿Tienes miedo a algún animal?
+• ¿Has visitado un zoo?
 
 🔹 RESPUESTAS:
 • Sí, tengo un perro que se llama...
@@ -2817,23 +2817,23 @@ INSECTOS (insects):
 • Le tengo miedo a las serpientes.
 • He visitado el zoo varias veces.
 
-🔹 DESCRIBIR ANIMALES (describing animals):
-• Es grande / pequeño = It's big / small
-• Tiene el pelo largo / corto = It has long / short hair
-• Es de color... = It's... color
-• Puede volar / nadar / correr = It can fly / swim / run
-• Vive en la selva / el mar / la granja = It lives in the jungle / sea / farm
+🔹 DESCRIBIR ANIMALES:
+• Es grande / pequeño
+• Tiene el pelo largo / corto
+• Es de color...
+• Puede volar / nadar / correr
+• Vive en la selva / el mar / la granja
 
 🔹 ADJETIVOS PARA DESCRIBIR ANIMALES:
-• feroz = fierce
-• dócil = tame
-• salvaje = wild
-• doméstico = domestic
-• exótico = exotic
-• peligroso = dangerous
-• inofensivo = harmless
-• rápido = fast
-• lento = slow
+• feroz
+• dócil
+• salvaje
+• doméstico
+• exótico
+• peligroso
+• inofensivo
+• rápido
+• lento
 
 📌 EJEMPLOS:
 • Mi animal favorito es el perro porque es fiel.
@@ -3843,49 +3843,49 @@ INSECTOS (insects):
         id: "t1",
         titulo: "Géneros musicales",
         tituloChino: "音乐类型",
-        descripcion: `🔹 GÉNEROS MUSICALES PRINCIPALES (main music genres):
+        descripcion: `🔹 GÉNEROS MUSICALES PRINCIPALES:
 
 POPULARES:
 • pop = pop music
 • rock = rock music
 • indie = indie music
-• folk = folk music
-• country = country music
-• blues = blues
+• folk
+• country
+• blues
 • jazz = jazz
-• soul = soul
-• funk = funk
-• R&B = rhythm and blues
-• hip-hop / rap = hip-hop / rap
-• reggae = reggae
-• ska = ska
-• punk = punk
-• metal = metal
-• electrónica / EDM = electronic music
-• house = house music
-• techno = techno
-• drum and bass = drum and bass
+• soul
+• funk
+• R&B
+• hip-hop / rap
+• reggae
+• ska
+• punk
+• metal
+• electrónica / EDM
+• house
+• techno
+• drum and bass
 
 LATINOS (Latin genres):
 • salsa = salsa
-• merengue = merengue
+• merengue
 • bachata = bachata
-• reggaetón = reggaeton
-• cumbia = cumbia
-• tango = tango (Argentina)
-• flamenco = flamenco (Spain)
-• bossa nova = bossa nova (Brazil)
-• samba = samba (Brazil)
+• reggaetón
+• cumbia
+• tango (Argentina)
+• flamenco = flamenco
+• bossa nova = bossa nova
+• samba
 • ranchera = ranchera (Mexico)
-• mariachi = mariachi (Mexico)
+• mariachi (Mexico)
 • vallenato = vallenato (Colombia)
 
 CLÁSICA Y TRADICIONAL:
-• música clásica = classical music
-• ópera = opera
-• música de cámara = chamber music
-• sinfónica = symphonic
-• música tradicional = traditional music
+• música clásica
+• ópera
+• música de cámara
+• sinfónica
+• música tradicional
 
 🔹 EJEMPLOS:
 • Me gusta la música pop.
@@ -3958,57 +3958,57 @@ CLÁSICA Y TRADICIONAL:
         id: "t2",
         titulo: "Instrumentos musicales",
         tituloChino: "乐器",
-        descripcion: `🔹 INSTRUMENTOS DE CUERDA (string instruments):
-• guitarra = guitar
-• guitarra eléctrica = electric guitar
-• guitarra acústica = acoustic guitar
-• bajo = bass guitar
-• violín = violin
-• viola = viola
-• violonchelo / chelo = cello
-• contrabajo = double bass
-• arpa = harp
-• ukelele = ukulele
-• mandolina = mandolin
-• banjo = banjo
+        descripcion: `🔹 INSTRUMENTOS DE CUERDA:
+• guitarra
+• guitarra eléctrica
+• guitarra acústica
+• bajo
+• violín
+• viola
+• violonchelo / chelo
+• contrabajo
+• arpa
+• ukelele
+• mandolina
+• banjo
 
-🔹 INSTRUMENTOS DE VIENTO (wind instruments):
-• flauta = flute
-• flauta travesera = transverse flute
-• saxofón = saxophone
-• clarinete = clarinet
-• trompeta = trumpet
-• trombón = trombone
-• tuba = tuba
-• oboe = oboe
-• fagot = bassoon
-• armónica = harmonica
-• gaita = bagpipes
+🔹 INSTRUMENTOS DE VIENTO:
+• flauta
+• flauta travesera
+• saxofón
+• clarinete
+• trompeta
+• trombón
+• tuba
+• oboe
+• fagot
+• armónica
+• gaita
 
-🔹 INSTRUMENTOS DE PERCUSIÓN (percussion instruments):
-• batería = drum set
-• tambor = drum
-• bombo = bass drum
-• platillos = cymbals
-• pandereta = tambourine
-• maracas = maracas
+🔹 INSTRUMENTOS DE PERCUSIÓN:
+• batería
+• tambor
+• bombo
+• platillos
+• pandereta
+• maracas
 • güiro = güiro
-• xilófono = xylophone
-• timbales = timbales
-• campanas = bells
+• xilófono
+• timbales
+• campanas
 
-🔹 INSTRUMENTOS DE TECLADO (keyboard instruments):
+🔹 INSTRUMENTOS DE TECLADO:
 • piano = piano
-• teclado = keyboard
-• órgano = organ
-• acordeón = accordion
+• teclado
+• órgano
+• acordeón
 
 🔹 VERBOS:
-• tocar un instrumento = to play an instrument
-• cantar = to sing
-• componer = to compose
-• grabar = to record
-• ensayar = to rehearse
+• tocar un instrumento
+• cantar
+• componer
+• grabar
+• ensayar
 
 📌 EJEMPLOS:
 • Toco la guitarra.
@@ -4089,7 +4089,7 @@ CLÁSICA Y TRADICIONAL:
         id: "t3",
         titulo: "Hablar de música",
         tituloChino: "谈论音乐",
-        descripcion: `🔹 PREGUNTAS COMUNES (common questions):
+        descripcion: `🔹 PREGUNTAS COMUNES:
 • ¿Qué tipo de música te gusta?
 • ¿Cuál es tu género favorito?
 • ¿Cuál es tu grupo favorito?
@@ -4099,7 +4099,7 @@ CLÁSICA Y TRADICIONAL:
 • ¿Qué canción te gusta más?
 • ¿Escuchas música mientras estudias?
 
-🔹 RESPUESTAS (answers):
+🔹 RESPUESTAS:
 • Me gusta / Me encanta...
 • No me gusta...
 • Odio...
@@ -4109,25 +4109,25 @@ CLÁSICA Y TRADICIONAL:
 • Sí, toco la guitarra / el piano.
 • He ido a varios conciertos.
 
-🔹 EXPRESIONES ÚTILES (useful expressions):
-• Tiene buena voz. = He/she has a good voice.
-• La letra es bonita. = The lyrics are beautiful.
-• El ritmo es pegadizo. = The rhythm is catchy.
-• La melodía es muy bonita. = The melody is very pretty.
-• Me pongo los auriculares y me desconecto. = I put on headphones and disconnect.
-• La música me relaja. = Music relaxes me.
-• Me ayuda a concentrarme. = It helps me concentrate.
+🔹 EXPRESIONES ÚTILES:
+• Tiene buena voz.
+• La letra es bonita.
+• El ritmo es pegadizo.
+• La melodía es muy bonita.
+• Me pongo los auriculares y me desconecto.
+• La música me relaja.
+• Me ayuda a concentrarme.
 
-🔹 PROFESIONES RELACIONADAS (related professions):
-• cantante = singer
-• músico / música = musician
-• compositor / compositora = composer
-• guitarrista = guitarist
-• pianista = pianist
-• batería = drummer
-• bajista = bassist
-• violinista = violinist
-• productor musical = music producer
+🔹 PROFESIONES RELACIONADAS:
+• cantante
+• músico / música
+• compositor / compositora
+• guitarrista
+• pianista
+• batería
+• bajista
+• violinista
+• productor musical
 • DJ = DJ
 
 📌 EJEMPLOS:
@@ -4198,27 +4198,27 @@ CLÁSICA Y TRADICIONAL:
         id: "t4",
         titulo: "Eventos musicales y conciertos",
         tituloChino: "音乐活动和演唱会",
-        descripcion: `🔹 VOCABULARIO DE CONCIERTOS (concert vocabulary):
-• concierto = concert
+        descripcion: `🔹 VOCABULARIO DE CONCIERTOS:
+• concierto
 • festival de música = music festival
-• gira = tour
-• escenario = stage
-• público = audience
-• entrada / boleto = ticket
-• taquilla = box office
-• butaca = seat
-• entrada general = general admission
+• gira
+• escenario
+• público
+• entrada / boleto
+• taquilla
+• butaca
+• entrada general
 • zona VIP = VIP area
-• camiseta del concierto = concert t-shirt
+• camiseta del concierto
 • setlist = setlist
-• bis / encore = encore
+• bis / encore
 
 🔹 FRASES ÚTILES:
 • ¿Cuánto cuesta la entrada?
 • ¿Dónde puedo comprar las entradas?
 • ¿A qué hora empieza el concierto?
 • ¿Cuánto dura el concierto?
-• ¿Quién es el telonero? (Who is the opening act?)
+• ¿Quién es el telonero?
 • El concierto fue increíble.
 • El cantante interactuó con el público.
 • Cantamos todas las canciones.
@@ -4226,12 +4226,12 @@ CLÁSICA Y TRADICIONAL:
 
 🔹 TIPOS DE EVENTOS:
 • festival = festival
-• macroconcierto = huge concert
-• concierto benéfico = charity concert
-• concierto acústico = acoustic concert
-• concierto sinfónico = symphonic concert
-• ópera = opera
-• musical = musical theater
+• macroconcierto
+• concierto benéfico
+• concierto acústico
+• concierto sinfónico
+• ópera
+• musical
 
 📌 EJEMPLOS:
 • Las entradas para el concierto se agotaron en una hora.
@@ -5203,54 +5203,54 @@ CLÁSICA Y TRADICIONAL:
         id: "t1",
         titulo: "Dispositivos tecnológicos",
         tituloChino: "科技设备",
-        descripcion: `🔹 DISPOSITIVOS Y APARATOS (devices and gadgets):
+        descripcion: `🔹 DISPOSITIVOS Y APARATOS:
 
 TELÉFONOS Y COMUNICACIÓN:
 • teléfono móvil / celular = mobile phone / cell phone
-• smartphone = smartphone
-• teléfono fijo = landline
-• teléfono inteligente = smartphone
-• teléfono plegable = foldable phone
+• smartphone
+• teléfono fijo
+• teléfono inteligente
+• teléfono plegable
 
 COMPUTADORES:
-• ordenador = computer (Spain)
-• computadora = computer (Latin America)
-• portátil = laptop
-• sobremesa = desktop computer
+• ordenador
+• computadora (Latin America)
+• portátil
+• sobremesa
 • tablet = tablet
-• pantalla = screen
-• monitor = monitor
+• pantalla
+• monitor
 
 ACCESORIOS:
-• auriculares = headphones
-• cascos = headphones/headset
-• altavoz = speaker
-• cargador = charger
-• batería = battery
-• batería externa / power bank = power bank
-• ratón = mouse
-• teclado = keyboard
-• ratón inalámbrico = wireless mouse
-• alfombrilla de ratón = mouse pad
-• funda = case
-• protector de pantalla = screen protector
+• auriculares
+• cascos
+• altavoz
+• cargador
+• batería
+• batería externa / power bank
+• ratón
+• teclado
+• ratón inalámbrico
+• alfombrilla de ratón
+• funda
+• protector de pantalla
 
 ALMACENAMIENTO:
 • memoria USB / pendrive = USB flash drive
-• disco duro = hard drive
-• disco duro externo = external hard drive
-• tarjeta de memoria = memory card
+• disco duro
+• disco duro externo
+• tarjeta de memoria
 • CD / DVD = CD / DVD
-• nube = cloud
+• nube
 
 OTROS:
-• impresora = printer
-• escáner = scanner
-• fotocopiadora = photocopier
-• webcam = webcam
-• micrófono = microphone
+• impresora
+• escáner
+• fotocopiadora
+• webcam
+• micrófono
 • router = router
-• altavoz inteligente = smart speaker
+• altavoz inteligente
 • reloj inteligente = smartwatch
 
 📌 EJEMPLOS:
@@ -5333,32 +5333,32 @@ OTROS:
         descripcion: `🔹 VOCABULARIO DE INTERNET (internet vocabulary):
 • internet = internet
 • WiFi = WiFi
-• datos móviles = mobile data
-• contraseña = password
-• usuario = username
+• datos móviles
+• contraseña
+• usuario
 • correo electrónico / email = email
 • dirección IP = IP address
-• navegador = browser
-• buscador = search engine (Google, Bing)
-• enlace / link = link
-• página web = webpage
-• sitio web = website
-• descargar = to download
-• subir = to upload
-• instalar = to install
-• actualizar = to update
-• guardar = to save
-• borrar / eliminar = to delete
-• compartir = to share
-• enviar = to send
-• recibir = to receive
-• buscar = to search
-• navegar = to browse
+• navegador
+• buscador (Google, Bing)
+• enlace / link
+• página web
+• sitio web
+• descargar
+• subir
+• instalar
+• actualizar
+• guardar
+• borrar / eliminar
+• compartir
+• enviar
+• recibir
+• buscar
+• navegar
 
-🔹 APLICACIONES Y REDES SOCIALES (apps and social media):
+🔹 APLICACIONES Y REDES SOCIALES:
 • aplicación / app = app
 • WhatsApp = WhatsApp
-• Telegram = Telegram
+• Telegram
 • Instagram = Instagram
 • Facebook = Facebook
 • Twitter / X = Twitter / X
@@ -5369,7 +5369,7 @@ OTROS:
 • Pinterest = Pinterest
 • Spotify = Spotify
 • Netflix = Netflix
-• Amazon Prime = Amazon Prime
+• Amazon Prime
 • Disney+ = Disney+
 
 🔹 FRASES ÚTILES:
@@ -5460,46 +5460,46 @@ OTROS:
         titulo: "Acciones comunes en redes sociales",
         tituloChino: "社交网络上的常见操作",
         descripcion: `🔹 ACCIONES EN REDES SOCIALES (social media actions):
-• publicar / postear = to post
-• compartir = to share
-• dar like / me gusta = to like
-• comentar = to comment
-• seguir = to follow
+• publicar / postear
+• compartir
+• dar like / me gusta
+• comentar
+• seguir
 • dejar de seguir = to unfollow
-• etiquetar = to tag
-• enviar un mensaje = to send a message
-• hacer una historia = to post a story
-• hacer un directo / en vivo = to go live
-• bloquear = to block
-• reportar = to report
-• silenciar = to mute
-• guardar = to save
+• etiquetar
+• enviar un mensaje
+• hacer una historia
+• hacer un directo / en vivo
+• bloquear
+• reportar
+• silenciar
+• guardar
 • retuitear = to retweet
-• suscribirse = to subscribe
+• suscribirse
 
-🔹 FRASES ÚTILES (useful phrases):
+🔹 FRASES ÚTILES:
 • Sígueme en Instagram. = Follow me on Instagram.
-• Dame like en mi foto. = Like my photo.
-• Comparte este video. = Share this video.
-• Te etiqueté en la foto. = I tagged you in the photo.
-• ¿Has visto mi última historia? = Have you seen my latest story?
-• ¿Cuántos seguidores tienes? = How many followers do you have?
+• Dame like en mi foto.
+• Comparte este video.
+• Te etiqueté en la foto.
+• ¿Has visto mi última historia?
+• ¿Cuántos seguidores tienes?
 • Me he hecho una cuenta nueva. = I've created a new account.
-• Tengo que actualizar la aplicación. = I need to update the app.
+• Tengo que actualizar la aplicación.
 
 🔹 SUSTANTIVOS RELACIONADOS:
-• seguidor / seguidora = follower
-• like / me gusta = like
-• comentario = comment
-• publicación = post
-• historia = story
-• perfil = profile
-• foto de perfil = profile picture
-• biografía = bio
-• feed = feed
-• tendencia = trend
+• seguidor / seguidora
+• like / me gusta
+• comentario
+• publicación
+• historia
+• perfil
+• foto de perfil
+• biografía
+• feed
+• tendencia
 • hashtag = hashtag
-• mención = mention
+• mención
 
 📌 EJEMPLOS:
 • Voy a publicar una foto.
@@ -5570,29 +5570,29 @@ OTROS:
         id: "t4",
         titulo: "Problemas técnicos y soluciones",
         tituloChino: "技术问题和解决方案",
-        descripcion: `🔹 PROBLEMAS COMUNES (common problems):
-• No tengo cobertura = I have no signal
-• No tengo batería = I have no battery
-• Se me ha olvidado la contraseña = I forgot my password
-• El móvil se ha quedado congelado = My phone froze
+        descripcion: `🔹 PROBLEMAS COMUNES:
+• No tengo cobertura
+• No tengo batería
+• Se me ha olvidado la contraseña
+• El móvil se ha quedado congelado
 • No se conecta al WiFi = It doesn't connect to WiFi
-• El internet va muy lento = The internet is very slow
-• La página no carga = The page doesn't load
-• La aplicación falla = The app crashes
-• No tengo espacio en el móvil = I don't have space on my phone
-• El cargador no funciona = The charger doesn't work
-• La pantalla está rota = The screen is broken
-• Me han hackeado la cuenta = My account has been hacked
+• El internet va muy lento
+• La página no carga
+• La aplicación falla
+• No tengo espacio en el móvil
+• El cargador no funciona
+• La pantalla está rota
+• Me han hackeado la cuenta
 
-🔹 SOLUCIONES (solutions):
-• Reinicia el móvil = Restart your phone
-• Cierra la aplicación y vuelve a abrirla = Close the app and reopen it
-• Actualiza el sistema = Update the system
-• Borra la caché = Clear the cache
-• Libera espacio = Free up space
-• Cambia la contraseña = Change your password
-• Restablece la configuración de fábrica = Factory reset
-• Lleva el móvil al servicio técnico = Take your phone to tech support
+🔹 SOLUCIONES:
+• Reinicia el móvil
+• Cierra la aplicación y vuelve a abrirla
+• Actualiza el sistema
+• Borra la caché
+• Libera espacio
+• Cambia la contraseña
+• Restablece la configuración de fábrica
+• Lleva el móvil al servicio técnico
 
 🔹 FRASES ÚTILES:
 • ¿Cómo puedo restablecer mi contraseña?
@@ -6576,22 +6576,22 @@ OTROS:
         id: "t1",
         titulo: "Aficiones y hobbies",
         tituloChino: "爱好和兴趣",
-        descripcion: `🔹 AFICIONES COMUNES (common hobbies):
-• leer = to read
-• escuchar música = to listen to music
-• dibujar = to draw
-• pintar = to paint
-• cocinar = to cook
-• bailar = to dance
-• cantar = to sing
-• tocar un instrumento = to play an instrument
-• jugar al fútbol / al baloncesto / al tenis = to play football / basketball / tennis
-• ver películas = to watch movies
-• jugar a videojuegos = to play video games
-• hacer fotos = to take photos
-• pasear = to go for a walk
-• viajar = to travel
-• descansar = to rest
+        descripcion: `🔹 AFICIONES COMUNES:
+• leer
+• escuchar música
+• dibujar
+• pintar
+• cocinar
+• bailar
+• cantar
+• tocar un instrumento
+• jugar al fútbol / al baloncesto / al tenis
+• ver películas
+• jugar a videojuegos
+• hacer fotos
+• pasear
+• viajar
+• descansar
 
 📌 EJEMPLOS:
 • Me gusta leer libros de aventuras.
@@ -6637,13 +6637,13 @@ OTROS:
         id: "t2",
         titulo: "Gustar y encantar",
         tituloChino: "Gustar 和 encantar",
-        descripcion: `🔹 EXPRESAR GUSTOS (expressing likes):
-• Me gusta + infinitivo = I like + verb
-• Me encanta + infinitivo = I love + verb
-• Me gusta + sustantivo = I like + noun
-• Me gustan + sustantivo plural = I like + plural noun
-• No me gusta = I don't like
-• Odio = I hate
+        descripcion: `🔹 EXPRESAR GUSTOS:
+• Me gusta + infinitivo
+• Me encanta + infinitivo
+• Me gusta + sustantivo
+• Me gustan + sustantivo plural
+• No me gusta
+• Odio
 
 📌 RECUERDA:
 "Gustar" funciona de forma especial: lo que gusta es el sujeto.
@@ -6694,18 +6694,18 @@ OTROS:
         id: "t3",
         titulo: "Preguntar por aficiones",
         tituloChino: "询问爱好",
-        descripcion: `🔹 PREGUNTAS SOBRE AFICIONES (asking about hobbies):
-• ¿Qué te gusta hacer en tu tiempo libre? = What do you like to do in your free time?
-• ¿Cuáles son tus aficiones? = What are your hobbies?
-• ¿Te gusta...? = Do you like...?
-• ¿Qué haces los fines de semana? = What do you do on weekends?
-• ¿Practicas algún deporte? = Do you play any sport?
-• ¿Qué tipo de música te gusta? = What kind of music do you like?
+        descripcion: `🔹 PREGUNTAS SOBRE AFICIONES:
+• ¿Qué te gusta hacer en tu tiempo libre?
+• ¿Cuáles son tus aficiones?
+• ¿Te gusta...?
+• ¿Qué haces los fines de semana?
+• ¿Practicas algún deporte?
+• ¿Qué tipo de música te gusta?
 
 📌 RESPUESTAS:
-• Me gusta... = I like...
-• Mi afición favorita es... = My favorite hobby is...
-• En mi tiempo libre... = In my free time...
+• Me gusta...
+• Mi afición favorita es...
+• En mi tiempo libre...
 • Sí, me encanta. / No, no me gusta mucho.
 • Juego al tenis. / Hago natación.
 
@@ -6751,21 +6751,21 @@ OTROS:
         id: "t4",
         titulo: "Frecuencia y tiempo libre",
         tituloChino: "频率与空闲时间",
-        descripcion: `🔹 ADVERBIOS DE FRECUENCIA (frequency adverbs):
-• siempre = always
-• casi siempre = almost always
-• normalmente = normally
-• a menudo = often
-• a veces = sometimes
-• casi nunca = almost never
-• nunca = never
+        descripcion: `🔹 ADVERBIOS DE FRECUENCIA:
+• siempre
+• casi siempre
+• normalmente
+• a menudo
+• a veces
+• casi nunca
+• nunca
 
 📌 EXPRESIONES DE TIEMPO:
-• todos los días = every day
-• los fines de semana = on weekends
-• por las tardes = in the afternoons
-• en mi tiempo libre = in my free time
-• cuando tengo tiempo = when I have time
+• todos los días
+• los fines de semana
+• por las tardes
+• en mi tiempo libre
+• cuando tengo tiempo
 
 📌 EJEMPLOS:
 • Siempre leo antes de dormir.
@@ -7651,40 +7651,40 @@ OTROS:
         id: "t1",
         titulo: "Planes de vacaciones",
         tituloChino: "假期计划",
-        descripcion: `🔹 FRASES PARA HABLAR DE PLANES (phrases to talk about plans):
+        descripcion: `🔹 FRASES PARA HABLAR DE PLANES:
 
-• Voy a viajar a... = I'm going to travel to...
-• Quiero ir a... = I want to go to...
-• Me gustaría visitar... = I would like to visit...
-• Tengo previsto... = I plan to...
-• Este verano voy a... = This summer I'm going to...
-• El año que viene quiero... = Next year I want to...
-• Estoy planeando un viaje a... = I'm planning a trip to...
-• Me voy de vacaciones a... = I'm going on vacation to...
-• He reservado un hotel en... = I've booked a hotel in...
+• Voy a viajar a...
+• Quiero ir a...
+• Me gustaría visitar...
+• Tengo previsto...
+• Este verano voy a...
+• El año que viene quiero...
+• Estoy planeando un viaje a...
+• Me voy de vacaciones a...
+• He reservado un hotel en...
 
-🔹 DESTINOS COMUNES (common destinations):
-• la playa = the beach
-• la montaña = the mountain
-• la ciudad = the city
-• el campo = the countryside
-• el extranjero = abroad
-• la costa = the coast
-• la isla = the island
-• el pueblo = the village
-• la capital = the capital
+🔹 DESTINOS COMUNES:
+• la playa
+• la montaña
+• la ciudad
+• el campo
+• el extranjero
+• la costa
+• la isla
+• el pueblo
+• la capital
 
-🔹 TIPOS DE VIAJE (types of trips):
-• viaje de negocios = business trip
-• viaje de placer = leisure trip
-• viaje con amigos = trip with friends
-• viaje en familia = family trip
-• viaje de aventura = adventure trip
-• viaje organizado = organized tour
-• escapada de fin de semana = weekend getaway
-• luna de miel = honeymoon
-• viaje de estudios = study trip
-• crucero = cruise
+🔹 TIPOS DE VIAJE:
+• viaje de negocios
+• viaje de placer
+• viaje con amigos
+• viaje en familia
+• viaje de aventura
+• viaje organizado
+• escapada de fin de semana
+• luna de miel
+• viaje de estudios
+• crucero
 
 📌 EJEMPLOS:
 • Voy a viajar a España este verano.
@@ -7748,46 +7748,46 @@ OTROS:
         id: "t2",
         titulo: "Preparativos del viaje",
         tituloChino: "旅行准备",
-        descripcion: `🔹 VOCABULARIO DE PREPARATIVOS (preparation vocabulary):
+        descripcion: `🔹 VOCABULARIO DE PREPARATIVOS:
 
-• hacer la maleta = to pack (the suitcase)
-• reservar el hotel = to book the hotel
-• comprar el billete = to buy the ticket
-• sacar el pasaporte = to take out the passport
-• contratar un seguro = to take out insurance
-• cambiar dinero = to exchange money
-• mirar el tiempo = to check the weather
-• imprimir la reserva = to print the booking
-• cancelar la reserva = to cancel the booking
-• buscar vuelos = to search for flights
-• comparar precios = to compare prices
+• hacer la maleta
+• reservar el hotel
+• comprar el billete
+• sacar el pasaporte
+• contratar un seguro
+• cambiar dinero
+• mirar el tiempo
+• imprimir la reserva
+• cancelar la reserva
+• buscar vuelos
+• comparar precios
 
-🔹 DOCUMENTOS NECESARIOS (necessary documents):
-• pasaporte = passport
-• DNI = ID card
-• visado = visa
+🔹 DOCUMENTOS NECESARIOS:
+• pasaporte
+• DNI
+• visado
 • billete de avión/tren = plane/train ticket
-• reserva del hotel = hotel booking
-• carnet de conducir internacional = international driver's license
-• tarjeta sanitaria = health insurance card
+• reserva del hotel
+• carnet de conducir internacional
+• tarjeta sanitaria
 
-🔹 OBJETOS IMPORTANTES (important items):
-• maleta = suitcase
-• mochila = backpack
-• bolsa de mano = handbag
-• cámara de fotos = camera
-• cargador = charger
-• adaptador de corriente = power adapter
-• crema solar = sunscreen
-• gafas de sol = sunglasses
-• sombrero = hat
-• repelente de mosquitos = mosquito repellent
-• botiquín = first aid kit
-• medicamentos = medication
-• toalla = towel
-• bañador = swimsuit
+🔹 OBJETOS IMPORTANTES:
+• maleta
+• mochila
+• bolsa de mano
+• cámara de fotos
+• cargador
+• adaptador de corriente
+• crema solar
+• gafas de sol
+• sombrero
+• repelente de mosquitos
+• botiquín
+• medicamentos
+• toalla
+• bañador
 • ropa de abrigo = warm clothes
-• paraguas = umbrella
+• paraguas
 
 📌 EJEMPLOS:
 • Tengo que hacer la maleta.
@@ -7857,42 +7857,42 @@ OTROS:
         id: "t3",
         titulo: "Durante el viaje",
         tituloChino: "旅行期间",
-        descripcion: `🔹 FRASES ÚTILES DURANTE EL VIAJE (useful phrases during the trip):
+        descripcion: `🔹 FRASES ÚTILES DURANTE EL VIAJE:
 
-• ¿Dónde está el hotel? = Where is the hotel?
-• ¿Cómo llego a la playa? = How do I get to the beach?
-• ¿Cuánto cuesta la entrada? = How much is the entrance ticket?
-• ¿A qué hora sale el tren? = What time does the train leave?
-• ¿Dónde puedo comer? = Where can I eat?
-• ¿Hay visitas guiadas? = Are there guided tours?
-• ¿Qué monumentos puedo visitar? = What monuments can I visit?
-• ¿Dónde puedo comprar recuerdos? = Where can I buy souvenirs?
+• ¿Dónde está el hotel?
+• ¿Cómo llego a la playa?
+• ¿Cuánto cuesta la entrada?
+• ¿A qué hora sale el tren?
+• ¿Dónde puedo comer?
+• ¿Hay visitas guiadas?
+• ¿Qué monumentos puedo visitar?
+• ¿Dónde puedo comprar recuerdos?
 
-🔹 ACTIVIDADES COMUNES (common activities):
-• hacer turismo = sightseeing
-• visitar museos = visit museums
-• tomar fotos = take photos
+🔹 ACTIVIDADES COMUNES:
+• hacer turismo
+• visitar museos
+• tomar fotos
 • probar la comida local = try local food
-• comprar recuerdos = buy souvenirs
-• nadar en la playa = swim at the beach
-• hacer senderismo = hike
-• salir de noche = go out at night
-• ir de compras = go shopping
-• relajarse = relax
-• tomar el sol = sunbathe
-• bucear = dive
+• comprar recuerdos
+• nadar en la playa
+• hacer senderismo
+• salir de noche
+• ir de compras
+• relajarse
+• tomar el sol
+• bucear
 • hacer una excursión = take a day trip
 
-🔹 EVALUAR EL VIAJE (evaluating the trip):
-• Me encantó el viaje. = I loved the trip.
-• Las vistas son increíbles. = The views are incredible.
-• La comida es deliciosa. = The food is delicious.
-• La gente es muy amable. = The people are very friendly.
-• Quiero volver. = I want to come back.
-• El viaje fue increíble. = The trip was amazing.
-• Lo pasamos fenomenal. = We had a great time.
-• Lo recomiendo mucho. = I highly recommend it.
-• Repetiría sin duda. = I would definitely repeat it.
+🔹 EVALUAR EL VIAJE:
+• Me encantó el viaje.
+• Las vistas son increíbles.
+• La comida es deliciosa.
+• La gente es muy amable.
+• Quiero volver.
+• El viaje fue increíble.
+• Lo pasamos fenomenal.
+• Lo recomiendo mucho.
+• Repetiría sin duda.
 
 📌 EJEMPLOS:
 • Hicimos turismo por la ciudad.
@@ -7958,31 +7958,31 @@ OTROS:
         id: "t4",
         titulo: "Problemas durante el viaje",
         tituloChino: "旅行中的问题",
-        descripcion: `🔹 PROBLEMAS COMUNES (common problems):
+        descripcion: `🔹 PROBLEMAS COMUNES:
 
-• He perdido el pasaporte. = I've lost my passport.
-• Me han robado la cartera. = My wallet has been stolen.
-• He perdido el vuelo. = I've missed the flight.
+• He perdido el pasaporte.
+• Me han robado la cartera.
+• He perdido el vuelo.
 • Mi maleta no ha llegado. = My suitcase hasn't arrived.
-• Me he equivocado de hotel. = I've booked the wrong hotel.
-• No encuentro el alojamiento. = I can't find the accommodation.
-• Me siento mal / enfermo/a. = I feel sick.
-• Tengo que ir a la farmacia. = I need to go to the pharmacy.
+• Me he equivocado de hotel.
+• No encuentro el alojamiento.
+• Me siento mal / enfermo/a.
+• Tengo que ir a la farmacia.
 
-🔹 SOLUCIONES (solutions):
-• Ir a la oficina de objetos perdidos. = Go to the lost and found office.
-• Llamar a la embajada. = Call the embassy.
-• Contactar con la compañía aérea. = Contact the airline.
-• Pedir ayuda en información turística. = Ask for help at tourist information.
-• Llamar al número de emergencias. = Call the emergency number.
+🔹 SOLUCIONES:
+• Ir a la oficina de objetos perdidos.
+• Llamar a la embajada.
+• Contactar con la compañía aérea.
+• Pedir ayuda en información turística.
+• Llamar al número de emergencias.
 
-🔹 EMERGENCIAS (emergencies):
-• Necesito un médico. = I need a doctor.
-• Llame a una ambulancia. = Call an ambulance.
-• He tenido un accidente. = I've had an accident.
-• Necesito ayuda. = I need help.
-• ¿Dónde está el hospital más cercano? = Where is the nearest hospital?
-• ¿Cuál es el número de emergencias? = What is the emergency number?
+🔹 EMERGENCIAS:
+• Necesito un médico.
+• Llame a una ambulancia.
+• He tenido un accidente.
+• Necesito ayuda.
+• ¿Dónde está el hospital más cercano?
+• ¿Cuál es el número de emergencias?
 
 📌 NOTA: En España y la mayoría de países hispanohablantes, el número de emergencias es el 112.`,
         descripcionChino: `🔹 常见问题：
@@ -8892,48 +8892,48 @@ OTROS:
         tituloChino: "日常反身动词",
         descripcion: `🔹 VERBOS REFLEXIVOS PARA LA RUTINA DIARIA:
 
-MAÑANA (morning):
-• despertarse = to wake up
-• levantarse = to get up
-• estirarse = to stretch
-• bostezar (no reflexivo) = to yawn
-• ducharse = to shower
-• bañarse = to bathe
-• lavarse la cara = to wash face
-• lavarse los dientes = to brush teeth
-• afeitarse = to shave
-• maquillarse = to put on makeup
-• peinarse = to comb hair
-• secarse el pelo = to dry hair
-• vestirse = to get dressed
-• ponerse la ropa = to put on clothes
+MAÑANA:
+• despertarse
+• levantarse
+• estirarse
+• bostezar (no reflexivo)
+• ducharse
+• bañarse
+• lavarse la cara
+• lavarse los dientes
+• afeitarse
+• maquillarse
+• peinarse
+• secarse el pelo
+• vestirse
+• ponerse la ropa
 
-MEDIO DÍA / TARDE (midday / afternoon):
-• desayunar (no reflexivo) = to have breakfast
-• ir al trabajo / a la escuela = to go to work/school
-• trabajar / estudiar = to work / study
-• almorzar / comer = to have lunch
-• hacer la siesta = to take a nap (Spain)
-• volver a casa = to return home
+MEDIO DÍA / TARDE:
+• desayunar (no reflexivo)
+• ir al trabajo / a la escuela
+• trabajar / estudiar
+• almorzar / comer
+• hacer la siesta
+• volver a casa
 
-NOCHE (evening/night):
-• cenar = to have dinner
+NOCHE:
+• cenar
 • ver la televisión = to watch TV
-• leer = to read
-• escuchar música = to listen to music
-• relajarse = to relax
-• desvestirse = to get undressed
-• ponerse el pijama = to put on pajamas
-• acostarse = to go to bed
-• dormirse = to fall asleep
+• leer
+• escuchar música
+• relajarse
+• desvestirse
+• ponerse el pijama
+• acostarse
+• dormirse
 
-🔹 PRONOMBRES REFLEXIVOS (reflexive pronouns):
-• me = myself (yo)
-• te = yourself (tú)
-• se = himself/herself/yourself (él/ella/usted)
-• nos = ourselves (nosotros)
-• os = yourselves (vosotros)
-• se = themselves/yourselves (ellos/ellas/ustedes)
+🔹 PRONOMBRES REFLEXIVOS:
+• me (yo)
+• te (tú)
+• se (él/ella/usted)
+• nos (nosotros)
+• os (vosotros)
+• se (ellos/ellas/ustedes)
 
 📌 EJEMPLOS:
 • Me despierto a las siete.
@@ -9009,7 +9009,7 @@ NOCHE (evening/night):
         tituloChino: "完整的日常作息",
         descripcion: `🔹 EJEMPLO DE RUTINA DIARIA COMPLETA:
 
-🌅 POR LA MAÑANA (in the morning):
+🌅 POR LA MAÑANA:
 • Me despierto a las 7:00.
 • Me levanto a las 7:05.
 • Me ducho (o me baño).
@@ -9020,7 +9020,7 @@ NOCHE (evening/night):
 • Desayuno a las 7:30.
 • Salgo de casa a las 8:00.
 
-🌞 POR LA TARDE (in the afternoon):
+🌞 POR LA TARDE:
 • Trabajo / estudio de 9:00 a 14:00.
 • Almuerzo a las 14:30.
 • A veces hago la siesta.
@@ -9028,7 +9028,7 @@ NOCHE (evening/night):
 • Termino de trabajar a las 18:00.
 • Vuelvo a casa.
 
-🌙 POR LA NOCHE (at night):
+🌙 POR LA NOCHE:
 • Ceno a las 21:00.
 • Veo la televisión o leo.
 • Me relajo.
@@ -9038,19 +9038,19 @@ NOCHE (evening/night):
 • Me acuesto a las 23:00.
 • Me duermo sobre las 23:30.
 
-🔹 EXPRESIONES DE TIEMPO (time expressions):
-• por la mañana = in the morning
-• por la tarde = in the afternoon
-• por la noche = at night
-• por la madrugada = in the early morning
-• todos los días = every day
+🔹 EXPRESIONES DE TIEMPO:
+• por la mañana
+• por la tarde
+• por la noche
+• por la madrugada
+• todos los días
 • de lunes a viernes = from Monday to Friday
-• los fines de semana = on weekends
-• a menudo = often
-• a veces = sometimes
-• raramente = rarely
-• normalmente = normally
-• generalmente = generally
+• los fines de semana
+• a menudo
+• a veces
+• raramente
+• normalmente
+• generalmente
 
 📌 EJEMPLOS:
 • Me levanto a las ocho.
@@ -9124,7 +9124,7 @@ NOCHE (evening/night):
         id: "t3",
         titulo: "Preguntar sobre la rutina",
         tituloChino: "询问日常作息",
-        descripcion: `🔹 PREGUNTAS COMUNES (common questions):
+        descripcion: `🔹 PREGUNTAS COMUNES:
 
 • ¿A qué hora te despiertas?
 • ¿A qué hora te levantas?
@@ -9138,18 +9138,18 @@ NOCHE (evening/night):
 • ¿Haces ejercicio a menudo?
 • ¿Cenas temprano o tarde?
 
-🔹 CONECTORES PARA HABLAR DE RUTINA (connectors):
-• primero = first
-• luego / después = then / after
-• más tarde = later
-• finalmente = finally
-• antes de = before
-• después de = after
-• mientras = while
-• durante = during
-• al mismo tiempo = at the same time
+🔹 CONECTORES PARA HABLAR DE RUTINA:
+• primero
+• luego / después
+• más tarde
+• finalmente
+• antes de
+• después de
+• mientras
+• durante
+• al mismo tiempo
 
-🔹 RESPUESTAS COMUNES (common answers):
+🔹 RESPUESTAS COMUNES:
 • Me despierto a las siete y media.
 • Primero me ducho, luego desayuno.
 • Antes de acostarme, leo un libro.
@@ -9215,7 +9215,7 @@ NOCHE (evening/night):
         id: "t4",
         titulo: "Rutina entre semana vs fin de semana",
         tituloChino: "工作日 vs 周末的日常",
-        descripcion: `🔹 ENTRE SEMANA (weekdays) vs FIN DE SEMANA (weekend):
+        descripcion: `🔹 ENTRE SEMANA vs FIN DE SEMANA:
 
 ENTRE SEMANA:
 • Me levanto temprano (a las 7:00)
@@ -10145,31 +10145,31 @@ FIN DE SEMANA:
         tituloChino: "到达餐厅和要桌子",
         descripcion: `Frases para llegar y pedir mesa:
 
-🔹 LLEGAR AL RESTAURANTE (arriving at the restaurant):
-• ¿Tiene una mesa para dos? = Do you have a table for two?
-• ¿Tiene una mesa para cuatro? = Do you have a table for four?
-• ¿Hay alguna mesa libre? = Is there any free table?
-• ¿Cuánto tiempo hay que esperar? = How long do we have to wait?
-• Tengo una reserva a nombre de... = I have a reservation under the name of...
-• ¿Puedo sentarme al lado de la ventana? = Can I sit by the window?
-• Prefiero una mesa en la terraza = I prefer a table on the terrace
-• ¿Puedo sentarme en la barra? = Can I sit at the bar?
+🔹 LLEGAR AL RESTAURANTE:
+• ¿Tiene una mesa para dos?
+• ¿Tiene una mesa para cuatro?
+• ¿Hay alguna mesa libre?
+• ¿Cuánto tiempo hay que esperar?
+• Tengo una reserva a nombre de...
+• ¿Puedo sentarme al lado de la ventana?
+• Prefiero una mesa en la terraza
+• ¿Puedo sentarme en la barra?
 
-🔹 VOCABULARIO DEL RESTAURANTE (restaurant vocabulary):
+🔹 VOCABULARIO DEL RESTAURANTE:
 • la carta = menu
-• la bebida = drink
-• el plato = dish
-• el primer plato = first course (starter)
-• el segundo plato = second course (main)
-• el postre = dessert
-• la cuenta = bill
-• el camarero / la camarera = waiter / waitress
-• el jefe de sala = head waiter
-• la propina = tip
-• la reserva = reservation
-• la terraza = terrace
-• el menú del día = set menu (fixed price)
-• la carta de vinos = wine list
+• la bebida
+• el plato
+• el primer plato
+• el segundo plato
+• el postre
+• la cuenta
+• el camarero / la camarera
+• el jefe de sala
+• la propina
+• la reserva
+• la terraza
+• el menú del día
+• la carta de vinos
 
 📌 NOTA CULTURAL:
 En España, el "menú del día" es muy común en los restaurantes para el almuerzo. Incluye primer plato, segundo plato, postre y bebida por un precio fijo (normalmente entre 10 y 15 euros).`,
@@ -10224,35 +10224,35 @@ En España, el "menú del día" es muy común en los restaurantes para el almuer
         tituloChino: "点餐",
         descripcion: `Frases para pedir:
 
-🔹 ANTES DE PEDIR (before ordering):
-• ¿Qué me recomienda? = What do you recommend?
-• ¿Cuál es el plato del día? = What is the dish of the day?
-• ¿Qué lleva este plato? = What does this dish contain?
-• ¿Es picante? = Is it spicy?
-• ¿Cuál es la especialidad de la casa? = What is the house specialty?
+🔹 ANTES DE PEDIR:
+• ¿Qué me recomienda?
+• ¿Cuál es el plato del día?
+• ¿Qué lleva este plato?
+• ¿Es picante?
+• ¿Cuál es la especialidad de la casa?
 
-🔹 CÓMO PEDIR (how to order):
-• Para empezar, quiero... = To start, I want...
-• De primero, voy a tomar... = For the first course, I'll have...
-• De segundo, quiero... = For the main course, I want...
-• De postre, me gustaría... = For dessert, I'd like...
-• Para beber, voy a tomar... = To drink, I'll have...
+🔹 CÓMO PEDIR:
+• Para empezar, quiero...
+• De primero, voy a tomar...
+• De segundo, quiero...
+• De postre, me gustaría...
+• Para beber, voy a tomar...
 
-🔹 PREGUNTAR POR LOS INGREDIENTES (asking about ingredients):
-• ¿Qué lleva este plato? = What does this dish have?
-• ¿Es picante? = Is it spicy?
-• ¿Lleva carne / pescado / verduras? = Does it have meat/fish/vegetables?
-• ¿Tiene gluten? = Does it have gluten?
-• ¿Tiene lactosa? = Does it have lactose?
-• ¿Tiene frutos secos? = Does it have nuts?
+🔹 PREGUNTAR POR LOS INGREDIENTES:
+• ¿Qué lleva este plato?
+• ¿Es picante?
+• ¿Lleva carne / pescado / verduras?
+• ¿Tiene gluten?
+• ¿Tiene lactosa?
+• ¿Tiene frutos secos?
 
 🔹 PARA VEGETARIANOS Y VEGANOS:
-• Soy vegetariano/a = I'm vegetarian
-• Soy vegano/a = I'm vegan
-• ¿Tiene opciones vegetarianas? = Do you have vegetarian options?
-• ¿Puede hacerlo sin carne? = Can you make it without meat?
-• ¿Tiene leche o huevo? = Does it have milk or egg?
-• ¿Qué platos no llevan carne? = Which dishes don't have meat?
+• Soy vegetariano/a
+• Soy vegano/a
+• ¿Tiene opciones vegetarianas?
+• ¿Puede hacerlo sin carne?
+• ¿Tiene leche o huevo?
+• ¿Qué platos no llevan carne?
 
 📌 EJEMPLOS:
 • ¿Qué me recomienda?
@@ -10315,34 +10315,34 @@ En España, el "menú del día" es muy común en los restaurantes para el almuer
         tituloChino: "用餐期间和之后",
         descripcion: `Frases útiles:
 
-🔹 DURANTE LA COMIDA (during the meal):
-• Está muy bueno / delicioso = It's very good / delicious
-• Está frío / caliente = It's cold / hot
-• La comida está excelente = The food is excellent
-• ¿Me puede traer más pan? = Can you bring me more bread?
-• ¿Me puede traer sal / aceite? = Can you bring me salt/oil?
-• ¿Puede repetirme el plato? = Can you repeat the dish? (no)
-• Perdón, me han traído otro plato = Excuse me, they brought me the wrong dish
+🔹 DURANTE LA COMIDA:
+• Está muy bueno / delicioso
+• Está frío / caliente
+• La comida está excelente
+• ¿Me puede traer más pan?
+• ¿Me puede traer sal / aceite?
+• ¿Puede repetirme el plato? (no)
+• Perdón, me han traído otro plato
 
-🔹 PEDIR LA CUENTA (asking for the bill):
-• ¿Me puede traer la cuenta? = Can you bring me the bill?
-• La cuenta, por favor = The bill, please
-• ¿Cuánto es? = How much is it?
-• ¿Está incluido el servicio? = Is service included?
-• ¿Aceptan tarjeta? = Do you accept card?
-• ¿Puedo pagar en efectivo? = Can I pay in cash?
-• ¿Puedo pagar con tarjeta de crédito? = Can I pay with credit card?
+🔹 PEDIR LA CUENTA:
+• ¿Me puede traer la cuenta?
+• La cuenta, por favor
+• ¿Cuánto es?
+• ¿Está incluido el servicio?
+• ¿Aceptan tarjeta?
+• ¿Puedo pagar en efectivo?
+• ¿Puedo pagar con tarjeta de crédito?
 
-🔹 LA PROPINA (the tip):
-• ¿Se deja propina en España? = Do you leave a tip in Spain?
-• Quédese con el cambio = Keep the change
-• La propina no es obligatoria, pero se agradece = Tip is not mandatory, but appreciated
+🔹 LA PROPINA:
+• ¿Se deja propina en España?
+• Quédese con el cambio
+• La propina no es obligatoria, pero se agradece
 
 🔹 EXPRESIONES DE SATISFACCIÓN:
-• La comida estaba excelente = The food was excellent
-• Todo estuvo perfecto = Everything was perfect
-• Volveré / Volveremos = I'll come back / We'll come back
-• Se lo recomendaré a mis amigos = I'll recommend it to my friends
+• La comida estaba excelente
+• Todo estuvo perfecto
+• Volveré / Volveremos
+• Se lo recomendaré a mis amigos
 
 📌 NOTA CULTURAL:
 En España, no es obligatorio dejar propina. En los bares y cafeterías, a veces se deja el cambio pequeño (unas monedas). En restaurantes, dejar el 5-10% es considerado generoso.`,
@@ -10400,25 +10400,25 @@ En España, no es obligatorio dejar propina. En los bares y cafeterías, a veces
         tituloChino: "餐厅里的常见问题",
         descripcion: `🔹 PROBLEMAS Y SOLUCIONES:
 
-• La comida está fría = The food is cold
-  → ¿Puede calentarlo, por favor? = Can you heat it up, please?
+• La comida está fría
+  → ¿Puede calentarlo, por favor?
 
-• Me han traído otro plato = They brought me the wrong dish
-  → Perdón, yo pedí pollo, no pescado = Excuse me, I ordered chicken, not fish
+• Me han traído otro plato
+  → Perdón, yo pedí pollo, no pescado
 
-• Falta un plato = A dish is missing
-  → Todavía no ha llegado mi plato = My dish hasn't arrived yet
+• Falta un plato
+  → Todavía no ha llegado mi plato
 
 • La bebida no ha llegado = The drink hasn't arrived
-  → ¿Me puede traer la bebida, por favor? = Can you bring me my drink, please?
+  → ¿Me puede traer la bebida, por favor?
 
-• Hay algo en la comida = There's something in the food
-  → Perdón, hay un pelo en la sopa = Excuse me, there's a hair in the soup
+• Hay algo en la comida
+  → Perdón, hay un pelo en la sopa
 
-🔹 RECLAMACIONES (complaints):
-• Quiero hablar con el jefe de sala = I want to speak with the head waiter
-• No voy a pagar por este plato = I'm not paying for this dish
-• ¿Me puede hacer un descuento? = Can you give me a discount?
+🔹 RECLAMACIONES:
+• Quiero hablar con el jefe de sala
+• No voy a pagar por este plato
+• ¿Me puede hacer un descuento?
 
 📌 EJEMPLOS:
 • La sopa está fría, ¿puede calentarla?
@@ -11285,20 +11285,20 @@ En España, no es obligatorio dejar propina. En los bares y cafeterías, a veces
         descripcion: `Los verbos son palabras que expresan acciones, estados o procesos.
 
 🔹 EJEMPLOS DE VERBOS EN ESPAÑOL:
-• comer = to eat
-• beber = to drink
-• vivir = to live
-• hablar = to speak
-• estudiar = to study
-• trabajar = to work
-• correr = to run
-• dormir = to sleep
+• comer
+• beber
+• vivir
+• hablar
+• estudiar
+• trabajar
+• correr
+• dormir
 
-🔹 PARTES DEL VERBO (parts of the verb):
+🔹 PARTES DEL VERBO:
 Todo verbo en español tiene:
 
-1. RAÍZ (root) = la parte que no cambia (o cambia poco)
-2. TERMINACIÓN (ending) = la parte que cambia según la persona
+1. RAÍZ = la parte que no cambia (o cambia poco)
+2. TERMINACIÓN = la parte que cambia según la persona
 
 Ejemplo con HABLAR:
 • Raíz: HABL-
@@ -11363,24 +11363,24 @@ En español, los verbos cambian su terminación según la persona que realiza la
 
 🔹 SINGULAR:
 1. YO = I
-2. TÚ = you (informal, singular)
-3. ÉL / ELLA / USTED = he / she / you (formal, singular)
+2. TÚ (informal, singular)
+3. ÉL / ELLA / USTED (formal, singular)
 
 🔹 PLURAL:
-4. NOSOTROS / NOSOTRAS = we (masculine/feminine)
-5. VOSOTROS / VOSOTRAS = you all (informal, plural - Spain only)
-6. ELLOS / ELLAS / USTEDES = they (masculine/feminine) / you all (formal - Latin America)
+4. NOSOTROS / NOSOTRAS
+5. VOSOTROS / VOSOTRAS (informal, plural - Spain only)
+6. ELLOS / ELLAS / USTEDES (formal - Latin America)
 
-🔹 LOS PRONOMBRES SUJETO (subject pronouns):
-• yo = I
-• tú = you (informal)
-• él = he
-• ella = she
-• usted = you (formal)
-• nosotros / nosotras = we
-• vosotros / vosotras = you all (Spain)
-• ellos / ellas = they
-• ustedes = you all (formal / Latin America)
+🔹 LOS PRONOMBRES SUJETO:
+• yo
+• tú (informal)
+• él
+• ella
+• usted (formal)
+• nosotros / nosotras
+• vosotros / vosotras
+• ellos / ellas
+• ustedes (formal / Latin America)
 
 📌 NOTA IMPORTANTE:
 En español, no siempre es necesario usar el pronombre sujeto porque la conjugación del verbo ya indica la persona.
@@ -11445,7 +11445,7 @@ Usar el pronombre sujeto todo el tiempo suena poco natural. Los nativos lo omite
 1. Quita la terminación -AR, -ER o -IR
 2. Añade la terminación correspondiente
 
-🔹 VERBOS EN -AR (ejemplo: HABLAR = to speak):
+🔹 VERBOS EN -AR (ejemplo: HABLAR):
 
 • yo habl- **O**
 • tú habl- **AS**
@@ -11454,7 +11454,7 @@ Usar el pronombre sujeto todo el tiempo suena poco natural. Los nativos lo omite
 • vosotros habl- **ÁIS**
 • ellos/ellas/ustedes habl- **AN**
 
-🔹 VERBOS EN -ER (ejemplo: COMER = to eat):
+🔹 VERBOS EN -ER (ejemplo: COMER):
 
 • yo com- **O**
 • tú com- **ES**
@@ -11463,7 +11463,7 @@ Usar el pronombre sujeto todo el tiempo suena poco natural. Los nativos lo omite
 • vosotros com- **ÉIS**
 • ellos/ellas/ustedes com- **EN**
 
-🔹 VERBOS EN -IR (ejemplo: VIVIR = to live):
+🔹 VERBOS EN -IR (ejemplo: VIVIR):
 
 • yo viv- **O**
 • tú viv- **ES**
@@ -11573,7 +11573,7 @@ Usos: identidad, origen, profesión, características, hora, fecha, material.
 
 Usos: ubicación, emociones, estados temporales, acciones en progreso.
 
-🔹 TENER (to have):
+🔹 TENER:
 • yo TENGO
 • tú TIENES
 • él/ella/usted TIENE
@@ -11583,7 +11583,7 @@ Usos: ubicación, emociones, estados temporales, acciones en progreso.
 
 Usos: posesión, edad, expresiones (hambre, sed, sueño, calor, frío, prisa).
 
-🔹 HABER (to have - auxiliar):
+🔹 HABER:
 • yo HE
 • tú HAS
 • él/ella/usted HA
@@ -11931,7 +11931,7 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
           },
           {
             personaje: "Javier",
-            texto: "Exacto. También se usa en forma impersonal: 'hay' (there is / there are).",
+            texto: "Exacto. También se usa en forma impersonal: 'hay'.",
             traduccion: "没错。它也用于无人称形式：'hay'（有）。",
           },
           {
@@ -12538,10 +12538,10 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
         descripcion: `Frases para preguntar cómo es alguien físicamente:
 
 🔹 PREGUNTAS COMUNES:
-• ¿Cómo eres? = What do you look like?
-• ¿Cómo es él/ella? = What does he/she look like?
-• ¿Cómo es físicamente? = What does he/she look like physically?
-• ¿Qué aspecto tiene? = What does he/she look like?
+• ¿Cómo eres?
+• ¿Cómo es él/ella?
+• ¿Cómo es físicamente?
+• ¿Qué aspecto tiene?
 • Descríbete físicamente = Describe yourself physically
 
 🔹 ESTRUCTURA PARA RESPONDER:
@@ -12592,24 +12592,24 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
         id: "t2",
         titulo: "Altura y complexión",
         tituloChino: "身高和体型",
-        descripcion: `🔹 ALTURA (height):
+        descripcion: `🔹 ALTURA:
 
-• alto / alta = tall
-• bajo / baja = short
-• mediano / mediana = medium height
-• de estatura media = of medium height
+• alto / alta
+• bajo / baja
+• mediano / mediana
+• de estatura media
 
-🔹 COMPLEXIÓN (build):
+🔹 COMPLEXIÓN:
 
-• delgado / delgada = thin / slim
-• flaco / flaca = skinny (sometimes negative)
-• gordo / gorda = fat
-• relleno / rellena = plump
-• fuerte = strong / sturdy
-• atlético / atlética = athletic
-• musculoso / musculosa = muscular
-• robusto / robusta = robust
-• corpulento / corpulenta = large build
+• delgado / delgada
+• flaco / flaca
+• gordo / gorda
+• relleno / rellena
+• fuerte
+• atlético / atlética
+• musculoso / musculosa
+• robusto / robusta
+• corpulento / corpulenta
 
 🔹 EJEMPLOS:
 • Mi padre es alto y delgado.
@@ -12665,36 +12665,36 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
         id: "t3",
         titulo: "El cabello (pelo)",
         tituloChino: "头发",
-        descripcion: `🔹 LONGITUD (length):
+        descripcion: `🔹 LONGITUD:
 
-• pelo largo = long hair
-• pelo corto = short hair
-• pelo medio / semi-largo = medium hair
-• pelo hasta los hombros = shoulder-length hair
+• pelo largo
+• pelo corto
+• pelo medio / semi-largo
+• pelo hasta los hombros
 
 🔹 COLOR (color):
 
-• pelo negro = black hair
+• pelo negro
 • pelo moreno / castaño = brown hair / dark hair
-• pelo rubio = blonde hair
+• pelo rubio
 • pelo pelirrojo = red hair
-• pelo gris / canoso = gray hair
-• pelo blanco = white hair
+• pelo gris / canoso
+• pelo blanco
 
-🔹 TIPO (type):
+🔹 TIPO:
 
-• pelo liso = straight hair
-• pelo rizado = curly hair
-• pelo ondulado = wavy hair
-• pelo con rulos = curly (with curls)
+• pelo liso
+• pelo rizado
+• pelo ondulado
+• pelo con rulos
 
-🔹 OTROS (others):
-• calvo = bald
-• con entradas = receding hairline
-• trenzas = braids
-• coleta = ponytail
-• moño = bun
-• flequillo = bangs / fringe
+🔹 OTROS:
+• calvo
+• con entradas
+• trenzas
+• coleta
+• moño
+• flequillo
 
 🔹 EJEMPLOS:
 • Tengo el pelo largo y liso.
@@ -12703,8 +12703,8 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
 • Llevo el pelo recogido en una coleta.
 
 📌 VERBO TENER vs VERBO LLEVAR:
-• Tengo el pelo largo = I have long hair (permanent)
-• Llevo el pelo recogido = I have my hair up (temporary)`,
+• Tengo el pelo largo
+• Llevo el pelo recogido`,
         descripcionChino: `🔹 长度：
 
 • pelo largo = 长发
@@ -12761,37 +12761,37 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
         id: "t4",
         titulo: "Ojos, piel y otros rasgos",
         tituloChino: "眼睛、皮肤和其他特征",
-        descripcion: `🔹 OJOS (eyes):
+        descripcion: `🔹 OJOS:
 
-• ojos azules = blue eyes
-• ojos verdes = green eyes
-• ojos marrones / castaños = brown eyes
-• ojos negros = black eyes
-• ojos grises = gray eyes
-• ojos grandes / pequeños = big / small eyes
-• ojos rasgados = almond-shaped eyes
-• ojos redondos = round eyes
+• ojos azules
+• ojos verdes
+• ojos marrones / castaños
+• ojos negros
+• ojos grises
+• ojos grandes / pequeños
+• ojos rasgados
+• ojos redondos
 
-🔹 PIEL (skin):
+🔹 PIEL:
 
-• piel blanca = white skin
+• piel blanca
 • piel morena = tan / brown skin
-• piel oscura = dark skin
-• piel clara = fair skin
-• pecas = freckles
-• lunares = moles
+• piel oscura
+• piel clara
+• pecas
+• lunares
 
-🔹 OTROS RASGOS (other features):
+🔹 OTROS RASGOS:
 
-• barba = beard
-• bigote = mustache
-• perilla = goatee
-• patillas = sideburns
-• gafas = glasses
-• lentillas / lentes de contacto = contact lenses
-• cicatriz = scar
-• tatuajes = tattoos
-• piercings = piercings
+• barba
+• bigote
+• perilla
+• patillas
+• gafas
+• lentillas / lentes de contacto
+• cicatriz
+• tatuajes
+• piercings
 
 🔹 EJEMPLOS:
 • Tiene los ojos verdes y el pelo pelirrojo.
@@ -13754,26 +13754,26 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
         id: "t1",
         titulo: "Géneros de películas",
         tituloChino: "电影类型",
-        descripcion: `🔹 GÉNEROS CINEMATOGRÁFICOS (movie genres):
+        descripcion: `🔹 GÉNEROS CINEMATOGRÁFICOS:
 
-• acción = action
-• comedia = comedy
+• acción
+• comedia
 • drama = drama
-• terror / horror = horror
-• ciencia ficción = science fiction
-• romance = romance
-• animación = animation
-• documental = documentary
+• terror / horror
+• ciencia ficción
+• romance
+• animación
+• documental
 • thriller / suspense = thriller / suspense
-• aventuras = adventure
-• western = western
-• musical = musical
-• bélico = war movie
-• histórico = historical
-• policíaco = police / crime
-• misterio = mystery
-• fantasía = fantasy
-• catástrofe = disaster movie
+• aventuras
+• western
+• musical
+• bélico
+• histórico
+• policíaco
+• misterio
+• fantasía
+• catástrofe
 
 📌 EJEMPLOS:
 • Me gustan las películas de acción.
@@ -13825,37 +13825,37 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
         tituloChino: "电影行业职业",
         descripcion: `🔹 PERSONAS QUE TRABAJAN EN EL CINE:
 
-• actor / actriz = actor / actress
+• actor / actriz
 • director / directora = director
-• guionista = screenwriter
-• productor / productora = producer
-• camarógrafo / camarógrafa = cinematographer
-• montador / montadora = editor
-• doble (de acción) = stunt double
+• guionista
+• productor / productora
+• camarógrafo / camarógrafa
+• montador / montadora
+• doble (de acción)
 • ayudante de dirección = assistant director
-• sonidista = sound technician
-• maquillador / maquilladora = makeup artist
-• vestuarista = costume designer
+• sonidista
+• maquillador / maquilladora
+• vestuarista
 • figurante = extra
 
-🔹 VOCABULARIO RELACIONADO (related vocabulary):
-• película = film / movie
-• escena = scene
-• diálogo = dialogue
-• banda sonora = soundtrack
-• efectos especiales = special effects
-• secuela = sequel
-• precuela = prequel
-• remake = remake
+🔹 VOCABULARIO RELACIONADO:
+• película
+• escena
+• diálogo
+• banda sonora
+• efectos especiales
+• secuela
+• precuela
+• remake
 • película original = original movie
 • versión original = original version (VO)
-• versión doblada = dubbed version
-• subtítulos = subtitles
-• rodaje = shooting
-• estreno = premiere / release
-• taquilla = box office
-• nominación = nomination
-• premio = award (Oscar, Goya)
+• versión doblada
+• subtítulos
+• rodaje
+• estreno
+• taquilla
+• nominación
+• premio (Oscar, Goya)
 
 📌 EJEMPLOS:
 • Un actor famoso.
@@ -13918,32 +13918,32 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
         id: "t3",
         titulo: "Ir al cine",
         tituloChino: "去电影院",
-        descripcion: `🔹 FRASES ÚTILES (useful phrases):
+        descripcion: `🔹 FRASES ÚTILES:
 
-• ¿Quieres ir al cine? = Do you want to go to the cinema?
-• ¿Qué película quieres ver? = What movie do you want to see?
-• ¿A qué hora empieza? = What time does it start?
-• ¿Quién dirige la película? = Who directed the movie?
-• ¿Quién actúa? = Who stars in it?
+• ¿Quieres ir al cine?
+• ¿Qué película quieres ver?
+• ¿A qué hora empieza?
+• ¿Quién dirige la película?
+• ¿Quién actúa?
 
-🔹 EN EL CINE (at the cinema):
-• comprar la entrada = to buy the ticket
-• elegir la butaca = to choose the seat
-• comprar palomitas = to buy popcorn
-• comprar bebida = to buy a drink
-• ver la película en versión original = to watch the movie in original version
-• ver la película doblada = to watch the movie dubbed
-• ver la película con subtítulos = to watch with subtitles
+🔹 EN EL CINE:
+• comprar la entrada
+• elegir la butaca
+• comprar palomitas
+• comprar bebida
+• ver la película en versión original
+• ver la película doblada
+• ver la película con subtítulos
 
 🔹 EXPRESAR OPINIÓN SOBRE LA PELÍCULA:
-• Me ha gustado mucho = I liked it a lot
-• Es la mejor película del año = It's the best movie of the year
-• El final es sorprendente = The ending is surprising
-• Me ha decepcionado = It disappointed me
-• La recomiendo / No la recomiendo = I recommend it / I don't recommend it
-• La película es muy entretenida = The movie is very entertaining
-• El argumento es original = The plot is original
-• La actuación es excelente = The acting is excellent
+• Me ha gustado mucho
+• Es la mejor película del año
+• El final es sorprendente
+• Me ha decepcionado
+• La recomiendo / No la recomiendo
+• La película es muy entretenida
+• El argumento es original
+• La actuación es excelente
 
 📌 EJEMPLOS:
 • ¿Quieres ir al cine?
@@ -13999,32 +13999,32 @@ Usos: tiempos compuestos (pretérito perfecto), existencia impersonal (hay).
         id: "t4",
         titulo: "Premios y festivales de cine",
         tituloChino: "电影奖项和电影节",
-        descripcion: `🔹 FESTIVALES DE CINE (film festivals):
+        descripcion: `🔹 FESTIVALES DE CINE:
 • Festival de Cannes = Cannes Film Festival
 • Festival de Venecia = Venice Film Festival
 • Festival de Berlín = Berlin Film Festival
 • Festival de San Sebastián = San Sebastián Film Festival
-• Festival de Sitges = Sitges Film Festival (fantasy/horror)
+• Festival de Sitges = Sitges Film Festival
 
-🔹 PREMIOS IMPORTANTES (important awards):
-• Premios Oscar = Academy Awards (Oscars)
-• Premios Goya = Goya Awards (Spain)
-• Premios Ariel = Ariel Awards (Mexico)
+🔹 PREMIOS IMPORTANTES:
+• Premios Oscar
+• Premios Goya = Goya Awards
+• Premios Ariel (Mexico)
 • Palma de Oro = Palme d'Or (Cannes)
-• Oso de Oro = Golden Bear (Berlin)
-• León de Oro = Golden Lion (Venice)
-• Concha de Oro = Golden Shell (San Sebastián)
+• Oso de Oro
+• León de Oro (Venice)
+• Concha de Oro
 
 🔹 VOCABULARIO DE PREMIOS:
-• nominado / nominada = nominated
-• ganador / ganadora = winner
-• mejor película = best film
+• nominado / nominada
+• ganador / ganadora
+• mejor película
 • mejor director = best director
-• mejor actor = best actor
-• mejor actriz = best actress
-• mejor actor de reparto = best supporting actor
-• mejor actriz de reparto = best supporting actress
-• mejor guión = best screenplay
+• mejor actor
+• mejor actriz
+• mejor actor de reparto
+• mejor actriz de reparto
+• mejor guión
 
 📌 EJEMPLOS:
 • La película ganó el Oscar a la mejor película extranjera.
@@ -15088,25 +15088,25 @@ Para SUSTANTIVOS:
 
 | Adjetivo | Comparativo | Significado |
 |----------|-------------|-------------|
-| bueno (good) | mejor | better |
-| malo (bad) | peor | worse |
-| grande (big/old) | mayor | bigger/older |
-| pequeño (small/young) | menor | smaller/younger |
+| bueno | mejor | better |
+| malo | peor | worse |
+| grande | mayor | bigger/older |
+| pequeño | menor | smaller/younger |
 
 📌 EJEMPLOS:
 
 • Este libro es mejor que el otro. (no "más bueno")
 • Esta película es peor que la de ayer. (no "más mala")
-• Mi hermano es mayor que yo. (older)
-• Mi hermana es menor que yo. (younger)
+• Mi hermano es mayor que yo.
+• Mi hermana es menor que yo.
 
 🔹 COMPARATIVOS CON "MEJOR" Y "PEOR":
-• Mejor = better (bueno → mejor)
-• Peor = worse (malo → peor)
+• Mejor (bueno → mejor)
+• Peor (malo → peor)
 
 🔹 COMPARATIVOS CON "MAYOR" Y "MENOR":
-• Mayor = older (edad) / bigger (tamaño)
-• Menor = younger (edad) / smaller (tamaño)
+• Mayor (edad) / bigger (tamaño)
+• Menor (edad) / smaller (tamaño)
 
 📌 IMPORTANTE:
 "Mayor" y "menor" se usan principalmente para edad y tamaño. Para tamaño también se puede usar "más grande" y "más pequeño".
@@ -15178,14 +15178,14 @@ Estructura: el/la/los/las + más/menos + adjetivo + de
 Expresa un grado muy alto sin comparación.
 
 Estructura 1: muy + adjetivo
-• muy bueno = very good
-• muy interesante = very interesting
+• muy bueno
+• muy interesante
 
 Estructura 2: adjetivo + -ísimo/a/os/as
-• buenísimo = extremely good
-• interesantísimo = extremely interesting
-• altísimo = extremely tall
-• riquísimo = extremely rich / delicious
+• buenísimo
+• interesantísimo
+• altísimo
+• riquísimo
 
 📌 EJEMPLOS DE -ÍSIMO:
 • La comida está buenísima. (muy buena)
@@ -16138,11 +16138,11 @@ Conjugación del verbo IR:
 • ellos/ellas/ustedes VAN
 
 📌 EJEMPLOS:
-• Voy a estudiar español. (I'm going to study Spanish)
-• Vas a viajar a España. (You're going to travel to Spain)
-• Ella va a comer paella. (She's going to eat paella)
-• Vamos a salir esta noche. (We're going to go out tonight)
-• Van a llegar tarde. (They're going to arrive late)
+• Voy a estudiar español.
+• Vas a viajar a España.
+• Ella va a comer paella.
+• Vamos a salir esta noche.
+• Van a llegar tarde.
 
 🔹 FORMA NEGATIVA:
 • No + voy/vas/va/vamos/vais/van + a + infinitivo
@@ -16153,7 +16153,7 @@ Conjugación del verbo IR:
 • Ella no va a venir a la fiesta.
 
 ❌ ERROR COMÚN:
-No confundas "voy a" (futuro próximo) con "voy" (presente de ir). "Voy a comer" = I'm going to eat. "Voy al cine" = I'm going to the cinema.`,
+No confundas "voy a" (futuro próximo) con "voy" (presente de ir). "Voy a comer" es una acción futura. "Voy al cine"`,
         descripcionChino: `表达即将发生的动作：
 
 🔹 结构：动词 IR + a + 动词原形
@@ -16205,21 +16205,21 @@ No confundas "voy a" (futuro próximo) con "voy" (presente de ir). "Voy a comer"
         descripcion: `Marcadores temporales para el futuro:
 
 🔹 TIEMPO ESPECÍFICO:
-• mañana = tomorrow
-• pasado mañana = the day after tomorrow
-• esta tarde / esta noche = this afternoon / tonight
-• este fin de semana = this weekend
-• la semana que viene = next week
-• el mes que viene = next month
-• el año que viene = next year
-• dentro de + tiempo = in + time (dentro de dos días)
+• mañana
+• pasado mañana
+• esta tarde / esta noche
+• este fin de semana
+• la semana que viene
+• el mes que viene
+• el año que viene
+• dentro de + tiempo (dentro de dos días)
 
 🔹 TIEMPO INDEFINIDO:
-• más tarde = later
-• pronto = soon
-• algún día = someday
-• en el futuro = in the future
-• más adelante = further on
+• más tarde
+• pronto
+• algún día
+• en el futuro
+• más adelante
 
 📌 EJEMPLOS:
 • Voy a estudiar mañana.
@@ -17273,30 +17273,30 @@ En el habla cotidiana, el futuro próximo es mucho más común que el futuro sim
         descripcion: `Preposiciones de lugar para describir dónde están las cosas:
 
 🔹 POSICIÓN BÁSICA:
-• en = in / on / at (en la caja, en la mesa, en el cine)
-• sobre / encima de = on top of (sobre la mesa, encima del armario)
-• debajo de = under (debajo de la silla, debajo de la cama)
+• en (en la caja, en la mesa, en el cine)
+• sobre / encima de (sobre la mesa, encima del armario)
+• debajo de (debajo de la silla, debajo de la cama)
 
 🔹 POSICIÓN RELATIVA:
-• delante de = in front of (delante de la puerta, delante de mí)
-• detrás de = behind (detrás del sofá, detrás de la casa)
-• al lado de = next to (al lado de la ventana, al lado del parque)
-• cerca de = near (cerca de la escuela, cerca del centro)
-• lejos de = far from (lejos de aquí, lejos del trabajo)
+• delante de (delante de la puerta, delante de mí)
+• detrás de (detrás del sofá, detrás de la casa)
+• al lado de (al lado de la ventana, al lado del parque)
+• cerca de (cerca de la escuela, cerca del centro)
+• lejos de (lejos de aquí, lejos del trabajo)
 
 🔹 POSICIÓN FRONTAL:
-• enfrente de = opposite (enfrente del banco, enfrente de la iglesia)
-• frente a = facing / opposite (frente a la plaza)
+• enfrente de (enfrente del banco, enfrente de la iglesia)
+• frente a (frente a la plaza)
 
 🔹 POSICIÓN INTERNA/EXTERNA:
-• dentro de = inside (dentro del armario, dentro de la caja)
-• fuera de = outside (fuera de la casa, fuera de la ciudad)
+• dentro de (dentro del armario, dentro de la caja)
+• fuera de (fuera de la casa, fuera de la ciudad)
 
 🔹 POSICIÓN ENTRE:
-• entre = between (entre la cama y la ventana, entre tú y yo)
+• entre (entre la cama y la ventana, entre tú y yo)
 
 🔹 POSICIÓN ALREDEDOR:
-• alrededor de = around (alrededor de la plaza, alrededor del parque)
+• alrededor de (alrededor de la plaza, alrededor del parque)
 
 📌 EJEMPLOS:
 • El libro está sobre la mesa.
@@ -17364,27 +17364,27 @@ En el habla cotidiana, el futuro próximo es mucho más común que el futuro sim
         descripcion: `Adverbios de lugar para indicar posición sin un objeto de referencia:
 
 🔹 DISTANCIA CERCANA:
-• aquí / acá = here (aquí = exact location, acá = more general)
-• ahí = there (near the person you're speaking to)
-• allí / allá = there (far from both speaker and listener)
+• aquí / acá (aquí = exact location, acá)
+• ahí
+• allí / allá
 
 🔹 POSICIÓN VERTICAL:
-• arriba = up / upstairs (está arriba, vive arriba)
-• abajo = down / downstairs (está abajo, el baño está abajo)
-• en la planta de arriba = on the upper floor
-• en la planta de abajo = on the lower floor
+• arriba (está arriba, vive arriba)
+• abajo (está abajo, el baño está abajo)
+• en la planta de arriba
+• en la planta de abajo
 
 🔹 POSICIÓN INTERNA/EXTERNA:
-• dentro = inside (está dentro, entra dentro)
-• afuera = outside (está afuera, espera afuera)
+• dentro (está dentro, entra dentro)
+• afuera (está afuera, espera afuera)
 
 🔹 OTRAS POSICIONES:
-• alrededor = around (mira alrededor, hay gente alrededor)
-• enfrente = opposite (vive enfrente, el banco está enfrente)
-• detrás = behind (se escondió detrás)
-• delante = in front (él va delante)
-• cerca = close / near (está cerca, vive cerca)
-• lejos = far (está lejos, la playa está lejos)
+• alrededor (mira alrededor, hay gente alrededor)
+• enfrente (vive enfrente, el banco está enfrente)
+• detrás (se escondió detrás)
+• delante (él va delante)
+• cerca (está cerca, vive cerca)
+• lejos (está lejos, la playa está lejos)
 
 📌 EJEMPLOS:
 • Ven aquí, por favor.
@@ -17450,41 +17450,41 @@ No confundas "aquí" (aquí mismo) con "acá" (hacia aquí, más general). Tambi
         id: "t3",
         titulo: "Preguntar y dar direcciones",
         tituloChino: "问路和指路",
-        descripcion: `🔹 PARA PREGUNTAR (to ask):
+        descripcion: `🔹 PARA PREGUNTAR:
 
-• ¿Dónde está...? = Where is...?
-• ¿Cómo llego a...? = How do I get to...?
-• ¿Hay un banco por aquí? = Is there a bank around here?
-• ¿Está lejos? = Is it far?
-• ¿A qué distancia está? = How far is it?
-• ¿Cuánto tiempo se tarda? = How long does it take?
-• ¿Puede ayudarme? = Can you help me?
-• ¿Va por aquí? = Is it this way?
+• ¿Dónde está...?
+• ¿Cómo llego a...?
+• ¿Hay un banco por aquí?
+• ¿Está lejos?
+• ¿A qué distancia está?
+• ¿Cuánto tiempo se tarda?
+• ¿Puede ayudarme?
+• ¿Va por aquí?
 
-🔹 PARA DAR DIRECCIONES (to give directions):
+🔹 PARA DAR DIRECCIONES:
 
 MOVIMIENTO:
-• sigue recto = go straight
-• gira a la izquierda = turn left
-• gira a la derecha = turn right
-• cruza la calle = cross the street
-• toma la primera calle = take the first street
-• toma la segunda calle = take the second street
-• continúa = continue
+• sigue recto
+• gira a la izquierda
+• gira a la derecha
+• cruza la calle
+• toma la primera calle
+• toma la segunda calle
+• continúa
 
 UBICACIÓN DEL DESTINO:
-• está a la izquierda = it's on the left
-• está a la derecha = it's on the right
-• está al final de la calle = it's at the end of the street
-• está en la esquina = it's on the corner
-• está a la vuelta de la esquina = it's around the corner
-• está a dos cuadras = it's two blocks away
+• está a la izquierda
+• está a la derecha
+• está al final de la calle
+• está en la esquina
+• está a la vuelta de la esquina
+• está a dos cuadras
 
 DISTANCIA:
-• está a cinco minutos a pie = it's a five-minute walk
-• está a diez minutos en coche = it's a ten-minute drive
-• está muy cerca = it's very close
-• está bastante lejos = it's quite far
+• está a cinco minutos a pie
+• está a diez minutos en coche
+• está muy cerca
+• está bastante lejos
 
 📌 EJEMPLOS:
 • Sigue recto y gira a la izquierda.
@@ -17551,25 +17551,25 @@ DISTANCIA:
         tituloChino: "复合介词和表达",
         descripcion: `🔹 PREPOSICIONES COMPUESTAS:
 
-• en medio de = in the middle of (en medio de la plaza)
-• en el centro de = in the center of (en el centro de la ciudad)
-• en la esquina de = on the corner of (en la esquina de la calle)
-• al fondo de = at the back of (al fondo del pasillo)
-• a la entrada de = at the entrance of (a la entrada del parque)
-• a la salida de = at the exit of (a la salida del metro)
-• alrededor de = around (alrededor de la mesa)
-• junto a = next to (junto a la ventana)
-• enfrente de = opposite (enfrente del supermercado)
-• frente a = facing (frente al mar)
+• en medio de (en medio de la plaza)
+• en el centro de (en el centro de la ciudad)
+• en la esquina de (en la esquina de la calle)
+• al fondo de (al fondo del pasillo)
+• a la entrada de (a la entrada del parque)
+• a la salida de (a la salida del metro)
+• alrededor de (alrededor de la mesa)
+• junto a (junto a la ventana)
+• enfrente de (enfrente del supermercado)
+• frente a (frente al mar)
 
 🔹 EXPRESIONES ÚTILES:
 
-• a la derecha de = to the right of
-• a la izquierda de = to the left of
-• arriba de = above (arriba del armario)
-• abajo de = below (abajo del puente)
-• dentro de = inside (dentro de la caja)
-• fuera de = outside (fuera del edificio)
+• a la derecha de
+• a la izquierda de
+• arriba de (arriba del armario)
+• abajo de (abajo del puente)
+• dentro de (dentro de la caja)
+• fuera de (fuera del edificio)
 
 📌 EJEMPLOS:
 • Hay una fuente en medio de la plaza.
@@ -18632,10 +18632,10 @@ No confundas "lo" (objeto directo) con "le" (objeto indirecto).`,
 • OI responde a "¿a quién?" o "¿para quién?" (indirectamente)
 
 Ejemplo:
-• Doy el libro (OD: el libro) a María (OI: a María)
+• Doy el libro (OD: el libro) a María
 
 ❌ ERROR COMÚN:
-No confundas "le" (OI singular) con "les" (OI plural) o "lo/la" (OD).`,
+No confundas "le" (OI singular) con "les" (OI plural) o "lo/la".`,
         descripcionChino: `间接宾语代词回答"给谁？"或"为了谁？"的问题。
 
 🔹 间接宾语代词：
@@ -18790,43 +18790,43 @@ No digas "le lo doy". Siempre cambia a "se lo doy".`,
 • Los pronombres van ANTES del verbo.
 
 Ejemplos:
-• Lo veo. (I see it)
-• Te quiero. (I love you)
-• Se lo dije. (I told him/her)
-• Me lo compró. (He bought it for me)
+• Lo veo.
+• Te quiero.
+• Se lo dije.
+• Me lo compró.
 
 🔹 2. CON INFINITIVOS (verbos en -ar, -er, -ir):
 • Los pronombres se PEGAN al final del infinitivo.
 
 Ejemplos:
-• Voy a comprarlo. (I'm going to buy it)
-• Quiero verte. (I want to see you)
-• Puedo hacerlo. (I can do it)
-• Necesito decírtelo. (I need to tell you it)
+• Voy a comprarlo.
+• Quiero verte.
+• Puedo hacerlo.
+• Necesito decírtelo.
 
 🔹 3. CON GERUNDIOS (-ando, -iendo):
 • Los pronombres se PEGAN al final del gerundio.
 
 Ejemplos:
-• Estoy comprándolo. (I'm buying it)
-• Está haciéndolo. (He/She is doing it)
-• Estaban mirándonos. (They were watching us)
+• Estoy comprándolo.
+• Está haciéndolo.
+• Estaban mirándonos.
 
 🔹 4. CON IMPERATIVOS AFIRMATIVOS (mandatos):
 • Los pronombres se PEGAN al final del imperativo.
 
 Ejemplos:
-• Cómpramelo. (Buy it for me)
-• Dime la verdad. (Tell me the truth)
-• Hazlo ahora. (Do it now)
+• Cómpramelo.
+• Dime la verdad.
+• Hazlo ahora.
 
 🔹 5. CON IMPERATIVOS NEGATIVOS:
 • Los pronombres van ANTES del verbo.
 
 Ejemplos:
-• No me lo compres. (Don't buy it for me)
-• No me digas eso. (Don't tell me that)
-• No lo hagas. (Don't do it)
+• No me lo compres.
+• No me digas eso.
+• No lo hagas.
 
 📌 TABLA RESUMEN:
 
@@ -19999,51 +19999,51 @@ La única diferencia entre verbos -ER y -IR está en las formas de "nosotros" (-
         titulo: "Lista de verbos regulares comunes",
         tituloChino: "常见规则动词列表",
         descripcion: `🔹 VERBOS -AR MÁS COMUNES:
-• hablar (to speak)
-• estudiar (to study)
-• trabajar (to work)
-• cantar (to sing)
-• bailar (to dance)
-• mirar (to look/watch)
-• escuchar (to listen)
-• preguntar (to ask)
-• contestar (to answer)
-• ayudar (to help)
-• caminar (to walk)
-• viajar (to travel)
-• cocinar (to cook)
-• limpiar (to clean)
-• llamar (to call)
-• empezar (to start)
-• terminar (to finish)
+• hablar
+• estudiar
+• trabajar
+• cantar
+• bailar
+• mirar
+• escuchar
+• preguntar
+• contestar
+• ayudar
+• caminar
+• viajar
+• cocinar
+• limpiar
+• llamar
+• empezar
+• terminar
 
 🔹 VERBOS -ER MÁS COMUNES:
-• comer (to eat)
-• beber (to drink)
-• correr (to run)
-• leer (to read)
-• vender (to sell)
-• aprender (to learn)
-• comprender (to understand)
-• deber (to owe / should)
-• prometer (to promise)
-• temer (to fear)
-• romper (to break)
-• esconder (to hide)
+• comer
+• beber
+• correr
+• leer
+• vender
+• aprender
+• comprender
+• deber
+• prometer
+• temer
+• romper
+• esconder
 
 🔹 VERBOS -IR MÁS COMUNES:
-• vivir (to live)
-• escribir (to write)
-• recibir (to receive)
-• abrir (to open)
-• partir (to leave / split)
-• subir (to go up)
-• permitir (to permit)
-• decidir (to decide)
-• describir (to describe)
-• discutir (to discuss)
-• imprimir (to print)
-• ocurrir (to happen)
+• vivir
+• escribir
+• recibir
+• abrir
+• partir
+• subir
+• permitir
+• decidir
+• describir
+• discutir
+• imprimir
+• ocurrir
 
 📌 EJEMPLOS EN CONTEXTO:
 • ¿Dónde vives? — Vivo en Madrid.
@@ -20990,36 +20990,36 @@ La única diferencia entre verbos -ER y -IR está en las formas de "nosotros" (-
 🔹 USOS DE SER (cuándo usamos SER):
 
 1. IDENTIDAD (identidad):
-   • Soy María. (I am María)
-   • Somos estudiantes. (We are students)
+   • Soy María.
+   • Somos estudiantes.
 
-2. ORIGEN (origin):
-   • Soy de España. (I am from Spain)
+2. ORIGEN:
+   • Soy de España.
    • Ellos son de México. (They are from Mexico)
 
-3. PROFESIÓN (profession):
-   • Soy médico. (I am a doctor)
-   • Ella es profesora. (She is a teacher)
+3. PROFESIÓN:
+   • Soy médico.
+   • Ella es profesora.
 
 4. CARACTERÍSTICAS FÍSICAS Y DE PERSONALIDAD:
-   • Es alto. (He is tall)
-   • Son muy amables. (They are very kind)
+   • Es alto.
+   • Son muy amables.
 
 5. POSESIÓN (posesión):
-   • Es mi libro. (It is my book)
-   • Son sus gafas. (They are his/her glasses)
+   • Es mi libro.
+   • Son sus gafas.
 
-6. HORA Y FECHA (time and date):
+6. HORA Y FECHA:
    • Son las tres. (It's three o'clock)
    • Hoy es lunes. (Today is Monday)
 
 7. MATERIAL (material):
-   • Es de madera. (It's made of wood)
-   • Son de plástico. (They are made of plastic)
+   • Es de madera.
+   • Son de plástico.
 
-8. EVENTOS (events):
-   • La fiesta es en mi casa. (The party is at my house)
-   • El concierto es el sábado. (The concert is on Saturday)
+8. EVENTOS:
+   • La fiesta es en mi casa.
+   • El concierto es el sábado.
 
 📌 EJEMPLOS:
 • Yo soy estudiante.
@@ -21102,26 +21102,26 @@ La única diferencia entre verbos -ER y -IR está en las formas de "nosotros" (-
 
 🔹 USOS DE ESTAR (cuándo usamos ESTAR):
 
-1. UBICACIÓN (location):
-   • Estoy en casa. (I am at home)
-   • El libro está en la mesa. (The book is on the table)
+1. UBICACIÓN:
+   • Estoy en casa.
+   • El libro está en la mesa.
 
 2. ESTADOS FÍSICOS Y EMOCIONALES TEMPORALES:
-   • Estoy cansado. (I am tired)
-   • Está feliz. (He/She is happy)
-   • Estamos preocupados. (We are worried)
+   • Estoy cansado.
+   • Está feliz.
+   • Estamos preocupados.
 
-3. CONDICIONES (conditions):
-   • La sopa está caliente. (The soup is hot)
-   • El agua está fría. (The water is cold)
+3. CONDICIONES:
+   • La sopa está caliente.
+   • El agua está fría.
 
 4. ACCIONES EN PROGRESO (gerundio):
-   • Estoy comiendo. (I am eating)
-   • Estamos estudiando. (We are studying)
+   • Estoy comiendo.
+   • Estamos estudiando.
 
 5. CLIMA (weather - con ciertas expresiones):
-   • Está soleado. (It's sunny)
-   • Está nublado. (It's cloudy)
+   • Está soleado.
+   • Está nublado.
 
 📌 DIFERENCIA SER vs ESTAR:
 
@@ -21206,7 +21206,7 @@ La única diferencia entre verbos -ER y -IR está en las formas de "nosotros" (-
       },
       {
         id: "t3",
-        titulo: "El verbo TENER (to have)",
+        titulo: "El verbo TENER",
         tituloChino: "动词TENER（有）",
         descripcion: `Conjugación del verbo TENER en presente:
 
@@ -21220,28 +21220,28 @@ La única diferencia entre verbos -ER y -IR está en las formas de "nosotros" (-
 🔹 USOS DE TENER:
 
 1. POSESIÓN (posesión):
-   • Tengo un coche. (I have a car)
-   • Tienen una casa grande. (They have a big house)
+   • Tengo un coche.
+   • Tienen una casa grande.
 
 2. EDAD (edad):
-   • Tengo veinte años. (I am twenty years old)
-   • Mi hermana tiene quince años. (My sister is fifteen)
+   • Tengo veinte años.
+   • Mi hermana tiene quince años.
 
 3. EXPRESIONES COMUNES CON TENER:
 
-   • tener hambre = to be hungry
-   • tener sed = to be thirsty
-   • tener sueño = to be sleepy
-   • tener calor = to be hot
-   • tener frío = to be cold
-   • tener prisa = to be in a hurry
-   • tener cuidado = to be careful
-   • tener razón = to be right
-   • tener suerte = to be lucky
-   • tener miedo = to be afraid
-   • tener vergüenza = to be embarrassed
-   • tener éxito = to be successful
-   • tener ganas de = to feel like (doing something)
+   • tener hambre
+   • tener sed
+   • tener sueño
+   • tener calor
+   • tener frío
+   • tener prisa
+   • tener cuidado
+   • tener razón
+   • tener suerte
+   • tener miedo
+   • tener vergüenza
+   • tener éxito
+   • tener ganas de
 
 📌 EJEMPLOS:
 • Yo tengo dos hermanos.
@@ -21320,18 +21320,18 @@ La única diferencia entre verbos -ER y -IR está en las formas de "nosotros" (-
 
 🔹 USOS DE IR:
 
-1. MOVIMIENTO (movement):
-   • Voy al trabajo. (I go to work)
-   • Van a la playa. (They go to the beach)
+1. MOVIMIENTO:
+   • Voy al trabajo.
+   • Van a la playa.
 
-2. FUTURO PRÓXIMO (immediate future) - ir + a + infinitivo:
-   • Voy a estudiar. (I am going to study)
-   • Vamos a comer. (We are going to eat)
+2. FUTURO PRÓXIMO - ir + a + infinitivo:
+   • Voy a estudiar.
+   • Vamos a comer.
 
 3. PREGUNTAS CON IR:
-   • ¿Adónde vas? (Where are you going?)
-   • ¿Cómo vas al trabajo? (How do you go to work?)
-   • ¿Con quién vas? (Who are you going with?)
+   • ¿Adónde vas?
+   • ¿Cómo vas al trabajo?
+   • ¿Con quién vas?
 
 📌 DIFERENCIA ENTRE "IR" Y "IR A":
 • IR + lugar = movimiento hacia un lugar
@@ -21343,11 +21343,11 @@ La única diferencia entre verbos -ER y -IR está en las formas de "nosotros" (-
 • Vamos a comer.
 
 📌 EXPRESIONES COMUNES CON IR:
-• ir de compras = to go shopping
-• ir de vacaciones = to go on vacation
-• ir a pie = to go on foot
-• ir en coche = to go by car
-• ir de viaje = to go on a trip
+• ir de compras
+• ir de vacaciones
+• ir a pie
+• ir en coche
+• ir de viaje
 
 📌 TABLA RESUMEN DE LOS 4 VERBOS:
 
@@ -22399,11 +22399,11 @@ Participios regulares:
 • -IR → -IDO: vivido, escrito, recibido, abierto, partido
 
 🔹 EJEMPLOS:
-• Yo he hablado con María. (I have spoken with María)
-• Tú has comido paella. (You have eaten paella)
-• Ella ha vivido en Madrid. (She has lived in Madrid)
-• Nosotros hemos estudiado. (We have studied)
-• Ellos han llegado tarde. (They have arrived late)
+• Yo he hablado con María.
+• Tú has comido paella.
+• Ella ha vivido en Madrid.
+• Nosotros hemos estudiado.
+• Ellos han llegado tarde.
 
 📌 ESTRUCTURA: HABER + participio
 
@@ -22460,27 +22460,27 @@ HABER的变位：
 
 🔹 LISTA DE PARTICIPIOS IRREGULARES:
 
-• abrir → abierto (open)
-• cubrir → cubierto (covered)
-• decir → dicho (said)
-• escribir → escrito (written)
-• hacer → hecho (done/made)
-• morir → muerto (died)
-• poner → puesto (put)
-• romper → roto (broken)
-• ver → visto (seen)
-• volver → vuelto (returned)
-• freír → frito (fried)
-• resolver → resuelto (solved)
-• devolver → devuelto (returned)
-• descubrir → descubierto (discovered)
+• abrir → abierto
+• cubrir → cubierto
+• decir → dicho
+• escribir → escrito
+• hacer → hecho
+• morir → muerto
+• poner → puesto
+• romper → roto
+• ver → visto
+• volver → vuelto
+• freír → frito
+• resolver → resuelto
+• devolver → devuelto
+• descubrir → descubierto
 
 🔹 EJEMPLOS:
-• He abierto la puerta. (I have opened the door)
-• ¿Has visto la película? (Have you seen the movie?)
-• Ella ha escrito una carta. (She has written a letter)
-• Hemos hecho la tarea. (We have done the homework)
-• El花瓶 se ha roto. (The vase has broken)
+• He abierto la puerta.
+• ¿Has visto la película?
+• Ella ha escrito una carta.
+• Hemos hecho la tarea.
+• El花瓶 se ha roto.
 
 📌 TRUCO PARA RECORDAR:
 La mayoría de los participios irregulares terminan en -to, -so, -cho:
@@ -22489,7 +22489,7 @@ La mayoría de los participios irregulares terminan en -to, -so, -cho:
 • -cho: dicho, hecho
 
 ❌ ERROR COMÚN:
-No confundas el participio irregular "hecho" con el adjetivo "hecho" (done). En el pretérito perfecto, siempre se usa el participio.`,
+No confundas el participio irregular "hecho" con el adjetivo "hecho". En el pretérito perfecto, siempre se usa el participio.`,
         descripcionChino: `最常见的不规则过去分词：
 
 🔹 不规则过去分词列表：
@@ -22546,23 +22546,23 @@ No confundas el participio irregular "hecho" con el adjetivo "hecho" (done). En 
         descripcion: `Se usa el pretérito perfecto para:
 
 🔹 1. EXPERIENCIAS PASADAS (sin especificar cuándo):
-   • He visitado París. (I have visited Paris)
-   • ¿Has probado la paella? (Have you tried paella?)
-   • Nunca he estado en China. (I have never been to China)
+   • He visitado París.
+   • ¿Has probado la paella?
+   • Nunca he estado en China.
 
 🔹 2. ACCIONES RECIENTES (con "acabar de"):
-   • Acabo de terminar. (I have just finished)
-   • Hemos llegado hace cinco minutos. (We arrived five minutes ago)
+   • Acabo de terminar.
+   • Hemos llegado hace cinco minutos.
 
 🔹 3. ACCIONES SIN TIEMPO ESPECÍFICO (con marcadores temporales):
-   • Hoy he trabajado mucho. (Today I have worked a lot)
-   • Esta semana he estudiado español. (This week I have studied Spanish)
-   • Este año he viajado tres veces. (This year I have traveled three times)
+   • Hoy he trabajado mucho.
+   • Esta semana he estudiado español.
+   • Este año he viajado tres veces.
 
 🔹 4. CON YA, TODAVÍA NO, NUNCA, ALGUNA VEZ:
-   • Ya he comido. (I have already eaten)
-   • Todavía no he visto la película. (I haven't seen the movie yet)
-   • ¿Alguna vez has viajado a Europa? (Have you ever traveled to Europe?)
+   • Ya he comido.
+   • Todavía no he visto la película.
+   • ¿Alguna vez has viajado a Europa?
 
 📌 MARCADORES TEMPORALES TÍPICOS:
 
@@ -22648,7 +22648,7 @@ No uses el pretérito perfecto con "ayer", "la semana pasada" u otras expresione
 • Hoy he desayunado a las 8. (today - perfecto)
 • Ayer desayuné a las 7. (yesterday - indefinido)
 
-• Esta semana he trabajado mucho. (this week - perfecto)
+• Esta semana he trabajado mucho.
 • La semana pasada trabajé mucho. (last week - indefinido)
 
 • ¿Has visto la última película de Almodóvar? (perfecto)
@@ -23605,22 +23605,22 @@ No uses el pretérito perfecto con "el año pasado". Usa el indefinido.`,
         descripcion: `Frases para preguntar direcciones:
 
 🔹 PREGUNTAS COMUNES:
-• ¿Dónde está...? = Where is...?
-• ¿Cómo llego a...? = How do I get to...?
-• ¿Hay un/una... por aquí? = Is there a... around here?
-• ¿Está lejos? = Is it far?
-• ¿Cuánto tiempo se tarda? = How long does it take?
-• ¿Puede ayudarme? = Can you help me?
-• ¿Va por aquí? = Is it this way?
-• ¿A qué distancia está? = How far is it?
-• ¿Qué autobús/ metro puedo coger? = Which bus/metro can I take?
+• ¿Dónde está...?
+• ¿Cómo llego a...?
+• ¿Hay un/una... por aquí?
+• ¿Está lejos?
+• ¿Cuánto tiempo se tarda?
+• ¿Puede ayudarme?
+• ¿Va por aquí?
+• ¿A qué distancia está?
+• ¿Qué autobús/ metro puedo coger?
 
 🔹 EJEMPLOS:
-• ¿Dónde está la farmacia? (Where is the pharmacy?)
-• ¿Cómo llego al museo? (How do I get to the museum?)
-• ¿Hay un restaurante por aquí? (Is there a restaurant around here?)
-• ¿Está lejos la estación? (Is the station far?)
-• ¿Cuánto se tarda en coche? (How long does it take by car?)
+• ¿Dónde está la farmacia?
+• ¿Cómo llego al museo?
+• ¿Hay un restaurante por aquí?
+• ¿Está lejos la estación?
+• ¿Cuánto se tarda en coche?
 
 📌 NOTA CULTURAL:
 En los países hispanohablantes, es normal pedir indicaciones a desconocidos, especialmente en tiendas pequeñas o en la calle. La gente suele ser muy amable y dispuesta a ayudar.`,
@@ -23668,33 +23668,33 @@ En los países hispanohablantes, es normal pedir indicaciones a desconocidos, es
         descripcion: `Frases para dar direcciones:
 
 🔹 MOVIMIENTO Y DIRECCIÓN:
-• sigue todo recto = go straight
-• gira a la izquierda = turn left
-• gira a la derecha = turn right
-• toma la primera calle a la derecha = take the first street on the right
-• toma la segunda calle a la izquierda = take the second street on the left
-• cruza la calle = cross the street
-• continúa = continue
-• pasa de largo = go past
-• da la vuelta = turn around
+• sigue todo recto
+• gira a la izquierda
+• gira a la derecha
+• toma la primera calle a la derecha
+• toma la segunda calle a la izquierda
+• cruza la calle
+• continúa
+• pasa de largo
+• da la vuelta
 
 🔹 UBICACIÓN DEL DESTINO:
-• está a la izquierda = it's on the left
-• está a la derecha = it's on the right
-• está al final de la calle = it's at the end of the street
-• está en la esquina = it's on the corner
-• está a la vuelta de la esquina = it's around the corner
-• está enfrente de = it's opposite
-• está detrás de = it's behind
-• está al lado de = it's next to
-• está entre... y... = it's between... and...
+• está a la izquierda
+• está a la derecha
+• está al final de la calle
+• está en la esquina
+• está a la vuelta de la esquina
+• está enfrente de
+• está detrás de
+• está al lado de
+• está entre... y...
 
 🔹 DISTANCIA:
-• está a dos cuadras = it's two blocks away
-• está a cinco minutos a pie = it's a five-minute walk
-• está a diez minutos en coche = it's a ten-minute drive
-• está muy cerca = it's very close
-• está bastante lejos = it's quite far
+• está a dos cuadras
+• está a cinco minutos a pie
+• está a diez minutos en coche
+• está muy cerca
+• está bastante lejos
 
 📌 EJEMPLOS:
 • Sigue recto dos cuadras.
@@ -23759,29 +23759,29 @@ En los países hispanohablantes, es normal pedir indicaciones a desconocidos, es
         descripcion: `Expresiones útiles:
 
 🔹 DISTANCIA:
-• está muy cerca = it's very close
-• está bastante lejos = it's quite far
-• está a cinco minutos a pie = it's a five-minute walk
-• está a diez minutos en coche = it's a ten-minute drive
-• está a dos manzanas / cuadras = it's two blocks away
-• está a 500 metros = it's 500 meters away
-• no está lejos = it's not far
-• puedes ir andando = you can walk there
+• está muy cerca
+• está bastante lejos
+• está a cinco minutos a pie
+• está a diez minutos en coche
+• está a dos manzanas / cuadras
+• está a 500 metros
+• no está lejos
+• puedes ir andando
 
 🔹 TIEMPO:
-• tarda unos quince minutos = it takes about fifteen minutes
-• se tarda media hora en autobús = it takes half an hour by bus
-• en coche tardas diez minutos = by car it takes ten minutes
-• puedes ir andando en cinco minutos = you can walk there in five minutes
-• es mejor ir en autobús = it's better to go by bus
-• el tráfico puede ser malo = traffic can be bad
+• tarda unos quince minutos
+• se tarda media hora en autobús
+• en coche tardas diez minutos
+• puedes ir andando en cinco minutos
+• es mejor ir en autobús
+• el tráfico puede ser malo
 
 🔹 PREGUNTAS DE DISTANCIA Y TIEMPO:
-• ¿A cuánto queda? = How far is it?
-• ¿Cuánto se tarda? = How long does it take?
-• ¿Puedo ir andando? = Can I walk there?
-• ¿Cuántos kilómetros hay? = How many kilometers are there?
-• ¿Hay mucho tráfico? = Is there a lot of traffic?
+• ¿A cuánto queda?
+• ¿Cuánto se tarda?
+• ¿Puedo ir andando?
+• ¿Cuántos kilómetros hay?
+• ¿Hay mucho tráfico?
 
 📌 EJEMPLOS:
 • Está a cinco minutos a pie.
@@ -23840,22 +23840,22 @@ En los países hispanohablantes, es normal pedir indicaciones a desconocidos, es
         descripcion: `Puntos de referencia útiles para dar direcciones:
 
 🔹 LUGARES COMUNES:
-• la plaza = the square
-• la iglesia = the church
-• la catedral = the cathedral
-• el parque = the park
-• el mercado = the market
-• la estación de tren = the train station
-• la estación de metro = the metro station
-• la parada de autobús = the bus stop
-• el semáforo = the traffic light
-• la rotonda / glorieta = the roundabout
-• el puente = the bridge
-• la fuente = the fountain
-• el ayuntamiento = the town hall
-• el hospital = the hospital
-• la farmacia = the pharmacy
-• el supermercado = the supermarket
+• la plaza
+• la iglesia
+• la catedral
+• el parque
+• el mercado
+• la estación de tren
+• la estación de metro
+• la parada de autobús
+• el semáforo
+• la rotonda / glorieta
+• el puente
+• la fuente
+• el ayuntamiento
+• el hospital
+• la farmacia
+• el supermercado
 
 🔹 EJEMPLOS CON PUNTOS DE REFERENCIA:
 • Sigue recto hasta la plaza.
@@ -23864,11 +23864,11 @@ En los países hispanohablantes, es normal pedir indicaciones a desconocidos, es
 • El banco está al lado de la farmacia, enfrente del supermercado.
 
 📌 VOCABULARIO ADICIONAL:
-• a la altura de = at the level of
-• pasando el = past the
-• antes del = before the
-• después del = after the
-• justo en = right at
+• a la altura de
+• pasando el
+• antes del
+• después del
+• justo en
 
 📌 EJEMPLOS:
 • Gira a la izquierda en la iglesia.
