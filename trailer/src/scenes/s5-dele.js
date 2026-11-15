@@ -341,9 +341,9 @@ export default {
       const L = 1.5 + k, d = t - L;
       if (d < -0.12) { m.style.opacity = 0; r.style.opacity = 0; return; }
       const bx = 540 - side * 200, by = 1255, dx = 197 + k * 196, dy = 312;
-      const dock = ease.inOutCubic(prog(t, L + 0.52, L + 0.86));
+      const dock = ease.inOutCubic(prog(t, L + 0.3, L + 0.62));
       const slam = d < 0 ? lerp(3.4, 1.25, ease.inQuad(prog(d, -0.12, 0))) : 1 + 0.25 * Math.exp(-d * 8) * Math.cos(d * 24);
-      const beat = t > L + 0.86 ? 1 + 0.1 * Math.max(...[2, 3, 4, 5, 5.5].map((b) => (t >= b ? Math.exp(-(t - b) * 9) : 0))) : 1;
+      const beat = t > L + 0.62 ? 1 + 0.1 * Math.max(...[2, 3, 4, 5, 5.5].map((b) => (t >= b ? Math.exp(-(t - b) * 9) : 0))) : 1;
       const sc = lerp(slam, 0.37, dock) * beat, x = lerp(bx, dx, dock), y = lerp(by, dy, dock) - Math.sin(dock * Math.PI) * 120;
       m.style.opacity = clamp((d + 0.12) / 0.08).toFixed(3);
       m.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${(lerp(side * -9, 0, dock) + (d < 0 ? side * 20 * (1 - prog(d, -0.12, 0)) : 0)).toFixed(2)}deg) scale(${sc.toFixed(4)})`;
@@ -362,10 +362,10 @@ export default {
 
     // sello «通过»
     const ds = t - 5.5;
-    if (t < 5.3) { this.stamp.style.opacity = 0; this.stampGlow.style.opacity = 0; }
+    if (t < 5.32) { this.stamp.style.opacity = 0; this.stampGlow.style.opacity = 0; }
     else {
-      const sc = 1.22 * (ds < 0 ? lerp(4.2, 1, ease.inQuart(prog(t, 5.3, 5.5))) : 1 - 0.07 * Math.exp(-ds * 10) * Math.cos(ds * 34) + 0.04 * ds);
-      this.stamp.style.opacity = clamp((t - 5.3) / 0.1).toFixed(3);
+      const sc = 1.22 * (ds < 0 ? lerp(3, 1, ease.inQuart(prog(t, 5.32, 5.5))) : 1 - 0.07 * Math.exp(-ds * 10) * Math.cos(ds * 34) + 0.04 * ds);
+      this.stamp.style.opacity = clamp((t - 5.32) / 0.08).toFixed(3);
       this.stamp.style.transform = `translate(540px, 1120px) rotate(${(ds < 0 ? lerp(-34, -8, prog(t, 5.3, 5.5)) : -8 + 2.5 * Math.exp(-ds * 10) * Math.sin(ds * 30)).toFixed(2)}deg) scale(${sc.toFixed(4)})`;
       this.stamp.style.filter = `drop-shadow(0 ${(ds < 0 ? 70 : 12)}px ${(ds < 0 ? 50 : 18)}px rgba(40,0,6,.7)) brightness(${(1 + (ds >= 0 ? 1.4 * Math.exp(-ds * 9) : 0)).toFixed(3)})`;
       this.stampGlow.style.opacity = (ds < 0 ? 0 : 0.35 + 0.65 * Math.exp(-ds * 6)).toFixed(3);

@@ -21,18 +21,18 @@ function pchip(keys) {
 const cr = (p0, p1, p2, p3, u) => 0.5 * (2 * p1 + (-p0 + p2) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u + (-p0 + 3 * p1 - 3 * p2 + p3) * u * u * u);
 
 // ───────────────────────── vía del dragón ─────────────────────────
-const RX = 2.0, RY = 1.12, TH_F = 50, RING_TURNS = 2;        // elipse del anillo final, ángulo final de la cabeza
+const RX = 2.0, RY = 1.08, TH_F = 75, RING_TURNS = 2;        // elipse del anillo final, ángulo final de la cabeza
 function ringPoint(deg, out) {
   const th = (deg * Math.PI) / 180, tb = Math.max(-0.12, (TH_F - deg) / 360), k = 1 + 0.1 * tb, e = sm((deg - (TH_F - 85)) / 85);
-  return out.set(RX * k * Math.cos(th) - 0.25 * e, RY * k * Math.sin(th) + 0.3 * e, 0.9 * Math.sin(th) - 0.75 * tb + 0.75 * e);
+  return out.set(RX * k * Math.cos(th), RY * k * Math.sin(th) + 0.12 * e, 0.9 * Math.sin(th) - 0.75 * tb + 0.7 * e);
 }
 function buildTrack(THREE) {
   const P = [], idx = {}; const add = (x, y, z, name) => { if (name) idx[name] = P.length; P.push(new THREE.Vector3(x, y, z)); };
   add(4, 9, -130); add(-8, 6, -108); add(8, 5, -88); add(-7, 4, -62); add(6.6, 4.6, -47); add(5.6, 3.1, -34);
   add(-1.6, 2.7, -25, "start"); add(-5, 1.5, -14); add(3.8, 0.5, -4); add(-2.4, -0.7, 4.5); add(-0.2, -1.1, 9.8);
   add(0.55, -0.55, 13.1, "near");
-  add(-0.9, 0.5, 13.0); add(-3.2, 1.0, 9.5); add(-4.0, -1.4, 4); add(-2.6, -4.8, -0.5); add(0.6, -5.6, -2.6);
-  for (let a = -55; a <= 240; a += 30) { const r = 2.7 - 0.2 * ((a + 55) / 295), y = -5.3 + 3.6 * ((a + 55) / 295); add(r * Math.cos((a * Math.PI) / 180), y, r * Math.sin((a * Math.PI) / 180)); }
+  add(-0.9, 0.5, 13.0); add(-3.2, 1.0, 9.5); add(-4.2, -1.6, 4.5);
+  for (let a = 170; a <= 606; a += 30) { const u = (a - 170) / 460, r = 2.75 - 0.35 * u, y = -4.5 + 3.0 * u; add(r * Math.cos((a * Math.PI) / 180), y, r * Math.sin((a * Math.PI) / 180), a === 170 ? "helix" : null); }
   const th0 = TH_F - 360 * RING_TURNS - 140, v = new THREE.Vector3();
   for (let deg = th0; deg <= TH_F + 61; deg += 15) { ringPoint(deg, v); add(v.x, v.y, v.z, deg === th0 ? "ring" : null); }
   const curve = new THREE.CatmullRomCurve3(P, false, "centripetal");
@@ -154,13 +154,13 @@ function envTexture(THREE, renderer) {
 function paintCloud(g, w, h, r) {
   const n = 7 + Math.floor(r() * 4), puffs = []; const base = h * 0.66;
   for (let i = 0; i < n; i++) { const u = (i + 0.5) / n, edge = Math.sin(u * Math.PI); puffs.push({ x: w * (0.1 + 0.8 * u) + (r() - 0.5) * 20, y: base - edge * h * (0.12 + r() * 0.2), r: h * (0.13 + 0.17 * edge + r() * 0.05) }); }
-  g.fillStyle = "#ffe6a6"; for (const p of puffs) { g.beginPath(); g.arc(p.x, p.y, p.r + 5, 0, TAU); g.fill(); }
-  g.fillRect(w * 0.1, base - 5, w * 0.8, h * 0.2);
-  const gr = g.createLinearGradient(0, h * 0.12, 0, h * 0.95); gr.addColorStop(0, "#fff4d8"); gr.addColorStop(0.35, "#f1c9a4"); gr.addColorStop(0.62, "#b06a86"); gr.addColorStop(1, "#3a2f78");
-  g.fillStyle = gr; for (const p of puffs) { g.beginPath(); g.arc(p.x, p.y, p.r, 0, TAU); g.fill(); } g.fillRect(w * 0.1, base, w * 0.8, h * 0.2);
+  for (let i = 0; i < n; i++) puffs.push({ x: puffs[i].x, y: base + h * 0.06, r: puffs[i].r * 0.95, low: 1 });
+  g.fillStyle = "#f6cf7a"; for (const p of puffs) { g.beginPath(); g.arc(p.x, p.y, p.r + 4, 0, TAU); g.fill(); }
+  const gr = g.createLinearGradient(0, h * 0.12, 0, h * 0.95); gr.addColorStop(0, "#fff0d4"); gr.addColorStop(0.3, "#e6bca6"); gr.addColorStop(0.6, "#8f66a4"); gr.addColorStop(1, "#343078");
+  g.fillStyle = gr; for (const p of puffs) { g.beginPath(); g.arc(p.x, p.y, p.r, 0, TAU); g.fill(); }
   g.strokeStyle = "rgba(200,150,30,0.85)"; g.lineWidth = 4; g.lineCap = "round";
-  for (let i = 1; i < n; i += 2) { const p = puffs[i], dir = i % 4 === 1 ? 1 : -1; g.beginPath(); for (let a = 0; a < 4.6; a += 0.15) { const rr = p.r * (0.72 - a * 0.12), x = p.x + Math.cos(-1.2 + a * dir) * rr * dir * -1, y = p.y + Math.sin(-1.2 + a * dir) * rr; a === 0 ? g.moveTo(x, y) : g.lineTo(x, y); } g.stroke(); }
-  g.globalCompositeOperation = "destination-out"; const fd = g.createLinearGradient(0, h * 0.6, 0, h * 0.97); fd.addColorStop(0, "rgba(0,0,0,0)"); fd.addColorStop(1, "rgba(0,0,0,1)"); g.fillStyle = fd; g.fillRect(0, h * 0.6, w, h * 0.4);
+  for (let i = 1; i < n; i += 2) { if (puffs[i].r < h * 0.2) continue; const p = puffs[i], dir = i % 4 === 1 ? 1 : -1; g.beginPath(); for (let a = 0; a < 4.6; a += 0.15) { const rr = p.r * (0.72 - a * 0.12), x = p.x + Math.cos(-1.2 + a * dir) * rr * dir * -1, y = p.y + Math.sin(-1.2 + a * dir) * rr; a === 0 ? g.moveTo(x, y) : g.lineTo(x, y); } g.stroke(); }
+  g.globalCompositeOperation = "destination-out"; const fd = g.createLinearGradient(0, h * 0.52, 0, h * 0.88); fd.addColorStop(0, "rgba(0,0,0,0)"); fd.addColorStop(1, "rgba(0,0,0,1)"); g.fillStyle = fd; g.fillRect(0, h * 0.52, w, h * 0.48);
   const fx = g.createLinearGradient(0, 0, w, 0); fx.addColorStop(0, "rgba(0,0,0,1)"); fx.addColorStop(0.1, "rgba(0,0,0,0)"); fx.addColorStop(0.9, "rgba(0,0,0,0)"); fx.addColorStop(1, "rgba(0,0,0,1)"); g.fillStyle = fx; g.fillRect(0, 0, w, h);
   g.globalCompositeOperation = "source-over";
 }
@@ -172,7 +172,7 @@ function paintLantern(g, w, h) {
 }
 
 // ───────────────────────── texto dorado 2D ─────────────────────────
-function goldSprite(text, font, px, { pad = 0.45, track = 0, dark = "#3a0409", grad = null } = {}) {
+function goldSprite(text, font, px, { pad = 0.45, track = 0, dark = "#3a0409", grad = null, hl = 1 } = {}) {
   const c = document.createElement("canvas"); let g = c.getContext("2d"); g.font = font.replace("%", px);
   const chars = [...text], ws = chars.map((ch) => g.measureText(ch).width), tw = track ? ws.reduce((a, b) => a + b + track, -track) : g.measureText(text).width, P = Math.ceil(px * pad);
   c.width = Math.ceil(tw + P * 2); c.height = Math.ceil(px * 1.3 + P * 2); g = c.getContext("2d"); g.font = font.replace("%", px); g.textBaseline = "alphabetic"; g.lineJoin = "round";
@@ -183,7 +183,7 @@ function goldSprite(text, font, px, { pad = 0.45, track = 0, dark = "#3a0409", g
   const gr = g.createLinearGradient(0, by - px * 0.92, 0, by + px * 0.12);
   for (const [o, col] of grad || [[0, "#fffdf0"], [0.3, "#ffe89c"], [0.52, "#f6c64f"], [0.56, "#c98a16"], [0.78, "#f2c14e"], [1, "#fff3bf"]]) gr.addColorStop(o, col);
   g.fillStyle = gr; draw((s, x, y) => g.fillText(s, x, y));
-  g.save(); g.globalCompositeOperation = "source-atop"; g.strokeStyle = "rgba(255,255,255,0.55)"; g.lineWidth = px * 0.018; g.translate(0, -px * 0.012); draw((s, x, y) => g.strokeText(s, x, y)); g.restore();
+  if (hl) { g.save(); g.globalCompositeOperation = "source-atop"; g.strokeStyle = "rgba(255,255,255,0.55)"; g.lineWidth = px * 0.018; g.translate(0, -px * 0.012); draw((s, x, y) => g.strokeText(s, x, y)); g.restore(); }
   return c;
 }
 function whiteOf(c) { const o = document.createElement("canvas"); o.width = c.width; o.height = c.height; const g = o.getContext("2d"); g.drawImage(c, 0, 0); g.globalCompositeOperation = "source-in"; g.fillStyle = "#fffbe8"; g.fillRect(0, 0, o.width, o.height); return o; }
@@ -228,8 +228,8 @@ export default {
 
     // ── nubes auspiciosas (3 variantes) en profundidad
     const cloudTx = [0, 1, 2].map((i) => kit.canvasTexture(768, 320, (g) => paintCloud(g, 768, 320, kit.rng(31 + i * 7))));
-    this.clouds = []; const addCloud = (x, y, z, s, kind, o = 1) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1), new THREE.MeshBasicMaterial({ map: cloudTx[this.clouds.length % 3], transparent: true, depthWrite: false, opacity: o, toneMapped: false })); m.scale.set(s * (R() < 0.5 ? -1 : 1), s, 1); m.userData = { x, y, z, kind, ph: R() * TAU, o }; scene.add(m); this.clouds.push(m); };
-    for (let i = 0; i < 26; i++) { const side = i % 2 ? 1 : -1, z = -34 + i * 1.9; addCloud(side * (3.2 + R() * 5.5), -5 + R() * 11, z, 3 + R() * 3.5, "fly"); }       // pasillo de vuelo
+    this.clouds = []; const addCloud = (x, y, z, s, kind, o = 1) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1), new THREE.MeshBasicMaterial({ map: cloudTx[this.clouds.length % 3], transparent: true, depthWrite: false, opacity: o, toneMapped: false, color: kind === "bank" ? 0xffffff : kind === "fly" ? 0xa9a2d2 : 0x7f7cb4 })); m.scale.set(s * (R() < 0.5 ? -1 : 1), s, 1); m.userData = { x, y, z, kind, ph: R() * TAU, o }; scene.add(m); this.clouds.push(m); };
+    for (let i = 0; i < 18; i++) { const side = i % 2 ? 1 : -1, z = -36 + i * 2.6; addCloud(side * (3.4 + R() * 5), -6 + R() * 12, z, 2.2 + R() * 2.6, "fly"); }       // pasillo de vuelo
     for (let i = 0; i < 9; i++) addCloud(-9 + i * 2.3 + R(), -7.6 - R() * 1.1 + (i % 2) * 0.5, 1.5 + (i % 3) * 1.6, 3.4 + R() * 1.6, "bank");                              // banco inferior de la tarjeta
     for (let i = 0; i < 8; i++) addCloud((i % 2 ? 1 : -1) * (7.5 + R() * 6), -7 + i * 2.6 + R() * 2, -22 - R() * 5, 5 + R() * 4, "far", 0.75);                             // lejanas junto a la luna
     addCloud(-4.3, 3.1, -3, 2.6, "far", 0.9); addCloud(4.6, -3.2, -4, 2.8, "far", 0.9); addCloud(-4.8, -3.6, -5, 3, "far", 0.85);
@@ -244,7 +244,7 @@ export default {
     // ── DRAGÓN ─────────────────────────────────────────────
     const track = (this.track = buildTrack(THREE)); const L = (this.L = 13.2), NR = (this.NR = 300), RAD = 20; this.R0 = 0.27; this.HS = 1.22;
     const ra = track.ringArc;
-    this.dHead = pchip([[0, track.arcAtCtrl(track.idx.start)], [1.5, track.arcAtCtrl(track.idx.near)], [2.25, track.arcAtCtrl(track.idx.near + 5.2)], [3.0, ra(track.th0 + 15)], [4.0, ra(TH_F - 400)], [5.0, ra(TH_F - 150)], [6.0, ra(TH_F - 22)], [7.0, ra(TH_F - 9)], [8.0, ra(TH_F)]]);
+    this.dHead = pchip([[0, track.arcAtCtrl(track.idx.start)], [1.5, track.arcAtCtrl(track.idx.near)], [1.9, track.arcAtCtrl(track.idx.helix)], [3.0, ra(track.th0 + 15)], [4.0, ra(TH_F - 400)], [5.0, ra(TH_F - 150)], [6.0, ra(TH_F - 22)], [7.0, ra(TH_F - 9)], [8.0, ra(TH_F)]]);
     const maps = scaleMaps(THREE); maps.map.repeat.set(1, 1); const dragon = (this.dragon = new THREE.Group()); scene.add(dragon);
     const gold = (o = {}) => new THREE.MeshStandardMaterial({ color: 0xffb637, metalness: 0.92, roughness: 0.3, envMapIntensity: 1.25, ...o });
     this.bodyGeo = allocTube(THREE, NR + 1, RAD);
@@ -260,15 +260,15 @@ export default {
     // cintas: melena, barba, penacho de cola, codos
     const RS = 9; this.RS = RS; this.rib = [];
     const addRib = (o) => this.rib.push({ ph: R() * TAU, w: 0.11, len: 1, ...o });
-    for (let i = 0; i < 26; i++) { const a = (-150 + (300 * i) / 25) * (Math.PI / 180), ring = i % 3; addRib({ kind: "head", root: [Math.sin(a) * (0.3 - ring * 0.02), Math.cos(a) * 0.25 + 0.04, -0.02 - ring * 0.13 + R() * 0.05], dir: [Math.sin(a) * 0.9, Math.cos(a) * 0.9 + 0.15, -1], len: 0.75 + R() * 0.75 + (Math.abs(a) < 0.8 ? 0.35 : 0), w: 0.1 + R() * 0.06 }); }
-    for (const sx of [-1, 1]) for (let j = 0; j < 3; j++) addRib({ kind: "head", root: [sx * (0.3 + j * 0.02), -0.02 - j * 0.07, 0.05 - j * 0.02], dir: [sx * 1.25, -0.25 - j * 0.3, -0.75], len: 0.6 + (2 - j) * 0.12, w: 0.14 });   // aletas de mejilla
+    for (let i = 0; i < 36; i++) { const a = (-150 + (300 * i) / 35) * (Math.PI / 180), ring = i % 3; addRib({ kind: "head", root: [Math.sin(a) * (0.3 - ring * 0.02), Math.cos(a) * 0.25 + 0.04, -0.02 - ring * 0.13 + R() * 0.05], dir: [Math.sin(a) * 0.9, Math.cos(a) * 0.9 + 0.15, -1], len: 0.42 + R() * 0.45 + (Math.abs(a) < 0.8 ? 0.28 : 0), w: 0.07 + R() * 0.04 }); }
+    for (const sx of [-1, 1]) for (let j = 0; j < 3; j++) addRib({ kind: "head", root: [sx * (0.3 + j * 0.02), -0.02 - j * 0.07, 0.05 - j * 0.02], dir: [sx * 1.25, -0.25 - j * 0.3, -0.75], len: 0.42 + (2 - j) * 0.1, w: 0.11 });   // aletas de mejilla
     for (let j = 0; j < 5; j++) addRib({ kind: "jaw", root: [(j - 2) * 0.05, -0.15, 0.3 + Math.abs(j - 2) * -0.07 + 0.25], dir: [(j - 2) * 0.22, -1, -0.45], len: 0.5 + (2 - Math.abs(j - 2)) * 0.13, w: 0.075 });   // barba
     for (let j = 0; j < 9; j++) { const a = (j / 9) * TAU; addRib({ kind: "tail", root: [0, 0, 0], dir: [Math.sin(a) * 0.55, Math.cos(a) * 0.55, -1], len: 0.8 + R() * 0.6, w: 0.12 }); }
     const nRib = this.rib.length, rg = (this.ribGeo = new THREE.BufferGeometry()), nvR = nRib * (RS + 1) * 2, ri = [], rc = new Float32Array(nvR * 3);
     rg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(nvR * 3), 3)); rg.setAttribute("normal", new THREE.BufferAttribute(new Float32Array(nvR * 3), 3));
-    for (let r = 0; r < nRib; r++) for (let k = 0; k <= RS; k++) { const f = k / RS, b = (r * (RS + 1) + k) * 2; for (const o of [0, 1]) { const i = (b + o) * 3; rc[i] = 0.5 + 0.5 * sm(f * 1.6); rc[i + 1] = 0.02 + 0.8 * f * f; rc[i + 2] = 0.06 * (1 - f) + 0.25 * f * f * f; } if (k < RS) ri.push(b, b + 1, b + 2, b + 2, b + 1, b + 3); }
+    for (let r = 0; r < nRib; r++) for (let k = 0; k <= RS; k++) { const f = k / RS, b = (r * (RS + 1) + k) * 2; for (const o of [0, 1]) { const i = (b + o) * 3; rc[i] = 0.42 + 0.58 * sm(f * 1.5); rc[i + 1] = 0.015 + 0.2 * f + 0.5 * f * f * f; rc[i + 2] = 0.04 * (1 - f) + 0.16 * f * f * f; } if (k < RS) ri.push(b, b + 1, b + 2, b + 2, b + 1, b + 3); }
     rg.setAttribute("color", new THREE.BufferAttribute(rc, 3)); rg.setIndex(ri);
-    const ribM = new THREE.Mesh(rg, new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, metalness: 0.45, roughness: 0.4, emissive: 0x8a1408, emissiveIntensity: 0.6, envMapIntensity: 1.0 })); ribM.frustumCulled = false; dragon.add(ribM);
+    const ribM = new THREE.Mesh(rg, new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, metalness: 0.6, roughness: 0.36, emissive: 0x6a0c06, emissiveIntensity: 0.5, envMapIntensity: 1.0 })); ribM.frustumCulled = false; dragon.add(ribM);
 
     // cabeza
     const head = (this.head = new THREE.Group()); head.matrixAutoUpdate = false; dragon.add(head);
@@ -282,16 +282,16 @@ export default {
     // cráneo + morro (mitad superior)
     mesh(loft(THREE, [[-0.34, 0.16, 0.17, 0.17, 0.02], [-0.12, 0.29, 0.27, 0.2, 0.03], [0.1, 0.36, 0.31, 0.13, 0.03], [0.3, 0.3, 0.25, 0.07, 0.02], [0.5, 0.215, 0.165, 0.055, 0], [0.74, 0.19, 0.14, 0.05, -0.01], [0.94, 0.215, 0.16, 0.055, 0], [1.1, 0.2, 0.15, 0.05, 0.01], [1.2, 0.13, 0.09, 0.04, 0.01], [1.235, 0.01, 0.01, 0.01, 0.01]], 52, 30, 0.82), skin);
     // nariz: dos bulbos + fosas
-    for (const sx of [-1, 1]) { const n = mesh(new THREE.SphereGeometry(0.09, 16, 12), gold({ color: 0xffc04a }), [sx * 0.105, 0.13, 1.12]); n.scale.set(1, 0.85, 1.15); mesh(new THREE.SphereGeometry(0.035, 10, 8), darkM, [sx * 0.125, 0.135, 1.215]); }
+    for (const sx of [-1, 1]) { const n = mesh(new THREE.SphereGeometry(0.075, 16, 12), gold({ color: 0xffc04a }), [sx * 0.1, 0.115, 1.13]); n.scale.set(1.05, 0.8, 1.2); const ho = mesh(new THREE.SphereGeometry(0.03, 10, 8), darkM, [sx * 0.125, 0.12, 1.2]); ho.scale.set(1, 0.6, 0.6); }
     // crestas del morro
     for (let i = 0; i < 5; i++) { const c = mesh(new THREE.ConeGeometry(0.04, 0.13 + i * 0.012, 5), hornM, [0, 0.18 + (i > 2 ? (i - 2) * 0.06 : 0), 0.92 - i * 0.14]); c.rotation.x = -0.5; }
     // cejas + ojos encendidos
     this.eyes = [];
     for (const sx of [-1, 1]) {
-      const brow = mesh(taperTube(THREE, [[sx * 0.1, 0.2, 0.52], [sx * 0.2, 0.31, 0.38], [sx * 0.32, 0.37, 0.18], [sx * 0.43, 0.42, -0.08], [sx * 0.5, 0.5, -0.3]], 0.05, 0.012, 16, 8, 1.4), gold({ color: 0xffcf62 })); brow.scale.y = 1.25;
-      const eye = mesh(new THREE.SphereGeometry(0.082, 18, 14), new THREE.MeshBasicMaterial({ color: 0xfff1a0, toneMapped: false }), [sx * 0.262, 0.2, 0.3]);
-      const pup = mesh(new THREE.SphereGeometry(0.05, 10, 10), new THREE.MeshBasicMaterial({ color: 0x1a0204 }), [sx * 0.3, 0.2, 0.345]); pup.scale.set(0.9, 1.25, 0.42); pup.lookAt(sx * 2, 0.3, 1.6);
-      const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: kit.glowTexture(96, "255,170,60"), blending: THREE.AdditiveBlending, depthWrite: false, depthTest: true, opacity: 0.9, toneMapped: false })); gl.position.set(sx * 0.31, 0.2, 0.33); gl.scale.setScalar(0.55); head.add(gl); this.eyes.push(gl, eye);
+      const brow = mesh(taperTube(THREE, [[sx * 0.1, 0.19, 0.56], [sx * 0.21, 0.275, 0.42], [sx * 0.325, 0.33, 0.22], [sx * 0.43, 0.4, -0.06], [sx * 0.52, 0.5, -0.32]], 0.075, 0.012, 18, 10, 1.3), gold({ color: 0xffcf62 }));
+      const eye = mesh(new THREE.SphereGeometry(0.066, 18, 14), new THREE.MeshBasicMaterial({ color: 0xffd23c, toneMapped: false }), [sx * 0.268, 0.19, 0.31]);
+      const pup = mesh(new THREE.SphereGeometry(0.05, 12, 10), new THREE.MeshBasicMaterial({ color: 0x200204 }), [sx * 0.299, 0.19, 0.336]); pup.scale.set(0.3, 1.15, 0.5); pup.lookAt(sx * 2.4, 0.19, 1.9);
+      const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: kit.glowTexture(96, "255,170,60"), blending: THREE.AdditiveBlending, depthWrite: false, depthTest: true, opacity: 0.9, toneMapped: false })); gl.position.set(sx * 0.33, 0.19, 0.34); gl.scale.setScalar(0.4); head.add(gl); this.eyes.push(gl, eye);
       // cuernos de ciervo con rama
       mesh(taperTube(THREE, [[sx * 0.15, 0.27, 0.0], [sx * 0.23, 0.52, -0.22], [sx * 0.3, 0.72, -0.62], [sx * 0.36, 0.8, -1.02], [sx * 0.34, 0.96, -1.38]], 0.07, 0.012, 26, 9, 0.85), hornM);
       mesh(taperTube(THREE, [[sx * 0.275, 0.66, -0.48], [sx * 0.33, 0.92, -0.5], [sx * 0.39, 1.1, -0.7]], 0.045, 0.01, 12, 8), hornM);
@@ -299,14 +299,14 @@ export default {
       // oreja
       const ear = mesh(new THREE.ConeGeometry(0.1, 0.42, 8), gold({ color: 0xffb637, side: THREE.DoubleSide }), [sx * 0.42, 0.16, -0.08]); ear.scale.z = 0.4; ear.rotation.set(-1.15, 0, -sx * 1.05);
       // dientes superiores
-      for (let i = 0; i < 9; i++) { const z = 0.42 + i * 0.085, big = i === 7; const tth = mesh(new THREE.ConeGeometry(big ? 0.036 : 0.019, big ? 0.2 : 0.075, 7), ivory, [sx * (0.175 - (i > 6 ? (i - 6) * 0.03 : 0) + (i < 2 ? 0.02 : 0)), -0.05 - (big ? 0.085 : 0.03), z]); tth.rotation.x = Math.PI; }
+      for (let i = 0; i < 9; i++) { const z = 0.42 + i * 0.085, big = i === 7; const tth = mesh(new THREE.ConeGeometry(big ? 0.036 : 0.019, big ? 0.2 : 0.075, 12), ivory, [sx * (0.175 - (i > 6 ? (i - 6) * 0.03 : 0) + (i < 2 ? 0.02 : 0)), -0.05 - (big ? 0.085 : 0.03), z]); tth.rotation.x = Math.PI; }
     }
     for (let i = -1; i <= 1; i++) { const tth = mesh(new THREE.ConeGeometry(0.02, 0.08, 6), ivory, [i * 0.065, -0.075, 1.17]); tth.rotation.x = Math.PI; }
     const palate = mesh(new THREE.SphereGeometry(1, 16, 10), darkM, [0, -0.03, 0.6]); palate.scale.set(0.16, 0.035, 0.52);
     // mandíbula inferior articulada
     const jaw = (this.jaw = new THREE.Group()); jaw.position.set(0, -0.06, 0.02); head.add(jaw);
     mesh(loft(THREE, [[-0.22, 0.1, 0.03, 0.1, -0.02], [0, 0.27, 0.035, 0.17, -0.02], [0.25, 0.25, 0.03, 0.14, -0.02], [0.5, 0.185, 0.028, 0.095, -0.02], [0.8, 0.165, 0.03, 0.08, -0.02], [1.02, 0.17, 0.035, 0.085, -0.02], [1.12, 0.1, 0.03, 0.05, -0.02], [1.15, 0.01, 0.01, 0.01, -0.02]], 40, 26, 0.85), skin, null, jaw);
-    for (const sx of [-1, 1]) for (let i = 0; i < 8; i++) { const big = i === 6; mesh(new THREE.ConeGeometry(big ? 0.03 : 0.017, big ? 0.15 : 0.065, 7), ivory, [sx * (0.15 - (i > 5 ? (i - 5) * 0.025 : 0)), 0.03 + (big ? 0.06 : 0.02), 0.44 + i * 0.085], jaw); }
+    for (const sx of [-1, 1]) for (let i = 0; i < 8; i++) { const big = i === 6; mesh(new THREE.ConeGeometry(big ? 0.03 : 0.017, big ? 0.15 : 0.065, 12), ivory, [sx * (0.15 - (i > 5 ? (i - 5) * 0.025 : 0)), 0.03 + (big ? 0.06 : 0.02), 0.44 + i * 0.085], jaw); }
     const tongue = mesh(taperTube(THREE, [[0, -0.02, 0.1], [0, 0.0, 0.45], [0, 0.02, 0.8], [0, 0.09, 1.0], [0, 0.2, 1.08]], 0.075, 0.02, 16, 10), redM, null, jaw); tongue.scale.x = 1.5;
     const floor = mesh(new THREE.SphereGeometry(1, 16, 10), darkM, [0, 0.0, 0.5], jaw); floor.scale.set(0.15, 0.03, 0.5);
     // bigotes (tubos dinámicos)
@@ -340,8 +340,8 @@ export default {
     const fLat = `900 %px ${FONT.latinDisplay}`, fBrush = `%px ${FONT.zhBrush}`, fSerif = `900 %px ${FONT.zhSerif}`, fSans = `900 %px ${FONT.zhSans}`, fMod = `700 %px ${FONT.latinMod}`;
     await Promise.all([kit.fontReady(fLat.replace("%", 100), T1), kit.fontReady(fBrush.replace("%", 100), T2), kit.fontReady(fSerif.replace("%", 100), T3a + T3b), kit.fontReady(fSans.replace("%", 100), T4), kit.fontReady(fMod.replace("%", 40), T5 + T6)]);
     this.sT1 = goldSprite(T1, fLat, 150, { track: 2 }); this.sT1w = whiteOf(this.sT1);
-    this.sT2 = goldSprite(T2, fBrush, 112, { track: 4 }); this.sT2w = whiteOf(this.sT2);
-    this.sHead = [T3a, T3b].map((ln) => [...ln].map((ch) => { const c = goldSprite(ch, fSerif, 146, { pad: 0.4 }); return { c, w: whiteOf(c) }; }));
+    this.sT2 = goldSprite(T2, fSerif, 92, { track: 8, hl: 0, grad: [[0, "#ffffff"], [0.5, "#fff6d8"], [0.56, "#f1d99a"], [1, "#fffbe8"]] }); this.sT2w = whiteOf(this.sT2);
+    this.sHead = [T3a, T3b].map((ln) => [...ln].map((ch) => { const c = goldSprite(ch, fSerif, 146, { pad: 0.4, hl: 0 }); return { c, w: whiteOf(c) }; }));
     // sello «DELE A1–B2»
     this.sDele = (() => { const c = document.createElement("canvas"); c.width = 330; c.height = 84; const g = c.getContext("2d"); g.font = fMod.replace("%", 30); const tw = g.measureText(T6).width, w = tw + 56, x = (330 - w) / 2;
       g.shadowColor = "rgba(0,0,0,0.6)"; g.shadowBlur = 10; g.shadowOffsetY = 4; const q = g.createLinearGradient(0, 12, 0, 72); q.addColorStop(0, "#e02a40"); q.addColorStop(1, "#8f0c21"); g.fillStyle = q; g.beginPath(); g.roundRect(x, 12, w, 60, 14); g.fill(); g.shadowColor = "transparent";
@@ -360,7 +360,7 @@ export default {
     // fuegos artificiales
     this.fw = [[3.0, 150, 420, 250, 1], [3.5, 930, 330, 230, 2], [4.0, 110, 1010, 210, 3], [4.5, 950, 1050, 220, 4], [5.0, 540, 190, 240, 5], [5.5, 190, 250, 170, 6]].map(([t0, x, y, r, sd]) => { const q = kit.rng(sd * 97); return { t0, x, y, r, sp: Array.from({ length: 64 }, () => ({ a: q() * TAU, v: 0.45 + q() * 0.55, w: q() })) }; });
     this.lines = Array.from({ length: 70 }, () => ({ a: R() * TAU, ph: R(), len: 0.12 + R() * 0.3, w: 1 + R() * 3 }));
-    this.v = vecs(THREE, 12); this.m4 = new THREE.Matrix4(); this.dummy = new THREE.Object3D();
+    window.__s7 = this; this.v = vecs(THREE, 12); this.m4 = new THREE.Matrix4(); this.dummy = new THREE.Object3D();
   },
 
   proj(x, y, z) { const { W, H } = this.kit, v = this.v[10].set(x, y, z).project(this.three.camera); return [(v.x + 1) * 0.5 * W, (1 - v.y) * 0.5 * H]; },
@@ -381,7 +381,7 @@ export default {
     // cabeza
     const jawOpen = 0.2 + 0.5 * Math.exp(-Math.pow((t - 1.3) / 0.33, 2)) + 0.22 * Math.exp(-Math.pow((t - 3.05) / 0.3, 2)) + 0.035 * Math.sin(t * 2.2);
     this.jaw.rotation.x = jawOpen; this.m4.makeBasis(S0, N0, T0).scale(tmp.set(HS, HS, HS)).setPosition(tmp.copy(C2[0]).addScaledVector(T0, 0.12)); this.head.matrix.copy(this.m4);
-    const eg = 0.5 + 0.12 * Math.sin(t * 5) + 0.5 * Math.exp(-Math.pow((t - 1.3) / 0.3, 2)); this.eyes[0].scale.setScalar(eg); this.eyes[2].scale.setScalar(eg);
+    const eg = 0.36 + 0.08 * Math.sin(t * 5) + 0.5 * Math.exp(-Math.pow((t - 1.3) / 0.3, 2)); this.eyes[0].scale.setScalar(eg); this.eyes[2].scale.setScalar(eg);
     const hp = (x, y, z, out) => out.copy(C2[0]).addScaledVector(T0, 0.12 + z * HS).addScaledVector(S0, x * HS).addScaledVector(N0, y * HS);
     // cresta dorsal
     const dm = this.dummy;
@@ -457,7 +457,7 @@ export default {
     const dr = this.updateDragon(t); this.updateFire(t);
     this.moonRays.rotation.z = t * 0.05; this.moonRays.material.opacity = 0.22 + 0.06 * Math.sin(t * 1.3);
     const rush = ease.inOutCubic(prog(t, 0, 1.9)) * 46;
-    for (const c of this.clouds) { const u = c.userData; let z = u.z, o = u.o; if (u.kind === "fly") { z += rush; o *= 1 - prog(z, camera.position.z - 5, camera.position.z - 0.5); } if (u.kind === "bank") o *= sm((t - 2.6) / 1.6);
+    for (const c of this.clouds) { const u = c.userData; let z = u.z, o = u.o; if (u.kind === "fly") { z += rush; o *= 1 - prog(z, camera.position.z - 9, camera.position.z - 3); } if (u.kind === "bank") o *= sm((t - 2.6) / 1.6);
       c.position.set(u.x + Math.sin(t * 0.25 + u.ph) * 0.35, u.y + Math.sin(t * 0.4 + u.ph) * 0.08, z); c.material.opacity = o; c.visible = o > 0.01; }
     for (const l of this.lanterns) { const u = l.userData; l.position.set(u.x + Math.sin(t * 0.6 + u.ph) * 0.3, u.y + t * u.v, u.z); l.rotation.z = Math.sin(t * 0.8 + u.ph) * 0.08; u.gl.material.opacity = 0.55 + 0.15 * Math.sin(t * 6 + u.ph); }
     // ── logo 3D: se forja en t=3
@@ -503,7 +503,7 @@ export default {
     // titular (5.0 y 5.25), carácter a carácter
     const lineY = [1068, 1222];
     this.sHead.forEach((ln, li) => ln.forEach((ch, i) => { const t0 = 5.0 + li * 0.25 + i * 0.045, a = t - t0; if (a <= 0) return; const x = CX + (i - 2) * 158, y = lineY[li], e = ease.outExpo(prog(a, 0, 0.4)), sc = 1 + 1.6 * (1 - e) + 0.012 * Math.sin(t * 1.6 + i * 0.7 + li) * (a > 0.5 ? 1 : 0);
-      this.spr(ch.c, x, y - (1 - e) * 40, sc, prog(a, 0, 0.08), fract((t - 5.9 - li * 0.25) / 2.4) * 2 - i * 0.08 > 0 ? clamp((fract((t - 5.9 - li * 0.25) / 2.4) * 2.4 - i * 0.12) , 0, 1) : -1);
+      this.spr(ch.c, x, y - (1 - e) * 40, sc, prog(a, 0, 0.08), fract((t - 5.9) / 2.4) * 2.4 - i * 0.1 - li * 0.35);
       g.globalCompositeOperation = "lighter"; this.spr(ch.w, x, y - (1 - e) * 40, sc, Math.exp(-a * 5)); g.globalCompositeOperation = "source-over"; }));
     for (const [t0, y, wd] of [[5.0, 1068, 900], [5.25, 1222, 900]]) { const a = t - t0; if (a > 0 && a < 0.6) { g.globalCompositeOperation = "lighter"; const e = ease.outExpo(a / 0.6), q = g.createLinearGradient(CX - wd * e, 0, CX + wd * e, 0); q.addColorStop(0, "rgba(255,230,160,0)"); q.addColorStop(0.5, `rgba(255,246,216,${0.9 * (1 - a / 0.6)})`); q.addColorStop(1, "rgba(255,230,160,0)"); g.fillStyle = q; g.fillRect(CX - wd * e, y + 86, wd * 2 * e, 5); g.globalCompositeOperation = "source-over"; } }
     // botón (5.5): late a 120 BPM
@@ -515,7 +515,7 @@ export default {
     if (t > 6.0) { const a = t - 6.0, e = ease.outExpo(prog(a, 0, 0.5)), c = this.sUrl; g.save(); g.beginPath(); g.rect(CX - 450 * e, 1400, 900 * e, 120); g.clip(); this.spr(c, CX, 1456 + (1 - e) * 24, 1, 1, fract((t - 6.3) / 2.2) * 1.8); g.restore(); }
     // destellos de impacto
     g.globalCompositeOperation = "lighter";
-    const fl = (a, s) => (a > 0 ? Math.exp(-a * s) : 0), f1 = Math.exp(-Math.pow((t - 1.45) / 0.13, 2)) * 0.6, f3 = fl(t - 3, 5), f5 = fl(t - 5, 7) * 0.5;
+    const fl = (a, s) => (a > 0 ? Math.exp(-a * s) : 0), f1 = Math.exp(-Math.pow((t - 1.5) / 0.1, 2)) * 0.5, f3 = fl(t - 3, 5), f5 = fl(t - 5, 7) * 0.5;
     if (f1 > 0.01) { g.fillStyle = `rgba(255,236,190,${f1})`; g.fillRect(0, 0, W, H); }
     const [ix, iy] = this.proj(0, 0, 0);
     if (f3 > 0.01) { const q = g.createRadialGradient(ix, iy, 0, ix, iy, 1500); q.addColorStop(0, `rgba(255,252,235,${f3})`); q.addColorStop(0.25, `rgba(255,220,130,${f3 * 0.8})`); q.addColorStop(1, "rgba(255,160,60,0)"); g.fillStyle = q; g.fillRect(0, 0, W, H); }

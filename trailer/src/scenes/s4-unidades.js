@@ -67,12 +67,12 @@ export default {
 
     // ---------- fondo: laca roja que se hunde en la noche ----------
     const bgTex = kit.canvasTexture(512, 1024, (g) => {
-      const gr = g.createLinearGradient(0, 0, 0, 1024); gr.addColorStop(0, "#070a22"); gr.addColorStop(0.28, "#2a0a2a"); gr.addColorStop(0.5, "#8f0c21"); gr.addColorStop(0.66, "#5a0716"); gr.addColorStop(1, "#1a0410"); g.fillStyle = gr; g.fillRect(0, 0, 512, 1024);
-      const rg = g.createRadialGradient(256, 500, 0, 256, 500, 420); rg.addColorStop(0, "rgba(230,40,50,.85)"); rg.addColorStop(0.45, "rgba(200,16,46,.35)"); rg.addColorStop(1, "rgba(200,16,46,0)"); g.fillStyle = rg; g.fillRect(0, 0, 512, 1024);
+      const gr = g.createLinearGradient(0, 0, 0, 1024); gr.addColorStop(0, "#050818"); gr.addColorStop(0.3, "#0b0f2a"); gr.addColorStop(0.44, "#2c0a2c"); gr.addColorStop(0.56, "#7d0a1e"); gr.addColorStop(0.68, "#4a0612"); gr.addColorStop(0.82, "#1c0512"); gr.addColorStop(1, "#090414"); g.fillStyle = gr; g.fillRect(0, 0, 512, 1024);
+      const rg = g.createRadialGradient(256, 560, 0, 256, 560, 300); rg.addColorStop(0, "rgba(220,30,46,.7)"); rg.addColorStop(0.5, "rgba(200,16,46,.28)"); rg.addColorStop(1, "rgba(200,16,46,0)"); g.fillStyle = rg; g.fillRect(0, 0, 512, 1024);
       // estrellas en la parte alta
-      const r = kit.rng(41); for (let i = 0; i < 140; i++) { const y = r() * 380; g.fillStyle = `rgba(255,236,190,${0.25 + r() * 0.6})`; g.beginPath(); g.arc(r() * 512, y, 0.5 + r() * 1.1, 0, 7); g.fill(); }
+      const r = kit.rng(41); for (let i = 0; i < 220; i++) { const y = r() * 470; g.fillStyle = `rgba(255,236,190,${0.25 + r() * 0.6})`; g.beginPath(); g.arc(r() * 512, y, 0.5 + r() * 1.1, 0, 7); g.fill(); }
     });
-    const bg = new THREE.Mesh(new THREE.PlaneGeometry(64, 96), new THREE.MeshBasicMaterial({ map: bgTex, depthWrite: false })); bg.position.set(0, 4, -42); bg.renderOrder = -10; scene.add(bg);
+    const bg = new THREE.Mesh(new THREE.PlaneGeometry(60, 62), new THREE.MeshBasicMaterial({ map: bgTex, depthWrite: false })); bg.position.set(0, 3, -42); bg.renderOrder = -10; scene.add(bg);
 
     // ---------- gran halo / puerta de luna con filigrana ----------
     const haloTex = kit.canvasTexture(1024, 1024, (g) => {
@@ -87,12 +87,12 @@ export default {
       for (let i = 0; i < 48; i++) { g.save(); g.rotate((i / 48) * Math.PI * 2); g.lineWidth = 4; g.strokeRect(-14, -462, 28, 22); if (i % 2 === 0) { g.beginPath(); g.arc(0, -386, 6, 0, 7); g.fillStyle = "#ffe9a8"; g.fill(); } g.restore(); }
     });
     const addMat = (map, opacity = 1, color = 0xffffff) => new THREE.MeshBasicMaterial({ map, transparent: true, opacity, color, blending: THREE.AdditiveBlending, depthWrite: false });
-    this.halo = new THREE.Mesh(new THREE.PlaneGeometry(15, 15), addMat(haloTex, 0.8)); this.halo.position.set(0, 0.3, -7); scene.add(this.halo);
+    this.halo = new THREE.Mesh(new THREE.PlaneGeometry(13, 13), addMat(haloTex, 0.8)); this.halo.position.set(0, 0.3, -7); scene.add(this.halo);
     this.ring = new THREE.Mesh(new THREE.PlaneGeometry(8.6, 8.6), addMat(ringTex, 0.75)); this.ring.position.set(0, 0.3, -6.5); scene.add(this.ring);
-    this.ring2 = new THREE.Mesh(new THREE.PlaneGeometry(12.4, 12.4), addMat(ringTex, 0.22)); this.ring2.position.set(0, 0.3, -6.8); scene.add(this.ring2);
+    this.ring2 = new THREE.Mesh(new THREE.PlaneGeometry(12.4, 12.4), addMat(ringTex, 0.1)); this.ring2.position.set(0, 0.3, -6.8); scene.add(this.ring2);
     const glowT = kit.glowTexture(256, "255,214,130"), glowR = kit.glowTexture(256, "255,70,60");
     const sprite = (map, s, opacity) => { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false })); sp.scale.set(s, s, 1); return sp; };
-    this.backGlow = sprite(glowR, 16, 0.75); this.backGlow.position.set(0, 0.3, -6); scene.add(this.backGlow);
+    this.backGlow = sprite(glowR, 11, 0.75); this.backGlow.position.set(0, 0.3, -6); scene.add(this.backGlow);
     this.coreGlow = sprite(glowT, 7, 0.6); this.coreGlow.position.set(0, 0.2, -1.2); scene.add(this.coreGlow);
 
     // ---------- nubes auspiciosas en capas ----------
@@ -109,12 +109,15 @@ export default {
     }
 
     // ---------- suelo de laca espejo ----------
-    const floorTex = kit.canvasTexture(512, 512, (g) => {
-      g.fillStyle = "#1a0410"; g.fillRect(0, 0, 512, 512);
-      const rg = g.createRadialGradient(256, 256, 0, 256, 256, 256); rg.addColorStop(0, "rgba(120,10,28,.30)"); rg.addColorStop(0.12, "rgba(90,8,22,.55)"); rg.addColorStop(0.4, "rgba(40,5,16,.9)"); rg.addColorStop(1, "rgba(26,4,16,1)");
-      g.clearRect(0, 0, 512, 512); g.fillStyle = rg; g.fillRect(0, 0, 512, 512);
+    const floorTex = kit.canvasTexture(1024, 1024, (g) => {
+      g.translate(512, 512);
+      const rg = g.createRadialGradient(0, 0, 0, 0, 0, 500); rg.addColorStop(0, "rgba(110,10,26,.42)"); rg.addColorStop(0.2, "rgba(80,8,20,.62)"); rg.addColorStop(0.6, "rgba(38,5,14,.9)"); rg.addColorStop(1, "rgba(20,3,12,.97)");
+      g.beginPath(); g.arc(0, 0, 500, 0, 7); g.fillStyle = rg; g.fill();
+      const ring = (r, w, c) => { g.beginPath(); g.arc(0, 0, r, 0, 7); g.lineWidth = w; g.strokeStyle = c; g.stroke(); };
+      ring(494, 12, "#c8961e"); ring(486, 4, "#ffe9a8"); ring(468, 3, "rgba(242,193,78,.8)"); ring(410, 2, "rgba(242,193,78,.35)");
+      for (let i = 0; i < 64; i++) { g.save(); g.rotate((i / 64) * Math.PI * 2); g.strokeStyle = "rgba(242,193,78,.6)"; g.lineWidth = 3; g.strokeRect(-12, -456, 24, 30); g.restore(); }
     });
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), new THREE.MeshBasicMaterial({ map: floorTex, transparent: true, depthWrite: false })); floor.rotation.x = -Math.PI / 2; floor.position.set(0, FLOOR_Y, -8); floor.renderOrder = 2; scene.add(floor);
+    const floor = new THREE.Mesh(new THREE.CircleGeometry(6.4, 96), new THREE.MeshBasicMaterial({ map: floorTex, transparent: true, depthWrite: false })); floor.rotation.x = -Math.PI / 2; floor.position.set(0, FLOOR_Y, 0); floor.renderOrder = 2; scene.add(floor);
     // anillos dorados grabados en el suelo
     const floorRing = new THREE.Mesh(new THREE.PlaneGeometry(9, 9), addMat(ringTex, 0.5)); floorRing.rotation.x = -Math.PI / 2; floorRing.position.set(0, FLOOR_Y + 0.01, 0); floorRing.renderOrder = 3; scene.add(floorRing); this.floorRing = floorRing;
     this.floorGlow = new THREE.Mesh(new THREE.PlaneGeometry(9, 9), addMat(glowT, 0.5)); this.floorGlow.rotation.x = -Math.PI / 2; this.floorGlow.position.set(0, FLOOR_Y + 0.02, 0); this.floorGlow.renderOrder = 3; scene.add(this.floorGlow);
@@ -176,21 +179,21 @@ export default {
     const onScreen = (cx, cy) => new V3((cx / 924 - 0.5) * sw, (0.5 - cy / 2000) * sh, sz + 0.02); // punto de la captura → local del móvil
     const add = (obj, o) => { obj.visible = false; itemRoot.add(obj); this.items.push({ obj, ...o }); };
     // tarjeta de vocabulario «Hola · 你好»: despega de su sitio exacto en la pantalla
-    add(plane(vocabT, 1, 0.8), { tb: 4.0, from: onScreen(462, 755), s0: (625 / 924) * sw, s1: 0.86, to: new V3(-0.2, 0.36, -4.2), ry: 0.3, rz: -0.07, seed: 1 });
-    add(plane(bubbleT, 1, 300 / 720), { tb: 4.25, from: onScreen(462, 1420), s0: (360 / 924) * sw, s1: 0.62, to: new V3(0.2, -0.02, -3.5), ry: -0.32, rz: 0.06, seed: 2 });
-    add(plane(pillT, 1, 210 / 720), { tb: 4.25, from: onScreen(462, 1272), s0: (452 / 924) * sw, s1: 0.56, to: new V3(-0.27, -0.3, -3.9), ry: 0.26, rz: 0.05, seed: 3, lag: 0.08 });
-    add(plane(unitT, 0.697, 1), { tb: 4.5, from: onScreen(462, 900), s0: 0.1, s1: 0.66, to: new V3(0.31, -0.66, -4.4), ry: -0.36, rz: 0.08, seed: 4 });
+    add(plane(vocabT, 1, 0.8), { tb: 4.0, from: onScreen(462, 755), s0: (625 / 924) * sw, s1: 0.68, to: new V3(-0.2, 0.3, -4.2), ry: 0.3, rz: -0.07, seed: 1 });
+    add(plane(bubbleT, 1, 300 / 720), { tb: 4.25, from: onScreen(462, 1420), s0: (360 / 924) * sw, s1: 0.5, to: new V3(0.2, 0.0, -3.6), ry: -0.32, rz: 0.06, seed: 2 });
+    add(plane(pillT, 1, 210 / 720), { tb: 4.25, from: onScreen(462, 1272), s0: (452 / 924) * sw, s1: 0.44, to: new V3(-0.25, -0.13, -3.9), ry: 0.26, rz: 0.05, seed: 3, lag: 0.08 });
+    add(plane(unitT, 0.697, 1), { tb: 4.5, from: onScreen(462, 900), s0: 0.1, s1: 0.5, to: new V3(0.3, -0.3, -4.3), ry: -0.36, rz: 0.08, seed: 4 });
     // moneda de la unidad (captura real) con canto dorado
     const gold = new THREE.MeshStandardMaterial({ color: 0xf2c14e, metalness: 1, roughness: 0.22 });
     const coin = new THREE.Group(); const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.07, 64), gold); rim.rotation.x = Math.PI / 2; coin.add(rim);
     const face = new THREE.Mesh(new THREE.CircleGeometry(0.47, 64), new THREE.MeshBasicMaterial({ map: coinT, toneMapped: false })); face.position.z = 0.037; coin.add(face);
     const faceB = face.clone(); faceB.rotation.y = Math.PI; faceB.position.z = -0.037; coin.add(faceB);
-    add(coin, { tb: 4.75, from: onScreen(462, 900), s0: 0.08, s1: 0.5, to: new V3(-0.3, -0.84, -3.7), ry: 0.4, rz: 0, seed: 5, spin: 1 });
+    add(coin, { tb: 4.75, from: onScreen(462, 900), s0: 0.08, s1: 0.36, to: new V3(-0.3, -0.38, -3.8), ry: 0.4, rz: 0, seed: 5, spin: 1 });
     // discos de jade (玉璧) con aro de oro
     const jadeMat = new THREE.MeshStandardMaterial({ color: 0x35c796, metalness: 0.15, roughness: 0.12, emissive: 0x0b5a40, emissiveIntensity: 0.6 });
     const mkJade = () => { const g = new THREE.Group(); const shp = new THREE.Shape(); shp.absarc(0, 0, 0.42, 0, Math.PI * 2, false); const hole = new THREE.Path(); hole.absarc(0, 0, 0.13, 0, Math.PI * 2, true); shp.holes.push(hole); const geo = new THREE.ExtrudeGeometry(shp, { depth: 0.05, bevelEnabled: true, bevelSize: 0.025, bevelThickness: 0.025, bevelSegments: 3, curveSegments: 48 }); geo.translate(0, 0, -0.025); g.add(new THREE.Mesh(geo, jadeMat)); const t1 = new THREE.Mesh(new THREE.TorusGeometry(0.47, 0.04, 12, 64), gold); g.add(t1); const t2 = new THREE.Mesh(new THREE.TorusGeometry(0.135, 0.025, 10, 48), gold); g.add(t2); return g; };
-    add(mkJade(), { tb: 4.75, from: onScreen(462, 900), s0: 0.08, s1: 0.4, to: new V3(0.36, 0.42, -3.6), ry: -0.5, rz: 0, seed: 6, spin: -1, lag: 0.06 });
-    add(mkJade(), { tb: 4.75, from: onScreen(462, 900), s0: 0.08, s1: 0.3, to: new V3(0.05, -0.47, -3.1), ry: 0.6, rz: 0, seed: 7, spin: 1, lag: 0.12 });
+    add(mkJade(), { tb: 4.75, from: onScreen(462, 900), s0: 0.08, s1: 0.3, to: new V3(0.37, 0.34, -3.9), ry: -0.5, rz: 0, seed: 6, spin: -1, lag: 0.06 });
+    add(mkJade(), { tb: 4.75, from: onScreen(462, 900), s0: 0.08, s1: 0.26, to: new V3(0.08, -0.82, -3.4), ry: 0.6, rz: 0, seed: 7, spin: 1, lag: 0.12 });
 
     // ---------- partículas doradas ----------
     const pr = kit.rng(99); const N = 240; this.pN = N; this.pSeed = [];
@@ -202,7 +205,7 @@ export default {
     { const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(BN * 3), 3)); this.burst = new THREE.Points(geo, new THREE.PointsMaterial({ map: glowT, size: 0.16, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false })); this.burst.frustumCulled = false; this.burst.renderOrder = 31; scene.add(this.burst); }
 
     // ---------- post: bloom moderado ----------
-    const Q = new URLSearchParams(location.search); const rt = new THREE.WebGLRenderTarget(kit.W, kit.H, { samples: +(Q.get("ms") ?? 4), type: Q.get("ub") ? THREE.UnsignedByteType : THREE.HalfFloatType }); this.noComp = Q.get("nc");
+    const rt = new THREE.WebGLRenderTarget(kit.W, kit.H, { samples: 4, type: THREE.HalfFloatType });
     this.composer = new EffectComposer(renderer, rt); this.composer.addPass(new RenderPass(scene, camera));
     this.bloom = new UnrealBloomPass(new THREE.Vector2(kit.W, kit.H), 0.45, 0.6, 1.0); this.composer.addPass(this.bloom); this.composer.addPass(new OutputPass());
 
@@ -283,7 +286,7 @@ export default {
     const on = t < 1 ? 0.42 + 0.1 * prog(t, 0, 1) : 1;
     hero.userData.screen.material.color.setScalar(on);
     this.lesson.visible = t >= 4;
-    this.flash.material.opacity = 0.45 * imp(t, 1, 7) + 0.5 * imp(t, 4, 9) + 0.12 * imp(t, 2, 9) + 0.3 * rush;
+    this.flash.material.opacity = 0.4 * imp(t, 1, 7) + 0.38 * imp(t, 4, 9) + 0.12 * imp(t, 2, 9) + 0.3 * rush;
     const sweepAt = (m, t0, d = 0.55) => { const u = prog(t, t0, t0 + d); m.material.map.offset.x = lerp(0.75, -0.75, u); return u > 0 && u < 1 ? Math.sin(u * Math.PI) : 0; };
     hero.userData.sweep.material.opacity = 0.75 * Math.max(sweepAt(hero.userData.sweep, t < 2.9 ? 1.02 : t < 4.9 ? 3.0 : 5.0));
     this.screenGlow.material.opacity = (t < 1 ? 0.08 : 0.22) + 0.3 * imp(t, 1, 4) + 0.3 * imp(t, 4, 4) + 0.3 * rush;
@@ -295,7 +298,7 @@ export default {
       p.visible = t >= te - 0.02 && t < 4.6;
       const u = spr(t - te, 1.25, 4.2), out = E.inCubic(prog(t, 3.96, 4.5));
       const fan = 0.05 * imp(t, 3, 5) + 0.04 * imp(t, 3.5, 6);
-      p.position.set(sgn * (lerp(4.4, 1.2, u) + fan * 2 + out * 6.5), lerp(-2.6, -0.14, u) + Math.sin(t * 1.7 + sgn) * 0.03 + out * 0.8, lerp(-5, -1.15, u) + out * 2);
+      p.position.set(sgn * (lerp(4.4, 1.1, u) + fan * 2 + out * 6.5), lerp(-2.6, -0.14, u) + Math.sin(t * 1.7 + sgn) * 0.03 + out * 0.8, lerp(-5, -1.15, u) + out * 2);
       p.rotation.set(0.02, -sgn * (lerp(2.9, 0.42, u) + fan - out * 1.6), -sgn * (lerp(0.5, 0.075, u) + fan * 0.6));
       p.userData.sweep.material.opacity = 0.6 * sweepAt(p.userData.sweep, te + 0.45, 0.5);
     };
@@ -307,7 +310,7 @@ export default {
     this.halo.rotation.z = t * 0.12; this.halo.material.opacity = 0.3 + 0.25 * pulse + 0.5 * rush; this.halo.scale.setScalar(1 + 0.06 * pulse + 0.5 * rush);
     this.ring.rotation.z = -t * 0.22; this.ring.scale.setScalar(kf(t, [[0, 0.55], [1.0, 0.9], [1.25, 1, E.outBack]]) + 0.05 * pulse + 0.6 * rush); this.ring.material.opacity = 0.45 + 0.3 * pulse;
     this.ring2.rotation.z = t * 0.1; this.ring2.scale.setScalar(1 + 0.04 * pulse + 0.4 * rush);
-    this.backGlow.material.opacity = 0.28 + 0.14 * pulse + 0.3 * rush; this.backGlow.scale.setScalar(16 + 2 * pulse + 10 * rush);
+    this.backGlow.material.opacity = 0.28 + 0.14 * pulse + 0.3 * rush; this.backGlow.scale.setScalar(11 + 1.5 * pulse + 10 * rush);
     this.coreGlow.material.opacity = 0.16 + 0.16 * pulse + 0.3 * rush;
     this.floorRing.rotation.z = t * 0.3; this.floorRing.material.opacity = 0.25 + 0.3 * pulse;
     this.floorGlow.material.opacity = 0.14 + 0.25 * pulse;
@@ -331,9 +334,9 @@ export default {
       const tb = it.tb + (it.lag || 0); const o = it.obj; o.visible = t >= tb; if (!o.visible) continue;
       const lt = t - tb; const u = E.outCubic(prog(lt, 0, 0.55)); const pop = spr(lt, 1.5, 5);
       va.copy(it.from); hero.localToWorld(va); camera.worldToLocal(va);       // origen: su sitio en la pantalla
-      vb.copy(it.to); vb.z += 0.28 * lt; vb.x *= 1 + 0.06 * lt;                   // deriva hacia la cámara
+      vb.copy(it.to); vb.z += 0.16 * lt; vb.x *= 1 + 0.05 * lt;                   // deriva hacia la cámara
       const fly = E.inCubic(prog(t, 5.1 + it.seed * 0.035, DUR));                 // salida acelerada rozando la cámara
-      vb.z += fly * 5.2; vb.x += Math.sign(vb.x || 1) * fly * 1.5; vb.y += (vb.y - 0.0) * fly * 1.6;
+      vb.z += fly * 5.2; vb.x += Math.sign(vb.x || 1) * fly * 2.0; vb.y += Math.min(vb.y, 0.05) * fly * 1.6;
       o.position.lerpVectors(va, vb, u); o.position.y += Math.sin(u * Math.PI) * 0.12 + Math.sin(t * 2.1 + it.seed) * 0.018 * u;
       o.scale.setScalar(lerp(it.s0, it.s1, pop));
       const heroRy = hero.rotation.y - Math.atan2(camera.position.x, camera.position.z);
@@ -342,13 +345,13 @@ export default {
 
     // ---------- render ----------
     this.bloom.strength = 0.45 + 0.2 * imp(t, 1, 4) + 0.2 * imp(t, 4, 4) + 0.4 * rush;
-    if (this.noComp) this.three.renderer.render(this.three.scene, camera); else this.composer.render();
+    this.composer.render();
     this.lightUp.style.opacity = String(0.42 * E.inCubic(prog(t, 5.4, DUR)) + 0.12 * imp(t, 4, 8));
 
     // ---------- textos ----------
     const slam = (row, t0, t1, opt = {}) => {
       const vis = t >= t0 && t < t1; row.style.display = vis ? "flex" : "none"; if (!vis) return 0;
-      const lt = t - t0; const inS = lerp(2.7, 1, E.outExpo(prog(lt, 0, 0.2))) + 0.07 * Math.exp(-7 * lt) * Math.sin(lt * 26) + (opt.grow || 0) * lt;
+      const lt = t - t0; const inS = lerp(1.7, 1, E.outExpo(prog(lt, 0, 0.2))) + 0.07 * Math.exp(-7 * lt) * Math.sin(lt * 26) + (opt.grow || 0) * lt;
       const out = E.inCubic(prog(t, t1 - 0.09, t1));
       const sh = imp(t, t0, 10);
       row.style.transform = `translate(${noise1(t * 40, 7) * 16 * sh}px, ${noise1(t * 40, 8) * 16 * sh - out * 260}px) scale(${inS * (1 + out * 0.5)}) rotate(${lerp(-5, 0, E.outExpo(prog(lt, 0, 0.22)))}deg)`;
@@ -372,7 +375,7 @@ export default {
     this.bandShine.style.backgroundPosition = `${lerp(160, -60, prog(t, 5.05, 5.6))}% 0`;
     for (const w of this.words) {
       const l = t - w.tb; w.s.style.visibility = l >= 0 ? "visible" : "hidden"; if (l < 0) continue;
-      const s = lerp(w.dot ? 0 : 2.4, 1, E.outExpo(prog(l, 0, 0.18))) + 0.1 * Math.exp(-8 * l) * Math.sin(l * 28) + 0.1 * imp(t, 5, 8);
+      const s = lerp(w.dot ? 0 : 1.8, 1, E.outExpo(prog(l, 0, 0.18))) + 0.1 * Math.exp(-8 * l) * Math.sin(l * 28) + 0.1 * imp(t, 5, 8);
       w.s.style.transform = `translateY(${-30 * Math.exp(-9 * l) * Math.abs(Math.sin(l * 14))}px) scale(${s})`;
     }
   },

@@ -286,6 +286,7 @@ export default {
       const r2 = kit.rng(77), cc = [11, 23, 37].map(cloudCanvas);
       for (let i = 0; i < 46; i++) { const w = 380 + r2() * 520, x = r2() * 1880 - w / 2, y = r2() * 1000 - w * 0.25; g.globalAlpha = 0.75 + r2() * 0.25; g.drawImage(cc[i % 3], x, y, w, w * (300 / 720)); }
       g.globalAlpha = 1; g.globalCompositeOperation = "lighter"; for (let i = 0; i < 30; i++) { const y = r2() * 960, x = r2() * 900, l = 500 + r2() * 900; const lg = g.createLinearGradient(x, 0, x + l, 0); lg.addColorStop(0, "rgba(255,255,255,0)"); lg.addColorStop(0.5, "rgba(255,255,240,0.55)"); lg.addColorStop(1, "rgba(255,255,255,0)"); g.fillStyle = lg; g.fillRect(x, y, l, 3 + r2() * 8); }
+      g.globalCompositeOperation = "destination-in"; const mk = g.createLinearGradient(0, 0, 1880, 0); mk.addColorStop(0, "rgba(0,0,0,0)"); mk.addColorStop(0.14, "#000"); mk.addColorStop(0.86, "#000"); mk.addColorStop(1, "rgba(0,0,0,0)"); g.fillStyle = mk; g.fillRect(0, 0, 1880, 960);
     }))); this.wipe.position.z = 5; this.wipe.renderOrder = 30; this.wipe.material.depthTest = false; scene.add(this.wipe);
 
     // destello DOM (zoom a través de la pantalla y aceleración final)
@@ -334,7 +335,7 @@ export default {
     this.b3.position.set(-out3 * 6.5, out3 * 0.4, lerp(-34, 0, in3) + out3 * 1.5); this.b3.rotation.set(0, -out3 * 1.1 + (1 - in3) * 0.5, (1 - in3) * -0.5 + out3 * 0.15);
     const in4 = ease.outExpo(prog(t, 4.3, 4.74));
     this.b4.position.set((1 - in4) * 6.5, 0, 0); this.b4.rotation.y = (1 - in4) * 1.0;
-    const wp = prog(t, 4.12, 4.7); this.wipe.visible = wp > 0 && wp < 1; this.wipe.position.set(lerp(6.6, -6.6, wp), 0.2 * sin(wp * 5), 5); this.wipe.rotation.z = -0.12;
+    const wp = prog(t, 4.14, 4.64); this.wipe.visible = wp > 0 && wp < 1; this.wipe.position.set(lerp(6.6, -6.6, wp), 0.2 * sin(wp * 5), 5); this.wipe.rotation.z = -0.12;
 
     // ===== GOLPE 1 =====
     if (this.b1.visible) {
