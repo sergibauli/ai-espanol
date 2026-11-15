@@ -4,6 +4,7 @@ import "../styles/v24-unidad-espectacular.css";
 import "../styles/v25-unidad-ceremonia.css";
 import "../styles/v26-unidad-portada.css";
 import "../styles/v27-unidad-salas.css";
+import "../styles/v30-guia.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
@@ -347,7 +348,7 @@ export default function UnitPage() {
         {pestana === "guia" &&
           (mod ? (
             (mod.teoria || []).length > 0 ? (
-              <FichaTeoria key={`guia-${clase}`} teoria={mod.teoria} todas={modCompleto?.teoria || mod.teoria} numero={numero} />
+              <FichaTeoria key={`guia-${numero}-${clase}`} teoria={mod.teoria} todas={modCompleto?.teoria || mod.teoria} numero={numero} />
             ) : (
               <p className="ud-vacio">Esta clase no tiene teoría nueva · 本课没有新语法</p>
             )

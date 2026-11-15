@@ -73,13 +73,13 @@ export function analizarTeoria(texto) {
     if (BULLET.test(l)) {
       const ordenada = /^\d+[.º)]\s/.test(l);
       if (cur?.type !== "list") bloques.push((cur = { type: "list", ordenada, items: [] }));
-      cur.items.push(separar(l.replace(BULLET, "")));
+      cur.items.push({ ...separar(l.replace(BULLET, "")), raw: l.replace(BULLET, "") });
       continue;
     }
     // Líneas seguidas tipo «20 = veinte» → tabla de equivalencias
     if (esPar(l)) {
       if (cur?.type !== "pares") bloques.push((cur = { type: "pares", items: [] }));
-      cur.items.push(separar(l));
+      cur.items.push({ ...separar(l), raw: l });
       continue;
     }
     if (/^\.\.\.|^…/.test(l) && cur?.type === "pares") {
