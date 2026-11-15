@@ -27,37 +27,53 @@ const FONDOS = {
 };
 export const fondoDe = (tema) => FONDOS[tema] || FONDOS.calle;
 
-// Personajes. Medidas en % de su imagen (1200 px de alto): ojos, boca, cara (centro x) y alto de la cabeza.
-// mira: hacia dónde gesticula en la imagen original ("izq", "der" o "frente"); el escenario los voltea para que miren al centro.
+// Personajes ilustrados (public/dialogo/pj-<id>.webp, 1200 px de alto). Medidas en % de su imagen:
+// cara = centro x entre los ojos, cabeza = alto de la cabeza (pelo a barbilla), ojos, boca y mandíbula (bajada máxima).
+// mira: hacia dónde gesticula en la imagen ("izq" o "frente"); el escenario los voltea para que miren al centro.
 export const PERSONAJES = {
-  joven: {
-    mujer: false, w: 624, cara: 65.2, cabeza: 13.8, mira: "izq",
-    ojos: [{ x: 61.7, y: 8.08, piel: "#cf9871" }, { x: 68.59, y: 8.0, piel: "#f6be99" }], ojo: [3.4, 0.9],
-    boca: { x: 65.22, y: 11.83, w: 5.6, labio: "#9b4c36", mandibula: 0.55 },
-  },
-  chica: {
-    mujer: true, w: 543, cara: 54.3, cabeza: 18.8, mira: "der",
-    ojos: [{ x: 46.41, y: 10.33, piel: "#e79277" }, { x: 60.04, y: 10.33, piel: "#fdbf9b" }], ojo: [5.6, 1.55],
-    boca: { x: 54.33, y: 15.75, w: 7.4, labio: "#a5362c", mandibula: 0.75 },
-  },
-  dama: {
-    mujer: true, w: 436, cara: 50.9, cabeza: 16.8, mira: "frente",
-    ojos: [{ x: 44.04, y: 9.75, piel: "#c4896c" }, { x: 57.34, y: 9.67, piel: "#f7b28b" }], ojo: [5.1, 1.05],
-    boca: { x: 50.92, y: 14.67, w: 7.8, labio: "#942b21", mandibula: 0.65 },
-  },
+  vendedor: {"w": 676, "cara": 62.2, "cabeza": 17.92, "mira": "izq", "ojos": [{"x": 57.99, "y": 10.0, "piel": "#feb792"}, {"x": 66.42, "y": 10.0, "piel": "#fcbb93"}], "ojo": [2.96, 1.44], "boca": {"x": 62.28, "y": 14.58, "w": 8.88, "labio": "#83332f", "mandibula": 1.0}, "mujer": false},
+  chico: {"w": 566, "cara": 58.75, "cabeza": 16.67, "mira": "izq", "ojos": [{"x": 53.18, "y": 11.17, "piel": "#feb98e"}, {"x": 64.31, "y": 11.17, "piel": "#fdb48c"}], "ojo": [4.2, 1.72], "boca": {"x": 58.3, "y": 15.75, "w": 10.95, "labio": "#8a3a32", "mandibula": 1.03}, "mujer": false},
+  senor: {"w": 569, "cara": 56.5, "cabeza": 16.42, "mira": "izq", "ojos": [{"x": 51.67, "y": 9.58, "piel": "#fdb988"}, {"x": 61.34, "y": 9.58, "piel": "#febb8d"}], "ojo": [3.51, 1.25], "boca": {"x": 56.59, "y": 13.75, "w": 9.67, "labio": "#8a3a32", "mandibula": 0.92}, "mujer": false},
+  rosa: {"w": 690, "cara": 58.19, "cabeza": 28.17, "mira": "frente", "ojos": [{"x": 51.16, "y": 16.92, "piel": "#fec5b2"}, {"x": 65.22, "y": 18.5, "piel": "#fdc2af"}], "ojo": [6.88, 2.68], "boca": {"x": 56.09, "y": 24.67, "w": 9.28, "labio": "#df675b", "mandibula": 1.07}, "mujer": true},
+  azul: {"w": 694, "cara": 50.65, "cabeza": 33.83, "mira": "frente", "ojos": [{"x": 42.36, "y": 21.5, "piel": "#fec9ab"}, {"x": 58.93, "y": 21.5, "piel": "#fecfb1"}], "ojo": [9.01, 2.88], "boca": {"x": 51.01, "y": 29.08, "w": 12.25, "labio": "#f08f7b", "mandibula": 1.42}, "mujer": true},
+  senora: {"w": 403, "cara": 50.62, "cabeza": 15.42, "mira": "frente", "ojos": [{"x": 43.42, "y": 9.17, "piel": "#fccea8"}, {"x": 57.82, "y": 9.17, "piel": "#fecfad"}], "ojo": [4.96, 1.05], "boca": {"x": 50.87, "y": 13.42, "w": 10.42, "labio": "#cd3b39", "mandibula": 0.7}, "mujer": true},
+  dependienta: {"w": 833, "cara": 60.92, "cabeza": 24.33, "mira": "izq", "ojos": [{"x": 54.86, "y": 16.0, "piel": "#fed6b5"}, {"x": 66.99, "y": 16.0, "piel": "#fed1b1"}], "ojo": [5.4, 2.11], "boca": {"x": 61.34, "y": 22.58, "w": 7.56, "labio": "#e6574d", "mandibula": 1.05}, "mujer": true},
+  maestro: {"w": 447, "cara": 51.45, "cabeza": 12.67, "mira": "frente", "ojos": [{"x": 46.31, "y": 7.58, "piel": "#eba575"}, {"x": 56.6, "y": 7.58, "piel": "#efa77b"}], "ojo": [3.91, 0.77], "boca": {"x": 51.45, "y": 11.75, "w": 7.83, "labio": "#d08a72", "mandibula": 0.58}, "mujer": false},
+  estudiante: {"w": 606, "cara": 48.84, "cabeza": 24.58, "mira": "izq", "ojos": [{"x": 41.25, "y": 14.92, "piel": "#fdbf92"}, {"x": 56.44, "y": 13.92, "piel": "#feb58a"}], "ojo": [7.43, 2.4], "boca": {"x": 49.34, "y": 20.67, "w": 9.57, "labio": "#f38a66", "mandibula": 0.97}, "mujer": false},
 };
 
-const MAYOR = /^(abuel|señor|sra?\.|don |doña|anciano|director|jef|profesor|doctor|médico|madre|padre|recepcionista|dependienta|vendedora|farmac|enfermera|camarera|clienta|secretaria)/i;
+// Papel según el nombre del personaje en el diálogo (orden = preferencia)
+const PAPELES = [
+  [/vended|fruter|camarer|cociner|dependiente\b|tender|panader|carnicer|empleado|taxista|conductor|mec[aá]nico|zapater/i, ["vendedor", "chico"]],
+  [/profesor\b|maestro|abuelo|anciano|m[eé]dico|doctor\b|farmac[eé]utico|dentista|^don\b/i, ["maestro", "senor"]],
+  [/jefe|director\b|señor|^sr\.?|padre|anfitri|gerente|entrevistador|agente|polic[ií]a|cliente\b|recepcionista\b|banquero|cajero\b/i, ["senor", "vendedor"]],
+  [/estudiante|alumn|hijo|niño|chico|compañero/i, ["estudiante", "chico"]],
+  [/dependienta|vendedora|recepcionista|camarera|azafata|secretaria|enfermera|cajera|farmac[eé]utica|doctora|m[eé]dica|profesora|gu[ií]a|empleada|jefa|directora/i, ["dependienta", "senora"]],
+  [/señora|^sra\.?|madre|clienta|abuela|doña|mujer/i, ["senora", "dependienta"]],
+  [/estudiante|alumna|hija|niña|chica|compañera/i, ["azul", "rosa"]],
+];
+// Personajes genéricos (se rotan según el nombre) y, al final, los de oficio como último recurso
+const HOMBRES = [["chico", "estudiante", "senor"], ["vendedor", "maestro"]];
+const MUJERES = [["rosa", "azul"], ["senora", "dependienta"]];
 
-/** Asigna a cada nombre un personaje (mujer joven, mujer adulta, hombre) y una variante de color si se repite. */
+function hash(s) {
+  let h = 2166136261;
+  for (const ch of String(s)) h = Math.imul(h ^ ch.codePointAt(0), 16777619) >>> 0;
+  return h;
+}
+
+/** Asigna a cada nombre un personaje distinto, según su papel y su género (voz). */
 export function repartoDe(nombres, esMujer) {
-  const usados = {};
+  const usados = new Set();
   return nombres.map((nombre) => {
-    let id = esMujer(nombre) ? (MAYOR.test(nombre) ? "dama" : "chica") : "joven";
-    // Dos mujeres: una joven y una adulta antes que repetir
-    if (id !== "joven" && usados[id] && !usados[id === "dama" ? "chica" : "dama"]) id = id === "dama" ? "chica" : "dama";
-    const n = (usados[id] = (usados[id] || 0) + 1);
-    return { nombre, id, img: `pj-${id}${n % 2 === 0 ? "b" : ""}`, ...PERSONAJES[id] };
+    const mujer = esMujer(nombre);
+    const [base, oficio] = mujer ? MUJERES : HOMBRES;
+    const giro = hash(nombre) % base.length;
+    const generico = [...base.slice(giro), ...base.slice(0, giro), ...oficio];
+    const papel = (PAPELES.find(([re, ids]) => re.test(nombre) && PERSONAJES[ids[0]].mujer === mujer) || [null, []])[1];
+    const id = [...papel, ...generico].find((x) => !usados.has(x)) || generico[0];
+    usados.add(id);
+    return { nombre, id, img: `pj-${id}`, ...PERSONAJES[id] };
   });
 }
 

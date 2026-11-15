@@ -10,8 +10,10 @@ import "../../styles/dialogo.css";
 // Posiciones de la cara (en % del ancho del escenario) según cuántos personajes hablan
 const POS = { 1: [50], 2: [25, 76], 3: [18, 50, 82], 4: [13, 38, 62, 87] };
 // Alto de la cabeza en el escenario (% del alto) y altura a la que empieza
-const CABEZA = 15;
-const ARRIBA = 11;
+const CABEZA = 21;
+const ARRIBA = 9;
+// Los personajes de medio cuerpo deben llegar al menos hasta detrás del cuadro de diálogo
+const BAJO_MIN = 84;
 
 /** Personaje ilustrado en capas: imagen, boca (interior), mandíbula que baja al hablar y párpados. */
 function Actor({ a, flip }) {
@@ -210,7 +212,7 @@ export function DialogStage({ story, onClose }) {
                   key={a.nombre}
                   data-n={a.nombre}
                   className={`dlg-actor ${a.lado} ${habla ? `talk a-${ademan(lActual.es)}` : ""} ${turno ? "turn" : "idle"}`}
-                  style={{ left: `${a.x}%`, top: `${ARRIBA}cqh`, height: `${(CABEZA * 100) / a.cabeza}cqh`, translate: `-${caraX}% 0`, "--parpadeo": `${3.4 + (a.nombre.length % 5) * 0.55}s` }}
+                  style={{ left: `${a.x}%`, top: `${ARRIBA}cqh`, height: `${Math.max((CABEZA * 100) / a.cabeza, BAJO_MIN - ARRIBA)}cqh`, translate: `-${caraX}% 0`, "--parpadeo": `${3.4 + (a.nombre.length % 5) * 0.55}s` }}
                 >
                   <div className="dlg-figure">
                     <Actor a={a} flip={flip} />
