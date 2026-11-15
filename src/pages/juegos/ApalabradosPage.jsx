@@ -13,6 +13,7 @@ import {
   RotateCcwIcon,
 } from "lucide-react";
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
 import { P as P_1 } from "../../components/PostGameNav.jsx";
@@ -20,6 +21,7 @@ import { SoundToggles } from "../../components/SoundToggles.jsx";
 import { g, a as a_1 } from "../../lib/juegos-utils.js";
 import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
+import "../../styles/v17-apalabrados.css";
 const pe = 15;
 const s = {
   1: {
@@ -2309,7 +2311,7 @@ function StComponent() {
     <StarfieldBackground>
         <CintaTemaJuego />
       <SoundToggles />
-      <div className="max-w-5xl mx-auto px-3 md:px-4 py-3 md:py-4 min-h-screen relative z-10">
+      <div className="max-w-5xl mx-auto px-3 md:px-4 py-3 md:py-4 min-h-screen relative z-10 ap-juego gm-no-adapt">
         <div className="flex items-center justify-between mb-2 md:mb-3 flex-wrap gap-2">
           <Link
             to="/juegos"
@@ -2536,11 +2538,11 @@ function StComponent() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center mb-3 md:mb-4 perspective-[1200px]">
+        <div className="flex justify-center mb-3 md:mb-4 perspective-[1200px] ap-mesa">
           <div className="relative">
             <div
               ref={keRef}
-              className="grid gap-[1px] md:gap-[2px] p-2 md:p-3 rounded-xl md:rounded-2xl board-3d"
+              className="grid gap-[1px] md:gap-[2px] p-2 md:p-3 rounded-xl md:rounded-2xl board-3d ap-tablero"
               style={{
                 gridTemplateColumns: `repeat(${pe}, 1fr)`,
                 background: "linear-gradient(135deg, rgba(52,26,16,.95), rgba(30,14,8,.9))",
@@ -2675,9 +2677,11 @@ function StComponent() {
             )}
           </div>
         </div>
-        <div className="flex justify-center mb-3 md:mb-4">
+        {createPortal(
+        <div className="ap-dock ap-juego-dock gm-no-adapt">
+        <div className="flex justify-center mb-3 md:mb-4 ap-atril-caja">
           <div
-            className="flex items-center gap-2 md:gap-3 p-2 md:p-3 rounded-2xl transition-all duration-500 rack-glow"
+            className="flex items-center gap-2 md:gap-3 p-2 md:p-3 rounded-2xl transition-all duration-500 rack-glow ap-atril"
             style={{
               background: S
                 ? "linear-gradient(135deg, rgba(242,193,78,.12), rgba(242,193,78,.02))"
@@ -2756,7 +2760,7 @@ function StComponent() {
             })}
           </div>
         </div>
-        <div className="flex justify-center gap-2 md:gap-3 mb-3 md:mb-4 flex-wrap">
+        <div className="flex justify-center gap-2 md:gap-3 mb-3 md:mb-4 flex-wrap ap-botones">
           {!P && (
             <>
               <button
@@ -2855,6 +2859,9 @@ function StComponent() {
             </>
           )}
         </div>
+        </div>,
+        document.body,
+        )}
         {P && (
           <div className="text-center mb-3">
             <p
