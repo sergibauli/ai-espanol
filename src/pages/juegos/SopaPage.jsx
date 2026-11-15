@@ -21,6 +21,9 @@ import * as React from "react";
 import { Link } from "react-router";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
 import { P } from "../../components/PostGameNav.jsx";
+import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
+import "../../styles/v17-ruleta.css";
+import "../../styles/v17-sopa.css";
 import { g as g_1, a as a_1 } from "../../lib/juegos-utils.js";
 const length_1 = 12;
 const n = [
@@ -960,30 +963,8 @@ function CtComponent() {
     }
   }, [d, j, M, T, R, a]);
   const E = (t, s) => `${t},${s}`;
-  const ke = React.useCallback((t, s, o, l, x) => {
-    const f = [];
-    for (let c = 0; c < l; c++) {
-      const w = (Math.PI * 2 * c) / l + (Math.random() - 0.5) * 0.5;
-      const b = x === "explode" ? 3 + Math.random() * 8 : 2 + Math.random() * 5;
-      const size = x === "explode" ? 4 + Math.random() * 8 : 2 + Math.random() * 5;
-      const S = ["circle", "star", "square"];
-      f.push({
-        id: ++IeRef.current,
-        x: t,
-        y: s,
-        vx: Math.cos(w) * b,
-        vy: Math.sin(w) * b - (x === "explode" ? 4 : 2),
-        color: x === "error" ? "#ff4444" : o,
-        life: 1 + Math.random() * 0.8,
-        size,
-        text: x === "explode" && c < 3 ? ["★", "✦", "✨"][c] : undefined,
-        type: S[Math.floor(Math.random() * S.length)],
-        rotation: Math.random() * 360,
-        rotationSpeed: (Math.random() - 0.5) * 20,
-      });
-    }
-    setEe((c) => [...c, ...f]);
-  }, []);
+  // v17 · Sin partículas en el estado de React (re-pintaban el juego entero 60 veces por segundo)
+  const ke = React.useCallback(() => {}, []);
   const Se = (t, s, o) => {
     if (j || a !== "playing") {
       return;
@@ -1216,798 +1197,166 @@ function CtComponent() {
       </>
     );
   }
-  return (
-    <StarfieldBackground>
+  // v17 · Sopa en 3D: fichas de marfil sobre una mesa de jade, trazo de laca al arrastrar y trazos de color en cada palabra encontrada
+  const SP_COLORES = ["#e8324c", "#1fa678", "#e9a520", "#3f7fe0", "#9b4fd8", "#ff7a3d", "#14a3b8", "#d6408f", "#7bb83a", "#c8961e"];
+  const colorDe = (i) => SP_COLORES[i % SP_COLORES.length];
+  const tiempo = `${Math.floor(M / 60)}:${String(M % 60).padStart(2, "0")}`;
+  const trazo = (celdas) => {
+    if (!celdas || celdas.length === 0) return null;
+    const [f1, c1] = celdas[0];
+    const [f2, c2] = celdas[celdas.length - 1];
+    return { x1: c1 + 0.5, y1: f1 + 0.5, x2: c2 + 0.5, y2: f2 + 0.5 };
+  };
+  const seleccion = trazo(m);
+  const alMover = (evento) => {
+    if (!C) return;
+    const el = document.elementFromPoint(evento.clientX, evento.clientY)?.closest?.("[data-celda]");
+    if (el) Ae(Number(el.dataset.f), Number(el.dataset.c));
+  };
+  if (j) {
+    return (
+      <Escena3D tema="sopa">
         <CintaTemaJuego />
-      <GeComponent />
-      <TeComponent />
-      <div
-        className={`max-w-5xl mx-auto px-4 py-6 min-h-screen relative z-10 ${Be ? "animate-screenShake" : ""}`}
-        onMouseUp={ne}
-        onMouseLeave={ne}
-        onMouseMove={Ne}
-        onTouchMove={Ne}
-        onTouchEnd={ne}
-        style={{
-          perspective: "1500px",
-        }}
-      >
-        <ItComponent mood={J} combo={L} />
-        {Ee && Z && (
-          <svg
-            className="fixed inset-0 pointer-events-none z-30"
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <defs>
-              <linearGradient id="selGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#f2c14e">
-                  <animate
-                    attributeName="stop-color"
-                    values="#f2c14e;#e0283f;#f2c14e;#f2c14e"
-                    dur="1.5s"
-                    repeatCount="indefinite"
-                  />
-                </stop>
-                <stop offset="100%" stopColor="#e0283f">
-                  <animate
-                    attributeName="stop-color"
-                    values="#e0283f;#f2c14e;#f2c14e;#e0283f"
-                    dur="1.5s"
-                    repeatCount="indefinite"
-                  />
-                </stop>
-              </linearGradient>
-              <filter id="selGlow">
-                <feGaussianBlur stdDeviation="8" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-              <filter id="selGlowStrong">
-                <feGaussianBlur stdDeviation="12" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <line
-              x1={Z.startX}
-              y1={Z.startY}
-              x2={Z.endX}
-              y2={Z.endY}
-              stroke="url(#selGrad)"
-              strokeWidth="6"
-              strokeLinecap="round"
-              filter="url(#selGlowStrong)"
-              opacity="0.95"
-              style={{
-                animation: "linePulse 0.5s ease-in-out infinite alternate",
-              }}
-            />
-            <line
-              x1={Z.startX}
-              y1={Z.startY}
-              x2={Z.endX}
-              y2={Z.endY}
-              stroke="url(#selGrad)"
-              strokeWidth="3"
-              strokeLinecap="round"
-              filter="url(#selGlow)"
-              opacity="0.8"
-            />
-            <circle
-              cx={Z.startX}
-              cy={Z.startY}
-              r="12"
-              fill="#f2c14e"
-              filter="url(#selGlowStrong)"
-              opacity="0.9"
-            >
-              <animate attributeName="r" values="8;14;8" dur="0.6s" repeatCount="indefinite" />
-            </circle>
-            <circle cx={Z.endX} cy={Z.endY} r="10" fill="#e0283f" filter="url(#selGlowStrong)" opacity="0.9">
-              <animate attributeName="r" values="6;12;6" dur="0.6s" repeatCount="indefinite" />
-            </circle>
-          </svg>
-        )}
-        <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden">
-          {ee.map((t) => (
-            <div
-              key={t.id}
-              className="absolute font-black"
-              style={{
-                left: t.x,
-                top: t.y,
-                width: t.size,
-                height: t.size,
-                opacity: t.life,
-                transform: `rotate(${t.rotation}deg) scale(${t.life > 0.5 ? 1 : t.life * 2})`,
-                fontSize: t.size,
-                color: t.color,
-                textShadow: `0 0 ${t.size * 2}px ${t.color}, 0 0 ${t.size * 4}px ${t.color}80`,
-                pointerEvents: "none",
-              }}
-            >
-              {t.text || (t.type === "star" ? "★" : t.type === "square" ? "■" : "")}
-              {!t.text && t.type === "circle" && (
-                <div
-                  style={{
-                    width: t.size,
-                    height: t.size,
-                    borderRadius: "50%",
-                    background: t.color,
-                    boxShadow: `0 0 ${t.size * 2}px ${t.color}, 0 0 ${t.size * 4}px ${t.color}80`,
-                  }}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-        {L > 1 && (
-          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
-            <div
-              className="flex items-center gap-2 px-4 py-2 rounded-full font-black text-lg"
-              style={{
-                background: "linear-gradient(135deg, #e0283f30, #d99a2230)",
-                border: "2px solid #e0283fbb",
-                color: "#e0283f",
-                textShadow: "0 0 15px #e0283f",
-                boxShadow: "0 0 30px #e0283f60, 0 0 60px #e0283f30",
-                animation: "comboBanner 0.5s ease-out",
-              }}
-            >
-              <FlameIcon
-                size={20}
-                style={{
-                  animation: "flameFlicker 0.3s ease-in-out infinite",
-                }}
-              />
-              {L}x COMBO<span className="text-sm opacity-70">+{Math.min(L, 10) * 50} pts</span>
-            </div>
-          </div>
-        )}
-        <div className="flex items-center justify-between mb-6">
-          <Link
-            to="/juegos"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold"
-          >
-            <ArrowLeftIcon size={16} /> Volver / 返回
-          </Link>
-          <div className="flex items-center gap-2 flex-wrap justify-end">
-            <button
-              onClick={() => setA("select")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
-              style={{
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.12)",
-                color: "#fff",
-              }}
-            >
-              <LayersIcon size={12} /> Cambiar módulo / 切换模块
-            </button>
-            <div className="flex items-center gap-1.5">
-              <DtComponent seconds={M} />
-            </div>
-            <div className="flex items-center gap-1.5">
-              <FtComponent score={T} />
-            </div>
-            {R > 1 && (
-              <div
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
-                style={{
-                  background: "rgba(224,40,63,.1)",
-                  border: "1px solid rgba(224,40,63,.2)",
-                  color: "#e0283f",
-                  boxShadow: "0 0 10px rgba(224,40,63,.1)",
-                }}
-              >
-                <CrownIcon size={12} /> {R}x
-              </div>
-            )}
-            <button
-              onClick={onClick}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
-              style={{
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.12)",
-                color: "#fff",
-              }}
-            >
-              <RotateCcwIcon size={12} />
-            </button>
-          </div>
-        </div>
-        <div
-          className="text-center mb-6"
-          style={{
-            transform: "translateZ(30px)",
-          }}
+        <BarraJuego titulo="Sopa de Letras" tituloZh="字母寻词" />
+        <Resultado3D
+          gano
+          sello="寻"
+          estrellas={M <= 90 ? 3 : M <= 180 ? 2 : 1}
+          titulo="¡Todas encontradas!"
+          tituloZh="全部找到了"
+          datos={[
+            { etiqueta: "Puntos · 得分", valor: T, tono: "rojo" },
+            { etiqueta: "Tiempo · 时间", valor: tiempo, tono: "jade" },
+            { etiqueta: "Mejor combo · 最佳连击", valor: `x${R}`, tono: "oro" },
+            { etiqueta: "Palabras · 单词", valor: d.length, tono: "tinta" },
+          ]}
+          acciones={
+            <>
+              <Boton3D tono="oro" onClick={onClick}>
+                <RotateCcwIcon size={18} /> Otra sopa · 再来一局
+              </Boton3D>
+              <Boton3D tono="rojo" onClick={() => setA("select")}>
+                <LayersIcon size={18} /> Otra unidad · 其他单元
+              </Boton3D>
+            </>
+          }
         >
-          <h1
-            className="text-5xl md:text-6xl font-black mb-2"
-            style={{
-              background: "linear-gradient(135deg,#f2c14e,#a50f25)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 30px rgba(242,193,78,.3))",
-            }}
-          >
-            Sopa de Letras
-          </h1>
-          <p className="text-white/40 text-sm font-medium">Encuentra las palabras / 找出单词</p>
-        </div>
+          <div className="sp-repaso">
+            {d.map((palabra, i) => (
+              <span key={palabra.word} style={{ "--c": colorDe(i) }}>
+                <b>{palabra.word}</b> {palabra.meaning}
+              </span>
+            ))}
+          </div>
+        </Resultado3D>
+        <P currentGameId="sopa" />
+      </Escena3D>
+    );
+  }
+  return (
+    <Escena3D tema="sopa" suelo={false} className={`sp ${Be ? "rl--temblor" : ""}`}>
+      <CintaTemaJuego />
+      <BarraJuego titulo="Sopa de Letras" tituloZh="字母寻词">
+        <Placa icono={<AwardIcon size={16} />} valor={T} etiqueta="Puntos · 分" />
+        <Placa icono={<CheckIcon size={16} />} valor={`${length}/${d.length}`} etiqueta="Palabras · 词" tono="jade" />
+        <Placa icono={<FlameIcon size={16} />} valor={`x${Math.max(L, 1)}`} etiqueta="Combo · 连击" tono="rojo" pulso={L >= 2} />
+        <Placa icono={<TimerIcon size={16} />} valor={tiempo} etiqueta="Tiempo · 时间" tono="tinta" />
+        <button type="button" className="rl-accion" onClick={onClick} title="Nueva sopa · 重置" aria-label="Nueva sopa · 重置">
+          <RotateCcwIcon size={18} />
+        </button>
+        <button type="button" className="rl-accion" onClick={() => setA("select")} title="Cambiar unidad · 切换单元" aria-label="Cambiar unidad · 切换单元">
+          <LayersIcon size={18} />
+        </button>
+      </BarraJuego>
+
+      <div className="rl-avisos" aria-live="polite">
         {A && (
-          <div
-            className="fixed pointer-events-none z-[9998] font-black text-3xl -translate-x-1/2"
-            style={{
-              left: A.x,
-              top: A.y,
-              color: A.color,
-              textShadow: `0 0 20px ${A.color}, 0 0 40px ${A.color}80`,
-              animation: "floatScoreSopa 1.5s ease-out forwards",
-            }}
-          >
+          <p key={A.text + T} className={`rl-aviso ${L >= 3 ? "rl-aviso--racha" : "rl-aviso--multi"}`}>
             {A.text}
-          </div>
+          </p>
         )}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 flex justify-center">
-            <div
-              className="gm-scroll gm-sopa rounded-3xl p-4 md:p-5 select-none relative"
-              style={{
-                background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
-                border: "2px solid transparent",
-                backgroundClip: "padding-box",
-                backdropFilter: "blur(20px)",
-                transform: "translateZ(20px) perspective(1500px) rotateX(8deg)",
-                boxShadow:
-                  "0 0 80px rgba(242,193,78,.3), 0 0 160px rgba(242,193,78,.15), 0 0 320px rgba(165,15,37,.1), inset 0 0 80px rgba(242,193,78,.08)",
-                transition: "transform 0.3s ease",
-                animation:
-                  "gridContainerFloat 6s ease-in-out infinite, gridContainerPulse 4s ease-in-out infinite",
-              }}
-            >
-              <div
-                className="absolute -inset-[2px] rounded-3xl -z-10 pointer-events-none"
-                style={{
-                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f, #5fd08a, #f2c14e)",
-                  backgroundSize: "400% 400%",
-                  animation: "neonBorder 6s linear infinite",
-                  opacity: 0.7,
-                  filter: "blur(1px)",
-                }}
-              />
-              <div
-                className="absolute -inset-[2px] rounded-3xl -z-10 pointer-events-none"
-                style={{
-                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f, #5fd08a, #f2c14e)",
-                  backgroundSize: "400% 400%",
-                  animation: "neonBorder 6s linear infinite",
-                  opacity: 0.4,
-                  filter: "blur(12px)",
-                }}
-              />
-              <div
-                className="absolute -inset-[2px] rounded-3xl -z-10 pointer-events-none"
-                style={{
-                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f, #5fd08a, #f2c14e)",
-                  backgroundSize: "400% 400%",
-                  animation: "neonBorder 6s linear infinite",
-                  opacity: 0.2,
-                  filter: "blur(25px)",
-                }}
-              />
-              <div
-                ref={HRef}
-                className="grid gap-[4px]"
-                style={{
-                  gridTemplateColumns: `repeat(${length_1}, min(44px, calc((100vw - 76px - ${(length_1 - 1) * 4}px) / ${length_1})))`,
-                  userSelect: "none",
-                  transform: "perspective(1000px) rotateX(2deg)",
-                  transformStyle: "preserve-3d",
-                }}
-              >
-                {u.map((t, s) =>
-                  t.map((o, l) => {
-                    const x = Oe(s, l);
-                    const f = Y.has(E(s, l));
-                    const c = m.some(([S, I]) => S === s && I === l);
-                    const w = W !== null && d[W]?.cells.some(([S, I]) => S === s && I === l) && !d[W]?.found;
-                    const b = U ? (s * length_1 + l) * 0.008 : 0;
-                    const F = me.has(E(s, l));
-                    return (
-                      <div
-                        key={`${s}-${l}`}
-                        onMouseDown={(S) => Se(s, l, S)}
-                        onMouseEnter={() => Ae(s, l)}
-                        onTouchStart={(S) => Se(s, l, S)}
-                        className={`gm-sopa-cell ${f ? "sel" : c ? "found" : ""} flex items-center justify-center font-bold text-sm transition-all duration-150 relative overflow-hidden group`}
-                        style={{
-                          // Tamaño de celda que cabe a 390px sin recortar la cuadrícula
-                          width: `min(44px, calc((100vw - 76px - ${(length_1 - 1) * 4}px) / ${length_1}))`,
-                          height: `min(44px, calc((100vw - 76px - ${(length_1 - 1) * 4}px) / ${length_1}))`,
-                          borderRadius: "14px",
-                          ...x,
-                          cursor: "pointer",
-                          boxShadow: w
-                            ? `0 0 25px ${n[W % n.length]}aa, 0 0 50px ${n[W % n.length]}50`
-                            : x.boxShadow,
-                          border: w ? `2.5px dashed ${n[W % n.length]}aa` : x.border,
-                          color: w ? n[W % n.length] : x.color,
-                          opacity: U ? 0 : F ? 0.3 : 1,
-                          transform: U ? `scale(0) rotate(${Math.random() * 360}deg)` : x.transform,
-                          animation: U
-                            ? `gridEnter 0.5s ease ${b}s forwards`
-                            : x.animation || "letterFloat 3s ease-in-out infinite",
-                          animationDelay: U ? `${b}s` : `${(s + l) * 0.1}s`,
-                          fontWeight: f || c ? 900 : 700,
-                          fontSize: f || c ? "min(18px, 3.5vw)" : "min(16px, 3.2vw)",
-                          textShadow: f || c ? x.textShadow : "0 0 8px rgba(255,236,200,.3)",
-                          transformStyle: "preserve-3d",
-                        }}
-                      >
-                        <span
-                          style={{
-                            display: "inline-block",
-                            transform: f ? "translateZ(8px)" : "none",
-                            transition: "transform 0.2s ease",
-                          }}
-                        >
-                          {o}
-                        </span>
-                        {!f && !c && (
-                          <div
-                            className="absolute inset-0 rounded-[14px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            style={{
-                              background: "linear-gradient(135deg, rgba(242,193,78,.2), rgba(165,15,37,.15))",
-                              boxShadow: "0 0 25px rgba(242,193,78,.3), inset 0 0 15px rgba(242,193,78,.15)",
-                              transform: "translateZ(5px)",
-                            }}
-                          />
-                        )}
-                        {f && (
-                          <div
-                            className="absolute inset-0 rounded-[14px] pointer-events-none"
-                            style={{
-                              boxShadow: `inset 0 0 30px ${n[Y.get(E(s, l)) % n.length]}60`,
-                              animation: "cellPulse 1.5s ease-in-out infinite",
-                            }}
-                          />
-                        )}
-                        {f && !F && (
-                          <div
-                            className="absolute inset-0 rounded-[14px] pointer-events-none"
-                            style={{
-                              border: `1px solid ${n[Y.get(E(s, l)) % n.length]}60`,
-                              animation: "celebrationRing 1s ease-out forwards",
-                            }}
-                          />
-                        )}
-                        {f && !F && (
-                          <div
-                            className="absolute inset-0 rounded-[14px] pointer-events-none"
-                            style={{
-                              background: `radial-gradient(circle at center, ${n[Y.get(E(s, l)) % n.length]}20 0%, transparent 70%)`,
-                              animation: "cellDepthPulse 2s ease-in-out infinite",
-                            }}
-                          />
-                        )}
-                      </div>
-                    );
-                  }),
-                )}
-              </div>
-            </div>
-          </div>
+      </div>
+
+      <div className="sp-mesa">
+        <div className="sp-tablero-caja">
           <div
-            className="space-y-3"
-            style={{
-              transform: "translateZ(20px)",
-            }}
+            ref={HRef}
+            className={`sp-tablero ${C ? "sp-tablero--trazando" : ""}`}
+            onPointerMove={alMover}
+            onPointerUp={ne}
+            onPointerLeave={ne}
+            onPointerCancel={ne}
+            role="grid"
+            aria-label="Sopa de letras · 字母方阵"
           >
-            <div
-              className="rounded-2xl p-4 relative overflow-hidden"
-              style={{
-                background: "linear-gradient(180deg, rgba(52,26,16,.5), rgba(30,14,8,.35))",
-                border: "1px solid rgba(255,255,255,.08)",
-                backdropFilter: "blur(10px)",
-                boxShadow: "0 0 40px rgba(242,193,78,.15), 0 8px 32px rgba(0,0,0,.3)",
-              }}
-            >
-              <h3
-                className="text-sm font-black mb-3 flex items-center gap-2"
-                style={{
-                  color: "#f2c14e",
-                  textShadow: "0 0 10px rgba(242,193,78,.3)",
-                }}
-              >
-                <EyeIcon size={14} /> Palabras / 单词{" "}
-                <span
-                  className="text-xs font-medium ml-auto"
-                  style={{
-                    color: "rgba(255,236,200,.4)",
-                  }}
-                >
-                  {length}/{d.length}
-                </span>
-              </h3>
-              <div className="space-y-2">
-                {d.map((t, s) => (
-                  <div
-                    key={t.word}
-                    className="flex items-center gap-2 p-2 rounded-xl transition-all relative overflow-hidden group word-card-3d"
-                    style={{
-                      background: t.found
-                        ? `linear-gradient(135deg, ${n[s % n.length]}22, ${n[s % n.length]}0c)`
-                        : "rgba(255,255,255,.02)",
-                      border: t.found
-                        ? `1.5px solid ${n[s % n.length]}60`
-                        : "1px solid rgba(255,255,255,.05)",
-                      transform: t.found ? "translateX(10px) scale(1.03)" : "translateX(0)",
-                      boxShadow: t.found
-                        ? `0 0 25px ${n[s % n.length]}50, 0 0 50px ${n[s % n.length]}25`
-                        : "none",
-                      animation: t.found ? `wordFound 0.6s ease ${s * 0.05}s both` : "none",
-                      transition: "all 0.3s ease",
+            <svg className="sp-trazos" viewBox={`0 0 ${length_1} ${length_1}`} aria-hidden="true">
+              {d.map((palabra, i) => {
+                if (!palabra.found) return null;
+                const t = trazo(palabra.cells);
+                return t && <line key={palabra.word} {...t} className="sp-trazo sp-trazo--hecho" style={{ "--c": colorDe(i) }} />;
+              })}
+              {W !== null && d[W] && !d[W].found && (() => {
+                const t = trazo(d[W].cells);
+                return t && <line {...t} className="sp-trazo sp-trazo--pista" />;
+              })()}
+              {seleccion && <line {...seleccion} className="sp-trazo sp-trazo--vivo" />}
+            </svg>
+            {u.map((fila, f) =>
+              fila.map((letra, c) => {
+                const clave = E(f, c);
+                const hallada = Y.has(clave);
+                const elegida = m.some(([ff, cc]) => ff === f && cc === c);
+                const mal = We.has(clave);
+                return (
+                  <span
+                    key={clave}
+                    data-celda=""
+                    data-f={f}
+                    data-c={c}
+                    className={`sp-ficha ${hallada ? "sp-ficha--hallada" : ""} ${elegida ? "sp-ficha--elegida" : ""} ${mal ? "sp-ficha--mal" : ""}`}
+                    style={{ "--i": (f * 7 + c * 3) % 23, "--c": hallada ? colorDe(Y.get(clave)) : undefined }}
+                    onPointerDown={(evento) => {
+                      evento.preventDefault();
+                      Se(f, c, evento);
                     }}
+                    role="gridcell"
                   >
-                    {t.found && (
-                      <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
-                        <div
-                          className="absolute top-1/2 left-0 h-[2px] rounded-full"
-                          style={{
-                            background: n[s % n.length],
-                            width: "100%",
-                            transform: "translateY(-50%)",
-                            animation: "strikeThrough 0.4s ease forwards",
-                            boxShadow: `0 0 12px ${n[s % n.length]}, 0 0 24px ${n[s % n.length]}80`,
-                          }}
-                        />
-                      </div>
-                    )}
-                    <div
-                      className="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black shrink-0"
-                      style={{
-                        background: t.found ? `${n[s % n.length]}35` : "rgba(255,255,255,.05)",
-                        color: t.found ? n[s % n.length] : "rgba(255,236,200,.3)",
-                        boxShadow: t.found ? `0 0 12px ${n[s % n.length]}50` : "none",
-                        transform: "translateZ(5px)",
-                      }}
-                    >
-                      {t.found ? <CheckIcon size={10} /> : s + 1}
-                    </div>
-                    <span
-                      className="text-sm font-bold relative"
-                      style={{
-                        color: t.found ? n[s % n.length] : "#fff",
-                        opacity: t.found ? 0.7 : 1,
-                        textShadow: t.found ? `0 0 15px ${n[s % n.length]}80` : "none",
-                      }}
-                    >
-                      {t.word}
-                    </span>
-                    <span
-                      className="text-xs ml-auto relative z-10"
-                      style={{
-                        color: "rgba(255,236,200,.4)",
-                      }}
-                    >
-                      {t.meaning}
-                    </span>
-                    {!t.found && (
-                      <button
-                        onClick={() => setW(W === s ? null : s)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded"
-                        style={{
-                          color: W === s ? n[s % n.length] : "rgba(255,236,200,.3)",
-                        }}
-                      >
-                        <LightbulbIcon size={12} />
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div
-              className="rounded-2xl p-4 text-center relative overflow-hidden"
-              style={{
-                background: "rgba(255,255,255,.03)",
-                border: "1px solid rgba(255,255,255,.06)",
-                backdropFilter: "blur(10px)",
-                boxShadow: "0 0 30px rgba(242,193,78,.12), 0 8px 32px rgba(0,0,0,.2)",
-              }}
-            >
-              <div
-                className="h-3 rounded-full overflow-hidden mb-2 relative"
-                style={{
-                  background: "rgba(255,255,255,.05)",
-                  boxShadow: "inset 0 0 5px rgba(0,0,0,.3)",
-                }}
-              >
-                <div
-                  className="h-full rounded-full transition-all duration-700 relative"
-                  style={{
-                    width: `${qe}%`,
-                    background: "linear-gradient(90deg, #f2c14e, #a50f25, #e0283f)",
-                    boxShadow: "0 0 20px rgba(242,193,78,.6), 0 0 40px rgba(165,15,37,.4)",
-                    animation: "progressGlow 2s ease-in-out infinite",
-                  }}
-                >
-                  <div
-                    className="absolute inset-0 rounded-full"
-                    style={{
-                      background: "linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent)",
-                      animation: "shimmer 2s linear infinite",
-                    }}
-                  />
-                  <div
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full"
-                    style={{
-                      background: "radial-gradient(circle, #fff, #e0283f)",
-                      boxShadow: "0 0 15px #e0283f, 0 0 30px #e0283f80",
-                      animation: "tipSparkle 0.5s ease-in-out infinite alternate",
-                    }}
-                  />
-                </div>
-              </div>
-              <p
-                className="text-xs font-medium"
-                style={{
-                  color: "rgba(255,236,200,.4)",
-                }}
-              >
-                Progreso / 进度
-              </p>
-            </div>
-            <div
-              className="rounded-2xl p-3 flex items-center justify-between"
-              style={{
-                background: "rgba(255,255,255,.02)",
-                border: "1px solid rgba(255,255,255,.05)",
-                backdropFilter: "blur(10px)",
-                boxShadow: "0 0 20px rgba(242,193,78,.1), 0 4px 16px rgba(0,0,0,.2)",
-              }}
-            >
-              <div className="flex items-center gap-1.5">
-                <TargetIcon
-                  size={12}
-                  style={{
-                    color: "#f2c14e",
-                  }}
-                />
-                <span
-                  className="text-xs font-bold"
-                  style={{
-                    color: "#f2c14e",
-                  }}
-                >
-                  {length}
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <FlameIcon
-                  size={12}
-                  style={{
-                    color: L > 1 ? "#e0283f" : "rgba(255,236,200,.3)",
-                  }}
-                />
-                <span
-                  className="text-xs font-bold"
-                  style={{
-                    color: L > 1 ? "#e0283f" : "rgba(255,236,200,.3)",
-                  }}
-                >
-                  {L}x
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <AwardIcon
-                  size={12}
-                  style={{
-                    color: R > 1 ? "#f2c14e" : "rgba(255,236,200,.3)",
-                  }}
-                />
-                <span
-                  className="text-xs font-bold"
-                  style={{
-                    color: R > 1 ? "#f2c14e" : "rgba(255,236,200,.3)",
-                  }}
-                >
-                  {R}x
-                </span>
-              </div>
-            </div>
+                    {letra}
+                  </span>
+                );
+              }),
+            )}
           </div>
         </div>
-        {j && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center"
-            style={{
-              background: "rgba(24,10,6,.85)",
-              backdropFilter: "blur(20px)",
-              perspective: "1000px",
-            }}
-          >
-            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-              {Array.from({
-                length: 30,
-              }).map((t, s) => (
-                <div
-                  key={s}
-                  className="absolute"
-                  style={{
-                    left: `${10 + Math.random() * 80}%`,
-                    top: `${10 + Math.random() * 80}%`,
-                    width: `${4 + Math.random() * 8}px`,
-                    height: `${4 + Math.random() * 8}px`,
-                    borderRadius: Math.random() > 0.5 ? "50%" : "2px",
-                    background: n[s % n.length],
-                    boxShadow: `0 0 10px ${n[s % n.length]}, 0 0 20px ${n[s % n.length]}80`,
-                    animation: `victoryParticle ${3 + Math.random() * 4}s ease-in-out infinite ${Math.random() * 2}s`,
-                    opacity: 0.6,
-                  }}
-                />
-              ))}
-            </div>
-            <div
-              className="text-center p-8 rounded-3xl relative overflow-hidden max-w-sm mx-4"
-              style={{
-                background: "linear-gradient(180deg, rgba(52,26,16,.8), rgba(30,14,8,.6))",
-                border: "2px solid rgba(242,193,78,.3)",
-                boxShadow:
-                  "0 0 80px rgba(242,193,78,.3), 0 0 160px rgba(242,193,78,.15), 0 0 300px rgba(165,15,37,.1)",
-                transform: "translateZ(60px)",
-                animation: "victoryBounce 1s ease-out",
-              }}
-            >
-              <div
-                className="absolute -inset-[2px] rounded-[26px] -z-10 opacity-60"
-                style={{
-                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f)",
-                  filter: "blur(30px)",
-                  animation: "victoryGlow 2s ease-in-out infinite alternate",
-                }}
-              />
-              <TrophyIcon
-                size={56}
-                style={{
-                  color: "#f2c14e",
-                  margin: "0 auto 16px",
-                  filter: "drop-shadow(0 0 20px rgba(242,193,78,.5))",
-                  animation: "trophySpin 3s ease-in-out infinite",
-                }}
-              />
-              <h2
-                className="text-4xl font-black mb-2"
-                style={{
-                  background: "linear-gradient(135deg, #f2c14e, #a50f25, #e0283f)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 20px rgba(242,193,78,.3))",
-                }}
-              >
-                ¡Completado!
-              </h2>
-              <p className="text-white/50 text-sm mb-4">完成！找到所有单词</p>
-              <div className="grid grid-cols-3 gap-3 mb-6">
-                <Ie1Component
-                  icon={
-                    <TrophyIcon
-                      size={20}
-                      style={{
-                        color: "#f2c14e",
-                        filter: "drop-shadow(0 0 4px #f2c14e)",
-                      }}
-                    />
-                  }
-                  label="Score"
-                  value={String(T)}
-                  color="#f2c14e"
-                  delay={0.2}
-                />
-                <Ie1Component
-                  icon={
-                    <TimerIcon
-                      size={20}
-                      style={{
-                        color: "#f2c14e",
-                        filter: "drop-shadow(0 0 4px #f2c14e)",
-                      }}
-                    />
-                  }
-                  label="Tiempo"
-                  value={`${Math.floor(M / 60)}:${String(M % 60).padStart(2, "0")}`}
-                  color="#f2c14e"
-                  delay={0.4}
-                />
-                <Ie1Component
-                  icon={
-                    <CrownIcon
-                      size={20}
-                      style={{
-                        color: "#e0283f",
-                        filter: "drop-shadow(0 0 4px #e0283f)",
-                      }}
-                    />
-                  }
-                  label="Combo"
-                  value={`${R}x`}
-                  color="#e0283f"
-                  delay={0.6}
-                />
-              </div>
-              {R > 1 && (
-                <p
-                  className="text-sm font-bold mb-4"
-                  style={{
-                    color: "#e0283f",
-                    textShadow: "0 0 15px rgba(224,40,63,.4)",
-                  }}
-                >
-                  Mejor combo: {R}x
-                </p>
-              )}
-              <button
-                onClick={onClick}
-                className="px-8 py-3 rounded-full text-white font-black transition-all hover:scale-105"
-                style={{
-                  background: "linear-gradient(135deg, #f2c14e, #a50f25)",
-                  boxShadow: "0 0 30px rgba(242,193,78,.4), 0 0 60px rgba(165,15,37,.15)",
-                }}
-              >
-                Jugar de nuevo / 再玩一次
-              </button>
-              <P currentGameId="sopa" />
-            </div>
+
+        <aside className="sp-lista">
+          <p className="sp-lista__titulo">
+            <EyeIcon size={16} /> Encuentra · 找出单词 <b>{length}/{d.length}</b>
+          </p>
+          <div className="sp-progreso" aria-hidden="true">
+            <i style={{ width: `${qe}%` }} />
           </div>
-        )}
-        <style>{`
-          @keyframes floatScoreSopa { 0%{transform:translateY(0) scale(1) rotateY(0deg);opacity:1} 30%{transform:translateY(-20px) scale(1.3) rotateY(10deg);opacity:1} 100%{transform:translateY(-80px) scale(1.6) rotateY(-10deg);opacity:0} }
-          @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
-          @keyframes screenShake { 0%,100%{transform:translateX(0)} 10%{transform:translateX(-10px)} 20%{transform:translateX(10px)} 30%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 50%{transform:translateX(-5px)} 60%{transform:translateX(5px)} 70%{transform:translateX(-3px)} 80%{transform:translateX(3px)} 90%{transform:translateX(-1px)} }
-          @keyframes victoryBounce { 0%{transform:translateZ(60px) scale(0.8) rotateY(-10deg); opacity:0} 60%{transform:translateZ(60px) scale(1.02) rotateY(2deg); opacity:1} 100%{transform:translateZ(60px) scale(1) rotateY(0deg); opacity:1} }
-          @keyframes victoryGlow { from{opacity:.3} to{opacity:.7} }
-          @keyframes trophySpin { 0%,100%{transform:rotateY(0deg) scale(1)} 50%{transform:rotateY(25deg) scale(1.1)} }
-          @keyframes cellFoundGreen { 0%{transform:scale(0) rotate(-10deg) translateZ(0); opacity:0; background:linear-gradient(135deg, #10b981, #5fd08a)} 50%{transform:scale(1.3) rotate(5deg) translateZ(40px); opacity:1; background:linear-gradient(135deg, #10b981, #5fd08a)} 100%{transform:scale(1.2) rotate(0deg) translateZ(35px); opacity:1} }
-          @keyframes cellFoundColor { 0%{filter:brightness(1.5)} 100%{filter:brightness(1)} }
-          @keyframes cellDisappear { 0%{transform:scale(1.2) translateZ(35px); opacity:1} 50%{transform:scale(1.4) rotate(10deg) translateZ(20px); opacity:0.6} 100%{transform:scale(0.7) rotate(15deg) translateZ(5px); opacity:0.2} }
-          @keyframes cellGlow { 0%,100%{box-shadow:0 0 30px var(--cell-color, #f2c14e)aa, 0 0 60px var(--cell-color, #f2c14e)60} 50%{box-shadow:0 0 50px var(--cell-color, #f2c14e)cc, 0 0 100px var(--cell-color, #f2c14e)80} }
-          @keyframes cellPulse { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
-          @keyframes cellDepthPulse { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
-          @keyframes letterFloat { 0%,100%{transform:translateY(0) translateZ(0)} 50%{transform:translateY(-3px) translateZ(5px)} }
-          @keyframes wordFound { 0%{transform:translateX(0) scale(1)} 50%{transform:translateX(12px) scale(1.05)} 100%{transform:translateX(10px) scale(1.03)} }
-          @keyframes strikeThrough { 0%{width:0} 100%{width:100%} }
-          @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
-          @keyframes progressGlow { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.4)} }
-          @keyframes tipSparkle { 0%{transform:translateY(-50%) scale(1)} 100%{transform:translateY(-50%) scale(1.8)} }
-          @keyframes gridEnter { 0%{transform:scale(0) rotate(180deg); opacity:0} 60%{transform:scale(1.15) rotate(-10deg); opacity:1} 100%{transform:scale(1) rotate(0deg); opacity:1} }
-          @keyframes cellShake { 0%,100%{transform:translateX(0) scale(1.1) translateZ(20px)} 20%{transform:translateX(-6px) scale(1.1) translateZ(20px)} 40%{transform:translateX(6px) scale(1.1) translateZ(20px)} 60%{transform:translateX(-4px) scale(1.1) translateZ(20px)} 80%{transform:translateX(4px) scale(1.1) translateZ(20px)} }
-          @keyframes linePulse { 0%{stroke-width:3; opacity:0.7} 100%{stroke-width:6; opacity:1} }
-          @keyframes comboBanner { 0%{transform:translateX(-50%) scale(0)} 70%{transform:translateX(-50%) scale(1.1)} 100%{transform:translateX(-50%) scale(1)} }
-          @keyframes flameFlicker { 0%,100%{transform:scale(1) rotate(0deg)} 50%{transform:scale(1.2) rotate(5deg)} }
-          @keyframes neonBorder { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-          @keyframes celebrationRing { 0%{transform:scale(1); opacity:0.8} 100%{transform:scale(1.6); opacity:0} }
-          @keyframes gridContainerPulse { 0%,100%{box-shadow:0 0 80px rgba(242,193,78,.3), 0 0 160px rgba(242,193,78,.15), 0 0 320px rgba(165,15,37,.1), inset 0 0 80px rgba(242,193,78,.08)} 50%{box-shadow:0 0 100px rgba(242,193,78,.4), 0 0 200px rgba(242,193,78,.2), 0 0 400px rgba(165,15,37,.15), inset 0 0 100px rgba(242,193,78,.12)} }
-          @keyframes gridContainerFloat { 0%,100%{transform:translateZ(20px) perspective(1500px) rotateX(8deg)} 50%{transform:translateZ(20px) perspective(1500px) rotateX(6deg)} }
-          @keyframes timerPulse { 0%,100%{box-shadow:0 0 15px rgba(242,193,78,.1), inset 0 0 10px rgba(242,193,78,.05)} 50%{box-shadow:0 0 25px rgba(242,193,78,.2), inset 0 0 15px rgba(242,193,78,.1)} }
-          @keyframes statCardEnter { 0%{transform:perspective(500px) rotateX(0deg) rotateY(0deg) translateZ(-50px) scale(0.8); opacity:0} 100%{transform:perspective(500px) rotateX(0deg) rotateY(0deg) translateZ(15px) scale(1); opacity:1} }
-          @keyframes neonFlicker { 0%,100%{opacity:1} 50%{opacity:0.8} }
-          @keyframes cellSelectedPulse { 0%,100%{box-shadow:0 0 30px rgba(242,193,78,.5), 0 0 60px rgba(242,193,78,.3), inset 0 0 20px rgba(242,193,78,.2)} 50%{box-shadow:0 0 50px rgba(242,193,78,.7), 0 0 100px rgba(242,193,78,.4), inset 0 0 30px rgba(242,193,78,.3)} }
-          @keyframes scoreFloat { 0%,100%{transform:perspective(600px) rotateX(5deg) translateZ(12px) translateY(0)} 50%{transform:perspective(600px) rotateX(3deg) translateZ(15px) translateY(-3px)} }
-          @keyframes victoryParticle { 0%,100%{transform:translateY(0) rotate(0deg) scale(1); opacity:0.6} 50%{transform:translateY(-30px) rotate(180deg) scale(1.5); opacity:0.3} }
-          .animate-screenShake { animation: screenShake 0.5s ease-in-out; }
-        `}</style>
+          <ul>
+            {d.map((palabra, i) => (
+              <li key={palabra.word} className={`sp-tablilla ${palabra.found ? "sp-tablilla--hecha" : ""}`} style={{ "--c": colorDe(i), "--i": i }}>
+                <span className="sp-tablilla__zh">{palabra.meaning}</span>
+                <span className="sp-tablilla__es">{palabra.word}</span>
+                {palabra.found ? (
+                  <span className="sp-tablilla__sello" aria-label="Encontrada · 已找到" translate="no">
+                    得
+                  </span>
+                ) : (
+                  <button type="button" className={`sp-pista ${W === i ? "sp-pista--on" : ""}`} onClick={() => setW(W === i ? null : i)} aria-label={`Pista para ${palabra.word} · 提示`}>
+                    <LightbulbIcon size={16} />
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+          <p className="sp-ayuda">Arrastra sobre las letras en cualquier dirección · 在字母上拖动连线</p>
+        </aside>
       </div>
-    </StarfieldBackground>
+    </Escena3D>
   );
 }
 export { CtComponent as default };
