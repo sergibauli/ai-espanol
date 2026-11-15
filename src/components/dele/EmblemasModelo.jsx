@@ -1,3 +1,4 @@
+import * as React from "react";
 // Emblemas de línea (viewBox 48×48) para las tarjetas de los modelos DELE. Trazo = currentColor.
 // Se usan en OficialNivelPage como ilustración del tema; la clave viene de data/oficial/titulos.js.
 const P = {
@@ -60,10 +61,13 @@ const P = {
   sello2: <><rect x="10" y="10" width="28" height="28" rx="4" /><path d="M17 18h14M17 24h14M24 18v14" /></>,
 };
 
-export function Emblema({ e, className = "", size = 48 }) {
+// trazo: añade pathLength=1 a cada forma para animar el «dibujo a pincel» con stroke-dashoffset desde CSS
+export function Emblema({ e, className = "", size = 48, trazo = false }) {
+  const forma = P[e] || P.sello2;
+  const hijos = trazo ? React.Children.map(forma.props.children, (h) => (React.isValidElement(h) ? React.cloneElement(h, { pathLength: 1 }) : h)) : forma;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-      {P[e] || P.sello2}
+      {hijos}
     </svg>
   );
 }
