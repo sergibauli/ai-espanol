@@ -1,0 +1,5 @@
+node_modules/
+dist/
+out/
+# fotogramas de los clips: se regeneran con tools/prep-assets.sh a partir de public/video
+public/assets/seq/
