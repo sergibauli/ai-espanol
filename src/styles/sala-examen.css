@@ -496,3 +496,7 @@
 .sx-frase-sello.ok { background: radial-gradient(circle at 40% 35%, #3fae68, #1d6b3a); }
 .sx-frase-sello.ko { background: radial-gradient(circle at 40% 35%, #e0473a, #8f1510); }
 @media (prefers-reduced-motion: reduce) { .sx-frase-sello, .sx-frase-btn::after { animation: none !important; } }
+
+/* El contenedor heredado de la página (StarfieldBackground) sale blanco en las páginas «legacy»:
+   dentro del examen se deja transparente para ver el mismo fondo que el resto de la app */
+.light-legacy .relative.min-h-screen:has(.sx) { background: transparent !important; }
