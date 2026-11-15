@@ -43,56 +43,67 @@ const tachuelas = (cx, cy, rx, ry, n) =>
     return [cx - Math.cos(t) * rx, cy + Math.sin(t) * ry];
   });
 
-/* Tambor del trueno · 雷鼓 */
+/* Tambor del trueno · 雷鼓: parche de laca brillante de frente, aro de oro con tachuelas, 雷 dorado y estelas de luz */
 function Tambor({ id }) {
+  const tach = Array.from({ length: 22 }, (_, i) => (i / 22) * Math.PI * 2);
   return (
     <>
-      <ellipse className="pe-sombra" cx="100" cy="160" rx="70" ry="8" />
-      <g stroke={`url(#${id}-madera)`} strokeWidth="7" strokeLinecap="round">
-        <path d="M52 112 L34 160" />
-        <path d="M148 112 L166 160" />
-        <path d="M70 120 L62 160" />
-        <path d="M130 120 L138 160" />
+      <defs>
+        <radialGradient id={`${id}-parche`} cx=".38" cy=".32" r=".75">
+          <stop offset="0" stopColor="#ff5a5f" />
+          <stop offset=".45" stopColor="#e3192f" />
+          <stop offset=".85" stopColor="#a30d22" />
+          <stop offset="1" stopColor="#6e0818" />
+        </radialGradient>
+        <linearGradient id={`${id}-letra`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff6c8" />
+          <stop offset=".5" stopColor="#f7c94f" />
+          <stop offset="1" stopColor="#c8901e" />
+        </linearGradient>
+        <radialGradient id={`${id}-luz`}>
+          <stop offset="0" stopColor="#ffe08a" stopOpacity="1" />
+          <stop offset=".55" stopColor="#ffb347" stopOpacity=".5" />
+          <stop offset="1" stopColor="#ff8a3d" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle className="pe-tambor__aura" cx="100" cy="86" r="96" fill={`url(#${id}-luz)`} />
+      <g className="pe-tambor__estelas" fill="none" strokeLinecap="round">
+        <ellipse cx="100" cy="86" rx="98" ry="40" stroke="#ffd36b" strokeWidth="4" strokeDasharray="150 400" transform="rotate(-22 100 86)" />
+        <ellipse cx="100" cy="86" rx="92" ry="52" stroke="#fff1b8" strokeWidth="2.5" strokeDasharray="90 360" transform="rotate(28 100 86)" />
+        <ellipse cx="100" cy="86" rx="86" ry="86" stroke="#f2c14e" strokeWidth="1.2" strokeDasharray="40 200" opacity=".8" />
       </g>
       <g className="pe-tambor__cuerpo">
-        <path d="M36 60 Q28 90 36 120 A64 19 0 0 0 164 120 Q172 90 164 60 Z" fill={`url(#${id}-laca)`} stroke="#3d0610" strokeWidth="1.5" />
-        <path d="M60 70 Q56 92 62 116" stroke="#ff9aa6" strokeWidth="5" strokeLinecap="round" fill="none" opacity=".35" />
-        <path d={arco(100, 66, 64, 19)} stroke={`url(#${id}-oro)`} strokeWidth="4" fill="none" />
-        <path d={arco(100, 114, 66, 19)} stroke={`url(#${id}-oro)`} strokeWidth="4" fill="none" />
-        {tachuelas(100, 71, 62, 18, 11).map(([x, y], i) => (
-          <circle key={`a${i}`} cx={x} cy={y} r="2.6" fill="#ffe7a0" stroke="#8a5a1e" strokeWidth=".8" />
+        {/* lateral del tambor (se ve a la derecha y abajo) */}
+        <ellipse cx="112" cy="94" rx="70" ry="68" fill={`url(#${id}-laca)`} stroke="#3d0610" strokeWidth="1.5" />
+        {[[-0.2, 1], [0.55, 1], [1.25, 1]].map(([t], i) => (
+          <g key={i} transform={`translate(${112 + Math.cos(t) * 64} ${94 + Math.sin(t) * 62})`}>
+            <circle r="10" fill={`url(#${id}-oro)`} stroke="#7a5a22" strokeWidth="1.2" />
+            <rect x="-4.5" y="-4.5" width="9" height="9" fill="none" stroke="#8a1020" strokeWidth="1.6" transform="rotate(45)" />
+          </g>
         ))}
-        {tachuelas(100, 108, 64, 18, 11).map(([x, y], i) => (
-          <circle key={`b${i}`} cx={x} cy={y} r="2.6" fill="#ffe7a0" stroke="#8a5a1e" strokeWidth=".8" />
+        {/* aro de oro */}
+        <circle cx="96" cy="84" r="70" fill={`url(#${id}-oro)`} stroke="#7a5a22" strokeWidth="1.5" />
+        <circle cx="96" cy="84" r="63" fill="#8a1020" />
+        {tach.map((t, i) => (
+          <circle key={i} cx={96 + Math.cos(t) * 66.5} cy={84 + Math.sin(t) * 66.5} r="2.6" fill="#fff3c4" stroke="#8a5a1e" strokeWidth=".7" />
         ))}
-        <g transform="translate(100 98)">
-          <rect x="-11" y="-11" width="22" height="22" rx="4" fill="#f2c14e" stroke="#5e0614" strokeWidth="1.5" transform="rotate(45)" />
-          <circle r="5" fill="#a3122a" />
-        </g>
-        <ellipse cx="100" cy="60" rx="64" ry="19" fill={`url(#${id}-piel)`} stroke="#c8961e" strokeWidth="3" />
-        <ellipse cx="100" cy="60" rx="50" ry="14" fill="none" stroke="#a3122a" strokeWidth="1.2" opacity=".35" />
+        {/* parche */}
+        <circle className="pe-tambor__parche" cx="96" cy="84" r="60" fill={`url(#${id}-parche)`} />
+        <ellipse cx="74" cy="56" rx="30" ry="16" fill="#fff" opacity=".22" transform="rotate(-30 74 56)" />
+        <circle cx="96" cy="84" r="52" fill="none" stroke="#f2c14e" strokeWidth="1" opacity=".45" />
         <g className="pe-tambor__ondas">
           {[0, 1, 2].map((i) => (
-            <ellipse key={i} style={{ "--i": i }} cx="100" cy="60" rx="40" ry="12" fill="none" stroke="#c8102e" strokeWidth="2" />
+            <circle key={i} style={{ "--i": i }} cx="96" cy="84" r="30" fill="none" stroke="#ffe08a" strokeWidth="2.5" />
           ))}
         </g>
-        <text x="100" y="60" transform="translate(0 60) scale(1 .5) translate(0 -60)" dy="2" textAnchor="middle" fontSize="40" fontWeight="900" fill="#a3122a" fontFamily="STKaiti, KaiTi, serif" opacity=".9">
+        <text x="96" y="84" dy="20" textAnchor="middle" fontSize="62" fontWeight="900" fill={`url(#${id}-letra)`} stroke="#7a3b0a" strokeWidth="1.2" fontFamily="STKaiti, KaiTi, 'Noto Serif SC', serif">
           雷
         </text>
       </g>
-      <g className="pe-tambor__palo is-izq">
-        <path d="M30 14 L70 58" stroke="#7a3b16" strokeWidth="5" strokeLinecap="round" />
-        <circle cx="70" cy="58" r="5.5" fill="#f2c14e" stroke="#7a3b16" strokeWidth="1.5" />
-        <path d="M30 14 q-6 8 -2 20 M30 14 q-10 4 -14 14" stroke="#c8102e" strokeWidth="3" fill="none" strokeLinecap="round" />
-      </g>
-      <g className="pe-tambor__palo is-der">
-        <path d="M170 14 L130 58" stroke="#7a3b16" strokeWidth="5" strokeLinecap="round" />
-        <circle cx="130" cy="58" r="5.5" fill="#f2c14e" stroke="#7a3b16" strokeWidth="1.5" />
-        <path d="M170 14 q6 8 2 20 M170 14 q10 4 14 14" stroke="#c8102e" strokeWidth="3" fill="none" strokeLinecap="round" />
-      </g>
-      <g className="pe-chispas" fill="#f2c14e">
-        <path d="M16 70 l8 -10 l-2 8 l8 -2 l-10 12 l2 -8z" />
-        <path d="M184 72 l-8 -10 l2 8 l-8 -2 l10 12 l-2 -8z" />
+      <g className="pe-chispas" fill="#fff1b8">
+        {[[18, 40], [182, 50], [30, 150], [176, 140], [100, -4]].map(([x, y], i) => (
+          <path key={i} style={{ "--i": i }} d={`M${x} ${y - 6} L${x + 1.6} ${y - 1.6} L${x + 6} ${y} L${x + 1.6} ${y + 1.6} L${x} ${y + 6} L${x - 1.6} ${y + 1.6} L${x - 6} ${y} L${x - 1.6} ${y - 1.6}Z`} />
+        ))}
       </g>
     </>
   );

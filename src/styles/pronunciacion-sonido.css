@@ -508,3 +508,20 @@
   .pe-ficha__sello { min-width: 128px; padding: 14px 18px 10px; }
   .pe-ficha__sello > span { font-size: 50px; }
 }
+
+/* Tambor v2 (según la maqueta): parche de frente, estelas de luz que giran, 雷 dorado */
+.pe-emb--trueno { overflow: visible; }
+.pe-tambor__aura { transform-origin: center; animation: pe-respira 3.2s ease-in-out infinite; }
+.pe-tambor__estelas { transform-box: view-box; transform-origin: 100px 86px; animation: pe-gira 9s linear infinite; }
+.pe-tambor__parche { transform-origin: center; }
+.pe-tambor__ondas circle { transform-origin: center; opacity: 0; }
+.pe-chispas path { transform-origin: center; animation: pe-destello 2.4s ease-in-out infinite; animation-delay: calc(var(--i) * 0.45s); }
+.pe-emb--trueno .pe-chispas { opacity: 1; }
+@keyframes pe-gira { to { transform: rotate(360deg); } }
+@keyframes pe-destello { 0%, 100% { opacity: 0; transform: scale(0.4); } 50% { opacity: 1; transform: scale(1); } }
+.is-sonando .pe-tambor__estelas { animation-duration: 1.6s; }
+.is-sonando .pe-tambor__aura { animation-duration: 0.5s; }
+.is-sonando .pe-tambor__parche { animation: pe-golpe 0.26s ease-out infinite; }
+.is-sonando .pe-tambor__ondas circle { animation: pe-onda 0.8s ease-out infinite; animation-delay: calc(var(--i) * 0.26s); }
+.pe-emb--trueno.is-sonando .pe-chispas { animation: none; }
+@keyframes pe-golpe { 0% { transform: scale(0.96); } 40% { transform: scale(1.02); } 100% { transform: scale(1); } }
