@@ -2,9 +2,10 @@ import * as React from "react";
 
 // Escenarios de cada nivel DELE (SVG en línea, sin imágenes): jardín de bambú, festival de linternas,
 // montañas de tinta y Ciudad Prohibida. Los usan la página de cada nivel y la portada DELE.
-function EscenaA1() {
+// `vista` (opcional) recorta el encuadre para marcos estrechos, como las puertas de la portada.
+function EscenaA1({ vista = "0 0 1200 420" }) {
   return (
-    <svg className="dn-escena" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <svg className="dn-escena" viewBox={vista} preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <defs>
         <linearGradient id="a1cielo" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#ffd9c7" />
@@ -40,9 +41,9 @@ function EscenaA1() {
     </svg>
   );
 }
-function EscenaA2() {
+function EscenaA2({ vista = "0 0 1200 420" }) {
   return (
-    <svg className="dn-escena" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <svg className="dn-escena" viewBox={vista} preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <defs>
         <linearGradient id="a2cielo" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#1a0b2e" />
@@ -72,9 +73,9 @@ function EscenaA2() {
     </svg>
   );
 }
-function EscenaB1() {
+function EscenaB1({ vista = "0 0 1200 420" }) {
   return (
-    <svg className="dn-escena" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <svg className="dn-escena" viewBox={vista} preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <defs>
         <linearGradient id="b1cielo" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#0b1d3a" />
@@ -99,9 +100,9 @@ function EscenaB1() {
     </svg>
   );
 }
-function EscenaB2() {
+function EscenaB2({ vista = "0 0 1200 420" }) {
   return (
-    <svg className="dn-escena" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <svg className="dn-escena" viewBox={vista} preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <defs>
         <linearGradient id="b2cielo" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#1b0633" />
