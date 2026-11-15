@@ -1,0 +1,69 @@
+/* ===== v17 · Palabra desordenada: imprenta de tipos móviles (活字印刷) en 3D ===== */
+.j3--imprenta { --j3-cielo1: #120a06; --j3-cielo2: #2a160b; }
+.j3--imprenta .j3-fondo { background: radial-gradient(70% 55% at 50% 45%, rgba(255, 190, 90, 0.22), transparent 70%), radial-gradient(90% 60% at 50% 110%, rgba(200, 16, 46, 0.35), transparent 70%),
+  repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.12) 0 2px, transparent 2px 120px), linear-gradient(180deg, #1a0d07, #2e170b 60%, #1a0b06); }
+.j3--imprenta .j3-luna { display: none; }
+
+.scr-taller { display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2.2vh, 22px); max-width: 860px; margin: 0 auto; perspective: 1300px; }
+
+/* cartel con la dificultad y el significado */
+.scr-pista { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; min-height: 54px; }
+.scr-nivel { padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 900; color: #fff; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35); }
+.scr-nivel--easy { background: linear-gradient(180deg, #4fd08f, #1f8a55); } .scr-nivel--medium { background: linear-gradient(180deg, #ffd968, #d9961a); color: #3b2416; } .scr-nivel--hard { background: linear-gradient(180deg, #ef4257, #a50f25); }
+.j3 .scr-zh { margin: 0; padding: 6px 20px; border-radius: 12px; font-family: STKaiti, KaiTi, "Noto Serif SC", serif; font-size: clamp(24px, 3.6vw, 36px); font-weight: 700; color: #3b2416 !important;
+  background: linear-gradient(180deg, #fff8e4, #f1dfb4); box-shadow: 0 0 0 2px #c8961e, 0 6px 0 #7a5413, 0 16px 22px rgba(0, 0, 0, 0.45);
+  filter: blur(9px); opacity: 0.55; transition: filter 0.5s, opacity 0.5s; user-select: none; }
+.j3 .scr-zh--visible { filter: none; opacity: 1; animation: j3-entrar 0.5s cubic-bezier(0.3, 1.5, 0.5, 1); }
+.j3 .scr-boton-pista { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px !important; border-radius: 999px; cursor: pointer; font: inherit; font-weight: 800; font-size: 14px;
+  color: #ffe9b0 !important; background: linear-gradient(180deg, #4a2414, #2a1209) !important; border: 2px solid #c8961e !important; box-shadow: 0 4px 0 #170904; }
+.j3 .scr-boton-pista:active { transform: translateY(3px); box-shadow: 0 1px 0 #170904; }
+
+/* galera: bandeja de madera con huecos donde se compone la palabra */
+.scr-galera { --t: min(64px, calc((100vw - 90px) / var(--n)), calc((860px - 60px) / var(--n))); position: relative; display: flex; gap: clamp(4px, 0.8vw, 8px); padding: 16px 18px; border-radius: 16px;
+  background: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0 2px, transparent 2px 40px), linear-gradient(180deg, #4a2a14, #2b170a);
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.7), inset 0 -2px 0 rgba(255, 220, 160, 0.15), 0 0 0 3px #8a5a1e, 0 0 0 5px #2a1604, 0 10px 0 4px #1a0d06, 0 30px 40px rgba(0, 0, 0, 0.6);
+  transform: rotateX(18deg); transform-origin: 50% 100%; transition: box-shadow 0.4s; }
+.scr-galera--bien { box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.7), 0 0 0 3px #3fd08a, 0 0 0 5px #0d4a2c, 0 10px 0 4px #1a0d06, 0 0 50px rgba(80, 240, 150, 0.6); }
+.scr-galera--mal { animation: scr-mal 0.5s ease-in-out; }
+.j3 .scr-hueco { width: var(--t); height: calc(var(--t) * 1.12); min-height: 0; padding: 0 !important; margin: 0; border-radius: 9px; cursor: default; font: inherit;
+  background: rgba(0, 0, 0, 0.35) !important; border: 1.5px dashed rgba(242, 193, 78, 0.35) !important; box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6); }
+.j3 .scr-hueco--lleno { cursor: pointer; border-style: solid !important; border-color: transparent !important; background: transparent !important; box-shadow: none; }
+.scr-tipo { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 9px; font-family: "Cinzel", Georgia, serif; font-weight: 900; font-size: calc(var(--t) * 0.52); color: #fff3c4;
+  background: radial-gradient(120% 90% at 30% 10%, rgba(255, 255, 255, 0.3), transparent 50%), linear-gradient(170deg, #e0283f, #8f0c21); text-shadow: 0 2px 0 #4a0510;
+  box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.85), 0 5px 0 #5e0614, 0 9px 10px rgba(0, 0, 0, 0.5); animation: scr-cae 0.35s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.scr-hueco--solucion .scr-tipo { background: linear-gradient(170deg, #fff8e4, #f1dfb4); color: #8f0c21; text-shadow: none; box-shadow: inset 0 0 0 2px #c8961e, 0 5px 0 #7a5413; animation-delay: calc(var(--i) * 60ms); animation-fill-mode: backwards; }
+.scr-galera--bien .scr-tipo { background: linear-gradient(170deg, #4fd08f, #17804c); box-shadow: inset 0 0 0 2px #eafff3, 0 5px 0 #0d4a2c, 0 9px 10px rgba(0, 0, 0, 0.5); animation: scr-imprime 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) backwards; animation-delay: calc(var(--i) * 70ms); }
+.scr-sello { position: absolute; right: -18px; top: -22px; width: 58px; height: 58px; display: grid; place-items: center; border-radius: 10px; font: 400 36px/1 STKaiti, KaiTi, serif; color: #fff3c4;
+  background: linear-gradient(160deg, #e0283f, #8f0c21); box-shadow: inset 0 0 0 3px rgba(255, 233, 176, 0.6), 0 6px 14px rgba(0, 0, 0, 0.5); transform: rotate(12deg); animation: scr-sello 0.55s 0.3s cubic-bezier(0.3, 1.8, 0.5, 1) backwards; }
+
+.j3 .scr-mensaje { margin: 0; min-height: 22px; text-align: center; font-size: 15px; font-weight: 800; color: #ffe0a3 !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); }
+
+/* bandeja de tipos: bloques de laca con canto */
+.scr-bandeja { --t: min(70px, calc((100vw - 70px) / var(--n)), calc((860px - 40px) / var(--n))); display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(6px, 1vw, 12px); padding: 18px 14px 22px; border-radius: 18px;
+  background: radial-gradient(100% 120% at 50% 0%, rgba(255, 230, 170, 0.12), transparent 60%), linear-gradient(180deg, #2b170a, #1a0d06); box-shadow: inset 0 0 0 2px rgba(200, 150, 30, 0.5), 0 14px 30px rgba(0, 0, 0, 0.5);
+  transform: rotateX(28deg); transform-origin: 50% 0; transform-style: preserve-3d; }
+.j3 .scr-bloque { position: relative; width: var(--t); height: calc(var(--t) * 1.05); min-height: 0; padding: 0 0 9px !important; margin: 0; border: 0 !important; border-radius: 11px; cursor: pointer; font: inherit;
+  background: #5e0614 !important; box-shadow: 0 14px 14px rgba(0, 0, 0, 0.55); transition: transform 0.14s cubic-bezier(0.3, 1.5, 0.5, 1), padding 0.1s, opacity 0.25s, box-shadow 0.14s;
+  animation: scr-reparte 0.55s cubic-bezier(0.3, 1.4, 0.5, 1) backwards; animation-delay: calc(var(--i) * 55ms); -webkit-tap-highlight-color: transparent; }
+.scr-bloque__cara { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 11px; font-family: "Cinzel", Georgia, serif; font-weight: 900; font-size: calc(var(--t) * 0.5); color: #fff3c4; text-shadow: 0 2px 0 #4a0510;
+  background: radial-gradient(120% 90% at 30% 10%, rgba(255, 255, 255, 0.32), transparent 50%), repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 7px), linear-gradient(170deg, #e8324c, #a50f25);
+  box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.9), inset 0 0 0 4px rgba(122, 7, 25, 0.8); }
+.j3 .scr-bloque:hover:not(:disabled) { transform: translateY(-6px) translateZ(20px) rotate(-3deg); box-shadow: 0 22px 20px rgba(0, 0, 0, 0.5), 0 0 22px rgba(255, 200, 90, 0.6); }
+.j3 .scr-bloque:active:not(:disabled) { transform: translateY(6px); padding-bottom: 3px !important; }
+.j3 .scr-bloque:focus-visible { outline: 3px solid #fff3c4; outline-offset: 3px; }
+.j3 .scr-bloque--usado { opacity: 0.18; transform: translateY(8px) scale(0.92); padding-bottom: 2px !important; box-shadow: none; cursor: default; }
+
+.scr-acciones { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+
+@keyframes scr-cae { from { transform: translateY(-40px) rotate(-12deg) scale(0.7); opacity: 0; } }
+@keyframes scr-imprime { 0% { transform: none; } 40% { transform: translateY(-14px) scale(1.12); } 100% { transform: none; } }
+@keyframes scr-sello { from { opacity: 0; transform: rotate(12deg) scale(2.6); } }
+@keyframes scr-reparte { from { opacity: 0; transform: translateY(-120px) rotateX(-80deg) rotateZ(25deg); } }
+@keyframes scr-mal { 0%, 100% { translate: 0 0; } 20% { translate: -10px 0; } 40% { translate: 10px 0; } 60% { translate: -6px 0; } 80% { translate: 6px 0; } }
+
+@media (max-width: 640px) {
+  .scr-galera { padding: 10px; gap: 4px; transform: rotateX(10deg); }
+  .scr-bandeja { padding: 12px 8px 16px; transform: rotateX(16deg); gap: 7px; }
+  .scr-acciones .j3-boton > span { padding: 8px 14px; font-size: 14px !important; min-height: 44px; }
+  .j3--imprenta .j3-contenido { padding-top: 40px; } .j3--imprenta .j3-barra { margin-bottom: 4px; }
+}

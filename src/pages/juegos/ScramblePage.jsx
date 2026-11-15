@@ -21,6 +21,9 @@ import { SoundToggles } from "../../components/SoundToggles.jsx";
 import { g, a } from "../../lib/juegos-utils.js";
 import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
+import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
+import "../../styles/v17-ruleta.css";
+import "../../styles/v17-imprenta.css";
 function Re(espanol) {
   return espanol
     .toUpperCase()
@@ -362,25 +365,8 @@ function HeComponent() {
       return () => clearTimeout(t);
     }
   }, [L]);
-  const je = (x_1, y_1, c = 50) => {
-    const g = ["#f2c14e", "#d99a22", "#e0283f", "#e0283f", "#f2c14e", "#5fd08a", "#f2c14e"];
-    const f = [];
-    for (let s = 0; s < c; s++) {
-      const y = (Math.PI * 2 * s) / c;
-      const M = 3 + Math.random() * 15;
-      f.push({
-        id: ++heRef.current,
-        x: x_1,
-        y: y_1,
-        vx: Math.cos(y) * M,
-        vy: Math.sin(y) * M - 4,
-        color: g[s % g.length],
-        life: 1 + Math.random() * 0.5,
-        size: 3 + Math.random() * 8,
-      });
-    }
-    setA((s) => [...s, ...f]);
-  };
+  // v17 · Sin partículas en el estado de React (re-pintaban todo el juego cada 20 ms)
+  const je = () => {};
   const se = React.useCallback(
     (t) => {
       playClick();
@@ -472,23 +458,13 @@ function HeComponent() {
       });
       setTe((f) => Math.min(f + 0.5, 3));
       Ee();
-      setV("¡Correcto! / 答对了！");
+      setV(`¡Correcto! · 答对了！ +${g}`);
       setUe(true);
       setTimeout(() => setUe(false), 1000);
       if (ORef.current) {
         const f = ORef.current.getBoundingClientRect();
         je(f.width / 2, f.height / 2 - 50, 60);
-        setG((s) => [
-          ...s,
-          {
-            id: Date.now() + Math.random(),
-            x: f.width / 2 - 30,
-            y: f.height / 2 - 50,
-            text: `+${g}`,
-            color: "#5fd08a",
-            life: 1.5,
-          },
-        ]);
+
       }
     } else {
       playWrong();
@@ -502,7 +478,7 @@ function HeComponent() {
         setXe(false);
         setBe(false);
       }, 600);
-      setV(`La respuesta era: ${p.word}`);
+      setV(`La palabra era ${p.word} · 正确答案`);
     }
   };
   const U = () => {
@@ -524,6 +500,31 @@ function HeComponent() {
       }
     }
   };
+  React.useEffect(() => {
+    if (x !== "playing") return undefined;
+    const tecla = (evento) => {
+      if (evento.target?.closest?.("input, textarea")) return;
+      if (evento.key === "Enter") return onKeyDown(evento);
+      if (l !== "playing" || !p) return;
+      if (evento.key === "Backspace") {
+        evento.preventDefault();
+        setJ((actual) => actual.slice(0, -1));
+        return;
+      }
+      const letra = evento.key.length === 1 ? evento.key.toUpperCase() : "";
+      if (!/^[A-ZÑ]$/.test(letra)) return;
+      setJ((actual) => {
+        const libres = z.split("");
+        for (const usada of actual) {
+          const k = libres.indexOf(usada);
+          if (k >= 0) libres[k] = null;
+        }
+        return libres.includes(letra) && actual.length < z.length ? actual + letra : actual;
+      });
+    };
+    window.addEventListener("keydown", tecla);
+    return () => window.removeEventListener("keydown", tecla);
+  });
   const F = (t) => {
     switch (t) {
       case "easy":
@@ -542,542 +543,162 @@ function HeComponent() {
       </>
     );
   }
-  return (
-    <StarfieldBackground>
+  // v17 · Imprenta de tipos móviles: bloques de laca que se tocan (o se teclean) para componer la palabra
+  const usados = [];
+  {
+    const libres = z.split("").map((letra, i) => ({ letra, i }));
+    for (const letra of j) {
+      const k = libres.findIndex((t) => t && t.letra === letra);
+      if (k >= 0) {
+        usados.push(libres[k].i);
+        libres[k] = null;
+      }
+    }
+  }
+  const poner = (i) => {
+    if (l !== "playing" || usados.includes(i)) return;
+    playClick();
+    setJ(j + z[i]);
+  };
+  const quitar = (posicion) => {
+    if (l !== "playing") return;
+    setJ(j.slice(0, posicion) + j.slice(posicion + 1));
+  };
+  const total = b.length;
+  const tiempo = `${Math.floor(K / 60)}:${String(K % 60).padStart(2, "0")}`;
+  if (l === "won") {
+    return (
+      <Escena3D tema="imprenta">
         <CintaTemaJuego />
-      <Pe1Component />
-      <div
-        className="max-w-2xl mx-auto px-4 py-6 min-h-screen relative z-10"
-        style={{
-          transform: be ? `translate(${Math.random() * 8 - 4}px, ${Math.random() * 8 - 4}px)` : "none",
-          transition: "transform 0.05s",
-        }}
-      >
-        <SoundToggles />
-        <GeComponent mood={L} />
-        <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden">
-          {A.map((t) => (
-            <div
-              key={t.id}
-              className="absolute rounded-full"
-              style={{
-                left: t.x,
-                top: t.y,
-                width: t.size,
-                height: t.size,
-                background: t.color,
-                opacity: t.life,
-                boxShadow: `0 0 ${t.size * 2}px ${t.color}`,
-                animation: "particleSpin 0.5s linear infinite",
-              }}
-            />
-          ))}
-        </div>
-        <div className="flex items-center justify-between mb-6">
-          <Link
-            to="/juegos"
-            onClick={() => playClick()}
-            className="inline-flex items-center gap-2 text-white/50 hover:text-[#f2c14e] transition-colors text-sm font-bold"
-          >
-            <ArrowLeftIcon size={16} /> Volver / 返回
-          </Link>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => {
-                playClick();
-                setX("select");
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
-              style={{
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.12)",
-                color: "#fff",
-              }}
-            >
-              <LayersIcon size={12} /> Cambiar módulo / 切换模块
+        <BarraJuego titulo="Palabra desordenada" tituloZh="单词重组" />
+        <Resultado3D
+          gano
+          sello="序"
+          estrellas={H >= total ? 3 : H >= total / 2 ? 2 : 1}
+          titulo="¡Imprenta completa!"
+          tituloZh="全部完成"
+          datos={[
+            { etiqueta: "Puntos · 得分", valor: N, tono: "rojo" },
+            { etiqueta: "Palabras · 单词", valor: total, tono: "jade" },
+            { etiqueta: "Mejor racha · 最佳连击", valor: H, tono: "oro" },
+            { etiqueta: "Tiempo · 时间", valor: tiempo, tono: "tinta" },
+          ]}
+          acciones={
+            <>
+              <Boton3D
+                tono="oro"
+                onClick={() => {
+                  playClick();
+                  QRef.current = b.map((t, i) => i).sort(() => Math.random() - 0.5);
+                  setU(0);
+                  setN(0);
+                  set_(0);
+                  setK(0);
+                  setL("playing");
+                  setL_1("neutral");
+                }}
+              >
+                <RocketIcon size={18} /> Otra vez · 再来
+              </Boton3D>
+              <Boton3D tono="rojo" onClick={() => setX("select")}>
+                <LayersIcon size={18} /> Otra unidad · 其他单元
+              </Boton3D>
+            </>
+          }
+        />
+        <P currentGameId="scramble" />
+      </Escena3D>
+    );
+  }
+  const largo = z.length;
+  return (
+    <Escena3D tema="imprenta" suelo={false} className={`scr ${be ? "rl--temblor" : ""}`}>
+      <CintaTemaJuego />
+      <SoundToggles />
+      <BarraJuego titulo="Palabra desordenada" tituloZh="单词重组" alVolver={() => playClick()}>
+        <Placa icono={<ZapIcon size={16} />} valor={N} etiqueta="Puntos · 分" />
+        <Placa icono={<FlameIcon size={16} />} valor={_} etiqueta="Racha · 连击" tono="rojo" pulso={_ >= 3} />
+        <Placa icono={<StarIcon size={16} />} valor={`${Math.min(u + 1, total)}/${total}`} etiqueta="Palabra · 词" tono="jade" />
+        <Placa icono={<TimerIcon size={16} />} valor={tiempo} etiqueta="Tiempo · 时间" tono="tinta" />
+        <button type="button" className="rl-accion" onClick={() => setX("select")} title="Cambiar unidad · 切换单元" aria-label="Cambiar unidad · 切换单元">
+          <LayersIcon size={18} />
+        </button>
+      </BarraJuego>
+
+      <div className="scr-taller" ref={ORef}>
+        <div className="scr-pista">
+          <span className={`scr-nivel scr-nivel--${p?.difficulty || "easy"}`}>
+            {p?.difficulty === "hard" ? "Difícil · 难" : p?.difficulty === "medium" ? "Media · 中" : "Fácil · 易"}
+          </span>
+          <p className={`scr-zh ${W || l !== "playing" ? "scr-zh--visible" : ""}`}>{p?.hintCn}</p>
+          {l === "playing" && (
+            <button type="button" className="scr-boton-pista" onClick={() => setW(!W)}>
+              <LightbulbIcon size={16} /> {W ? "Ocultar · 隐藏" : "Ver significado · 看意思"}
             </button>
-            <div
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
-              style={{
-                background: "rgba(217,154,34,.1)",
-                border: "1px solid rgba(217,154,34,.2)",
-                color: "#d99a22",
-                boxShadow: "0 0 10px rgba(217,154,34,.1)",
-              }}
-            >
-              <FlameIcon size={12} /> Racha: {_}
-            </div>
-            <div
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
-              style={{
-                background: "rgba(224,40,63,.1)",
-                border: "1px solid rgba(224,40,63,.2)",
-                color: "#e0283f",
-                boxShadow: "0 0 10px rgba(224,40,63,.1)",
-              }}
-            >
-              <ZapIcon size={12} /> x{te.toFixed(1)}
-            </div>
-            <div
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
-              style={{
-                background: "rgba(242,193,78,.1)",
-                border: "1px solid rgba(242,193,78,.2)",
-                color: "#f2c14e",
-                boxShadow: "0 0 10px rgba(242,193,78,.1)",
-              }}
-            >
-              <ZapIcon size={12} /> {N}
-            </div>
-          </div>
-        </div>
-        <div className="text-center mb-6">
-          <h1
-            className="text-5xl md:text-6xl font-black mb-2"
-            style={{
-              background: "linear-gradient(135deg,#f2c14e,#d99a22)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 30px rgba(242,193,78,.3))",
-            }}
-          >
-            Palabra Desordenada
-          </h1>
-          <p className="text-white/40 text-sm font-medium">Ordena las letras / 重新排列字母</p>
-        </div>
-        <div className="max-w-sm mx-auto mb-6">
-          <div className="flex items-center justify-between mb-1">
-            <span
-              className="text-[10px] font-bold uppercase tracking-wider"
-              style={{
-                color: "#f2c14e",
-                textShadow: "0 0 10px rgba(242,193,78,.3)",
-              }}
-            >
-              Progreso
-            </span>
-            <span
-              className="text-[10px] font-bold"
-              style={{
-                color: "rgba(255,236,200,.4)",
-              }}
-            >
-              {u + 1} / {b.length}
-            </span>
-          </div>
-          <div
-            className="h-2.5 rounded-full overflow-hidden relative"
-            style={{
-              background: "rgba(255,255,255,.05)",
-              boxShadow: "inset 0 0 5px rgba(0,0,0,.3)",
-            }}
-          >
-            <div
-              className="h-full rounded-full transition-all duration-500 relative"
-              style={{
-                width: `${(u / b.length) * 100}%`,
-                background: "linear-gradient(90deg,#f2c14e,#d99a22,#e0283f)",
-                boxShadow: "0 0 10px rgba(242,193,78,.5), 0 0 20px rgba(217,154,34,.3)",
-              }}
-            >
-              <div
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent)",
-                  animation: "shimmer 2s linear infinite",
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          className="gm-scroll gm-scramble rounded-3xl p-8 relative overflow-hidden"
-          style={{
-            background: "linear-gradient(180deg,rgba(52,26,16,.6),rgba(30,14,8,.45))",
-            border: "1px solid rgba(255,255,255,.12)",
-            backdropFilter: "blur(14px)",
-            transformStyle: "preserve-3d",
-            boxShadow: ue
-              ? "0 0 60px rgba(95,208,138,.4), 0 0 120px rgba(95,208,138,.2), 0 0 200px rgba(95,208,138,.1)"
-              : "0 0 30px rgba(242,193,78,.1)",
-          }}
-          ref={ORef}
-        >
-          <div
-            className="absolute -inset-[1px] rounded-[22px] opacity-40"
-            style={{
-              background: "linear-gradient(135deg,#f2c14e,#d99a22)",
-              filter: "blur(15px)",
-              zIndex: -1,
-            }}
-          />
-          <div
-            className="absolute top-4 right-4 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase"
-            style={{
-              background: `${F(p?.difficulty || "easy")}15`,
-              border: `1px solid ${F(p?.difficulty || "easy")}30`,
-              color: F(p?.difficulty || "easy"),
-              boxShadow: `0 0 10px ${F(p?.difficulty || "easy")}20`,
-            }}
-          >
-            {p?.difficulty || "easy"}
-          </div>
-          <div className="text-center mb-6">
-            <p
-              className="text-xs font-bold mb-3 uppercase tracking-wider"
-              style={{
-                color: "rgba(255,236,200,.3)",
-              }}
-            >
-              Letras desordenadas / 打乱的字母
-            </p>
-            <div
-              className="flex gap-2 justify-center flex-wrap"
-              style={{
-                perspective: "600px",
-              }}
-            >
-              {z.split("").map((ch, i) => (
-                <PeComponent key={i} ch={ch} index={i} total={z.length} />
-              ))}
-            </div>
-          </div>
-          <div className="relative h-8 mb-2">
-            {G.map((t) => (
-              <div
-                key={t.id}
-                className="absolute left-1/2 -translate-x-1/2 font-black text-2xl pointer-events-none"
-                style={{
-                  color: t.color,
-                  textShadow: `0 0 20px ${t.color}80, 0 0 40px ${t.color}40`,
-                  opacity: t.life,
-                  transform: `translateY(-${(1.5 - t.life) * 30}px) translateZ(50px)`,
-                }}
-              >
-                {t.text}
-              </div>
-            ))}
-          </div>
-          <div className="text-center mb-6">
-            <button
-              onClick={() => setW(!W)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105"
-              style={{
-                background: "rgba(242,193,78,.08)",
-                border: "1px solid rgba(242,193,78,.15)",
-                color: "#f2c14e",
-                boxShadow: "0 0 10px rgba(242,193,78,.1)",
-              }}
-            >
-              <LightbulbIcon size={12} /> {W ? "Ocultar / 隐藏" : "Pista / 提示"}
-            </button>
-            {W && (
-              <p
-                className="mt-3 text-sm font-medium"
-                style={{
-                  color: "rgba(255,236,200,.6)",
-                  animation: "fadeIn 0.3s ease",
-                }}
-              >
-                {p?.hintCn}
-              </p>
-            )}
-          </div>
-          <div className="mb-4">
-            <input
-              ref={geRef}
-              type="text"
-              value={j}
-              onChange={(t) => setJ(t.target.value.toUpperCase())}
-              onKeyDown={onKeyDown}
-              disabled={l !== "playing"}
-              placeholder="Escribe la palabra / 输入单词..."
-              className="gm-input w-full px-5 py-4 rounded-2xl text-center text-xl font-black tracking-widest uppercase transition-all outline-none"
-              style={{
-                background:
-                  l === "correct"
-                    ? "rgba(95,208,138,.12)"
-                    : l === "wrong"
-                      ? "rgba(255,68,68,.12)"
-                      : "rgba(255,255,255,.04)",
-                border:
-                  l === "correct"
-                    ? "2px solid rgba(95,208,138,.5)"
-                    : l === "wrong"
-                      ? "2px solid rgba(255,68,68,.5)"
-                      : "1px solid rgba(255,255,255,.1)",
-                color: l === "correct" ? "#5fd08a" : l === "wrong" ? "#ff4444" : "#fff",
-                boxShadow:
-                  l === "correct"
-                    ? "0 0 30px rgba(95,208,138,.3), 0 0 60px rgba(95,208,138,.1), inset 0 0 20px rgba(95,208,138,.05)"
-                    : l === "wrong"
-                      ? "0 0 30px rgba(255,68,68,.3), 0 0 60px rgba(255,68,68,.1)"
-                      : "0 0 15px rgba(242,193,78,.1)",
-                animation:
-                  l === "wrong"
-                    ? "scrambleShake 0.5s ease"
-                    : l === "correct"
-                      ? "correctGlow 0.6s ease"
-                      : "none",
-                textShadow: l === "correct" ? "0 0 10px rgba(95,208,138,.4)" : "none",
-              }}
-            />
-          </div>
-          {V && (
-            <div
-              className="text-center mb-4 p-3 rounded-xl"
-              style={{
-                background: l === "correct" ? "rgba(95,208,138,.1)" : "rgba(255,68,68,.1)",
-                border: l === "correct" ? "1px solid rgba(95,208,138,.2)" : "1px solid rgba(255,68,68,.2)",
-                animation: "fadeIn 0.3s ease",
-                boxShadow: l === "correct" ? "0 0 15px rgba(95,208,138,.1)" : "0 0 15px rgba(255,68,68,.1)",
-              }}
-            >
-              <p
-                className="text-sm font-bold"
-                style={{
-                  color: l === "correct" ? "#5fd08a" : "#ff4444",
-                  textShadow:
-                    l === "correct" ? "0 0 10px rgba(95,208,138,.4)" : "0 0 10px rgba(255,68,68,.4)",
-                }}
-              >
-                {V}
-              </p>
-            </div>
           )}
-          <div className="flex gap-3 justify-center">
-            {l === "playing" ? (
-              <>
-                <button
-                  onClick={oe}
-                  disabled={!j.trim()}
-                  className="px-6 py-3 rounded-full text-white font-black text-sm transition-all disabled:opacity-30 hover:scale-105 flex items-center gap-2"
-                  style={{
-                    background: "linear-gradient(135deg,#f2c14e,#d99a22)",
-                    boxShadow: "0 0 20px rgba(242,193,78,.2), 0 0 40px rgba(242,193,78,.1)",
-                  }}
-                >
-                  <SendIcon size={14} /> Comprobar / 检查
-                </button>
-                <button
-                  onClick={U}
-                  className="px-4 py-3 rounded-full text-xs font-bold transition-all hover:scale-105 flex items-center gap-1.5"
-                  style={{
-                    background: "rgba(255,255,255,.04)",
-                    border: "1px solid rgba(255,255,255,.08)",
-                    color: "rgba(255,236,200,.5)",
-                  }}
-                >
-                  <SkipForwardIcon size={12} /> Saltar / 跳过
-                </button>
-              </>
-            ) : (
+        </div>
+
+        <div className={`scr-galera ${l === "correct" ? "scr-galera--bien" : ""} ${Xe ? "scr-galera--mal" : ""}`} style={{ "--n": largo }}>
+          {Array.from({ length: largo }, (_x, posicion) => {
+            const letra = j[posicion];
+            const solucion = l === "wrong" ? p?.word[posicion] : null;
+            return (
               <button
-                onClick={U}
-                className="px-6 py-3 rounded-full text-white font-black text-sm transition-all hover:scale-105 flex items-center gap-2"
-                style={{
-                  background: "linear-gradient(135deg,#f2c14e,#d99a22)",
-                  boxShadow: "0 0 20px rgba(242,193,78,.2), 0 0 40px rgba(242,193,78,.1)",
-                }}
+                key={posicion}
+                type="button"
+                className={`scr-hueco ${letra ? "scr-hueco--lleno" : ""} ${solucion ? "scr-hueco--solucion" : ""}`}
+                onClick={() => letra && quitar(posicion)}
+                disabled={!letra || l !== "playing"}
+                aria-label={letra ? `Quitar ${letra}` : `Hueco ${posicion + 1}`}
+                style={{ "--i": posicion }}
               >
-                {u < b.length - 1 ? "Siguiente / 下一个" : "Ver resultado / 看结果"}
+                {solucion || letra ? <span className="scr-tipo">{solucion || letra}</span> : null}
               </button>
-            )}
-          </div>
+            );
+          })}
+          {l === "correct" && (
+            <span className="scr-sello" translate="no" aria-hidden="true">
+              印
+            </span>
+          )}
         </div>
-        <div className="text-center mt-4">
-          <p
-            className="text-xs font-medium"
-            style={{
-              color: "rgba(255,236,200,.3)",
-            }}
-          >
-            Mejor racha / 最佳连续: {H}
-          </p>
+
+        <p className="scr-mensaje" aria-live="polite">
+          {V || "Toca los bloques en orden o escribe con el teclado · 按顺序点字块或用键盘输入"}
+        </p>
+
+        <div className="scr-bandeja" style={{ "--n": largo }}>
+          {z.split("").map((letra, i) => {
+            const usado = usados.includes(i);
+            return (
+              <button key={`${z}-${i}`} type="button" className={`scr-bloque ${usado ? "scr-bloque--usado" : ""}`} style={{ "--i": i }} onClick={() => poner(i)} disabled={usado || l !== "playing"}>
+                <span className="scr-bloque__cara">{letra}</span>
+              </button>
+            );
+          })}
         </div>
-        {l === "won" && (
-          <div
-            className="rounded-3xl p-8 text-center relative overflow-hidden mt-6"
-            style={{
-              background: "linear-gradient(180deg,rgba(52,26,16,.8),rgba(30,14,8,.6))",
-              border: "2px solid rgba(242,193,78,.3)",
-              boxShadow: "0 0 60px rgba(242,193,78,.15), 0 0 120px rgba(242,193,78,.08)",
-              transformStyle: "preserve-3d",
-            }}
-          >
-            <div
-              className="absolute -inset-[2px] rounded-[26px] -z-10 opacity-50"
-              style={{
-                background: "linear-gradient(135deg,#f2c14e,#d99a22,#e0283f)",
-                filter: "blur(25px)",
-                animation: "victoryGlow 2s ease-in-out infinite alternate",
-              }}
-            />
-            <TrophyIcon
-              size={56}
-              style={{
-                color: "#f2c14e",
-                margin: "0 auto 16px",
-                filter: "drop-shadow(0 0 15px rgba(242,193,78,.5))",
-                animation: "trophySpin 3s ease-in-out infinite",
-              }}
-            />
-            <h2
-              className="text-4xl font-black mb-2"
-              style={{
-                background: "linear-gradient(135deg,#f2c14e,#d99a22)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 20px rgba(242,193,78,.3))",
-              }}
-            >
-              ¡Completado!
-            </h2>
-            <p className="text-white/50 text-sm mb-4">你完成了所有单词！</p>
-            <div className="flex gap-4 justify-center mb-6">
-              <div
-                className="p-4 rounded-2xl"
-                style={{
-                  background: "rgba(242,193,78,.1)",
-                  border: "1px solid rgba(242,193,78,.15)",
-                  boxShadow: "0 0 10px rgba(242,193,78,.1)",
-                }}
-              >
-                <ZapIcon
-                  size={20}
-                  style={{
-                    color: "#f2c14e",
-                    margin: "0 auto 8px",
-                    filter: "drop-shadow(0 0 5px rgba(242,193,78,.5))",
-                  }}
-                />
-                <p
-                  className="text-2xl font-black"
-                  style={{
-                    color: "#f2c14e",
-                    textShadow: "0 0 10px rgba(242,193,78,.3)",
-                  }}
-                >
-                  {N}
-                </p>
-                <p
-                  className="text-[10px]"
-                  style={{
-                    color: "rgba(255,236,200,.4)",
-                  }}
-                >
-                  Score
-                </p>
-              </div>
-              <div
-                className="p-4 rounded-2xl"
-                style={{
-                  background: "rgba(224,40,63,.1)",
-                  border: "1px solid rgba(224,40,63,.15)",
-                  boxShadow: "0 0 10px rgba(224,40,63,.1)",
-                }}
-              >
-                <FlameIcon
-                  size={20}
-                  style={{
-                    color: "#e0283f",
-                    margin: "0 auto 8px",
-                    filter: "drop-shadow(0 0 5px rgba(224,40,63,.5))",
-                  }}
-                />
-                <p
-                  className="text-2xl font-black"
-                  style={{
-                    color: "#e0283f",
-                    textShadow: "0 0 10px rgba(224,40,63,.3)",
-                  }}
-                >
-                  {H}
-                </p>
-                <p
-                  className="text-[10px]"
-                  style={{
-                    color: "rgba(255,236,200,.4)",
-                  }}
-                >
-                  Mejor racha
-                </p>
-              </div>
-              <div
-                className="p-4 rounded-2xl"
-                style={{
-                  background: "rgba(95,208,138,.1)",
-                  border: "1px solid rgba(95,208,138,.15)",
-                  boxShadow: "0 0 10px rgba(95,208,138,.1)",
-                }}
-              >
-                <TimerIcon
-                  size={20}
-                  style={{
-                    color: "#5fd08a",
-                    margin: "0 auto 8px",
-                    filter: "drop-shadow(0 0 5px rgba(95,208,138,.5))",
-                  }}
-                />
-                <p
-                  className="text-2xl font-black"
-                  style={{
-                    color: "#5fd08a",
-                    textShadow: "0 0 10px rgba(95,208,138,.3)",
-                  }}
-                >
-                  {Math.floor(K / 60)}:{String(K % 60).padStart(2, "0")}
-                </p>
-                <p
-                  className="text-[10px]"
-                  style={{
-                    color: "rgba(255,236,200,.4)",
-                  }}
-                >
-                  Tiempo
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                playClick();
-                QRef.current = b.map((t, i) => i).sort(() => Math.random() - 0.5);
-                setU(0);
-                setN(0);
-                set_(0);
-                setK(0);
-                setL("playing");
-                setL_1("neutral");
-              }}
-              className="px-8 py-3 rounded-full text-white font-black transition-all hover:scale-105"
-              style={{
-                background: "linear-gradient(135deg,#f2c14e,#d99a22)",
-                boxShadow: "0 0 25px rgba(242,193,78,.3), 0 0 50px rgba(242,193,78,.1)",
-              }}
-            >
-              Jugar de nuevo / 再玩一次
-            </button>
-            <P currentGameId="scramble" />
-          </div>
-        )}
-        <style>{`
-          @keyframes letterLevitate { 0%,100%{transform:translateY(0) rotateX(0deg)} 50%{transform:translateY(-6px) rotateX(5deg)} }
-          @keyframes letterReveal { 0%{transform:translateY(-30px) rotateX(45deg) scale(0.3); opacity:0} 60%{transform:translateY(8px) rotateX(-5deg) scale(1.08)} 100%{transform:translateY(0) rotateX(0) scale(1); opacity:1} }
-          @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-          @keyframes scrambleShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-10px)} 40%{transform:translateX(10px)} 60%{transform:translateX(-8px)} 80%{transform:translateX(8px)} }
-          @keyframes correctGlow { 0%{box-shadow:0 0 30px rgba(95,208,138,.3)} 50%{box-shadow:0 0 50px rgba(95,208,138,.5), 0 0 80px rgba(95,208,138,.2)} 100%{box-shadow:0 0 30px rgba(95,208,138,.3)} }
-          @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
-          @keyframes trophySpin { 0%,100%{transform:rotateY(0) scale(1)} 50%{transform:rotateY(180deg) scale(1.1)} }
-          @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
-          @keyframes mascotFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-          @keyframes mascotPulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
-          @keyframes mascotExcited { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-12px) scale(1.1)} }
-          @keyframes sparkle { 0%,100%{opacity:0.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.3)} }
-          @keyframes victoryGlow { from{opacity:.3} to{opacity:.6} }
-          @keyframes particleSpin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
-        `}</style>
+
+        <div className="scr-acciones">
+          {l === "playing" ? (
+            <>
+              <Boton3D tono="tinta" onClick={() => setJ("")} disabled={!j}>
+                Borrar · 清除
+              </Boton3D>
+              <Boton3D tono="jade" onClick={oe} disabled={j.length !== largo}>
+                <SendIcon size={18} /> Comprobar · 检查
+              </Boton3D>
+              <Boton3D tono="rojo" onClick={U}>
+                <SkipForwardIcon size={18} /> Saltar · 跳过
+              </Boton3D>
+            </>
+          ) : (
+            <Boton3D tono="oro" onClick={U}>
+              {u < total - 1 ? "Siguiente · 下一个" : "Ver resultado · 看结果"} <SkipForwardIcon size={18} />
+            </Boton3D>
+          )}
+        </div>
       </div>
-    </StarfieldBackground>
+    </Escena3D>
   );
 }
 export { HeComponent as default };
