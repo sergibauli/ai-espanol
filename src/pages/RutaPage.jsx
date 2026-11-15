@@ -17,9 +17,13 @@ import { MundoRuta, EscenaTramo } from "../components/ruta/MundoRuta.jsx";
 import { MonoViajero } from "../components/ruta/MonoViajero.jsx";
 import { Celebracion } from "../components/ruta/Celebracion.jsx";
 import { TransicionNivel } from "../components/ruta/TransicionNivel.jsx";
+import { CabeceraRuta } from "../components/ruta/CabeceraRuta.jsx";
+import { SelloPasaporte, FiltroTinta, fechaSello } from "../components/ruta/SelloPasaporte.jsx";
+import { Pictograma, PaisajeBanda, paisajeDe } from "../components/ruta/paisajes.jsx";
 import { ANCHO_CARRIL, FILA, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva } from "../components/ruta/geometria.js";
 import "../styles/v13-ruta-mundos.css";
 import "../styles/v14-ruta.css";
+import "../styles/v22-ruta.css";
 
 const STOP = Object.fromEntries(STOPS.map((parada) => [parada.n, parada]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
@@ -296,37 +300,17 @@ export default function RutaPage() {
 
   return (
     <LightShell>
-      <div className="ruta-layout rt14 rt16">
+      <div className="ruta-layout rt14 rt16 rt22">
         <main className={`ruta-main map-${lv.key} mr-on`}>
           <MundoRuta key={lv.key} nivel={lv.key} fiesta={Boolean(fiesta) && !fiesta.saltada} />
           <TransicionNivel destino={transicion?.destino} clave={transicion?.clave} onCubre={irANivel} onFin={() => setTransicion(null)} />
-          <span className="ruta-dragon d1" aria-hidden="true" />
-          <span className="ruta-dragon d2" aria-hidden="true" />
-          <div className="ruta-region-title">
-            <span>
-              <b>{REGION[lv.key][0]}</b> <i>{REGION[lv.key][1]}</i>
-              <em>{modActual?.titulo.split(" - ")[0]}</em>
-              <small>Viaja parada a parada: cada unidad es un lugar de China · 每个单元都是中国的一站</small>
-            </span>
-          </div>
-          <nav className="rn-niveles" style={{ "--i": LEVELS.findIndex((nivel) => nivel.key === nivelMarcado) }} aria-label="Niveles · 级别">
-            <span className="rn-indicador" aria-hidden="true" />
-            {LEVELS.map((nivel) => {
-              const { hechas, total } = resumenNivel(nivel);
-              return (
-                <button key={nivel.key} type="button" className={`rn-nivel ${nivel.key === nivelMarcado ? "on" : ""}`} aria-pressed={nivel.key === nivelMarcado} onClick={() => cambiarNivel(nivel.key)}>
-                  <b>{nivel.key}</b>
-                  <em>{REGION[nivel.key][0]}</em>
-                  <span className="rn-barra" aria-hidden="true">
-                    <i style={{ transform: `scaleX(${total ? hechas / total : 0})` }} />
-                  </span>
-                  <small title="Clases hechas · 已完成课程">
-                    {hechas}/{total} <span>clases · 课</span>
-                  </small>
-                </button>
-              );
-            })}
-          </nav>
+          <CabeceraRuta
+            region={REGION[lv.key]}
+            tema={modActual?.titulo.split(" - ")[0]}
+            marcado={nivelMarcado}
+            onCambiar={cambiarNivel}
+            niveles={LEVELS.map((nivel) => ({ key: nivel.key, region: REGION[nivel.key][0], ...resumenNivel(nivel) }))}
+          />
 
           {mods.map((unidad, idx) => {
             const numero = unidad.numero;
@@ -358,9 +342,15 @@ export default function RutaPage() {
             const masDesviada = pts.reduce((mejor, punto) => (Math.abs(punto[0] - ANCHO_CARRIL / 2) > Math.abs(mejor[0] - ANCHO_CARRIL / 2) ? punto : mejor), pts[0]);
             const ladoVineta = masDesviada[0] > ANCHO_CARRIL / 2 ? "izq" : "der";
             const titulo = unidad.titulo.split(" - ")[0];
+            const paisaje = paisajeDe(parada);
+            // Clase que se desbloquea al terminar la celebración (candado que salta en pedazos)
+            const iDesbloquea = fiesta && fiesta.fase === "viaje" && !fiesta.saltada ? (enFiesta ? fiesta.i + 1 : fiesta.unidad && mods[idx - 1]?.numero === fiesta.numero ? 0 : -1) : -1;
             return (
-              <section key={numero} id={`ruta-u${numero}`} className={`ruta-unit ${unidadGanada ? "ganada" : ""} ${alcanzada ? "" : "lejana"}`}>
-                <header className="ru-estandarte" style={{ "--c": lv.color, "--d": lv.dark }}>
+              <section key={numero} id={`ruta-u${numero}`} className={`ruta-unit pz-${paisaje.tipo} ${unidadGanada ? "ganada" : ""} ${alcanzada ? "" : "lejana"}`} style={{ "--pc": paisaje.c, "--pd": paisaje.d, "--ps": paisaje.suelo, "--pt": paisaje.tinta }}>
+                <header className="ru-estandarte" style={{ "--c": paisaje.c, "--d": paisaje.d }}>
+                  <span className="ru-paisaje" aria-hidden="true">
+                    <PaisajeBanda tipo={paisaje.tipo} semilla={numero} />
+                  </span>
                   <span className="ru-medallon">
                     <Moneda tamano={esMovil ? 46 : 68} tono="oro" brillo={alcanzada}>
                       <Emoji3D emoji={parada?.emoji || unidad.icono} size={esMovil ? 22 : 34} />
@@ -400,12 +390,17 @@ export default function RutaPage() {
                     </span>
                   </Link>
                 </header>
-                <CaminoPerezoso forzar={Math.abs(idx - idxActual) <= 1 || enFiesta} className="ruta-camino-wrap" dataVin={ladoVineta} style={{ height: alto, "--vin-y": `${Math.max(20, masDesviada[1] - 70)}px` }}>
+                <CaminoPerezoso forzar={Math.abs(idx - idxActual) <= 1 || enFiesta} className="ruta-camino-wrap ru-terreno" dataVin={ladoVineta} style={{ height: alto, "--vin-y": `${Math.max(20, masDesviada[1] - 70)}px` }}>
+                  <span className="ru-marca-agua" aria-hidden="true">
+                    <Pictograma tipo={paisaje.tipo} tamano={260} />
+                    <b translate="no">{parada?.lugarZh}</b>
+                  </span>
                   <EscenaTramo nivel={lv.key} idx={idx} />
                   <div className="ruta-camino" style={{ width: ANCHO_CARRIL, height: alto }}>
                     <svg className="ruta-carretera" width={ANCHO_CARRIL} height={alto} aria-hidden="true">
                       <path className="borde" d={trazado(pts)} />
                       <path className="piedra" d={trazado(pts)} />
+                      <path className="losas" d={trazado(pts)} />
                       {alcanzada && (
                         <>
                           <path className="halo" d={trazado(pts, oroHasta)} />
@@ -442,7 +437,7 @@ export default function RutaPage() {
                       return (
                         <div
                           key={clave}
-                          className={`ruta-node-wrap rp-parada ${estado} ${isCurrent ? "actual" : ""} ${estaAbierta ? "abierto" : ""} ${esLaDeFiesta ? "rp-recien" : ""} ${negada === clave ? "rp-niega" : ""}`}
+                          className={`ruta-node-wrap rp-parada ${estado} ${isCurrent ? "actual" : ""} ${estaAbierta ? "abierto" : ""} ${esLaDeFiesta ? "rp-recien" : ""} ${negada === clave ? "rp-niega" : ""} ${iDesbloquea === i ? "rp-desbloquea" : ""}`}
                           style={{ left: pts[i][0], top: pts[i][1] }}
                           ref={esLaDeFiesta ? fiestaRef : isCurrent ? currentRef : null}
                         >
@@ -453,6 +448,14 @@ export default function RutaPage() {
                           )}
                           <span className="rp-peana" aria-hidden="true" />
                           <span className="rp-onda" aria-hidden="true" />
+                          {iDesbloquea === i && (
+                            <span className="rp-cadenas" aria-hidden="true">
+                              <i />
+                              <i />
+                              <b />
+                            </span>
+                          )}
+                          {estado === "locked" && <span className="rp-bruma" aria-hidden="true" />}
                           <button
                             type="button"
                             className={`path-node ${estado} ${isCurrent ? "current" : ""}`}
@@ -480,6 +483,11 @@ export default function RutaPage() {
                             <span className="ruta-clase-sello" translate="no">
                               第{clase.n}课
                             </span>
+                            {isDone && (
+                              <span className="rp-marca" aria-hidden="true">
+                                <Pictograma tipo={paisaje.tipo} tamano={22} />
+                              </span>
+                            )}
                           </button>
                           {estaAbierta && (
                             <div className={`rp-pop ${isOpen ? "" : "cerrada"}`} role="dialog" aria-label={`Clase ${clase.n} · 第${clase.n}课`} style={{ "--c": isOpen ? lv.color : "#5a4632", "--d": isOpen ? lv.dark : "#2b1d10", "--dx": `${ANCHO_CARRIL / 2 - pts[i][0]}px` }}>
@@ -596,16 +604,31 @@ export default function RutaPage() {
             <small className="ruta-jade-dato">
               {CATALOG.filter((unidad) => progresoDe(unidad.numero).completa).length}/{CATALOG.length} sellos · 印章
             </small>
-            <div className="ruta-stamps">
-              {mods.map((unidad) => {
-                const recienGanado = fiesta?.unidad && fiesta.numero === unidad.numero;
-                const conseguido = progresos[unidad.numero]?.completa && !(recienGanado && fiesta.fase === "sello");
-                return (
-                  <span key={unidad.numero} className={`ruta-stamp ${conseguido ? "got" : ""} ${recienGanado && conseguido ? "recien" : ""}`} title={`${STOP[unidad.numero]?.ciudad} · ${STOP[unidad.numero]?.lugar}`}>
-                    <Emoji3D emoji={STOP[unidad.numero]?.emoji || "🏯"} size={24} />
-                  </span>
-                );
-              })}
+            <FiltroTinta />
+            <div className="sp-pagina" data-nivel={lv.key}>
+              <span className="sp-pagina-cabecera" aria-hidden="true">
+                <b translate="no">入境 · 签证</b> Visado {lv.key} · {REGION[lv.key][0]}
+              </span>
+              <div className="sp-rejilla">
+                {(() => {
+                  const iSiguiente = mods.findIndex((unidad) => !progresos[unidad.numero]?.completa);
+                  return mods.map((unidad, k) => {
+                    const recienGanado = fiesta?.unidad && fiesta.numero === unidad.numero;
+                    const conseguido = progresos[unidad.numero]?.completa && !(recienGanado && fiesta.fase === "sello");
+                    return (
+                      <SelloPasaporte
+                        key={unidad.numero}
+                        numero={unidad.numero}
+                        parada={STOP[unidad.numero]}
+                        conseguido={conseguido}
+                        fecha={fechaSello(fechaUnidad(game.lessons, unidad.numero) || (conseguido ? Date.now() : 0))}
+                        recien={recienGanado && conseguido}
+                        siguiente={k === iSiguiente}
+                      />
+                    );
+                  });
+                })()}
+              </div>
             </div>
           </PanelJade>
           <PanelJade as="div" titulo="Desafíos del día" tituloZh="每日挑战">
@@ -664,6 +687,15 @@ export default function RutaPage() {
       {lesson && <LessonPlayer lesson={lesson} onClose={() => setLesson(null)} />}
     </LightShell>
   );
+}
+
+// Fecha (ms) de la última lección hecha de la unidad: la fecha del sello del pasaporte
+function fechaUnidad(lessons, numero) {
+  let ultima = 0;
+  for (const [id, dato] of Object.entries(lessons)) {
+    if ((id.startsWith(`m${numero}-l`) || id.startsWith(`m${numero}-c`)) && dato?.at) ultima = Math.max(ultima, new Date(dato.at).getTime() || 0);
+  }
+  return ultima;
 }
 
 function firstOpenLevel(lessons) {
