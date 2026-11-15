@@ -121,80 +121,18 @@
 .pv-filtro button.is-on { color: var(--pv-laca-negra); background: linear-gradient(#fff0b8, var(--pv-oro) 55%, #c8901e); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
 
 /* ---------- Galería de salas ---------- */
-.pv-galeria { display: grid; gap: 18px; min-width: 0; }
-.pv-sala { position: relative; padding: 14px 14px 16px; border-radius: 18px; background: linear-gradient(160deg, rgba(20, 4, 10, 0.72), rgba(20, 4, 10, 0.5)); box-shadow: inset 0 0 0 1.5px rgba(242, 193, 78, 0.35); backdrop-filter: blur(3px); animation: pv-aparece 0.7s var(--pv-ease) both; }
-.pv-sala:nth-child(1) { animation-delay: 0.7s; } .pv-sala:nth-child(2) { animation-delay: 0.8s; } .pv-sala:nth-child(3) { animation-delay: 0.9s; }
-.pv-sala:nth-child(4) { animation-delay: 1s; } .pv-sala:nth-child(5) { animation-delay: 1.1s; } .pv-sala:nth-child(6) { animation-delay: 1.2s; }
-.pv-sala::before { content: ""; position: absolute; left: 14px; right: 14px; top: 0; height: 3px; border-radius: 0 0 3px 3px; background: linear-gradient(90deg, transparent, var(--sala), var(--pv-oro), var(--sala), transparent); }
-.pv-sala__cabeza { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-.pv-sala__emblema { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 12px; color: var(--sala); background: radial-gradient(circle at 35% 30%, #fff8e6, #f3dcaa); box-shadow: 0 0 0 2px var(--pv-oro), 0 4px 10px rgba(0, 0, 0, 0.35); }
-.pv-sala__emblema .pv-motivo { width: 32px; height: 32px; }
-.pv-sala__cabeza h2 { margin: 0; font: 800 17px/1.2 var(--pv-display); color: #fff3d6; }
-.pv-sala__cabeza h2 span { font: 700 15px var(--pv-cali); color: var(--pv-oro); margin-left: 4px; }
-.pv-sala__cabeza p { margin: 2px 0 0; font-size: 12.5px; color: #e9cfa3; }
-.pv-sala__sello { margin-left: auto; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 6px; font: 900 20px/1 var(--pv-cali); font-style: normal; color: #fff3d6; background: var(--sala); box-shadow: 0 0 0 2px var(--pv-oro); transform: rotate(-6deg); opacity: 0.9; }
-.pv-sala__tarjetas { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 14px; }
 
-/* Tarjeta base: la forma la pinta .pv-tarjeta__marco según la sala */
-.pv-tarjeta { position: relative; isolation: isolate; display: grid; justify-items: center; align-content: center; gap: 2px; min-height: 140px; padding: 18px 10px 16px; border: 0; background: none; color: #fff3d6; cursor: pointer; font-family: var(--pv-ui);
-  transition: transform 0.35s var(--pv-rebote), filter 0.3s; animation: pv-tarjeta-entra 0.6s var(--pv-rebote) both; animation-delay: calc(var(--i) * 70ms + 0.9s); filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45)); -webkit-tap-highlight-color: transparent; }
-.pv-tarjeta:hover { transform: translate3d(0, -5px, 0) rotate(-1deg); }
-.pv-tarjeta:active { transform: translate3d(0, 1px, 0) scale(0.97); }
-.pv-tarjeta:focus-visible { outline: 3px solid var(--pv-oro); outline-offset: 4px; border-radius: 12px; }
-.pv-tarjeta.is-on { transform: translate3d(0, -4px, 0) scale(1.05); filter: drop-shadow(0 0 2px var(--pv-oro)) drop-shadow(0 0 12px rgba(242, 193, 78, 0.85)) drop-shadow(0 8px 12px rgba(0, 0, 0, 0.5)); }
+/* Entrada de fichas y tablillas */
 @keyframes pv-tarjeta-entra { from { opacity: 0; transform: translate3d(0, 30px, 0) scale(0.85) rotate(-4deg); } to { opacity: 1; transform: none; } }
-.pv-tarjeta__marco { position: absolute; inset: 0; z-index: -1; }
-.pv-tarjeta .pv-motivo { width: 30px; height: 30px; color: #fff3d6; opacity: 0.9; }
-.pv-tarjeta__letra { font: 900 40px/1 Georgia, "Times New Roman", serif; text-shadow: 0 2px 0 rgba(0, 0, 0, 0.35); }
-.pv-tarjeta__titulo { padding: 2px 8px; border-radius: 99px; font-size: 11.5px; font-weight: 800; text-align: center; color: #fff3d6 !important; background: rgba(20, 2, 8, 0.55); }
-.pv-tarjeta--trueno .pv-tarjeta__titulo { color: var(--pv-laca-negra) !important; background: rgba(242, 193, 78, 0.35); }
-.pv-tarjeta__titulo span { font-family: var(--pv-cali); margin-left: 2px; }
-.pv-tarjeta__barra { width: 64%; height: 4px; margin-top: 6px; border-radius: 4px; background: rgba(0, 0, 0, 0.3); overflow: hidden; position: relative; }
-.pv-tarjeta__barra::after { content: ""; position: absolute; inset: 0; background: var(--pv-oro); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform 0.6s var(--pv-ease); }
-.pv-tarjeta__dificil { position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 5px; font: 900 14px/1 var(--pv-cali); font-style: normal; color: #fff3d6; background: var(--pv-laca); box-shadow: 0 0 0 1.5px var(--pv-oro); transform: rotate(8deg); }
-.pv-tarjeta__sello { position: absolute; left: 4px; bottom: 4px; --tam: 34px; }
 
 /* Abanico (labios) */
-.pv-tarjeta--labios .pv-tarjeta__marco { border-radius: 50% 50% 14px 14px / 38% 38% 14px 14px;
-  background: radial-gradient(circle at 50% 104%, var(--pv-oro) 0 12px, #8a5a1e 13px 15px, transparent 16px), repeating-conic-gradient(from -90deg at 50% 104%, #d81b38 0 7deg, #a50d26 7deg 14deg);
-  box-shadow: inset 0 0 0 2px var(--pv-oro), inset 0 -40px 30px -10px rgba(60, 0, 10, 0.55); }
-.pv-tarjeta--labios .pv-motivo { display: none; }
-.pv-tarjeta--labios.is-on .pv-tarjeta__marco { animation: pv-abanico 0.6s var(--pv-rebote); }
-@keyframes pv-abanico { from { transform: scaleX(0.6); } to { transform: none; } }
 /* Tablilla de bambú (lengua y dientes) */
-.pv-tarjeta--bambu .pv-tarjeta__marco { border-radius: 12px;
-  background: repeating-linear-gradient(180deg, transparent 0 42px, rgba(14, 40, 20, 0.7) 42px 46px, rgba(160, 220, 150, 0.3) 46px 47px), linear-gradient(90deg, #24502e, #4f9a5c 35%, #3d7a4a 65%, #24502e);
-  box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.7); }
-.pv-tarjeta--bambu .pv-motivo { display: none; }
-.pv-tarjeta--bambu.is-on { transform: translate3d(0, -4px, 0) rotate(-2deg) scale(1.05); }
 /* Tambor (vibrantes) */
-.pv-tarjeta--trueno { aspect-ratio: 1; color: var(--pv-laca-negra); }
-.pv-tarjeta--trueno .pv-tarjeta__marco { border-radius: 50%;
-  background: radial-gradient(circle, #f8e8c4 0 52%, #e8cf98 64%, var(--pv-oro-osc) 65% 67%, var(--pv-laca) 68% 92%, var(--pv-oro) 93% 100%); }
-.pv-tarjeta--trueno .pv-tarjeta__marco::after { content: ""; position: absolute; inset: 6%; border-radius: 50%; background: radial-gradient(circle, var(--pv-oro) 0 2.5px, transparent 3px) 0 0 / 16px 16px; -webkit-mask: radial-gradient(circle, transparent 0 66%, #000 67% 80%, transparent 81%); mask: radial-gradient(circle, transparent 0 66%, #000 67% 80%, transparent 81%); }
-.pv-tarjeta--trueno .pv-motivo, .pv-tarjeta--trueno .pv-tarjeta__barra { display: none; }
-.pv-tarjeta--trueno .pv-tarjeta__letra { text-shadow: none; color: var(--pv-laca-osc); }
-.pv-tarjeta--trueno.is-on .pv-tarjeta__marco { animation: pv-golpe 0.5s var(--pv-rebote); }
 @keyframes pv-golpe { 0% { transform: scale(1); } 30% { transform: scale(0.9); } 100% { transform: scale(1); } }
 /* Campana de jade (nasales) */
-.pv-tarjeta--campana { padding-top: 26px; }
-.pv-tarjeta--campana .pv-tarjeta__marco { inset: 8px 4px 0; border-radius: 48% 48% 10px 10px / 62% 62% 10px 10px; background: radial-gradient(ellipse at 40% 25%, #6fd1c3, #2f9a8f 45%, #12564f); box-shadow: inset 0 0 0 2px var(--pv-oro), inset 0 -10px 0 -4px rgba(242, 193, 78, 0.6); }
-.pv-tarjeta--campana .pv-tarjeta__marco::before { content: ""; position: absolute; left: 50%; top: -10px; width: 16px; height: 12px; margin-left: -8px; border-radius: 8px 8px 2px 2px; background: var(--pv-oro); }
-.pv-tarjeta--campana .pv-motivo { display: none; }
-.pv-tarjeta--campana:hover .pv-tarjeta__marco, .pv-tarjeta--campana.is-on .pv-tarjeta__marco { animation: pv-campana 1.2s ease-in-out; transform-origin: 50% -10px; }
 @keyframes pv-campana { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(7deg); } 55% { transform: rotate(-5deg); } 80% { transform: rotate(2deg); } }
 /* Montaña de tinta (garganta) */
-.pv-tarjeta--montana { padding-top: 30px; }
-.pv-tarjeta--montana .pv-tarjeta__marco { clip-path: polygon(0 24%, 20% 6%, 34% 18%, 54% 0, 74% 16%, 88% 8%, 100% 20%, 100% 100%, 0 100%); border-radius: 0 0 12px 12px;
-  background: linear-gradient(180deg, rgba(246, 231, 200, 0.95) 0 9%, transparent 9.5%), linear-gradient(170deg, #4a5788, #2a3358 55%, #151b33); }
-.pv-tarjeta--montana .pv-motivo { display: none; }
 /* Linterna (paladar) */
-.pv-tarjeta--linterna { padding: 22px 12px 22px; }
-.pv-tarjeta--linterna .pv-tarjeta__marco { inset: 8px 0; border-radius: 42% / 50%; background: radial-gradient(ellipse at 50% 40%, #ff7a5c, #d81b38 48%, #7a0a1c); box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.8), 0 0 24px rgba(255, 140, 70, 0.45); }
-.pv-tarjeta--linterna .pv-tarjeta__marco::before, .pv-tarjeta--linterna .pv-tarjeta__marco::after { content: ""; position: absolute; left: 26%; right: 26%; height: 9px; border-radius: 3px; background: linear-gradient(#ffe39a, var(--pv-oro-osc)); }
-.pv-tarjeta--linterna .pv-tarjeta__marco::before { top: -8px; } .pv-tarjeta--linterna .pv-tarjeta__marco::after { bottom: -8px; }
-.pv-tarjeta--linterna .pv-motivo { display: none; }
-.pv-tarjeta--linterna:hover .pv-tarjeta__marco, .pv-tarjeta--linterna.is-on .pv-tarjeta__marco { animation: pv-mecer-corto 1.6s ease-in-out; transform-origin: 50% -8px; }
 @keyframes pv-mecer-corto { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(5deg); } 65% { transform: rotate(-4deg); } }
 
 /* ---------- Escenario (pergamino de la familia) ---------- */
@@ -309,10 +247,6 @@
   .pv-puertas i { width: 56px; height: 56px; font-size: 30px; }
   .pv-filtro { width: 100%; }
   .pv-filtro button { flex: 1; justify-content: center; padding: 8px 10px; font-size: 12.5px; }
-  .pv-sala { padding: 12px 10px 14px; }
-  .pv-sala__tarjetas { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
-  .pv-tarjeta { min-height: 120px; }
-  .pv-tarjeta__letra { font-size: 30px; }
   .pv-fondo__luna { width: 70px; height: 70px; top: 20px; right: 4%; }
   .pv-fondo__pagoda { left: auto; right: 6%; width: 130px; top: 300px; }
 }
@@ -397,14 +331,6 @@
 .pv-resultados .pt-ficha small { font-size: 11px; font-weight: 700; opacity: 0.9; }
 
 /* Galería: salas en rejilla, cada una con su escena de fondo */
-.pv-galeria { grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); align-items: start; }
-.pv-sala { overflow: hidden; padding-top: 0; }
-.pv-sala__escena { position: relative; height: 104px; margin: 0 -14px 0; overflow: hidden; background: radial-gradient(ellipse at 70% 0%, rgba(242, 193, 78, 0.35), transparent 60%), linear-gradient(180deg, var(--tinta), #1a060c); }
-.pv-sala__escena::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(20, 4, 10, 0.85)); }
-.pv-sala__escena .pv-esc { opacity: 0.85; }
-.pv-sala__cabeza { position: relative; z-index: 1; margin-top: -40px; }
-.pv-sala__cabeza h2 { font-size: 15.5px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); }
-.pv-sala:hover .pv-esc__tallo, .pv-sala:hover .pv-esc__linterna { animation-duration: 1.2s; }
 
 /* Navegación del nivel 2 */
 .pv-familia__nav { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 14px; }
@@ -627,4 +553,80 @@
   .pv-portico__progreso { top: 54px; }
   .pv-detalle__cabeza::after { font-size: 120px; }
   .pt-item--palabra .pt-item__es { font-size: 23px; }
+}
+
+/* ===== v22.3 · Recinto de pabellones (salas) con medallones ===== */
+.pv-recinto { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 34px 26px; padding-top: 18px; align-items: end; }
+.pv-pab { position: relative; display: flex; flex-direction: column; animation: pv-pab-entra 0.8s var(--pv-ease) both; animation-delay: calc(var(--k) * 110ms + 0.6s); filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.55)); }
+@keyframes pv-pab-entra { from { opacity: 0; transform: translate3d(0, 40px, 0) scale(0.96); } to { opacity: 1; transform: none; } }
+
+/* Tejado de tejas con alero curvo y cumbrera dorada */
+.pv-pab__tejado { position: relative; z-index: 3; height: 92px; margin: 0 -16px -26px; animation: pv-tejado-cae 0.7s var(--pv-rebote) both; animation-delay: calc(var(--k) * 110ms + 0.85s); }
+@keyframes pv-tejado-cae { from { opacity: 0; transform: translate3d(0, -26px, 0); } to { opacity: 1; transform: none; } }
+.pv-pab__tejado svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.pv-pab__cumbrera { fill: #f2c14e; stroke: #8a5a1e; stroke-width: 1.5; }
+.pv-pab__tejas { fill: #2a0a12; stroke: #f2c14e; stroke-width: 1.5; }
+.pv-pab__alero { fill: #3d0d18; stroke: #f2c14e; stroke-width: 2; }
+.pv-pab__friso { fill: var(--sala); stroke: #f2c14e; stroke-width: 1.5; }
+.pv-pab__tejado::before { content: ""; position: absolute; left: 25%; right: 25%; top: 24px; height: 26px; background: repeating-linear-gradient(90deg, rgba(242, 193, 78, 0.28) 0 2px, transparent 2px 12px); clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%); pointer-events: none; }
+.pv-pab__farol { position: absolute; top: 66px; width: 2px; height: 26px; background: #3b2416; transform-origin: top center; animation: pv-mecer 3.6s ease-in-out infinite alternate; }
+.pv-pab__farol.is-izq { left: 12%; } .pv-pab__farol.is-der { right: 12%; animation-delay: -1.8s; }
+.pv-pab__farol i { position: absolute; left: -13px; top: 22px; width: 28px; height: 32px; border-radius: 45% / 50%; background: radial-gradient(circle at 50% 45%, #ff7a5c, var(--pv-laca) 55%, var(--pv-laca-osc)); box-shadow: 0 0 22px 6px rgba(255, 130, 60, 0.4), inset 0 0 0 1.5px rgba(242, 193, 78, 0.7); }
+.pv-pab__farol i::before, .pv-pab__farol i::after { content: ""; position: absolute; left: 7px; width: 14px; height: 4px; border-radius: 2px; background: var(--pv-oro); }
+.pv-pab__farol i::before { top: -2px; } .pv-pab__farol i::after { bottom: -2px; }
+
+/* Placa colgante (牌匾) */
+.pv-pab__placa { position: relative; z-index: 4; align-self: center; display: grid; justify-items: center; gap: 2px; min-width: 62%; margin-bottom: -18px; padding: 8px 22px 9px; border-radius: 6px; text-align: center;
+  background: linear-gradient(180deg, #1f0609, #3a0c14); box-shadow: 0 0 0 2px var(--pv-oro), 0 0 0 5px #1f0609, 0 0 0 6px rgba(242, 193, 78, 0.6), 0 10px 16px rgba(0, 0, 0, 0.5); }
+.pv-pab__placa::before, .pv-pab__placa::after { content: ""; position: absolute; top: -18px; width: 2px; height: 18px; background: var(--pv-oro); }
+.pv-pab__placa::before { left: 24%; } .pv-pab__placa::after { right: 24%; }
+.pv-pab__placa b { font: 900 26px/1.1 var(--pv-cali); letter-spacing: 0.22em; padding-left: 0.22em; color: transparent; background: linear-gradient(180deg, #fff3cf, #f2c14e 55%, #c8901e); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.6)); }
+.pv-pab__placa h2 { margin: 0; font: 700 12.5px/1.2 var(--pv-display); letter-spacing: 0.06em; color: #fbe6c4; }
+
+/* Salón: columnas lacadas y celosía */
+.pv-pab__salon { position: relative; z-index: 2; display: grid; gap: 14px; padding: 34px 30px 18px; border-radius: 0 0 4px 4px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 200, 120, 0.22), transparent 65%),
+    repeating-linear-gradient(0deg, rgba(242, 193, 78, 0.07) 0 2px, transparent 2px 26px), repeating-linear-gradient(90deg, rgba(242, 193, 78, 0.07) 0 2px, transparent 2px 26px),
+    linear-gradient(180deg, #6e0819, #4a0712 60%, #33040d);
+  box-shadow: inset 0 0 0 1.5px rgba(242, 193, 78, 0.45), inset 0 12px 20px rgba(0, 0, 0, 0.45); }
+.pv-pab__salon::before, .pv-pab__salon::after { content: ""; position: absolute; top: -2px; bottom: 0; width: 16px; background: linear-gradient(90deg, #6e0819, #d81b38 40%, #8f0c21); box-shadow: inset 0 14px 0 -4px var(--pv-oro), inset 0 -10px 0 -4px var(--pv-oro), 0 0 10px rgba(0, 0, 0, 0.5); }
+.pv-pab__salon::before { left: 0; } .pv-pab__salon::after { right: 0; }
+.pv-pab__rasgo { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0; font-size: 12.5px; font-weight: 700; color: #f2d8a8; text-align: center; }
+.pv-pab__rasgo i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 5px; font: 900 14px/1 var(--pv-cali); font-style: normal; color: #fff3d6; background: var(--sala); box-shadow: 0 0 0 1.5px var(--pv-oro); transform: rotate(-6deg); }
+.pv-pab__familias { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 14px; }
+.pv-pab__cuenta { justify-self: center; padding: 3px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 700; color: #fbe6c4; background: rgba(0, 0, 0, 0.3); box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.35); }
+.pv-pab__escalones { position: relative; z-index: 1; height: 22px; margin: 0 -8px; background: linear-gradient(180deg, #e8d6b0 0 7px, #b9a27a 7px 8px, #d9c49a 8px 15px, #a38d66 15px 16px, #c9b38a 16px); border-radius: 0 0 6px 6px; box-shadow: 0 6px 10px rgba(0, 0, 0, 0.45); }
+.pv-pab__escalones::before { content: ""; position: absolute; left: 36%; right: 36%; top: -2px; bottom: 0; background: linear-gradient(180deg, #f6e7c8, #cdb68c); border-radius: 2px; }
+
+/* Medallones de familia: misma pieza para todas, con el color de la sala y un aro de progreso */
+.pv-medalla { position: relative; display: grid; justify-items: center; gap: 6px; width: 92px; padding: 0; border: 0; background: none; cursor: pointer; font-family: var(--pv-ui); color: #fff3d6; -webkit-tap-highlight-color: transparent;
+  animation: pv-medalla-entra 0.6s var(--pv-rebote) both; animation-delay: calc(var(--k) * 110ms + var(--i) * 70ms + 1.05s); }
+@keyframes pv-medalla-entra { from { opacity: 0; transform: scale(0.4) rotate(-90deg); } to { opacity: 1; transform: none; } }
+.pv-medalla__aro { display: grid; place-items: center; width: 84px; height: 84px; padding: 5px; border-radius: 50%;
+  background: conic-gradient(#ffe39a calc(var(--p) * 360deg), rgba(242, 193, 78, 0.28) 0); box-shadow: 0 0 0 2px #8a5a1e, 0 0 0 4px var(--pv-oro), 0 8px 14px rgba(0, 0, 0, 0.5); transition: transform 0.4s var(--pv-rebote), box-shadow 0.3s; }
+.pv-medalla__cara { position: relative; display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
+  background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.4), transparent 42%), radial-gradient(circle at 50% 60%, var(--sala), var(--tinta) 90%); box-shadow: inset 0 0 0 2px rgba(255, 227, 154, 0.85), inset 0 0 0 6px rgba(0, 0, 0, 0.18), inset 0 -8px 14px rgba(0, 0, 0, 0.35); }
+.pv-medalla__cara::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; border: 1px dashed rgba(255, 227, 154, 0.55); }
+.pv-medalla__cara::after { content: ""; position: absolute; top: -30%; bottom: -30%; left: -60%; width: 40%; background: linear-gradient(90deg, transparent, rgba(255, 245, 210, 0.6), transparent); transform: translateX(-100%) skewX(-18deg); }
+.pv-medalla__cara b { position: relative; font: 900 36px/1 Georgia, "Times New Roman", serif; color: #fff3d6; text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45), 0 0 12px rgba(255, 220, 140, 0.35); }
+.pv-medalla__nombre { display: grid; gap: 1px; font-size: 12px; font-weight: 800; line-height: 1.2; text-align: center; color: #fff3d6 !important; }
+.pv-medalla__nombre small { font: 700 12.5px var(--pv-cali); color: var(--pv-oro) !important; }
+.pv-medalla__dificil { position: absolute; top: -4px; right: 0; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 5px; font: 900 13px/1 var(--pv-cali); font-style: normal; color: #fff3d6; background: linear-gradient(160deg, #e0283f, #8f0c21); box-shadow: 0 0 0 1.5px #ffe39a, 0 3px 6px rgba(0, 0, 0, 0.45); transform: rotate(10deg); }
+.pv-medalla__sello { left: -6px; top: 46px; --tam: 30px; z-index: 2; }
+.pv-medalla:hover .pv-medalla__aro, .pv-medalla:focus-visible .pv-medalla__aro { transform: translate3d(0, -6px, 0) scale(1.08); box-shadow: 0 0 0 2px #8a5a1e, 0 0 0 4px #ffe39a, 0 0 24px rgba(242, 193, 78, 0.8), 0 14px 20px rgba(0, 0, 0, 0.55); }
+.pv-medalla:hover .pv-medalla__cara::after { animation: pv-brillo 0.9s ease-out; }
+.pv-medalla:active .pv-medalla__aro { transform: scale(0.95); }
+.pv-medalla:focus-visible { outline: none; }
+.pv-pab:hover .pv-pab__farol { animation-duration: 1.2s; }
+
+@media (max-width: 760px) {
+  .pv-recinto { gap: 30px; padding-top: 12px; }
+  .pv-pab__tejado { height: 80px; margin: 0 -10px -24px; }
+  .pv-pab__farol { top: 58px; }
+  .pv-pab__salon { padding: 32px 22px 16px; }
+  .pv-pab__placa b { font-size: 22px; }
+  .pv-pab__familias { gap: 14px 10px; }
+  .pv-medalla { width: 84px; }
+  .pv-medalla__aro { width: 76px; height: 76px; }
+  .pv-medalla__cara b { font-size: 32px; }
 }

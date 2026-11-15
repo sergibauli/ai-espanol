@@ -21,7 +21,7 @@ import {
 import { LightShell } from "../components/layout/LightShell.jsx";
 import PracticePlayer from "../components/pron/PracticePlayer.jsx";
 import OndaViva, { useVoz, SelloEstampa } from "../components/pron/OndaViva.jsx";
-import { EscenaSala, MotivoSala, FondoTemplo } from "../components/pron/Escenas.jsx";
+import { EscenaSala, FondoTemplo } from "../components/pron/Escenas.jsx";
 import { SALAS, salaDeFamilia, duracionVoz, reducido } from "../components/pron/salas.js";
 import { FAMILIAS, materialDe } from "../components/pron/datos.js";
 import { useFavorites } from "../lib/favorites.js";
@@ -304,62 +304,74 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
           )}
         </section>
       ) : (
-        <div className="pv-galeria">
-          {SALAS.map((s) => {
+        <div className="pv-recinto">
+          {SALAS.map((s, k) => {
             const familias = lista.filter((f) => s.familias.includes(f.id));
             if (!familias.length) return null;
+            const total = familias.reduce((n, f) => n + f.silabas.length, 0);
+            const oidasSala = familias.reduce((n, f) => n + oidasDe(f), 0);
             return (
-              <section key={s.id} className={`pv-sala pv-sala--${s.id}`} style={{ "--sala": s.color, "--tinta": s.tinta }} aria-label={`${s.es} · ${s.zh}`}>
-                <div className="pv-sala__escena" aria-hidden="true">
-                  <EscenaSala sala={s} />
-                </div>
-                <header className="pv-sala__cabeza">
-                  <span className="pv-sala__emblema">
-                    <MotivoSala sala={s} />
+              <section key={s.id} className="pv-pab" style={{ "--sala": s.color, "--tinta": s.tinta, "--k": k }} aria-label={`${s.es} · ${s.zh}`}>
+                <div className="pv-pab__tejado" aria-hidden="true">
+                  <svg viewBox="0 0 400 96" preserveAspectRatio="none">
+                    <path className="pv-pab__cumbrera" d="M86 14 Q80 4 70 6 Q82 10 84 20 H316 Q318 10 330 6 Q320 4 314 14Z" />
+                    <rect className="pv-pab__cumbrera" x="84" y="12" width="232" height="9" rx="3" />
+                    <path className="pv-pab__tejas" d="M92 21 H308 L356 52 H44Z" />
+                    <path className="pv-pab__alero" d="M0 62 Q26 60 40 46 H360 Q374 60 400 62 L400 70 Q368 70 350 58 H50 Q32 70 0 70Z" />
+                    <path className="pv-pab__friso" d="M50 58 H350 V70 H50Z" />
+                  </svg>
+                  <span className="pv-pab__farol is-izq">
+                    <i />
                   </span>
-                  <div>
-                    <h2>
-                      {s.es} <span>{s.zh}</span>
-                    </h2>
-                    <p>
-                      {s.rasgo} · {s.rasgoZh}
-                    </p>
-                  </div>
-                  <i className="pv-sala__sello" translate="no" aria-hidden="true">
-                    {s.sello}
-                  </i>
-                </header>
-                <div className="pv-sala__tarjetas">
-                  {familias.map((f, n) => {
-                    const hechas = oidasDe(f);
-                    const completa = dominadasDe(f) === f.silabas.length;
-                    return (
-                      <button
-                        key={f.id}
-                        type="button"
-                        className={`pv-tarjeta pv-tarjeta--${s.id}${f.dificil ? " is-dificil" : ""}${completa ? " is-completa" : ""}`}
-                        style={{ "--i": n }}
-                        onClick={() => ir(f, f.silabas[0])}
-                        aria-label={`${f.titulo}${f.dificil ? " · difícil · 难点" : ""} · ${hechas}/${f.silabas.length}`}
-                      >
-                        <span className="pv-tarjeta__marco" aria-hidden="true" />
-                        <b className="pv-tarjeta__letra" translate="no">
-                          {letraDe(f)}
-                        </b>
-                        <small className="pv-tarjeta__titulo">
-                          {f.titulo} <span>{f.tituloZh}</span>
-                        </small>
-                        <span className="pv-tarjeta__barra" style={{ "--p": hechas / f.silabas.length }} aria-hidden="true" />
-                        {f.dificil && (
-                          <i className="pv-tarjeta__dificil" translate="no" aria-hidden="true">
-                            难
-                          </i>
-                        )}
-                        {completa && <SelloEstampa texto="印" className="pv-tarjeta__sello is-quieto" />}
-                      </button>
-                    );
-                  })}
+                  <span className="pv-pab__farol is-der">
+                    <i />
+                  </span>
                 </div>
+                <header className="pv-pab__placa">
+                  <b translate="no">{s.zh}</b>
+                  <h2>{s.es}</h2>
+                </header>
+                <div className="pv-pab__salon">
+                  <p className="pv-pab__rasgo">
+                    <i translate="no">{s.sello}</i> {s.rasgo} · {s.rasgoZh}
+                  </p>
+                  <div className="pv-pab__familias">
+                    {familias.map((f, n) => {
+                      const hechas = oidasDe(f);
+                      const completa = dominadasDe(f) === f.silabas.length;
+                      return (
+                        <button
+                          key={f.id}
+                          type="button"
+                          className={`pv-medalla${completa ? " is-completa" : ""}`}
+                          style={{ "--i": n, "--p": hechas / f.silabas.length }}
+                          onClick={() => ir(f, f.silabas[0])}
+                          aria-label={`${f.titulo}${f.dificil ? " · difícil · 难点" : ""} · ${hechas}/${f.silabas.length}`}
+                        >
+                          <span className="pv-medalla__aro" aria-hidden="true">
+                            <span className="pv-medalla__cara">
+                              <b translate="no">{letraDe(f)}</b>
+                            </span>
+                          </span>
+                          <span className="pv-medalla__nombre">
+                            {f.titulo}
+                            <small>{f.tituloZh}</small>
+                          </span>
+                          {f.dificil && (
+                            <i className="pv-medalla__dificil" translate="no" aria-hidden="true">
+                              难
+                            </i>
+                          )}
+                          {completa && <SelloEstampa texto="印" className="pv-medalla__sello is-quieto" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <span className="pv-pab__cuenta">
+                    {oidasSala}/{total} sílabas escuchadas · 已听音节
+                  </span>
+                </div>
+                <div className="pv-pab__escalones" aria-hidden="true" />
               </section>
             );
           })}
