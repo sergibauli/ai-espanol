@@ -10,6 +10,15 @@ import { analizarTeoria, emparejar, terminosAudibles } from "./teoria.js";
 import { GuiaBloques, NUM_ZH, tieneVocab } from "./GuiaBloques.jsx";
 import { Esquinas } from "./CabeceraUnidad.jsx";
 
+// Propuesta: variante «palacio» (mármol y jade sobre el palacio, según la maqueta) para compararla; se quitará al elegir
+const ESTILO = (() => {
+  try {
+    return localStorage.getItem("dele_guia_estilo") || "";
+  } catch {
+    return "";
+  }
+})();
+
 // Los bloques de la ficha aparecen uno a uno al entrar en pantalla (sin JS o con «reducir movimiento» se ven tal cual)
 function useRevelar(ref, clave) {
   React.useEffect(() => {
@@ -74,7 +83,7 @@ export function FichaTeoria({ teoria, todas = teoria, numero }) {
   const ejemplos = (t.ejemplos || []).filter((e) => !enCuerpo.has(String(e.espanol).replace(/[«»"\s.¡!¿?]/g, "").toLowerCase()));
 
   return (
-    <div className="ud-guia">
+    <div className={`ud-guia ${ESTILO === "palacio" ? "gx-palacio" : ""}`}>
       {teoria.length > 1 && (
         <nav className="ud-indice" aria-label="Puntos de gramática">
           <span className="ud-indice-tit">
