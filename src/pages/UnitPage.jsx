@@ -12,6 +12,8 @@ import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { StoryPlayer, CAST } from "../components/lesson/StoryPlayer.jsx";
+import { DialogStage } from "../components/lesson/DialogStage.jsx";
+import { TarjetasDialogo } from "../components/lesson/TarjetasDialogo.jsx";
 import { speak } from "../components/lesson/fx.js";
 import { useGame, getGame } from "../lib/gamification.js";
 import { buildLesson, lessonId, LESSON_META, buildPractice, PRACTICE_TYPES, dialogToStory, buildAIChallenge } from "../lib/lessons.js";
@@ -420,21 +422,7 @@ export default function UnitPage() {
             <h2 className="unit-h2" id="u-dialogos">
               Diálogos <small>({mod.dialogos.length} {mod.dialogos.length === 1 ? "conversación" : "conversaciones"} con voz)</small>
             </h2>
-            <div className="unit-dialogs">
-              {mod.dialogos.map((d, i) => (
-                <button key={d.id || i} className="unit-dialog" onClick={() => setDialog(dialogToStory(d, numero, story?.escena))}>
-                  <span className="unit-dialog-faces">
-                    <Emoji3D emoji={["👩‍🦰", "🧔", "👧", "👨", "👵"][i % 5]} size={44} />
-                    <Emoji3D emoji={["👨", "👧", "👵", "👩‍🦰", "🧔"][i % 5]} size={44} />
-                  </span>
-                  <span style={{ flex: 1, minWidth: 0, textAlign: "left" }}>
-                    <b>{d.titulo}</b>
-                    <small>{(d.lineas || []).length} frases</small>
-                  </span>
-                  <PlayIcon size={20} fill="currentColor" />
-                </button>
-              ))}
-            </div>
+            <TarjetasDialogo dialogos={mod.dialogos} numero={numero} onAbrir={(d) => setDialog(dialogToStory(d, numero, story?.escena))} />
           </>
         )}
 
@@ -609,7 +597,7 @@ export default function UnitPage() {
       </div>
       {lesson && <LessonPlayer lesson={lesson} onClose={alCerrarLeccion} />}
       {playStory && story && <StoryPlayer story={story} onClose={() => setPlayStory(false)} />}
-      {dialog && <StoryPlayer story={dialog} onClose={() => setDialog(null)} />}
+      {dialog && <DialogStage story={dialog} onClose={() => setDialog(null)} />}
       {celebrar && !lesson && (
         <CelebrarClase
           estado={progreso.clases.find((c) => c.n === celebrar) || estado}
