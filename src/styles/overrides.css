@@ -1,7 +1,7 @@
 /* ============================================================
    AI Español — overrides visuales v1 (cirugía CSS sobre el dist)
    Se carga desde index.html. Para actualizar: editar este fichero
-   y subir la versión del service worker (CACHE_NAME) en service-worker.js
+   (el service worker lo genera vite-plugin-pwa al compilar: no hay que subir versiones a mano)
    ============================================================ */
 
 /* ---------- 1. DASHBOARD: quitar el tutor IA de abajo, su input,

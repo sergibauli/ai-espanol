@@ -9,6 +9,7 @@ import { CampusProvider } from "./lib/campus.jsx";
 import { LIGHT_ROUTES, LEGACY_LIGHT, STAGE_ROUTES, LightShell } from "./components/layout/LightShell.jsx";
 import WelcomePage from "./pages/WelcomePage.jsx";
 import { SECCIONES } from "./lib/precarga.js";
+import { AvisoActualizacion } from "./components/layout/AvisosApp.jsx";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
 const DashboardPage = React.lazy(SECCIONES["/ruta"]);
@@ -196,6 +197,7 @@ function AppRoutes() {
     <>
       <CursorTrail />
       <SwipeNavigation />
+      <AvisoActualizacion />
       {isAuthenticated && !light && <TopNav />}
       <React.Suspense fallback={<PageLoader />}>
       <QuitaCargadorInicial />
@@ -664,10 +666,5 @@ class ErrorBoundary extends React.Component {
     }
     return this.props.children;
   }
-}
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch(() => {});
-  });
 }
 export { ErrorBoundary, App };
