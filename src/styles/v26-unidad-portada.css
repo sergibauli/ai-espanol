@@ -1,0 +1,70 @@
+/* ===== v26 · Unidad «portada»: cabecera a casi pantalla completa con caligrafía gigante, dos dragones enmarcando,
+   el Rey Mono sobre su nube voladora, suelo de niebla dorada; animaciones ligadas al scroll (la portada se aleja,
+   las secciones entran al aparecer) y tarjetas de vocabulario que se voltean con el chino y el ejemplo ===== */
+
+/* ---------- Portada ---------- */
+.ud .ud-hero { min-height: min(76vh, 620px); align-items: center; padding: 56px 56px 48px; }
+.ud .ud-hero-placa { align-self: center; }
+.ud .ud-dragon-marco { position: absolute; z-index: 1; width: 300px; pointer-events: none; filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.5)); }
+.ud .ud-dragon-marco.izq { left: -70px; bottom: -40px; transform: scaleX(-1) rotate(-14deg); opacity: 0.9; animation: ud-dragon-marco 7s ease-in-out infinite; }
+@keyframes ud-dragon-marco { 0%, 100% { translate: 0 0; } 50% { translate: 0 -14px; } }
+.ud .ud-hero-placa { margin-left: 34px; }
+
+/* el Rey Mono sobre su nube voladora */
+.ud .ud-hero-jinete { position: absolute; z-index: 3; right: 150px; bottom: 34px; display: flex; flex-direction: column; align-items: center; pointer-events: none;
+  translate: calc(var(--px, 0) * 34px) calc(var(--py, 0) * 16px); transition: translate 0.3s ease-out; animation: ud-vuela 5s ease-in-out infinite; }
+.ud .ud-hero-jinete .ud-hero-mono { display: block !important; position: static; width: 170px; animation: none; translate: none; filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.35)); }
+.ud .ud-hero-nubemono { width: 230px; margin-top: -70px; filter: drop-shadow(0 0 18px rgba(255, 220, 130, 0.9)) drop-shadow(0 8px 8px rgba(0, 0, 0, 0.3)); }
+@keyframes ud-vuela { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-18px) rotate(2deg); } }
+.ud .ud-hero-suelo { position: absolute; z-index: 0; left: -10%; right: -10%; bottom: -30px; height: 160px; pointer-events: none;
+  background: radial-gradient(60% 100% at 50% 100%, rgba(255, 236, 180, 0.55), transparent 70%); filter: blur(8px); animation: ud-respira 6s ease-in-out infinite; }
+.ud .ud-hero-medalla { align-self: start; margin-top: 10px; }
+
+/* ---------- Scroll: la portada se aleja y las secciones entran ---------- */
+@supports (animation-timeline: view()) {
+  .ud .ud-hero { animation: ud-alejar linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+  @keyframes ud-alejar { to { transform: scale(0.9) translateY(40px); opacity: 0.3; filter: blur(3px) saturate(0.6); } }
+  .ud .ud-mapa, .ud .cls-fin, .ud .unit-nav, .ud .ud-panel :is(.ud-palabra, .ud-ejemplo, .ud-tabla-marco, .ud-tablilla, .ud-pares, .ud-leccion, .unit-ptype, .unit-game, .unit-dialog, .unit-more-card) {
+    animation: ud-entra-scroll linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+  @keyframes ud-entra-scroll { from { opacity: 0; transform: perspective(900px) translateY(60px) rotateX(18deg) scale(0.94); } }
+}
+
+/* ---------- Tarjetas que se voltean ---------- */
+.ud .ud-palabra { overflow: visible; background: none; box-shadow: none; }
+.ud .ud-palabra::before, .ud .ud-palabra::after { display: none; }
+.ud .ud-palabra-giro { position: relative; height: 100%; min-height: 128px; transform: perspective(900px) rotateY(0deg); transition: transform 0.7s cubic-bezier(0.3, 1.4, 0.5, 1); }
+.ud .ud-palabra.girada .ud-palabra-giro { transform: perspective(900px) rotateY(180deg); }
+.ud .ud-palabra-cara { position: relative; height: 100%; border-radius: 16px; overflow: hidden; transition: opacity 0s linear 0.18s; }
+.ud .ud-palabra-cara.frente { display: flex; flex-direction: column; padding-bottom: 8px;
+  background: radial-gradient(120% 80% at 50% 0%, #fffefa, #fbf1da); box-shadow: 0 0 0 1px #d9b66a, inset 0 0 0 4px #fffaf0, inset 0 0 0 5px rgba(217, 182, 106, 0.6), 0 5px 0 #c99a32, 0 12px 22px rgba(0, 0, 0, 0.18); }
+.ud .ud-palabra-cara.frente::before { content: ""; position: absolute; inset: 0 0 auto; height: 6px; background: linear-gradient(90deg, #c8102e, #f2c14e 50%, #c8102e); }
+.ud .ud-palabra-cara.frente::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.25s; background: radial-gradient(circle at var(--gx, 50%) 0%, rgba(255, 255, 255, 0.75), transparent 55%); mix-blend-mode: soft-light; }
+.ud .ud-palabra:hover .ud-palabra-cara.frente::after { opacity: 1; }
+.ud .ud-palabra-cara.dorso { position: absolute; inset: 0; opacity: 0; transform: scaleX(-1); display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 14px;
+  background: radial-gradient(120% 90% at 30% 0%, rgba(255, 120, 120, 0.3), transparent 55%), repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.06) 0 2px, transparent 2px 7px), linear-gradient(160deg, #b5122f, #7d0a1d 60%, #4e0410);
+  box-shadow: inset 0 0 0 2px #f2c14e, inset 0 0 0 5px #6e0717, inset 0 0 0 6px rgba(242, 193, 78, 0.6), 0 5px 0 #4e0410, 0 12px 22px rgba(0, 0, 0, 0.3); }
+.ud .ud-palabra-cara.dorso { pointer-events: none; }
+.ud .ud-palabra.girada .frente { opacity: 0; pointer-events: none; }
+.ud .ud-palabra.girada .dorso { opacity: 1; pointer-events: auto; }
+.ud .ud-dorso-volver { display: grid; gap: 4px; justify-items: center; border: 0; background: none; cursor: pointer; color: #fbe7b5; }
+.ud .ud-dorso-zh { font: 700 34px/1.1 var(--f-zh); color: #ffe39a; text-shadow: 0 2px 0 #4e0410, 0 0 16px rgba(255, 210, 110, 0.5); }
+.ud .ud-dorso-es { font: italic 700 16px/1.2 Georgia, serif; color: #fbe7b5; }
+.ud .ud-dorso-ej { display: flex; align-items: flex-start; gap: 6px; padding: 8px 10px; border: 0; border-radius: 10px; cursor: pointer; text-align: left; font: italic 14px/1.4 Georgia, serif; color: #fff3d6; background: rgba(0, 0, 0, 0.22); box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.5); }
+.ud .ud-dorso-ej svg { flex: none; margin-top: 2px; color: #f2c14e; }
+.ud .ud-palabra-pista { margin: auto 40px 0 12px; font-size: 11px; font-weight: 800; color: rgba(143, 12, 33, 0.55); }
+.ud .ud-palabra-sello { z-index: 1; }
+
+/* ---------- Móvil ---------- */
+@media (max-width: 1100px) { .ud .ud-dragon-marco { display: none; } .ud .ud-hero-placa { margin-left: 0; } }
+@media (max-width: 1000px) { .ud .ud-hero-jinete { right: 130px; } .ud .ud-hero-jinete .ud-hero-mono { width: 130px; } .ud .ud-hero-nubemono { width: 180px; } }
+@media (max-width: 700px) {
+  .ud .ud-hero { min-height: 0; padding: 16px 12px 18px; }
+  .ud .ud-hero-jinete { right: auto; left: 14px; bottom: auto; top: 6px; }
+  .ud .ud-hero-jinete .ud-hero-mono { width: 74px; }
+  .ud .ud-hero-nubemono { width: 110px; margin-top: -22px; }
+  .ud .ud-palabra-giro { min-height: 128px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ud .ud-hero, .ud .ud-mapa, .ud .ud-panel * { animation: none !important; }
+  .ud .ud-palabra-giro { transition: none; }
+}

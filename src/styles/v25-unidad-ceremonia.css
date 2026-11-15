@@ -1,0 +1,96 @@
+/* ===== v25 · Unidad «ceremonia»: la hoja entera es el mundo del nivel, puertas de palacio que se abren al entrar,
+   farolillos que se balancean, paralaje con el ratón, título revelado con tinta y sello que cae, rodillo que baja
+   al desplegar la ficha y chispas doradas en las pestañas ===== */
+
+/* ---------- La hoja es el mundo ---------- */
+html body .light-page .unit-page.ud { position: relative; isolation: isolate; overflow: hidden; color: #3b2416;
+  background: radial-gradient(120% 60% at 50% 0%, transparent 30%, rgba(0, 0, 0, 0.35) 100%), repeating-radial-gradient(circle at 50% 120%, rgba(242, 193, 78, 0.05) 0 2px, transparent 2px 26px), var(--ud-mundo, #2a0f14) !important;
+  border: 2px solid #f2c14e !important; box-shadow: 0 0 0 1px #5e3a0c, 0 0 0 6px rgba(242, 193, 78, 0.18), 0 0 50px rgba(242, 193, 78, 0.25), 0 30px 60px rgba(0, 0, 0, 0.5) !important; }
+html body .light-page .unit-page.ud[data-nivel="A1"] { --ud-mundo: linear-gradient(180deg, #123d2a 0%, #0c2a1d 40%, #071a12 100%); }
+html body .light-page .unit-page.ud[data-nivel="A2"] { --ud-mundo: linear-gradient(180deg, #3a0d22 0%, #24081a 45%, #140512 100%); }
+html body .light-page .unit-page.ud[data-nivel="B1"] { --ud-mundo: linear-gradient(180deg, #1d2c36 0%, #131e26 45%, #0a1218 100%); }
+html body .light-page .unit-page.ud[data-nivel="B2"] { --ud-mundo: linear-gradient(180deg, #2a0f4a 0%, #1a0832 45%, #0e041c 100%); }
+.ud .ud-mundo-fondo { position: absolute; z-index: -1; left: 0; right: 0; top: 0; height: 760px; pointer-events: none; opacity: 0.55;
+  -webkit-mask: linear-gradient(180deg, #000 30%, transparent 100%); mask: linear-gradient(180deg, #000 30%, transparent 100%); }
+.ud .ud-mundo-fondo .dn-escena { z-index: 0; filter: saturate(0.9) brightness(0.75); }
+.ud .ud-volver { background: rgba(255, 246, 222, 0.92); color: #6b4a2b; }
+
+/* el contenido de cada pestaña va en una gran hoja de pergamino sobre el mundo */
+.ud .ud-panel { position: relative; padding: 26px 26px 30px; border-radius: 20px;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(120, 80, 40, 0.22)), url("../../public/theme/papel.jpg") center / cover, #f2e3c2;
+  box-shadow: 0 0 0 1px #c99a32, 0 0 0 5px rgba(255, 246, 222, 0.5), 0 0 0 6px #c99a32, 0 20px 40px rgba(0, 0, 0, 0.45); }
+.ud .ud-panel:has(> .ud-guia) { background: transparent; box-shadow: none; padding: 14px 0 0; }
+.ud .ud-panel:has(> .ud-guia) .ud-indice-tit { color: #f6d9a0; }
+.ud .ud-mapa { box-shadow: 0 0 0 1px #c99a32, 0 0 0 5px rgba(255, 246, 222, 0.5), 0 0 0 6px #c99a32, 0 20px 40px rgba(0, 0, 0, 0.45); }
+.ud .cls-fin { box-shadow: 0 0 0 2px #c99a32, 0 20px 40px rgba(0, 0, 0, 0.45) !important; }
+.ud .unit-nav-btn { box-shadow: 0 0 0 1px #c99a32, 0 4px 0 #8a5a1e, 0 10px 20px rgba(0, 0, 0, 0.35) !important; }
+.ud .ud-pestanas { box-shadow: 0 0 0 2px var(--oro), 0 0 0 4px #3a0208, 0 0 30px rgba(242, 193, 78, 0.35), 0 14px 30px rgba(0, 0, 0, 0.5); }
+
+/* ---------- Puertas de palacio ---------- */
+.ud .ud-puertas { position: absolute; inset: 0; z-index: 20; perspective: 1600px; cursor: pointer; }
+.ud .ud-puerta { position: absolute; z-index: 1; top: 0; bottom: 0; width: 50.5%;
+  background: radial-gradient(circle, #ffe9a6 0 4px, #c8961e 5px, transparent 7px) 0 0 / 46px 46px, repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0 3px, transparent 3px 9px), linear-gradient(180deg, #b5122f, #7d0a1d 60%, #4e0410);
+  box-shadow: inset 0 0 0 6px #6e0717, inset 0 0 0 9px #f2c14e, inset 0 0 60px rgba(0, 0, 0, 0.45); }
+.ud .ud-puerta.izq { left: 0; transform-origin: left center; animation: ud-puerta-izq 1.7s 0.55s cubic-bezier(0.6, 0, 0.3, 1) forwards; }
+.ud .ud-puerta.der { right: 0; transform-origin: right center; animation: ud-puerta-der 1.7s 0.55s cubic-bezier(0.6, 0, 0.3, 1) forwards; }
+.ud .ud-aldaba { position: absolute; top: 50%; width: 54px; height: 54px; margin-top: -27px; border-radius: 50%; border: 6px solid #f2c14e; box-shadow: 0 0 0 2px #7a5216, inset 0 0 0 2px #7a5216, 0 6px 10px rgba(0, 0, 0, 0.45); }
+.ud .ud-aldaba::before { content: ""; position: absolute; left: 50%; top: -22px; width: 30px; height: 26px; margin-left: -15px; border-radius: 50% 50% 40% 40%; background: radial-gradient(circle at 40% 35%, #fff3c4, #f2c14e 45%, #8a5a1e); }
+.ud .ud-puerta.izq .ud-aldaba { right: 26px; } .ud .ud-puerta.der .ud-aldaba { left: 26px; }
+.ud .ud-puertas-sello { position: absolute; left: 50%; top: 50%; z-index: 5; padding: 16px 18px; border-radius: 12px; font: 700 34px/1.15 var(--f-zh); text-align: center; letter-spacing: 0.06em; color: #fff3d6; background: #c8102e; box-shadow: inset 0 0 0 3px #f6c6c6, inset 0 0 0 6px #c8102e, inset 0 0 0 7px rgba(246, 198, 198, 0.7), 0 0 0 4px #f2c14e, 0 14px 30px rgba(0, 0, 0, 0.55); transform: translate(-50%, -50%) rotate(-4deg); animation: ud-sello-sale 0.6s 0.45s ease-in forwards; }
+@keyframes ud-puerta-izq { 85% { opacity: 1; } to { transform: perspective(1600px) rotateY(-100deg); opacity: 0; } }
+@keyframes ud-puerta-der { 85% { opacity: 1; } to { transform: perspective(1600px) rotateY(100deg); opacity: 0; } }
+@keyframes ud-sello-sale { to { opacity: 0; transform: translate(-50%, -50%) rotate(-4deg) scale(1.6); } }
+
+/* ---------- Farolillos ---------- */
+.ud .ud-farol { position: absolute; top: -4px; z-index: 6; display: flex; flex-direction: column; align-items: center; transform-origin: top center; animation: ud-farol 4.2s ease-in-out infinite; pointer-events: none; }
+.ud .ud-farol.izq { left: 63%; } .ud .ud-farol.der { right: 2%; }
+.ud .ud-hero-sello { top: 150px !important; right: -14px !important; }
+.ud .ud-farol-cuerda { width: 2px; height: 26px; background: #7a5216; }
+.ud .ud-farol-cuerpo { position: relative; display: grid; place-items: center; width: 58px; height: 66px; border-radius: 46% / 50%;
+  background: radial-gradient(circle at 50% 45%, #ffb36b 0%, #f0423b 35%, #b3122e 70%, #6e0717 100%); box-shadow: 0 0 30px rgba(255, 120, 60, 0.75), 0 0 70px rgba(255, 120, 60, 0.35), inset 0 0 0 2px rgba(110, 7, 23, 0.4);
+  animation: ud-farol-luz 2.8s ease-in-out infinite; }
+.ud .ud-farol-cuerpo::before, .ud .ud-farol-cuerpo::after { content: ""; position: absolute; left: 50%; width: 30px; height: 7px; margin-left: -15px; border-radius: 3px; background: linear-gradient(180deg, #fff3c4, #c8961e); }
+.ud .ud-farol-cuerpo::before { top: -4px; } .ud .ud-farol-cuerpo::after { bottom: -4px; }
+.ud .ud-farol-cuerpo b { font: 700 22px/1 var(--f-zh); color: #ffe39a; text-shadow: 0 0 6px rgba(255, 220, 120, 0.8); }
+.ud .ud-farol-borla { width: 6px; height: 26px; margin-top: 3px; border-radius: 3px; background: linear-gradient(180deg, #f2c14e 0 25%, #c8102e 25%); }
+@keyframes ud-farol { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+@keyframes ud-farol-luz { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.18); } }
+
+/* ---------- Paralaje y revelado del título ---------- */
+.ud .ud-hero { --px: 0; --py: 0; }
+.ud .ud-hero-escena { transform: translate(calc(var(--px) * -14px), calc(var(--py) * -8px)) scale(1.04); transition: transform 0.3s ease-out; }
+.ud .ud-hero-montes { translate: calc(var(--px) * -24px) calc(var(--py) * -10px); transition: translate 0.3s ease-out; }
+.ud .ud-hero-medalla { transform: translate(calc(var(--px) * 22px), calc(var(--py) * 14px)); transition: transform 0.3s ease-out; }
+.ud .ud-hero-mono { translate: calc(var(--px) * 34px) calc(var(--py) * 16px); transition: translate 0.3s ease-out; }
+.ud .ud-hero-placa { transform: perspective(1200px) rotateY(calc(var(--px) * 4deg)) rotateX(calc(var(--py) * -3deg)); transition: transform 0.3s ease-out; }
+.ud .ud-hero-h1 { animation: ud-tinta-titulo 1.3s 0.4s cubic-bezier(0.5, 0, 0.2, 1) both; }
+@keyframes ud-tinta-titulo { from { clip-path: inset(0 100% 0 0); filter: blur(6px); } 70% { filter: blur(0); } to { clip-path: inset(-20px -20px -20px -20px); } }
+.ud .ud-hero-sello { animation: ud-sello-cae 0.55s 1.2s cubic-bezier(0.5, 0, 0.75, 0) both; }
+@keyframes ud-sello-cae { from { opacity: 0; transform: rotate(20deg) scale(3.2); } 80% { opacity: 1; transform: rotate(6deg) scale(0.92); } to { transform: rotate(8deg) scale(1); } }
+.ud .ud-hero { animation: ud-hero-entra 0.8s cubic-bezier(0.2, 1, 0.3, 1) both, ud-sacude 0.35s 1.72s ease-out; }
+@keyframes ud-sacude { 30% { translate: 2px -2px; } 60% { translate: -2px 1px; } }
+
+/* ---------- Rodillo que baja ---------- */
+.ud .ud-rodillo.viajero { top: auto; bottom: auto; z-index: 5; animation: ud-rodillo-baja 0.85s cubic-bezier(0.25, 0.9, 0.3, 1) forwards; }
+@keyframes ud-rodillo-baja { from { top: 18px; opacity: 1; } 92% { top: calc(100% - 20px); opacity: 1; } to { top: calc(100% - 20px); opacity: 0; } }
+
+/* ---------- Chispas ---------- */
+.ud .ud-chispa { position: absolute; left: 50%; top: 50%; z-index: 5; width: 6px; height: 6px; margin: -3px; border-radius: 50%; pointer-events: none; background: #fff3c4; box-shadow: 0 0 8px 2px #f2c14e; animation: ud-chispa 0.75s ease-out forwards; }
+@keyframes ud-chispa { to { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; } }
+
+/* ---------- Rendimiento ---------- */
+.ud .ud-mundo-fondo .dn-escena * { animation: none !important; }
+.ud .ud-hero.ud-fuera, .ud .ud-hero.ud-fuera * { animation-play-state: paused !important; }
+
+/* ---------- Móvil ---------- */
+@media (max-width: 700px) {
+  html body .light-page .unit-page.ud { padding: 12px !important; }
+  .ud .ud-farol { display: none; }
+  .ud .ud-panel { padding: 18px 12px 20px; }
+  .ud .ud-aldaba { width: 36px; height: 36px; margin-top: -18px; border-width: 4px; }
+  .ud .ud-puertas-sello { position: absolute; left: 50%; top: 50%; z-index: 5; padding: 16px 18px; border-radius: 12px; font: 700 34px/1.15 var(--f-zh); text-align: center; letter-spacing: 0.06em; color: #fff3d6; background: #c8102e; box-shadow: inset 0 0 0 3px #f6c6c6, inset 0 0 0 6px #c8102e, inset 0 0 0 7px rgba(246, 198, 198, 0.7), 0 0 0 4px #f2c14e, 0 14px 30px rgba(0, 0, 0, 0.55); transform: translate(-50%, -50%) rotate(-4deg); animation: ud-sello-sale 0.6s 0.45s ease-in forwards; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ud .ud-puertas, .ud .ud-rodillo.viajero { display: none; }
+  .ud .ud-farol, .ud .ud-hero-h1, .ud .ud-hero-sello { animation: none !important; }
+}
