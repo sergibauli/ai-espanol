@@ -1450,6 +1450,8 @@ function WaComponent() {
   const [$, set$] = React.useState(false);
   const [_, set_] = React.useState(false);
   const [r, setR] = React.useState(1);
+  // true si la audición de este examen tiene sus voces de España generadas (MP3)
+  const [vozEspana, setVozEspana] = React.useState(false);
   const [f, setF] = React.useState(0);
   const [T, setT] = React.useState([]);
   const [X, setX] = React.useState(false);
@@ -1568,6 +1570,16 @@ function WaComponent() {
       return T[Math.min(Math.max(t, 0), T.length - 1)];
     }
   };
+  React.useEffect(() => {
+    let vivo = true;
+    setVozEspana(false);
+    if (n?.listening?.transcription) {
+      planVozEspana(n.listening.transcription, level, n.id).then((plan) => vivo && setVozEspana(Boolean(plan)));
+    }
+    return () => {
+      vivo = false;
+    };
+  }, [n, level]);
   const ds = async () => {
     if (!n?.listening?.transcription) {
       return;
@@ -2800,17 +2812,22 @@ function WaComponent() {
                             {t_1("Estudio de voces", "语音工作室")}
                           </p>
                           <p className="mt-1 text-xs text-white/40">
-                            {t_1(
-                              "Elige un personaje y todo el examen sonará con esa voz.",
-                              "选择角色，整场考试将使用该声音。",
-                            )}
+                            {vozEspana
+                              ? t_1(
+                                  "Este examen tiene sus propias voces nativas de España.",
+                                  "本考试使用专属的西班牙本地声音。",
+                                )
+                              : t_1(
+                                  "Elige un personaje y todo el examen sonará con esa voz.",
+                                  "选择角色，整场考试将使用该声音。",
+                                )}
                           </p>
                         </div>
                         <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] font-black uppercase tracking-[.18em] xd-ok">
                           Audio DELE
                         </span>
                       </div>
-                      {T.length === 0 ? (
+                      {vozEspana ? null : T.length === 0 ? (
                         <div className="flex items-center justify-center gap-3 rounded-2xl border border-white/5 bg-white/[.025] py-8 text-sm text-white/35">
                           <LoaderCircleIcon size={18} className="animate-spin xd-ok" />{" "}
                           {t_1("Preparando voces del dispositivo…", "正在准备设备语音…")}
