@@ -199,6 +199,7 @@ export default function OficialHubPage() {
                   <span className="dp-ventana">
                     <Escena vista={l.vista} />
                     <ParticulasNivel nivel={l.key} />
+                    <span className="dp-luz" aria-hidden="true" />
                     <span className="dp-hoja izq" aria-hidden="true" />
                     <span className="dp-hoja der" aria-hidden="true" />
                     {n > 0 && (
