@@ -51,6 +51,8 @@ import { a } from "../../lib/exams-loader.js";
 import { useLanguage } from "../../lib/i18n.jsx";
 import "../../data/generated-content.js";
 import "../../styles/v14-fix-examenes.css";
+import { turnosPractica, clavePractica } from "../../lib/vocesDele.js";
+import { cargarVocesDele, reproducirMp3 } from "../../lib/vocesDeleApp.js";
 function BsComponent({ onClose }) {
   return (
     <div
@@ -1027,8 +1029,39 @@ function de() {
   }
   return null;
 }
+// Audio de la comprensión auditiva con voces de España (MP3); ie() lo para igual que la voz del navegador
+let audioPractica = null;
+let turnoAudioPractica = 0;
 function ie() {
   de()?.cancel();
+  turnoAudioPractica += 1;
+  audioPractica?.pause();
+  audioPractica = null;
+}
+// Frases con su MP3 si el examen tiene todas sus voces generadas; si no, null (se usa la voz del navegador)
+async function planVozEspana(transcripcion, nivel, id) {
+  const { claves, repartos } = await cargarVocesDele();
+  const reparto = repartos[clavePractica(nivel, id)];
+  if (!reparto) return null;
+  const turnos = turnosPractica(transcripcion, reparto);
+  return turnos.length && turnos.every((turno) => !turno.clave || claves.has(turno.clave)) ? turnos : null;
+}
+// Reproduce las frases en orden; avisa del avance de cada una. Devuelve false si se interrumpe.
+async function reproducirPlan(turnos, velocidad, alAvanzar) {
+  const turno = turnoAudioPractica;
+  for (let indice = 0; indice < turnos.length; indice++) {
+    if (turno !== turnoAudioPractica) return false;
+    alAvanzar(indice, 0);
+    if (!turnos[indice].clave) continue;
+    await reproducirMp3(turnos[indice].clave, velocidad * 0.9, {
+      alEmpezar: (audio) => {
+        audioPractica = audio;
+      },
+      alAvanzar: (avance) => turno === turnoAudioPractica && alAvanzar(indice, avance),
+    });
+    if (turno === turnoAudioPractica && indice < turnos.length - 1) await new Promise((fin) => setTimeout(fin, 250));
+  }
+  return turno === turnoAudioPractica;
 }
 const It = {
   vocabulario: {
@@ -1535,7 +1568,7 @@ function WaComponent() {
       return T[Math.min(Math.max(t, 0), T.length - 1)];
     }
   };
-  const ds = () => {
+  const ds = async () => {
     if (!n?.listening?.transcription) {
       return;
     }
@@ -1552,12 +1585,33 @@ function WaComponent() {
       setGt_1(-1);
       return;
     }
+    const transcription = n.listening.transcription;
+    const plan = await planVozEspana(transcription, level, n.id);
+    if (plan) {
+      ie();
+      const palabrasPorFrase = plan.map((turno) => turno.frase.split(/\s+/).filter(Boolean).length);
+      const totalPalabras = palabrasPorFrase.reduce((suma, total) => suma + total, 0) || 1;
+      set_(true);
+      setHt(0);
+      setGt_1(0);
+      const completo = await reproducirPlan(plan, r, (indice, avance) => {
+        const antes = palabrasPorFrase.slice(0, indice).reduce((suma, total) => suma + total, 0);
+        const actual = antes + Math.floor(avance * palabrasPorFrase[indice]);
+        setGt_1(Math.min(totalPalabras - 1, actual));
+        setHt(Math.min(100, ((antes + avance * palabrasPorFrase[indice]) / totalPalabras) * 100));
+      });
+      if (completo) {
+        set_(false);
+        setGt_1(-1);
+        setHt(100);
+      }
+      return;
+    }
     const t = de();
     if (!t || typeof window.SpeechSynthesisUtterance !== "function") {
       alert(t_1("Tu navegador no permite reproducir este audio.", "你的浏览器无法播放此音频。"));
       return;
     }
-    const transcription = n.listening.transcription;
     const x = transcription.split(/\s+/).filter(Boolean);
     const d = (transcription.length * 68) / r;
     const p = d / x.length;
@@ -1609,7 +1663,23 @@ function WaComponent() {
     t.resume?.();
     window.setTimeout(() => de()?.speak(R), 40);
   };
-  const xs = () => {
+  const xs = async () => {
+    const plan = n?.listening?.transcription ? await planVozEspana(n.listening.transcription, level, n.id) : null;
+    if (plan) {
+      ie();
+      setHt(0);
+      setX(true);
+      setXt(false);
+      set$e(true);
+      set_(true);
+      setGt(0);
+      const completo = await reproducirPlan(plan, r, (indice) => setGt(indice));
+      if (completo) {
+        set_(false);
+        setGt(-1);
+      }
+      return;
+    }
     const t = de();
     if (!t || !n?.listening?.transcription) {
       return;

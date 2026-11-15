@@ -176,7 +176,7 @@ A pesar de los cambios, hay aspectos que permanecen igual. El trabajo en equipo 
     },
     listening: {
       title: "Entrevista de trabajo",
-      transcription: `Buenos días, soy Laura Pérez y vengo a la entrevista para el puesto de社区经理. Tengo tres años de experiencia en marketing digital y he trabajado en dos agencias diferentes.
+      transcription: `Buenos días, soy Laura Pérez y vengo a la entrevista para el puesto de gestora de comunidad. Tengo tres años de experiencia en marketing digital y he trabajado en dos agencias diferentes.
 
 Mi última experiencia fue en una startup tecnológica, donde gestionaba las redes sociales y creaba contenido para la web. Allí aprendí a manejar herramientas como Google Analytics, SEMrush y Hootsuite. Además, tengo un nivel avanzado de inglés y catalán.
 

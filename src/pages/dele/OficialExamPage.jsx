@@ -32,15 +32,10 @@ import {
 import * as React from "react";
 import TextoDele from "../../components/dele/TextoDele.jsx";
 import "../../styles/v14-fix-examenes.css";
-import { turnosDeAudio, anuncioAudio } from "../../lib/vocesDele.js";
+import { turnosDeAudio, anuncioAudio, claveOficial } from "../../lib/vocesDele.js";
 
-// Índice de MP3 con voces nativas (Piper) generados por scripts/voces-dele.py; se carga solo al abrir un audio
-let indiceVocesDele = null;
-const cargarIndiceVoces = () =>
-  (indiceVocesDele ??= import("../../data/audio-index-dele.json")
-    .then((modulo) => new Set(modulo.default || modulo))
-    .catch(() => new Set()));
-const urlVozDele = (clave) => `${import.meta.env.BASE_URL || "./"}audio/dele/${clave}.mp3`;
+// MP3 con voces nativas de España y reparto de voces de cada examen (se cargan al abrir un audio)
+import { cargarVocesDele as cargarIndiceVoces, urlVozDele } from "../../lib/vocesDeleApp.js";
 import { useParams, Link } from "react-router";
 import * as jsxRuntime from "react/jsx-runtime";
 import { u as u_1, C as C_2 } from "../../components/CorrectionDisplay.jsx";
@@ -454,7 +449,7 @@ function TsComponent({ escena, semilla }) {
     </div>
   );
 }
-function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
+function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave }) {
   const { t: t_1 } = useLanguage();
   const n = React.useMemo(() => {
     const y = h(clips);
@@ -507,7 +502,8 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
   const V = React.useCallback(
     (y) => {
       const A = B();
-      const hayNativas = vocesNativas && vocesNativas.size > 0;
+      const hayNativas = vocesNativas && vocesNativas.claves.size > 0;
+      const reparto = vocesNativas?.repartos?.[examenClave];
       if (!hayNativas && (!A || typeof window.SpeechSynthesisUtterance !== "function")) {
         alert(t_1("Tu navegador no permite reproducir este audio.", "你的浏览器无法播放此音频。"));
         return;
@@ -539,11 +535,11 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
           audio.play().catch(() => resolve(false));
         });
       const decir = async (turno, contexto) => {
-        if (vocesNativas?.has(turno.clave) && (await reproducirNativo(turno.clave))) return;
+        if (vocesNativas?.claves.has(turno.clave) && (await reproducirNativo(turno.clave))) return;
         if (TRef.current === z) await J(turno.texto, contexto);
       };
       const reproducirSegmento = async (texto) => {
-        const turnos = turnosDeAudio(texto);
+        const turnos = turnosDeAudio(texto, reparto);
         for (let indice = 0; indice < turnos.length; indice++) {
           if (TRef.current !== z) return;
           await decir(turnos[indice], texto);
@@ -578,7 +574,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
           const G = y + S;
           setD(G);
           const p = E[S].etiqueta || `Audio ${S + 1}`;
-          await decir(anuncioAudio(de(p, S + 1)), p);
+          await decir(anuncioAudio(de(p, S + 1), reparto), p);
           if (TRef.current !== z) {
             M.forEach(clearTimeout);
             return;
@@ -604,7 +600,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips }) {
         }
       })();
     },
-    [n, velocidad, t_1, vocesNativas],
+    [n, velocidad, t_1, vocesNativas, examenClave],
   );
   const U = React.useMemo(() => k_2(guion), [guion]);
   return (
@@ -1921,6 +1917,7 @@ function IaComponent() {
                       guion={a.guion}
                       items={a.items}
                       clips={a.clips}
+                      examenClave={claveOficial(examen.nivel || nivel, examen.modelo)}
                       velocidad={velocidad}
                       setVelocidad={setVelocidad}
                     />
@@ -2115,6 +2112,7 @@ function IaComponent() {
                           <div className="mt-3">
                             <GeComponent
                               guion={a_material.guionAudio}
+                              examenClave={claveOficial(examen.nivel || nivel, examen.modelo)}
                               velocidad={velocidad}
                               setVelocidad={setVelocidad}
                             />

@@ -19,3 +19,14 @@ description: Genera con la voz clonada del profesor (Fish Audio) o con la voz fe
    `tts.py` escribe en `INDEX` solo el lote actual: por eso se usa un índice temporal.
 3. Fusiona los temporales con `audio-index.json` y `audio-index-f.json` (unión de conjuntos, ordenado) y borra los temporales.
 4. Comprueba que ya no falta ningún texto y despliega (skill `desplegar`). Cada MP3 pesa ~25 KB: avisa al usuario si un lote supera unos miles de archivos.
+
+## Audios de los exámenes (DELE oficiales y de práctica)
+- Solo voces de España: diputados españoles de VoxPopuli clonados en Fish Audio (`scripts/voces-dele-pool.json`, `hNN` hombres, `mNN` mujeres; sexo comprobado por la altura de la voz).
+- Cada examen tiene su propio reparto (`src/data/reparto-dele.json`, narrador + voces que necesita, sin repetir el examen anterior ni un reparto entero). Lógica en `src/lib/vocesDele.js`; reproducción en `src/lib/vocesDeleApp.js`.
+- Tras añadir o cambiar exámenes:
+  ```bash
+  node scripts/reparto-dele.mjs > /tmp/lista.json
+  python3 scripts/voces-dele-referencias.py <parquets VoxPopuli> /tmp/ref   # solo si hay voces sin id de Fish
+  FISH_KEY=proxy-injected python3 scripts/voces-dele.py /tmp/lista.json /tmp/ref
+  ```
+  Si el script descarta una voz (no suena del sexo que toca), repite los dos pasos. Borra luego los MP3 de `public/audio/dele` que no estén en `audio-index-dele.json`.
