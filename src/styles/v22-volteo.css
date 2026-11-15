@@ -1,0 +1,261 @@
+/* ===== v22 · Unidades solo en español. Doble clic / doble toque gira la tarjeta entera y muestra el chino ===== */
+/* Español = pergamino y tinta. Chino = laca roja con caligrafía dorada. El giro levanta la tarjeta, la hace rodar,
+   pasa un destello de oro, suelta una onda de tinta desde el dedo y estampa el sello 中. */
+
+/* ---------- 1 · Mecánica del giro ---------- */
+.vt { position: relative; cursor: pointer; perspective: 1100px; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; outline: none; }
+.vt > .vt-giro { display: grid !important; position: relative; margin: 0 !important; padding: 0 !important; transform-style: preserve-3d; transform-origin: 50% 50%; }
+.vt > .vt-giro > .vt-cara {
+  grid-area: 1 / 1; display: block !important; position: relative; min-width: 0; margin: 0 !important;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+}
+.vt > .vt-giro > .vt-zh { transform: rotateX(180deg); }
+.vt.vt--girado > .vt-giro { transform: rotateX(180deg); }
+/* La tarjeta mide lo que ocupa la cara visible; la oculta queda superpuesta sin empujar */
+.vt:not(.vt--girado) > .vt-giro > .vt-zh,
+.vt.vt--girado > .vt-giro > .vt-es { position: absolute !important; top: 0; left: 0; right: 0; }
+
+/* Rueda con impulso: se levanta hacia el alumno, pasa del borde y asienta con un pequeño rebote */
+.vt.vt--a-zh > .vt-giro { animation: vt-a-zh .9s cubic-bezier(.2, .75, .25, 1) both; }
+.vt.vt--a-es > .vt-giro { animation: vt-a-es .9s cubic-bezier(.2, .75, .25, 1) both; }
+@keyframes vt-a-zh {
+  0% { transform: rotateX(0) translateZ(0) scale(1); }
+  30% { transform: rotateX(62deg) translateZ(46px) scale(1.06); }
+  62% { transform: rotateX(196deg) translateZ(22px) scale(1.03); }
+  80% { transform: rotateX(172deg) translateZ(4px) scale(1.01); }
+  100% { transform: rotateX(180deg) translateZ(0) scale(1); }
+}
+@keyframes vt-a-es {
+  0% { transform: rotateX(180deg) translateZ(0) scale(1); }
+  30% { transform: rotateX(118deg) translateZ(46px) scale(1.06); }
+  62% { transform: rotateX(-16deg) translateZ(22px) scale(1.03); }
+  80% { transform: rotateX(8deg) translateZ(4px) scale(1.01); }
+  100% { transform: rotateX(0) translateZ(0) scale(1); }
+}
+/* Sombra que crece mientras la tarjeta está «en el aire» */
+.vt.vt--a-zh, .vt.vt--a-es { animation: vt-sombra .9s ease-out both; }
+@keyframes vt-sombra { 0%, 100% { filter: none; } 35% { filter: drop-shadow(0 18px 18px rgba(70, 10, 20, .28)); } }
+
+/* Destello de oro que barre la cara que aparece */
+.vt-cara::before {
+  content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 236, 170, .0) 38%, rgba(255, 240, 190, .85) 50%, rgba(255, 236, 170, 0) 62%, transparent 70%) no-repeat;
+  background-size: 260% 100%; background-position: 130% 0;
+}
+.vt--a-zh .vt-zh::before, .vt--a-es .vt-es::before { animation: vt-destello .75s .5s ease-out both; }
+@keyframes vt-destello { 0% { opacity: 1; background-position: 130% 0; } 100% { opacity: 1; background-position: -40% 0; } }
+
+/* Onda de tinta dorada desde el punto del toque */
+.vt-onda {
+  position: absolute; z-index: 4; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; pointer-events: none;
+  border: 2px solid rgba(242, 193, 78, .95); background: radial-gradient(circle, rgba(200, 16, 46, .35), transparent 70%);
+  animation: vt-onda .85s cubic-bezier(.15, .7, .3, 1) forwards;
+}
+@keyframes vt-onda { from { transform: scale(.4); opacity: 1; } to { transform: scale(16); opacity: 0; border-width: .5px; } }
+
+/* Sello 中 que se estampa al terminar el giro */
+.vt-sello {
+  position: absolute; z-index: 3; top: 8px; right: 8px; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px;
+  font: 700 15px/1 "STKaiti", "KaiTi", "Kaiti SC", serif; font-style: normal; color: #8f0c21 !important;
+  background: linear-gradient(145deg, #fff0b0, #f2c14e 55%, #c8961e); box-shadow: 0 0 0 1.5px #8f0c21, 0 0 0 3px #f2c14e, 0 4px 8px rgba(40, 0, 8, .45);
+  transform: rotate(-8deg); opacity: 0; pointer-events: none;
+}
+.vt--girado .vt-sello { opacity: 1; }
+.vt--a-zh .vt-sello { animation: vt-estampa .45s .62s cubic-bezier(.3, 1.8, .55, 1) both; }
+@keyframes vt-estampa { from { opacity: 0; transform: scale(2.6) rotate(-32deg); } 60% { opacity: 1; } to { opacity: 1; transform: scale(1) rotate(-8deg); } }
+
+/* ---------- 2 · Cara china: laca roja, filete dorado, esquinas de oro y caligrafía ---------- */
+html body .light-page .vt > .vt-giro > .vt-zh {
+  padding: 14px 46px 14px 18px !important; border-radius: 14px !important; text-align: left;
+  color: #ffeab0 !important; text-shadow: 0 1px 0 rgba(60, 0, 10, .55);
+  font-family: "STKaiti", "KaiTi", "Kaiti SC", "PingFang SC", "Microsoft YaHei", serif !important;
+  background:
+    radial-gradient(circle at 100% 100%, rgba(242, 193, 78, .14) 0 22px, transparent 23px),
+    radial-gradient(circle at 0 0, rgba(255, 120, 130, .25), transparent 55%),
+    linear-gradient(160deg, #d42a3f 0%, #b30f2a 45%, #7d0a1c 100%) !important;
+  border: 1.5px solid #f2c14e !important;
+  box-shadow: inset 0 0 0 4px #8f0c21, inset 0 0 0 5px rgba(242, 193, 78, .5), 0 12px 26px rgba(90, 8, 20, .32) !important;
+}
+html body .light-page .vt > .vt-giro > .vt-zh::after {
+  content: ""; position: absolute; inset: 7px; border-radius: 9px; pointer-events: none; opacity: .9;
+  background:
+    linear-gradient(#f2c14e, #f2c14e) left top / 16px 2px no-repeat, linear-gradient(#f2c14e, #f2c14e) left top / 2px 16px no-repeat,
+    linear-gradient(#f2c14e, #f2c14e) right bottom / 16px 2px no-repeat, linear-gradient(#f2c14e, #f2c14e) right bottom / 2px 16px no-repeat,
+    linear-gradient(#f2c14e, #f2c14e) left bottom / 16px 2px no-repeat, linear-gradient(#f2c14e, #f2c14e) left bottom / 2px 16px no-repeat;
+}
+html body .light-page .vt > .vt-giro > .vt-zh * { color: inherit !important; font-family: inherit !important; text-transform: none !important; letter-spacing: .02em !important; background: none !important; }
+html body .light-page .vt > .vt-giro > .vt-zh b, html body .light-page .vt > .vt-giro > .vt-zh th { color: #fff6d6 !important; font-weight: 700 !important; }
+html body .light-page .vt > .vt-giro > .vt-zh svg { color: #f2c14e !important; }
+html body .light-page .vt > .vt-giro > .vt-zh table { background: transparent !important; width: 100%; }
+html body .light-page .vt > .vt-giro > .vt-zh :is(th, td) { border-color: rgba(242, 193, 78, .35) !important; background: transparent !important; }
+html body .light-page .vt > .vt-giro > .vt-zh tr:first-child th { border-bottom: 1.5px solid #f2c14e !important; }
+
+/* Pista discreta al pasar el ratón y foco de teclado */
+@media (hover: hover) {
+  .vt:hover > .vt-giro > .vt-es { box-shadow: 0 0 0 2px rgba(242, 193, 78, .65), 0 10px 22px rgba(110, 70, 20, .16) !important; }
+}
+.vt:focus-visible > .vt-giro { outline: 2.5px solid #c8961e; outline-offset: 4px; border-radius: 12px; }
+
+/* ---------- 3 · Diseño del contenido en español (pergamino, tinta y laca) ---------- */
+/* Títulos de sección: cinta de laca con cola de golondrina; en chino, cinta de oro con letra roja */
+html body .light-page .unit-page .gd--volteo h4.vt { margin: 22px 0 12px; }
+html body .light-page .unit-page .gd--volteo h4.vt > .vt-giro { justify-items: start; }
+html body .light-page .unit-page .gd--volteo .gd-h.vt-cara {
+  display: block !important; width: fit-content; max-width: 100%; margin: 0 !important;
+  padding: 9px 34px 9px 18px !important; border: 0 !important; border-radius: 4px 0 0 4px !important;
+  font: 800 15px/1.3 var(--ui-font), system-ui, sans-serif !important; letter-spacing: .06em; text-transform: uppercase;
+  color: #fff3d6 !important; text-shadow: 0 1px 0 rgba(60, 0, 10, .5);
+  background: linear-gradient(180deg, #d42a3f, #a50e27 60%, #8f0c21) !important;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 50%, 100% 100%, 0 100%);
+  box-shadow: inset 0 2px 0 rgba(255, 220, 160, .35), inset 0 -2px 0 rgba(0, 0, 0, .2) !important;
+}
+html body .light-page .unit-page .gd--volteo .gd-h.vt-cara::after { display: none !important; }
+html body .light-page .unit-page .gd--volteo h4.vt > .vt-giro > .gd-h.vt-es::after {
+  content: "" !important; display: block !important; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 3px; border-radius: 2px;
+  background: linear-gradient(#ffe08a, #c8961e) !important; flex: none; height: auto;
+}
+html body .light-page .unit-page .gd--volteo .gd-h.vt-cara::before { display: none !important; }
+html body .light-page .unit-page .gd--volteo h4.vt > .vt-giro > .gd-h.vt-zh {
+  padding: 9px 40px 9px 18px !important; border: 0 !important; color: #8f0c21 !important; text-shadow: none;
+  background: linear-gradient(180deg, #fff3c4, #f2c14e 55%, #c8961e) !important; box-shadow: inset 0 2px 0 rgba(255, 255, 255, .6) !important;
+  font-family: "STKaiti", "KaiTi", "Kaiti SC", serif !important; font-size: 17px !important;
+}
+html body .light-page .unit-page .gd--volteo h4.vt > .vt-giro > .gd-h.vt-zh::after { display: none !important; }
+html body .light-page .unit-page .gd--volteo h4.vt .vt-sello { top: 50%; right: 18px; margin-top: -13px; color: #fff3d6 !important; background: #c8102e; box-shadow: 0 0 0 1.5px #fff3d6, 0 3px 6px rgba(40, 0, 8, .35); }
+
+/* Párrafos: tipografía editorial; el primero lleva capitular iluminada */
+html body .light-page .unit-page .gd--volteo .gd-intro.vt-cara { margin: 0 !important; font: 400 17.5px/1.75 "Source Serif 4", Georgia, serif !important; color: #2a1a0d !important; }
+html body .light-page .unit-page .gd--volteo .vt.gd-capitular + *, html body .light-page .unit-page .gd--volteo div.vt { margin-bottom: 14px; }
+html body .light-page .unit-page .gd--volteo .gd-capitular .gd-intro.vt-es::first-letter {
+  float: left; margin: 6px 10px 0 0; padding: 4px 10px 6px; border-radius: 8px;
+  font: 900 46px/.9 Cinzel, Georgia, serif; color: #f2c14e;
+  background: linear-gradient(160deg, #d42a3f, #8f0c21); box-shadow: inset 0 0 0 2px #8f0c21, inset 0 0 0 3.5px #f2c14e, 0 6px 12px rgba(90, 8, 20, .28);
+  text-shadow: 0 2px 0 #5e0715;
+}
+html body .light-page .unit-page .gd--volteo .gd-capitular .gd-intro.vt-es::after { content: ""; display: block; clear: both; }
+
+/* Puntos: tablillas de pergamino con canto de laca y esquina dorada */
+html body .light-page .unit-page .gd--volteo .gd-items { display: grid; gap: 12px; }
+html body .light-page .unit-page .gd--volteo .gd-items > .vt, html body .light-page .unit-page .gd--volteo .gd-items > .vt-solo { margin: 0 !important; }
+html body .light-page .unit-page .gd--volteo .gd-point.vt-es, html body .light-page .unit-page .gd--volteo .gd-point.vt-solo {
+  margin: 0 !important; padding: 14px 40px 14px 20px !important; border-radius: 12px !important;
+  background: linear-gradient(170deg, #fffdf6, #fbf1d8 70%, #f5e4bb) !important;
+  border: 1.5px solid #e2c47c !important; border-left: 6px solid #c8102e !important;
+  box-shadow: inset 0 1px 0 #fff, 0 6px 14px rgba(110, 70, 20, .12) !important;
+  transition: box-shadow .25s, transform .25s;
+}
+html body .light-page .unit-page .gd--volteo .gd-point.vt-es::after {
+  content: ""; position: absolute; top: 10px; right: 12px; width: 12px; height: 12px; transform: rotate(45deg);
+  background: linear-gradient(135deg, #ffe08a, #c8961e); box-shadow: 0 0 0 2px #fffaf0, 0 0 0 3px rgba(200, 150, 30, .55);
+}
+html body .light-page .unit-page .gd--volteo .gd-point.vt-cara b { display: block !important; font: 800 17px/1.35 var(--ui-font), system-ui, sans-serif !important; color: #8f0c21; text-transform: none !important; letter-spacing: 0 !important; }
+html body .light-page .unit-page .gd--volteo .gd-point.vt-cara b + span { display: block !important; margin-top: 4px !important; font: 400 15.5px/1.55 "Source Serif 4", Georgia, serif !important; color: #3f2a17; }
+html body .light-page .unit-page .gd--volteo .gd-point.vt-zh b { font-size: 19px !important; }
+html body .light-page .unit-page .gd--volteo .gd-point.vt-zh b + span { font-size: 17px !important; }
+
+/* Tablas: marco dorado y cabecera lacada */
+html body .light-page .unit-page .gd--volteo .gd-table.vt-cara { margin: 0 !important; padding: 0 !important; overflow-x: auto; border-radius: 12px !important; box-shadow: 0 0 0 1.5px #d9b465, 0 0 0 4px #fffaf0, 0 0 0 5.5px rgba(200, 150, 30, .45), 0 10px 22px rgba(110, 70, 20, .14) !important; }
+html body .light-page .unit-page .gd--volteo .gd-table.vt-zh { padding: 10px 40px 10px 10px !important; }
+
+/* Notas y errores: pergamino colgante con varillas */
+html body .light-page .unit-page .gd--volteo :is(.gd-note, .gd-error) { position: relative; border-radius: 6px !important; padding-top: 22px !important; }
+html body .light-page .unit-page .gd--volteo :is(.gd-note, .gd-error)::before {
+  content: ""; position: absolute; left: -8px; right: -8px; top: -6px; height: 12px; border-radius: 6px;
+  background: linear-gradient(180deg, #b07a3a, #6e4210 60%, #4a2a08); box-shadow: 0 3px 6px rgba(60, 30, 5, .35);
+}
+html body .light-page .unit-page .gd--volteo .gd-error::before { background: linear-gradient(180deg, #d42a3f, #8f0c21 60%, #5e0715); }
+html body .light-page .unit-page .gd--volteo :is(.gd-note, .gd-error) > b.vt, html body .light-page .unit-page .gd--volteo :is(.gd-note, .gd-error) > .vt { display: block; margin-bottom: 8px; }
+html body .light-page .unit-page .gd--volteo .gd-nota-linea.vt-es { font: 400 16px/1.65 "Source Serif 4", Georgia, serif; color: #3b2416; padding: 2px 0; }
+html body .light-page .unit-page .gd--volteo :is(.gd-note, .gd-error) .vt + .vt { margin-top: 8px; }
+
+/* Ejemplos: placas con medallón de sonido */
+html body .light-page .unit-page .gd--volteo .gd-examples { display: grid; gap: 12px; }
+html body .light-page .unit-page .gd--volteo .gd-ex.vt-cara { display: flex !important; align-items: center; gap: 14px; padding: 14px 44px 14px 14px !important; border-radius: 14px !important; text-align: left; }
+html body .light-page .unit-page .gd--volteo .gd-ex.vt-es {
+  background: linear-gradient(170deg, #fffdf6, #f6e7c2) !important; border: 1.5px solid #d9b465 !important;
+  box-shadow: inset 0 0 0 3px #fffaf0, inset 0 0 0 4px rgba(214, 180, 110, .45), 0 6px 14px rgba(110, 80, 30, .16) !important;
+}
+html body .light-page .unit-page .gd--volteo .gd-ex.vt-cara svg {
+  flex: none; width: 38px !important; height: 38px !important; padding: 9px; border-radius: 50%; color: #fff3d6 !important;
+  background: linear-gradient(160deg, #d42a3f, #8f0c21); box-shadow: 0 0 0 2px #f2c14e, 0 4px 8px rgba(90, 8, 20, .3);
+}
+html body .light-page .unit-page .gd--volteo .gd-ex.vt-zh svg { color: #8f0c21 !important; background: linear-gradient(160deg, #fff0b0, #f2c14e) !important; box-shadow: 0 0 0 2px #fff3d6 !important; }
+html body .light-page .unit-page .gd--volteo .gd-ex.vt-cara b { font: 700 17.5px/1.4 Georgia, "Source Serif 4", serif; color: #2a1a0d; }
+html body .light-page .unit-page .gd--volteo .gd-ex.vt-zh b { font-size: 19px; }
+
+/* Título del tema (cabecera de la guía) */
+html body .light-page .unit-page .gd--volteo .gd-head h3.vt { display: inline-block; max-width: 100%; }
+html body .light-page .unit-page .gd--volteo .gd-head h3.vt > .vt-giro > .vt-zh { font-size: .82em !important; padding: 8px 46px 8px 16px !important; }
+html body .light-page .unit-page .gd-visto::after { content: none !important; }
+
+/* Cabecera de la unidad, clases y objetivo: la cara china es una placa de oro compacta */
+html body .light-page .unit-page :is(.unit-titulo-vt, .unit-sub-vt, .cls-tarjeta b.vt, .cls-objetivo p.vt) { display: block; }
+html body .light-page .unit-page :is(.unit-titulo-vt, .unit-sub-vt, .cls-tarjeta b.vt, .cls-objetivo p.vt) > .vt-giro > .vt-zh {
+  padding: 4px 40px 4px 12px !important; border-radius: 10px !important; color: #8f0c21 !important; text-shadow: none;
+  background: linear-gradient(180deg, #fff3c4, #f2c14e 60%, #d9a52e) !important; border: 1.5px solid #fff3d6 !important;
+  box-shadow: 0 8px 18px rgba(60, 5, 15, .3) !important;
+}
+html body .light-page .unit-page :is(.unit-titulo-vt, .unit-sub-vt, .cls-tarjeta b.vt, .cls-objetivo p.vt) > .vt-giro > .vt-zh::after { display: none; }
+html body .light-page .unit-page :is(.unit-titulo-vt, .unit-sub-vt, .cls-tarjeta b.vt, .cls-objetivo p.vt) .vt-sello { top: 50%; margin-top: -13px; right: 8px; color: #fff3d6 !important; background: #c8102e; box-shadow: 0 0 0 1.5px #fff3d6; }
+html body .light-page .unit-page .cls-tarjeta b.vt > .vt-giro > .vt-zh { font-size: 15px; padding: 2px 34px 2px 8px !important; }
+html body .light-page .unit-page .cls-tarjeta b.vt .vt-sello { width: 20px; height: 20px; font-size: 12px; margin-top: -10px; }
+
+/* ---------- 4 · Aviso del gesto ---------- */
+.vt-aviso {
+  display: inline-flex !important; align-items: center; gap: 10px; margin: 12px 0 0; padding: 6px 16px 6px 6px; border-radius: 999px;
+  font: 700 13px var(--ui-font, system-ui), sans-serif; color: #6e0717;
+  background: linear-gradient(180deg, #fffaf0, #f8e9c6); border: 1.5px solid rgba(200, 150, 30, .7); box-shadow: 0 4px 10px rgba(110, 70, 20, .12);
+}
+.vt-aviso__icono { position: relative; flex: none; width: 30px; height: 30px; perspective: 200px; }
+.vt-aviso__icono i {
+  position: absolute; inset: 0; display: grid; place-items: center; border-radius: 50%; font-style: normal; backface-visibility: hidden;
+  font: 800 12px/1 var(--ui-font, system-ui), sans-serif; color: #8f0c21; background: linear-gradient(180deg, #fff3c4, #f2c14e); box-shadow: 0 0 0 1.5px #c8961e;
+  animation: vt-aviso-gira 3.2s cubic-bezier(.5, 0, .3, 1) infinite;
+}
+.vt-aviso__icono i + i { font: 700 15px/1 "STKaiti", "KaiTi", serif; color: #ffeab0; background: linear-gradient(160deg, #d42a3f, #8f0c21); box-shadow: 0 0 0 1.5px #f2c14e; animation-name: vt-aviso-gira-zh; }
+@keyframes vt-aviso-gira { 0%, 40% { transform: rotateX(0); } 50%, 90% { transform: rotateX(180deg); } 100% { transform: rotateX(360deg); } }
+@keyframes vt-aviso-gira-zh { 0%, 40% { transform: rotateX(180deg); } 50%, 90% { transform: rotateX(360deg); } 100% { transform: rotateX(540deg); } }
+
+/* ---------- 5 · Menos movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .vt.vt--a-zh > .vt-giro, .vt.vt--a-es > .vt-giro, .vt.vt--a-zh, .vt.vt--a-es, .vt-cara::before, .vt-onda, .vt-sello, .vt-aviso__icono i { animation: none !important; }
+}
+
+/* ---------- 6 · Seguridad y casos especiales ---------- */
+/* La cara que no se ve se oculta del todo al pasar la mitad del giro (por si un estilo heredado rompe el backface) */
+.vt > .vt-giro > .vt-cara { transition: visibility 0s 0s; }
+.vt:not(.vt--girado) > .vt-giro > .vt-zh, .vt.vt--girado > .vt-giro > .vt-es { visibility: hidden; transition: visibility 0s .42s; }
+
+/* Título de la cabecera: el degradado dorado (background-clip: text) va en la cara española, no en el h1 */
+html body .light-page .unit-page .unit-hero .unit-hero-text h1.unit-titulo-vt {
+  background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important;
+  -webkit-text-fill-color: initial !important; color: inherit; filter: none;
+}
+html body .light-page .unit-page .unit-hero .unit-titulo-vt > .vt-giro > .vt-es {
+  background: linear-gradient(180deg, #fff6c8, #f6d77e 45%, #d9a43a 75%, #b97a1c) !important;
+  -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 3px 0 rgba(90, 10, 20, .55));
+}
+html body .light-page .unit-page .unit-hero .unit-titulo-vt > .vt-giro > .vt-es::before { display: none; }
+html body .light-page .unit-page .unit-hero .unit-titulo-vt > .vt-giro > .vt-zh { -webkit-text-fill-color: #8f0c21 !important; font-size: .78em !important; width: fit-content; margin: 0 auto !important; }
+html body .light-page .unit-page .unit-hero .unit-titulo-vt > .vt-giro { justify-items: center; }
+html body .light-page .unit-page .unit-hero .unit-sub-vt > .vt-giro { justify-items: center; }
+html body .light-page .unit-page .unit-hero .unit-sub-vt > .vt-giro > .vt-zh { width: fit-content; margin: 0 auto !important; }
+
+/* Cinta dorada china: hueco para el sello */
+html body .light-page .unit-page .gd--volteo h4.vt > .vt-giro > .gd-h.vt-zh { padding-right: 66px !important; }
+html body .light-page .unit-page .gd--volteo h4.vt .vt-sello { right: 26px; }
+
+/* ---------- 7 · Las caras nunca heredan transformaciones ajenas ---------- */
+/* Estilos antiguos (p. ej. «.gd-point:hover { transform: translateY(-1px) }») sustituían el giro de 180° de la
+   cara china: quedaba de espaldas, invisible, y con una transición que daba tirones. Las caras quedan fijas. */
+html body .light-page .vt > .vt-giro > .vt-es,
+html body .light-page .vt > .vt-giro > .vt-es:hover { transform: none !important; transition: visibility 0s 0s, box-shadow .25s !important; }
+html body .light-page .vt > .vt-giro > .vt-zh,
+html body .light-page .vt > .vt-giro > .vt-zh:hover { transform: rotateX(180deg) !important; transition: visibility 0s 0s !important; }
+html body .light-page .vt:not(.vt--girado) > .vt-giro > .vt-zh,
+html body .light-page .vt.vt--girado > .vt-giro > .vt-es { transition: visibility 0s .42s !important; }
+/* El conjunto tampoco se mueve con hover; solo la animación del giro lo transforma */
+html body .light-page .vt:hover, html body .light-page .vt:hover > .vt-giro:not([style]) { translate: none; }
+.vt > .vt-giro { will-change: transform; }
+.vt-cara { -webkit-transform-style: flat; transform-style: flat; }

@@ -14,6 +14,8 @@ import "../../styles/v16-shell.css";
 import "../../styles/v18-laca.css";
 import { FondoV18, AdornosBarra, Emblema } from "./DecoV18.jsx";
 import { precargar, precargarSecciones } from "../../lib/precarga.js";
+import { TarjetaInstalar } from "./AvisosApp.jsx";
+import "../../styles/v21-app.css";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
 const MAIN = [
@@ -97,6 +99,7 @@ function HojaMas({ abierta, onCerrar, activo }) {
             </Link>
           ))}
         </div>
+        <TarjetaInstalar />
         <span className="in-mas__rodillo abajo" aria-hidden="true" />
       </div>
     </div>
@@ -171,7 +174,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
             Salir · 退出
           </a>
         </nav>
-        <main ref={mainRef} className={pathname.startsWith("/juegos/") ? "game-bg" : ""} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
+        <main key={pathname} ref={mainRef} className={`app-pantalla ${pathname.startsWith("/juegos/") ? "game-bg" : ""}`} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
       </div>
       {createPortal(
         <>

@@ -51,6 +51,8 @@ import { a } from "../../lib/exams-loader.js";
 import { useLanguage } from "../../lib/i18n.jsx";
 import "../../data/generated-content.js";
 import "../../styles/v14-fix-examenes.css";
+import { turnosPractica, clavePractica } from "../../lib/vocesDele.js";
+import { cargarVocesDele, reproducirMp3 } from "../../lib/vocesDeleApp.js";
 function BsComponent({ onClose }) {
   return (
     <div
@@ -1027,8 +1029,39 @@ function de() {
   }
   return null;
 }
+// Audio de la comprensión auditiva con voces de España (MP3); ie() lo para igual que la voz del navegador
+let audioPractica = null;
+let turnoAudioPractica = 0;
 function ie() {
   de()?.cancel();
+  turnoAudioPractica += 1;
+  audioPractica?.pause();
+  audioPractica = null;
+}
+// Frases con su MP3 si el examen tiene todas sus voces generadas; si no, null (se usa la voz del navegador)
+async function planVozEspana(transcripcion, nivel, id) {
+  const { claves, repartos } = await cargarVocesDele();
+  const reparto = repartos[clavePractica(nivel, id)];
+  if (!reparto) return null;
+  const turnos = turnosPractica(transcripcion, reparto);
+  return turnos.length && turnos.every((turno) => !turno.clave || claves.has(turno.clave)) ? turnos : null;
+}
+// Reproduce las frases en orden; avisa del avance de cada una. Devuelve false si se interrumpe.
+async function reproducirPlan(turnos, velocidad, alAvanzar) {
+  const turno = turnoAudioPractica;
+  for (let indice = 0; indice < turnos.length; indice++) {
+    if (turno !== turnoAudioPractica) return false;
+    alAvanzar(indice, 0);
+    if (!turnos[indice].clave) continue;
+    await reproducirMp3(turnos[indice].clave, velocidad * 0.9, {
+      alEmpezar: (audio) => {
+        audioPractica = audio;
+      },
+      alAvanzar: (avance) => turno === turnoAudioPractica && alAvanzar(indice, avance),
+    });
+    if (turno === turnoAudioPractica && indice < turnos.length - 1) await new Promise((fin) => setTimeout(fin, 250));
+  }
+  return turno === turnoAudioPractica;
 }
 const It = {
   vocabulario: {
@@ -1417,6 +1450,8 @@ function WaComponent() {
   const [$, set$] = React.useState(false);
   const [_, set_] = React.useState(false);
   const [r, setR] = React.useState(1);
+  // true si la audición de este examen tiene sus voces de España generadas (MP3)
+  const [vozEspana, setVozEspana] = React.useState(false);
   const [f, setF] = React.useState(0);
   const [T, setT] = React.useState([]);
   const [X, setX] = React.useState(false);
@@ -1535,7 +1570,17 @@ function WaComponent() {
       return T[Math.min(Math.max(t, 0), T.length - 1)];
     }
   };
-  const ds = () => {
+  React.useEffect(() => {
+    let vivo = true;
+    setVozEspana(false);
+    if (n?.listening?.transcription) {
+      planVozEspana(n.listening.transcription, level, n.id).then((plan) => vivo && setVozEspana(Boolean(plan)));
+    }
+    return () => {
+      vivo = false;
+    };
+  }, [n, level]);
+  const ds = async () => {
     if (!n?.listening?.transcription) {
       return;
     }
@@ -1552,12 +1597,33 @@ function WaComponent() {
       setGt_1(-1);
       return;
     }
+    const transcription = n.listening.transcription;
+    const plan = await planVozEspana(transcription, level, n.id);
+    if (plan) {
+      ie();
+      const palabrasPorFrase = plan.map((turno) => turno.frase.split(/\s+/).filter(Boolean).length);
+      const totalPalabras = palabrasPorFrase.reduce((suma, total) => suma + total, 0) || 1;
+      set_(true);
+      setHt(0);
+      setGt_1(0);
+      const completo = await reproducirPlan(plan, r, (indice, avance) => {
+        const antes = palabrasPorFrase.slice(0, indice).reduce((suma, total) => suma + total, 0);
+        const actual = antes + Math.floor(avance * palabrasPorFrase[indice]);
+        setGt_1(Math.min(totalPalabras - 1, actual));
+        setHt(Math.min(100, ((antes + avance * palabrasPorFrase[indice]) / totalPalabras) * 100));
+      });
+      if (completo) {
+        set_(false);
+        setGt_1(-1);
+        setHt(100);
+      }
+      return;
+    }
     const t = de();
     if (!t || typeof window.SpeechSynthesisUtterance !== "function") {
       alert(t_1("Tu navegador no permite reproducir este audio.", "你的浏览器无法播放此音频。"));
       return;
     }
-    const transcription = n.listening.transcription;
     const x = transcription.split(/\s+/).filter(Boolean);
     const d = (transcription.length * 68) / r;
     const p = d / x.length;
@@ -1609,7 +1675,23 @@ function WaComponent() {
     t.resume?.();
     window.setTimeout(() => de()?.speak(R), 40);
   };
-  const xs = () => {
+  const xs = async () => {
+    const plan = n?.listening?.transcription ? await planVozEspana(n.listening.transcription, level, n.id) : null;
+    if (plan) {
+      ie();
+      setHt(0);
+      setX(true);
+      setXt(false);
+      set$e(true);
+      set_(true);
+      setGt(0);
+      const completo = await reproducirPlan(plan, r, (indice) => setGt(indice));
+      if (completo) {
+        set_(false);
+        setGt(-1);
+      }
+      return;
+    }
     const t = de();
     if (!t || !n?.listening?.transcription) {
       return;
@@ -2730,17 +2812,22 @@ function WaComponent() {
                             {t_1("Estudio de voces", "语音工作室")}
                           </p>
                           <p className="mt-1 text-xs text-white/40">
-                            {t_1(
-                              "Elige un personaje y todo el examen sonará con esa voz.",
-                              "选择角色，整场考试将使用该声音。",
-                            )}
+                            {vozEspana
+                              ? t_1(
+                                  "Este examen tiene sus propias voces nativas de España.",
+                                  "本考试使用专属的西班牙本地声音。",
+                                )
+                              : t_1(
+                                  "Elige un personaje y todo el examen sonará con esa voz.",
+                                  "选择角色，整场考试将使用该声音。",
+                                )}
                           </p>
                         </div>
                         <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] font-black uppercase tracking-[.18em] xd-ok">
                           Audio DELE
                         </span>
                       </div>
-                      {T.length === 0 ? (
+                      {vozEspana ? null : T.length === 0 ? (
                         <div className="flex items-center justify-center gap-3 rounded-2xl border border-white/5 bg-white/[.025] py-8 text-sm text-white/35">
                           <LoaderCircleIcon size={18} className="animate-spin xd-ok" />{" "}
                           {t_1("Preparando voces del dispositivo…", "正在准备设备语音…")}
