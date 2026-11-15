@@ -1,8 +1,8 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { XIcon, Volume2Icon, LanguagesIcon, PlayIcon, PauseIcon, ChevronRightIcon, RotateCcwIcon } from "lucide-react";
-import { Personaje, CabezaPersonaje, rasgos, tunicaN, NUM_TUNICAS } from "./Personaje.jsx";
-import { sfx, speakWait, stopSpeak, confetti } from "./fx.js";
+import { Personaje, CabezaPersonaje, rasgos, tunicaN, NUM_TUNICAS, gestoDe, emocionDe, visemas } from "./Personaje.jsx";
+import { sfx, speakWait, stopSpeak, confetti, audioProgress } from "./fx.js";
 import { addXp } from "../../lib/gamification.js";
 import { CAST } from "./StoryPlayer.jsx";
 import { DialogScene, temaDeDialogo, NOMBRE_TEMA } from "./DialogScenes.jsx";
@@ -26,8 +26,8 @@ export function DialogStage({ story, onClose }) {
       const r = rasgos(nombre, c.voice === "f", i);
       // Cada personaje con una túnica distinta
       let t = 0;
-      while (usadas.has(r.tunica[0]) && t < NUM_TUNICAS) r.tunica = tunicaN(NUM_TUNICAS + t++ + i);
-      usadas.add(r.tunica[0]);
+      while (usadas.has(r.tunica.robe) && t < NUM_TUNICAS) r.tunica = tunicaN(NUM_TUNICAS + t++ + i);
+      usadas.add(r.tunica.robe);
       return { nombre, quien: l.quien, voice: c.voice, r, x: pos[i], lado: pos[i] < 50 ? "izq" : pos[i] > 50 ? "der" : "centro" };
     });
   }, [lineas]);
@@ -73,6 +73,31 @@ export function DialogStage({ story, onClose }) {
     const el = guionRef.current?.querySelector(`[data-i="${playing >= 0 ? playing : shown - 1}"]`);
     el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [shown, playing]);
+
+  // Sincronía labial: la boca del que habla sigue los visemas de la frase al ritmo real del audio
+  const stageRef = React.useRef(null);
+  React.useEffect(() => {
+    if (playing < 0) return;
+    const l = lineas[playing];
+    const svg = stageRef.current?.querySelector(`.dlg-actor[data-n="${CSS.escape(l.nombre)}"] svg.pj`);
+    if (!svg) return;
+    const vis = visemas(l.es);
+    const t0 = performance.now();
+    const estimado = Math.max(1200, l.es.length * 78);
+    let raf = 0;
+    let prev = "";
+    const tick = () => {
+      const p = audioProgress() ?? (performance.now() - t0) / estimado;
+      const v = p >= 1 ? "r" : vis[Math.min(vis.length - 1, Math.floor(p * vis.length))];
+      if (v !== prev) svg.dataset.v = prev = v;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      svg.dataset.v = "r";
+    };
+  }, [playing, lineas]);
 
   const finish = () => {
     stopSpeak();
@@ -151,7 +176,7 @@ export function DialogStage({ story, onClose }) {
 
       <div className="dlg-body">
         <section className="dlg-theatre">
-          <div className="dlg-stage">
+          <div className="dlg-stage" ref={stageRef}>
             <DialogScene tema={tema} />
             <div className="dlg-clouds" aria-hidden="true">
               <i />
@@ -183,8 +208,15 @@ export function DialogStage({ story, onClose }) {
             {reparto.map((r) => {
               const habla = playing >= 0 && hablante?.nombre === r.nombre;
               const turno = hablante?.nombre === r.nombre;
+              const gesto = habla ? gestoDe(lActual.es) : turno ? "reposo" : "escucha";
+              const emo = turno && lActual ? emocionDe(lActual.es) : "neutra";
               return (
-                <div key={r.nombre} className={`dlg-actor ${r.lado} ${habla ? "talk" : ""} ${turno ? "turn" : "idle"}`} style={{ left: `${r.x}%` }}>
+                <div
+                  key={r.nombre}
+                  data-n={r.nombre}
+                  className={`dlg-actor ${r.lado} ${habla ? "talk" : ""} ${turno ? "turn" : "idle"} g-${gesto} e-${emo}`}
+                  style={{ left: `${r.x}%`, "--mira": hablante && hablante.nombre !== r.nombre ? (hablante.x > r.x) === (r.lado !== "der") ? "4px" : "-4px" : "0px" }}
+                >
                   <div className="dlg-waves" aria-hidden="true">
                     <i />
                     <i />
@@ -193,7 +225,9 @@ export function DialogStage({ story, onClose }) {
                   <div className="dlg-figure">
                     <Personaje r={r.r} />
                   </div>
-                  <span className="dlg-name">{r.nombre}</span>
+                  <span className="dlg-name">
+                    {r.nombre}
+                  </span>
                 </div>
               );
             })}

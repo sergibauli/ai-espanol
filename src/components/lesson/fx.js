@@ -79,6 +79,13 @@ export function speakWait(text, rate = 0.9, voice = "m") {
   return new Promise((resolve) => play(text, rate, voice, resolve));
 }
 
+// Avance (0–1) del MP3 que suena, o null si no se sabe (voz del sistema): sirve para mover la boca a tiempo
+export function audioProgress() {
+  const a = current;
+  if (a && !a.paused && a.duration > 0 && Number.isFinite(a.duration)) return a.currentTime / a.duration;
+  return null;
+}
+
 // Corta lo que esté sonando (y resuelve las promesas pendientes de speakWait)
 export function stopSpeak() {
   try {
