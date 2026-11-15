@@ -78,6 +78,15 @@ const normalizar = (t) =>
     .trim();
 
 const TITULO = "El templo de los sonidos";
+// Teja vidriada (琉璃瓦) de cada sala: [brillo, sombra]
+const TEJAS = {
+  labios: ["#ffe08a", "#c8901e"],
+  bambu: ["#8fd99a", "#2c6b3a"],
+  trueno: ["#ffd16a", "#b5711a"],
+  campana: ["#7fe0d2", "#14675f"],
+  montana: ["#8fb0f0", "#1f3a7a"],
+  linterna: ["#ffe08a", "#c8901e"],
+};
 
 // Pronunciación: un solo templo. Nivel 1 = las seis salas con sus familias; nivel 2 = una familia con sus sílabas,
 // y para cada sílaba sus palabras, frases y textos para escuchar, pronunciar y practicar.
@@ -312,32 +321,42 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
             const oidasSala = familias.reduce((n, f) => n + oidasDe(f), 0);
             return (
               <section key={s.id} className="pv-pab" style={{ "--sala": s.color, "--tinta": s.tinta, "--k": k }} aria-label={`${s.es} · ${s.zh}`}>
+                <span className="pv-pab__aura" aria-hidden="true" />
                 <div className="pv-pab__tejado" aria-hidden="true">
-                  <svg viewBox="0 0 400 128">
+                  <svg viewBox="0 0 400 140">
                     <defs>
-                      <linearGradient id="pvTeja" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0" stopColor="#4a1420" />
-                        <stop offset="1" stopColor="#1c0509" />
+                      <linearGradient id={`pvVidrio-${s.id}`} x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stopColor={TEJAS[s.id][0]} />
+                        <stop offset="1" stopColor={TEJAS[s.id][1]} />
                       </linearGradient>
-                      <pattern id="pvSurcos" width="9" height="40" patternUnits="userSpaceOnUse">
-                        <rect width="9" height="40" fill="url(#pvTeja)" />
-                        <rect x="0" width="3" height="40" fill="#6b2230" opacity=".7" />
+                      <pattern id={`pvTejas-${s.id}`} width="10" height="60" patternUnits="userSpaceOnUse">
+                        <rect width="10" height="60" fill={`url(#pvVidrio-${s.id})`} />
+                        <rect x="6.5" width="3.5" height="60" fill="#000" opacity=".28" />
+                        <rect x="1.5" width="1.5" height="60" fill="#fff" opacity=".35" />
                       </pattern>
+                      <radialGradient id={`pvPerla-${s.id}`}>
+                        <stop offset="0" stopColor="#fff" />
+                        <stop offset=".5" stopColor="#ffe39a" />
+                        <stop offset="1" stopColor="#c8961e" />
+                      </radialGradient>
                     </defs>
                     {/* tejado superior */}
-                    <path d="M118 22 H282 L318 50 Q342 52 352 40 Q348 58 322 60 H78 Q52 58 48 40 Q58 52 82 50Z" fill="url(#pvSurcos)" stroke="#f2c14e" strokeWidth="1.5" />
-                    <rect x="112" y="14" width="176" height="9" rx="3" fill="#f2c14e" stroke="#8a5a1e" />
-                    <path d="M112 18 Q100 4 92 12 Q104 12 104 24Z M288 18 Q300 4 308 12 Q296 12 296 24Z" fill="#f2c14e" stroke="#8a5a1e" />
-                    <circle cx="200" cy="10" r="6" fill="#f2c14e" stroke="#8a5a1e" />
+                    <path d="M120 34 H280 L316 62 Q342 64 354 50 Q350 70 322 72 H78 Q50 70 46 50 Q58 64 84 62Z" fill={`url(#pvTejas-${s.id})`} stroke="#8a5a1e" strokeWidth="1.5" />
+                    <path d="M84 62 H316" stroke="#fff3cf" strokeWidth="1" opacity=".6" />
+                    <rect x="112" y="26" width="176" height="10" rx="3" fill="#f2c14e" stroke="#8a5a1e" />
+                    {/* dragones de la cumbrera (鸱吻) */}
+                    <path className="pv-pab__dragon" d="M114 31 C104 30 98 20 102 10 C104 4 112 2 116 8 C110 8 108 14 112 18 C116 22 120 18 118 14 L124 18 C126 24 122 31 114 31Z" fill="#f2c14e" stroke="#8a5a1e" />
+                    <path className="pv-pab__dragon is-der" d="M286 31 C296 30 302 20 298 10 C296 4 288 2 284 8 C290 8 292 14 288 18 C284 22 280 18 282 14 L276 18 C274 24 278 31 286 31Z" fill="#f2c14e" stroke="#8a5a1e" />
+                    <circle className="pv-pab__perla" cx="200" cy="18" r="8" fill={`url(#pvPerla-${s.id})`} />
+                    <path d="M188 26 Q200 14 212 26" fill="none" stroke="#f2c14e" strokeWidth="3" />
                     {/* friso entre aleros */}
-                    <rect x="92" y="60" width="216" height="12" fill="var(--sala)" stroke="#f2c14e" strokeWidth="1.2" />
+                    <rect x="92" y="72" width="216" height="13" fill="var(--sala)" stroke="#f2c14e" strokeWidth="1.2" />
                     {/* tejado inferior */}
-                    <path d="M70 72 H330 L370 102 Q392 104 400 88 Q398 112 372 114 H28 Q2 112 0 88 Q8 104 30 102Z" fill="url(#pvSurcos)" stroke="#f2c14e" strokeWidth="1.5" />
-                    <path d="M28 114 H372" stroke="#f2c14e" strokeWidth="3" />
+                    <path d="M70 85 H330 L370 114 Q394 116 400 98 Q400 124 372 127 H28 Q0 124 0 98 Q6 116 30 114Z" fill={`url(#pvTejas-${s.id})`} stroke="#8a5a1e" strokeWidth="1.5" />
+                    <path d="M28 127 H372" stroke="#f2c14e" strokeWidth="3" />
                     {Array.from({ length: 23 }, (_, n) => (
-                      <circle key={n} cx={35 + n * 15} cy="116" r="4" fill="#f2c14e" stroke="#8a5a1e" strokeWidth="1" />
+                      <circle key={n} cx={35 + n * 15} cy="129" r="4" fill="#f2c14e" stroke="#8a5a1e" strokeWidth="1" />
                     ))}
-                    <path d="M0 88 q-6 -10 2 -16 M400 88 q6 -10 -2 -16 M48 40 q-6 -9 1 -14 M352 40 q6 -9 -1 -14" stroke="#f2c14e" strokeWidth="3" fill="none" strokeLinecap="round" />
                   </svg>
                   <span className="pv-pab__farol is-izq">
                     <i />
@@ -390,6 +409,8 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
                     })}
                   </div>
                 </div>
+                <img className="pv-pab__nube is-izq" src="./theme/nube-oro.png" alt="" aria-hidden="true" />
+                <img className="pv-pab__nube is-der" src="./theme/nube-oro.png" alt="" aria-hidden="true" />
                 <div className="pv-pab__terraza">
                   <span className="pv-pab__balaustrada" aria-hidden="true" />
                   <span className="pv-pab__cuenta">
