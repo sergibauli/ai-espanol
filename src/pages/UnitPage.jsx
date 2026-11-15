@@ -173,10 +173,10 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
         Visto
       </button>
       <div className="gd-head">
-        <Volteable as="h3" es={t.titulo} zh={t.tituloChino} />
+        <Volteable as="h3" es={t.titulo} zh={t.tituloChino} reinicio={sel} />
         <AvisoVolteo />
       </div>
-      <div className="gd-scroll">
+      <div className="gd-scroll" key={`tema-${idDe(sel)}`}>
         <img className="gd-deco" src={`${THEME}sello-monedas.png`} alt="" />
         <div className="gd-body">
           <div className="gd-text">
@@ -229,7 +229,7 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
         </div>
       </div>
       {extras.length > 0 && (
-        <div className="gd-notes">
+        <div className="gd-notes" key={`notas-${idDe(sel)}`}>
           {extras.map(([b, z], i) => (
             <div key={i} className={b.type === "error" ? "gd-error" : "gd-note"}>
               <Volteable
@@ -245,7 +245,7 @@ function GuideScroll({ teoria, todas = teoria, numero }) {
         </div>
       )}
       {(t.ejemplos || []).length > 0 && (
-        <div className="gd-examples">
+        <div className="gd-examples" key={`ej-${idDe(sel)}`}>
           {t.ejemplos.slice(0, 4).map((e, i) => (
             <Volteable
               key={i}

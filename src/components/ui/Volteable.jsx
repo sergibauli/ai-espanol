@@ -3,13 +3,21 @@
 // La cara china lleva translate="no": siempre se ve en chino, sea cual sea el idioma de ayuda.
 // Si se pasa `onToque`, un toque simple lo ejecuta (p. ej. escuchar) solo cuando no llega un segundo toque.
 import * as React from "react";
+import { useLocation } from "react-router";
 
 const ESPERA = 280;
 
-export function Volteable({ es, zh, as: Etiqueta = "div", cara = "", className = "", onToque, ...resto }) {
+export function Volteable({ es, zh, as: Etiqueta = "div", cara = "", className = "", onToque, reinicio, ...resto }) {
   const [girado, setGirado] = React.useState(false);
   const [ondas, setOndas] = React.useState([]);
   const animado = React.useRef(false);
+  // Al cambiar de unidad, de clase o de tema, todas las tarjetas vuelven al español (sin animación)
+  const { pathname, search } = useLocation();
+  React.useEffect(() => {
+    animado.current = false;
+    setGirado(false);
+    setOndas([]);
+  }, [pathname, search, reinicio]);
   const ultimoToque = React.useRef(0);
   const ultimoGiro = React.useRef(0);
   const temporizador = React.useRef(null);

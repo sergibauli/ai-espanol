@@ -245,3 +245,17 @@ html body .light-page .unit-page .unit-hero .unit-sub-vt > .vt-giro > .vt-zh { w
 /* Cinta dorada china: hueco para el sello */
 html body .light-page .unit-page .gd--volteo h4.vt > .vt-giro > .gd-h.vt-zh { padding-right: 66px !important; }
 html body .light-page .unit-page .gd--volteo h4.vt .vt-sello { right: 26px; }
+
+/* ---------- 7 · Las caras nunca heredan transformaciones ajenas ---------- */
+/* Estilos antiguos (p. ej. «.gd-point:hover { transform: translateY(-1px) }») sustituían el giro de 180° de la
+   cara china: quedaba de espaldas, invisible, y con una transición que daba tirones. Las caras quedan fijas. */
+html body .light-page .vt > .vt-giro > .vt-es,
+html body .light-page .vt > .vt-giro > .vt-es:hover { transform: none !important; transition: visibility 0s 0s, box-shadow .25s !important; }
+html body .light-page .vt > .vt-giro > .vt-zh,
+html body .light-page .vt > .vt-giro > .vt-zh:hover { transform: rotateX(180deg) !important; transition: visibility 0s 0s !important; }
+html body .light-page .vt:not(.vt--girado) > .vt-giro > .vt-zh,
+html body .light-page .vt.vt--girado > .vt-giro > .vt-es { transition: visibility 0s .42s !important; }
+/* El conjunto tampoco se mueve con hover; solo la animación del giro lo transforma */
+html body .light-page .vt:hover, html body .light-page .vt:hover > .vt-giro:not([style]) { translate: none; }
+.vt > .vt-giro { will-change: transform; }
+.vt-cara { -webkit-transform-style: flat; transform-style: flat; }
