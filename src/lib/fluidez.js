@@ -38,7 +38,7 @@ export function precargarEnlace(href) {
 
 // Bloques pesados (cada unidad de la ruta, tarjetas…): fuera de pantalla se pausan todas sus animaciones,
 // así el navegador no recalcula estilos de cientos de animaciones que no se ven.
-const BLOQUES = ".ruta-unit, .ruta-head, .u18-carta, .unit-hero, .mr-capa, .v18-deco, .pc-apertura, .pc-mundo";
+const BLOQUES = ".ruta-unit, .ruta-head, .u18-carta, .u19-carta, .u19-mundo, .unit-hero, .mr-capa, .v18-deco, .pc-apertura, .pc-mundo";
 function pausarFueraDePantalla() {
   if (typeof IntersectionObserver === "undefined") return;
   const vistos = new WeakSet();
