@@ -1,0 +1,169 @@
+/* ===== v1 · Pronunciación › portada: cabecera «El templo de los sonidos» =====
+   Seis salas como sellos con su progreso, marcador legible, Rey Mono dentro de un doble anillo y ondas de sonido.
+   Animaciones solo con transform/opacity; se apagan con prefers-reduced-motion. */
+
+.ph-hero {
+  grid-template-columns: minmax(0, 1fr) clamp(220px, 27%, 300px);
+  grid-template-areas: "texto escena" "marcador marcador";
+  row-gap: 18px;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse 50% 70% at 84% 42%, rgba(255, 210, 120, 0.32), transparent 65%),
+    radial-gradient(ellipse 80% 60% at 0% 0%, rgba(255, 90, 100, 0.25), transparent 60%),
+    linear-gradient(150deg, #c8102e 0%, #9a0c25 45%, #5e0614 100%);
+}
+/* nubes auspiciosas en relieve, muy suaves */
+.ph-hero::before {
+  background:
+    radial-gradient(circle at 0 100%, transparent 15px, rgba(242, 193, 78, 0.12) 16px, rgba(242, 193, 78, 0.12) 18px, transparent 19px) 0 0 / 60px 30px,
+    radial-gradient(circle at 100% 100%, transparent 15px, rgba(242, 193, 78, 0.12) 16px, rgba(242, 193, 78, 0.12) 18px, transparent 19px) 30px 15px / 60px 30px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%, #000 70%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 45%, #000 70%, transparent);
+}
+.ph-hero > .pv-hero__texto { grid-area: texto; }
+.ph-hero > .ph-escena { grid-area: escena; }
+.ph-hero > .ph-marcador { grid-area: marcador; }
+
+/* esquinas de oro (marco de laca) */
+.ph-esquina { position: absolute; z-index: 2; width: 38px; height: 38px; border: 3px solid var(--pv-oro); pointer-events: none; opacity: 0.9; }
+.ph-esquina::after { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--pv-oro); box-shadow: 0 0 8px rgba(242, 193, 78, 0.8); }
+.ph-esquina.is-a { left: 14px; top: 14px; border-right: 0; border-bottom: 0; border-radius: 10px 0 0 0; }
+.ph-esquina.is-b { right: 14px; top: 14px; border-left: 0; border-bottom: 0; border-radius: 0 10px 0 0; }
+.ph-esquina.is-c { left: 14px; bottom: 14px; border-right: 0; border-top: 0; border-radius: 0 0 0 10px; }
+.ph-esquina.is-d { right: 14px; bottom: 14px; border-left: 0; border-top: 0; border-radius: 0 0 10px 0; }
+.ph-esquina.is-a::after { left: 6px; top: 6px; } .ph-esquina.is-b::after { right: 6px; top: 6px; }
+.ph-esquina.is-c::after { left: 6px; bottom: 6px; } .ph-esquina.is-d::after { right: 6px; bottom: 6px; }
+
+/* ondas de sonido que salen del Rey Mono */
+.ph-ondas { position: absolute; z-index: 0; right: calc(clamp(220px, 27%, 300px) / 2 + clamp(18px, 3vw, 36px) - 150px); top: 50%; width: 300px; height: 300px; margin-top: -190px; pointer-events: none; }
+.ph-ondas i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(255, 220, 140, 0.55); opacity: 0; animation: ph-onda 4.8s ease-out infinite; animation-delay: calc(var(--i) * 1.2s); }
+@keyframes ph-onda { from { opacity: 0.8; transform: scale(0.45); } to { opacity: 0; transform: scale(1.7); } }
+
+.ph-desc { max-width: 600px; font-size: 16px; }
+.ph-desc span { font-size: 14.5px; }
+
+/* las seis salas */
+.ph-salas { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; max-width: 760px; margin-top: 18px; }
+.ph-sala {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 10px 4px 8px;
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #fff3d6;
+  background: linear-gradient(180deg, rgba(40, 4, 12, 0.5), rgba(40, 4, 12, 0.25));
+  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.45);
+  font-family: var(--pv-ui);
+  animation: pv-aparece 0.6s both;
+  animation-delay: calc(var(--i) * 80ms + 1.2s);
+  transition: transform 0.25s var(--pv-rebote), box-shadow 0.25s, background 0.25s;
+}
+.con-puertas .ph-sala { animation-delay: calc(var(--i) * 80ms + 2s); }
+.ph-sala:hover, .ph-sala:focus-visible { transform: translateY(-4px); background: linear-gradient(180deg, rgba(60, 6, 18, 0.7), rgba(40, 4, 12, 0.4)); box-shadow: inset 0 0 0 1.5px var(--pv-oro), 0 10px 18px rgba(20, 0, 6, 0.4); outline: none; }
+/* sello de la sala con aro de progreso (oro = escuchadas) */
+.ph-sala__sello {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font: 900 24px/1 var(--pv-cali);
+  color: #fff3d6;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.28), transparent 50%),
+    radial-gradient(circle, var(--sala) 60%, color-mix(in srgb, var(--sala) 60%, #000) 100%);
+  box-shadow: 0 0 0 2px #fff3cf, 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+.ph-sala__sello::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(var(--pv-oro) calc(var(--p) * 360deg), rgba(242, 193, 78, 0.18) 0);
+  -webkit-mask: radial-gradient(circle, transparent 28px, #000 29px);
+  mask: radial-gradient(circle, transparent 28px, #000 29px);
+}
+.ph-sala:hover .ph-sala__sello { animation: ph-latido 0.6s ease-in-out; }
+@keyframes ph-latido { 30% { transform: scale(1.12) rotate(-6deg); } 60% { transform: scale(0.96) rotate(3deg); } }
+.ph-sala__txt { display: grid; justify-items: center; line-height: 1.15; text-align: center; }
+.ph-sala__txt b { font: 800 14px var(--pv-cali); color: var(--pv-oro); letter-spacing: 0.1em; }
+.ph-sala__txt small { font-size: 11px; font-weight: 600; color: #f6d9a8; }
+
+/* acciones */
+.ph-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 18px; animation-delay: 1.5s; }
+.con-puertas .ph-acciones { animation-delay: 2.4s; }
+.ph-continuar { position: relative; overflow: hidden; padding: 12px 14px 12px 20px; font-size: 15px; }
+.ph-continuar::after { content: ""; position: absolute; inset: -40% auto -40% -40%; width: 30%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent); transform: translateX(-120%) skewX(-18deg); animation: ph-brillo 3.6s 2.5s ease-in-out infinite; }
+@keyframes ph-brillo { 0% { transform: translateX(-120%) skewX(-18deg); } 35%, 100% { transform: translateX(520%) skewX(-18deg); } }
+.ph-continuar__silaba { margin-left: 6px; padding: 3px 12px; border-radius: 99px; font: 900 17px/1.1 Georgia, serif; color: #fff3d6; background: linear-gradient(var(--pv-laca), var(--pv-laca-osc)); box-shadow: inset 0 0 0 1.5px var(--pv-oro); }
+.ph-dificiles { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #fbe6c4; }
+.ph-dificiles i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; font: 900 14px/1 var(--pv-cali); font-style: normal; color: var(--pv-laca-negra); background: var(--pv-oro); transform: rotate(-6deg); }
+
+/* Rey Mono dentro del doble anillo: exterior oro = escuchadas, interior laca clara = dominadas */
+.ph-escena { align-self: center; }
+.ph-anillo circle { stroke-width: 5; }
+.ph-anillo__oidas, .ph-anillo__dom { fill: none; stroke-linecap: round; transition: stroke-dashoffset 1s var(--pv-ease); }
+.ph-anillo__oidas { stroke: var(--pv-oro); stroke-dasharray: 339.3; stroke-dashoffset: calc(339.3 * (1 - var(--p, 0))); filter: drop-shadow(0 0 5px rgba(242, 193, 78, 0.8)); }
+.ph-anillo__dom { stroke: #ff8fa0; stroke-dasharray: 295.3; stroke-dashoffset: calc(295.3 * (1 - var(--p, 0))); }
+
+/* marcador inferior */
+.ph-marcador { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; animation: pv-aparece 0.8s 1.7s both; }
+.con-puertas .ph-marcador { animation-delay: 2.5s; }
+.ph-dato {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  color: var(--pv-tinta);
+  background: linear-gradient(180deg, rgba(255, 246, 220, 0.97), rgba(243, 226, 187, 0.97));
+  box-shadow: 0 0 0 1.5px var(--pv-oro), 0 0 0 3.5px rgba(94, 6, 20, 0.85), 0 8px 18px rgba(20, 0, 6, 0.35);
+}
+.ph-dato > b { font: 900 30px/1 var(--pv-display); color: var(--pv-laca-osc); white-space: nowrap; }
+.ph-dato > b small { font-size: 15px; color: var(--pv-tinta-2); }
+.ph-dato > span { display: grid; gap: 4px; flex: 1; min-width: 0; font: 700 14px/1.2 var(--pv-ui); }
+.ph-dato > span small { font-size: 12px; font-weight: 600; color: var(--pv-tinta-2); }
+.ph-dato.is-oro > b { color: #a8741a; }
+.ph-barra { display: block; height: 7px; border-radius: 4px; background: rgba(139, 94, 52, 0.18); overflow: hidden; }
+.ph-barra::after { content: ""; display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f7d77a, var(--pv-oro), #c8961e); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform 1s var(--pv-ease); }
+.is-laca .ph-barra::after { background: linear-gradient(90deg, #e8344f, var(--pv-laca), var(--pv-laca-osc)); }
+
+/* ---------- Tableta ---------- */
+@media (max-width: 1100px) {
+  .ph-salas { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 460px; }
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 760px) {
+  .ph-hero { grid-template-columns: 1fr; grid-template-areas: "texto" "marcador"; }
+  .ph-hero .pv-hero__desc, .ph-hero .pv-hero__acciones { margin-right: 0; }
+  .ph-hero .pv-hero__texto { padding-right: 0; }
+  .ph-hero .pv-hero__titulo, .ph-hero .pv-hero__zh, .ph-hero .pv-hero__ceja { padding-right: 104px; }
+  .ph-hero .ph-escena { position: absolute; right: 2px; top: 8px; width: 124px; }
+  .ph-ondas { right: -88px; top: 70px; margin-top: 0; width: 240px; height: 240px; }
+  .ph-esquina { width: 26px; height: 26px; border-width: 2px; }
+  .ph-esquina.is-a, .ph-esquina.is-c { left: 8px; } .ph-esquina.is-b, .ph-esquina.is-d { right: 8px; }
+  .ph-esquina.is-a, .ph-esquina.is-b { top: 8px; } .ph-esquina.is-c, .ph-esquina.is-d { bottom: 8px; }
+  .ph-desc { font-size: 14.5px; }
+  .ph-desc span { font-size: 13.5px; }
+  .ph-salas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .ph-sala__sello { width: 44px; height: 44px; font-size: 20px; }
+  .ph-sala__sello::before { -webkit-mask: radial-gradient(circle, transparent 24px, #000 25px); mask: radial-gradient(circle, transparent 24px, #000 25px); }
+  .ph-acciones { gap: 10px; }
+  .ph-acciones .ph-continuar { width: 100%; justify-content: center; }
+  .ph-dificiles { display: block; line-height: 1.4; }
+  .ph-dificiles i { display: inline-grid; vertical-align: middle; margin-right: 6px; }
+  .ph-marcador { grid-template-columns: 1fr; gap: 10px; }
+  .ph-dato { padding: 10px 14px; }
+  .ph-dato > b { font-size: 26px; min-width: 76px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-ondas, .ph-continuar::after { display: none; }
+  .ph-sala, .ph-marcador { animation: none; }
+  .ph-sala:hover .ph-sala__sello { animation: none; }
+}

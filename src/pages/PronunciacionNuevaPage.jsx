@@ -29,6 +29,7 @@ import { FAMILIAS, materialDe } from "../components/pron/datos.js";
 import { useFavorites } from "../lib/favorites.js";
 import "../styles/pronunciacion-v2.css";
 import "../styles/pronunciacion-sonido.css";
+import "../styles/pronunciacion-hero.css";
 import "../styles/pronunciacion-templos.css";
 
 const DIFICILES = FAMILIAS.filter((familia) => familia.dificil).length;
@@ -191,6 +192,7 @@ export default function PronunciacionNuevaPage() {
 /* ---------- Nivel 1: las salas ---------- */
 function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda, oidasDe, dominadasDe, escuchadas, totalDominadas, porcentaje, visitadas, continuar, ir }) {
   const lista = FAMILIAS.filter((f) => !soloDificiles || f.dificil);
+  const siguienteVisita = TODAS.find((y) => !visitadas.has(y.silaba.s)) || null;
   const q = normalizar(busqueda);
   const encontradas = q
     ? [...TODAS.filter((x) => x.silaba.s.startsWith(q)), ...TODAS.filter((x) => !x.silaba.s.startsWith(q) && (x.silaba.s.includes(q) || normalizar(x.silaba.ej).includes(q)))]
@@ -201,7 +203,7 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
         <ArrowLeftIcon size={14} /> Inicio · 首页
       </Link>
 
-      <section className={`pv-hero${puertas ? " con-puertas" : ""}`} aria-labelledby="pv-titulo">
+      <section className={`pv-hero ph-hero${puertas ? " con-puertas" : ""}`} aria-labelledby="pv-titulo">
         {puertas && (
           <div className="pv-puertas" aria-hidden="true">
             <span className="is-izq">
@@ -212,6 +214,15 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
             </span>
           </div>
         )}
+        <span className="ph-ondas" aria-hidden="true">
+          {[0, 1, 2, 3].map((i) => (
+            <i key={i} style={{ "--i": i }} />
+          ))}
+        </span>
+        <span className="ph-esquina is-a" aria-hidden="true" />
+        <span className="ph-esquina is-b" aria-hidden="true" />
+        <span className="ph-esquina is-c" aria-hidden="true" />
+        <span className="ph-esquina is-d" aria-hidden="true" />
         <div className="pv-hero__texto">
           <span className="pv-hero__ceja">
             <span className="pv-sello-mini" translate="no">
@@ -231,41 +242,97 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
             ))}
           </h1>
           <div className="pv-hero__zh">声音殿堂</div>
-          <p className="pv-hero__desc">
-            {TOTAL_SILABAS} sílabas en {FAMILIAS.length} familias y {SALAS.length} salas, según dónde nace cada sonido. Entra en una familia, escucha cada sílaba con sus palabras, frases y textos, y graba tu voz: cada sílaba que dominas recibe el sello 印.
-            <span>
-              {TOTAL_SILABAS}个音节，分为{FAMILIAS.length}组、{SALAS.length}个殿堂，按发音部位划分。进入一组，听每个音节的单词、句子和短文，并录下你的声音：每掌握一个音节，就盖上一枚“印”章。
-            </span>
+          <p className="pv-hero__desc ph-desc">
+            Escucha, repite y graba cada sílaba. Cada sílaba que dominas recibe el sello 印.
+            <span>听、跟读并录下每个音节，每掌握一个就盖上一枚“印”章。</span>
           </p>
-          <div className="pv-hero__acciones">
-            <button type="button" className="jd-btn-oro pv-btn-oro" onClick={continuar}>
-              <PlayIcon size={16} fill="currentColor" /> {visitadas.size ? "Continuar por donde ibas · 继续上次进度" : "Empezar · 开始"}
-            </button>
+
+          <div className="ph-salas" aria-label="Las seis salas · 六个殿堂">
+            {SALAS.map((s, n) => {
+              const fams = FAMILIAS.filter((f) => s.familias.includes(f.id));
+              const total = fams.reduce((a, f) => a + f.silabas.length, 0);
+              const hechas = fams.reduce((a, f) => a + dominadasDe(f), 0);
+              const oidasSala = fams.reduce((a, f) => a + oidasDe(f), 0);
+              const primera = fams[0];
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  className="ph-sala"
+                  style={{ "--sala": s.color, "--i": n, "--p": total ? oidasSala / total : 0, "--d": total ? hechas / total : 0 }}
+                  onClick={() => primera && ir(primera, primera.silabas[0])}
+                  title={`${s.es} · ${s.zh}`}
+                >
+                  <span className="ph-sala__sello" translate="no">
+                    {s.sello}
+                  </span>
+                  <span className="ph-sala__txt">
+                    <b>{s.zh}</b>
+                    <small>{s.rasgo}</small>
+                  </span>
+                </button>
+              );
+            })}
           </div>
-          <div className="pv-hero__stats">
-            <span>
-              <b>{FAMILIAS.length}</b> familias · 组
-            </span>
-            <span>
-              <b>{DIFICILES}</b> difíciles · 难点
-            </span>
-            <span>
-              <b>{escuchadas}</b>/{TOTAL_SILABAS} escuchadas · 已听
+
+          <div className="pv-hero__acciones ph-acciones">
+            <button type="button" className="jd-btn-oro pv-btn-oro ph-continuar" onClick={continuar}>
+              <PlayIcon size={16} fill="currentColor" />
+              {visitadas.size ? "Continuar · 继续" : "Empezar · 开始"}
+              {siguienteVisita && (
+                <b translate="no" className="ph-continuar__silaba">
+                  {siguienteVisita.silaba.s}
+                </b>
+              )}
+            </button>
+            <span className="ph-dificiles">
+              <i translate="no">难</i> {DIFICILES} familias difíciles para chinos · 中国学生难点
             </span>
           </div>
         </div>
-        <div className="pv-hero__escena" aria-hidden="true">
-          <svg className="pv-anillo" viewBox="0 0 120 120">
+
+        <div className="pv-hero__escena ph-escena" aria-hidden="true">
+          <svg className="pv-anillo ph-anillo" viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="54" className="pv-anillo__fondo" />
-            <circle cx="60" cy="60" r="54" className="pv-anillo__valor" style={{ "--p": porcentaje / 100 }} />
+            <circle cx="60" cy="60" r="54" className="ph-anillo__oidas" style={{ "--p": escuchadas / TOTAL_SILABAS }} />
+            <circle cx="60" cy="60" r="47" className="pv-anillo__fondo" />
+            <circle cx="60" cy="60" r="47" className="ph-anillo__dom" style={{ "--p": porcentaje / 100 }} />
           </svg>
           <span className="pv-hero__halo" />
           <img className="pv-hero__nube" src="./theme/nube-oro.png" alt="" />
           <img className="pv-hero__mono" src="./mono/saluda.png" alt="" />
-          <span className="pv-hero__dominio">
-            <b>{totalDominadas}</b>
-            <small>dominadas · 已掌握</small>
-          </span>
+        </div>
+
+        <div className="ph-marcador">
+          <div className="ph-dato">
+            <b>{TOTAL_SILABAS}</b>
+            <span>
+              sílabas · 音节
+              <small>
+                en {FAMILIAS.length} familias · {FAMILIAS.length}组
+              </small>
+            </span>
+          </div>
+          <div className="ph-dato is-oro">
+            <b>
+              {escuchadas}
+              <small>/{TOTAL_SILABAS}</small>
+            </b>
+            <span>
+              escuchadas · 已听
+              <i className="ph-barra" style={{ "--p": escuchadas / TOTAL_SILABAS }} />
+            </span>
+          </div>
+          <div className="ph-dato is-laca">
+            <b>
+              {totalDominadas}
+              <small>/{TOTAL_SILABAS}</small>
+            </b>
+            <span>
+              dominadas · 已掌握 印
+              <i className="ph-barra" style={{ "--p": totalDominadas / TOTAL_SILABAS }} />
+            </span>
+          </div>
         </div>
       </section>
 
