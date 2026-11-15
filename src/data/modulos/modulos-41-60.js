@@ -25,12 +25,12 @@ Raíz + terminaciones:
 • -aron (ellos/ellas/ustedes)
 
 🔹 EJEMPLO CON HABLAR (habl-):
-• yo hablé (I spoke)
-• tú hablaste (you spoke)
-• él/ella/usted habló (he/she spoke)
-• nosotros hablamos (we spoke)
-• vosotros hablasteis (you all spoke)
-• ellos/ellas/ustedes hablaron (they spoke)
+• yo hablé
+• tú hablaste
+• él/ella/usted habló
+• nosotros hablamos
+• vosotros hablasteis
+• ellos/ellas/ustedes hablaron
 
 🔹 OTROS VERBOS -AR:
 • estudiar → estudié, estudiaste, estudió, estudiamos, estudiasteis, estudiaron
@@ -38,13 +38,13 @@ Raíz + terminaciones:
 • cantar → canté, cantaste, cantó, cantamos, cantasteis, cantaron
 
 📌 MARCADORES TEMPORALES:
-• ayer = yesterday
-• anteayer = the day before yesterday
-• la semana pasada = last week
-• el mes pasado = last month
-• el año pasado = last year
-• hace dos días = two days ago
-• en 2020 = in 2020
+• ayer
+• anteayer
+• la semana pasada
+• el mes pasado
+• el año pasado
+• hace dos días
+• en 2020
 
 📌 EJEMPLOS:
 • Ayer hablé con mi madre.
@@ -116,20 +116,20 @@ Raíz + terminaciones:
 • -ieron (ellos/ellas/ustedes)
 
 🔹 EJEMPLO CON COMER (com-):
-• yo comí (I ate)
-• tú comiste (you ate)
-• él/ella/usted comió (he/she ate)
-• nosotros comimos (we ate)
-• vosotros comisteis (you all ate)
-• ellos/ellas/ustedes comieron (they ate)
+• yo comí
+• tú comiste
+• él/ella/usted comió
+• nosotros comimos
+• vosotros comisteis
+• ellos/ellas/ustedes comieron
 
 🔹 EJEMPLO CON VIVIR (viv-):
-• yo viví (I lived)
-• tú viviste (you lived)
-• él/ella/usted vivió (he/she lived)
-• nosotros vivimos (we lived)
-• vosotros vivisteis (you all lived)
-• ellos/ellas/ustedes vivieron (they lived)
+• yo viví
+• tú viviste
+• él/ella/usted vivió
+• nosotros vivimos
+• vosotros vivisteis
+• ellos/ellas/ustedes vivieron
 
 🔹 OTROS VERBOS -ER/-IR:
 • beber → bebí, bebiste, bebió, bebimos, bebisteis, bebieron
@@ -309,19 +309,19 @@ Raíz + terminaciones:
         tituloChino: "简单过去时的用法",
         descripcion: `Se usa el pretérito indefinido para:
 
-🔹 1. ACCIONES PASADAS COMPLETADAS (completed past actions):
+🔹 1. ACCIONES PASADAS COMPLETADAS:
    • Ayer compré un libro.
    • La semana pasada visité a mis abuelos.
 
-🔹 2. ACCIONES QUE INTERRUMPEN OTRAS (actions that interrupt):
+🔹 2. ACCIONES QUE INTERRUMPEN OTRAS:
    • Cuando llegué, ella ya se había ido.
    • Sonó el teléfono mientras cenaba.
 
-🔹 3. SECUENCIA DE ACCIONES EN EL PASADO (sequence of past actions):
+🔹 3. SECUENCIA DE ACCIONES EN EL PASADO:
    • Llegué, entré y me senté.
    • Me levanté, desayuné y salí de casa.
 
-🔹 4. CAMBIOS EN EL PASADO (changes in the past):
+🔹 4. CAMBIOS EN EL PASADO:
    • Dejé de fumar el año pasado.
    • Me mudé a Madrid en 2019.
 
@@ -334,13 +334,13 @@ Raíz + terminaciones:
 | Ejemplo | Ayer comí paella | Hoy he comido paella |
 
 📌 MARCOS TEMPORALES TÍPICOS:
-• ayer (yesterday)
-• anteayer (day before yesterday)
-• la semana pasada (last week)
-• el mes pasado (last month)
-• el año pasado (last year)
-• hace + tiempo (ago)
-• en + año (in + year)
+• ayer
+• anteayer
+• la semana pasada
+• el mes pasado
+• el año pasado
+• hace + tiempo
+• en + año
 
 ❌ ERROR COMÚN:
 No uses el indefinido con "hoy" o "esta semana". Usa el pretérito perfecto.`,
@@ -1308,7 +1308,7 @@ No uses el indefinido con "hoy" o "esta semana". Usa el pretérito perfecto.`,
 • -aba, -abas, -aba, -ábamos, -abais, -aban
 
 EJEMPLO CON HABLAR:
-• yo hablaba (I used to speak / I was speaking)
+• yo hablaba
 • tú hablabas
 • él/ella/usted hablaba
 • nosotros hablábamos
@@ -1319,7 +1319,7 @@ EJEMPLO CON HABLAR:
 • -ía, -ías, -ía, -íamos, -íais, -ían
 
 EJEMPLO CON COMER:
-• yo comía (I used to eat / I was eating)
+• yo comía
 • tú comías
 • él/ella/usted comía
 • nosotros comíamos
@@ -1477,20 +1477,20 @@ No confundas "iba" (ir) con "iva" (no existe). "Iba" es la forma correcta.`,
    • Estaba durmiendo cuando sonó el teléfono.
 
 🔹 6. EXPRESAR CORTESÍA (en lugar de presente):
-   • Quería pedirte un favor. (I wanted to ask you a favor)
-   • Venía a ver si estaba usted. (I came to see if you were here)
+   • Quería pedirte un favor.
+   • Venía a ver si estaba usted.
 
 📌 MARCADORES TÍPICOS:
-• siempre = always
-• todos los días = every day
-• cada semana = each week
-• antes = before
-• de pequeño = as a child
-• de niño = as a kid
-• normalmente = normally
-• generalmente = generally
-• frecuentemente = frequently
-• a menudo = often
+• siempre
+• todos los días
+• cada semana
+• antes
+• de pequeño
+• de niño
+• normalmente
+• generalmente
+• frecuentemente
+• a menudo
 
 📌 EJEMPLOS:
 • Cuando era niño, jugaba al fútbol.
@@ -1562,9 +1562,9 @@ No confundas "iba" (ir) con "iva" (no existe). "Iba" es la forma correcta.`,
         descripcion: `Diferencia clave entre imperfecto e indefinido:
 
 🔹 IMPERFECTO:
-• Acciones HABITUALES en el pasado (I used to...)
+• Acciones HABITUALES en el pasado
 • DESCRIPCIONES (edad, tiempo, lugar, emociones)
-• ACCIONES EN PROGRESO (was/were + -ing)
+• ACCIONES EN PROGRESO
 • BACKGROUND de una historia
 
 🔹 INDEFINIDO:
@@ -1588,7 +1588,7 @@ No confundas "iba" (ir) con "iva" (no existe). "Iba" es la forma correcta.`,
 • Antes, el tiempo era más cálido. (descripción)
 • Ayer hizo mucho calor. (acción concreta)
 
-• Llovía cuando salí de casa. (background)
+• Llovía cuando salí de casa.
 • Llovió mucho ayer. (acción completada)
 
 ❌ ERROR COMÚN:
@@ -2499,7 +2499,7 @@ INFINITIVO + terminaciones:
 • -án (ellos/ellas/ustedes)
 
 🔹 EJEMPLO CON HABLAR:
-• yo hablaré (I will speak)
+• yo hablaré
 • tú hablarás
 • él/ella/usted hablará
 • nosotros hablaremos
@@ -2693,15 +2693,15 @@ No confundas el futuro simple con el futuro próximo (ir a + infinitivo). Ambos 
    • ¿Dónde estará María? (Estará en casa)
 
 📌 MARCADORES TEMPORALES:
-• mañana = tomorrow
-• pasado mañana = the day after tomorrow
-• la semana que viene = next week
-• el mes que viene = next month
-• el año que viene = next year
-• dentro de + tiempo = in + time
-• algún día = someday
-• en el futuro = in the future
-• pronto = soon
+• mañana
+• pasado mañana
+• la semana que viene
+• el mes que viene
+• el año que viene
+• dentro de + tiempo
+• algún día
+• en el futuro
+• pronto
 
 📌 EJEMPLOS:
 • Mañana estudiaré mucho.
@@ -2781,8 +2781,8 @@ En español coloquial, a menudo se prefiere el futuro próximo (ir a + infinitiv
 • Expresa intención
 
 Ejemplos:
-• Voy a comer ahora. (I'm going to eat now)
-• Esta tarde voy a ir al cine. (I'm going to the cinema this afternoon)
+• Voy a comer ahora.
+• Esta tarde voy a ir al cine.
 
 🔹 FUTURO SIMPLE (infinitivo + terminaciones):
 • Más formal
@@ -2791,8 +2791,8 @@ Ejemplos:
 • Para acciones más lejanas
 
 Ejemplos:
-• Comeré más tarde. (I will eat later)
-• Mañana iré al cine. (I will go to the cinema tomorrow)
+• Comeré más tarde.
+• Mañana iré al cine.
 
 📌 TABLA COMPARATIVA:
 
@@ -4024,32 +4024,32 @@ NO + 虚拟式现在时
 🔹 IMPERATIVO AFIRMATIVO:
 Los pronombres se PEGAN al final del verbo.
 
-• dime = tell me
-• dímelo = tell me it
-• cómpramelo = buy it for me
-• ayúdame = help me
-• espera un momento = wait a moment
+• dime
+• dímelo
+• cómpramelo
+• ayúdame
+• espera un momento
 
 📌 EJEMPLOS CON PRONOMBRES:
-• ¡Dime la verdad! (tell me the truth)
-• ¡Ayúdame, por favor! (help me, please)
-• ¡Cómpramelo! (buy it for me)
-• ¡Levántate! (get up!)
-• ¡Siéntate! (sit down!)
+• ¡Dime la verdad!
+• ¡Ayúdame, por favor!
+• ¡Cómpramelo!
+• ¡Levántate!
+• ¡Siéntate!
 
 🔹 IMPERATIVO NEGATIVO:
 Los pronombres van ANTES del verbo.
 
-• no me digas = don't tell me
-• no me lo digas = don't tell me it
-• no te preocupes = don't worry
-• no te levantes = don't get up
+• no me digas
+• no me lo digas
+• no te preocupes
+• no te levantes
 
 📌 EJEMPLOS CON PRONOMBRES NEGATIVOS:
-• ¡No me digas eso! (don't tell me that!)
-• ¡No te preocupes! (don't worry!)
-• ¡No te levantes todavía! (don't get up yet!)
-• ¡No lo hagas! (don't do it!)
+• ¡No me digas eso!
+• ¡No te preocupes!
+• ¡No te levantes todavía!
+• ¡No lo hagas!
 
 📌 REGLA DE ACENTUACIÓN:
 Cuando añades pronombres al imperativo afirmativo, el verbo mantiene su acento.
@@ -5219,12 +5219,12 @@ Las expresiones de certeza (creo que, estoy seguro de que, es cierto que) usan i
         descripcion: `Diferencia entre indicativo y subjuntivo:
 
 🔹 INDICATIVO (hechos, certezas):
-• Creo que (I believe that)
-• Pienso que (I think that)
-• Estoy seguro de que (I'm sure that)
-• Es cierto que (It's certain that)
-• Es verdad que (It's true that)
-• No dudo que (I don't doubt that)
+• Creo que
+• Pienso que
+• Estoy seguro de que
+• Es cierto que
+• Es verdad que
+• No dudo que
 
 EJEMPLOS:
 • Creo que María viene a la fiesta.
@@ -5232,12 +5232,12 @@ EJEMPLOS:
 • No dudo que tienes razón.
 
 🔹 SUBJUNTIVO (deseos, dudas, emociones):
-• Espero que (I hope that)
-• Quiero que (I want that)
-• Dudo que (I doubt that)
-• No creo que (I don't think that)
-• Me alegra que (I'm glad that)
-• Es posible que (It's possible that)
+• Espero que
+• Quiero que
+• Dudo que
+• No creo que
+• Me alegra que
+• Es posible que
 
 EJEMPLOS:
 • Espero que María venga a la fiesta.
@@ -8385,14 +8385,14 @@ No confundas el participio "hecho" (de hacer) con el adjetivo "hecho" (terminado
    • Nunca había estado en España.
 
 📌 MARCADORES TÍPICOS:
-• ya = already
-• todavía no = not yet
-• nunca = never
-• jamás = never (emphatic)
-• antes de = before
-• después de = after
-• cuando = when
-• tan pronto como = as soon as
+• ya
+• todavía no
+• nunca
+• jamás
+• antes de
+• después de
+• cuando
+• tan pronto como
 
 📌 EJEMPLOS:
 • Ya había terminado cuando me llamaste.
@@ -9601,12 +9601,12 @@ La raíz del imperfecto de subjuntivo es la misma que la tercera persona del plu
         tituloChino: "礼貌用语中的虚拟式过去未完成时",
         descripcion: `El imperfecto de subjuntivo se usa frecuentemente para expresar cortesía:
 
-🔹 CON "QUISIERA" (I would like):
+🔹 CON "QUISIERA":
 • Quisiera un café, por favor.
 • Quisiera pedir información sobre los horarios.
 • Quisiera reservar una habitación.
 
-🔹 CON "PUDIERA" (could I):
+🔹 CON "PUDIERA":
 • ¿Pudiera ayudarme?
 • ¿Pudiera pasar?
 
@@ -9626,8 +9626,8 @@ La raíz del imperfecto de subjuntivo es la misma que la tercera persona del plu
 En el español actual, las formas más comunes de cortesía son el condicional (podrías, deberías) y "quisiera". El imperfecto de subjuntivo para cortesía es más común en contextos formales y en algunas regiones de América Latina.
 
 ❌ EJEMPLOS:
-• Quisiera un café = I would like a coffee (muy cortés)
-• Quisiera pedir la cuenta = I would like to ask for the bill`,
+• Quisiera un café (muy cortés)
+• Quisiera pedir la cuenta`,
         descripcionChino: `虚拟式过去未完成时常用于表达礼貌：
 
 🔹 用"QUISIERA"（我想要）：
@@ -10491,14 +10491,14 @@ Estilo INDIRECTO: contar lo que alguien dijo sin usar comillas.
 • Ana dijo que tenía hambre.
 
 🔹 VERBOS INTRODUCTORIOS:
-• decir (que) = to say (that)
-• contar (que) = to tell (that)
-• preguntar (si) = to ask (if)
-• pedir (que) = to ask for / to request
-• responder (que) = to answer (that)
-• explicar (que) = to explain (that)
-• afirmar (que) = to affirm (that)
-• negar (que) = to deny (that)
+• decir (que)
+• contar (que)
+• preguntar (si)
+• pedir (que)
+• responder (que)
+• explicar (que)
+• afirmar (que)
+• negar (que)
 
 🔹 CAMBIOS PRINCIPALES:
 1. Verbos de introducción
@@ -10612,11 +10612,11 @@ No mantengas el mismo tiempo verbal cuando el verbo introductor está en pasado.
         id: "t3",
         titulo: "Preguntas en estilo indirecto",
         tituloChino: "间接引语中的问题",
-        descripcion: `🔹 PREGUNTAS DE SÍ/NO (yes/no questions):
+        descripcion: `🔹 PREGUNTAS DE SÍ/NO:
 • Introduce con "preguntar si"
 • "¿Tienes hambre?" → preguntó si tenía hambre.
 
-🔹 PREGUNTAS CON PALABRA INTERROGATIVA (information questions):
+🔹 PREGUNTAS CON PALABRA INTERROGATIVA:
 • Introduce con "preguntar" + palabra interrogativa
 • "¿Qué quieres?" → preguntó qué quería.
 • "¿Dónde vives?" → preguntó dónde vivía.
@@ -10628,13 +10628,13 @@ No mantengas el mismo tiempo verbal cuando el verbo introductor está en pasado.
 • "¿Dónde compraste eso?" → preguntó dónde había comprado eso.
 
 📌 PALABRAS INTERROGATIVAS:
-• qué = what
-• quién = who
-• dónde = where
-• cuándo = when
-• cómo = how
-• por qué = why
-• cuánto = how much
+• qué
+• quién
+• dónde
+• cuándo
+• cómo
+• por qué
+• cuánto
 
 📌 EJEMPLOS:
 • Preguntó: '¿Vienes?' → Preguntó si venía.
@@ -10687,17 +10687,17 @@ No uses "que" en preguntas indirectas. Usa "si" para preguntas de sí/no y la pa
         id: "t4",
         titulo: "Peticiones, consejos y órdenes",
         tituloChino: "请求、建议和命令",
-        descripcion: `🔹 PETICIONES (requests):
+        descripcion: `🔹 PETICIONES:
 • Introduce con "pedir que" + subjuntivo
 • "¡Ayúdame!" → pidió que le ayudara.
 • "Por favor, ven" → pidió que fuera.
 
-🔹 CONSEJOS (advice):
+🔹 CONSEJOS:
 • Introduce con "aconsejar que" + subjuntivo
 • "Debes estudiar" → aconsejó que estudiara.
 • "Sería mejor que descansaras" → aconsejó que descansara.
 
-🔹 ÓRDENES (orders):
+🔹 ÓRDENES:
 • Introduce con "decir que" + subjuntivo
 • "¡Sal de aquí!" → dijo que saliera de allí.
 • "¡Cállate!" → dijo que se callara.
@@ -11575,45 +11575,45 @@ No olvides usar el subjuntivo después de "pedir que", "aconsejar que", etc.`,
         id: "t1",
         titulo: "Problemas ambientales",
         tituloChino: "环境问题",
-        descripcion: `🔹 PROBLEMAS AMBIENTALES PRINCIPALES (main environmental problems):
+        descripcion: `🔹 PROBLEMAS AMBIENTALES PRINCIPALES:
 
 CONTAMINACIÓN:
-• contaminación del aire = air pollution
-• contaminación del agua = water pollution
-• contaminación del suelo = soil pollution
-• contaminación acústica = noise pollution
-• contaminación lumínica = light pollution
+• contaminación del aire
+• contaminación del agua
+• contaminación del suelo
+• contaminación acústica
+• contaminación lumínica
 
 CAMBIOS CLIMÁTICOS:
-• cambio climático = climate change
+• cambio climático
 • calentamiento global = global warming
-• efecto invernadero = greenhouse effect
-• gases de efecto invernadero = greenhouse gases
+• efecto invernadero
+• gases de efecto invernadero
 • emisiones de CO2 = CO2 emissions
-• huella de carbono = carbon footprint
+• huella de carbono
 
 DESTRUCCIÓN DE ECOSISTEMAS:
-• deforestación = deforestation
-• desertificación = desertification
-• pérdida de biodiversidad = biodiversity loss
-• extinción de especies = species extinction
-• lluvia ácida = acid rain
-• agujero de la capa de ozono = ozone layer hole
+• deforestación
+• desertificación
+• pérdida de biodiversidad
+• extinción de especies
+• lluvia ácida
+• agujero de la capa de ozono
 
 DESASTRES NATURALES:
-• sequía = drought
-• inundación = flood
-• incendio forestal = forest fire
-• terremoto = earthquake
-• tsunami = tsunami
-• huracán = hurricane
+• sequía
+• inundación
+• incendio forestal
+• terremoto
+• tsunami
+• huracán
 
 RESIDUOS:
-• residuos / basura = waste / garbage
-• plásticos = plastics
-• microplásticos = microplastics
-• vertedero = landfill
-• reciclaje = recycling
+• residuos / basura
+• plásticos
+• microplásticos
+• vertedero
+• reciclaje
 
 📌 EJEMPLOS:
 • La contaminación del aire es un grave problema.
@@ -11682,45 +11682,45 @@ RESIDUOS:
         id: "t2",
         titulo: "Acciones para proteger el medio ambiente",
         tituloChino: "保护环境的行动",
-        descripcion: `🔹 ACCIONES QUE PODEMOS HACER (actions we can take):
+        descripcion: `🔹 ACCIONES QUE PODEMOS HACER:
 
 RECICLAR Y REDUCIR:
 • reciclar papel, vidrio, plástico = recycle paper, glass, plastic
-• reducir el consumo de plásticos = reduce plastic consumption
-• reutilizar bolsas y envases = reuse bags and containers
-• compostar los residuos orgánicos = compost organic waste
+• reducir el consumo de plásticos
+• reutilizar bolsas y envases
+• compostar los residuos orgánicos
 
 AHORRO DE RECURSOS:
-• ahorrar agua = save water
-• ahorrar energía = save energy
-• apagar las luces = turn off lights
-• no dejar aparatos en stand-by = don't leave appliances on standby
-• ducharse en lugar de bañarse = shower instead of bathe
+• ahorrar agua
+• ahorrar energía
+• apagar las luces
+• no dejar aparatos en stand-by
+• ducharse en lugar de bañarse
 
 ENERGÍAS RENOVABLES:
 • usar energías renovables = use renewable energy
 • energía solar = solar energy
-• energía eólica = wind energy
-• energía hidroeléctrica = hydroelectric energy
+• energía eólica
+• energía hidroeléctrica
 
 MOVILIDAD SOSTENIBLE:
 • usar transporte público = use public transport
-• usar la bicicleta = use the bicycle
-• caminar = walk
-• compartir el coche = carpool
+• usar la bicicleta
+• caminar
+• compartir el coche
 • usar coche eléctrico = use electric car
 
 CONSUMO RESPONSABLE:
-• comprar productos ecológicos = buy eco-friendly products
+• comprar productos ecológicos
 • comprar productos locales = buy local products
-• evitar plásticos de un solo uso = avoid single-use plastics
-• comprar a granel = buy in bulk
-• reparar en lugar de comprar nuevo = repair instead of buying new
+• evitar plásticos de un solo uso
+• comprar a granel
+• reparar en lugar de comprar nuevo
 
 OTRAS ACCIONES:
-• plantar árboles = plant trees
-• participar en limpiezas de playas/parques = participate in beach/park cleanups
-• educar a otros sobre el medio ambiente = educate others about the environment
+• plantar árboles
+• participar en limpiezas de playas/parques
+• educar a otros sobre el medio ambiente
 
 📌 EJEMPLOS:
 • Reciclar es muy importante para el planeta.
@@ -11789,34 +11789,34 @@ OTRAS ACCIONES:
         id: "t3",
         titulo: "Vocabulario ecológico",
         tituloChino: "生态词汇",
-        descripcion: `🔹 TÉRMINOS IMPORTANTES (important terms):
+        descripcion: `🔹 TÉRMINOS IMPORTANTES:
 
-• sostenible = sustainable
-• ecológico = ecological
+• sostenible
+• ecológico
 • biodegradable = biodegradable
-• renovable = renewable
-• reciclable = recyclable
-• compostable = compostable
-• huella de carbono = carbon footprint
-• desarrollo sostenible = sustainable development
-• consumo responsable = responsible consumption
+• renovable
+• reciclable
+• compostable
+• huella de carbono
+• desarrollo sostenible
+• consumo responsable
 • economía circular = circular economy
-• residuo cero = zero waste
-• energía limpia = clean energy
-• energías alternativas = alternative energies
+• residuo cero
+• energía limpia
+• energías alternativas
 
-🔹 ORGANIZACIONES (organizations):
+🔹 ORGANIZACIONES:
 • Greenpeace = Greenpeace
-• WWF = World Wildlife Fund
-• SEO/BirdLife = SEO/BirdLife (Spain)
-• Ecologistas en Acción = Ecologists in Action
+• WWF
+• SEO/BirdLife = SEO/BirdLife
+• Ecologistas en Acción
 
-🔹 OBJETIVOS (goals):
-• reducir la contaminación = reduce pollution
-• proteger los ecosistemas = protect ecosystems
-• conservar la biodiversidad = conserve biodiversity
-• luchar contra el cambio climático = fight climate change
-• conseguir el desarrollo sostenible = achieve sustainable development
+🔹 OBJETIVOS:
+• reducir la contaminación
+• proteger los ecosistemas
+• conservar la biodiversidad
+• luchar contra el cambio climático
+• conseguir el desarrollo sostenible
 
 📌 EJEMPLOS:
 • El desarrollo sostenible es el objetivo global.
@@ -11874,20 +11874,20 @@ OTRAS ACCIONES:
         id: "t4",
         titulo: "Hablar del medio ambiente",
         tituloChino: "谈论环境",
-        descripcion: `🔹 FRASES ÚTILES (useful phrases):
+        descripcion: `🔹 FRASES ÚTILES:
 
-• El planeta está en peligro. = The planet is in danger.
-• Es hora de actuar. = It's time to act.
+• El planeta está en peligro.
+• Es hora de actuar.
 • Cada pequeño gesto cuenta. = Every small gesture counts.
-• El futuro del planeta está en nuestras manos. = The future of the planet is in our hands.
+• El futuro del planeta está en nuestras manos.
 
-🔹 PREGUNTAS COMUNES (common questions):
+🔹 PREGUNTAS COMUNES:
 • ¿Qué haces tú para proteger el medio ambiente?
 • ¿Reciclas en casa?
 • ¿Qué opinas del cambio climático?
 • ¿Crees que las energías renovables son el futuro?
 
-🔹 RESPUESTAS (answers):
+🔹 RESPUESTAS:
 • Reciclo todo lo que puedo.
 • Intento ahorrar agua y energía.
 • Creo que el cambio climático es un problema grave.
@@ -12762,30 +12762,30 @@ OTRAS ACCIONES:
         descripcion: `Expresiones muy comunes con TENER:
 
 🔹 ESTADOS FÍSICOS Y EMOCIONES:
-• tener hambre = to be hungry
-• tener sed = to be thirsty
-• tener sueño = to be sleepy
-• tener calor = to be hot
-• tener frío = to be cold
-• tener prisa = to be in a hurry
-• tener suerte = to be lucky
-• tener cuidado = to be careful
-• tener razón = to be right
-• tener miedo = to be afraid
-• tener vergüenza = to be embarrassed / ashamed
-• tener esperanza = to have hope
-• tener confianza = to have confidence
+• tener hambre
+• tener sed
+• tener sueño
+• tener calor
+• tener frío
+• tener prisa
+• tener suerte
+• tener cuidado
+• tener razón
+• tener miedo
+• tener vergüenza
+• tener esperanza
+• tener confianza
 
 🔹 DESEOS Y SENTIMIENTOS:
-• tener ganas de = to feel like (doing something)
-• tener celos = to be jealous
-• tener envidia = to be envious
-• tener paciencia = to have patience
+• tener ganas de
+• tener celos
+• tener envidia
+• tener paciencia
 
 🔹 RELACIONES:
-• tener éxito = to be successful
-• tener problemas = to have problems
-• tener la culpa = to be guilty / to blame
+• tener éxito
+• tener problemas
+• tener la culpa
 
 📌 EJEMPLOS:
 • Tengo mucha hambre.
@@ -12852,21 +12852,21 @@ No uses "ser" o "estar" para expresar hambre, sed, etc. Siempre usa "tener".`,
         tituloChino: "常见口语表达",
         descripcion: `🔹 EXPRESIONES IDIOMÁTICAS MUY USADAS:
 
-• estar hecho polvo = to be exhausted
-• ser pan comido = to be a piece of cake
-• costar un ojo de la cara = to cost an arm and a leg
-• no tener ni idea = to have no idea
-• dar igual = to not care / to be indifferent
-• estar como una cabra = to be crazy
-• ser uña y carne = to be inseparable (thick as thieves)
+• estar hecho polvo
+• ser pan comido
+• costar un ojo de la cara
+• no tener ni idea
+• dar igual
+• estar como una cabra
+• ser uña y carne
 • no hay tu tía = there's no way
-• tomar el pelo = to pull someone's leg
-• estar en las nubes = to be daydreaming / distracted
-• ponerse las pilas = to get one's act together / to step up
-• ir al grano = to get to the point
-• matar el tiempo = to kill time
-• echar una mano = to lend a hand
-• estar hasta las narices = to be fed up
+• tomar el pelo
+• estar en las nubes
+• ponerse las pilas
+• ir al grano
+• matar el tiempo
+• echar una mano
+• estar hasta las narices
 
 🔹 EJEMPLOS:
 • Estoy hecho polvo después del trabajo.
@@ -12941,28 +12941,28 @@ No uses "ser" o "estar" para expresar hambre, sed, etc. Siempre usa "tener".`,
         tituloChino: "带有'dar'和'echar'的表达",
         descripcion: `🔹 EXPRESIONES CON DAR (expressions with dar):
 
-• dar la hora = to tell the time
-• dar las gracias = to thank
-• dar un paseo = to take a walk
-• dar vergüenza = to be embarrassing
-• dar miedo = to be scary
-• dar igual = to not matter
-• dar un beso = to give a kiss
-• dar un abrazo = to give a hug
-• dar la lata = to be annoying
-• dar en el clavo = to hit the nail on the head
+• dar la hora
+• dar las gracias
+• dar un paseo
+• dar vergüenza
+• dar miedo
+• dar igual
+• dar un beso
+• dar un abrazo
+• dar la lata
+• dar en el clavo
 
 🔹 EXPRESIONES CON ECHAR (expressions with echar):
 
-• echar de menos = to miss (someone/something)
-• echar un vistazo = to take a look
-• echar la culpa = to blame
-• echar una mano = to lend a hand
-• echarse a reír = to burst out laughing
-• echarse a llorar = to burst into tears
-• echar un ojo = to keep an eye on
-• echar gasolina = to put gasoline
-• echar una siesta = to take a nap
+• echar de menos
+• echar un vistazo
+• echar la culpa
+• echar una mano
+• echarse a reír
+• echarse a llorar
+• echar un ojo
+• echar gasolina
+• echar una siesta
 
 📌 EJEMPLOS:
 • Te echo de menos.
@@ -13021,33 +13021,33 @@ No uses "ser" o "estar" para expresar hambre, sed, etc. Siempre usa "tener".`,
         titulo: "Más expresiones idiomáticas",
         tituloChino: "更多习语表达",
         descripcion: `🔹 EXPRESIONES CON "ESTAR":
-• estar de buen humor = to be in a good mood
-• estar de mal humor = to be in a bad mood
-• estar de vacaciones = to be on vacation
-• estar de moda = to be in fashion
-• estar al tanto = to be up to date
-• estar harto = to be fed up
-• estar de acuerdo = to agree
+• estar de buen humor
+• estar de mal humor
+• estar de vacaciones
+• estar de moda
+• estar al tanto
+• estar harto
+• estar de acuerdo
 
 🔹 EXPRESIONES CON "PONERSE":
-• ponerse nervioso = to get nervous
-• ponerse contento = to get happy
-• ponerse triste = to get sad
-• ponerse furioso = to get furious
-• ponerse rojo = to blush
-• ponerse las pilas = to get one's act together
+• ponerse nervioso
+• ponerse contento
+• ponerse triste
+• ponerse furioso
+• ponerse rojo
+• ponerse las pilas
 
 🔹 EXPRESIONES CON "LLEVAR":
-• llevar tiempo = to take time
-• llevar la contraria = to disagree
-• llevar bien/mal = to get along well/badly
-• llevar a cabo = to carry out
+• llevar tiempo
+• llevar la contraria
+• llevar bien/mal
+• llevar a cabo
 
 🔹 EXPRESIONES CON "QUEDARSE":
-• quedarse dormido = to fall asleep
-• quedarse sin palabras = to be speechless
-• quedarse con la boca abierta = to be astonished
-• quedarse en blanco = to draw a blank
+• quedarse dormido
+• quedarse sin palabras
+• quedarse con la boca abierta
+• quedarse en blanco
 
 📌 EJEMPLOS:
 • Hoy estoy de buen humor.
@@ -15255,17 +15255,17 @@ Cuando veas una palabra en español que se parece al inglés, pregunta: "¿Tiene
         descripcion: `Conectores temporales más comunes:
 
 🔹 CONECTORES BÁSICOS:
-• cuando = when
-• mientras = while
-• después de que = after
-• antes de que = before
-• hasta que = until
-• desde que = since
-• tan pronto como = as soon as
-• en cuanto = as soon as
-• nada más = as soon as
-• siempre que = whenever
-• cada vez que = every time
+• cuando
+• mientras
+• después de que
+• antes de que
+• hasta que
+• desde que
+• tan pronto como
+• en cuanto
+• nada más
+• siempre que
+• cada vez que
 
 🔹 EJEMPLOS:
 • Cuando llegues, llámame.
@@ -15281,9 +15281,9 @@ Cuando veas una palabra en español que se parece al inglés, pregunta: "¿Tiene
 • "Después de que" + subjuntivo: Después de que comas...
 
 📌 EJEMPLOS:
-• Te llamaré cuando llegue a casa. (I'll call you when I get home)
-• No salgas hasta que termine la lluvia. (Don't go out until the rain stops)
-• Mientras cocino, escucho música. (While I cook, I listen to music)`,
+• Te llamaré cuando llegue a casa.
+• No salgas hasta que termine la lluvia.
+• Mientras cocino, escucho música.`,
         descripcionChino: `最常见的时间连接词：
 
 🔹 基本连接词：
@@ -15337,35 +15337,35 @@ Cuando veas una palabra en español que se parece al inglés, pregunta: "¿Tiene
         tituloChino: "频率表达",
         descripcion: `Expresiones de frecuencia (de más a menos frecuente):
 
-🔹 FRECUENCIA ALTA (high frequency):
-• siempre = always
-• constantemente = constantly
-• frecuentemente = frequently
-• a menudo = often
-• normalmente / generalmente = normally / generally
+🔹 FRECUENCIA ALTA:
+• siempre
+• constantemente
+• frecuentemente
+• a menudo
+• normalmente / generalmente
 
-🔹 FRECUENCIA MEDIA (medium frequency):
-• a veces = sometimes
-• de vez en cuando = once in a while
-• ocasionalmente = occasionally
+🔹 FRECUENCIA MEDIA:
+• a veces
+• de vez en cuando
+• ocasionalmente
 
-🔹 FRECUENCIA BAJA (low frequency):
-• raramente = rarely
-• casi nunca = hardly ever
-• nunca = never
-• jamás = never (emphatic)
+🔹 FRECUENCIA BAJA:
+• raramente
+• casi nunca
+• nunca
+• jamás
 
 🔹 EXPRESIONES CUANTITATIVAS:
-• todos los días = every day
-• cada día = each day
-• cada semana = every week
-• cada mes = every month
-• cada año = every year
+• todos los días
+• cada día
+• cada semana
+• cada mes
+• cada año
 • una vez al día = once a day
-• dos veces a la semana = twice a week
+• dos veces a la semana
 • tres veces al mes = three times a month
 • de lunes a viernes = from Monday to Friday
-• los fines de semana = on weekends
+• los fines de semana
 
 📌 EJEMPLOS:
 • Siempre desayuno café.
@@ -15439,37 +15439,37 @@ Cuando veas una palabra en español que se parece al inglés, pregunta: "¿Tiene
         titulo: "Marcadores temporales para acciones pasadas y futuras",
         tituloChino: "过去和将来的时间标志词",
         descripcion: `🔹 PARA ACCIONES PASADAS:
-• ayer = yesterday
-• anteayer = the day before yesterday
-• la semana pasada = last week
-• el mes pasado = last month
-• el año pasado = last year
-• hace dos días = two days ago
-• hace una semana = a week ago
-• en 2020 = in 2020
+• ayer
+• anteayer
+• la semana pasada
+• el mes pasado
+• el año pasado
+• hace dos días
+• hace una semana
+• en 2020
 • el lunes pasado = last Monday
-• el fin de semana pasado = last weekend
+• el fin de semana pasado
 
 🔹 PARA EL FUTURO:
-• mañana = tomorrow
-• pasado mañana = the day after tomorrow
-• la semana que viene = next week
-• el mes que viene = next month
-• el año que viene = next year
-• dentro de dos días = in two days
-• más tarde = later
-• pronto = soon
+• mañana
+• pasado mañana
+• la semana que viene
+• el mes que viene
+• el año que viene
+• dentro de dos días
+• más tarde
+• pronto
 • el lunes que viene = next Monday
-• el próximo fin de semana = next weekend
+• el próximo fin de semana
 
 🔹 PARA EL PRESENTE:
-• ahora = now
-• hoy = today
-• actualmente = currently
-• en este momento = at this moment
-• todavía = still / yet
-• ya = already
-• aún = still / yet
+• ahora
+• hoy
+• actualmente
+• en este momento
+• todavía
+• ya
+• aún
 
 📌 EJEMPLOS:
 • Ayer trabajé mucho.
@@ -15535,31 +15535,31 @@ Cuando veas una palabra en español que se parece al inglés, pregunta: "¿Tiene
         id: "t4",
         titulo: "Estructuras temporales complejas",
         tituloChino: "复杂的时间结构",
-        descripcion: `🔹 ACCIONES SIMULTÁNEAS (simultaneous actions):
+        descripcion: `🔹 ACCIONES SIMULTÁNEAS:
 • Mientras + imperfecto / presente, + imperfecto / presente
   Ejemplo: Mientras estudiaba, escuchaba música.
 
-🔹 ACCIONES SUCESIVAS (successive actions):
+🔹 ACCIONES SUCESIVAS:
 • Primero... luego... después... finalmente...
   Ejemplo: Primero me levanto, luego desayuno, después me ducho y finalmente salgo.
 
-🔹 ACCIONES ANTERIORES (previous actions):
+🔹 ACCIONES ANTERIORES:
 • Antes de + infinitivo / antes de que + subjuntivo
   Ejemplo: Antes de salir, desayuno.
 
-🔹 ACCIONES POSTERIORES (later actions):
+🔹 ACCIONES POSTERIORES:
 • Después de + infinitivo / después de que + subjuntivo
   Ejemplo: Después de comer, salgo a pasear.
 
-🔹 ACCIONES QUE TERMINAN (actions that end):
+🔹 ACCIONES QUE TERMINAN:
 • Hasta que + subjuntivo
   Ejemplo: Esperaré hasta que llegues.
 
-🔹 ACCIONES QUE COMIENZAN (actions that start):
+🔹 ACCIONES QUE COMIENZAN:
 • Desde que + subjuntivo / indicativo
   Ejemplo: Desde que te conocí, soy más feliz.
 
-🔹 ACCIONES INMEDIATAS (immediate actions):
+🔹 ACCIONES INMEDIATAS:
 • En cuanto / tan pronto como / nada más + subjuntivo
   Ejemplo: En cuanto llegue, te llamo.
 
@@ -16475,51 +16475,51 @@ Cuando veas una palabra en español que se parece al inglés, pregunta: "¿Tiene
         id: "t1",
         titulo: "Tipos de tiendas",
         tituloChino: "商店类型",
-        descripcion: `🔹 TIENDAS DE ALIMENTOS (food stores):
-• supermercado = supermarket
-• mercado = market
-• tienda de alimentación = grocery store
-• panadería = bakery
-• pastelería = pastry shop
-• carnicería = butcher shop
-• pescadería = fish shop
-• frutería = fruit shop
-• verdulería = vegetable shop
+        descripcion: `🔹 TIENDAS DE ALIMENTOS:
+• supermercado
+• mercado
+• tienda de alimentación
+• panadería
+• pastelería
+• carnicería
+• pescadería
+• frutería
+• verdulería
 • charcutería = deli / cured meat shop
-• tienda de ultramarinos = corner store
+• tienda de ultramarinos
 
-🔹 TIENDAS DE ROPA Y COMPLEMENTOS (clothing and accessories):
-• tienda de ropa = clothing store
-• zapatería = shoe store
-• joyería = jewelry store
-• relojería = watch store
-• peluquería = hair salon
-• tintorería = dry cleaner
-• mercería = haberdashery
-• tienda de deportes = sports store
+🔹 TIENDAS DE ROPA Y COMPLEMENTOS:
+• tienda de ropa
+• zapatería
+• joyería
+• relojería
+• peluquería
+• tintorería
+• mercería
+• tienda de deportes
 
-🔹 TIENDAS DE PRODUCTOS ESPECÍFICOS (specialty stores):
-• librería = bookstore
-• papelería = stationery store
-• ferretería = hardware store
-• farmacia = pharmacy
-• óptica = optician
-• floristería = flower shop
-• estanco = tobacco shop
-• tienda de electrónica = electronics store
-• tienda de juguetes = toy store
-• tienda de mascotas = pet store
+🔹 TIENDAS DE PRODUCTOS ESPECÍFICOS:
+• librería
+• papelería
+• ferretería
+• farmacia
+• óptica
+• floristería
+• estanco
+• tienda de electrónica
+• tienda de juguetes
+• tienda de mascotas
 
-🔹 GRANDES SUPERFICIES (large retail):
-• centro comercial = shopping center / mall
-• grandes almacenes = department store
-• hipermercado = hypermarket
-• outlet = outlet
+🔹 GRANDES SUPERFICIES:
+• centro comercial
+• grandes almacenes
+• hipermercado
+• outlet
 
-🔹 SERVICIOS (services):
-• banco = bank
-• oficina de correos = post office
-• lavandería = laundromat
+🔹 SERVICIOS:
+• banco
+• oficina de correos
+• lavandería
 • estación de servicio = gas station
 
 📌 EJEMPLOS:
@@ -16600,20 +16600,20 @@ Cuando veas una palabra en español que se parece al inglés, pregunta: "¿Tiene
         tituloChino: "商店里的职业",
         descripcion: `🔹 PERSONAS QUE TRABAJAN EN TIENDAS:
 
-• dependiente / dependienta = shop assistant
-• carnicero / carnicera = butcher
-• panadero / panadera = baker
-• pastelero / pastelera = pastry chef
-• pescadero / pescadera = fishmonger
-• frutero / frutera = fruiterer
-• verdulero / verdulera = greengrocer
-• farmacéutico / farmacéutica = pharmacist
-• librero / librera = bookseller
-• joyero / joyera = jeweler
-• florista = florist
-• peluquero / peluquera = hairdresser
-• zapatero / zapatera = shoemaker / shoe seller
-• ferretero / ferretera = hardware store owner
+• dependiente / dependienta
+• carnicero / carnicera
+• panadero / panadera
+• pastelero / pastelera
+• pescadero / pescadera
+• frutero / frutera
+• verdulero / verdulera
+• farmacéutico / farmacéutica
+• librero / librera
+• joyero / joyera
+• florista
+• peluquero / peluquera
+• zapatero / zapatera
+• ferretero / ferretera
 
 📌 EJEMPLOS:
 • El dependiente me ayudó a encontrar la talla.
@@ -16669,35 +16669,35 @@ En las tiendas pequeñas de España y Latinoamérica, es común saludar al entra
         id: "t3",
         titulo: "Frases útiles en tiendas",
         tituloChino: "商店里的有用句子",
-        descripcion: `🔹 FRASES PARA EL CLIENTE (customer phrases):
+        descripcion: `🔹 FRASES PARA EL CLIENTE:
 
 PREGUNTAR PRECIO:
-• ¿Cuánto cuesta? = How much does it cost?
-• ¿Qué precio tiene? = What price does it have?
-• ¿Está en oferta? = Is it on sale?
-• ¿Hay descuento? = Is there a discount?
+• ¿Cuánto cuesta?
+• ¿Qué precio tiene?
+• ¿Está en oferta?
+• ¿Hay descuento?
 
 PEDIR INFORMACIÓN:
-• ¿Tiene esto en otra talla/color? = Do you have this in another size/color?
-• ¿Dónde están los probadores? = Where are the fitting rooms?
-• ¿Aceptan tarjeta? = Do you accept card?
-• ¿Puedo pagar en efectivo? = Can I pay in cash?
+• ¿Tiene esto en otra talla/color?
+• ¿Dónde están los probadores?
+• ¿Aceptan tarjeta?
+• ¿Puedo pagar en efectivo?
 
 PROBAR Y COMPRAR:
-• ¿Puedo probármelo? = Can I try it on?
-• Me gusta este / esta = I like this one
-• Me llevo este / esta = I'll take this one
-• ¿Me puede dar un ticket/factura? = Can you give me a receipt/invoice?
+• ¿Puedo probármelo?
+• Me gusta este / esta
+• Me llevo este / esta
+• ¿Me puede dar un ticket/factura?
 
-🔹 RESPUESTAS DEL VENDEDOR (seller responses):
-• ¿En qué puedo ayudarle? = How can I help you?
-• ¿Qué talla busca? = What size are you looking for?
-• ¿Qué color prefiere? = What color do you prefer?
-• Los probadores están allí = The fitting rooms are there
-• Está rebajado = It's discounted
-• La talla que busca no nos queda = The size you're looking for is out of stock
-• Lo siento, no aceptamos tarjeta = Sorry, we don't accept card
-• Pase por caja, por favor = Please go to the cash register
+🔹 RESPUESTAS DEL VENDEDOR:
+• ¿En qué puedo ayudarle?
+• ¿Qué talla busca?
+• ¿Qué color prefiere?
+• Los probadores están allí
+• Está rebajado
+• La talla que busca no nos queda
+• Lo siento, no aceptamos tarjeta
+• Pase por caja, por favor
 
 📌 EJEMPLOS:
 • ¿Cuánto cuesta esta camisa?
@@ -16756,7 +16756,7 @@ PROBAR Y COMPRAR:
         id: "t4",
         titulo: "En el mercado",
         tituloChino: "在市场",
-        descripcion: `🔹 COMPRAR EN EL MERCADO (buying at the market):
+        descripcion: `🔹 COMPRAR EN EL MERCADO:
 
 PREGUNTAR POR PRODUCTOS:
 • ¿Cuánto cuesta el kilo de...?
@@ -17727,19 +17727,19 @@ En los mercados españoles, es común regatear (negociar el precio) en algunos p
         id: "t1",
         titulo: "Vocabulario básico del banco",
         tituloChino: "银行基本词汇",
-        descripcion: `🔹 EL BANCO Y LAS CUENTAS (bank and accounts):
-• banco = bank
-• sucursal = branch
-• cajero automático = ATM
-• ventanilla = teller window
-• cuenta = account
-• cuenta corriente = checking account
-• cuenta de ahorros = savings account
-• abrir una cuenta = to open an account
-• cerrar una cuenta = to close an account
-• titular de la cuenta = account holder
-• saldo = balance
-• extracto = statement
+        descripcion: `🔹 EL BANCO Y LAS CUENTAS:
+• banco
+• sucursal
+• cajero automático
+• ventanilla
+• cuenta
+• cuenta corriente
+• cuenta de ahorros
+• abrir una cuenta
+• cerrar una cuenta
+• titular de la cuenta
+• saldo
+• extracto
 
 📌 EJEMPLOS:
 • Quiero abrir una cuenta de ahorros.
@@ -17782,23 +17782,23 @@ En los mercados españoles, es común regatear (negociar el precio) en algunos p
         id: "t2",
         titulo: "Sacar e ingresar dinero",
         tituloChino: "取钱和存钱",
-        descripcion: `🔹 OPERACIONES CON DINERO (money operations):
-• sacar dinero = to withdraw money
-• retirar dinero = to withdraw money
-• ingresar dinero = to deposit money
-• depositar dinero = to deposit money
-• transferir = to transfer
-• hacer una transferencia = to make a transfer
-• cobrar un cheque = to cash a check
-• pagar una factura = to pay a bill
-• recibo = receipt
-• comisión = commission / fee
+        descripcion: `🔹 OPERACIONES CON DINERO:
+• sacar dinero
+• retirar dinero
+• ingresar dinero
+• depositar dinero
+• transferir
+• hacer una transferencia
+• cobrar un cheque
+• pagar una factura
+• recibo
+• comisión
 
 📌 EN EL CAJERO AUTOMÁTICO (at the ATM):
-• Introduzca la tarjeta = insert your card
-• Marque su PIN = enter your PIN
-• Retire el dinero = take the money
-• ¿Quiere un recibo? = do you want a receipt?
+• Introduzca la tarjeta
+• Marque su PIN
+• Retire el dinero
+• ¿Quiere un recibo?
 
 📌 EJEMPLOS:
 • Quiero sacar cien euros del cajero.
@@ -17845,23 +17845,23 @@ En los mercados españoles, es común regatear (negociar el precio) en algunos p
         id: "t3",
         titulo: "Formas de pago",
         tituloChino: "支付方式",
-        descripcion: `🔹 FORMAS DE PAGO (payment methods):
-• en efectivo = in cash
-• con tarjeta = by card
-• tarjeta de crédito = credit card
-• tarjeta de débito = debit card
-• transferencia bancaria = bank transfer
+        descripcion: `🔹 FORMAS DE PAGO:
+• en efectivo
+• con tarjeta
+• tarjeta de crédito
+• tarjeta de débito
+• transferencia bancaria
 • pago en línea = online payment
-• a plazos = in installments
-• al contado = in cash / upfront
+• a plazos
+• al contado
 
 📌 PREGUNTAR Y RESPONDER:
-• ¿Cómo quiere pagar? = how would you like to pay?
-• ¿Puedo pagar con tarjeta? = can I pay by card?
-• ¿Aceptan tarjeta? = do you accept card?
-• ¿En efectivo o con tarjeta? = cash or card?
-• Pago en efectivo = I'll pay cash
-• Pago con tarjeta = I'll pay by card
+• ¿Cómo quiere pagar?
+• ¿Puedo pagar con tarjeta?
+• ¿Aceptan tarjeta?
+• ¿En efectivo o con tarjeta?
+• Pago en efectivo
+• Pago con tarjeta
 
 📌 NOTA CULTURAL:
 En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, pero cada vez más negocios aceptan tarjeta y pagos por móvil (Bizum en España).`,
@@ -17904,15 +17904,15 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
         id: "t4",
         titulo: "Cambiar dinero",
         tituloChino: "兑换货币",
-        descripcion: `🔹 CAMBIO DE MONEDA (currency exchange):
-• cambiar dinero = to change money
-• moneda = currency
-• billete = banknote / bill
-• moneda (sueltas) = coin
-• tipo de cambio = exchange rate
-• casa de cambio = exchange office
-• divisa = foreign currency
-• comisión por cambio = exchange fee
+        descripcion: `🔹 CAMBIO DE MONEDA:
+• cambiar dinero
+• moneda
+• billete
+• moneda (sueltas)
+• tipo de cambio
+• casa de cambio
+• divisa
+• comisión por cambio
 
 📌 FRASES ÚTILES:
 • Quiero cambiar euros a dólares.
@@ -17965,7 +17965,7 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
         id: "t5",
         titulo: "Frases útiles en el banco",
         tituloChino: "银行里的实用句子",
-        descripcion: `🔹 EN LA VENTANILLA (at the teller):
+        descripcion: `🔹 EN LA VENTANILLA:
 • Buenos días, ¿en qué puedo ayudarle?
 • Quiero abrir una cuenta, por favor.
 • ¿Qué documentos necesito?
@@ -17975,11 +17975,11 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
 • ¿Necesita algo más?
 
 📌 PROBLEMAS Y SOLUCIONES:
-• He perdido mi tarjeta = I've lost my card
-• Quiero bloquear mi tarjeta = I want to block my card
-• Mi tarjeta no funciona = my card doesn't work
-• El cajero se ha tragado mi tarjeta = the ATM swallowed my card
-• Quiero cancelar una transferencia = I want to cancel a transfer
+• He perdido mi tarjeta
+• Quiero bloquear mi tarjeta
+• Mi tarjeta no funciona
+• El cajero se ha tragado mi tarjeta
+• Quiero cancelar una transferencia
 
 📌 EJEMPLOS:
 • ¿Qué documentos necesito para abrir una cuenta?
@@ -18900,45 +18900,45 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
         descripcion: `🔹 TIPOS DE ALOJAMIENTO EN ESPAÑOL:
 
 • hotel = hotel
-• hostal / hostal = hostel / guesthouse
-• pensión = guesthouse / boarding house
-• apartamento turístico = tourist apartment
-• casa rural = country house
-• camping = campsite
-• albergue = hostel (youth hostel)
-• resort = resort
-• bed & breakfast = bed & breakfast
-• motel = motel
+• hostal / hostal
+• pensión
+• apartamento turístico
+• casa rural
+• camping
+• albergue
+• resort
+• bed & breakfast
+• motel
 
 🔹 SERVICIOS DEL HOTEL:
-• recepción = reception (24 horas)
-• habitación = room
-• cama individual = single bed
-• cama de matrimonio = double bed
-• baño privado = private bathroom
-• baño compartido = shared bathroom
-• ducha = shower
-• bañera = bathtub
-• secador de pelo = hairdryer
-• aire acondicionado = air conditioning
-• calefacción = heating
+• recepción (24 horas)
+• habitación
+• cama individual
+• cama de matrimonio
+• baño privado
+• baño compartido
+• ducha
+• bañera
+• secador de pelo
+• aire acondicionado
+• calefacción
 • WiFi gratis = free WiFi
-• televisión = television
+• televisión
 • minibar = minibar
-• caja fuerte = safe
-• nevera = refrigerator
+• caja fuerte
+• nevera
 
 🔹 TIPOS DE HABITACIONES:
-• habitación individual = single room
-• habitación doble = double room
-• habitación twin = twin room (two single beds)
-• habitación triple = triple room
-• habitación cuádruple = quadruple room
-• suite = suite
-• suite junior = junior suite
-• habitación con vistas = room with a view
-• habitación exterior = room facing the street
-• habitación interior = room facing the interior
+• habitación individual
+• habitación doble
+• habitación twin
+• habitación triple
+• habitación cuádruple
+• suite
+• suite junior
+• habitación con vistas
+• habitación exterior
+• habitación interior
 
 📌 EJEMPLOS:
 • Quiero una habitación doble con baño privado.
@@ -19012,18 +19012,18 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
         tituloChino: "预订",
         descripcion: `🔹 FRASES PARA RESERVAR:
 
-• Quiero hacer una reserva. = I want to make a reservation.
-• ¿Tienen habitaciones libres? = Do you have any available rooms?
-• Para dos personas. = For two people.
-• Para tres noches. = For three nights.
-• ¿Cuánto cuesta por noche? = How much is it per night?
-• ¿Está incluido el desayuno? = Is breakfast included?
-• ¿Aceptan tarjeta? = Do you accept card?
-• ¿Tienen aparcamiento? = Do you have parking?
-• ¿Se puede fumar? = Is smoking allowed?
-• ¿Hay habitaciones en la primera planta? = Are there rooms on the first floor?
-• ¿Tiene vistas al mar? = Does it have sea views?
-• ¿Cuál es la política de cancelación? = What is the cancellation policy?
+• Quiero hacer una reserva.
+• ¿Tienen habitaciones libres?
+• Para dos personas.
+• Para tres noches.
+• ¿Cuánto cuesta por noche?
+• ¿Está incluido el desayuno?
+• ¿Aceptan tarjeta?
+• ¿Tienen aparcamiento?
+• ¿Se puede fumar?
+• ¿Hay habitaciones en la primera planta?
+• ¿Tiene vistas al mar?
+• ¿Cuál es la política de cancelación?
 
 🔹 RESPUESTAS DEL RECEPCIONISTA:
 • Sí, tenemos habitaciones disponibles.
@@ -19087,31 +19087,31 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
         id: "t3",
         titulo: "Check-in y check-out",
         tituloChino: "入住和退房",
-        descripcion: `🔹 EN LA RECEPCIÓN (check-in):
+        descripcion: `🔹 EN LA RECEPCIÓN:
 
-• Tengo una reserva a nombre de... = I have a reservation under the name of...
-• ¿Puede repetir su nombre, por favor? = Can you repeat your name, please?
-• Firme aquí, por favor. = Please sign here.
-• Aquí tiene la llave de su habitación. = Here is the key to your room.
-• Su habitación es la número 305. = Your room is number 305.
-• El desayuno se sirve de 7 a 10. = Breakfast is served from 7 to 10.
-• La piscina está en la azotea. = The pool is on the rooftop.
-• ¿A qué hora es el check-out? = What time is check-out?
+• Tengo una reserva a nombre de...
+• ¿Puede repetir su nombre, por favor?
+• Firme aquí, por favor.
+• Aquí tiene la llave de su habitación.
+• Su habitación es la número 305.
+• El desayuno se sirve de 7 a 10.
+• La piscina está en la azotea.
+• ¿A qué hora es el check-out?
 
 🔹 CHECK-OUT (salida):
-• Quiero hacer el check-out. = I want to check out.
-• La habitación ha sido un placer. = The room was a pleasure.
-• ¿Puedo pagar con tarjeta? = Can I pay with card?
-• ¿Me puede dar una factura? = Can you give me an invoice?
-• ¿Puedo dejar el equipaje aquí? = Can I leave my luggage here?
-• ¿Hay servicio de habitaciones? = Is there room service?
+• Quiero hacer el check-out.
+• La habitación ha sido un placer.
+• ¿Puedo pagar con tarjeta?
+• ¿Me puede dar una factura?
+• ¿Puedo dejar el equipaje aquí?
+• ¿Hay servicio de habitaciones?
 
 🔹 FRASES ADICIONALES:
-• ¿A qué hora es el desayuno? = What time is breakfast?
-• ¿Puedo pedir algo a la habitación? = Can I order something to the room?
-• Necesito una toalla extra. = I need an extra towel.
-• El aire acondicionado no funciona. = The air conditioning doesn't work.
-• ¿Puede llamarme un taxi? = Can you call me a taxi?
+• ¿A qué hora es el desayuno?
+• ¿Puedo pedir algo a la habitación?
+• Necesito una toalla extra.
+• El aire acondicionado no funciona.
+• ¿Puede llamarme un taxi?
 
 📌 EJEMPLOS:
 • Tengo una reserva para tres noches.
@@ -19168,25 +19168,25 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
         tituloChino: "常见问题和附加服务",
         descripcion: `🔹 PROBLEMAS COMUNES:
 
-• La habitación está sucia. = The room is dirty.
+• La habitación está sucia.
 • No hay agua caliente. = There's no hot water.
-• La cama está rota. = The bed is broken.
-• La llave no funciona. = The key doesn't work.
-• Hay ruido en la habitación de al lado. = There's noise in the next room.
-• Me han robado algo de la habitación. = Something was stolen from my room.
-• He perdido la llave. = I lost the key.
+• La cama está rota.
+• La llave no funciona.
+• Hay ruido en la habitación de al lado.
+• Me han robado algo de la habitación.
+• He perdido la llave.
 
 🔹 SOLUCIONES:
-• ¿Puede cambiarme de habitación? = Can you change my room?
-• ¿Puede mandar a alguien a arreglarlo? = Can you send someone to fix it?
-• Quiero hablar con el gerente. = I want to speak to the manager.
+• ¿Puede cambiarme de habitación?
+• ¿Puede mandar a alguien a arreglarlo?
+• Quiero hablar con el gerente.
 
 🔹 SERVICIOS ADICIONALES:
-• ¿Tienen servicio de lavandería? = Do you have laundry service?
-• ¿Pueden despertarme a las 7? = Can you wake me up at 7?
-• ¿Dónde puedo cargar mi móvil? = Where can I charge my phone?
-• ¿Hay gimnasio? = Is there a gym?
-• ¿Tienen spa? = Do you have a spa?
+• ¿Tienen servicio de lavandería?
+• ¿Pueden despertarme a las 7?
+• ¿Dónde puedo cargar mi móvil?
+• ¿Hay gimnasio?
+• ¿Tienen spa?
 
 📌 EJEMPLOS:
 • La habitación está sucia, ¿pueden limpiarla?
@@ -20133,39 +20133,39 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
         tituloChino: "机场词汇",
         descripcion: `🔹 PARTES DEL AEROPUERTO:
 
-• aeropuerto = airport
+• aeropuerto
 • terminal = terminal
-• facturación = check-in desk
-• mostrador = counter
+• facturación
+• mostrador
 • control de seguridad = security check
-• sala de embarque = boarding lounge
-• puerta de embarque = boarding gate
-• pista de aterrizaje = runway
-• llegadas = arrivals
-• salidas = departures
-• aduana = customs
+• sala de embarque
+• puerta de embarque
+• pista de aterrizaje
+• llegadas
+• salidas
+• aduana
 • control de pasaportes = passport control
-• sala de recogida de equipajes = baggage claim
+• sala de recogida de equipajes
 
 🔹 DOCUMENTOS Y EQUIPAJE:
-• billete / boleto = ticket
-• tarjeta de embarque = boarding pass
-• pasaporte = passport
-• DNI = ID card
-• visado = visa
-• equipaje = luggage
-• maleta = suitcase
-• equipaje de mano = hand luggage / carry-on
-• mochila = backpack
-• bolso de mano = handbag
-• etiqueta de equipaje = luggage tag
+• billete / boleto
+• tarjeta de embarque
+• pasaporte
+• DNI
+• visado
+• equipaje
+• maleta
+• equipaje de mano
+• mochila
+• bolso de mano
+• etiqueta de equipaje
 
 🔹 PERSONAL DEL AEROPUERTO:
-• piloto = pilot
-• azafato / azafata = flight attendant
-• agente de facturación = check-in agent
-• agente de seguridad = security officer
-• agente de aduanas = customs officer
+• piloto
+• azafato / azafata
+• agente de facturación
+• agente de seguridad
+• agente de aduanas
 
 📌 EJEMPLOS:
 • Tengo que facturar mi maleta.
@@ -21339,39 +21339,39 @@ En España y Latinoamérica, muchas tiendas pequeñas prefieren el efectivo, per
         id: "t1",
         titulo: "Partes del cuerpo y síntomas",
         tituloChino: "身体部位和症状",
-        descripcion: `🔹 SÍNTOMAS COMUNES (common symptoms):
+        descripcion: `🔹 SÍNTOMAS COMUNES:
 
 DOLORES:
-• dolor de cabeza = headache
-• dolor de estómago = stomachache
-• dolor de garganta = sore throat
-• dolor de espalda = back pain
-• dolor de muelas = toothache
-• dolor de oídos = earache
-• dolor muscular = muscle pain
+• dolor de cabeza
+• dolor de estómago
+• dolor de garganta
+• dolor de espalda
+• dolor de muelas
+• dolor de oídos
+• dolor muscular
 
 OTROS SÍNTOMAS:
-• fiebre = fever
-• tos = cough
-• resfriado = cold
-• gripe = flu
-• náuseas = nausea
-• mareo = dizziness
-• alergia = allergy
-• fractura = fracture
-• quemadura = burn
-• cortada = cut
-• hinchazón = swelling
-• moretón = bruise
+• fiebre
+• tos
+• resfriado
+• gripe
+• náuseas
+• mareo
+• alergia
+• fractura
+• quemadura
+• cortada
+• hinchazón
+• moretón
 
 🔹 VERBOS RELACIONADOS:
-• doler = to hurt
-• tener fiebre = to have a fever
-• estornudar = to sneeze
-• toser = to cough
-• vomitar = to vomit
-• sangrar = to bleed
-• romperse = to break (a bone)
+• doler
+• tener fiebre
+• estornudar
+• toser
+• vomitar
+• sangrar
+• romperse
 
 📌 EJEMPLOS:
 • Me duele la cabeza.
@@ -21436,34 +21436,34 @@ OTROS SÍNTOMAS:
         tituloChino: "在医生诊室",
         descripcion: `🔹 PREGUNTAS DEL MÉDICO:
 
-• ¿Qué le pasa? = What's wrong?
-• ¿Dónde le duele? = Where does it hurt?
-• ¿Desde cuándo? = Since when?
-• ¿Tiene fiebre? = Do you have a fever?
-• ¿Ha tomado algo? = Have you taken anything?
-• ¿Tiene alergias? = Do you have allergies?
-• ¿Toma alguna medicación? = Do you take any medication?
+• ¿Qué le pasa?
+• ¿Dónde le duele?
+• ¿Desde cuándo?
+• ¿Tiene fiebre?
+• ¿Ha tomado algo?
+• ¿Tiene alergias?
+• ¿Toma alguna medicación?
 
 🔹 RESPUESTAS DEL PACIENTE:
 
-• Me encuentro mal. = I feel bad.
-• Me duele aquí. = It hurts here.
-• Tengo fiebre desde ayer. = I've had a fever since yesterday.
-• He vomitado dos veces. = I've vomited twice.
-• No puedo dormir. = I can't sleep.
-• Me siento débil. = I feel weak.
-• Me duele al respirar. = It hurts when I breathe.
-• Me duele al moverlo. = It hurts when I move it.
+• Me encuentro mal.
+• Me duele aquí.
+• Tengo fiebre desde ayer.
+• He vomitado dos veces.
+• No puedo dormir.
+• Me siento débil.
+• Me duele al respirar.
+• Me duele al moverlo.
 
 🔹 DIAGNÓSTICO Y TRATAMIENTO:
 
-• Tiene una gripe. = You have the flu.
-• Tiene una infección. = You have an infection.
-• Le voy a recetar un medicamento. = I'm going to prescribe medication.
-• Necesita reposo. = You need rest.
-• Tiene que beber mucho líquido. = You need to drink plenty of fluids.
-• Necesita una radiografía. = You need an X-ray.
-• Tiene que ir al especialista. = You need to see a specialist.
+• Tiene una gripe.
+• Tiene una infección.
+• Le voy a recetar un medicamento.
+• Necesita reposo.
+• Tiene que beber mucho líquido.
+• Necesita una radiografía.
+• Tiene que ir al especialista.
 
 📌 EJEMPLOS:
 • ¿Desde cuándo tiene fiebre?
@@ -21525,35 +21525,35 @@ OTROS SÍNTOMAS:
         tituloChino: "在药店",
         descripcion: `🔹 FRASES EN LA FARMACIA:
 
-• Necesito algo para el dolor. = I need something for pain.
-• ¿Tiene algo para la tos? = Do you have something for cough?
-• ¿Es con receta? = Is it prescription?
-• ¿Cómo se toma? = How do you take it?
-• ¿Cada cuántas horas? = Every how many hours?
-• ¿Tiene efectos secundarios? = Does it have side effects?
-• ¿Puede darme algo para la fiebre? = Can you give me something for fever?
+• Necesito algo para el dolor.
+• ¿Tiene algo para la tos?
+• ¿Es con receta?
+• ¿Cómo se toma?
+• ¿Cada cuántas horas?
+• ¿Tiene efectos secundarios?
+• ¿Puede darme algo para la fiebre?
 
 🔹 TIPOS DE MEDICAMENTOS:
 
-• pastillas / comprimidos = pills / tablets
-• jarabe = syrup
-• crema = cream
-• ungüento = ointment
-• inhalador = inhaler
-• gotas = drops
-• vendas = bandages
-• tiritas = band-aids
-• analgésico = painkiller
-• antibiótico = antibiotic
-• antiinflamatorio = anti-inflammatory
-• antihistamínico = antihistamine
+• pastillas / comprimidos
+• jarabe
+• crema
+• ungüento
+• inhalador
+• gotas
+• vendas
+• tiritas
+• analgésico
+• antibiótico
+• antiinflamatorio
+• antihistamínico
 
 🔹 INSTRUCCIONES COMUNES:
 
 • Tome dos pastillas cada ocho horas. = Take two pills every eight hours.
 • Tome una cucharada después de comer. = Take one spoonful after eating.
-• Aplique la crema en la zona afectada. = Apply the cream to the affected area.
-• No tome más de tres al día. = Don't take more than three a day.
+• Aplique la crema en la zona afectada.
+• No tome más de tres al día.
 
 📌 EJEMPLOS:
 • ¿Puede darme algo para la fiebre?
@@ -21614,34 +21614,34 @@ OTROS SÍNTOMAS:
         id: "t4",
         titulo: "En urgencias y consejos de salud",
         tituloChino: "在急诊和健康建议",
-        descripcion: `🔹 EN URGENCIAS (emergency room):
+        descripcion: `🔹 EN URGENCIAS:
 
-• Necesito un médico urgente. = I need an emergency doctor.
-• Llame a una ambulancia. = Call an ambulance.
-• Ha sido un accidente. = There's been an accident.
-• Se ha desmayado. = He/She fainted.
-• No respira. = He/She isn't breathing.
-• Tiene una hemorragia. = He/She is bleeding.
+• Necesito un médico urgente.
+• Llame a una ambulancia.
+• Ha sido un accidente.
+• Se ha desmayado.
+• No respira.
+• Tiene una hemorragia.
 
-🔹 CONSEJOS DE SALUD (health tips):
+🔹 CONSEJOS DE SALUD:
 
-• Coma frutas y verduras. = Eat fruits and vegetables.
-• Haga ejercicio regularmente. = Exercise regularly.
-• Beba suficiente agua. = Drink enough water.
-• Duerma al menos 8 horas. = Sleep at least 8 hours.
-• No fume. = Don't smoke.
+• Coma frutas y verduras.
+• Haga ejercicio regularmente.
+• Beba suficiente agua.
+• Duerma al menos 8 horas.
+• No fume.
 • Limite el alcohol. = Limit alcohol.
-• Lávese las manos frecuentemente. = Wash your hands frequently.
+• Lávese las manos frecuentemente.
 
 🔹 PROFESIONALES DE LA SALUD:
 
-• médico de cabecera = general practitioner (GP)
-• pediatra = pediatrician
-• cardiólogo = cardiologist
-• dermatólogo = dermatologist
-• oftalmólogo = ophthalmologist
-• dentista = dentist
-• fisioterapeuta = physiotherapist
+• médico de cabecera (GP)
+• pediatra
+• cardiólogo
+• dermatólogo
+• oftalmólogo
+• dentista
+• fisioterapeuta
 
 📌 EJEMPLOS:
 • Necesito ver a un médico urgente.
@@ -22547,31 +22547,31 @@ OTROS SÍNTOMAS:
         tituloChino: "教育阶段",
         descripcion: `🔹 NIVELES EDUCATIVOS EN ESPAÑA:
 
-• guardería (0-3 años) = nursery school
-• educación infantil (3-6 años) = preschool
-• educación primaria (6-12 años) = primary school
-• educación secundaria (ESO) (12-16 años) = secondary school
+• guardería (0-3 años)
+• educación infantil (3-6 años)
+• educación primaria (6-12 años)
+• educación secundaria (ESO) (12-16 años)
 • bachillerato (16-18 años) = high school / sixth form
-• formación profesional (FP) = vocational training
-• universidad (grado) = university (bachelor's degree)
-• máster = master's degree
+• formación profesional (FP)
+• universidad (grado)
+• máster
 • doctorado = doctorate / PhD
 
 🔹 CURSOS Y AÑOS ACADÉMICOS:
 
-• primer curso / primer año = first year
-• segundo curso = second year
-• tercer curso = third year
-• cuarto curso = fourth year
+• primer curso / primer año
+• segundo curso
+• tercer curso
+• cuarto curso
 
 🔹 CENTROS EDUCATIVOS:
 
-• escuela / colegio = school
+• escuela / colegio
 • instituto = secondary school / high school
-• universidad = university
-• facultad = faculty
-• escuela de idiomas = language school
-• academia = academy / private school
+• universidad
+• facultad
+• escuela de idiomas
+• academia
 
 📌 EJEMPLOS:
 • Los niños van a la escuela primaria.
@@ -22630,36 +22630,36 @@ OTROS SÍNTOMAS:
         tituloChino: "科目和材料",
         descripcion: `🔹 ASIGNATURAS COMUNES:
 
-• matemáticas = mathematics
+• matemáticas
 • lengua / lengua española = Spanish language
-• inglés = English
-• ciencias = science
-• historia = history
-• geografía = geography
-• física = physics
-• química = chemistry
-• biología = biology
-• arte = art
-• música = music
-• educación física = physical education
-• filosofía = philosophy
-• economía = economics
-• informática = computer science
+• inglés
+• ciencias
+• historia
+• geografía
+• física
+• química
+• biología
+• arte
+• música
+• educación física
+• filosofía
+• economía
+• informática
 
 🔹 MATERIALES ESCOLARES:
 
-• libro = book
-• cuaderno = notebook
-• bolígrafo = pen
-• lápiz = pencil
-• goma de borrar = eraser
-• sacapuntas = pencil sharpener
-• regla = ruler
-• mochila = backpack
-• estuche = pencil case
-• calculadora = calculator
-• ordenador = computer
-• diccionario = dictionary
+• libro
+• cuaderno
+• bolígrafo
+• lápiz
+• goma de borrar
+• sacapuntas
+• regla
+• mochila
+• estuche
+• calculadora
+• ordenador
+• diccionario
 
 📌 EJEMPLOS:
 • Mi asignatura favorita es la historia.
@@ -22723,38 +22723,38 @@ OTROS SÍNTOMAS:
         tituloChino: "在课堂上和考试",
         descripcion: `🔹 FRASES ÚTILES EN CLASE:
 
-• ¿Puedo ir al baño? = Can I go to the bathroom?
-• No entiendo esta explicación. = I don't understand this explanation.
-• ¿Puede repetir, por favor? = Can you repeat, please?
-• ¿Cuál es la fecha del examen? = What's the date of the exam?
-• ¿Cuánto vale este trabajo? = How much is this assignment worth?
-• ¿Hay deberes para mañana? = Is there homework for tomorrow?
-• ¿Puede ayudarme? = Can you help me?
+• ¿Puedo ir al baño?
+• No entiendo esta explicación.
+• ¿Puede repetir, por favor?
+• ¿Cuál es la fecha del examen?
+• ¿Cuánto vale este trabajo?
+• ¿Hay deberes para mañana?
+• ¿Puede ayudarme?
 
 🔹 SOBRE EXÁMENES:
 
-• examen = exam
-• aprobar = to pass
-• suspender = to fail
-• nota = grade / mark
-• sobresaliente (9-10) = excellent
-• notable (7-8.9) = good
-• bien (6-6.9) = satisfactory
-• suficiente (5-5.9) = pass
-• insuficiente (0-4.9) = fail
+• examen
+• aprobar
+• suspender
+• nota
+• sobresaliente (9-10)
+• notable (7-8.9)
+• bien (6-6.9)
+• suficiente (5-5.9)
+• insuficiente (0-4.9)
 
 🔹 VERBOS RELACIONADOS:
 
-• estudiar = to study
-• aprender = to learn
-• enseñar = to teach
-• explicar = to explain
-• preguntar = to ask
-• responder = to answer
-• leer = to read
-• escribir = to write
-• escuchar = to listen
-• prestar atención = to pay attention
+• estudiar
+• aprender
+• enseñar
+• explicar
+• preguntar
+• responder
+• leer
+• escribir
+• escuchar
+• prestar atención
 
 📌 EJEMPLOS:
 • Estudié mucho y aprobé el examen.
@@ -22820,35 +22820,35 @@ OTROS SÍNTOMAS:
         tituloChino: "在大学",
         descripcion: `🔹 VOCABULARIO UNIVERSITARIO:
 
-• carrera = degree program
-• asignatura = subject / course
-• crédito = credit
-• beca = scholarship
-• matrícula = enrollment / tuition
-• aula = classroom
+• carrera
+• asignatura
+• crédito
+• beca
+• matrícula
+• aula
 • biblioteca universitaria = university library
-• laboratorio = laboratory
-• seminario = seminar
-• profesor / profesora = professor
-• catedrático / catedrática = chair professor
-• decano / decana = dean
-• rector / rectora = rector / chancellor
+• laboratorio
+• seminario
+• profesor / profesora
+• catedrático / catedrática
+• decano / decana
+• rector / rectora
 
 🔹 TÍTULOS UNIVERSITARIOS:
 
-• grado = bachelor's degree
-• máster = master's degree
+• grado
+• máster
 • doctorado = doctorate / PhD
-• diplomatura = diploma (old system)
+• diplomatura
 
 🔹 FRASES ÚTILES:
 
-• ¿Qué carrera estudias? = What degree are you studying?
-• Estudio ingeniería informática. = I'm studying computer engineering.
-• ¿En qué año estás? = What year are you in?
-• Estoy en tercero. = I'm in third year.
-• ¿Dónde está la biblioteca? = Where is the library?
-• ¿Cuándo son los exámenes finales? = When are the final exams?
+• ¿Qué carrera estudias?
+• Estudio ingeniería informática.
+• ¿En qué año estás?
+• Estoy en tercero.
+• ¿Dónde está la biblioteca?
+• ¿Cuándo son los exámenes finales?
 
 📌 EJEMPLOS:
 • Estudio medicina en la universidad.

@@ -1145,7 +1145,7 @@ const M84 = {
       tituloChino: "打电话和接电话",
       descripcion: `Frases típicas en una llamada:
 
-• Contestar: ¿Diga? / ¿Dígame? (España) · ¿Bueno? (México) · ¿Aló? (otros países)
+• Contestar: ¿Diga? / ¿Dígame? · ¿Bueno? · ¿Aló? (otros países)
 • Presentarse: Hola, soy Li Wei.
 • Preguntar por alguien: ¿Está Marta, por favor? / ¿Puedo hablar con Marta?
 • Preguntar quién llama: ¿De parte de quién?

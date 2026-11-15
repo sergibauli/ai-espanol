@@ -88,7 +88,7 @@ Muchos estudiantes dicen "Buenas noches" para despedirse durante el día. ¡No l
 • Me voy = Me marcho (informal, para avisar que te vas)
 • Cuídate = ¡Que te vaya bien! (cariñoso)
 
-📊 TABLA DE FRECUENCIA (España):
+📊 TABLA DE FRECUENCIA:
 1. Hasta luego → 80% de las situaciones
 2. Adiós → 50% (formal o cuando no sabes cuándo volverás)
 3. Chao → 30% (entre jóvenes y amigos)
@@ -1334,8 +1334,8 @@ En inglés se dice "I'm sorry" para todo. En español, "Lo siento" es más serio
 🔹 Expresiones de cortesía en situaciones específicas:
 
 📌 CUANDO ESTORNUDAS:
-• Salud (España - "health")
-• Jesús (Latinoamérica)
+• Salud
+• Jesús
 • La persona que estornuda dice: ¡Perdón!
 
 📌 CUANDO ALGUIEN ESTORNUDA, RESPONDE:
@@ -1417,7 +1417,7 @@ En inglés se dice "I'm sorry" para todo. En español, "Lo siento" es más serio
 • Se usa más "Disculpe" que "Perdón" en situaciones formales.
 • "Gracias" y "De nada" son extremadamente importantes.
 • El trato de "usted" es mucho más común que en España.
-• Para pedir: "Me regala un café" (México) o "¿Me podría dar un café?" (más formal).
+• Para pedir: "Me regala un café" o "¿Me podría dar un café?" (más formal).
 
 📌 PALABRAS DE CORTESÍA COMUNES EN LATINOAMÉRICA:
 • ¿Me permite? (formal para pedir permiso)
@@ -3853,12 +3853,12 @@ Escribir "diez y seis" en lugar de "dieciséis". En español moderno, se escribe
 
 📌 EXPRESIONES ÚTILES CON NÚMEROS:
 
-• Uno a uno (one by one)
-• De dos en dos (two by two)
-• Por primera vez (for the first time)
-• La primera vez (the first time)
-• Cada dos días (every two days)
-• Cada tres horas (every three hours)`,
+• Uno a uno
+• De dos en dos
+• Por primera vez
+• La primera vez
+• Cada dos días
+• Cada tres horas`,
         descripcionChino: `🔹 关键规则：
 
 1. "Uno" 在阳性名词前变成 "un"。
@@ -7673,29 +7673,29 @@ No digas "Vivo en un piso en Madrid centro" es correcto, pero cuidado con las pr
         tituloChino: "住房类型",
         descripcion: `🔹 TIPOS DE VIVIENDA EN ESPAÑOL:
 
-🏠 Casa (house) - vivienda unifamiliar
-🏢 Apartamento / Piso (apartment) - en España se usa más "piso"
-🏢 Dúplex (duplex) - dos plantas en un mismo apartamento
-🌇 Ático (penthouse) - última planta, normalmente con terraza
-📚 Estudio (studio) - una sola habitación
+🏠 Casa - vivienda unifamiliar
+🏢 Apartamento / Piso - en España se usa más "piso"
+🏢 Dúplex - dos plantas en un mismo apartamento
+🌇 Ático - última planta, normalmente con terraza
+📚 Estudio - una sola habitación
 🏰 Chalet (chalet / villa) - casa grande con jardín
-🌾 Casa rural (country house) - en el campo
-🏫 Residencia estudiantil (student residence)
-🏘️ Piso compartido (shared apartment)
+🌾 Casa rural - en el campo
+🏫 Residencia estudiantil
+🏘️ Piso compartido
 
 🔹 PARTES DE LA VIVIENDA:
-• salón / sala de estar = living room
-• cocina = kitchen
-• dormitorio / habitación = bedroom
-• baño = bathroom
-• comedor = dining room
-• estudio / despacho = study / office
-• terraza / balcón = terrace / balcony
-• jardín = garden
-• garaje = garage
-• sótano = basement
-• trastero = storage room
-• recibidor / entrada = entrance hall
+• salón / sala de estar
+• cocina
+• dormitorio / habitación
+• baño
+• comedor
+• estudio / despacho
+• terraza / balcón
+• jardín
+• garaje
+• sótano
+• trastero
+• recibidor / entrada
 
 📌 NOTA CULTURAL:
 En España, la mayoría de la gente vive en pisos en ciudades grandes. Las casas unifamiliares son más comunes en pueblos y afueras.`,
@@ -7752,18 +7752,18 @@ En España, la mayoría de la gente vive en pisos en ciudades grandes. Las casas
         tituloChino: "地点介词",
         descripcion: `🔹 PREPOSICIONES DE LUGAR BÁSICAS:
 
-• en = in / on / at (en la casa, en la mesa)
-• sobre / encima de = on top of (sobre la mesa)
-• debajo de = under (debajo de la silla)
-• delante de = in front of (delante de la puerta)
-• detrás de = behind (detrás del sofá)
-• al lado de = next to (al lado de la ventana)
-• cerca de = near (cerca del parque)
-• lejos de = far from (lejos del centro)
-• enfrente de = opposite (enfrente del banco)
-• entre = between (entre la cocina y el comedor)
-• dentro de = inside (dentro de la caja)
-• fuera de = outside (fuera de la ciudad)
+• en (en la casa, en la mesa)
+• sobre / encima de (sobre la mesa)
+• debajo de (debajo de la silla)
+• delante de (delante de la puerta)
+• detrás de (detrás del sofá)
+• al lado de (al lado de la ventana)
+• cerca de (cerca del parque)
+• lejos de (lejos del centro)
+• enfrente de (enfrente del banco)
+• entre (entre la cocina y el comedor)
+• dentro de (dentro de la caja)
+• fuera de (fuera de la ciudad)
 
 🔹 EJEMPLOS CON PREGUNTAS:
 • ¿Dónde está el supermercado? — Está cerca de mi casa.
@@ -7850,14 +7850,14 @@ EXTERIOR (exterior):
 • La casa tiene vistas al mar.
 
 🔹 ADJETIVOS ÚTILES PARA DESCRIBIR:
-• luminoso/a = bright
-• amplio/a = spacious
-• acogedor/a = cozy
-• moderno/a = modern
-• antiguo/a = old / antique
-• reformado/a = renovated
-• amueblado/a = furnished
-• vacío/a = empty
+• luminoso/a
+• amplio/a
+• acogedor/a
+• moderno/a
+• antiguo/a
+• reformado/a
+• amueblado/a
+• vacío/a
 
 🔹 EJEMPLOS COMPLETOS:
 • Vivo en un piso amplio y luminoso en el centro.
@@ -8793,57 +8793,57 @@ EXTERIOR (exterior):
 
 SALUD:
 • médico / médica = doctor
-• enfermero / enfermera = nurse
-• dentista = dentist (invariable)
-• veterinario / veterinaria = vet
-• farmacéutico / farmacéutica = pharmacist
-• psicólogo / psicóloga = psychologist
+• enfermero / enfermera
+• dentista (invariable)
+• veterinario / veterinaria
+• farmacéutico / farmacéutica
+• psicólogo / psicóloga
 
 EDUCACIÓN:
-• profesor / profesora = teacher
-• maestro / maestra = primary teacher
+• profesor / profesora
+• maestro / maestra
 • director / directora = principal / director
-• orientador / orientadora = counselor
+• orientador / orientadora
 
 INGENIERÍA Y TÉCNICA:
-• ingeniero / ingeniera = engineer
-• arquitecto / arquitecta = architect
-• informático / informática = IT specialist
-• técnico / técnica = technician
+• ingeniero / ingeniera
+• arquitecto / arquitecta
+• informático / informática
+• técnico / técnica
 
 DERECHO Y ADMINISTRACIÓN:
-• abogado / abogada = lawyer
-• juez / jueza = judge
-• contable / contador / contadora = accountant
-• secretario / secretaria = secretary
-• administrativo / administrativa = administrative assistant
+• abogado / abogada
+• juez / jueza
+• contable / contador / contadora
+• secretario / secretaria
+• administrativo / administrativa
 
 ARTES Y SERVICIOS:
-• artista = artist (invariable)
-• músico / música = musician
-• escritor / escritora = writer
-• periodista = journalist (invariable)
-• diseñador / diseñadora = designer
-• fotógrafo / fotógrafa = photographer
+• artista (invariable)
+• músico / música
+• escritor / escritora
+• periodista (invariable)
+• diseñador / diseñadora
+• fotógrafo / fotógrafa
 
 COMERCIO Y HOSTELERÍA:
-• cocinero / cocinera = cook / chef
-• camarero / camarera = waiter/waitress
-• panadero / panadera = baker
-• carnicero / carnicera = butcher
-• dependiente / dependienta = shop assistant
-• vendedor / vendedora = salesperson
+• cocinero / cocinera
+• camarero / camarera
+• panadero / panadera
+• carnicero / carnicera
+• dependiente / dependienta
+• vendedor / vendedora
 
 OTROS:
-• policía = police officer (invariable)
-• bombero / bombera = firefighter
-• taxista = taxi driver (invariable)
-• conductor / conductora = driver
-• piloto = pilot (invariable)
-• azafato / azafata = flight attendant
-• peluquero / peluquera = hairdresser
-• estudiante = student (invariable)
-• jubilado / jubilada = retired person
+• policía (invariable)
+• bombero / bombera
+• taxista (invariable)
+• conductor / conductora
+• piloto (invariable)
+• azafato / azafata
+• peluquero / peluquera
+• estudiante (invariable)
+• jubilado / jubilada
 
 📌 NOTA: Las profesiones que terminan en -ista o en -e son invariables (periodista, taxista, estudiante).`,
         descripcionChino: `🔹 西班牙语中的职业（阳性/阴性）：
@@ -9030,23 +9030,23 @@ OTROS:
 • construcción (albañiles, arquitectos)
 
 🔹 VERBOS RELACIONADOS CON EL TRABAJO:
-• trabajar = to work
-• estudiar = to study
-• contratar = to hire
-• despedir = to fire
-• cobrar = to get paid / to charge
-• ascender = to get promoted
-• jubilarse = to retire
-• buscar trabajo = to look for a job
-• encontrar trabajo = to find a job
-• perder el trabajo = to lose the job
+• trabajar
+• estudiar
+• contratar
+• despedir
+• cobrar
+• ascender
+• jubilarse
+• buscar trabajo
+• encontrar trabajo
+• perder el trabajo
 
 🔹 CÓMO HABLAR DE LA JORNADA LABORAL:
-• Trabajo a tiempo completo (full time)
-• Trabajo a tiempo parcial (part time)
-• Tengo jornada continua (continuous shift)
-• Tengo jornada partida (split shift)
-• Hago horas extras (I do overtime)`,
+• Trabajo a tiempo completo
+• Trabajo a tiempo parcial
+• Tengo jornada continua
+• Tengo jornada partida
+• Hago horas extras`,
         descripcionChino: `🔹 常见工作场所：
 
 • hospital = 医院（医生、护士）
@@ -9111,15 +9111,15 @@ OTROS:
         titulo: "Expresiones útiles sobre el trabajo",
         tituloChino: "关于工作的有用表达",
         descripcion: `🔹 PARA HABLAR DE TU TRABAJO:
-• Estoy desempleado/a = I'm unemployed
-• Estoy en paro = I'm unemployed (España)
-• Estoy buscando trabajo activamente = I'm actively looking for a job
-• Trabajo por cuenta propia / autónomo = I'm self-employed
-• Tengo un trabajo fijo = I have a permanent job
-• Tengo un trabajo temporal = I have a temporary job
-• Me han despedido = I've been fired
-• He dejado el trabajo = I've quit my job
-• Me he jubilado = I've retired
+• Estoy desempleado/a
+• Estoy en paro
+• Estoy buscando trabajo activamente
+• Trabajo por cuenta propia / autónomo
+• Tengo un trabajo fijo
+• Tengo un trabajo temporal
+• Me han despedido
+• He dejado el trabajo
+• Me he jubilado
 
 🔹 PARA PREGUNTAR SOBRE EL TRABAJO DE OTROS:
 • ¿Te gusta tu trabajo? (¿Te gusta tu trabajo?)
@@ -9129,16 +9129,16 @@ OTROS:
 • ¿Tienes vacaciones? (¿Tienes vacaciones?)
 
 🔹 EXPRESIONES DE SATISFACCIÓN LABORAL:
-• Me encanta mi trabajo (I love my job)
-• Estoy muy contento/a con mi trabajo (I'm very happy with my job)
-• Mi trabajo es muy gratificante (My job is very rewarding)
-• Tengo suerte de tener este trabajo (I'm lucky to have this job)
+• Me encanta mi trabajo
+• Estoy muy contento/a con mi trabajo
+• Mi trabajo es muy gratificante
+• Tengo suerte de tener este trabajo
 
 🔹 EXPRESIONES DE INSATISFACCIÓN LABORAL:
-• No me gusta mi trabajo (I don't like my job)
-• Mi trabajo es muy estresante (My job is very stressful)
-• Estoy cansado/a de mi trabajo (I'm tired of my job)
-• El ambiente laboral es malo (The work environment is bad)`,
+• No me gusta mi trabajo
+• Mi trabajo es muy estresante
+• Estoy cansado/a de mi trabajo
+• El ambiente laboral es malo`,
         descripcionChino: `🔹 谈论你的工作：
 • Estoy desempleado/a = 我失业了
 • Estoy en paro = 我失业了（西班牙）
@@ -10190,13 +10190,13 @@ OTROS:
 • El acento siempre está en la penúltima sílaba, excepto miércoles y sábado.
 
 📌 TRUCO PARA RECORDAR:
-• Lunes = Luna (Moon day)
-• Martes = Marte (Mars)
-• Miércoles = Mercurio (Mercury)
-• Jueves = Júpiter (Jupiter)
+• Lunes = Luna
+• Martes = Marte
+• Miércoles = Mercurio
+• Jueves (Jupiter)
 • Viernes = Venus
-• Sábado = Sabbath (descanso)
-• Domingo = Dominus (Lord's day)`,
+• Sábado (descanso)
+• Domingo = Dominus`,
         descripcionChino: `西班牙语中的星期几：
 
 • lunes = 星期一
@@ -10257,27 +10257,27 @@ OTROS:
         descripcion: `En español usamos artículos con los días:
 
 🔹 "EL" para un día específico (un día concreto):
-• El lunes tengo una reunión. (This Monday I have a meeting)
-• El martes voy al médico. (This Tuesday I go to the doctor)
-• El viernes es mi cumpleaños. (This Friday is my birthday)
+• El lunes tengo una reunión.
+• El martes voy al médico.
+• El viernes es mi cumpleaños.
 
 🔹 "LOS" para algo habitual (todos los días de la semana):
-• Los lunes trabajo de 9 a 6. (Mondays I work from 9 to 6)
-• Los martes voy al gimnasio. (Tuesdays I go to the gym)
-• Los viernes salgo con amigos. (Fridays I go out with friends)
+• Los lunes trabajo de 9 a 6.
+• Los martes voy al gimnasio.
+• Los viernes salgo con amigos.
 
 🔹 "CADA" para indicar frecuencia:
 • Cada lunes estudio español. (Every Monday I study Spanish)
-• Cada martes llamo a mi madre. (Every Tuesday I call my mother)
+• Cada martes llamo a mi madre.
 
 🔹 DIFERENCIA IMPORTANTE:
 • "El lunes" = este lunes (específico)
 • "Los lunes" = todos los lunes (hábito)
 
 📌 EJEMPLOS COMPARATIVOS:
-• El lunes pasado fui al cine. (Last Monday I went to the cinema)
-• Los lunes siempre voy al cine. (Mondays I always go to the cinema)
-• El próximo lunes tengo un examen. (Next Monday I have an exam)`,
+• El lunes pasado fui al cine.
+• Los lunes siempre voy al cine.
+• El próximo lunes tengo un examen.`,
         descripcionChino: `西班牙语中星期几与冠词的使用：
 
 🔹 "EL" 用于特定的一天（具体的一天）：
@@ -10335,12 +10335,12 @@ OTROS:
 • cada lunes = each Monday
 
 • de lunes a viernes = from Monday to Friday
-• entre semana = on weekdays
-• el fin de semana = the weekend
+• entre semana
+• el fin de semana
 
-• el finde = the weekend (coloquial)
-• a mitad de semana = midweek
-• el fin de semana largo = long weekend
+• el finde (coloquial)
+• a mitad de semana
+• el fin de semana largo
 
 🔹 PREGUNTAR EL DÍA:
 • ¿Qué día es hoy?
@@ -10354,12 +10354,12 @@ OTROS:
 • Ayer fue...
 
 📌 VOCABULARIO ADICIONAL:
-• día laborable = working day / weekday
-• día festivo = holiday / bank holiday
-• día de fiesta = holiday
-• fin de semana = weekend
-• semana laboral = work week
-• día entre semana = weekday`,
+• día laborable
+• día festivo
+• día de fiesta
+• fin de semana
+• semana laboral
+• día entre semana`,
         descripcionChino: `🔹 常见表达：
 
 • el lunes pasado = 上周一
@@ -10420,8 +10420,8 @@ OTROS:
         tituloChino: "工作周和文化",
         descripcion: `🔹 LA SEMANA LABORAL EN ESPAÑA:
 
-• Días laborables (working days): lunes a viernes
-• Fin de semana (weekend): sábado y domingo
+• Días laborables: lunes a viernes
+• Fin de semana: sábado y domingo
 
 🔹 HORARIOS TÍPICOS:
 • Muchas tiendas cierran los domingos.
@@ -11363,15 +11363,15 @@ OTROS:
 📌 TRUCO PARA RECORDAR:
 • Enero = Enero (igual que en inglés)
 • Febrero = Febrero (igual que en inglés)
-• Marzo = March (M como Marzo)
+• Marzo (M como Marzo)
 • Abril = April (A como Abril)
-• Mayo = May (M como Mayo)
+• Mayo (M como Mayo)
 • Junio = June (J)
 • Julio = July (J)
-• Agosto = August (A)
+• Agosto (A)
 • Septiembre = September (S)
 • Octubre = October (O)
-• Noviembre = November (N)
+• Noviembre (N)
 • Diciembre = December (D)`,
         descripcionChino: `西班牙语中的12个月：
 
@@ -11440,19 +11440,19 @@ OTROS:
         tituloChino: "四季",
         descripcion: `Las cuatro estaciones en español:
 
-🔹 PRIMAVERA (spring) - marzo, abril, mayo
+🔹 PRIMAVERA - marzo, abril, mayo
 • La primavera es la estación de las flores.
 • En primavera el tiempo es agradable.
 
-🔹 VERANO (summer) - junio, julio, agosto
+🔹 VERANO - junio, julio, agosto
 • El verano es la estación más calurosa.
 • En verano vamos a la playa.
 
-🔹 OTOÑO (autumn/fall) - septiembre, octubre, noviembre
+🔹 OTOÑO - septiembre, octubre, noviembre
 • En otoño caen las hojas de los árboles.
 • El otoño es una estación colorida.
 
-🔹 INVIERNO (winter) - diciembre, enero, febrero
+🔹 INVIERNO - diciembre, enero, febrero
 • En invierno hace frío y nieva.
 • El invierno es la estación más fría.
 
@@ -11462,10 +11462,10 @@ OTROS:
 • ¿Qué estación te gusta más?
 
 📌 EXPRESIONES CON ESTACIONES:
-• día de primavera = spring day
-• vacaciones de verano = summer holidays
+• día de primavera
+• vacaciones de verano
 • ropa de invierno = winter clothes
-• colores de otoño = autumn colors`,
+• colores de otoño`,
         descripcionChino: `西班牙语中的四季：
 
 🔹 PRIMAVERA（春天）- 三月、四月、五月
@@ -11536,18 +11536,18 @@ Estructura: día + de + mes + de + año
 • Hoy es martes, 5 de mayo de 2024.
 
 🔹 DÍAS ESPECIALES (fechas importantes):
-• 1 de enero = Año Nuevo (New Year's Day)
-• 6 de enero = Día de Reyes (Three Kings' Day)
-• 14 de febrero = San Valentín (Valentine's Day)
+• 1 de enero = Año Nuevo
+• 6 de enero = Día de Reyes
+• 14 de febrero
 • 1 de abril = Día de los Inocentes (April Fools)
-• 1 de mayo = Día del Trabajo (Labor Day)
+• 1 de mayo = Día del Trabajo
 • 12 de octubre = Día de la Hispanidad (Hispanic Day)
-• 1 de noviembre = Día de Todos los Santos (All Saints' Day)
-• 6 de diciembre = Día de la Constitución (Constitution Day)
-• 8 de diciembre = Inmaculada Concepción (Immaculate Conception)
+• 1 de noviembre = Día de Todos los Santos
+• 6 de diciembre = Día de la Constitución
+• 8 de diciembre = Inmaculada Concepción
 • 24 de diciembre = Nochebuena (Christmas Eve)
 • 25 de diciembre = Navidad (Christmas)
-• 31 de diciembre = Nochevieja (New Year's Eve)
+• 31 de diciembre = Nochevieja
 
 📌 NOTA: En español, primero se escribe el día y luego el mes, al revés que en inglés.`,
         descripcionChino: `🔹 西班牙语中写日期的方式：
@@ -11616,21 +11616,21 @@ Estructura: día + de + mes + de + año
 • Mi cumpleaños es en marzo.
 
 🔹 EXPRESIONES COMUNES:
-• a principios de mes = at the beginning of the month
-• a finales de mes = at the end of the month
-• a mediados de mes = in the middle of the month
-• el mes pasado = last month
-• el mes que viene = next month
-• el próximo mes = next month
-• dentro de un mes = in a month
-• hace un mes = a month ago
+• a principios de mes
+• a finales de mes
+• a mediados de mes
+• el mes pasado
+• el mes que viene
+• el próximo mes
+• dentro de un mes
+• hace un mes
 
 🔹 CON ESTACIONES:
 • en primavera / verano / otoño / invierno
-• al principio de la primavera = at the beginning of spring
-• a finales del verano = at the end of summer
-• durante el otoño = during autumn
-• todo el invierno = all winter long
+• al principio de la primavera
+• a finales del verano
+• durante el otoño
+• todo el invierno
 
 📌 FRASES ÚTILES:
 • ¿Cuántos días tiene este mes?
@@ -12610,7 +12610,7 @@ Estructura: día + de + mes + de + año
 • 9:00 → Son las nueve
 • 10:00 → Son las diez
 • 11:00 → Son las once
-• 12:00 → Son las doce (mediodía) / Es la medianoche (12:00 am)
+• 12:00 → Son las doce (mediodía) / Es la medianoche
 
 ❌ ERROR COMÚN:
 Decir "Son la una" (incorrecto) → Debes decir "Es la una".`,
@@ -12821,7 +12821,7 @@ Decir "Son las cuatro y cuarenta y cinco" es correcto pero menos común. Los nat
 • de la mañana = desde las 1:00 hasta las 12:00 (madrugada y mañana)
 • de la tarde = desde las 13:00 hasta las 20:00
 • de la noche = desde las 21:00 hasta las 24:00
-• de la madrugada = desde las 0:00 hasta las 6:00 (very early morning)
+• de la madrugada = desde las 0:00 hasta las 6:00
 
 🔹 EJEMPLOS:
 • 1:00 am → Es la una de la madrugada / de la mañana
@@ -12832,8 +12832,8 @@ Decir "Son las cuatro y cuarenta y cinco" es correcto pero menos común. Los nat
 • 12:00 am → Es la medianoche
 
 📌 PUNTOS CLAVE:
-• mediodía = 12:00 pm (noon)
-• medianoche = 12:00 am (midnight)
+• mediodía = 12:00 pm
+• medianoche
 
 🔹 CÓMO PREGUNTAR:
 • ¿A qué hora quedamos?
@@ -12896,8 +12896,8 @@ Decir "Son las cuatro y cuarenta y cinco" es correcto pero menos común. Los nat
         tituloChino: "A qué hora vs Qué hora es",
         descripcion: `🔹 DIFERENCIA IMPORTANTE:
 
-• ¿Qué hora es? = ¿Cuál es la hora actual? (What time is it now?)
-• ¿A qué hora...? = ¿A qué hora del día ocurre algo? (At what time does something happen?)
+• ¿Qué hora es? = ¿Cuál es la hora actual?
+• ¿A qué hora...? = ¿A qué hora del día ocurre algo?
 
 🔹 EJEMPLOS CON "¿QUÉ HORA ES?" (pregunta por la hora actual):
 • ¿Qué hora es? — Son las tres de la tarde.
@@ -13818,8 +13818,8 @@ Decir "Son las cuatro y cuarenta y cinco" es correcto pero menos común. Los nat
 • tercer piso (tercer + piso)
 
 📌 EJEMPLOS:
-• el primer día del año (the first day of the year)
-• el tercer mes del año (the third month of the year)
+• el primer día del año
+• el tercer mes del año
 
 ❌ ERROR COMÚN:
 No se acortan si el sustantivo es femenino:
@@ -13877,14 +13877,14 @@ No se acortan si el sustantivo es femenino:
         descripcion: `🔹 CÓMO USAR LOS NÚMEROS ORDINALES:
 
 1. Van ANTES del sustantivo
-   • el primer libro (the first book)
-   • la segunda vez (the second time)
+   • el primer libro
+   • la segunda vez
 
 2. Concuerdan en género y número con el sustantivo
    • primer piso (masculino singular)
    • primera vez (femenino singular)
-   • primeros días (masculino plural - the first days)
-   • primeras veces (femenino plural - the first times)
+   • primeros días
+   • primeras veces
 
 3. Después del sustantivo (menos común, pero posible):
    • el capítulo primero = el primer capítulo
@@ -13892,10 +13892,10 @@ No se acortan si el sustantivo es femenino:
 
 🔹 USOS COMUNES DE LOS ORDINALES:
 
-• POSICIONES: Llegó en primer lugar. (He arrived in first place)
-• PISOS: Vivo en el cuarto piso. (I live on the fourth floor)
-• ANIVERSARIOS: Es nuestro quinto aniversario. (It's our fifth anniversary)
-• SIGLOS: El siglo veintiuno (The 21st century)
+• POSICIONES: Llegó en primer lugar.
+• PISOS: Vivo en el cuarto piso.
+• ANIVERSARIOS: Es nuestro quinto aniversario.
+• SIGLOS: El siglo veintiuno
 • REYES/PAPAS: Felipe VI (Felipe sexto), Juan Pablo II (Juan Pablo segundo)
 • FECHAS: El 1 de enero se lee "el primero de enero"
 
@@ -14998,34 +14998,34 @@ Para números más altos (11º en adelante), se usan menos los ordinales. En su 
 
 🔹 COLORES BÁSICOS:
 • rojo (red)
-• azul (blue)
-• verde (green)
-• amarillo (yellow)
-• negro (black)
-• blanco (white)
-• naranja / anaranjado (orange)
-• rosa / rosado (pink)
-• morado / violeta (purple)
-• marrón / café / pardo (brown)
-• gris (gray)
+• azul
+• verde
+• amarillo
+• negro
+• blanco
+• naranja / anaranjado
+• rosa / rosado
+• morado / violeta
+• marrón / café / pardo
+• gris
 • celeste (light blue / sky blue)
 
 🔹 COLORES ADICIONALES:
 • beige (beige)
-• dorado (gold)
-• plateado (silver)
-• turquesa (turquoise)
-• fucsia (fuchsia)
-• lila (lilac)
-• granate (maroon)
-• burdeos (burgundy)
-• caqui (khaki)
-• mostaza (mustard yellow)
+• dorado
+• plateado
+• turquesa
+• fucsia
+• lila
+• granate
+• burdeos
+• caqui
+• mostaza
 
 🔹 COLORES CLAROS Y OSCUROS:
-• claro = light (azul claro = light blue)
-• oscuro = dark (azul oscuro = dark blue)
-• fuerte = strong/intense (rojo fuerte = intense red)
+• claro (azul claro)
+• oscuro (azul oscuro)
+• fuerte (rojo fuerte = intense red)
 • pastel = pastel (rosa pastel = pastel pink)
 
 📌 EJEMPLOS:
@@ -15249,17 +15249,17 @@ Para números más altos (11º en adelante), se usan menos los ordinales. En su 
         tituloChino: "关于颜色的习语表达",
         descripcion: `🔹 EXPRESIONES COMUNES CON COLORES:
 
-• Ponerse rojo / roja = to blush (ponerse rojo de vergüenza)
-• Ver todo de color rosa = to see everything through rose-colored glasses
-• Tener la sangre azul = to have blue blood (to be noble)
-• Ponerse verde de envidia = to be green with envy
-• Estar verde = to be inexperienced / not ripe
-• Dar luz verde = to give the green light (to approve)
-• Ser un blanco fácil = to be an easy target
-• En blanco y negro = in black and white
-• Negro sobre blanco = in writing (clearly stated)
-• Pasar la noche en blanco = to have a sleepless night
-• Estar sin blanca = to be broke (without money)
+• Ponerse rojo / roja (ponerse rojo de vergüenza)
+• Ver todo de color rosa
+• Tener la sangre azul
+• Ponerse verde de envidia
+• Estar verde
+• Dar luz verde
+• Ser un blanco fácil
+• En blanco y negro
+• Negro sobre blanco
+• Pasar la noche en blanco
+• Estar sin blanca
 
 📌 EJEMPLOS:
 • Se puso rojo cuando le hicieron el cumplido.
@@ -16154,60 +16154,60 @@ Para números más altos (11º en adelante), se usan menos los ordinales. En su 
         tituloChino: "家庭成员",
         descripcion: `🔹 FAMILIA INMEDIATA (familia inmediata):
 
-PADRES (parents):
-• padre = father
-• madre = mother
-• papá = dad (informal)
-• mamá = mom (informal)
+PADRES:
+• padre
+• madre
+• papá (informal)
+• mamá (informal)
 
-HIJOS (children):
-• hijo = son
-• hija = daughter
+HIJOS:
+• hijo
+• hija
 
-HERMANOS (siblings):
-• hermano = brother
-• hermana = sister
-• hermano mayor = older brother
-• hermano menor = younger brother
-• hermana mayor = older sister
-• hermana menor = younger sister
+HERMANOS:
+• hermano
+• hermana
+• hermano mayor
+• hermano menor
+• hermana mayor
+• hermana menor
 
-ABUELOS (grandparents):
-• abuelo = grandfather
-• abuela = grandmother
+ABUELOS:
+• abuelo
+• abuela
 
-NIETOS (grandchildren):
-• nieto = grandson
-• nieta = granddaughter
+NIETOS:
+• nieto
+• nieta
 
 🔹 FAMILIA EXTENDIDA (familia extendida):
 
-• tío = uncle
-• tía = aunt
-• primo = cousin (male)
-• prima = cousin (female)
-• sobrino = nephew
-• sobrina = niece
+• tío
+• tía
+• primo
+• prima
+• sobrino
+• sobrina
 
-🔹 FAMILIA POLÍTICA (family by marriage):
+🔹 FAMILIA POLÍTICA:
 
-• suegro = father-in-law
-• suegra = mother-in-law
-• yerno = son-in-law
-• nuera = daughter-in-law
-• cuñado = brother-in-law
-• cuñada = sister-in-law
+• suegro
+• suegra
+• yerno
+• nuera
+• cuñado
+• cuñada
 
-🔹 OTROS (others):
+🔹 OTROS:
 
-• padrastro = stepfather
-• madrastra = stepmother
-• hijastro = stepson
-• hijastra = stepdaughter
-• hermanastro = stepbrother
-• hermanastra = stepsister
-• medio hermano = half-brother
-• media hermana = half-sister
+• padrastro
+• madrastra
+• hijastro
+• hijastra
+• hermanastro
+• hermanastra
+• medio hermano
+• media hermana
 
 📌 NOTA: En las familias hispanas, los lazos familiares son muy importantes. Es común tener relaciones cercanas con tíos, primos y abuelos.`,
         descripcionChino: `🔹 直系亲属：
@@ -16296,41 +16296,41 @@ NIETOS (grandchildren):
 🔹 POSESIVOS ÁTONOS (antes del sustantivo):
 
 Singular:
-• mi = my (mi padre)
-• tu = your (informal) (tu hermana)
-• su = his/her/their/your (formal) (su abuelo)
+• mi (mi padre)
+• tu (informal) (tu hermana)
+• su (formal) (su abuelo)
 
 Plural:
-• mis = my (mis padres)
-• tus = your (tus hermanos)
-• sus = his/her/their/your (formal) (sus abuelos)
+• mis (mis padres)
+• tus (tus hermanos)
+• sus (formal) (sus abuelos)
 
 🔹 POSESIVOS TÓNICOS (después del sustantivo o solos):
 
 Singular:
-• mío / mía = mine
-• tuyo / tuya = yours (informal)
+• mío / mía
+• tuyo / tuya (informal)
 • suyo / suya = his/hers/yours (formal)/theirs
 
 Plural:
-• míos / mías = mine
-• tuyos / tuyas = yours
-• suyos / suyas = his/hers/yours/theirs
+• míos / mías
+• tuyos / tuyas
+• suyos / suyas
 
 📌 EJEMPLOS:
-• Este libro es mío. (This book is mine)
-• La casa es nuestra. (The house is ours)
-• ¿Dónde están los tuyos? (Where are yours?)
+• Este libro es mío.
+• La casa es nuestra.
+• ¿Dónde están los tuyos?
 
-🔹 NUESTRO / NUESTRA (our):
-• nuestro padre = our father
-• nuestra madre = our mother
-• nuestros padres = our parents
-• nuestras hermanas = our sisters
+🔹 NUESTRO / NUESTRA:
+• nuestro padre
+• nuestra madre
+• nuestros padres
+• nuestras hermanas
 
 ❌ ERROR COMÚN:
 En español, los posesivos concuerdan con el objeto poseído, no con el poseedor.
-✅ Correcto: Mi padre y mi madre (my father and my mother)
+✅ Correcto: Mi padre y mi madre
 ❌ Incorrecto: Mis padre y madre`,
         descripcionChino: `物主代词表示所属关系：
 
@@ -16398,15 +16398,15 @@ En español, los posesivos concuerdan con el objeto poseído, no con el poseedor
         tituloChino: "询问家庭情况",
         descripcion: `🔹 PREGUNTAS COMUNES:
 
-• ¿Tienes hermanos? (Do you have siblings?)
-• ¿Cuántos hermanos tienes? (How many siblings do you have?)
-• ¿Cómo se llama tu madre? (What's your mother's name?)
-• ¿Dónde viven tus padres? (Where do your parents live?)
-• ¿Vives con tu familia? (Do you live with your family?)
-• ¿Estás casado/a? (Are you married?)
-• ¿Tienes hijos? (Do you have children?)
-• ¿Cómo es tu familia? (What is your family like?)
-• ¿Eres hijo único? (Are you an only child?)
+• ¿Tienes hermanos?
+• ¿Cuántos hermanos tienes?
+• ¿Cómo se llama tu madre?
+• ¿Dónde viven tus padres?
+• ¿Vives con tu familia?
+• ¿Estás casado/a?
+• ¿Tienes hijos?
+• ¿Cómo es tu familia?
+• ¿Eres hijo único?
 
 🔹 RESPUESTAS COMUNES:
 
@@ -16429,10 +16429,10 @@ SOBRE ESTADO CIVIL:
 • Vivo con mi pareja.
 
 📌 VOCABULARIO ADICIONAL:
-• hijo único = only son
-• hija única = only daughter
-• familia numerosa = large family
-• familia monoparental = single-parent family`,
+• hijo único
+• hija única
+• familia numerosa
+• familia monoparental`,
         descripcionChino: `🔹 常见问题：
 
 • ¿Tienes hermanos? = 你有兄弟姐妹吗？
@@ -16511,12 +16511,12 @@ SOBRE ESTADO CIVIL:
 • ¿Quién es la hermana de mi padre? → Mi tía.
 
 📌 EXPRESIONES ÚTILES:
-• Por parte de padre = on my father's side
-• Por parte de madre = on my mother's side
-• Soy el mayor / la mayor = I'm the oldest
-• Soy el menor / la menor = I'm the youngest
-• Somos muy unidos = We are very close
-• Nos reunimos los domingos = We get together on Sundays`,
+• Por parte de padre
+• Por parte de madre
+• Soy el mayor / la mayor
+• Soy el menor / la menor
+• Somos muy unidos
+• Nos reunimos los domingos`,
         descripcionChino: `🔹 家庭关系（解释）：
 
 • 我父亲的父亲是我的祖父。
@@ -17467,30 +17467,30 @@ SOBRE ESTADO CIVIL:
         descripcion: `Partes de una casa:
 
 🔹 PRINCIPALES:
-• salón / sala de estar = living room
-• cocina = kitchen
-• dormitorio / habitación = bedroom
-• baño = bathroom
-• comedor = dining room
-• estudio / despacho = study / home office
+• salón / sala de estar
+• cocina
+• dormitorio / habitación
+• baño
+• comedor
+• estudio / despacho
 
 🔹 EXTERIORES Y ADICIONALES:
-• terraza / balcón = terrace / balcony
-• jardín = garden
-• garaje = garage
-• sótano = basement
-• trastero = storage room
-• recibidor / entrada = entrance hall
-• pasillo = hallway
-• lavadero = laundry room
-• buhardilla = attic
-• ático = penthouse
+• terraza / balcón
+• jardín
+• garaje
+• sótano
+• trastero
+• recibidor / entrada
+• pasillo
+• lavadero
+• buhardilla
+• ático
 
 🔹 PREGUNTAS SOBRE LA CASA:
-• ¿Cómo es tu casa? (What is your house like?)
-• ¿Cuántas habitaciones tiene? (How many bedrooms does it have?)
-• ¿Tienes terraza? (Do you have a terrace?)
-• ¿Tu casa tiene jardín? (Does your house have a garden?)
+• ¿Cómo es tu casa?
+• ¿Cuántas habitaciones tiene?
+• ¿Tienes terraza?
+• ¿Tu casa tiene jardín?
 
 📌 NOTA CULTURAL:
 En España, es común que los pisos tengan un "trastero" (un pequeño almacén en el sótano del edificio) y en muchos edificios hay un "ático" con terraza.`,
@@ -17547,49 +17547,49 @@ En España, es común que los pisos tengan un "trastero" (un pequeño almacén e
         id: "t2",
         titulo: "Muebles y objetos del hogar",
         tituloChino: "家具和家居物品",
-        descripcion: `🔹 SALÓN (living room):
-• sofá = sofa
-• sillón = armchair
-• mesa de centro = coffee table
-• estantería = bookshelf
+        descripcion: `🔹 SALÓN:
+• sofá
+• sillón
+• mesa de centro
+• estantería
 • televisión / tele = TV
-• lámpara = lamp
-• alfombra = rug
-• cuadro = painting/picture
-• cortinas = curtains
-• equipo de música = stereo system
+• lámpara
+• alfombra
+• cuadro
+• cortinas
+• equipo de música
 
-🔹 COCINA (kitchen):
-• nevera / frigorífico = refrigerator
-• congelador = freezer
-• horno = oven
-• microondas = microwave
-• lavavajillas = dishwasher
-• lavadora = washing machine
-• secadora = dryer
-• fogones / cocina = stove
-• fregadero = sink
-• mesa = table
-• sillas = chairs
-• armario = cupboard
+🔹 COCINA:
+• nevera / frigorífico
+• congelador
+• horno
+• microondas
+• lavavajillas
+• lavadora
+• secadora
+• fogones / cocina
+• fregadero
+• mesa
+• sillas
+• armario
 
-🔹 DORMITORIO (bedroom):
-• cama = bed
-• mesilla / mesita de noche = nightstand
-• armario = wardrobe/closet
-• cómoda = dresser
-• espejo = mirror
-• lámpara de mesilla = bedside lamp
-• ropero = closet
+🔹 DORMITORIO:
+• cama
+• mesilla / mesita de noche
+• armario
+• cómoda
+• espejo
+• lámpara de mesilla
+• ropero
 
-🔹 BAÑO (bathroom):
-• ducha = shower
-• bañera = bathtub
-• lavabo = sink
-• inodoro / váter = toilet
-• espejo = mirror
-• toallas = towels
-• secador de pelo = hair dryer
+🔹 BAÑO:
+• ducha
+• bañera
+• lavabo
+• inodoro / váter
+• espejo
+• toallas
+• secador de pelo
 
 📌 EJEMPLOS:
 • El sofá es muy cómodo.
@@ -17669,24 +17669,24 @@ En España, es común que los pisos tengan un "trastero" (un pequeño almacén e
         descripcion: `Preposiciones de lugar para describir dónde están las cosas:
 
 🔹 BÁSICAS:
-• en = in / on / at (en la caja, en la mesa)
-• sobre / encima de = on top of (sobre la mesa)
-• debajo de = under (debajo de la silla)
+• en (en la caja, en la mesa)
+• sobre / encima de (sobre la mesa)
+• debajo de (debajo de la silla)
 
 🔹 POSICIÓN:
-• delante de = in front of (delante de la puerta)
-• detrás de = behind (detrás del sofá)
-• al lado de = next to (al lado de la ventana)
-• cerca de = near (cerca del parque)
-• lejos de = far from (lejos del centro)
-• enfrente de = opposite (enfrente del banco)
+• delante de (delante de la puerta)
+• detrás de (detrás del sofá)
+• al lado de (al lado de la ventana)
+• cerca de (cerca del parque)
+• lejos de (lejos del centro)
+• enfrente de (enfrente del banco)
 
 🔹 DENTRO/FUERA:
-• dentro de = inside (dentro del armario)
-• fuera de = outside (fuera de la casa)
+• dentro de (dentro del armario)
+• fuera de (fuera de la casa)
 
 🔹 ENTRE:
-• entre = between (entre la cama y la ventana)
+• entre (entre la cama y la ventana)
 
 📌 EJEMPLOS PRÁCTICOS:
 • El libro está sobre la mesa.
@@ -17768,14 +17768,14 @@ EXTERIOR:
 • La casa tiene vistas al mar.
 
 🔹 ADJETIVOS ÚTILES:
-• luminoso/a = bright
-• amplio/a = spacious
-• acogedor/a = cozy
-• moderno/a = modern
-• antiguo/a = old / antique
-• reformado/a = renovated
-• amueblado/a = furnished
-• vacío/a = empty
+• luminoso/a
+• amplio/a
+• acogedor/a
+• moderno/a
+• antiguo/a
+• reformado/a
+• amueblado/a
+• vacío/a
 
 📌 EJEMPLOS COMPLETOS:
 • Vivo en un piso amplio y luminoso en el centro de Madrid.
@@ -18713,30 +18713,30 @@ EXTERIOR:
         tituloChino: "饥饿和口渴的表达",
         descripcion: `Expresiones básicas para hablar de hambre y sed:
 
-🔹 HAMBRE (hunger):
-• Tengo hambre = I'm hungry
-• Tengo mucha hambre = I'm very hungry
-• Tengo un hambre de lobo = I'm starving (lit. "wolf hunger")
-• Me muero de hambre = I'm dying of hunger
-• Me comería un caballo = I could eat a horse
+🔹 HAMBRE:
+• Tengo hambre
+• Tengo mucha hambre
+• Tengo un hambre de lobo
+• Me muero de hambre
+• Me comería un caballo
 
-🔹 SED (thirst):
-• Tengo sed = I'm thirsty
-• Tengo mucha sed = I'm very thirsty
-• Estoy sediento/a = I'm thirsty (more formal)
-• Me muero de sed = I'm dying of thirst
+🔹 SED:
+• Tengo sed
+• Tengo mucha sed
+• Estoy sediento/a (more formal)
+• Me muero de sed
 
-🔹 LAS COMIDAS DEL DÍA (meals of the day):
-• desayuno = breakfast (7:00-10:00)
-• almuerzo / comida = lunch (14:00-15:00 en España)
-• merienda = afternoon snack (17:00-18:00)
-• cena = dinner (21:00-22:00 en España)
+🔹 LAS COMIDAS DEL DÍA:
+• desayuno (7:00-10:00)
+• almuerzo / comida
+• merienda (17:00-18:00)
+• cena
 
 🔹 FRASES ÚTILES:
-• Vamos a comer = Let's eat
-• ¿Qué quieres comer? = What do you want to eat?
-• ¿Qué quieres beber? = What do you want to drink?
-• ¡Buen provecho! = Enjoy your meal!
+• Vamos a comer
+• ¿Qué quieres comer?
+• ¿Qué quieres beber?
+• ¡Buen provecho!
 
 📌 NOTA CULTURAL:
 En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y la cena es tarde, sobre las 21:00 o 22:00. El desayuno suele ser ligero (café con leche y una tostada o galletas).`,
@@ -18792,69 +18792,69 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t2",
         titulo: "Alimentos básicos",
         tituloChino: "基本食物",
-        descripcion: `🔹 CARNES (meats):
-• pollo = chicken
-• carne de res / ternera = beef
-• cerdo = pork
-• cordero = lamb
-• pavo = turkey
-• conejo = rabbit
+        descripcion: `🔹 CARNES:
+• pollo
+• carne de res / ternera
+• cerdo
+• cordero
+• pavo
+• conejo
 
-🔹 PESCADOS Y MARISCOS (fish and seafood):
-• pescado = fish
-• salmón = salmon
-• atún = tuna
-• sardinas = sardines
-• gambas / camarones = shrimp
-• mejillones = mussels
-• pulpo = octopus
+🔹 PESCADOS Y MARISCOS:
+• pescado
+• salmón
+• atún
+• sardinas
+• gambas / camarones
+• mejillones
+• pulpo
 
-🔹 LÁCTEOS (dairy):
-• leche = milk
-• queso = cheese
-• yogur = yogurt
-• mantequilla = butter
-• nata = cream
+🔹 LÁCTEOS:
+• leche
+• queso
+• yogur
+• mantequilla
+• nata
 
-🔹 GRANOS Y PAN (grains and bread):
-• pan = bread
-• arroz = rice
+🔹 GRANOS Y PAN:
+• pan
+• arroz
 • pasta = pasta
-• harina = flour
-• cereales = cereal
+• harina
+• cereales
 
-🔹 VERDURAS Y HORTALIZAS (vegetables):
-• tomate = tomato
-• lechuga = lettuce
-• zanahoria = carrot
-• cebolla = onion
-• ajo = garlic
-• pimiento = bell pepper
-• pepino = cucumber
-• brócoli = broccoli
-• espinacas = spinach
-• patata / papa = potato
+🔹 VERDURAS Y HORTALIZAS:
+• tomate
+• lechuga
+• zanahoria
+• cebolla
+• ajo
+• pimiento
+• pepino
+• brócoli
+• espinacas
+• patata / papa
 
-🔹 FRUTAS (fruits):
-• manzana = apple
-• plátano / banana = banana
-• naranja = orange
-• fresa = strawberry
-• uva = grape
-• sandía = watermelon
-• melón = melon
-• piña = pineapple
-• pera = pear
-• cereza = cherry
-• limón = lemon
+🔹 FRUTAS:
+• manzana
+• plátano / banana
+• naranja
+• fresa
+• uva
+• sandía
+• melón
+• piña
+• pera
+• cereza
+• limón
 
-🔹 OTROS (others):
-• huevos = eggs
-• sopa = soup
-• ensalada = salad
-• legumbres = legumes/beans
-• lentejas = lentils
-• garbanzos = chickpeas
+🔹 OTROS:
+• huevos
+• sopa
+• ensalada
+• legumbres
+• lentejas
+• garbanzos
 
 📌 EJEMPLOS:
 • Me gusta el pan con mantequilla.
@@ -18951,39 +18951,39 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t3",
         titulo: "Bebidas",
         tituloChino: "饮料",
-        descripcion: `🔹 BEBIDAS CALIENTES (hot drinks):
-• café = coffee
-• café con leche = coffee with milk / latte
-• café solo = black coffee
-• té = tea
-• té verde = green tea
-• té negro = black tea
-• manzanilla = chamomile tea
-• chocolate caliente = hot chocolate
+        descripcion: `🔹 BEBIDAS CALIENTES:
+• café
+• café con leche
+• café solo
+• té
+• té verde
+• té negro
+• manzanilla
+• chocolate caliente
 
-🔹 BEBIDAS FRÍAS (cold drinks):
-• agua = water
-• agua con gas = sparkling water
-• agua sin gas = still water
-• zumo / jugo = juice
-• zumo de naranja = orange juice
-• zumo de manzana = apple juice
-• refresco = soda / soft drink
-• coca-cola = Coca-Cola
-• cerveza = beer
-• vino = wine
+🔹 BEBIDAS FRÍAS:
+• agua
+• agua con gas
+• agua sin gas
+• zumo / jugo
+• zumo de naranja
+• zumo de manzana
+• refresco
+• coca-cola
+• cerveza
+• vino
 • vino tinto = red wine
-• vino blanco = white wine
+• vino blanco
 • vino rosado = rosé wine
-• cava = sparkling wine (Spanish champagne)
-• sangría = sangria
+• cava (Spanish champagne)
+• sangría
 
-🔹 FRASES PARA PEDIR (ordering phrases):
-• Un vaso de agua, por favor. = A glass of water, please.
-• Una copa de vino, por favor. = A glass of wine, please.
-• Un café con leche, por favor. = A latte, please.
-• Una cerveza, por favor. = A beer, please.
-• ¿Me pone un zumo de naranja? = Can I have an orange juice? (Spain)
+🔹 FRASES PARA PEDIR:
+• Un vaso de agua, por favor.
+• Una copa de vino, por favor.
+• Un café con leche, por favor.
+• Una cerveza, por favor.
+• ¿Me pone un zumo de naranja?
 
 📌 NOTA: En España, es muy común pedir "un café" después de comer. El "café solo" es espresso, y el "café con leche" es similar al latte.`,
         descripcionChino: `🔹 热饮：
@@ -19044,42 +19044,42 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t4",
         titulo: "En el restaurante - Cómo pedir",
         tituloChino: "在餐厅 - 如何点餐",
-        descripcion: `🔹 ANTES DE PEDIR (before ordering):
-• ¿Me trae la carta, por favor? = Can you bring me the menu, please?
-• ¿Cuál es el plato del día? = What is the dish of the day?
-• ¿Qué me recomienda? = What do you recommend?
-• ¿Tienen opciones vegetarianas? = Do you have vegetarian options?
+        descripcion: `🔹 ANTES DE PEDIR:
+• ¿Me trae la carta, por favor?
+• ¿Cuál es el plato del día?
+• ¿Qué me recomienda?
+• ¿Tienen opciones vegetarianas?
 
-🔹 CÓMO PEDIR (how to order):
-• Para empezar, quiero... = To start, I want...
-• De primero, voy a tomar... = For the first course, I'll have...
-• De segundo, quiero... = For the main course, I want...
-• De postre, me gustaría... = For dessert, I'd like...
-• Para beber, voy a tomar... = To drink, I'll have...
+🔹 CÓMO PEDIR:
+• Para empezar, quiero...
+• De primero, voy a tomar...
+• De segundo, quiero...
+• De postre, me gustaría...
+• Para beber, voy a tomar...
 
 🔹 PREGUNTAR SOBRE LOS INGREDIENTES:
-• ¿Qué lleva este plato? = What does this dish contain?
-• ¿Es picante? = Is it spicy?
-• ¿Lleva carne / pescado / verduras? = Does it have meat/fish/vegetables?
+• ¿Qué lleva este plato?
+• ¿Es picante?
+• ¿Lleva carne / pescado / verduras?
 
 🔹 PARA VEGETARIANOS:
-• Soy vegetariano/a = I'm vegetarian
-• Soy vegano/a = I'm vegan
-• ¿Tiene opciones vegetarianas? = Do you have vegetarian options?
-• ¿Puede hacerlo sin carne? = Can you make it without meat?
+• Soy vegetariano/a
+• Soy vegano/a
+• ¿Tiene opciones vegetarianas?
+• ¿Puede hacerlo sin carne?
 
 🔹 DURANTE LA COMIDA:
-• Está muy bueno / delicioso = It's very good / delicious
-• Está frío / caliente = It's cold / hot
-• ¿Me puede traer más pan? = Can you bring me more bread?
+• Está muy bueno / delicioso
+• Está frío / caliente
+• ¿Me puede traer más pan?
 
 🔹 AL FINALIZAR:
-• ¿Me puede traer la cuenta? = Can you bring me the check?
-• La cuenta, por favor. = The bill, please.
-• ¿Aceptan tarjeta? = Do you accept card?
-• ¿Puedo pagar en efectivo? = Can I pay in cash?
-• ¿Lleva servicio incluido? = Is service included?
-• Quédese con el cambio = Keep the change (dejar propina)`,
+• ¿Me puede traer la cuenta?
+• La cuenta, por favor.
+• ¿Aceptan tarjeta?
+• ¿Puedo pagar en efectivo?
+• ¿Lleva servicio incluido?
+• Quédese con el cambio (dejar propina)`,
         descripcionChino: `🔹 点餐前：
 • ¿Me trae la carta, por favor? = 请给我菜单好吗？
 • ¿Cuál es el plato del día? = 今日特色菜是什么？
@@ -20112,64 +20112,64 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t1",
         titulo: "Prendas de vestir",
         tituloChino: "服装",
-        descripcion: `🔹 ROPA SUPERIOR (upper body):
+        descripcion: `🔹 ROPA SUPERIOR:
 
-• camiseta = T-shirt
-• camisa = shirt
-• blusa = blouse (women's)
-• jersey / suéter = sweater / jumper
-• chaqueta = jacket
-• abrigo = coat (winter)
-• americana / saco = blazer / suit jacket
-• sudadera = hoodie / sweatshirt
-• chaleco = vest / waistcoat
-• kimono = kimono
+• camiseta
+• camisa
+• blusa
+• jersey / suéter
+• chaqueta
+• abrigo
+• americana / saco
+• sudadera
+• chaleco
+• kimono
 
-🔹 ROPA INFERIOR (lower body):
+🔹 ROPA INFERIOR:
 
-• pantalón = trousers / pants
+• pantalón
 • vaqueros / jeans = jeans
-• pantalón corto = shorts
-• falda = skirt
-• vestido = dress
-• mono = jumpsuit / overalls
-• leggins = leggings
+• pantalón corto
+• falda
+• vestido
+• mono
+• leggins
 
-🔹 ROPA INTERIOR (underwear):
+🔹 ROPA INTERIOR:
 
-• calzoncillos = men's underwear
-• bragas = panties
-• sujetador / sostén = bra
-• camiseta interior = undershirt
-• pijama = pajamas
-• albornoz = bathrobe
+• calzoncillos
+• bragas
+• sujetador / sostén
+• camiseta interior
+• pijama
+• albornoz
 
-🔹 CALZADO (footwear):
+🔹 CALZADO:
 
-• zapatos = shoes
-• zapatillas deportivas = sneakers / trainers
-• botas = boots
-• sandalias = sandals
-• chanclas = flip-flops
-• zapatos de tacón = high heels
-• zapatos de vestir = dress shoes
+• zapatos
+• zapatillas deportivas
+• botas
+• sandalias
+• chanclas
+• zapatos de tacón
+• zapatos de vestir
 
 🔹 ROPA DE INVIERNO (winter clothes):
 
-• bufanda = scarf
-• guantes = gloves
-• gorro = beanie / winter hat
-• orejeras = ear muffs
-• chaquetón = heavy coat
+• bufanda
+• guantes
+• gorro
+• orejeras
+• chaquetón
 
 🔹 ROPA DE VERANO (summer clothes):
 
-• camiseta de manga corta = short-sleeve shirt
-• pantalón corto = shorts
-• bañador = swimsuit
-• bikini = bikini
-• gafas de sol = sunglasses
-• sombrero = hat
+• camiseta de manga corta
+• pantalón corto
+• bañador
+• bikini
+• gafas de sol
+• sombrero
 
 📌 EJEMPLOS:
 • Llevo una camisa blanca.
@@ -20261,28 +20261,28 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t2",
         titulo: "Accesorios",
         tituloChino: "配饰",
-        descripcion: `🔹 ACCESORIOS COMUNES (common accessories):
+        descripcion: `🔹 ACCESORIOS COMUNES:
 
-• corbata = tie
-• pajarita = bow tie
-• bufanda = scarf
-• pañuelo = handkerchief / neckerchief
-• guantes = gloves
-• gorro / gorra = hat / cap
-• cinturón = belt
-• gafas / gafas de sol = glasses / sunglasses
-• gafas de ver = prescription glasses
-• pendientes = earrings
-• collar = necklace
-• pulsera = bracelet
-• anillo = ring
-• reloj = watch
-• bolso = handbag / purse
-• mochila = backpack
-• cartera = wallet (men's)
-• monedero = coin purse
-• paraguas = umbrella
-• chubasquero = raincoat
+• corbata
+• pajarita
+• bufanda
+• pañuelo
+• guantes
+• gorro / gorra
+• cinturón
+• gafas / gafas de sol
+• gafas de ver
+• pendientes
+• collar
+• pulsera
+• anillo
+• reloj
+• bolso
+• mochila
+• cartera
+• monedero
+• paraguas
+• chubasquero
 
 📌 EJEMPLOS:
 • Me pongo los zapatos.
@@ -20291,11 +20291,11 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
 • Este cinturón combina bien con mis zapatos.
 
 🔹 VERBOS RELACIONADOS:
-• llevar = to wear (llevo una camisa)
-• ponerse = to put on (me pongo los zapatos)
-• quitarse = to take off (me quito la chaqueta)
-• probarse = to try on (me pruebo el vestido)
-• combinar = to match (estos colores combinan bien)`,
+• llevar (llevo una camisa)
+• ponerse (me pongo los zapatos)
+• quitarse (me quito la chaqueta)
+• probarse (me pruebo el vestido)
+• combinar (estos colores combinan bien)`,
         descripcionChino: `🔹 常见配饰：
 
 • corbata = 领带
@@ -20350,21 +20350,21 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t3",
         titulo: "En la tienda de ropa",
         tituloChino: "在服装店",
-        descripcion: `🔹 FRASES PARA EL CLIENTE (customer phrases):
+        descripcion: `🔹 FRASES PARA EL CLIENTE:
 
-• ¿Cuánto cuesta? = How much does it cost?
-• ¿Cuánto cuestan? = How much do they cost?
-• ¿Puedo probármelo? = Can I try it on?
-• ¿Tiene otra talla? = Do you have another size?
-• ¿Tiene otro color? = Do you have another color?
-• ¿Qué talla es esta? = What size is this?
-• ¿Me queda bien? = Does it fit me well?
-• Me gusta este / esta = I like this one
-• Me llevo este / esta = I'll take this one
-• ¿Hay descuento? = Is there a discount?
-• ¿Está en rebajas? = Is it on sale?
+• ¿Cuánto cuesta?
+• ¿Cuánto cuestan?
+• ¿Puedo probármelo?
+• ¿Tiene otra talla?
+• ¿Tiene otro color?
+• ¿Qué talla es esta?
+• ¿Me queda bien?
+• Me gusta este / esta
+• Me llevo este / esta
+• ¿Hay descuento?
+• ¿Está en rebajas?
 
-🔹 TALLAS (sizes):
+🔹 TALLAS:
 
 • XS = extra pequeña / extra small
 • S = pequeña / small
@@ -20373,16 +20373,16 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
 • XL = extra grande / extra large
 • XXL = dos extra grandes / double extra large
 
-🔹 RESPUESTAS DEL VENDEDOR (salesperson responses):
+🔹 RESPUESTAS DEL VENDEDOR:
 
-• ¿En qué puedo ayudarle? = How can I help you?
-• ¿Qué talla busca? = What size are you looking for?
-• ¿Qué color prefiere? = What color do you prefer?
-• Los probadores están allí = The fitting rooms are there
-• Le queda muy bien = It fits you very well
-• Le queda un poco grande/pequeño = It's a little big/small on you
-• Está rebajado = It's discounted
-• La talla que busca no nos queda = The size you're looking for is out of stock
+• ¿En qué puedo ayudarle?
+• ¿Qué talla busca?
+• ¿Qué color prefiere?
+• Los probadores están allí
+• Le queda muy bien
+• Le queda un poco grande/pequeño
+• Está rebajado
+• La talla que busca no nos queda
 
 📌 EJEMPLOS COMPLETOS:
 • ¿Cuánto cuesta esta camisa? — Cuesta veinticinco euros.
@@ -20453,24 +20453,24 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         tituloChino: "穿衣动词和表达",
         descripcion: `🔹 VERBOS IMPORTANTES:
 
-• vestirse = to get dressed
-• desvestirse = to get undressed
-• llevar = to wear (llevo puesta una chaqueta)
-• ponerse = to put on (me pongo los zapatos)
-• quitarse = to take off (me quito el abrigo)
-• probarse = to try on (me pruebo el vestido)
-• combinar = to match (el rojo combina con el negro)
-• quedar = to fit (me queda bien / me queda mal)
+• vestirse
+• desvestirse
+• llevar (llevo puesta una chaqueta)
+• ponerse (me pongo los zapatos)
+• quitarse (me quito el abrigo)
+• probarse (me pruebo el vestido)
+• combinar (el rojo combina con el negro)
+• quedar (me queda bien / me queda mal)
 
 🔹 EXPRESIONES COMUNES:
 
-• ¿Qué llevas puesto? = What are you wearing?
-• Llevo puesto/a... = I'm wearing...
-• ¿Me queda bien? = Does it fit me well?
-• Te queda muy bien = It fits you very well
-• Estás muy elegante = You look very elegant
-• Estás muy guapo/a = You look very handsome/beautiful
-• ¡Qué bien vestido vas! = You're very well dressed!
+• ¿Qué llevas puesto?
+• Llevo puesto/a...
+• ¿Me queda bien?
+• Te queda muy bien
+• Estás muy elegante
+• Estás muy guapo/a
+• ¡Qué bien vestido vas!
 
 🔹 DESCRIBIR LO QUE LLEVAS puesto:
 
@@ -21442,41 +21442,41 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         tituloChino: "头部",
         descripcion: `Partes de la cabeza:
 
-🔹 CABEZA Y CARA (head and face):
-• cabeza = head
-• cara = face
-• frente = forehead
-• mejilla = cheek
-• barbilla / mentón = chin
-• mandíbula = jaw
+🔹 CABEZA Y CARA:
+• cabeza
+• cara
+• frente
+• mejilla
+• barbilla / mentón
+• mandíbula
 
-🔹 OJOS Y ALREDEDOR (eyes and around):
-• ojo = eye
-• ceja = eyebrow
-• pestaña = eyelash
-• párpado = eyelid
+🔹 OJOS Y ALREDEDOR:
+• ojo
+• ceja
+• pestaña
+• párpado
 
-🔹 NARIZ (nose):
-• nariz = nose
-• fosa nasal = nostril
+🔹 NARIZ:
+• nariz
+• fosa nasal
 
-🔹 BOCA (mouth):
-• boca = mouth
-• labio = lip
-• diente = tooth
-• muela = molar
-• lengua = tongue
-• encía = gum
+🔹 BOCA:
+• boca
+• labio
+• diente
+• muela
+• lengua
+• encía
 
-🔹 OREJAS (ears):
-• oreja = ear (outer)
-• oído = ear (inner)
-• lóbulo = earlobe
+🔹 OREJAS:
+• oreja
+• oído
+• lóbulo
 
-🔹 PELO (hair):
-• pelo / cabello = hair
-• ceja = eyebrow
-• pestaña = eyelash
+🔹 PELO:
+• pelo / cabello
+• ceja
+• pestaña
 
 📌 EJEMPLOS:
 • Me duele la cabeza.
@@ -21549,52 +21549,52 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t2",
         titulo: "Partes del cuerpo",
         tituloChino: "身体部位",
-        descripcion: `🔹 CUELLO Y HOMBROS (neck and shoulders):
-• cuello = neck
-• nuca = nape of the neck
-• hombro = shoulder
-• clavícula = collarbone
+        descripcion: `🔹 CUELLO Y HOMBROS:
+• cuello
+• nuca
+• hombro
+• clavícula
 
-🔹 BRAZOS Y MANOS (arms and hands):
-• brazo = arm
-• codo = elbow
-• antebrazo = forearm
-• muñeca = wrist
-• mano = hand
-• dedo = finger
-• pulgar = thumb
-• índice = index finger
-• corazón = middle finger
-• anular = ring finger
-• meñique = little finger
-• uña = fingernail
-• nudillo = knuckle
+🔹 BRAZOS Y MANOS:
+• brazo
+• codo
+• antebrazo
+• muñeca
+• mano
+• dedo
+• pulgar
+• índice
+• corazón
+• anular
+• meñique
+• uña
+• nudillo
 
-🔹 PECHO Y ESPALDA (chest and back):
-• pecho = chest
-• espalda = back
-• hombro = shoulder
-• costilla = rib
-• columna = spine
+🔹 PECHO Y ESPALDA:
+• pecho
+• espalda
+• hombro
+• costilla
+• columna
 
-🔹 ABDOMEN (abdomen):
-• estómago = stomach
-• vientre = belly
-• ombligo = navel / belly button
-• cintura = waist
-• cadera = hip
-• barriga = tummy (informal)
+🔹 ABDOMEN:
+• estómago
+• vientre
+• ombligo
+• cintura
+• cadera
+• barriga (informal)
 
-🔹 PIERNAS Y PIES (legs and feet):
-• pierna = leg
-• muslo = thigh
-• rodilla = knee
-• pantorrilla = calf
-• tobillo = ankle
-• pie = foot
-• talón = heel
-• planta del pie = sole of the foot
-• dedo del pie = toe
+🔹 PIERNAS Y PIES:
+• pierna
+• muslo
+• rodilla
+• pantorrilla
+• tobillo
+• pie
+• talón
+• planta del pie
+• dedo del pie
 
 📌 EJEMPLOS:
 • Me duele la espalda.
@@ -21684,35 +21684,35 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
 
 🔹 OTRAS EXPRESIONES DE MALESTAR:
 
-• Tengo dolor de cabeza = I have a headache
-• Tengo dolor de estómago = I have a stomach ache
-• Tengo dolor de garganta = I have a sore throat
-• Tengo dolor de espalda = I have back pain
-• Tengo fiebre = I have a fever
-• Tengo tos = I have a cough
-• Tengo mareos = I'm dizzy
-• Tengo náuseas = I feel nauseous
-• Tengo alergia = I have an allergy
-• Estoy resfriado/a = I have a cold
-• Estoy acatarrado/a = I have a cold (Spain)
-• Tengo gripe = I have the flu
-• Estoy enfermo/a = I'm sick
-• Me siento débil = I feel weak
-• Me falta el aire = I'm short of breath
-• Estoy congestionado/a = I'm congested
+• Tengo dolor de cabeza
+• Tengo dolor de estómago
+• Tengo dolor de garganta
+• Tengo dolor de espalda
+• Tengo fiebre
+• Tengo tos
+• Tengo mareos
+• Tengo náuseas
+• Tengo alergia
+• Estoy resfriado/a
+• Estoy acatarrado/a
+• Tengo gripe
+• Estoy enfermo/a
+• Me siento débil
+• Me falta el aire
+• Estoy congestionado/a
 
-🔹 PREGUNTAS DEL MÉDICO (doctor's questions):
-• ¿Qué le pasa? = What's wrong?
-• ¿Dónde le duele? = Where does it hurt?
-• ¿Desde cuándo? = Since when?
-• ¿Tiene fiebre? = Do you have a fever?
-• ¿Ha tomado algo? = Have you taken anything?
+🔹 PREGUNTAS DEL MÉDICO:
+• ¿Qué le pasa?
+• ¿Dónde le duele?
+• ¿Desde cuándo?
+• ¿Tiene fiebre?
+• ¿Ha tomado algo?
 
 🔹 RESPUESTAS DEL PACIENTE:
-• Me duele aquí = It hurts here
-• Me duele al respirar = It hurts when I breathe
-• Me duele al moverlo = It hurts when I move it
-• Llevo varios días así = I've been like this for several days`,
+• Me duele aquí
+• Me duele al respirar
+• Me duele al moverlo
+• Llevo varios días así`,
         descripcionChino: `🔹 表达疼痛的结构：
 
 • Me duele + 身体部位（单数）
@@ -21778,34 +21778,34 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t4",
         titulo: "Órganos internos y sistemas",
         tituloChino: "内部器官和系统",
-        descripcion: `🔹 ÓRGANOS INTERNOS (internal organs):
-• corazón = heart
-• pulmón = lung
-• hígado = liver
-• riñón = kidney
-• estómago = stomach
-• intestino = intestine
-• cerebro = brain
-• páncreas = pancreas
-• vejiga = bladder
+        descripcion: `🔹 ÓRGANOS INTERNOS:
+• corazón
+• pulmón
+• hígado
+• riñón
+• estómago
+• intestino
+• cerebro
+• páncreas
+• vejiga
 
-🔹 SISTEMAS DEL CUERPO (body systems):
-• sistema nervioso = nervous system
-• sistema circulatorio = circulatory system
-• sistema respiratorio = respiratory system
-• sistema digestivo = digestive system
-• sistema óseo = skeletal system
-• sistema muscular = muscular system
+🔹 SISTEMAS DEL CUERPO:
+• sistema nervioso
+• sistema circulatorio
+• sistema respiratorio
+• sistema digestivo
+• sistema óseo
+• sistema muscular
 
-🔹 PROFESIONALES DE LA SALUD (health professionals):
+🔹 PROFESIONALES DE LA SALUD:
 • médico / médica = doctor
-• enfermero / enfermera = nurse
-• dentista = dentist
-• cardiólogo / cardióloga = cardiologist
-• oftalmólogo / oftalmóloga = ophthalmologist
-• dermatólogo / dermatóloga = dermatologist
-• traumatólogo / traumatóloga = traumatologist
-• psicólogo / psicóloga = psychologist
+• enfermero / enfermera
+• dentista
+• cardiólogo / cardióloga
+• oftalmólogo / oftalmóloga
+• dermatólogo / dermatóloga
+• traumatólogo / traumatóloga
+• psicólogo / psicóloga
 
 📌 EJEMPLOS:
 • El corazón bombea la sangre.
@@ -22781,53 +22781,53 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t1",
         titulo: "Deportes populares",
         tituloChino: "流行运动",
-        descripcion: `🔹 DEPORTES DE EQUIPO (team sports):
-• fútbol = football / soccer
-• baloncesto = basketball
-• voleibol = volleyball
-• balonmano = handball
-• rugby = rugby
-• hockey = hockey
-• béisbol = baseball
-• waterpolo = water polo
+        descripcion: `🔹 DEPORTES DE EQUIPO:
+• fútbol
+• baloncesto
+• voleibol
+• balonmano
+• rugby
+• hockey
+• béisbol
+• waterpolo
 
 🔹 DEPORTES INDIVIDUALES (individual sports):
-• tenis = tennis
-• natación = swimming
-• atletismo = athletics
-• ciclismo = cycling
-• golf = golf
-• esquí = skiing
-• snowboard = snowboarding
-• patinaje = skating
-• gimnasia = gymnastics
+• tenis
+• natación
+• atletismo
+• ciclismo
+• golf
+• esquí
+• snowboard
+• patinaje
+• gimnasia
 • yoga = yoga
 • pilates = pilates
-• boxeo = boxing
-• judo = judo
-• karate = karate
-• esgrima = fencing
-• tiro con arco = archery
+• boxeo
+• judo
+• karate
+• esgrima
+• tiro con arco
 
-🔹 DEPORTES DE RAQUETA (racket sports):
-• tenis = tennis
+🔹 DEPORTES DE RAQUETA:
+• tenis
 • pádel = padel
-• squash = squash
-• bádminton = badminton
+• squash
+• bádminton
 
-🔹 DEPORTES DE AVENTURA (adventure sports):
-• senderismo = hiking
-• escalada = climbing
-• buceo = diving
-• surf = surfing
-• kitesurf = kitesurfing
-• parapente = paragliding
+🔹 DEPORTES DE AVENTURA:
+• senderismo
+• escalada
+• buceo
+• surf
+• kitesurf
+• parapente
 
-🔹 VERBOS ÚTILES (useful verbs):
-• jugar al + deporte (jugar al fútbol) = to play (team sports)
-• practicar + deporte (practicar natación) = to practice
-• hacer + deporte (hacer ejercicio) = to do (exercise)
-• montar en + medio (montar en bici) = to ride
+🔹 VERBOS ÚTILES:
+• jugar al + deporte (jugar al fútbol)
+• practicar + deporte (practicar natación)
+• hacer + deporte (hacer ejercicio)
+• montar en + medio (montar en bici)
 
 📌 EJEMPLOS:
 • Juego al fútbol los fines de semana.
@@ -22910,35 +22910,35 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t2",
         titulo: "En el gimnasio",
         tituloChino: "在健身房",
-        descripcion: `🔹 VOCABULARIO DEL GIMNASIO (gym vocabulary):
-• gimnasio = gym
-• entrenar = to train
-• entrenamiento = training / workout
-• ejercicio = exercise
-• pesa = weight (dumbbell)
-• mancuerna = dumbbell
+        descripcion: `🔹 VOCABULARIO DEL GIMNASIO:
+• gimnasio
+• entrenar
+• entrenamiento
+• ejercicio
+• pesa
+• mancuerna
 • barra = bar
-• máquina = machine
-• cinta de correr = treadmill
-• bicicleta estática = stationary bike
-• elíptica = elliptical machine
-• remo = rowing machine
-• banco = bench
-• colchoneta = mat
+• máquina
+• cinta de correr
+• bicicleta estática
+• elíptica
+• remo
+• banco
+• colchoneta
 
-🔹 EJERCICIOS (exercises):
-• sentadilla = squat
-• flexión / lagartija = push-up
-• abdominal = crunch / sit-up
-• plancha = plank
-• burpee = burpee
-• zancada = lunge
-• peso muerto = deadlift
-• press de banca = bench press
-• dominada = pull-up
-• fondos = dips
+🔹 EJERCICIOS:
+• sentadilla
+• flexión / lagartija
+• abdominal
+• plancha
+• burpee
+• zancada
+• peso muerto
+• press de banca
+• dominada
+• fondos
 
-🔹 FRASES ÚTILES (useful phrases):
+🔹 FRASES ÚTILES:
 • Voy al gimnasio tres veces por semana.
 • Hago ejercicio cada día.
 • Levanto pesas.
@@ -22948,12 +22948,12 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
 • Estoy de vuelta al gimnasio después de un tiempo.
 
 🔹 PARTES DEL CUERPO QUE SE ENTRENAN:
-• entrenar piernas = leg day
-• entrenar brazos = arm day
-• entrenar pecho = chest day
-• entrenar espalda = back day
-• entrenar hombros = shoulder day
-• entrenar core = core workout
+• entrenar piernas
+• entrenar brazos
+• entrenar pecho
+• entrenar espalda
+• entrenar hombros
+• entrenar core
 
 📌 EJEMPLOS:
 • Voy al gimnasio tres veces por semana.
@@ -23027,7 +23027,7 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t3",
         titulo: "Hablar de deportes",
         tituloChino: "谈论运动",
-        descripcion: `🔹 PREGUNTAS COMUNES (common questions):
+        descripcion: `🔹 PREGUNTAS COMUNES:
 • ¿Practicas algún deporte?
 • ¿Qué deporte te gusta?
 • ¿Juegas al fútbol?
@@ -23037,7 +23037,7 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
 • ¿Ves los partidos por televisión?
 • ¿Has ido a algún partido en el estadio?
 
-🔹 RESPUESTAS COMUNES (common answers):
+🔹 RESPUESTAS COMUNES:
 • Sí, juego al baloncesto.
 • Me gusta la natación.
 • Hago ejercicio tres veces por semana.
@@ -23046,28 +23046,28 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
 • Veo todos los partidos de mi equipo.
 • He ido al estadio varias veces.
 
-🔹 EXPRESIONES ÚTILES (useful expressions):
-• Soy aficionado al fútbol. = I'm a football fan.
-• Entreno todos los días. = I train every day.
-• Voy al gimnasio con mis amigos. = I go to the gym with my friends.
+🔹 EXPRESIONES ÚTILES:
+• Soy aficionado al fútbol.
+• Entreno todos los días.
+• Voy al gimnasio con mis amigos.
 • Me he apuntado a un equipo. = I've joined a team.
-• Estoy en forma = I'm in shape
-• Necesito ponerme en forma = I need to get in shape
-• Me duele todo el cuerpo después de entrenar = My whole body hurts after training
-• Hoy toca descanso = Today is rest day
+• Estoy en forma
+• Necesito ponerme en forma
+• Me duele todo el cuerpo después de entrenar
+• Hoy toca descanso
 
 🔹 VOCABULARIO DE COMPETICIONES:
-• partido = match (football, basketball)
-• encuentro = match
-• torneo = tournament
-• liga = league
-• campeonato = championship
+• partido
+• encuentro
+• torneo
+• liga
+• campeonato
 • final = final
-• semifinal = semifinal
-• cuartos de final = quarterfinal
-• entrenamiento = training
-• calentamiento = warm-up
-• estiramiento = stretching`,
+• semifinal
+• cuartos de final
+• entrenamiento
+• calentamiento
+• estiramiento`,
         descripcionChino: `🔹 常见问题：
 • ¿Practicas algún deporte? = 你做运动吗？
 • ¿Qué deporte te gusta? = 你喜欢什么运动？
@@ -23132,36 +23132,36 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t4",
         titulo: "Eventos deportivos y competiciones",
         tituloChino: "体育赛事和比赛",
-        descripcion: `🔹 EVENTOS IMPORTANTES (important events):
+        descripcion: `🔹 EVENTOS IMPORTANTES:
 • Juegos Olímpicos = Olympic Games
-• Mundial de Fútbol = Football World Cup
+• Mundial de Fútbol
 • Eurocopa = European Championship
-• Copa del Mundo = World Cup
+• Copa del Mundo
 • Champions League = Champions League
 • Tour de Francia = Tour de France
 • Roland Garros = Roland Garros
 • Wimbledon = Wimbledon
-• Super Bowl = Super Bowl
+• Super Bowl
 
-🔹 ROLES EN EL DEPORTE (roles in sports):
-• deportista = sportsman/sportswoman
-• atleta = athlete
-• jugador / jugadora = player
-• entrenador / entrenadora = coach
-• árbitro / árbitra = referee
-• capitán / capitana = captain
-• aficionado / aficionada = fan
-• espectador / espectadora = spectator
+🔹 ROLES EN EL DEPORTE:
+• deportista
+• atleta
+• jugador / jugadora
+• entrenador / entrenadora
+• árbitro / árbitra
+• capitán / capitana
+• aficionado / aficionada
+• espectador / espectadora
 
-🔹 RESULTADOS (results):
-• ganar = to win
-• perder = to lose
-• empatar = to tie / draw
-• marcar un gol = to score a goal
-• ganar el partido = to win the match
-• perder la final = to lose the final
-• campeón / campeona = champion
-• subcampeón = runner-up
+🔹 RESULTADOS:
+• ganar
+• perder
+• empatar
+• marcar un gol
+• ganar el partido
+• perder la final
+• campeón / campeona
+• subcampeón
 
 📌 EJEMPLOS:
 • España ganó el Mundial de 2010.
@@ -24144,49 +24144,49 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t1",
         titulo: "Medios de transporte",
         tituloChino: "交通工具",
-        descripcion: `🔹 TRANSPORTE TERRESTRE (land transport):
+        descripcion: `🔹 TRANSPORTE TERRESTRE:
 
 🚗 COCHE / AUTO / CARRO:
-• coche = car (Spain)
-• auto = car (Latin America)
-• carro = car (Latin America)
-• coche eléctrico = electric car
+• coche
+• auto (Latin America)
+• carro (Latin America)
+• coche eléctrico
 • taxi = taxi
-• autobús / bus = bus
-• microbús = minibus
-• autocar = coach bus
+• autobús / bus
+• microbús
+• autocar
 
 🚆 TREN:
-• tren = train
-• metro = subway / metro
-• tranvía = tram
-• cercanías = commuter train
-• AVE = high-speed train (Spain)
-• regional = regional train
+• tren
+• metro
+• tranvía
+• cercanías
+• AVE
+• regional
 
 🏍️ MOTOS Y BICICLETAS:
-• moto = motorcycle
-• bicicleta / bici = bicycle
-• patinete = scooter
-• patinete eléctrico = electric scooter
+• moto
+• bicicleta / bici
+• patinete
+• patinete eléctrico
 
-🔹 TRANSPORTE AÉREO (air transport):
-• avión = airplane
-• helicóptero = helicopter
-• jet = jet
-• dron = drone
+🔹 TRANSPORTE AÉREO:
+• avión
+• helicóptero
+• jet
+• dron
 
-🔹 TRANSPORTE MARÍTIMO (maritime transport):
-• barco = boat
+🔹 TRANSPORTE MARÍTIMO:
+• barco
 • ferry = ferry
-• crucero = cruise ship
-• yate = yacht
-• lancha = speedboat
-• transatlántico = ocean liner
+• crucero
+• yate
+• lancha
+• transatlántico
 
-🔹 A PIE (on foot):
-• andando / caminando = walking
-• a pie = on foot
+🔹 A PIE:
+• andando / caminando
+• a pie
 
 📌 EJEMPLOS:
 • Voy al trabajo en coche.
@@ -24261,19 +24261,19 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t2",
         titulo: "Verbos relacionados con transporte",
         tituloChino: "与交通相关的动词",
-        descripcion: `🔹 VERBOS ÚTILES (useful verbs):
+        descripcion: `🔹 VERBOS ÚTILES:
 
-• ir en + transporte = to go by (ir en coche)
+• ir en + transporte (ir en coche)
 • coger / tomar + transporte = to take (coger el tren) - España / Latinoamérica
-• viajar en + transporte = to travel by (viajar en avión)
-• conducir / manejar = to drive (conducir un coche)
-• pilotar = to fly (pilotar un avión)
-• montar en = to ride (montar en bicicleta)
-• andar / caminar = to walk
-• aparcar / estacionar = to park (aparcar el coche)
-• subir a = to get on (subir al autobús)
-• bajar de = to get off (bajar del tren)
-• hacer transbordo = to transfer (hacer transbordo de metro)
+• viajar en + transporte (viajar en avión)
+• conducir / manejar (conducir un coche)
+• pilotar (pilotar un avión)
+• montar en (montar en bicicleta)
+• andar / caminar
+• aparcar / estacionar (aparcar el coche)
+• subir a (subir al autobús)
+• bajar de (bajar del tren)
+• hacer transbordo (hacer transbordo de metro)
 
 📌 EJEMPLOS:
 • Voy en autobús al trabajo.
@@ -24281,7 +24281,7 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
 • Conduzco mi coche.
 • Monto en bici los fines de semana.
 
-🔹 PREGUNTAS COMUNES (common questions):
+🔹 PREGUNTAS COMUNES:
 • ¿Cómo vas al trabajo?
 • ¿Cuánto tiempo tardas en coche?
 • ¿Dónde se coge el autobús?
@@ -24346,21 +24346,21 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t3",
         titulo: "En la estación y en el aeropuerto",
         tituloChino: "在车站和机场",
-        descripcion: `🔹 LUGARES (places):
-• estación de tren = train station
-• estación de autobuses = bus station
-• parada (de autobús/metro) = bus/metro stop
-• aeropuerto = airport
-• puerto = port
-• andén = platform (train)
-• vía = track (train)
+        descripcion: `🔹 LUGARES:
+• estación de tren
+• estación de autobuses
+• parada (de autobús/metro)
+• aeropuerto
+• puerto
+• andén
+• vía
 • terminal = terminal
-• puerta de embarque = boarding gate
-• sala de espera = waiting room
-• mostrador de facturación = check-in counter
-• cinta de equipaje = baggage carousel
+• puerta de embarque
+• sala de espera
+• mostrador de facturación
+• cinta de equipaje
 
-🔹 FRASES ÚTILES (useful phrases):
+🔹 FRASES ÚTILES:
 • ¿Dónde está la parada de autobús?
 • ¿A qué hora sale el tren?
 • ¿Cuánto cuesta el billete?
@@ -24371,13 +24371,13 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
 • ¿Este tren va a Barcelona?
 • ¿Tiene que hacer transbordo?
 
-🔹 TIPOS DE BILLETES (types of tickets):
-• billete sencillo / billete de ida = one-way ticket
-• billete de ida y vuelta = round-trip ticket
+🔹 TIPOS DE BILLETES:
+• billete sencillo / billete de ida
+• billete de ida y vuelta
 • billete de temporada = season ticket
-• bono = travel pass
-• abono mensual = monthly pass
-• tarjeta de transporte = transport card
+• bono
+• abono mensual
+• tarjeta de transporte
 
 📌 EJEMPLOS:
 • ¿Dónde está la parada de autobús?
@@ -24439,27 +24439,27 @@ En España, la comida principal (el almuerzo) es entre las 14:00 y las 15:00, y 
         id: "t4",
         titulo: "Describir un viaje",
         tituloChino: "描述旅行",
-        descripcion: `🔹 EXPRESIONES PARA DESCRIBIR UN VIAJE (expressions to describe a trip):
+        descripcion: `🔹 EXPRESIONES PARA DESCRIBIR UN VIAJE:
 
-PLANIFICACIÓN (planning):
+PLANIFICACIÓN:
 • He reservado un billete de avión.
 • He comprado los billetes con antelación.
 • Voy a viajar la próxima semana.
 • Me voy de vacaciones en julio.
 
-DURANTE EL VIAJE (during the trip):
+DURANTE EL VIAJE:
 • El vuelo dura tres horas.
 • El tren va muy rápido.
 • El viaje fue muy cómodo.
 • Tuvimos que hacer transbordo en Madrid.
 
-PROBLEMAS (problems):
+PROBLEMAS:
 • El vuelo se retrasó dos horas.
 • Perdí el tren.
 • Me robaron la maleta.
 • No había asientos libres.
 
-DESPUÉS DEL VIAJE (after the trip):
+DESPUÉS DEL VIAJE:
 • El viaje fue increíble.
 • Las vistas eran preciosas.
 • Volveré el año que viene.

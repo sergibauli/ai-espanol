@@ -1,0 +1,74 @@
+/* ===== v21 · Sensación de app nativa: toques, transiciones, avisos e instalación ===== */
+
+/* Toques: sin destello azul, sin zoom por doble toque, sin seleccionar texto al pulsar botones */
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+a, button, [role="button"], label, summary { touch-action: manipulation; }
+html.es-tactil :is(button, .bottom-nav, .in-mas__item, .side-link) { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+/* Sin el «rebote» que arrastra toda la página al final del scroll */
+html, body { overscroll-behavior-y: none; }
+img { -webkit-user-drag: none; }
+
+/* Pulsación: los botones se hunden un poco, como en una app */
+html.es-tactil :is(button, .bottom-nav a, .in-mas__item, .jd-card, .app-vibra):active:not(:disabled) {
+  transform: scale(.96);
+  transition: transform .08s ease-out;
+}
+.bottom-nav a .in-barra__ic, .bottom-nav button .in-barra__ic { transition: transform .22s cubic-bezier(.34, 1.56, .64, 1); }
+.bottom-nav a.on .in-barra__ic { animation: app-salto .42s cubic-bezier(.34, 1.56, .64, 1); }
+@keyframes app-salto { 0% { transform: scale(.82); } 60% { transform: scale(1.12) translateY(-2px); } 100% { transform: none; } }
+
+/* Transición entre pantallas: adelante entra desde la derecha; atrás (gesto o botón) desde la izquierda */
+.light-shell > main.app-pantalla { animation: app-entra .32s cubic-bezier(.22, .8, .3, 1) both; }
+html[data-nav="atras"] .light-shell > main.app-pantalla { animation-name: app-entra-atras; }
+@keyframes app-entra { from { opacity: 0; transform: translate3d(22px, 0, 0); } to { opacity: 1; transform: none; } }
+@keyframes app-entra-atras { from { opacity: 0; transform: translate3d(-22px, 0, 0); } to { opacity: 1; transform: none; } }
+@media (min-width: 1024px) {
+  @keyframes app-entra { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
+}
+/* La animación deja `transform: none`, pero mientras dura crea un contexto: los juegos ya van en portal */
+@media (prefers-reduced-motion: reduce) {
+  .light-shell > main.app-pantalla, .bottom-nav a.on .in-barra__ic { animation: none !important; }
+}
+
+/* App instalada: la barra superior respeta la muesca del iPhone */
+html.es-app .light-top { padding-top: max(var(--app-top, 0px), env(safe-area-inset-top)); }
+
+/* ---- Aviso «nueva versión» ---- */
+.app-aviso {
+  position: fixed; z-index: 10050; left: 50%; top: calc(12px + env(safe-area-inset-top));
+  transform: translateX(-50%); width: min(92vw, 440px);
+  display: flex; align-items: center; gap: 10px; padding: 10px 10px 10px 14px;
+  border-radius: 18px; border: 1.5px solid #f2c14e;
+  background: linear-gradient(160deg, #c8102e, #8f0c21); color: #fff6dd;
+  box-shadow: 0 14px 34px rgba(60, 8, 16, .45), inset 0 1px 0 rgba(255, 230, 170, .35);
+  font: 600 .9rem/1.2 "Plus Jakarta Sans", system-ui, "PingFang SC", sans-serif;
+  animation: app-baja .45s cubic-bezier(.34, 1.4, .64, 1) both;
+}
+.app-aviso span { flex: 1; min-width: 0; }
+.app-aviso small { display: block; opacity: .8; font-weight: 500; }
+.app-aviso__accion {
+  border: 0; border-radius: 12px; padding: 9px 12px; cursor: pointer; font: inherit; font-weight: 800; color: #5a1a08;
+  background: linear-gradient(180deg, #ffe08a, #f2c14e 55%, #c8961e); white-space: nowrap;
+}
+.app-aviso__cerrar { border: 0; background: none; color: inherit; opacity: .75; padding: 6px; cursor: pointer; }
+@keyframes app-baja { from { opacity: 0; transform: translate(-50%, -24px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+/* ---- Tarjeta «Instala la app» en la hoja Más ---- */
+.app-instalar {
+  display: flex; align-items: center; gap: 12px; margin: 12px 4px 4px; padding: 12px;
+  border-radius: 16px; border: 1.5px solid rgba(200, 150, 30, .55);
+  background: linear-gradient(160deg, #fff8e6, #f6e3b4); color: #3b2416;
+  box-shadow: inset 0 1px 0 #fff;
+}
+.app-instalar__icono img { display: block; width: 44px; height: 44px; border-radius: 12px; box-shadow: 0 3px 8px rgba(80, 20, 10, .3); }
+.app-instalar__texto { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.app-instalar__texto b { font-size: .92rem; white-space: nowrap; }
+.app-instalar__texto b span { color: #8f0c21; margin-left: 4px; font-size: .8rem; }
+.app-instalar__texto small { font-size: .74rem; opacity: .8; line-height: 1.3; }
+.app-instalar__ios { opacity: 1 !important; color: #8f0c21; font-weight: 600; }
+.app-instalar__ios svg { vertical-align: -2px; }
+.app-instalar__boton {
+  display: inline-flex; align-items: center; gap: 6px; border: 0; border-radius: 12px; padding: 10px 14px; cursor: pointer;
+  font: 800 .85rem "Plus Jakarta Sans", system-ui, sans-serif; color: #fff6dd;
+  background: linear-gradient(160deg, #e0485a, #c8102e 45%, #8f0c21); box-shadow: 0 4px 10px rgba(143, 12, 33, .35);
+}

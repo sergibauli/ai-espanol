@@ -1,15 +1,26 @@
 {
+  "id": "./",
   "name": "AI Español · Preparación DELE",
   "short_name": "AI Español",
-  "description": "Aprende español, practica DELE y mejora con juegos interactivos.",
+  "description": "Aprende español, practica DELE y mejora con juegos interactivos. 学西班牙语，备考DELE。",
   "lang": "es",
-  "start_url": "./",
+  "start_url": "./#/ruta",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#050714",
-  "theme_color": "#050714",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#8f0c21",
+  "theme_color": "#8f0c21",
+  "categories": ["education"],
   "icons": [
-    { "src": "./app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "./icons/icono.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Juegos · 游戏", "short_name": "Juegos", "url": "./#/juegos", "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Exámenes DELE · 考试", "short_name": "DELE", "url": "./#/oficial", "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Repaso · 记忆", "short_name": "Repaso", "url": "./#/memoria", "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }

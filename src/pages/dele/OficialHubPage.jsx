@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
-import { Emoji3D } from "../../components/ui/Emoji3D.jsx";
-import { ArrowRightIcon, SparklesIcon } from "lucide-react";
+import { ArrowRightIcon, SparklesIcon, ZapIcon, TargetIcon, MicIcon, HeadphonesIcon } from "lucide-react";
+import "../../styles/v23-dele-modos.css";
 import { ESCENAS } from "../../components/dele/EscenasNivel.jsx";
 import { ParticulasNivel } from "../../components/ui/ParticulasNivel.jsx";
 // Solo cuenta los simulacros nuevos por el nombre del archivo (A1-21.json…), sin descargar su contenido
@@ -17,15 +17,15 @@ const LEVELS = [
   { key: "B2", name: "Avanzado", zh: "高阶级", mundo: "Ciudad Prohibida", mundoZh: "紫禁之巅", sello: "龙", t: [70, 40, 80, 20] },
 ];
 const TOTAL = 80 + Object.values(NUEVOS).reduce((a, l) => a + l.length, 0);
-const PRUEBAS = [
-  ["📖", "Comprensión de lectura", "阅读理解"],
-  ["🎧", "Comprensión auditiva", "听力理解"],
-  ["✍️", "Expresión escrita", "书面表达"],
-  ["🗣️", "Expresión oral", "口语表达"],
+// Las cuatro formas de prepararse, cada una con su mundo (color, sello y carácter de fondo)
+const MODOS = [
+  { id: "simulacro", to: "/examenes/generador", icono: ZapIcon, sello: "考", marca: "试", etiqueta: "Examen nuevo cada vez", es: "Simulacro automático", zh: "自动模拟考", desc: "Un examen distinto en cada intento, con nota al momento.", chips: ["4 pruebas", "Nota al instante", "A1–B2"], cta: "Empezar simulacro" },
+  { id: "destrezas", to: "/examenes", icono: TargetIcon, sello: "练", marca: "技", etiqueta: "Entrena lo que más te cuesta", es: "Practicar por destrezas", zh: "分项练习", desc: "Lectura, audición, escritura y oral, por niveles.", chips: ["Lectura", "Audición", "Escritura", "Oral"], cta: "Elegir destreza" },
+  { id: "oral", to: "/examinador-oral", icono: MicIcon, sello: "问", marca: "言", etiqueta: "Con inteligencia artificial", es: "Examinador oral IA", zh: "AI口语考官", desc: "Preparación, monólogo y preguntas del entrevistador, como en el examen.", chips: ["Monólogo", "Entrevista", "Corrección DELE"], cta: "Hablar con el examinador" },
+  { id: "acentos", to: "/audicion", icono: HeadphonesIcon, sello: "音", marca: "声", etiqueta: "Entrena el oído", es: "Acentos del español", zh: "口音听力", desc: "Audiciones con voces de España, México y Argentina.", chips: ["España", "México", "Argentina"], cta: "Escuchar acentos" },
 ];
 
 export default function OficialHubPage() {
-  const navigate = useNavigate();
   return (
     <LightShell>
       <div className="unit-page" style={{ maxWidth: 1000 }}>
@@ -88,45 +88,50 @@ export default function OficialHubPage() {
         </div>
 
         <h2 className="unit-h2">Más formas de prepararte · 更多备考方式</h2>
-        <div className="dele-modes">
-          {[
-            ["⚡", "Simulacro automático", "自动模拟考", "Un examen nuevo cada vez, con nota al momento", "/examenes/generador", "#ff9600", "#e08600"],
-            ["🎯", "Practicar por destrezas", "分项练习", "Lectura, audición, escritura y oral por niveles", "/examenes", "#1cb0f6", "#1899d6"],
-            ["📜", "Modelos oficiales", "官方真题", "80 exámenes completos con cronómetro", "#niveles", "#58cc02", "#46a302"],
-            ["🎙️", "Examinador oral IA", "AI口语考官", "Prueba oral con preparación, monólogo y entrevistador", "/examinador-oral", "#c8102e", "#8f0c21"],
-            ["🎧", "Acentos del español", "口音听力", "Audiciones con voces de España, México y Argentina", "/audicion", "#2f6fd6", "#173f8a"],
-          ].map(([e, es, zh, d, to, c, dk]) =>
-            to.startsWith("#") ? (
-              <a key={es} href="#" onClick={(ev) => { ev.preventDefault(); document.getElementById("niveles")?.scrollIntoView({ behavior: "smooth" }); }} className="dele-mode" style={{ "--c": c, "--d": dk }}>
-                <Emoji3D emoji={e} size={54} />
-                <b>{es}</b>
-                <small>{zh}</small>
-                <span>{d}</span>
-              </a>
-            ) : (
-              <Link key={es} to={to} className="dele-mode" style={{ "--c": c, "--d": dk }}>
-                <Emoji3D emoji={e} size={54} />
-                <b>{es}</b>
-                <small>{zh}</small>
-                <span>{d}</span>
+        <div className="dm-portales">
+          {MODOS.map((m, i) => {
+            const Icono = m.icono;
+            return (
+              <Link key={m.to} to={m.to} className="dm-portal" data-modo={m.id} style={{ animationDelay: `${i * 90}ms` }}>
+                <span className="dm-fondo" aria-hidden="true">
+                  <i className="dm-marca" translate="no">{m.marca}</i>
+                  {m.id === "oral" || m.id === "acentos" ? (
+                    <span className="dm-ondas">
+                      <i />
+                      <i />
+                      <i />
+                    </span>
+                  ) : null}
+                  <span className="dm-chispas">
+                    {Array.from({ length: 10 }, (_, k) => (
+                      <i key={k} style={{ "--k": k }} />
+                    ))}
+                  </span>
+                </span>
+                <span className="dm-sello" aria-hidden="true" translate="no">
+                  {m.sello}
+                </span>
+                <span className="dm-medallon" aria-hidden="true">
+                  <span className="dm-anillo" />
+                  <Icono size={40} strokeWidth={2.2} />
+                </span>
+                <span className="dm-txt">
+                  <small>{m.etiqueta}</small>
+                  <b>{m.es}</b>
+                  <span className="dm-zh" translate="no">{m.zh}</span>
+                  <span className="dm-desc">{m.desc}</span>
+                  <span className="dm-chips">
+                    {m.chips.map((c) => (
+                      <em key={c}>{c}</em>
+                    ))}
+                  </span>
+                  <span className="dh-cta">
+                    {m.cta} <ArrowRightIcon size={16} strokeWidth={2.8} />
+                  </span>
+                </span>
               </Link>
-            ),
-          )}
-        </div>
-
-        <h2 className="unit-h2">Cómo aprobar · 通过秘诀</h2>
-        <div className="unit-more">
-          {[
-            ["🧠", "Aprende con la Ruta", "先学课程", "/ruta"],
-            ["📝", "Simulacro automático", "自动模拟考", "/examenes/generador"],
-            ["💡", "Consejos de examen", "考试技巧", "/consejos"],
-          ].map(([e, es, zh, to]) => (
-            <Link key={to} to={to} className="unit-more-card" style={{ textDecoration: "none" }}>
-              <Emoji3D emoji={e} size={52} />
-              <b>{es}</b>
-              <small>{zh}</small>
-            </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
     </LightShell>
