@@ -1,11 +1,15 @@
 import * as React from "react";
 import { useParams, Link } from "react-router";
-import { ArrowLeftIcon, SearchIcon, ShuffleIcon, ArrowRightIcon, BookOpenIcon, HeadphonesIcon, PenLineIcon, MicIcon, SparklesIcon, TrophyIcon, TargetIcon, CheckCircle2Icon } from "lucide-react";
+import { ArrowLeftIcon, SearchIcon, ShuffleIcon, ArrowRightIcon, BookOpenIcon, HeadphonesIcon, PenLineIcon, MicIcon, SparklesIcon } from "lucide-react";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { useLanguage } from "../../lib/i18n.jsx";
 import { i as nivelValido, l as cargarModelos } from "../../lib/oficial-loader.js";
 import { ParticulasNivel } from "../../components/ui/ParticulasNivel.jsx";
 import { ESCENAS } from "../../components/dele/EscenasNivel.jsx";
+import { Emblema } from "../../components/dele/EmblemasModelo.jsx";
+import { EscenaCarta } from "../../components/dele/EscenaCarta.jsx";
+import { TITULOS, ambitoDe } from "../../data/oficial/titulos.js";
+import "../../styles/dele-nivel-v2.css";
 
 // Cada nivel DELE es un mundo distinto del viaje: jardín de bambú (A1), festival de linternas (A2),
 // montañas de tinta (B1) y Ciudad Prohibida (B2). Mismo contenido, escenario, tarjetas y animaciones propias.
@@ -40,7 +44,9 @@ function resultado(nivel, id) {
     return null;
   }
 }
-const colorNota = (n) => (n >= 80 ? "#22c55e" : n >= 60 ? "#f59e0b" : "#ef4444");
+const colorNota = (n) => (n >= 80 ? "#15803d" : n >= 60 ? "#b45309" : "#b91c1c");
+// Variante clara para leer sobre la placa oscura de la cabecera
+const colorNotaClara = (n) => (n >= 80 ? "#86efac" : n >= 60 ? "#fcd34d" : "#fca5a5");
 
 
 function OficialNivelPage() {
@@ -73,7 +79,7 @@ function OficialNivelPage() {
     const s = busca.trim().toLowerCase();
     return filas
       .filter((x) => filtro === "todos" || (filtro === "hechos" ? x.r : filtro === "nuevos" ? x.m.nuevo : !x.r))
-      .filter((x) => !s || [x.m.tema, x.m.titulo, x.m.codigo, String(x.m.id)].join(" ").toLowerCase().includes(s));
+      .filter((x) => !s || [x.m.tema, x.m.titulo, x.m.codigo, String(x.m.id), TITULOS[x.m.codigo]?.es, TITULOS[x.m.codigo]?.zh].join(" ").toLowerCase().includes(s));
   }, [filas, busca, filtro]);
   const sorpresa = React.useMemo(() => {
     const pend = filas.filter((x) => !x.r);
@@ -88,151 +94,286 @@ function OficialNivelPage() {
     ...(nuevos ? [["nuevos", t("Nuevos", "新"), nuevos]] : []),
   ];
 
+  // Modelo recomendado: el primero sin hacer (se destaca en grande cuando se ven todos sin buscar)
+  const destacado = filtro === "todos" && !busca.trim() ? filas.find((x) => !x.r) : null;
+  const totalMin = cfg.partes.reduce((a, [, min]) => a + parseInt(min, 10), 0);
+  const listaRef = React.useRef(null);
+  const reducido = React.useMemo(() => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches, []);
+
+  // Las tarjetas aparecen (y el emblema se dibuja) cuando entran en pantalla
+  React.useEffect(() => {
+    const ul = listaRef.current;
+    if (!ul) return;
+    const items = [...ul.children];
+    if (reducido || typeof IntersectionObserver === "undefined") {
+      items.forEach((li) => li.classList.add("visto"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (ents) => ents.forEach((en) => en.isIntersecting && (en.target.classList.add("visto"), io.unobserve(en.target))),
+      { rootMargin: "0px 0px 40px 0px", threshold: 0.02 }
+    );
+    items.forEach((li) => io.observe(li));
+    return () => io.disconnect();
+  }, [mostrados, reducido]);
+
+  // Inclinación 3D con reflejo dorado (solo ratón y sin «reducir movimiento»)
+  const alMover = React.useCallback(
+    (e) => {
+      if (reducido || e.pointerType !== "mouse") return;
+      const carta = e.target.closest?.(".dx-carta");
+      if (!carta) return;
+      const b = carta.getBoundingClientRect();
+      const x = (e.clientX - b.left) / b.width;
+      const y = (e.clientY - b.top) / b.height;
+      carta.style.setProperty("--rx", `${((0.5 - y) * 9).toFixed(2)}deg`);
+      carta.style.setProperty("--ry", `${((x - 0.5) * 11).toFixed(2)}deg`);
+      carta.style.setProperty("--gx", `${(x * 100).toFixed(1)}%`);
+      carta.style.setProperty("--gy", `${(y * 100).toFixed(1)}%`);
+    },
+    [reducido]
+  );
+  const alSalir = React.useCallback((e) => {
+    const carta = e.target.closest?.(".dx-carta");
+    if (carta) ["--rx", "--ry", "--gx", "--gy"].forEach((v) => carta.style.removeProperty(v));
+  }, []);
+
+  // Mapa de sellos: salta a la tarjeta (quita filtros si estaba oculta)
+  const irA = (id) => {
+    const ir = () => document.getElementById(`dx-m-${id}`)?.scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "center" });
+    if (!mostrados.some((x) => x.m.id === id)) {
+      setFiltro("todos");
+      setBusca("");
+      setTimeout(ir, 60);
+    } else ir();
+  };
+
   return (
     <LightShell>
-      <div className="dn" data-nivel={nivel}>
-        <section className="dn-hero">
+      <div className="dx gm-no-adapt" data-nivel={nivel}>
+        <section className="dx-hero">
           <Escena />
           <ParticulasNivel nivel={nivel} />
-          <div className="dn-hero-in">
-            <Link to="/oficial" className="dn-volver">
-              <ArrowLeftIcon size={16} /> {t("Exámenes DELE", "DELE考试")}
-            </Link>
-            <div className="dn-sello" aria-hidden="true" translate="no">
-              <span>{cfg.sello}</span>
-              <b>{nivel}</b>
-            </div>
-            <p className="dn-mundo">
-              {cfg.mundo} · <span translate="no">{cfg.mundoZh}</span>
-            </p>
-            <h1 className="dn-titulo">
-              DELE {nivel} <em>{cfg.nombre}</em>
-            </h1>
-            <p className="dn-lema">
-              {cfg.lema}
-              <small>{cfg.lemaZh}</small>
-            </p>
-            <div className="dn-partes">
-              {cfg.partes.map(([p, min], i) => {
-                const Ic = ICONOS_PARTE[i];
-                return (
-                  <span key={p} className="dn-parte" style={{ animationDelay: `${0.2 + i * 0.08}s` }}>
-                    <Ic size={15} strokeWidth={2.4} />
-                    {p} <b>{min}</b>
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <nav className="dn-niveles" aria-label="Niveles DELE">
-          {Object.entries(NIVELES).map(([k, v]) => (
-            <Link key={k} to={`/oficial/${k}`} className={`dn-nivel-chip ${k === nivel ? "on" : ""}`} data-nivel={k}>
-              <span className="dn-chip-sello" translate="no">{v.sello}</span>
-              <span>
-                <b>{k}</b>
-                <small>{v.nombre}</small>
-              </span>
-            </Link>
+          <div className="dx-hero-velo" aria-hidden="true" />
+          <img className="dx-dragon" src={`${import.meta.env.BASE_URL}theme/dragon-luz.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+          <img className="dx-nube n1" src={`${import.meta.env.BASE_URL}theme/nube-oro.png`} alt="" aria-hidden="true" />
+          <img className="dx-nube n2" src={`${import.meta.env.BASE_URL}theme/nube-oro.png`} alt="" aria-hidden="true" />
+          {["tl", "tr", "bl", "br"].map((c) => (
+            <img key={c} className={`dx-esquina ${c}`} src={`${import.meta.env.BASE_URL}theme/barra-esquina.png`} alt="" aria-hidden="true" />
           ))}
-        </nav>
 
-        <section className="dn-panel" aria-label="Progreso">
-          <div className="dn-stats">
-            <div className="dn-stat">
-              <CheckCircle2Icon size={22} />
-              <b>
-                {hechos.length}
-                <small>/{lista.length || 0}</small>
-              </b>
-              <span>{t("Completados", "已完成")}</span>
+          <div className="dx-rollo">
+            <span className="dx-rodillo izq" aria-hidden="true" />
+            <div className="dx-placa">
+              <div className="dx-placa-top">
+                <Link to="/oficial" className="dx-volver">
+                  <ArrowLeftIcon size={15} strokeWidth={2.6} /> {t("Exámenes DELE", "DELE考试")}
+                </Link>
+                <span className="dx-mundo">
+                  {cfg.mundo} · <span translate="no">{cfg.mundoZh}</span>
+                </span>
+              </div>
+              <div className="dx-titular">
+                <div className="dx-sello" aria-hidden="true" translate="no">
+                  <span>{cfg.sello}</span>
+                </div>
+                <div className="dx-titular-txt">
+                  <h1 className="dx-titulo">
+                    DELE <b>{nivel}</b>
+                  </h1>
+                  <p className="dx-nombre">
+                    {cfg.nombre} <span translate="no">· {cfg.zh}</span>
+                  </p>
+                </div>
+              </div>
+              <p className="dx-lema">
+                {cfg.lema} <small>{cfg.lemaZh}</small>
+              </p>
+              <div className="dx-partes">
+                {cfg.partes.map(([p, min], i) => {
+                  const Ic = ICONOS_PARTE[i];
+                  return (
+                    <span key={p} className="dx-parte">
+                      <Ic size={14} strokeWidth={2.4} />
+                      {p} <b>{min}</b>
+                    </span>
+                  );
+                })}
+              </div>
             </div>
-            <div className="dn-stat">
-              <TargetIcon size={22} />
-              <b style={media != null ? { color: colorNota(media) } : undefined}>{media != null ? `${media}%` : "—"}</b>
-              <span>{t("Acierto medio", "平均正确率")}</span>
-            </div>
-            <div className="dn-stat">
-              <TrophyIcon size={22} />
-              <b style={mejor != null ? { color: colorNota(mejor) } : undefined}>{mejor != null ? `${mejor}%` : "—"}</b>
-              <span>{t("Mejor modelo", "最佳成绩")}</span>
-            </div>
-            <div className="dn-stat dn-stat-anillo" style={{ "--p": pct }}>
-              <span className="dn-anillo">
-                <b>{pct}%</b>
-              </span>
-              <span>{t("Del nivel", "本级进度")}</span>
+            <span className="dx-rodillo der" aria-hidden="true" />
+          </div>
+
+          <div className="dx-lateral">
+            <nav className="dx-niveles" aria-label={t("Niveles DELE", "DELE级别")}>
+              {Object.entries(NIVELES).map(([k, v]) => (
+                <Link key={k} to={`/oficial/${k}`} className={`dx-nivel ${k === nivel ? "on" : ""}`} data-nivel={k} aria-current={k === nivel ? "page" : undefined} title={`${k} · ${v.nombre}`}>
+                  <span className="dx-nivel-sello" translate="no">{v.sello}</span>
+                  <b>{k}</b>
+                  <small>{v.nombre}</small>
+                </Link>
+              ))}
+            </nav>
+            <div className="dx-progreso" aria-label={t("Progreso del nivel", "本级进度")}>
+              <div className="dx-progreso-top">
+                <span className="dx-anillo" style={{ "--p": pct }}>
+                  <b>{pct}%</b>
+                </span>
+                <dl className="dx-cifras">
+                  <div>
+                    <dt>{t("Hechos", "已完成")}</dt>
+                    <dd>
+                      {hechos.length}
+                      <small>/{lista.length || 0}</small>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>{t("Media", "平均")}</dt>
+                    <dd style={media != null ? { color: colorNotaClara(media) } : undefined}>{media != null ? `${media}%` : "—"}</dd>
+                  </div>
+                  <div>
+                    <dt>{t("Mejor", "最佳")}</dt>
+                    <dd style={mejor != null ? { color: colorNotaClara(mejor) } : undefined}>{mejor != null ? `${mejor}%` : "—"}</dd>
+                  </div>
+                </dl>
+              </div>
+              {filas.length > 0 && (
+                <div className="dx-mapa" role="list" aria-label={t("Mapa de modelos", "模型地图")}>
+                  {filas.map(({ m, r }) => (
+                    <button
+                      key={`${m.codigo}-${m.id}`}
+                      type="button"
+                      role="listitem"
+                      className={`dx-punto ${r ? "hecho" : ""} ${m.nuevo ? "nuevo" : ""}`}
+                      style={r ? { "--n": colorNotaClara(r.total || 0) } : undefined}
+                      onClick={() => irA(m.id)}
+                      title={`${String(m.id).padStart(2, "0")} · ${TITULOS[m.codigo]?.es || m.tema}${r ? ` · ${r.total || 0}%` : ""}`}
+                      aria-label={`${t("Modelo", "模型")} ${m.id}${r ? ` · ${r.total || 0}%` : ""}`}
+                    >
+                      {m.id}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-          {sorpresa && (
-            <Link to={`/oficial/${nivel}/${sorpresa.m.id}`} className="dn-sorpresa">
-              <span className="dn-sorpresa-ic">
-                <ShuffleIcon size={24} strokeWidth={2.4} />
-              </span>
-              <span className="dn-sorpresa-txt">
-                <b>{t("Simulacro sorpresa", "随机模拟考试")}</b>
-                <small>{t("Un modelo al azar que aún no has hecho", "随机选择一套未做的模型")}</small>
-              </span>
-              <ArrowRightIcon size={22} strokeWidth={2.6} />
-            </Link>
-          )}
         </section>
 
-        <div className="dn-herramientas">
-          <label className="dn-buscar">
+        <div className="dx-barra">
+          <label className="dx-buscar">
             <SearchIcon size={18} />
-            <input type="search" value={busca} onChange={(e) => setBusca(e.target.value)} placeholder={t("Buscar por tema o número de modelo…", "按主题或模型编号搜索…")} aria-label={t("Buscar modelo", "搜索模型")} />
+            <input type="search" value={busca} onChange={(e) => setBusca(e.target.value)} placeholder={t("Buscar tema o número…", "按主题或编号搜索…")} aria-label={t("Buscar modelo", "搜索模型")} />
           </label>
-          <div className="dn-filtros" role="group" aria-label="Filtrar">
+          <div className="dx-filtros" role="group" aria-label={t("Filtrar", "筛选")}>
             {FILTROS.map(([k, lab, n]) => (
-              <button key={k} type="button" className="dn-filtro" aria-pressed={filtro === k} onClick={() => setFiltro(k)}>
+              <button key={k} type="button" className="dx-filtro" aria-pressed={filtro === k} onClick={() => setFiltro(k)}>
                 {lab} <small>{n}</small>
               </button>
             ))}
           </div>
+          {sorpresa && (
+            <Link to={`/oficial/${nivel}/${sorpresa.m.id}`} className="dx-sorpresa" title={t("Un modelo al azar que aún no has hecho", "随机选择一套未做的模型")}>
+              <ShuffleIcon size={18} strokeWidth={2.6} />
+              <span>
+                {t("Sorpresa", "随机")}
+                <small>{t("Modelo al azar", "随机一套")}</small>
+              </span>
+            </Link>
+          )}
         </div>
 
         {cargando ? (
-          <div className="dn-vacio">
-            <span className="dn-cargando" />
+          <div className="dx-vacio">
+            <span className="dx-cargando" />
             {t("Preparando los modelos…", "正在准备模型…")}
           </div>
         ) : !mostrados.length ? (
-          <p className="dn-vacio">{lista.length ? t("Ningún modelo coincide", "没有匹配的模型") : t("Nivel pendiente de publicación", "该级别尚未发布")}</p>
+          <p className="dx-vacio">{lista.length ? t("Ningún modelo coincide", "没有匹配的模型") : t("Nivel pendiente de publicación", "该级别尚未发布")}</p>
         ) : (
-          <ul className="dn-lista">
-            {mostrados.map(({ m, r }, i) => (
-              <li key={`${m.codigo}-${m.id}`} style={{ animationDelay: `${Math.min(i, 14) * 45}ms` }}>
-                <Link to={`/oficial/${nivel}/${m.id}`} className={`dn-carta ${r ? "hecha" : ""} ${m.nuevo ? "nueva" : ""}`} aria-label={`Modelo ${m.id}: ${m.tema || m.titulo}`}>
-                  <span className="dn-carta-num">
-                    <small>{m.nuevo ? t("Nuevo", "新") : t("Modelo", "模型")}</small>
-                    <b>{String(m.id || i + 1).padStart(2, "0")}</b>
-                  </span>
-                  <span className="dn-carta-cuerpo">
-                    <span className="dn-carta-tema">{m.tema || m.titulo}</span>
-                    {m.ambito && <span className="dn-carta-amb">{m.ambito}</span>}
-                    <span className="dn-carta-pie">
+          <ul className="dx-lista" ref={listaRef} onPointerMove={alMover} onPointerOut={alSalir}>
+            {mostrados.map(({ m, r }, i) => {
+              const info = TITULOS[m.codigo];
+              const [ambKey, ambEs, ambZh] = ambitoDe(m.ambito);
+              const num = String(m.id || i + 1).padStart(2, "0");
+              const grande = destacado && destacado.m === m;
+              const semilla = Number(m.id) || i + 1;
+              return (
+                <li key={`${m.codigo}-${m.id}`} id={`dx-m-${m.id}`} className={grande ? "dx-li-grande" : ""} style={{ "--d": `${(i % 3) * 90}ms` }}>
+                  <Link
+                    to={`/oficial/${nivel}/${m.id}`}
+                    className={`dx-carta ${r ? "hecha" : ""} ${m.nuevo ? "nueva" : ""} ${grande ? "grande" : ""}`}
+                    data-amb={ambKey}
+                    data-tono={semilla % 6}
+                    aria-label={`${t("Modelo", "模型")} ${num}: ${info?.es || m.tema}`}
+                  >
+                    <span className="dx-lamina">
+                      <EscenaCarta nivel={nivel} semilla={semilla} />
+                      <span className="dx-num" translate="no">
+                        <small>{m.nuevo ? t("Nuevo", "新") : t("Modelo", "模型")}</small>
+                        <b>{num}</b>
+                      </span>
+                      <span className="dx-emblema">
+                        <Emblema e={info?.e} size={grande ? 76 : 56} trazo={!reducido} />
+                      </span>
                       {r ? (
+                        <span className="dx-estado hecho" style={{ "--n": colorNota(r.total || 0) }}>
+                          <i translate="no">成</i>
+                          <b>{r.total || 0}%</b>
+                        </span>
+                      ) : m.nuevo ? (
+                        <span className="dx-estado nuevo">
+                          <SparklesIcon size={13} /> {t("Nuevo", "新")}
+                        </span>
+                      ) : null}
+                      {grande && (
                         <>
-                          <span className="dn-nota" style={{ "--n": colorNota(r.total || 0) }}>
-                            {r.total || 0}%
+                          <img className="dx-mono" src={`${import.meta.env.BASE_URL}mono/guino.png`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                          <span className="dx-tetoca">
+                            {t("¡Te toca!", "轮到你了！")}
                           </span>
-                          {r.lectura != null && <span className="dn-pip">L {r.lectura}</span>}
-                          {r.audicion != null && <span className="dn-pip">A {r.audicion}</span>}
                         </>
-                      ) : (
-                        <span className="dn-pip">{t("4 pruebas", "4项考试")}</span>
                       )}
-                      <span className="dn-ir">
-                        {r ? t("Repetir", "重做") : t("Empezar", "开始")} <ArrowRightIcon size={14} strokeWidth={2.8} />
+                    </span>
+                    <span className="dx-cuerpo">
+                      <span className="dx-amb">
+                        {ambEs} · <span translate="no">{ambZh}</span>
+                      </span>
+                      <span className="dx-tit">{info?.es || m.tema}</span>
+                      {info?.zh && <span className="dx-tit-zh">{info.zh}</span>}
+                      <span className="dx-tema">{info ? m.tema : m.codigo}</span>
+                      {r && (r.lectura != null || r.audicion != null) && (
+                        <span className="dx-barras">
+                          {r.lectura != null && (
+                            <span>
+                              <em>{t("Lectura", "阅读")}</em>
+                              <i style={{ "--v": Math.min(100, r.lectura) }} />
+                              <b>{r.lectura}%</b>
+                            </span>
+                          )}
+                          {r.audicion != null && (
+                            <span>
+                              <em>{t("Audición", "听力")}</em>
+                              <i style={{ "--v": Math.min(100, r.audicion) }} />
+                              <b>{r.audicion}%</b>
+                            </span>
+                          )}
+                        </span>
+                      )}
+                      <span className="dx-pie">
+                        <span className="dx-meta">
+                          <span>{t("4 pruebas", "4项")}</span>
+                          <span>{totalMin}′</span>
+                        </span>
+                        <span className="dx-ir">
+                          {r ? t("Repetir", "重做") : t("Empezar", "开始")} <ArrowRightIcon size={15} strokeWidth={2.8} />
+                        </span>
                       </span>
                     </span>
-                  </span>
-                  {m.nuevo && <SparklesIcon className="dn-carta-brillo" size={18} />}
-                </Link>
-              </li>
-            ))}
+                    <span className="dx-reflejo" aria-hidden="true" />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
