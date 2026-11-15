@@ -199,6 +199,11 @@ export default {
     const bw = W * Sbg, bh = H * Sbg, bx = fx - fx * Sbg + shx, by = fy - fy * Sbg + shy;
     g.globalCompositeOperation = "source-over"; g.globalAlpha = 1; g.imageSmoothingQuality = "high";
     g.drawImage(a, bx, by, bw, bh); if (fr > 0.02) { g.globalAlpha = fr; g.drawImage(b, bx, by, bw, bh); g.globalAlpha = 1; }
+    // placa de laca propia sobre el rótulo del clip (sus caracteres no son texto nuestro): aparece con el rayo que la enciende
+    { const kp = prog(fi, 84, 89); if (kp > 0) { const u = 2 * Sbg, pcx = bx + lerp(287, 307, prog(fi, 100, 159)) * u, pcy = by + 212 * u, pw = 226 * u, ph = 76 * u;
+      g.save(); g.globalAlpha = kp; g.shadowColor = "rgba(255,214,120,0.9)"; g.shadowBlur = 30 * Sbg; const lg = g.createLinearGradient(0, pcy - ph / 2, 0, pcy + ph / 2); lg.addColorStop(0, "#6a0a1a"); lg.addColorStop(1, "#3d050e"); g.fillStyle = lg; g.beginPath(); g.roundRect(pcx - pw / 2, pcy - ph / 2, pw, ph, 8 * Sbg); g.fill(); g.shadowBlur = 0;
+      g.strokeStyle = "#e9c46a"; g.lineWidth = 4 * Sbg; g.stroke(); g.strokeStyle = "rgba(242,193,78,0.55)"; g.lineWidth = 1.5 * Sbg; g.beginPath(); g.roundRect(pcx - pw / 2 + 12 * Sbg, pcy - ph / 2 + 12 * Sbg, pw - 24 * Sbg, ph - 24 * Sbg, 4 * Sbg); g.stroke();
+      const f = 1 - prog(fi, 86, 100); if (f > 0) { g.globalCompositeOperation = "lighter"; g.globalAlpha = f * kp; g.drawImage(this.glow, pcx - pw, pcy - ph * 2, pw * 2, ph * 4); } g.restore(); } }
     // gradación: oscurece bordes superiores/inferiores para dar contraste a las capas
     { const v = g.createLinearGradient(0, 0, 0, H); v.addColorStop(0, "rgba(60,6,14,0.34)"); v.addColorStop(0.22, "rgba(60,6,14,0.12)"); v.addColorStop(0.7, "rgba(60,6,14,0)"); v.addColorStop(1, "rgba(40,4,20,0.38)"); g.fillStyle = v; g.fillRect(0, 0, W, H); }
 
@@ -243,9 +248,9 @@ export default {
     // ---------- linternas (primer plano superior, se mecen y acusan los golpes) ----------
     g.globalCompositeOperation = "source-over";
     for (const l of this.lints) {
-      const k = 1 + (push - 1) * l.d; const ax = 540 + (l.x - 540) * k + shx * 1.3, ay = l.y - (k - 1) * 520 + shy * 1.3;
+      const k = Math.max(0.9, 1 + (push - 1) * l.d); const ax = 540 + (l.x - 540) * k + shx * 1.3, ay = l.y - (k - 1) * 520 + shy * 1.3;
       const kick = (dL >= 0 ? 0.16 * Math.exp(-dL * 1.6) * Math.sin(dL * 9) : 0) + (dS >= 0 ? 0.1 * Math.exp(-dS * 1.8) * Math.sin(dS * 9) : 0);
-      const rot = 0.06 * Math.sin(t * 1.5 + l.ph) + kick * (l.x < 540 ? 1 : -1) + 0.5 * llegada * (l.x < 540 ? 1 : -1); const s = l.s * k;
+      const rot = 0.06 * Math.sin(t * 1.5 + l.ph) + kick * (l.x < 540 ? 1 : -1) + 0.28 * llegada * (l.x < 540 ? 1 : -1); const s = l.s * k;
       g.save(); g.translate(ax, ay); g.rotate(rot); g.scale(s, s); g.drawImage(this.sprLint, -130, 0);
       g.globalCompositeOperation = "lighter"; g.globalAlpha = 0.55 + 0.15 * beat; g.drawImage(this.glowRojo, -330, -60, 660, 660); g.restore();
     }

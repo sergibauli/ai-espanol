@@ -104,8 +104,8 @@ export default {
     });
     const bg = new THREE.Group(); scene.add(bg);
     const mkBg = (tex, z) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(13.5, 23), basic(tex)); m.position.z = z; bg.add(m); return m; };
-    this.bgNight = mkBg(bgTex("#3b3aa8", "#12164a", "#03040c"), -12); this.bgNight.renderOrder = -20;
-    this.bgRed = mkBg(bgTex("#ff3b30", "#a30b22", "#240208"), -11.9); this.bgRed.renderOrder = -19;
+    this.bgNight = mkBg(bgTex("#2c2f96", "#0c1038", "#02030a"), -12); this.bgNight.renderOrder = -20;
+    this.bgRed = mkBg(bgTex("#e8242c", "#8a0a1e", "#1c0206"), -11.9); this.bgRed.renderOrder = -19;
     // rayos giratorios
     const rays = new THREE.Mesh(new THREE.PlaneGeometry(24, 24), basic(kit.canvasTexture(512, 512, (g) => {
       g.translate(256, 256); for (let i = 0; i < 20; i++) { g.rotate(TAU / 20); const gr = g.createRadialGradient(0, 0, 10, 0, 0, 256); gr.addColorStop(0, "rgba(255,215,120,0.6)"); gr.addColorStop(1, "rgba(255,215,120,0)"); g.fillStyle = gr; g.beginPath(); g.moveTo(0, 0); g.arc(0, 0, 256, -0.06 - (i % 3) * 0.022, 0.06 + (i % 3) * 0.022); g.closePath(); g.fill(); }
@@ -130,8 +130,7 @@ export default {
     for (let i = 0; i < 12; i++) { const z = -8 + R() * 6, w = 420 + R() * 520; const m = plane(cloudTexs[i % 3], w, w * (300 / 720), bg, { opacity: 0.55 + R() * 0.4, color: 0xd8c0a0 }); m.renderOrder = -10; m.userData = { x0: (R() - 0.5) * 12, y: (R() - 0.5) * 11, z, v: (0.3 + R() * 0.6) * (i % 2 ? 1 : -1), span: 12 }; this.clouds.push(m); }
     // mar de nubes en primer plano (abajo) y jirones arriba: llenan la zona fuera del área segura
     this.fg = [];
-    for (let i = 0; i < 9; i++) { const z = 2.2 + (i % 3) * 0.9, w = 620 + R() * 380; const m = plane(cloudTexs[i % 3], w, w * (300 / 720), scene, { opacity: 1 }); m.renderOrder = 12 + (i % 3); m.userData = { x0: (i / 9) * 6 + R() * 0.4, py: 1640 + (i % 3) * 95 + R() * 40, z, v: (0.5 + (i % 3) * 0.28) * (i % 2 ? 1 : -1), span: 6 }; this.fg.push(m); }
-    for (let i = 0; i < 3; i++) { const z = 3.4, w = 520 + R() * 200; const m = plane(cloudTexs[i], w, w * (300 / 720), scene, { opacity: 0.95 }); m.renderOrder = 12; m.userData = { x0: i * 2 + R(), py: 60 + R() * 60, z, v: i % 2 ? 0.7 : -0.6, span: 6 }; this.fg.push(m); }
+    for (let i = 0; i < 9; i++) { const z = 2.2 + (i % 3) * 0.9, w = 620 + R() * 380; const m = plane(cloudTexs[i % 3], w, w * (300 / 720), scene, { opacity: 1, color: [0x9a6a3a, 0xd9a860, 0xffe6b0][i % 3] }); m.renderOrder = 12 + (i % 3); m.userData = { x0: (i / 9) * 6 + R() * 0.4, py: 1730 + (i % 3) * 80 + R() * 40, z, v: (0.5 + (i % 3) * 0.28) * (i % 2 ? 1 : -1), span: 6 }; this.fg.push(m); }
     // farolillos rojos colgando (arriba, ambiente)
     const lanternTex = kit.canvasTexture(256, 460, (g) => {
       g.strokeStyle = "#c8961e"; g.lineWidth = 4; g.beginPath(); g.moveTo(128, 0); g.lineTo(128, 70); g.stroke();
@@ -143,10 +142,10 @@ export default {
       g.strokeStyle = "#e01a30"; g.lineWidth = 5; for (let i = -3; i <= 3; i++) { g.beginPath(); g.moveTo(128 + i * 9, 300); g.lineTo(128 + i * 11, 440); g.stroke(); }
       g.fillStyle = "#f2c14e"; g.beginPath(); g.arc(128, 312, 13, 0, TAU); g.fill();
     });
-    this.lanterns = [[95, -40, 300, 2.2], [985, -70, 360, 2.6], [820, -120, 230, 1.2], [250, -110, 210, 0.8]].map(([px, py, hpx, z], i) => { const geo = new THREE.PlaneGeometry(S(hpx * 256 / 460), S(hpx)); geo.translate(0, -S(hpx) / 2, 0); const m = new THREE.Mesh(geo, basic(lanternTex)); m.position.copy(P(px, py, z)); m.renderOrder = 11; scene.add(m); const gl = plane(glowTex, hpx * 1.5, hpx * 1.5, m, { blending: ADD, opacity: 0.55 }); gl.position.set(0, -S(hpx) * 0.42, -0.02); m.userData = { ph: i * 1.7, gl }; return m; });
+    this.lanterns = [[80, -60, 270, 2.2], [1000, -80, 290, 2.6], [790, -90, 200, 1.2], [270, -80, 180, 0.8]].map(([px, py, hpx, z], i) => { const geo = new THREE.PlaneGeometry(S(hpx * 256 / 460), S(hpx)); geo.translate(0, -S(hpx) / 2, 0); const m = new THREE.Mesh(geo, basic(lanternTex)); m.position.copy(P(px, py, z)); m.renderOrder = 2; scene.add(m); const gl = plane(glowTex, hpx * 1.5, hpx * 1.5, m, { blending: ADD, opacity: 0.55 }); gl.position.set(0, -S(hpx) * 0.42, -0.02); m.userData = { ph: i * 1.7, gl }; return m; });
     // partículas doradas + bokeh
     const mkPts = (n, size, zr, op) => { const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(n * 3), 3)); const data = Array.from({ length: n }, () => ({ x: (R() - 0.5) * 8, y: R() * 12, z: zr[0] + R() * (zr[1] - zr[0]), v: 0.35 + R() * 1.2, f: 0.6 + R() * 1.8, ph: R() * TAU, a: 0.1 + R() * 0.4 })); const pts = new THREE.Points(geo, new THREE.PointsMaterial({ map: glowTex, size, sizeAttenuation: true, transparent: true, depthWrite: false, blending: ADD, opacity: op, toneMapped: false })); pts.frustumCulled = false; pts.renderOrder = 9; scene.add(pts); return { pts, data }; };
-    this.dust = [mkPts(380, 0.1, [-6, 4.5], 0.95), mkPts(46, 0.55, [3, 7], 0.22), mkPts(70, 0.24, [-3, 3], 0.5)];
+    this.dust = [mkPts(380, 0.1, [-6, 4.5], 0.95), mkPts(30, 0.5, [3, 7], 0.1), mkPts(70, 0.24, [-3, 3], 0.5)];
 
     // ---------- móviles ----------
     const glareTex = kit.canvasTexture(256, 64, (g) => { g.fillStyle = "#000"; g.fillRect(0, 0, 256, 64); g.transform(1, 0, -0.9, 1, 30, 0); const gr = g.createLinearGradient(96, 0, 160, 0); gr.addColorStop(0, "rgba(255,255,255,0)"); gr.addColorStop(0.5, "rgba(255,250,235,0.55)"); gr.addColorStop(1, "rgba(255,255,255,0)"); g.fillStyle = gr; g.fillRect(60, 0, 140, 64); });
@@ -154,7 +153,7 @@ export default {
       const p = await kit.phoneMesh(asset(`screens/${name}.jpg`), { scale });
       const mats = p.children[0].material; mats[0].metalness = 0.3; mats[0].roughness = 0.5; mats[1].metalness = 0.35; mats[1].roughness = 0.3; mats[1].emissive = new THREE.Color(0x7a5210);
       const g = new THREE.Group(); g.add(p); parent.add(g);
-      const hl = new THREE.Mesh(new THREE.PlaneGeometry(scale * 2.6, scale * 3.6), basic(glowTex, { blending: ADD, opacity: 0.6 })); hl.position.z = -0.3 * scale; hl.renderOrder = -2; g.add(hl); // halo
+      const hl = new THREE.Mesh(new THREE.PlaneGeometry(scale * 2.6, scale * 3.6), basic(glowTex, { blending: ADD, opacity: 0.34 })); hl.position.z = -0.3 * scale; hl.renderOrder = -2; g.add(hl); // halo
       const gt = glareTex.clone(); gt.needsUpdate = true;
       const gm = new THREE.Mesh(new THREE.PlaneGeometry(0.925 * scale * 0.9, 2 * scale * 0.95), basic(gt, { blending: ADD, opacity: 0.9, side: THREE.FrontSide })); gm.position.z = 0.02 * scale; g.add(gm);
       g.userData = { glare: gt, halo: hl, scale };
@@ -172,7 +171,7 @@ export default {
     const arcs = (n, parent, inner, outer, th0, thLen, color = 0xffd676) => Array.from({ length: n }, () => { const m = new THREE.Mesh(new THREE.RingGeometry(inner, outer, 72, 1, th0, thLen), new THREE.MeshBasicMaterial({ color, transparent: true, depthWrite: false, blending: ADD, toneMapped: false, side: THREE.DoubleSide })); parent.add(m); return m; });
     // cometas dorados que orbitan el móvil en 3D (pasan por delante y por detrás)
     const cometGeo = new THREE.TorusGeometry(1, 0.011, 6, 72, 1.9);
-    const comets = (parent, center, radius, n = 3) => { const g = new THREE.Group(); g.position.copy(center); parent.add(g); g.userData.list = Array.from({ length: n }, (_, i) => { const h = new THREE.Group(); h.rotation.set(1.22 + i * 0.2, (i - 1) * 0.5, i * 0.7); h.scale.setScalar(radius * (1 + i * 0.13)); g.add(h); const m = new THREE.Mesh(cometGeo, new THREE.MeshBasicMaterial({ color: i % 2 ? 0xfff0c0 : 0xffc04a, transparent: true, opacity: 0.9, depthWrite: false, blending: ADD, toneMapped: false })); h.add(m); const hd = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.3), basic(whiteGlow, { blending: ADD })); hd.position.set(Math.cos(1.9), Math.sin(1.9), 0); m.add(hd); m.userData = { sp: (2.6 + i * 0.9) * (i % 2 ? -1 : 1), ph: i * 2.1, hd, h }; return m; }); return g; };
+    const comets = (parent, center, radius, n = 3) => { const g = new THREE.Group(); g.position.copy(center); parent.add(g); g.userData.list = Array.from({ length: n }, (_, i) => { const h = new THREE.Group(); h.rotation.set(1.22 + i * 0.2, (i - 1) * 0.5, i * 0.7); h.scale.setScalar(radius * (1 + i * 0.13)); g.add(h); const m = new THREE.Mesh(cometGeo, new THREE.MeshBasicMaterial({ color: i % 2 ? 0xffd880 : 0xffb030, transparent: true, opacity: 0.6, depthWrite: false, blending: ADD, toneMapped: false })); h.add(m); const hd = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.3), basic(whiteGlow, { blending: ADD })); hd.position.set(Math.cos(1.9), Math.sin(1.9), 0); m.add(hd); m.userData = { sp: (2.6 + i * 0.9) * (i % 2 ? -1 : 1), ph: i * 2.1, hd, h }; return m; }); return g; };
     this.spinComets = (g, t) => { for (const m of g.userData.list) { m.rotation.z = t * m.userData.sp + m.userData.ph; m.userData.hd.rotation.set(-m.userData.h.rotation.x, 0, 0); } };
 
     // pivote del cubo (golpes 1 y 2)
@@ -238,8 +237,8 @@ export default {
 
     // ===== GOLPE 3 · 真人发音 =====
     this.h3 = headline("真人发音", fSerif, 214, 860, b3, 500, 345);
-    this.p3b = await phone("diccionarios", 1.5, b3); this.p3b.userData.home = P(250, 1050, -1.0);
-    this.p3c = await phone("audicion", 1.5, b3); this.p3c.userData.home = P(830, 1050, -1.0);
+    this.p3b = await phone("diccionarios", 1.5, b3); this.p3b.userData.home = P(205, 1050, -1.0);
+    this.p3c = await phone("audicion", 1.5, b3); this.p3c.userData.home = P(875, 1050, -1.0);
     this.p3 = await phone("pronunciacion", 1.8, b3); this.p3.userData.home = P(540, 1020);
     this.c3 = comets(b3, P(540, 1020), 1.3);
     this.w3 = arcs(5, b3, 0.955, 1, 0, TAU); this.w3.forEach((m) => { m.position.copy(P(540, 1010, -0.5)); m.renderOrder = -3; });
@@ -254,14 +253,14 @@ export default {
     const tileShape = (() => { const s = new THREE.Shape(), w = 1, r = 0.19, x = -0.5, y = -0.5; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + w - r); s.quadraticCurveTo(x + w, y + w, x + w - r, y + w); s.lineTo(x + r, y + w); s.quadraticCurveTo(x, y + w, x, y + w - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s; })();
     const tileBody = new THREE.ExtrudeGeometry(tileShape, { depth: 0.16, bevelEnabled: true, bevelSize: 0.02, bevelThickness: 0.02, bevelSegments: 3, curveSegments: 12 }); tileBody.translate(0, 0, -0.18);
     const tileFace = new THREE.ShapeGeometry(tileShape, 12); { const p = tileFace.attributes.position, uv = tileFace.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) + 0.5, p.getY(i) + 0.5); }
-    const syl = [["ba", 150, 640, 215], ["be", 850, 625, 200], ["rr", 138, 990, 262], ["ñ", 868, 1005, 225], ["ll", 172, 1345, 210], ["j", 836, 1350, 215]];
+    const syl = [["ba", 128, 640, 178], ["be", 872, 625, 170], ["rr", 138, 985, 215], ["ñ", 890, 1000, 185], ["ll", 140, 1340, 172], ["j", 868, 1345, 176]];
     this.syl = syl.map(([txt, px, py, size], i) => {
       const g = new THREE.Group(); b3.add(g); const z = 1.6 + (i % 3) * 0.4, k = (10 - z) / 10, s = S(size) * k;
       const tr = plane(glowTex, size * 2.1 * k, size * 2.1 * k, g, { blending: ADD, opacity: 0.75 }); tr.position.z = -0.25 * s;
       const body = new THREE.Mesh(tileBody, goldStd); body.scale.setScalar(s); g.add(body);
       const face = new THREE.Mesh(tileFace, new THREE.MeshBasicMaterial({ map: tile(txt), toneMapped: false })); face.scale.setScalar(s); face.position.z = 0.022 * s; g.add(face);
       const ring = arcs(2, g, 0.93, 1, 0, TAU);
-      g.userData = { from: P(540, 1000, 0.15), to: P(px, py, z), t0: 0.08 + i * 0.1, ring, rs: s, ph: R() * TAU, z };
+      g.userData = { from: P(540, 1000, 0.15), to: P(px, py, z), t0: 0.06 + i * 0.07, ring, rs: s, ph: R() * TAU, z };
       return g;
     });
 
@@ -272,7 +271,7 @@ export default {
     this.fanPhones = [];
     for (let i = 0; i < 5; i++) { const g = await phone(names[i], 1.5, this.fan); g.userData.i = i - 2; g.userData.halo.material.opacity = 0.3; this.fanPhones.push(g); }
     this.burst = plane(kit.canvasTexture(512, 512, (g) => { g.translate(256, 256); const r = kit.rng(5); for (let i = 0; i < 40; i++) { g.rotate(TAU / 40 + (r() - 0.5) * 0.05); const l = 150 + r() * 106; const gr = g.createLinearGradient(0, 0, l, 0); gr.addColorStop(0, "rgba(255,250,225,0.95)"); gr.addColorStop(1, "rgba(255,210,110,0)"); g.fillStyle = gr; g.beginPath(); g.moveTo(0, -5); g.lineTo(l, 0); g.lineTo(0, 5); g.fill(); } }), 1700, 1700, b4, { blending: ADD }); this.burst.position.copy(P(500, 1080, -1.2)); this.burst.renderOrder = -4;
-    this.m4 = monkey(await monoTex("feliz"), 640, b4, 500, 1200, 1.7);
+    this.m4 = monkey(await monoTex("feliz"), 580, b4, 500, 1290, 1.7);
     // confeti dorado
     const NC = 420; this.NC = NC;
     this.conf = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.1, 0.055), new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, toneMapped: false }), NC); this.conf.frustumCulled = false; b4.add(this.conf);
@@ -310,12 +309,12 @@ export default {
     camera.lookAt(0, 0.04 * sin(t * 0.7), 0); camera.rotation.z += 0.014 * sin(t * 1.4) + sh * 0.012 * noise1(t * 30, 3) + endP * 0.07;
 
     // ---------- fondo ----------
-    const red = clamp(ease.inOutCubic(prog(t, 1.3, 1.7)) - ease.inOutCubic(prog(t, 2.9, 3.15)) + ease.inOutCubic(prog(t, 4.35, 4.6)));
+    const red = clamp(ease.inOutCubic(prog(t, 1.3, 1.7)) - ease.inOutCubic(prog(t, 2.9, 3.15)) + ease.inOutCubic(prog(t, 4.28, 4.52)));
     this.bgRed.material.opacity = red;
     const pulse = 0.5 + 0.5 * cos(t * PI * 4); // 120 BPM
-    this.rays.rotation.z = t * 0.35; this.rays.material.opacity = 0.2 + 0.1 * pulse + 0.4 * endP; this.rays.scale.setScalar(1 + 0.04 * pulse);
-    this.mandalas.forEach((m, i) => { m.rotation.z = (i ? -0.5 : 0.8) * t; m.userData.h.rotation.set(0.35 * sin(t * 0.9 + i), 0.45 * sin(t * 0.7 + i * 2), 0); m.material.opacity = (i ? 0.26 : 0.5) + 0.25 * (sh > 1 ? 1 : sh) + 0.3 * endP; m.scale.setScalar(1 + 0.06 * (sh > 1 ? 1 : sh)); });
-    this.beams.forEach((b, i) => { b.rotation.z = b.userData.a + 0.12 * sin(t * 1.1 + b.userData.ph); b.material.opacity = 0.13 + 0.09 * sin(t * 2.3 + b.userData.ph) + 0.2 * endP; });
+    this.rays.rotation.z = t * 0.35; this.rays.material.opacity = 0.12 + 0.06 * pulse + 0.06 * red + 0.4 * endP; this.rays.scale.setScalar(1 + 0.04 * pulse);
+    this.mandalas.forEach((m, i) => { m.rotation.z = (i ? -0.5 : 0.8) * t; m.userData.h.rotation.set(0.35 * sin(t * 0.9 + i), 0.45 * sin(t * 0.7 + i * 2), 0); m.material.opacity = (i ? 0.13 : 0.26) + 0.22 * (sh > 1 ? 1 : sh) + 0.3 * endP; m.scale.setScalar(1 + 0.06 * (sh > 1 ? 1 : sh)); });
+    this.beams.forEach((b, i) => { b.rotation.z = b.userData.a + 0.12 * sin(t * 1.1 + b.userData.ph); b.material.opacity = 0.07 + 0.05 * sin(t * 2.3 + b.userData.ph) + 0.2 * endP; });
     for (const c of this.clouds) { const d = c.userData; c.position.set(wrap(d.x0 + d.v * (t + 3), d.span), d.y + 0.08 * sin(t + d.x0), d.z); }
     for (const c of this.fg) { const d = c.userData, k = (10 - d.z) / 10; const p = P(540, d.py + 14 * sin(t * 1.3 + d.x0 * 3), d.z); c.position.set(wrap(d.x0 + d.v * (t + 2), d.span) * k, p.y, d.z); c.scale.setScalar(k); }
     this.lanterns.forEach((l) => { l.rotation.z = 0.13 * sin(t * 2.1 + l.userData.ph) + sh * 0.03; l.userData.gl.material.opacity = 0.45 + 0.2 * pulse; });
@@ -330,12 +329,12 @@ export default {
     const ph2 = this.p2.userData.home; piv.position.set(lerp(0, -ph2.x + camera.position.x, zoom), lerp(0, -ph2.y + camera.position.y - 0.3, zoom), -this.RC + zoom * (camera.position.z + 0.2));
     piv.rotation.z = zoom * 0.22;
     this.b1.visible = t < 1.7; this.b2.visible = t > 1.22 && t < 3.07; piv.visible = t < 3.07;
-    this.b3.visible = t > 2.9 && t < 4.72; this.b4.visible = t > 4.28;
-    const in3 = ease.outExpo(prog(t, 2.95, 3.4)); const out3 = ease.inCubic(prog(t, 4.26, 4.66));
+    this.b3.visible = t > 2.9 && t < 4.6; this.b4.visible = t > 4.24;
+    const in3 = ease.outExpo(prog(t, 2.95, 3.4)); const out3 = ease.inCubic(prog(t, 4.2, 4.56));
     this.b3.position.set(-out3 * 6.5, out3 * 0.4, lerp(-34, 0, in3) + out3 * 1.5); this.b3.rotation.set(0, -out3 * 1.1 + (1 - in3) * 0.5, (1 - in3) * -0.5 + out3 * 0.15);
-    const in4 = ease.outExpo(prog(t, 4.36, 4.82));
+    const in4 = ease.outExpo(prog(t, 4.3, 4.74));
     this.b4.position.set((1 - in4) * 6.5, 0, 0); this.b4.rotation.y = (1 - in4) * 1.0;
-    const wp = prog(t, 4.2, 4.8); this.wipe.visible = wp > 0 && wp < 1; this.wipe.position.set(lerp(6.6, -6.6, wp), 0.2 * sin(wp * 5), 5); this.wipe.rotation.z = -0.12;
+    const wp = prog(t, 4.12, 4.7); this.wipe.visible = wp > 0 && wp < 1; this.wipe.position.set(lerp(6.6, -6.6, wp), 0.2 * sin(wp * 5), 5); this.wipe.rotation.z = -0.12;
 
     // ===== GOLPE 1 =====
     if (this.b1.visible) {
@@ -387,10 +386,10 @@ export default {
       this.syl.forEach((g, i) => {
         const d = g.userData, v = u - d.t0; g.visible = v > 0; if (v <= 0) return;
         const a = ease.outBack(prog(v, 0, 0.42), 2.2), a1 = Math.min(1, a), drift = Math.max(0, v - 0.42);
-        g.position.lerpVectors(d.from, d.to, a); g.position.x *= 1 + drift * 0.03; g.position.z += drift * 0.45 + 0.5 * out3; g.position.y += 0.07 * sin(t * 3 + d.ph);
+        g.position.lerpVectors(d.from, d.to, a); g.position.x *= 1 + drift * 0.02; g.position.z += drift * 0.25 + 0.5 * out3; g.position.y += 0.07 * sin(t * 3 + d.ph);
         g.scale.setScalar(Math.max(0.001, (0.25 + 0.75 * a1) * (1 + 0.2 * beat(4) + (i === 2 ? 0.22 : 0.07) * beat(3.5))));
         g.rotation.set(0.28 * sin(t * 2.3 + d.ph), (1 - a1) * 3.2 + 0.5 * sin(t * 2.7 + d.ph * 2), 0.1 * sin(t * 2 + d.ph) + (i % 2 ? 0.08 : -0.08));
-        d.ring.forEach((r, j) => { const q = (((v * 1.6 + j * 0.5) % 1) + 1) % 1; r.scale.setScalar(d.rs * (0.55 + q * 0.75)); r.material.opacity = (1 - q) * 0.9; r.position.z = -0.2 * d.rs; });
+        d.ring.forEach((r, j) => { const q = (((v * 1.6 + j * 0.5) % 1) + 1) % 1; r.scale.setScalar(d.rs * (0.55 + q * 0.75)); r.material.opacity = (1 - q) * 0.55; r.position.z = -0.2 * d.rs; });
       });
     }
 
@@ -399,7 +398,7 @@ export default {
       const u = t - 4.5;
       this.animHead(this.h4, u - 0.08, -1); this.h4.scale.multiplyScalar(1 + 0.05 * beat(5) + 0.06 * beat(5.5));
       const open = spring(u + 0.02, 2.4, 5.2) * (1 + 0.1 * beat(5) + endP * 0.45);
-      const sway = 0.08 * sin(u * 4.2);
+      const sway = 0.05 * sin(u * 4.2);
       const pv = P(500, 2420), rad = S(1420);
       for (const g of this.fanPhones) {
         const i = g.userData.i, ang = (i * 0.165 + sway) * open;
@@ -407,7 +406,7 @@ export default {
         g.rotation.set(0.05 * sin(t * 2 + i), -ang * 2.2 + 0.12 * sin(t * 2.4 + i), -ang);
         this.glare(g, u - 0.3 - Math.abs(i) * 0.08);
       }
-      this.burst.rotation.z = t * 0.9; this.burst.material.opacity = 0.35 + 0.45 * (beat(4.55, 4) + beat(5, 4) + beat(5.5, 4)) + 0.4 * endP; this.burst.scale.setScalar(0.85 + 0.25 * (beat(5, 5) + beat(5.5, 5)) + endP * 0.5);
+      this.burst.rotation.z = t * 0.9; this.burst.material.opacity = 0.16 + 0.4 * (beat(4.55, 4) + beat(5, 4) + beat(5.5, 4)) + 0.4 * endP; this.burst.scale.setScalar(0.85 + 0.25 * (beat(5, 5) + beat(5.5, 5)) + endP * 0.5);
       const m = this.m4, hp = m.userData.home, am = spring(u - 0.05, 3, 6);
       const jump = Math.abs(sin(u * PI * 2)) * 0.34 * prog(u, 0.1, 0.4);
       m.position.set(hp.x, hp.y - (1 - am) * 1.6 + jump, hp.z); m.scale.setScalar((0.6 + 0.4 * am) * (1 + 0.08 * beat(5) + 0.08 * beat(5.5) + endP * 0.22)); m.rotation.z = 0.1 * sin(u * PI * 2); m.rotation.y = 0.28 * sin(u * 3);

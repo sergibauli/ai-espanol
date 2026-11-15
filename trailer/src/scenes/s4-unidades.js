@@ -202,7 +202,7 @@ export default {
     { const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(BN * 3), 3)); this.burst = new THREE.Points(geo, new THREE.PointsMaterial({ map: glowT, size: 0.16, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false })); this.burst.frustumCulled = false; this.burst.renderOrder = 31; scene.add(this.burst); }
 
     // ---------- post: bloom moderado ----------
-    const rt = new THREE.WebGLRenderTarget(kit.W, kit.H, { samples: 4, type: THREE.HalfFloatType });
+    const Q = new URLSearchParams(location.search); const rt = new THREE.WebGLRenderTarget(kit.W, kit.H, { samples: +(Q.get("ms") ?? 4), type: Q.get("ub") ? THREE.UnsignedByteType : THREE.HalfFloatType }); this.noComp = Q.get("nc");
     this.composer = new EffectComposer(renderer, rt); this.composer.addPass(new RenderPass(scene, camera));
     this.bloom = new UnrealBloomPass(new THREE.Vector2(kit.W, kit.H), 0.45, 0.6, 1.0); this.composer.addPass(this.bloom); this.composer.addPass(new OutputPass());
 
@@ -342,7 +342,7 @@ export default {
 
     // ---------- render ----------
     this.bloom.strength = 0.45 + 0.2 * imp(t, 1, 4) + 0.2 * imp(t, 4, 4) + 0.4 * rush;
-    this.composer.render();
+    if (this.noComp) this.three.renderer.render(this.three.scene, camera); else this.composer.render();
     this.lightUp.style.opacity = String(0.42 * E.inCubic(prog(t, 5.4, DUR)) + 0.12 * imp(t, 4, 8));
 
     // ---------- textos ----------
