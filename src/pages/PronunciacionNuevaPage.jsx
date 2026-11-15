@@ -54,6 +54,32 @@ function useConjunto(clave) {
   return [valor, anadir];
 }
 
+// Añade «is-abierto» a cada pabellón cuando entra en pantalla (puertas, placa y medallones se animan entonces)
+function useRevelar() {
+  const observador = React.useRef(null);
+  React.useEffect(() => () => observador.current?.disconnect(), []);
+  return React.useCallback((el) => {
+    if (!el) return;
+    if (reducido() || typeof IntersectionObserver === "undefined") {
+      el.classList.add("is-abierto");
+      return;
+    }
+    if (!observador.current) {
+      observador.current = new IntersectionObserver(
+        (entradas) =>
+          entradas.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-abierto");
+              observador.current.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
+      );
+    }
+    observador.current.observe(el);
+  }, []);
+}
+
 // Las puertas lacadas del templo se abren una vez por sesión
 function usePuertas() {
   const [abrir] = React.useState(() => {
@@ -187,6 +213,7 @@ export default function PronunciacionNuevaPage() {
 /* ---------- Nivel 1: las salas ---------- */
 function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda, oidasDe, dominadasDe, escuchadas, totalDominadas, porcentaje, visitadas, continuar, ir }) {
   const lista = FAMILIAS.filter((f) => !soloDificiles || f.dificil);
+  const revelar = useRevelar();
   const q = normalizar(busqueda);
   const encontradas = q
     ? [...TODAS.filter((x) => x.silaba.s.startsWith(q)), ...TODAS.filter((x) => !x.silaba.s.startsWith(q) && (x.silaba.s.includes(q) || normalizar(x.silaba.ej).includes(q)))]
@@ -311,7 +338,7 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
             const total = familias.reduce((n, f) => n + f.silabas.length, 0);
             const oidasSala = familias.reduce((n, f) => n + oidasDe(f), 0);
             return (
-              <section key={s.id} className="pv-pab" style={{ "--sala": s.color, "--tinta": s.tinta, "--k": k }} aria-label={`${s.es} · ${s.zh}`}>
+              <section key={s.id} ref={revelar} className="pv-pab" style={{ "--sala": s.color, "--tinta": s.tinta, "--k": k }} aria-label={`${s.es} · ${s.zh}`}>
                 <div className="pv-pab__tejado" aria-hidden="true">
                   <svg viewBox="0 0 400 96" preserveAspectRatio="none">
                     <path className="pv-pab__cumbrera" d="M86 14 Q80 4 70 6 Q82 10 84 20 H316 Q318 10 330 6 Q320 4 314 14Z" />
@@ -332,6 +359,17 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
                   <h2>{s.es}</h2>
                 </header>
                 <div className="pv-pab__salon">
+                  <span className="pv-pab__luz" aria-hidden="true" />
+                  <span className="pv-pab__estandarte is-izq" aria-hidden="true" translate="no">
+                    {s.sello}
+                  </span>
+                  <span className="pv-pab__estandarte is-der" aria-hidden="true" translate="no">
+                    {s.sello}
+                  </span>
+                  <div className="pv-pab__puertas" aria-hidden="true">
+                    <span className="is-izq" />
+                    <span className="is-der" />
+                  </div>
                   <p className="pv-pab__rasgo">
                     <i translate="no">{s.sello}</i> {s.rasgo} · {s.rasgoZh}
                   </p>
@@ -371,7 +409,16 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
                     {oidasSala}/{total} sílabas escuchadas · 已听音节
                   </span>
                 </div>
-                <div className="pv-pab__escalones" aria-hidden="true" />
+                <div className="pv-pab__escalones" aria-hidden="true">
+                  <span className="pv-pab__incienso">
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                  </span>
+                  <img className="pv-pab__nube" src="./theme/nube-oro.png" alt="" />
+                </div>
               </section>
             );
           })}
