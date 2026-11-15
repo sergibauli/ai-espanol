@@ -20,181 +20,95 @@
 .dlg-seals i.now { animation: dlgSeal 1s ease-in-out infinite; }
 @keyframes dlgSeal { 50% { transform: rotate(45deg) scale(1.35); box-shadow: 0 0 14px #f2c14e; } }
 
-/* Cuerpo: escenario + guion */
-.dlg-body { min-height: 0; display: grid; padding-top: 30px !important; grid-template-rows: clamp(340px, 66%, 620px) minmax(0, 1fr); gap: 14px; width: min(100%, 1180px); margin: 0 auto; padding: 0 20px 6px; }
+/* Cuerpo: escenario (cuadrado, como los fondos) + guion a la derecha */
+.dlg-body { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 370px; gap: 20px; width: min(100%, 1320px); margin: 0 auto; padding: 26px 20px 6px; }
 
 /* ---------- Teatro ---------- */
-.dlg-theatre { min-height: 0; padding: 10px; border-radius: 18px;
+.dlg-theatre { position: relative; min-height: 0; height: 100%; aspect-ratio: 1; max-width: 100%; justify-self: end; padding: 10px; border-radius: 18px;
   background: linear-gradient(145deg, #b3122e, #6e0717); box-shadow: inset 0 0 0 2px #f2c14e, inset 0 0 0 6px #8f0c21, inset 0 0 0 7.5px #f2c14e, 0 18px 40px rgba(0,0,0,.55), 0 0 60px rgba(200,16,46,.25); }
-.dlg-stage { position: relative; height: 100%; min-height: 320px; overflow: hidden; border-radius: 10px; box-shadow: 0 0 0 2px #5e0614, inset 0 0 60px rgba(0,0,0,.6); isolation: isolate; }
-.dlg-scene { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
-.dlg-stage::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(80% 70% at 50% 75%, transparent 50%, rgba(10,4,16,.55)); }
-.dlg-stars circle { animation: dlgTwinkle 3s ease-in-out infinite; }
-@keyframes dlgTwinkle { 50% { opacity: .25; } }
-.dlg-rays { animation: dlgRays 30s ease-in-out infinite alternate; }
-@keyframes dlgRays { to { transform: rotate(6deg); } }
-.dlg-lglow { animation: dlgFlicker 2.6s ease-in-out infinite; }
-@keyframes dlgFlicker { 50% { opacity: .65; } }
-.dlg-mist { animation: dlgMist 12s ease-in-out infinite alternate; }
-@keyframes dlgMist { to { transform: translateX(-40px); opacity: .7; } }
-.dlg-flor { animation: dlgFlor 4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-@keyframes dlgFlor { 50% { scale: 1.12; } }
-.dlg-lantern { animation: dlgSway 4.5s ease-in-out infinite; transform-box: fill-box; }
-@keyframes dlgSway { 50% { rotate: 4deg; } }
-.dlg-firework { animation: dlgBoom 2.7s ease-out infinite; transform-box: fill-box; transform-origin: center; opacity: 0; }
-@keyframes dlgBoom { 0% { opacity: 0; scale: .2; } 20% { opacity: 1; } 70% { opacity: .2; scale: 1.1; } 100% { opacity: 0; scale: 1.15; } }
+.dlg-stage { position: relative; height: 100%; overflow: hidden; border-radius: 10px; container-type: size; isolation: isolate;
+  background: #2a0e10 center / cover no-repeat; box-shadow: 0 0 0 2px #5e0614, inset 0 0 60px rgba(0,0,0,.5); animation: dlgFondo 14s ease-in-out infinite alternate; }
+@keyframes dlgFondo { from { background-size: 100%; background-position: 50% 50%; } to { background-size: 106%; background-position: 50% 60%; } }
+.dlg-stage::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: radial-gradient(90% 80% at 50% 45%, transparent 55%, rgba(20,6,8,.5)); }
 
 /* Dragones dorados sobre el arco */
-.dlg-theatre { position: relative; }
 .dlg-theatre::before, .dlg-theatre::after { content: ""; position: absolute; z-index: 12; top: -34px; width: clamp(80px, 9vw, 130px); aspect-ratio: 410/470; pointer-events: none;
   background: url("../../public/theme/dragon-luz.webp") center/contain no-repeat; filter: drop-shadow(0 0 12px rgba(242,193,78,.7)) drop-shadow(0 6px 8px rgba(0,0,0,.6)); animation: dlgDragon 5s ease-in-out infinite; }
-.dlg-theatre::before { left: -26px; transform: scaleX(-1); }
-.dlg-theatre::after { right: -26px; }
+.dlg-theatre::before { left: -30px; transform: scaleX(-1); }
+.dlg-theatre::after { right: -30px; }
 @keyframes dlgDragon { 50% { translate: 0 -5px; filter: drop-shadow(0 0 22px rgba(242,193,78,.95)) drop-shadow(0 6px 8px rgba(0,0,0,.6)); } }
-/* Bambalina y telones */
-.dlg-valance { position: absolute; z-index: 4; inset: 0 0 auto; height: 30px; background: linear-gradient(#e0253f, #8f0c21 70%); border-bottom: 3px solid #f2c14e; box-shadow: 0 6px 14px rgba(0,0,0,.45); }
-.dlg-valance::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 16px; margin-top: 3px;
-  background: radial-gradient(circle at 50% 0, #8f0c21 0 15px, transparent 16px) 0 0/36px 16px repeat-x; filter: drop-shadow(0 2px 0 #f2c14e) drop-shadow(0 6px 6px rgba(0,0,0,.35)); }
-.dlg-tassel { position: absolute; top: 28px; width: 10px; height: 40px; background: linear-gradient(#f2c14e, #a8741e); border-radius: 0 0 5px 5px; z-index: 5; }
-.dlg-tassel::before { content: ""; position: absolute; top: -6px; left: -3px; width: 16px; height: 12px; border-radius: 50%; background: #f2c14e; }
-.dlg-tassel.l { left: 9%; } .dlg-tassel.r { right: 9%; }
-.dlg-curtain { position: absolute; z-index: 3; top: 0; bottom: 0; width: 7.5%; min-width: 30px;
-  background: repeating-linear-gradient(90deg, #6e0717 0 6px, #b3122e 10px 16px, #7e0a1d 22px), #8f0c21; box-shadow: 0 0 22px rgba(0,0,0,.6); }
-.dlg-curtain.l { left: 0; border-bottom-right-radius: 100% 32%; }
-.dlg-curtain.r { right: 0; border-bottom-left-radius: 100% 32%; }
 
-/* Cartel con el título */
-.dlg-plaque { position: absolute; z-index: 6; top: 48px; left: 50%; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 26px 9px; text-align: center; max-width: 70%;
-  background: url("../../public/theme/papel.jpg") center/300px, #f6e7c8; border-radius: 6px; box-shadow: 0 0 0 2px #8a5a1e, 0 0 0 5px #f2c14e, 0 0 0 7px #8f0c21, 0 12px 24px rgba(0,0,0,.5); animation: dlgDrop .7s cubic-bezier(.3,1.5,.5,1) both; }
-.dlg-plaque::before, .dlg-plaque::after { content: ""; position: absolute; top: -48px; width: 2px; height: 41px; background: #c8961e; }
-.dlg-plaque::before { left: 22%; } .dlg-plaque::after { right: 22%; }
-.dlg-plaque b { font: 700 clamp(22px, 2.4vw, 30px)/1.1 "STKaiti", "KaiTi", serif; color: #8f0c21; letter-spacing: .08em; }
-.dlg-plaque > span { font: 800 clamp(13px, 1.25vw, 16px)/1.25 var(--ui-display, Georgia); color: var(--dl-ink); }
-.dlg-plaque small { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #8a5a1e; }
-@keyframes dlgDrop { from { translate: -50% -140px; } }
-
-/* Telón de apertura, nubes, brasas y foco */
-.dlg-stage { container-type: size; }
-.dlg-drape { position: absolute; z-index: 9; top: 0; bottom: 0; width: 51%; pointer-events: none;
+/* Telón de apertura, brasas y foco */
+.dlg-drape { position: absolute; z-index: 20; top: 0; bottom: 0; width: 51%; pointer-events: none;
   background: radial-gradient(120% 60% at 50% 0, rgba(255,200,120,.25), transparent 60%), repeating-linear-gradient(90deg, #5e0614 0 5px, #b3122e 14px 22px, #7e0a1d 30px), #8f0c21; box-shadow: 0 0 40px rgba(0,0,0,.7); }
 .dlg-drape.l { left: 0; animation: dlgOpenL 1.5s .25s cubic-bezier(.6,0,.25,1) forwards; border-right: 3px solid #f2c14e; }
 .dlg-drape.r { right: 0; animation: dlgOpenR 1.5s .25s cubic-bezier(.6,0,.25,1) forwards; border-left: 3px solid #f2c14e; }
 @keyframes dlgOpenL { to { transform: translateX(-102%) scaleX(.4); transform-origin: left; } }
 @keyframes dlgOpenR { to { transform: translateX(102%) scaleX(.4); transform-origin: right; } }
-.dlg-clouds i { position: absolute; z-index: 1; top: 12%; left: -20%; width: 180px; height: 63px; opacity: .55; background: url("../../public/theme/nube-oro.png") center/contain no-repeat; animation: dlgCloud 60s linear infinite; }
-.dlg-clouds i:nth-child(2) { top: 26%; width: 120px; opacity: .4; animation-duration: 80s; animation-delay: -30s; }
-.dlg-clouds i:nth-child(3) { top: 6%; width: 140px; opacity: .45; animation-duration: 70s; animation-delay: -52s; }
-@keyframes dlgCloud { to { transform: translateX(140cqw); } }
 .dlg-embers i { position: absolute; z-index: 6; bottom: -10px; width: 4px; height: 4px; border-radius: 50%; background: #ffd77a; box-shadow: 0 0 8px 2px rgba(255,190,90,.8); opacity: 0; animation: dlgEmber 7s linear infinite; }
 .dlg-embers i:nth-child(3n) { width: 3px; height: 3px; }
 @keyframes dlgEmber { 0% { opacity: 0; transform: translate(0, 0); } 15% { opacity: .9; } 100% { opacity: 0; transform: translate(30px, -90cqh); } }
-.dlg-spot { position: absolute; z-index: 2; top: 0; bottom: 4%; width: 46cqh; translate: -50% 0; pointer-events: none; mix-blend-mode: screen; transition: left .6s cubic-bezier(.4,0,.2,1);
-  background: radial-gradient(50% 16% at 50% 96%, rgba(255,228,160,.75), transparent 80%), linear-gradient(rgba(255,226,150,.04), rgba(255,226,150,.3)); clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%); animation: dlgSpotIn .5s ease both; }
+.dlg-spot { position: absolute; z-index: 1; top: 0; bottom: 0; width: 44cqw; translate: -50% 0; pointer-events: none; mix-blend-mode: screen; transition: left .7s cubic-bezier(.4,0,.2,1);
+  background: radial-gradient(45% 30% at 50% 30%, rgba(255,226,160,.35), transparent 75%), linear-gradient(rgba(255,226,150,.18), rgba(255,226,150,.06)); clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%); animation: dlgSpotIn .5s ease both; }
 @keyframes dlgSpotIn { from { opacity: 0; } }
 
-/* Personajes ilustrados (novela visual): rig con hombros, codos, cabeza, ojos y boca */
-@property --sa { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
-@property --ea { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
-@property --sb { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
-@property --eb { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
-@property --ka { syntax: "<number>"; inherits: true; initial-value: 1; }
-@property --kb { syntax: "<number>"; inherits: true; initial-value: 1; }
-
-.dlg-actor { position: absolute; z-index: 5; bottom: -16%; height: 112%; translate: -50% 0; transition: filter .5s, scale .5s; transform-origin: 50% 100%; }
-.dlg-actor.idle { filter: brightness(.78) saturate(.85); scale: .97; }
-.dlg-actor.turn { filter: drop-shadow(0 0 18px rgba(255,214,120,.35)); }
-.dlg-figure { height: 100%; animation: dlgEnter 1s 1.1s cubic-bezier(.3,1.2,.5,1) both; }
+/* ---------- Personajes (imágenes en capas) ---------- */
+.dlg-actor { position: absolute; z-index: 2; width: max-content; transition: filter .5s; --abre: 0; --red: 0; }
+.dlg-figure { height: 100%; transform-origin: 50% 100%; animation: dlgEnter 1.1s 1s cubic-bezier(.3,1.2,.5,1) both; }
 .dlg-actor.der .dlg-figure { animation-name: dlgEnterR; }
-@keyframes dlgEnter { from { opacity: 0; transform: translateX(-50cqw); } }
-@keyframes dlgEnterR { from { opacity: 0; transform: translateX(50cqw); } }
+@keyframes dlgEnter { from { opacity: 0; transform: translateX(-30cqw); } }
+@keyframes dlgEnterR { from { opacity: 0; transform: translateX(30cqw); } }
+.dlg-pj { position: relative; height: 100%; transform-origin: 50% 100%; animation: pjRespira 4.2s ease-in-out infinite; transition: rotate .6s, translate .6s, scale .6s;
+  filter: sepia(.14) saturate(1.06) brightness(.97) drop-shadow(0 14px 18px rgba(30,6,4,.55)); }
+.dlg-pj.flip { transform: scaleX(-1); }
+@keyframes pjRespira { 0%, 100% { scale: 1 1; } 50% { scale: 1.004 1.01; } }
+.dlg-pj > img { position: absolute; inset: 0; width: 100%; height: 100%; user-select: none; pointer-events: none; }
+/* Mandíbula: la parte baja de la cara (máscara) baja según --abre y deja ver el interior de la boca */
+.dlg-pj-mandibula { -webkit-mask-composite: source-in; mask-composite: intersect; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  translate: 0 calc(var(--abre) * var(--mand) * 1%); }
+.dlg-boca { position: absolute; z-index: 0; aspect-ratio: 2.2; translate: -50% -38%; border-radius: 45% 45% 50% 50% / 40% 40% 60% 60%;
+  background: linear-gradient(#f4ece4 0 22%, transparent 24%), radial-gradient(60% 55% at 50% 85%, #c25560, transparent 70%), #3a0a10; box-shadow: inset 0 0 0 1px var(--labio);
+  scale: calc(1 - var(--red) * .35) calc(.15 + var(--abre) * 1.25); transform-origin: 50% 0; opacity: calc(var(--abre) * 4); }
+.dlg-pj > .dlg-boca { pointer-events: none; }
+/* Párpados: parpadeo natural */
+.dlg-parpado { position: absolute; translate: -50% -60%; border-radius: 50% 50% 46% 46% / 40% 40% 60% 60%; pointer-events: none;
+  background: linear-gradient(var(--piel) 60%, color-mix(in srgb, var(--piel), #5a2a1a 25%)); border-bottom: 1.5px solid #2a1410; transform-origin: 50% 0; scale: 1 0;
+  animation: pjParpadeo var(--parpadeo, 4.4s) infinite; }
+@keyframes pjParpadeo { 0%, 94%, 100% { scale: 1 0; } 96.5% { scale: 1 1; } }
+/* Quien escucha queda en penumbra; quien tiene el turno, iluminado */
+.dlg-actor.idle { filter: brightness(.72) saturate(.85); }
+.dlg-actor.turn { filter: drop-shadow(0 0 22px rgba(255,210,120,.35)); }
+/* Ademanes al hablar: se inclina hacia el otro, asiente y enfatiza */
+.dlg-actor.talk .dlg-pj { animation: pjRespira 4.2s ease-in-out infinite, pjHabla 1.6s ease-in-out infinite; }
+@keyframes pjHabla { 0%, 100% { translate: 0 0; } 30% { translate: 0 -.5cqh; } 60% { translate: 0 .2cqh; } }
+.dlg-actor.izq.talk .dlg-pj { rotate: 1.2deg; } .dlg-actor.der.talk .dlg-pj { rotate: -1.2deg; }
+.dlg-actor.talk.a-pregunta .dlg-pj { animation: pjRespira 4.2s ease-in-out infinite, pjPregunta 2.4s ease-in-out infinite; }
+@keyframes pjPregunta { 0%, 100% { translate: 0 0; } 50% { translate: .4cqw -.4cqh; } }
+.dlg-actor.izq.talk.a-pregunta .dlg-pj { rotate: 2.2deg; } .dlg-actor.der.talk.a-pregunta .dlg-pj { rotate: -2.2deg; }
+.dlg-actor.talk.a-exclama .dlg-pj { animation: pjRespira 4.2s ease-in-out infinite, pjExclama .7s ease-in-out 3; }
+@keyframes pjExclama { 50% { translate: 0 -1.4cqh; } }
+.dlg-actor.idle .dlg-pj { animation: pjRespira 4.2s ease-in-out infinite, pjEscucha 5s ease-in-out infinite; }
+@keyframes pjEscucha { 0%, 70%, 100% { translate: 0 0; } 78% { translate: 0 .5cqh; } 86% { translate: 0 0; } 92% { translate: 0 .35cqh; } }
 
-.pj { display: block; height: 100%; width: auto; overflow: visible; filter: drop-shadow(0 18px 22px rgba(0,0,0,.45));
-  --sa: -5deg; --ea: 4deg; --sb: 5deg; --eb: -4deg; --ka: 1; --kb: 1;
-  transition: --sa .65s cubic-bezier(.3,1.25,.5,1), --ea .65s cubic-bezier(.3,1.25,.5,1), --sb .65s cubic-bezier(.3,1.25,.5,1), --eb .65s cubic-bezier(.3,1.25,.5,1), --ka .5s, --kb .5s; }
-.dlg-actor.der .pj { transform: scaleX(-1); }
-.pj .pj-hombro.pj-a { transform: rotate(var(--sa)); }
-.pj .pj-codo.pj-a { transform: rotate(var(--ea)) scaleY(var(--ka)); }
-.pj .pj-hombro.pj-b { transform: rotate(var(--sb)); }
-.pj .pj-codo.pj-b { transform: rotate(var(--eb)) scaleY(var(--kb)); }
-.pj .pj-cuerpo { transform-box: view-box; transform-origin: 201px 780px; animation: pjSway 6.5s ease-in-out infinite alternate; transition: translate .6s, rotate .6s; }
-@keyframes pjSway { from { transform: rotate(-.7deg); } to { transform: rotate(.7deg); } }
-.pj .pj-torso { transform-box: view-box; transform-origin: 201px 780px; animation: pjBreath 3.8s ease-in-out infinite; }
-@keyframes pjBreath { 50% { transform: scale(1.006, 1.012); } }
-.pj .pj-cabeza { transform-box: view-box; transform-origin: 201px 250px; transition: rotate .5s cubic-bezier(.3,1.3,.5,1), translate .5s; }
-.pj .pj-jade { transform-box: view-box; transform-origin: 150px 504px; animation: pjSwing 3.2s ease-in-out infinite alternate; }
-@keyframes pjSwing { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
-/* Ojos: parpadeo y mirada */
-.pj .pj-parpado { transform-box: fill-box; transform-origin: 50% 0; scale: 1 0; animation: pjBlink var(--parpadeo, 4.4s) infinite; }
-@keyframes pjBlink { 0%, 93%, 100% { scale: 1 0; } 95.5% { scale: 1 1; } }
-.pj .pj-iris { translate: var(--mira, 0px) 0; transition: translate .3s ease; }
-.dlg-actor.talk .pj-iris { animation: pjGaze 5.5s ease-in-out infinite; }
-@keyframes pjGaze { 0%, 38% { translate: 4px 0; } 46%, 74% { translate: 0 0; } 82%, 100% { translate: 4px .5px; } }
-/* Cejas según la emoción */
-.pj .pj-ceja { transform-box: fill-box; transition: translate .35s, rotate .35s; }
-.pj .pj-ceja-i { transform-origin: 0% 50%; } .pj .pj-ceja-d { transform-origin: 100% 50%; }
-.dlg-actor.e-duda .pj-ceja-i { translate: 0 -3px; } .dlg-actor.e-duda .pj-ceja-d { translate: 0 -8px; rotate: 5deg; }
-.dlg-actor.e-feliz .pj-ceja { translate: 0 -4px; }
-.dlg-actor.e-triste .pj-ceja-i { rotate: -13deg; } .dlg-actor.e-triste .pj-ceja-d { rotate: 13deg; }
-/* Boca: visema activo (data-v lo pone la sincronía labial) */
-.pj .v { display: none; }
-.pj:not([data-v]) .v-r, .pj[data-v="r"] .v-r, .pj[data-v="m"] .v-m, .pj[data-v="c"] .v-c, .pj[data-v="e"] .v-e, .pj[data-v="a"] .v-a, .pj[data-v="o"] .v-o { display: inline; }
-
-/* Gestos */
-.dlg-actor.talk .pj-cabeza { animation: pjHead 2.6s ease-in-out infinite; }
-@keyframes pjHead { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(2.4deg) translateY(-1px); } 55% { transform: rotate(-1.2deg); } 80% { transform: rotate(1.4deg) translateY(1px); } }
-.dlg-actor.g-explica .pj { animation: gExplica 1.7s ease-in-out infinite alternate; }
-@keyframes gExplica { from { --sa: -26deg; --ea: -62deg; } to { --sa: -40deg; --ea: -36deg; } }
-.dlg-actor.g-explica2 .pj { animation: gExplica2 1.9s ease-in-out infinite alternate; }
-@keyframes gExplica2 { from { --sa: -18deg; --ea: -48deg; --sb: 16deg; --eb: 70deg; --kb: .6; } to { --sa: -30deg; --ea: -30deg; --sb: 10deg; --eb: 84deg; --kb: .5; } }
-.dlg-actor.g-pregunta .pj { --sa: -22deg; --ea: -86deg; animation: gPregunta 2.2s ease-in-out infinite alternate; }
-@keyframes gPregunta { from { --ea: -80deg; } to { --ea: -94deg; } }
-.dlg-actor.g-pregunta .pj-cabeza { rotate: 6deg; }
-.dlg-actor.g-saludo .pj { --sa: -150deg; animation: gSaludo .34s ease-in-out 6 alternate; --ea: 0deg; }
-@keyframes gSaludo { from { --ea: -22deg; } to { --ea: 24deg; } }
-.dlg-actor.g-reverencia .pj { --sa: 16deg; --ea: 90deg; --ka: .4; --sb: -16deg; --eb: -90deg; --kb: .4; }
-.dlg-actor.g-reverencia .pj-cuerpo { translate: 0 12px; rotate: 3deg; }
-.dlg-actor.g-reverencia .pj-cabeza { rotate: 9deg; translate: 2px 4px; }
-.dlg-actor.g-exclama .pj { --sa: -38deg; --ea: -44deg; --sb: 38deg; --eb: 44deg; animation: gExclama .9s ease-in-out infinite alternate; }
-@keyframes gExclama { to { --sa: -48deg; --sb: 48deg; } }
-.dlg-actor.g-exclama .pj-cuerpo { animation: pjHop .9s ease-in-out infinite alternate; }
-@keyframes pjHop { to { transform: translateY(-6px); } }
-/* Quien escucha: manos juntas, asiente de vez en cuando */
-.dlg-actor:is(.g-escucha, .g-reposo) .pj { --sa: -3deg; --ea: 10deg; --sb: 3deg; --eb: -10deg; }
-.dlg-actor.g-escucha .pj-cabeza { animation: pjNod 3.4s ease-in-out infinite; }
-@keyframes pjNod { 0%, 62%, 100% { transform: rotate(0); } 70% { transform: rotate(3deg) translateY(3px); } 78% { transform: rotate(0); } 86% { transform: rotate(2.5deg) translateY(2px); } }
-
-.dlg-name { position: absolute; left: 50%; bottom: 20%; translate: -50% 0; z-index: 2; padding: 4px 16px; border-radius: 4px; font: 800 14px/1.2 var(--ui-display, Georgia); color: #fff3d6; white-space: nowrap; letter-spacing: .03em;
-  background: linear-gradient(#c8102e, #8f0c21); box-shadow: 0 0 0 1.5px #f2c14e, 0 0 0 3.5px #5e0614, 0 6px 12px rgba(0,0,0,.5); animation: dlgPop .4s 1.9s both; }
-.dlg-actor.turn .dlg-name { background: linear-gradient(#f6d77a, #c8961e); color: #5e0614; }
-/* Ondas de voz junto a la boca */
-.dlg-waves { position: absolute; top: 20%; left: 66%; width: 30px; height: 50px; opacity: 0; transition: opacity .2s; }
-.dlg-actor.der .dlg-waves { left: auto; right: 66%; transform: scaleX(-1); }
-.dlg-actor.talk .dlg-waves { opacity: 1; }
-.dlg-waves i { position: absolute; top: 50%; left: 0; width: 14px; height: 14px; translate: 0 -50%; border: 3px solid #f2c14e; border-left-color: transparent; border-bottom-color: transparent; border-radius: 50%; rotate: 45deg; animation: dlgWave 1s ease-out infinite; }
-.dlg-waves i:nth-child(2) { animation-delay: .25s; } .dlg-waves i:nth-child(3) { animation-delay: .5s; }
-@keyframes dlgWave { from { opacity: 1; width: 8px; height: 8px; } to { opacity: 0; width: 46px; height: 46px; left: -6px; } }
-
-/* Bocadillo junto a la cara de quien habla */
-.dlg-balloon { position: absolute; z-index: 8; top: 34cqh; width: min(36cqw, 440px); padding: 14px 20px; border-radius: 22px; cursor: pointer;
-  background: linear-gradient(#fffdf5, #f8ecd0); box-shadow: 0 0 0 2.5px #c8961e, 0 0 0 5px rgba(255,248,225,.9), 0 16px 30px rgba(0,0,0,.45); animation: dlgPop .45s cubic-bezier(.3,1.6,.5,1) both; }
-.dlg-balloon.izq { left: calc(var(--x) + 21cqh); transform-origin: 0 0; border-top-left-radius: 4px; }
-.dlg-balloon.der { right: calc(100% - var(--x) + 21cqh); transform-origin: 100% 0; border-top-right-radius: 4px; }
-.dlg-balloon.centro { left: 50%; translate: -50% 0; top: auto; bottom: 8%; }
-.dlg-balloon::after { content: ""; position: absolute; top: 4px; width: 26px; height: 22px; background: #fffcf2; }
-.dlg-balloon.izq::after { left: -22px; clip-path: polygon(100% 0, 0 0, 100% 100%); }
-.dlg-balloon.der::after { right: -22px; clip-path: polygon(0 0, 100% 0, 0 100%); }
-.dlg-balloon.centro::after { display: none; }
-.dlg-balloon p { margin: 0; font: 700 clamp(17px, 1.6vw, 21px)/1.4 var(--ui-display, Georgia); color: #2e1c0f; }
-.dlg-balloon .dlg-zh { margin-top: 6px; padding-top: 6px; border-top: 1px dashed #d9b465; font: 500 clamp(14px, 1.25vw, 16px)/1.4 var(--ui-font); color: #8f0c21; }
-.dlg-balloon.live { box-shadow: 0 0 0 2.5px #f2c14e, 0 0 0 5px rgba(255,248,225,.95), 0 0 34px rgba(242,193,78,.7), 0 16px 30px rgba(0,0,0,.45); }
-@keyframes dlgPop { from { opacity: 0; scale: .5; } }
+/* Cuadro de diálogo (estilo novela visual) en la parte baja del escenario */
+.dlg-balloon { position: absolute; z-index: 8; left: 4%; right: 4%; bottom: 3%; padding: 22px 26px 16px; border-radius: 16px; cursor: pointer;
+  background: linear-gradient(rgba(255,252,242,.97), rgba(248,234,204,.97)); box-shadow: 0 0 0 2.5px #c8961e, 0 0 0 5px rgba(94,6,20,.85), 0 0 0 6.5px #f2c14e, 0 18px 34px rgba(0,0,0,.55); animation: dlgSube .45s cubic-bezier(.3,1.4,.5,1) both; }
+@keyframes dlgSube { from { opacity: 0; translate: 0 20px; } }
+.dlg-balloon::after { content: ""; position: absolute; top: -17px; left: calc((var(--x) - 4%) / .92 - 12px); width: 24px; height: 17px; background: #f2c14e; clip-path: polygon(50% 0, 0 100%, 100% 100%); }
+.dlg-balloon-name { position: absolute; top: -15px; left: 22px; padding: 4px 16px; border-radius: 5px; font: 800 14px/1.2 var(--ui-display, Georgia); letter-spacing: .04em; color: #fff3d6;
+  background: linear-gradient(#c8102e, #8f0c21); box-shadow: 0 0 0 1.5px #f2c14e, 0 4px 10px rgba(0,0,0,.4); }
+.dlg-balloon.der .dlg-balloon-name { left: auto; right: 22px; }
+.dlg-balloon p { margin: 0; font: 700 clamp(17px, 1.7vw, 23px)/1.4 var(--ui-display, Georgia); color: #2e1c0f; }
+.dlg-balloon .dlg-zh { margin-top: 6px; padding-top: 6px; border-top: 1px dashed #d9b465; font: 500 clamp(14px, 1.3vw, 17px)/1.4 var(--ui-font); color: #8f0c21; }
+.dlg-balloon.live { box-shadow: 0 0 0 2.5px #f2c14e, 0 0 0 5px rgba(94,6,20,.85), 0 0 0 6.5px #f2c14e, 0 0 36px rgba(242,193,78,.6), 0 18px 34px rgba(0,0,0,.55); }
 
 /* ---------- Guion ---------- */
 .dlg-script { min-height: 0; overflow-y: auto; padding: 14px max(14px, calc(50% - 400px)) 18px; border-radius: 14px; scroll-behavior: smooth;
   background: radial-gradient(ellipse at center, transparent 55%, rgba(139,94,52,.25)), url("../../public/theme/papel.jpg") center/420px, #f6e7c8;
   box-shadow: inset 0 0 0 2px #c8961e, inset 0 0 0 5px #fbf1dc, inset 0 0 0 6.5px #c8961e, 0 18px 40px rgba(0,0,0,.5); }
-.dlg-script-title { display: none; margin: -4px 0 10px; text-align: center; }
+.dlg-script-title { display: block; margin: -4px 0 10px; text-align: center; }
 .dlg-script-title b { display: block; font: 700 20px/1.1 "STKaiti", "KaiTi", serif; color: #8f0c21; letter-spacing: .06em; }
+.dlg-script-title small { display: block; margin-top: 2px; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #8a5a1e; }
 .dlg-script-title span { font: 800 13px var(--ui-display, Georgia); color: var(--dl-ink); }
 .dlg-script-head { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; font: 900 13px var(--ui-display, Georgia); letter-spacing: .14em; text-transform: uppercase; color: #8f0c21; }
 .dlg-seal-mini { display: grid; place-items: center; padding: 5px 7px; border-radius: 5px; font: 700 15px/1 "STKaiti", "KaiTi", serif; letter-spacing: 0; color: #fff3d6; background: #b3122e; box-shadow: 0 0 0 1.5px #f2c14e; rotate: -6deg; }
@@ -203,8 +117,7 @@
 @keyframes dlgIn { from { opacity: 0; transform: translateY(14px); } }
 .dlg-line-av { flex-shrink: 0; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 55%, #a8741e); box-shadow: 0 0 0 2px #8f0c21, 0 4px 8px rgba(80,50,10,.3); }
 .dlg-line-av { overflow: hidden; }
-.dlg-line-av .pj-mini { width: 46px; height: 46px; filter: none; }
-.dlg-line.der .dlg-line-av .pj-mini { transform: scaleX(-1); }
+.dlg-line-av img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 .dlg-line-box { position: relative; max-width: min(84%, 620px); padding: 9px 13px 8px; border-radius: 4px 16px 16px 16px; background: rgba(255,253,246,.92); box-shadow: 0 0 0 1.5px #d9b465, 0 4px 10px rgba(110,80,30,.12); transition: box-shadow .3s, background .3s; }
 .dlg-line.der .dlg-line-box { border-radius: 16px 4px 16px 16px; background: rgba(236,244,230,.94); box-shadow: 0 0 0 1.5px #9cbf8a, 0 4px 10px rgba(60,90,40,.12); }
 .dlg-line.cur .dlg-line-box { box-shadow: 0 0 0 2.5px #c8961e, 0 0 0 5px rgba(242,193,78,.3), 0 6px 14px rgba(110,80,30,.2); }
@@ -244,28 +157,21 @@
 
 /* ---------- Móvil y pantallas estrechas ---------- */
 @media (max-width: 1000px) {
-  .dlg-body { grid-template-rows: minmax(300px, 46%) 1fr; gap: 10px; padding: 0 10px 6px; }
+  .dlg-body { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 10px; padding: 18px 10px 6px; }
+  .dlg-theatre { height: min(calc(100vw - 20px), 54vh); width: 100%; aspect-ratio: auto; justify-self: stretch; }
   .dlg-script { padding: 12px 10px 16px; }
+  .dlg-script-title { display: none; }
 }
 @media (max-width: 560px) {
   .dlg-top { padding: 8px 12px; gap: 10px; }
   .dlg-icon { width: 38px; height: 38px; }
   .dlg-seals { gap: 6px; } .dlg-seals i { width: 11px; height: 11px; }
   .dlg-theatre { padding: 6px; border-radius: 14px; }
-  .dlg-stage { min-height: 0; }
-  .dlg-valance { height: 20px; } .dlg-valance::after { height: 10px; background-size: 24px 10px; background-image: radial-gradient(circle at 50% 0, #8f0c21 0 10px, transparent 11px); }
-  .dlg-tassel { top: 18px; height: 26px; width: 7px; }
-  .dlg-plaque { display: none; }
-  .dlg-actor { height: 92%; }
-  .dlg-name { bottom: 30%; }
-  .dlg-name { font-size: 11px; padding: 2px 9px; }
-  .dlg-balloon, .dlg-balloon.izq, .dlg-balloon.der { left: 4%; right: 4%; width: auto; top: auto; bottom: 8px; padding: 9px 13px; border-radius: 14px; transform-origin: 50% 100%; }
-  .dlg-balloon::after { top: -16px; width: 22px; height: 18px; }
-  .dlg-balloon.izq::after { left: calc(var(--x) - 4% - 11px); clip-path: polygon(50% 0, 0 100%, 100% 100%); }
-  .dlg-balloon.der::after { left: calc(var(--x) - 4% - 11px); right: auto; clip-path: polygon(50% 0, 0 100%, 100% 100%); }
+  .dlg-theatre::before, .dlg-theatre::after { top: -24px; width: 70px; }
+  .dlg-script-title { display: block; }
+  .dlg-balloon { left: 3%; right: 3%; bottom: 2.5%; padding: 16px 14px 10px; border-radius: 12px; }
   .dlg-balloon p { font-size: 15px; } .dlg-balloon .dlg-zh { font-size: 13px; }
-  .dlg-curtain { width: 6%; min-width: 18px; }
-  .dlg-script-title { display: block !important; }
+  .dlg-balloon-name { font-size: 12px; padding: 3px 11px; top: -13px; }
   .dlg-foot { gap: 8px; padding: 8px 10px calc(10px + env(safe-area-inset-bottom)); }
   .dlg-btn { min-width: 0; flex: 1; min-height: 48px; padding: 0 10px; font-size: 14px !important; }
   .dlg-line-box { max-width: 86%; }

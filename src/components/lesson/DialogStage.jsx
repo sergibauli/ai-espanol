@@ -1,35 +1,46 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { XIcon, Volume2Icon, LanguagesIcon, PlayIcon, PauseIcon, ChevronRightIcon, RotateCcwIcon } from "lucide-react";
-import { Personaje, CabezaPersonaje, rasgos, tunicaN, NUM_TUNICAS, gestoDe, emocionDe, visemas } from "./Personaje.jsx";
 import { sfx, speakWait, stopSpeak, confetti, audioProgress } from "./fx.js";
 import { addXp } from "../../lib/gamification.js";
 import { CAST } from "./StoryPlayer.jsx";
-import { DialogScene, temaDeDialogo, NOMBRE_TEMA } from "./DialogScenes.jsx";
+import { temaDeDialogo, fondoDe, repartoDe, visemas } from "../../lib/dialogoEscena.js";
 import "../../styles/dialogo.css";
 
-// Posiciones (en % del ancho del escenario) según cuántos personajes hablan
-const POS = { 1: [50], 2: [23, 77], 3: [17, 50, 83], 4: [12, 37, 63, 88] };
+// Posiciones de la cara (en % del ancho del escenario) según cuántos personajes hablan
+const POS = { 1: [50], 2: [25, 76], 3: [18, 50, 82], 4: [13, 38, 62, 87] };
+// Alto de la cabeza en el escenario (% del alto) y altura a la que empieza
+const CABEZA = 15;
+const ARRIBA = 11;
 
-/** Escenario teatral de los diálogos de una unidad: decorado según el tema, personajes a ambos lados
- *  que hablan por turnos, bocadillo sincronizado con la voz y guion con traducción por frase. */
+/** Personaje ilustrado en capas: imagen, boca (interior), mandíbula que baja al hablar y párpados. */
+function Actor({ a, flip }) {
+  const b = a.boca;
+  const menton = b.y + a.cabeza * 0.32;
+  const mascara = `linear-gradient(to bottom, transparent ${b.y - 0.15}%, #000 ${b.y + 0.35}%), radial-gradient(${b.w * 1.25}% ${(menton - b.y) * 0.95}% at ${b.x}% ${(b.y + menton) / 2}%, #000 62%, transparent 100%)`;
+  const src = `./dialogo/${a.img}.webp`;
+  return (
+    <div className={`dlg-pj ${flip ? "flip" : ""}`} style={{ aspectRatio: `${a.w} / 1200`, "--mand": b.mandibula }}>
+      <img className="dlg-pj-base" src={src} alt="" draggable={false} />
+      <i className="dlg-boca" style={{ left: `${b.x}%`, top: `${b.y}%`, width: `${b.w * 0.78}%`, "--labio": b.labio }} />
+      <img className="dlg-pj-mandibula" src={src} alt="" draggable={false} style={{ WebkitMaskImage: mascara, maskImage: mascara }} />
+      {a.ojos.map((o, k) => (
+        <i key={k} className="dlg-parpado" style={{ left: `${o.x}%`, top: `${o.y}%`, width: `${a.ojo[0]}%`, height: `${a.ojo[1] * 1.5}%`, "--piel": o.piel }} />
+      ))}
+    </div>
+  );
+}
+
+/** Escenario de los diálogos de una unidad: fondo ilustrado, personajes a ambos lados que hablan por turnos
+ *  con la boca sincronizada con la voz, cuadro de diálogo y guion con traducción por frase. */
 export function DialogStage({ story, onClose }) {
   const lineas = story.lineas;
-  const tema = React.useMemo(() => temaDeDialogo(story.titulo, lineas.map((l) => l.es).join(" ")), [story, lineas]);
+  const fondo = React.useMemo(() => fondoDe(temaDeDialogo(story.titulo, lineas.map((l) => l.es).join(" "))), [story, lineas]);
   const reparto = React.useMemo(() => {
-    const orden = [...new Set(lineas.filter((l) => l.quien !== "narrador").map((l) => l.nombre))].slice(0, 4);
-    const pos = POS[orden.length] || POS[2];
-    const usadas = new Set();
-    return orden.map((nombre, i) => {
-      const l = lineas.find((x) => x.nombre === nombre);
-      const c = CAST[l.quien] || {};
-      const r = rasgos(nombre, c.voice === "f", i);
-      // Cada personaje con una túnica distinta
-      let t = 0;
-      while (usadas.has(r.tunica.robe) && t < NUM_TUNICAS) r.tunica = tunicaN(NUM_TUNICAS + t++ + i);
-      usadas.add(r.tunica.robe);
-      return { nombre, quien: l.quien, voice: c.voice, r, x: pos[i], lado: pos[i] < 50 ? "izq" : pos[i] > 50 ? "der" : "centro" };
-    });
+    const nombres = [...new Set(lineas.filter((l) => l.quien !== "narrador").map((l) => l.nombre))].slice(0, 4);
+    const voz = Object.fromEntries(lineas.map((l) => [l.nombre, CAST[l.quien]?.voice === "f"]));
+    const pos = POS[nombres.length] || POS[2];
+    return repartoDe(nombres, (n) => voz[n]).map((a, i) => ({ ...a, x: pos[i], lado: pos[i] < 50 ? "izq" : pos[i] > 50 ? "der" : "centro" }));
   }, [lineas]);
   const actor = (nombre) => reparto.find((r) => r.nombre === nombre);
 
@@ -41,6 +52,7 @@ export function DialogStage({ story, onClose }) {
   const [done, setDone] = React.useState(null);
   const token = React.useRef(0);
   const guionRef = React.useRef(null);
+  const stageRef = React.useRef(null);
 
   React.useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -62,10 +74,10 @@ export function DialogStage({ story, onClose }) {
     [lineas],
   );
 
-  // Al abrir: primera frase
+  // Al abrir (tras el telón): primera frase
   React.useEffect(() => {
     const t = ++token.current;
-    const id = setTimeout(() => say(0, t), 450);
+    const id = setTimeout(() => say(0, t), 1500);
     return () => clearTimeout(id);
   }, [say]);
 
@@ -74,28 +86,32 @@ export function DialogStage({ story, onClose }) {
     el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [shown, playing]);
 
-  // Sincronía labial: la boca del que habla sigue los visemas de la frase al ritmo real del audio
-  const stageRef = React.useRef(null);
+  // Sincronía labial: la mandíbula del que habla sigue las vocales de la frase al ritmo real del audio
   React.useEffect(() => {
     if (playing < 0) return;
     const l = lineas[playing];
-    const svg = stageRef.current?.querySelector(`.dlg-actor[data-n="${CSS.escape(l.nombre)}"] svg.pj`);
-    if (!svg) return;
+    const el = stageRef.current?.querySelector(`.dlg-actor[data-n="${CSS.escape(l.nombre)}"]`);
+    if (!el) return;
     const vis = visemas(l.es);
     const t0 = performance.now();
     const estimado = Math.max(1200, l.es.length * 78);
     let raf = 0;
-    let prev = "";
+    let abre = 0;
+    let red = 0;
     const tick = () => {
       const p = audioProgress() ?? (performance.now() - t0) / estimado;
-      const v = p >= 1 ? "r" : vis[Math.min(vis.length - 1, Math.floor(p * vis.length))];
-      if (v !== prev) svg.dataset.v = prev = v;
+      const [ta, tr] = p >= 1 ? [0, 0] : vis[Math.min(vis.length - 1, Math.floor(p * vis.length))];
+      abre += (ta - abre) * 0.45;
+      red += (tr - red) * 0.35;
+      el.style.setProperty("--abre", abre.toFixed(3));
+      el.style.setProperty("--red", red.toFixed(3));
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => {
       cancelAnimationFrame(raf);
-      svg.dataset.v = "r";
+      el.style.setProperty("--abre", "0");
+      el.style.setProperty("--red", "0");
     };
   }, [playing, lineas]);
 
@@ -134,7 +150,6 @@ export function DialogStage({ story, onClose }) {
     const t = ++token.current;
     setAuto(true);
     const desde = shown >= lineas.length ? 0 : Math.max(0, shown - 1);
-    if (desde === 0 && shown >= lineas.length) setShown(lineas.length);
     for (let i = desde; i < lineas.length; i++) {
       if (token.current !== t) return;
       setShown((n) => Math.max(n, i + 1));
@@ -156,10 +171,10 @@ export function DialogStage({ story, onClose }) {
   const lActual = lineas[actual];
   const hablante = lActual && actor(lActual.nombre);
   const fin = shown >= lineas.length;
-  const [temaEs, temaZh] = NOMBRE_TEMA[tema];
+  const ademan = (es) => (/\?/.test(es) ? "pregunta" : /!/.test(es) ? "exclama" : "explica");
 
   return createPortal(
-    <div className={`lp-root dlg dlg-${tema}`} role="dialog" aria-modal="true" aria-label={story.titulo}>
+    <div className="lp-root dlg" role="dialog" aria-modal="true" aria-label={story.titulo}>
       <header className="dlg-top">
         <button className="dlg-icon" onClick={onClose} aria-label="Salir · 退出">
           <XIcon size={22} />
@@ -176,68 +191,43 @@ export function DialogStage({ story, onClose }) {
 
       <div className="dlg-body">
         <section className="dlg-theatre">
-          <div className="dlg-stage" ref={stageRef}>
-            <DialogScene tema={tema} />
-            <div className="dlg-clouds" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </div>
+          <div className="dlg-stage" ref={stageRef} style={{ backgroundImage: `url(./dialogo/${fondo.img}.webp)` }}>
             <div className="dlg-embers" aria-hidden="true">
               {Array.from({ length: 18 }).map((_, k) => (
                 <i key={k} style={{ left: `${(k * 53) % 100}%`, animationDelay: `${(k * 0.73) % 6}s`, animationDuration: `${6 + (k % 5)}s` }} />
               ))}
             </div>
             {hablante && !done && <div className="dlg-spot" style={{ left: `${hablante.x}%` }} aria-hidden="true" />}
-            <div className="dlg-valance" aria-hidden="true">
-              <span className="dlg-tassel l" />
-              <span className="dlg-tassel r" />
-            </div>
-            <div className="dlg-drape l" aria-hidden="true" />
-            <div className="dlg-drape r" aria-hidden="true" />
-            <div className="dlg-curtain l" aria-hidden="true" />
-            <div className="dlg-curtain r" aria-hidden="true" />
-            <div className="dlg-plaque">
-              <b translate="no">{story.tituloZh}</b>
-              <span>{story.titulo}</span>
-              <small>
-                {temaEs} · <span>{temaZh}</span>
-              </small>
-            </div>
 
-            {reparto.map((r) => {
-              const habla = playing >= 0 && hablante?.nombre === r.nombre;
-              const turno = hablante?.nombre === r.nombre;
-              const gesto = habla ? gestoDe(lActual.es) : turno ? "reposo" : "escucha";
-              const emo = turno && lActual ? emocionDe(lActual.es) : "neutra";
+            {reparto.map((a) => {
+              const habla = playing >= 0 && hablante?.nombre === a.nombre;
+              const turno = hablante?.nombre === a.nombre;
+              // Voltea la imagen para que mire (y gesticule) hacia el centro
+              const flip = (a.lado === "izq" && a.mira === "izq") || (a.lado === "der" && a.mira === "der");
+              const caraX = flip ? 100 - a.cara : a.cara;
               return (
                 <div
-                  key={r.nombre}
-                  data-n={r.nombre}
-                  className={`dlg-actor ${r.lado} ${habla ? "talk" : ""} ${turno ? "turn" : "idle"} g-${gesto} e-${emo}`}
-                  style={{ left: `${r.x}%`, "--mira": hablante && hablante.nombre !== r.nombre ? (hablante.x > r.x) === (r.lado !== "der") ? "4px" : "-4px" : "0px" }}
+                  key={a.nombre}
+                  data-n={a.nombre}
+                  className={`dlg-actor ${a.lado} ${habla ? `talk a-${ademan(lActual.es)}` : ""} ${turno ? "turn" : "idle"}`}
+                  style={{ left: `${a.x}%`, top: `${ARRIBA}cqh`, height: `${(CABEZA * 100) / a.cabeza}cqh`, translate: `-${caraX}% 0`, "--parpadeo": `${3.4 + (a.nombre.length % 5) * 0.55}s` }}
                 >
-                  <div className="dlg-waves" aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
-                  </div>
                   <div className="dlg-figure">
-                    <Personaje r={r.r} />
+                    <Actor a={a} flip={flip} />
                   </div>
-                  <span className="dlg-name">
-                    {r.nombre}
-                  </span>
                 </div>
               );
             })}
 
             {lActual && !done && (
               <div key={actual} className={`dlg-balloon ${hablante?.lado || "centro"} ${playing === actual ? "live" : ""}`} style={{ "--x": `${hablante?.x ?? 50}%` }} onClick={() => replay(actual)}>
+                <span className="dlg-balloon-name">{lActual.nombre}</span>
                 <p>{lActual.es}</p>
                 {(tradTodo || trad.has(actual)) && <p className="dlg-zh">{lActual.zh}</p>}
               </div>
             )}
+            <div className="dlg-drape l" aria-hidden="true" />
+            <div className="dlg-drape r" aria-hidden="true" />
           </div>
         </section>
 
@@ -245,6 +235,9 @@ export function DialogStage({ story, onClose }) {
           <div className="dlg-script-title">
             <b translate="no">{story.tituloZh}</b>
             <span>{story.titulo}</span>
+            <small>
+              {fondo.es} · {fondo.zh}
+            </small>
           </div>
           <div className="dlg-script-head">
             <span className="dlg-seal-mini" translate="no">
@@ -258,9 +251,7 @@ export function DialogStage({ story, onClose }) {
             const abierto = tradTodo || trad.has(i);
             return (
               <div key={i} data-i={i} className={`dlg-line ${lado} ${i === playing ? "live" : ""} ${i === actual ? "cur" : ""}`}>
-                <div className="dlg-line-av">
-                  {a && <CabezaPersonaje r={a.r} />}
-                </div>
+                <div className="dlg-line-av">{a && <img src={`./dialogo/cara-${a.id}.webp`} alt="" />}</div>
                 <div className="dlg-line-box">
                   <div className="dlg-line-who">
                     <b>{l.nombre}</b>
