@@ -1,0 +1,13 @@
+/* v28 · Fluidez de la lista de unidades (se carga después de v19-unidades.css; contexto en v28-fluidez.css). */
+
+/* Barridos de luz: de background-position a transform */
+.u19-mundo::after { background-size: 100% 100% !important; animation-name: v28Barrido !important; will-change: transform; }
+.u19-mundo__barra::after { background-size: 100% 100% !important; animation-name: v28BarridoLineal !important; will-change: transform; }
+
+/* Moneda del nivel: el brillo pasa a fijo y solo flota */
+@keyframes u19Moneda { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+.u19-nivel.on .u19-nivel__moneda { box-shadow: 0 0 0 1.5px #8a5a1e, 0 0 12px rgba(255, 236, 170, 0.7); }
+
+/* Efectos que solo pueden hacerse repintando: dos pasadas al entrar */
+.u19-mundo__glifo, .u19-mundo__seguir svg,
+.u19-carta.is-completada .u19-carta__cuerpo::after { animation-iteration-count: 2 !important; }

@@ -16,6 +16,7 @@ import { FondoV18, AdornosBarra, Emblema } from "./DecoV18.jsx";
 import { precargar, precargarSecciones } from "../../lib/precarga.js";
 import { TarjetaInstalar } from "./AvisosApp.jsx";
 import "../../styles/v21-app.css";
+import "../../styles/v28-fluidez.css";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
 const MAIN = [
