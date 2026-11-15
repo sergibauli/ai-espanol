@@ -51,6 +51,7 @@ import { a } from "../../lib/exams-loader.js";
 import { useLanguage } from "../../lib/i18n.jsx";
 import "../../data/generated-content.js";
 import "../../styles/v14-fix-examenes.css";
+import "../../styles/sala-examen.css";
 import { turnosPractica, clavePractica } from "../../lib/vocesDele.js";
 import { cargarVocesDele, reproducirMp3 } from "../../lib/vocesDeleApp.js";
 function BsComponent({ onClose }) {
@@ -207,6 +208,21 @@ function Ne1Component({ color, title, titleCn, children, right }) {
     </div>
   );
 }
+// Botón y sello de la corrección frase a frase (sala imperial de examen)
+function BotonFrase({ onClick }) {
+  return (
+    <button type="button" onClick={onClick} className="sx-btn sx-btn-laca sx-btn-sm sx-frase-btn gm-no-adapt">
+      <CircleCheckBigIcon size={14} /> Comprobar · <span className="sx-zh" lang="zh-CN">检查</span>
+    </button>
+  );
+}
+function SelloFrase({ ok }) {
+  return (
+    <span className={`sx-frase-sello gm-no-adapt ${ok ? "ok" : "ko"}`} aria-label={ok ? "Correcta · 正确" : "Incorrecta · 错误"} translate="no">
+      {ok ? "对" : "错"}
+    </span>
+  );
+}
 function DsComponent({ exercises }) {
   const { t } = useLanguage();
   const [s, setS] = React.useState({});
@@ -220,6 +236,9 @@ function DsComponent({ exercises }) {
   const [G, setG_1] = React.useState({});
   const [xe, setXe] = React.useState(false);
   const [Ee, setEe] = React.useState({});
+  // Corrección frase a frase (además del botón «Comprobar» de cada bloque)
+  const [rev, setRev] = React.useState({});
+  const revelar = (clave) => setRev((x) => ({ ...x, [clave]: true }));
   const F = Object.keys(Lt)
     .filter((r) => exercises[r]?.length > 0)
     .map((r) => Lt[r]);
@@ -272,22 +291,24 @@ function DsComponent({ exercises }) {
         >
           {exercises.trueFalse.map((r) => {
             const f = s[r.id] !== undefined && s[r.id] === r.answer;
+            const mx = m || !!rev[`tf-${r.id}`];
             return (
               <div
                 key={r.id}
-                className="rounded-xl p-3"
+                className="rounded-xl p-3 relative sx-frase-item"
                 style={{
                   background: "rgba(0,0,0,0.25)",
-                  border: `1px solid ${m ? (f ? "rgba(46,107,63,.4)" : "rgba(200,16,46,.4)") : "rgba(255,255,255,.08)"}`,
+                  border: `1px solid ${mx ? (f ? "rgba(46,107,63,.4)" : "rgba(200,16,46,.4)") : "rgba(255,255,255,.08)"}`,
                 }}
               >
+                {mx && s[r.id] !== undefined && <SelloFrase ok={f} />}
                 <p className="text-white/90 text-sm font-medium">
                   {r.id}. {r.statement}
                 </p>
                 <p className="text-white/40 text-xs mb-2">{r.statementCn}</p>
                 <div className="flex gap-2">
                   <button
-                    disabled={m}
+                    disabled={mx}
                     onClick={() =>
                       setS((D) => ({
                         ...D,
@@ -312,7 +333,7 @@ function DsComponent({ exercises }) {
                     {t("Verdadero", "正确")}
                   </button>
                   <button
-                    disabled={m}
+                    disabled={mx}
                     onClick={() =>
                       setS((D) => ({
                         ...D,
@@ -336,7 +357,8 @@ function DsComponent({ exercises }) {
                   >
                     {t("Falso", "错误")}
                   </button>
-                  {m && (
+                  {!mx && s[r.id] !== undefined && <BotonFrase onClick={() => revelar(`tf-${r.id}`)} />}
+                  {mx && (
                     <span
                       className="flex items-center gap-1 text-xs font-bold"
                       style={{
@@ -348,7 +370,7 @@ function DsComponent({ exercises }) {
                     </span>
                   )}
                 </div>
-                {m && (
+                {mx && (
                   <p className="text-white/50 text-xs mt-2">
                     {r.explanation} <span className="text-white/35">{r.explanationCn}</span>
                   </p>
@@ -431,15 +453,17 @@ function DsComponent({ exercises }) {
         >
           {exercises.fillBlanks.map((r) => {
             const f = g[r.id] !== undefined && g[r.id] === r.answer;
+            const kx = k || !!rev[`fb-${r.id}`];
             return (
               <div
                 key={r.id}
-                className="rounded-xl p-3"
+                className="rounded-xl p-3 relative sx-frase-item"
                 style={{
                   background: "rgba(0,0,0,0.25)",
-                  border: `1px solid ${k ? (f ? "rgba(46,107,63,.4)" : "rgba(200,16,46,.4)") : "rgba(255,255,255,.08)"}`,
+                  border: `1px solid ${kx ? (f ? "rgba(46,107,63,.4)" : "rgba(200,16,46,.4)") : "rgba(255,255,255,.08)"}`,
                 }}
               >
+                {kx && g[r.id] !== undefined && <SelloFrase ok={f} />}
                 <p className="text-white/90 text-sm">
                   {r.id}. {r.before}{" "}
                   <span
@@ -457,7 +481,7 @@ function DsComponent({ exercises }) {
                   {r.options.map((D, T) => (
                     <button
                       key={T}
-                      disabled={k}
+                      disabled={kx}
                       onClick={() =>
                         setG((Z) => ({
                           ...Z,
@@ -483,7 +507,8 @@ function DsComponent({ exercises }) {
                     </button>
                   ))}
                 </div>
-                {k && (
+                {!kx && g[r.id] !== undefined && <BotonFrase onClick={() => revelar(`fb-${r.id}`)} />}
+                {kx && (
                   <>
                     <span
                       className="flex items-center gap-1 text-xs font-bold mt-2"
@@ -523,16 +548,18 @@ function DsComponent({ exercises }) {
         >
           {exercises.dictation.map((r) => {
             const y = G[r.id] || "";
-            const f = xe && y.trim() && ae(y) === ae(r.text);
+            const xx = xe || !!rev[`dc-${r.id}`];
+            const f = xx && y.trim() && ae(y) === ae(r.text);
             return (
               <div
                 key={r.id}
-                className="rounded-xl p-3"
+                className="rounded-xl p-3 relative sx-frase-item"
                 style={{
                   background: "rgba(0,0,0,0.25)",
                   border: "1px solid rgba(255,255,255,.08)",
                 }}
               >
+                {xx && y.trim() && <SelloFrase ok={!!f} />}
                 <div className="flex items-center gap-2 mb-2">
                   <button
                     onClick={() => Ys(r.text)}
@@ -562,7 +589,8 @@ function DsComponent({ exercises }) {
                     border: "1px solid rgba(255,255,255,.12)",
                   }}
                 />
-                {xe && y.trim() && (
+                {!xx && y.trim() && <BotonFrase onClick={() => revelar(`dc-${r.id}`)} />}
+                {xx && y.trim() && (
                   <p
                     className="flex items-center gap-1 text-xs font-bold mt-2"
                     style={{
@@ -750,16 +778,18 @@ function DsComponent({ exercises }) {
         >
           {exercises.transform.map((r) => {
             const y = L[r.id] || "";
-            const f = I && y.trim() && ae(y) === ae(r.answer);
+            const ix = I || !!rev[`tr-${r.id}`];
+            const f = ix && y.trim() && ae(y) === ae(r.answer);
             return (
               <div
                 key={r.id}
-                className="rounded-xl p-3"
+                className="rounded-xl p-3 relative sx-frase-item"
                 style={{
                   background: "rgba(0,0,0,0.25)",
                   border: "1px solid rgba(255,255,255,.08)",
                 }}
               >
+                {ix && y.trim() && <SelloFrase ok={!!f} />}
                 <p className="text-white/90 text-sm font-bold">
                   {r.instruction} <span className="text-white/40 font-medium">{r.instructionCn}</span>
                 </p>
@@ -779,7 +809,8 @@ function DsComponent({ exercises }) {
                     border: "1px solid rgba(255,255,255,.12)",
                   }}
                 />
-                {I && y.trim() && (
+                {!ix && y.trim() && <BotonFrase onClick={() => revelar(`tr-${r.id}`)} />}
+                {ix && y.trim() && (
                   <p
                     className="flex items-center gap-1 text-xs font-bold mt-2"
                     style={{
