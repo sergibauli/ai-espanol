@@ -554,3 +554,17 @@ button.ja-medallon:hover { transform: translateY(-4px) scale(1.05); }
     animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important;
   }
 }
+
+/* ===== v17 · Teatro: el botón «Arriba el telón» queda fijo abajo sobre una franja propia y la lista deja sitio para verse entera ===== */
+.ja-abrir { position: static !important; align-self: center; margin: 4px auto 6px !important; display: flex !important; }
+.ja-obra-n { color: #ffe08a !important; -webkit-text-fill-color: #ffe08a !important; }
+.ja-obra.is-on .ja-obra-n { color: #fff4d6 !important; -webkit-text-fill-color: #fff4d6 !important; }
+.ja-modos-teatro { margin-bottom: 18px; }
+.ja-obra, .ja-modo-teatro { transition: transform 0.15s cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow 0.15s; }
+.ja-obra:hover, .ja-modo-teatro:hover { transform: translateY(-3px); }
+.ja-obra:active, .ja-modo-teatro:active { transform: translateY(2px); }
+/* En móvil el escenario termina por encima de la barra inferior (antes su parte baja, con el botón, quedaba tapada) */
+@media (max-width: 760px) {
+  .ja-teatro .ja-escenario { min-height: 0; height: calc(100dvh - 300px - env(safe-area-inset-bottom, 0px)); }
+  .ja-teatro .ja-cartelera { max-height: calc(100% - 80px); }
+}
