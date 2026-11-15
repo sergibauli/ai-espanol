@@ -7,13 +7,13 @@
 # Uso:
 #   node scripts/reparto-dele.mjs > /tmp/lista.json
 #   FISH_KEY=... python3 scripts/voces-dele.py /tmp/lista.json <carpeta con <voxpopuli>.wav y .txt> [hilos]
-# (FISH_KEY puede ser «proxy-injected» si la clave la pone el proxy del entorno.)
 #
-# 1. Crea en Fish Audio las voces que aún no tienen id (y lo guarda en el pool).
+# 1. Clona cada voz al vuelo: cada petición lleva la muestra de la voz (no gasta voces guardadas).
 # 2. Genera public/audio/dele/<clave>.mp3 (mono, 32 kbps) para cada locución que falte.
 # 3. Comprueba con la altura de la voz que cada voz suena del sexo que toca; si no, la marca «descartada».
 # 4. Escribe src/data/audio-index-dele.json con las claves disponibles.
-import json, os, sys, time, subprocess, tempfile, urllib.request, uuid, concurrent.futures as cf
+import json, os, sys, time, subprocess, tempfile, urllib.request, concurrent.futures as cf
+import msgpack  # pip install msgpack
 
 lista = json.load(open(sys.argv[1]))
 referencias = sys.argv[2]
@@ -24,7 +24,8 @@ indice = os.path.join(raiz, "src", "data", "audio-index-dele.json")
 ruta_pool = os.path.join(raiz, "scripts", "voces-dele-pool.json")
 os.makedirs(salida, exist_ok=True)
 clave_api = os.environ.get("FISH_KEY", "proxy-injected")
-cabeceras = {"Authorization": "Bearer " + clave_api}
+# Cabecera «api-key» (la Authorization la puede sobrescribir el proxy del entorno)
+cabeceras = {"api-key": clave_api}
 pool = json.load(open(ruta_pool))
 por_id = {voz["id"]: voz for voz in pool}
 
@@ -33,34 +34,18 @@ def guardar_pool():
     json.dump(pool, open(ruta_pool, "w"), ensure_ascii=False, indent=1)
 
 
-def multipart(campos, ficheros):
-    limite = uuid.uuid4().hex
-    cuerpo = b""
-    for nombre, valor in campos:
-        cuerpo += f'--{limite}\r\nContent-Disposition: form-data; name="{nombre}"\r\n\r\n{valor}\r\n'.encode()
-    for nombre, (fichero, datos, tipo) in ficheros:
-        cuerpo += f'--{limite}\r\nContent-Disposition: form-data; name="{nombre}"; filename="{fichero}"\r\nContent-Type: {tipo}\r\n\r\n'.encode() + datos + b"\r\n"
-    return cuerpo + f"--{limite}--\r\n".encode(), f"multipart/form-data; boundary={limite}"
+# Muestra de cada voz (mp3 ligero) + su transcripción: se envía con cada petición (clonación al vuelo,
+# no hace falta crear voces guardadas en Fish Audio)
+muestras_voz = {}
 
 
-def crear_voz(voz):
-    wav = open(os.path.join(referencias, voz["voxpopuli"] + ".wav"), "rb").read()
-    texto = open(os.path.join(referencias, voz["voxpopuli"] + ".txt"), encoding="utf-8").read().strip()
-    cuerpo, tipo = multipart(
-        [("type", "tts"), ("train_mode", "fast"), ("visibility", "private"), ("title", f"AI Español DELE {voz['id']}"),
-         ("texts", texto), ("enhance_audio_quality", "true")],
-        [("voices", (voz["voxpopuli"] + ".wav", wav, "audio/wav"))],
-    )
-    peticion = urllib.request.Request("https://api.fish.audio/model", data=cuerpo, headers={**cabeceras, "Content-Type": tipo})
-    with urllib.request.urlopen(peticion, timeout=180) as respuesta:
-        return json.load(respuesta)["_id"]
-
-
-for voz in pool:
-    if not voz.get("fish") and not voz.get("descartada"):
-        voz["fish"] = crear_voz(voz)
-        print("voz creada", voz["id"], voz["fish"], flush=True)
-        guardar_pool()
+def muestra(voz):
+    if voz["id"] not in muestras_voz:
+        base = os.path.join(referencias, voz["voxpopuli"])
+        audio = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", base + ".wav", "-ac", "1", "-ar", "16000", "-b:a", "32k", "-f", "mp3", "pipe:1"],
+                               capture_output=True, check=True).stdout
+        muestras_voz[voz["id"]] = {"audio": audio, "text": open(base + ".txt", encoding="utf-8").read().strip()}
+    return muestras_voz[voz["id"]]
 
 
 def generar(item):
@@ -68,14 +53,14 @@ def generar(item):
     if os.path.exists(destino) and os.path.getsize(destino) > 400:
         return item["clave"]
     voz = por_id.get(item["voz"])
-    if not voz or not voz.get("fish") or voz.get("descartada"):
+    if not voz or voz.get("descartada"):
         return None
-    cuerpo = json.dumps({"text": item["texto"], "reference_id": voz["fish"], "format": "mp3", "mp3_bitrate": 64,
-                         "latency": "normal", "normalize": True, "prosody": {"speed": 0.95}}).encode()
-    for intento in range(5):
+    cuerpo = msgpack.packb({"text": item["texto"], "references": [muestra(voz)], "format": "mp3", "mp3_bitrate": 64,
+                            "latency": "normal", "normalize": True, "prosody": {"speed": 0.95}})
+    for intento in range(6):
         try:
             peticion = urllib.request.Request("https://api.fish.audio/v1/tts", data=cuerpo,
-                                              headers={**cabeceras, "Content-Type": "application/json", "model": "s2.1-pro-free"})
+                                              headers={**cabeceras, "Content-Type": "application/msgpack", "model": "s2.1-pro-free"})
             with urllib.request.urlopen(peticion, timeout=180) as respuesta:
                 datos = respuesta.read()
             if len(datos) < 500:
@@ -90,7 +75,7 @@ def generar(item):
             return item["clave"]
         except Exception as error:
             print("reintento", item["clave"], error, flush=True)
-            time.sleep(3 * (intento + 1))
+            time.sleep(5 * (intento + 1))
     return None
 
 
