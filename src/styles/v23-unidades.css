@@ -1,0 +1,67 @@
+/* ===== v23 · Unidades: banda del nivel con el escenario de su mundo, el Rey Mono y «Continúa por aquí»;
+   tarjetas con anillo de progreso, cuentas por clase, sello 完成 y cinta en la siguiente unidad ===== */
+
+/* ---------- Mundo del nivel ---------- */
+.u23-mundo { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: center; gap: 18px; min-height: 190px; margin-top: 18px; padding: 22px 26px; border-radius: 22px; color: #fff;
+  border: 2px solid #fff0b8; box-shadow: 0 0 0 2px #b8811f, 0 0 0 3.5px rgba(255, 240, 184, .6), 0 0 28px rgba(255, 215, 120, .45), 0 14px 28px rgba(40, 0, 0, .45);
+  animation: u23-baja .6s cubic-bezier(.2, 1, .3, 1) both; }
+.u23-mundo__escena { position: absolute; inset: 0; z-index: -2; }
+.u23-mundo__escena .dn-escena { z-index: 0; }
+.u23-mundo::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(20, 8, 2, .62) 0%, rgba(20, 8, 2, .3) 42%, transparent 70%); }
+.u23-mundo[data-nivel="A1"]::after { background: linear-gradient(90deg, rgba(8, 50, 30, .66), rgba(8, 50, 30, .25) 45%, transparent 70%); }
+.u23-mundo__mono { position: absolute; left: 44%; bottom: -8px; width: 112px; z-index: 0; filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .4)); animation: u23-mono 4s ease-in-out infinite; pointer-events: none; }
+.u23-mundo__sello { z-index: 1; }
+.u23-mundo__txt { position: relative; z-index: 1; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; max-width: 420px; }
+.u23-mundo__txt small { font: 700 11.5px/1.3 var(--im-font-ui, system-ui); letter-spacing: .22em; text-transform: uppercase; color: #fff3d0; text-shadow: 0 1px 2px rgba(0, 0, 0, .6); }
+.u23-mundo__txt > b { font: 800 clamp(22px, 2.6vw, 32px)/1.1 var(--im-font-ui, system-ui); letter-spacing: .06em; text-transform: uppercase; text-shadow: 0 2px 0 rgba(0, 0, 0, .45), 0 0 18px rgba(0, 0, 0, .35); }
+.u23-mundo__prog { display: flex; align-items: center; gap: 12px; margin-top: 6px; max-width: 320px; }
+.u23-mundo__barra { flex: 1; height: 12px; border-radius: 99px; background: rgba(0, 0, 0, .4); box-shadow: inset 0 2px 3px rgba(0, 0, 0, .35), 0 0 0 1.5px rgba(255, 240, 184, .75); overflow: hidden; }
+.u23-mundo__barra i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(180deg, #fff6cf, #f3cb62 60%, #d9a43a); box-shadow: 0 0 10px #ffe08a; transition: width .6s ease; }
+.u23-mundo__prog em { font: 800 15px/1 var(--im-font-ui, system-ui); font-style: normal; text-shadow: 0 1px 2px rgba(0, 0, 0, .6); }
+
+/* «Continúa por aquí»: pergamino con la siguiente unidad */
+.u23-continua { position: relative; z-index: 1; flex: none; margin-left: auto; display: flex; align-items: center; gap: 12px; width: min(360px, 40%); padding: 12px 14px 12px 12px; border: 0; border-radius: 16px; text-align: left; cursor: pointer; color: #3b2416;
+  background: linear-gradient(rgba(255, 250, 236, .92), rgba(255, 244, 214, .95)), url("../../public/theme/papel.jpg") center / cover;
+  box-shadow: 0 0 0 1px #b88a33, 0 0 0 4px rgba(255, 246, 222, .6), 0 0 0 5px #b88a33, 0 12px 24px rgba(0, 0, 0, .35); transition: transform .2s cubic-bezier(.3, 1.4, .5, 1); }
+.u23-continua:hover { transform: translateY(-3px) scale(1.02); }
+.u23-continua__pic { flex: none; display: grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; background: radial-gradient(circle at 35% 26%, #b9f3e0 0%, #45c7a6 38%, #1b8f7a 75%, #0f6e62 100%); box-shadow: 0 0 0 3px #f3d683, 0 0 0 4.5px #8a5a1e; }
+.u23-continua__txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.u23-continua__txt small { font: 900 11px/1.2 var(--im-font-ui, system-ui); letter-spacing: .08em; text-transform: uppercase; color: #c8102e; }
+.u23-continua__txt b { font: 800 17px/1.2 var(--im-font-ui, system-ui); color: #4a2a12; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.u23-continua__txt [lang="zh"] { font-size: 14px; color: #8a6a34; }
+.u23-continua__play { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: #fff7df; background: radial-gradient(120% 120% at 30% 0%, #f04a5f, #c8102e 45%, #8f0c21); box-shadow: 0 0 0 2px #f2c14e, 0 4px 0 #5e0614; animation: u23-latido 2.4s ease-in-out infinite; }
+
+/* ---------- Tarjetas ---------- */
+/* Anillo de progreso alrededor del medallón (oro = hecho) */
+.u23-medallon { background: conic-gradient(#f2c14e 0 calc(var(--pct, 0) * 1%), rgba(138, 90, 30, .22) calc(var(--pct, 0) * 1%) 100%); box-shadow: 0 0 0 1px #8a5a1e, 0 6px 12px rgba(120, 70, 10, .3); }
+.u23-medallon::after { inset: 7px; border: 0; background: conic-gradient(from 210deg, #fff3c4, #d9a43a, #fff0b8, #a8721a, #f3d683, #fff3c4); z-index: -1; }
+.u23-medallon { isolation: isolate; }
+.u23-carta.is-completada .u23-medallon { background: conic-gradient(#2f8f52 0 100%); }
+
+.u23-clases { display: flex; align-items: center; gap: 4px; margin-top: 6px; }
+.u23-clases i { width: 10px; height: 10px; border-radius: 50%; background: rgba(138, 90, 30, .15); box-shadow: inset 0 0 0 1.5px #b8811f; }
+.u23-clases i.medio { background: linear-gradient(90deg, #f2c14e 50%, rgba(138, 90, 30, .15) 50%); }
+.u23-clases i.on { background: radial-gradient(circle at 35% 30%, #fff6d0, #f2c14e 50%, #c8961e); }
+.u23-clases small { margin-left: 4px; font: 800 11.5px/1 var(--im-font-ui, system-ui); color: #6b3c08; }
+
+.u23-sello-hecho { position: absolute; right: 10px; top: 10px; z-index: 2; display: grid; place-items: center; width: 40px; height: 40px; border: 2px solid #c8102e; border-radius: 50%; font: 700 12.5px/1 "STKaiti", "KaiTi", serif; color: #c8102e; background: rgba(255, 240, 240, .75); transform: rotate(14deg); box-shadow: inset 0 0 0 2px rgba(255, 240, 240, .9), inset 0 0 0 3px rgba(200, 16, 46, .5); }
+.u23-carta.is-completada { background: radial-gradient(90% 55% at 50% 0%, #ffffff, transparent 75%), linear-gradient(180deg, #f6fbf2, #e8f3dc); }
+
+.u23-carta.is-siguiente { box-shadow: inset 0 0 0 3px #fffaf0, inset 0 0 0 4px #c8102e, 0 0 0 3px #f2c14e, 0 0 24px rgba(242, 193, 78, .8), 0 10px 20px rgba(120, 70, 10, .25); }
+.u23-carta.is-siguiente .u23-medallon { animation: u23-flota 2.4s ease-in-out infinite; }
+.u23-cinta-sig { position: absolute; top: 10px; right: 8px; z-index: 3; padding: 3px 10px; border-radius: 99px; font: 900 10.5px/1.3 var(--im-font-ui, system-ui); white-space: nowrap; color: #fff3d6; background: linear-gradient(180deg, #c8102e, #8f0c21); box-shadow: 0 0 0 1.5px #f2c14e, 0 3px 6px rgba(90, 0, 0, .35); }
+
+@keyframes u23-baja { from { opacity: 0; transform: translateY(-12px); } }
+@keyframes u23-mono { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+@keyframes u23-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes u23-latido { 0%, 100% { filter: none; } 50% { filter: brightness(1.15) drop-shadow(0 0 10px rgba(255, 190, 90, .9)); } }
+
+@media (max-width: 1100px) { .u23-mundo__mono { display: none; } }
+@media (max-width: 760px) {
+  .u23-mundo { flex-wrap: wrap; min-height: 0; padding: 16px 14px 14px; gap: 12px; }
+  .u23-mundo::after { background: linear-gradient(180deg, rgba(20, 8, 2, .55), rgba(20, 8, 2, .25) 60%, rgba(20, 8, 2, .1)); }
+  .u23-mundo__txt { flex: 1 1 60%; }
+  .u23-continua { width: 100%; }
+  .u23-sello-hecho { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { .u23-mundo, .u23-mundo__mono, .u23-continua__play, .u23-carta.is-siguiente .u23-medallon { animation: none !important; } }

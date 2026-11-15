@@ -1,9 +1,9 @@
-import { useAparicion } from "../lib/aparicion.js";
 import "../styles/v19-unidad.css";
+import "../styles/v23-unidad.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
-import { ArrowLeftIcon, Volume2Icon, ChevronDownIcon, PlayIcon, CheckIcon } from "lucide-react";
+import { ArrowLeftIcon, PlayIcon, CheckIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
@@ -16,10 +16,10 @@ import { markModuleVisited } from "../lib/progress.js";
 import { clasesDe, claseValida, moduloDeClase, plusDeClase, progresoUnidad, sincronizarClase, ultimaClase, recordarClase } from "../lib/clases.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
-import { Moneda } from "../../packages/imperial/src/index.js";
-import { Volteable, AvisoVolteo } from "../components/ui/Volteable.jsx";
 import "../styles/v22-volteo.css";
-import { ParticulasNivel } from "../components/ui/ParticulasNivel.jsx";
+import { CabeceraUnidad, MapaClases } from "../components/unidad/CabeceraUnidad.jsx";
+import { FichaTeoria } from "../components/unidad/FichaTeoria.jsx";
+import { PalabrasUnidad } from "../components/unidad/PalabrasUnidad.jsx";
 
 import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
 import "../styles/v14-fix-juegos.css";
@@ -28,263 +28,19 @@ const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
 const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
 const STORIES = import.meta.glob("../data/stories/*.json", { import: "default" });
-const LEVEL_COLORS = { A1: ["#58cc02", "#46a302"], A2: ["#1cb0f6", "#1899d6"], B1: ["#ff9600", "#e08600"], B2: ["#ce82ff", "#a568cc"] };
+// Colores de cada mundo (bambú, linternas, tinta, Ciudad Prohibida) para los detalles de las tarjetas
+const LEVEL_COLORS = { A1: ["#2f8f52", "#1d6339"], A2: ["#d9542b", "#a33a17"], B1: ["#3d6378", "#26414f"], B2: ["#7b2d8e", "#4c1d5e"] };
 
-function bullets(text) {
-  return String(text || "")
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => /^[•\-–]/.test(l))
-    .map((l) => l.replace(/^[•\-–]\s*/, "").replace(/\s=\s[A-Za-z' ,.()/!?-]+$/, ""));
-}
+// Pestañas de la unidad: sello, nombre y nombre chino
+const PESTANAS = [
+  { id: "guia", sello: "学", es: "Guía", zh: "语法" },
+  { id: "palabras", sello: "词", es: "Palabras", zh: "词汇" },
+  { id: "lecciones", sello: "课", es: "Lecciones", zh: "课" },
+  { id: "dialogos", sello: "话", es: "Diálogos", zh: "对话" },
+  { id: "practica", sello: "练", es: "Práctica", zh: "练习" },
+  { id: "examen", sello: "考", es: "Examen", zh: "考试" },
+];
 
-function WordCard({ v, color }) {
-  const [flip, setFlip] = React.useState(false);
-  return (
-    <button
-      className={`unit-word ${flip ? "flip" : ""}`}
-      style={{ "--c": color }}
-      onClick={() => {
-        setFlip((f) => !f);
-        if (!flip) speak(v.espanol);
-      }}
-    >
-      <span className="unit-word-in">
-        <span className="front">
-          <b>{v.espanol}</b>
-          <Volume2Icon size={15} />
-        </span>
-        <span className="back">
-          <b>{v.chino}</b>
-          {v.ejemplo && <small>{v.ejemplo}</small>}
-        </span>
-      </span>
-    </button>
-  );
-}
-
-// Guía rápida: convierte el texto de teoría en bloques ordenados (títulos, listas, tablas, párrafos y notas)
-const SPECIAL = [[/^📌/, "note"], [/^❌/, "error"], [/^(💡|✅\s*CONSEJO)/, "tip"]];
-const BULLET = /^([•\-–*→✅]|\d+[.º)]|\p{Extended_Pictographic})\s*/u;
-function splitItem(text) {
-  const m = text.match(/^(.+?)\s(?:=|→|–|-)\s(.+)$/) || text.match(/^([^:]{2,40}):\s(.+)$/);
-  return m ? { term: m[1].trim(), def: m[2].trim() } : { term: text, def: "" };
-}
-function parseTeoria(text) {
-  const blocks = [];
-  let cur = null;
-  const close = () => (cur = null);
-  for (const raw of String(text || "").split("\n")) {
-    const l = raw.trim();
-    if (!l) {
-      if (cur && cur.type !== "list" && cur.type !== "table") close();
-      continue;
-    }
-    if (l.startsWith("|")) {
-      if (/^\|[\s|:-]+\|?$/.test(l)) continue;
-      const cells = l.split("|").map((c) => c.trim()).filter(Boolean);
-      if (cur?.type !== "table") blocks.push((cur = { type: "table", rows: [] }));
-      cur.rows.push(cells);
-      continue;
-    }
-    const sp = SPECIAL.find(([re]) => re.test(l));
-    if (sp) {
-      const rest = l.replace(/^\S+\s*[^:]*:?\s*/, "").trim();
-      blocks.push((cur = { type: sp[1], lines: rest ? [rest] : [] }));
-      continue;
-    }
-    if (cur && ["note", "error", "tip"].includes(cur.type)) {
-      cur.lines.push(l.replace(BULLET, ""));
-      continue;
-    }
-    if (/:$/.test(l) && l.length <= 70) {
-      blocks.push({ type: "h", text: l.replace(/^\p{Extended_Pictographic}\s*/u, "").replace(/:$/, "") });
-      close();
-      continue;
-    }
-    if (BULLET.test(l)) {
-      if (cur?.type !== "list") blocks.push((cur = { type: "list", items: [] }));
-      cur.items.push(splitItem(l.replace(BULLET, "")));
-      continue;
-    }
-    blocks.push({ type: "p", text: l });
-    close();
-  }
-  return blocks;
-}
-
-function Tabla({ filas }) {
-  return (
-    <table>
-      <tbody>
-        {filas.map((r, k) => (
-          <tr key={k}>{r.map((c, n) => (k === 0 ? <th key={n}>{c}</th> : <td key={n}>{c}</td>))}</tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-// `teoria` = puntos de la clase abierta; `todas` = los de la unidad (para leer las marcas «Visto» antiguas, que eran posiciones)
-function GuideScroll({ teoria, todas = teoria, numero }) {
-  const [sel, setSel] = React.useState(0);
-  const key = `dele_guia_visto_${numero}`;
-  const [seen, setSeen] = React.useState(() => {
-    try {
-      const guardado = JSON.parse(localStorage.getItem(key) || "[]");
-      return new Set(guardado.map((marca) => (typeof marca === "number" ? todas[marca]?.id : marca)).filter(Boolean));
-    } catch {
-      return new Set();
-    }
-  });
-  const t = teoria[sel];
-  if (!t) return null;
-  const es = parseTeoria(t.descripcion);
-  // El chino usa «：» de ancho completo: se normaliza para que tenga la misma estructura que el español
-  const zh = parseTeoria(String(t.descripcionChino || "").replace(/：[ \t]*$/gm, ":"));
-  // Empareja cada bloque con el bloque chino del mismo tipo y el mismo orden (más robusto que la posición)
-  const porTipo = (lista) => {
-    const cuenta = {};
-    return lista.map((b) => (cuenta[b.type] = (cuenta[b.type] ?? -1) + 1));
-  };
-  const ordenEs = porTipo(es);
-  const zhPorTipo = {};
-  zh.forEach((b) => (zhPorTipo[b.type] ||= []).push(b));
-  const zhOf = (i) => (zh[i] && zh[i].type === es[i].type ? zh[i] : zhPorTipo[es[i].type]?.[ordenEs[i]] || null);
-  const main = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => !["note", "error", "tip"].includes(b.type));
-  const extras = es.map((b, i) => [b, zhOf(i)]).filter(([b]) => ["note", "error", "tip"].includes(b.type));
-  // La capitular iluminada va en el primer párrafo de verdad (no en un título)
-  const primerParrafo = main.findIndex(([b]) => b.type === "p");
-  const terms = es.flatMap((b) => (b.type === "list" ? b.items.map((x) => x.term) : [])).filter((x) => x.length <= 40);
-  const plaques = terms.length ? terms : (t.ejemplos || []).map((e) => e.espanol);
-  const idDe = (i) => teoria[i]?.id ?? i;
-  const toggleSeen = () => {
-    const vistos = new Set(seen);
-    vistos.has(idDe(sel)) ? vistos.delete(idDe(sel)) : vistos.add(idDe(sel));
-    setSeen(vistos);
-    try {
-      localStorage.setItem(key, JSON.stringify([...vistos]));
-    } catch {}
-  };
-  return (
-    <section className="gd gd--volteo" id="u-guia">
-      <div className="gd-ribbon">Guía rápida</div>
-      <button className={`gd-visto ${seen.has(idDe(sel)) ? "on" : ""}`} onClick={toggleSeen} title="Marcar como leído">
-        Visto
-      </button>
-      <div className="gd-head">
-        <Volteable as="h3" es={t.titulo} zh={t.tituloChino} reinicio={sel} />
-        <AvisoVolteo />
-      </div>
-      <div className="gd-scroll" key={`tema-${idDe(sel)}`}>
-        <img className="gd-deco" src={`${THEME}sello-monedas.png`} alt="" />
-        <div className="gd-body">
-          <div className="gd-text">
-            {main.map(([b, z], i) =>
-              b.type === "h" ? (
-                <Volteable key={i} as="h4" cara="gd-h" es={b.text} zh={z?.text} />
-              ) : b.type === "p" ? (
-                <Volteable key={i} cara="gd-intro" className={i === primerParrafo ? "gd-capitular" : ""} es={b.text} zh={z?.text} />
-              ) : b.type === "table" ? (
-                <Volteable key={i} cara="gd-table" es={<Tabla filas={b.rows} />} zh={z?.rows ? <Tabla filas={z.rows} /> : null} />
-              ) : (
-                <div key={i} className="gd-items">
-                  {b.items.map((p, k) => {
-                    const pz = z?.items?.[k];
-                    return (
-                      <Volteable
-                        key={k}
-                        cara="gd-point"
-                        es={
-                          <>
-                            <b>{p.term}</b>
-                            {p.def && <span>{p.def}</span>}
-                          </>
-                        }
-                        zh={
-                          pz ? (
-                            <>
-                              <b>{pz.term}</b>
-                              {pz.def && <span>{pz.def}</span>}
-                            </>
-                          ) : null
-                        }
-                      />
-                    );
-                  })}
-                </div>
-              ),
-            )}
-          </div>
-          {plaques.length > 0 && (
-            <div className="gd-plaques">
-              <span className="gd-plaques-tag">Escucha</span>
-              {plaques.slice(0, 5).map((w, i) => (
-                <button key={i} className="gd-plaque" onClick={() => speak(w)}>
-                  {w}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      {extras.length > 0 && (
-        <div className="gd-notes" key={`notas-${idDe(sel)}`}>
-          {extras.map(([b, z], i) => (
-            <div key={i} className={b.type === "error" ? "gd-error" : "gd-note"}>
-              <Volteable
-                as="b"
-                es={b.type === "error" ? "❌ Error común" : b.type === "tip" ? "💡 Consejo" : "📌 Nota importante"}
-                zh={b.type === "error" ? "❌ 常见错误" : b.type === "tip" ? "💡 小贴士" : "📌 重要提示"}
-              />
-              {b.lines.slice(0, 5).map((n, k) => (
-                <Volteable key={k} cara="gd-nota-linea" es={n} zh={z?.lines?.[k]} />
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
-      {(t.ejemplos || []).length > 0 && (
-        <div className="gd-examples" key={`ej-${idDe(sel)}`}>
-          {t.ejemplos.slice(0, 4).map((e, i) => (
-            <Volteable
-              key={i}
-              cara="gd-ex"
-              onToque={() => speak(e.espanol)}
-              es={
-                <>
-                  <Volume2Icon size={16} />
-                  <b>{e.espanol}</b>
-                </>
-              }
-              zh={
-                e.chino ? (
-                  <>
-                    <Volume2Icon size={16} />
-                    <b>{e.chino}</b>
-                  </>
-                ) : null
-              }
-            />
-          ))}
-        </div>
-      )}
-      {teoria.length > 1 && (
-        <div className="gd-list">
-          {teoria.map((x, i) => (
-            <button key={i} className={`gd-row ${i === sel ? "on" : ""}`} onClick={() => setSel(i)}>
-              <span className={`gd-tick ${seen.has(idDe(i)) ? "on" : ""}`}>{seen.has(idDe(i)) ? "✓" : i + 1}</span>
-              <span>
-                <b>{x.titulo}</b>
-              </span>
-              <ChevronDownIcon size={16} style={{ transform: "rotate(-90deg)" }} />
-            </button>
-          ))}
-        </div>
-      )}
-    </section>
-  );
-}
 
 // Producción de la unidad: redacción corregida como en el DELE y tarea oral con el examinador IA
 const PALABRAS = { A1: [30, 50], A2: [60, 80], B1: [100, 150], B2: [150, 180] };
@@ -336,89 +92,6 @@ function ProduccionUnidad({ mod, nivel }) {
 // Piezas 3D recortadas de las maquetas (public/theme)
 const THEME = `${import.meta.env.BASE_URL}theme/`;
 
-const contarEjercicios = (info) => Object.values(info?.ejercicios || {}).reduce((total, lista) => total + lista.length, 0);
-
-// Selector de clases: cada unidad se da en 2–3 clases de ~50 minutos
-function SelectorClases({ progreso, actual, onElegir }) {
-  const lista = React.useRef(null);
-  React.useEffect(() => {
-    // En móvil, la tarjeta de la clase abierta queda a la vista dentro del carril horizontal
-    const carril = lista.current;
-    const activa = carril?.querySelector(".cls-tarjeta.on");
-    if (carril && activa && carril.scrollWidth > carril.clientWidth) carril.scrollTo({ left: activa.offsetLeft - 16, behavior: "smooth" });
-  }, [actual]);
-  return (
-    <section className="cls-selector gm-no-adapt" id="u-clases" aria-label="Clases de la unidad">
-      <div className="cls-selector-cab">
-        <span className="cls-cinta">
-          Clases de la unidad
-        </span>
-        <small>
-          {progreso.completadas}/{progreso.total} hechas — cada clase ≈ 50 min
-        </small>
-      </div>
-      <div className="cls-tarjetas" role="tablist" ref={lista}>
-        {progreso.clases.map((clase) => {
-          const on = clase.n === actual;
-          return (
-            <button
-              key={clase.n}
-              type="button"
-              role="tab"
-              aria-selected={on}
-              className={`cls-tarjeta ${on ? "on" : ""} ${clase.completada ? "hecha" : ""}`}
-              onClick={() => onElegir(clase.n)}
-            >
-              <span className="cls-sello" translate="no">
-                <b>第{clase.n}课</b>
-              </span>
-              <span className="cls-tarjeta-txt">
-                <small>
-                  Clase {clase.n} · ~{clase.minutos || 50} min
-                </small>
-                <Volteable as="b" es={clase.titulo} zh={clase.tituloChino} />
-                <span className="cls-datos">
-                  <span>{clase.vocabulario.length} palabras</span>
-                  <span>{clase.dialogos.length} diálogos</span>
-                  <span>{contarEjercicios(clase)} ejercicios</span>
-                </span>
-                <span className="cls-cuentas" aria-label={`${clase.hechas} de 5 lecciones`}>
-                  {clase.lecciones.map((hecha, i) => (
-                    <i key={i} className={hecha || clase.completada ? "on" : ""} />
-                  ))}
-                  <em>{clase.completada ? "✓ Hecha" : clase.hechas ? `${clase.hechas}/5 lecciones` : "Nueva"}</em>
-                </span>
-              </span>
-              {on && <span className="cls-aqui">Estás aquí</span>}
-            </button>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-// Objetivo de la clase abierta, sobre pergamino con sello «目标»
-function ObjetivoClase({ info, total }) {
-  if (!info || info.todo) return null;
-  return (
-    <div className="cls-objetivo gm-no-adapt">
-      <span className="cls-objetivo-sello" translate="no">
-        目标
-      </span>
-      <div>
-        <small>
-          Objetivo de la clase {info.n} de {total}
-        </small>
-        <Volteable as="p" es={info.objetivo?.es} zh={info.objetivo?.zh} />
-      </div>
-      <span className="cls-objetivo-datos">
-        <b>~{info.minutos || 50}</b> min
-        <small>{info.teoria.length} {info.teoria.length === 1 ? "punto" : "puntos"} de gramática</small>
-      </span>
-    </div>
-  );
-}
 
 // Final de la clase: qué falta para terminarla y el paso siguiente (otra clase, examen de la unidad o la unidad siguiente)
 function FinDeClase({ numero, estado, siguiente, total, siguienteUnidad, onIrClase, onExamen }) {
@@ -502,18 +175,12 @@ function CelebrarClase({ estado, siguiente, onIrClase, onExamen, onCerrar }) {
   );
 }
 
-// Piezas que entran animadas al llegar a la pantalla (ver src/lib/aparicion.js y v19-unidad.css)
-const APARICION =
-  ".unit-hero, .cls-selector, .cls-tarjeta, .cls-objetivo, .unit-jump, .gd, .gd-row, .gd-h, .gd-intro, .gd-text, .gd-items > *, .gd-table, .gd-plaque, .gd-notes > *, .gd-ex, " +
-  ".unit-h2, .unit-lesson, .unit-dialog, .unit-ptype, .unit-practice-go, .unit-prod, .unit-game, .unit-word, .unit-more-card, .cls-fin";
 
 export default function UnitPage() {
   const { moduloId } = useParams();
   const [params, setParams] = useSearchParams();
   const numero = Number(String(moduloId).replace(/\D/g, ""));
   const meta = CATALOG.find((m) => m.numero === numero);
-  const refPagina = React.useRef(null);
-  useAparicion(refPagina, APARICION);
   const [modCompleto, setModCompleto] = React.useState(null);
   const [plusCompleto, setPlusCompleto] = React.useState(null);
   const [story, setStory] = React.useState(undefined);
@@ -523,6 +190,18 @@ export default function UnitPage() {
   const [dialog, setDialog] = React.useState(null);
   const [types, setTypes] = React.useState(PRACTICE_TYPES.map((tipo) => tipo.key));
   const [extra, setExtra] = React.useState(() => params.get("tab"));
+  // Pestaña abierta (Guía, Palabras, Lecciones…) y sentido del cambio, para la transición
+  const [pestana, setPestana] = React.useState(() => (params.get("tab") ? "examen" : PESTANAS.some((x) => x.id === params.get("ver")) ? params.get("ver") : "guia"));
+  const [sentido, setSentido] = React.useState(1);
+  const cambiarPestana = (id, desplazar = true) => {
+    setSentido(PESTANAS.findIndex((x) => x.id === id) >= PESTANAS.findIndex((x) => x.id === pestana) ? 1 : -1);
+    setPestana(id);
+    if (desplazar)
+      requestAnimationFrame(() => {
+        const barra = document.getElementById("u-pestanas");
+        if (barra && barra.getBoundingClientRect().top < 0) barra.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+  };
   const [celebrar, setCelebrar] = React.useState(null);
   const [, refrescar] = React.useReducer((x) => x + 1, 0);
   const game = useGame();
@@ -571,7 +250,6 @@ export default function UnitPage() {
   const siguienteClase = progreso.clases.find((c) => c.n === clase + 1) || null;
   const done = estado.lecciones;
   const nextIdx = done.findIndex((hecha) => !hecha);
-  const pct = progreso.pct;
   const prev = CATALOG.find((m) => m.numero === numero - 1);
   const next = CATALOG.find((m) => m.numero === numero + 1);
   const varias = clases.length > 1;
@@ -595,7 +273,7 @@ export default function UnitPage() {
   const abrirExamen = () => {
     setCelebrar(null);
     setExtra("examen");
-    requestAnimationFrame(() => document.getElementById("u-extra")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    cambiarPestana("examen");
   };
   const alCerrarLeccion = () => {
     setLesson(null);
@@ -615,97 +293,75 @@ export default function UnitPage() {
 
   return (
     <LightShell>
-      <div ref={refPagina} className="unit-page" data-nivel={meta.nivel}>
-        <Link to={`/ruta?nivel=${meta.nivel}`} className="unit-back">
-          <ArrowLeftIcon size={16} /> Ruta {meta.nivel}
+      <div className="unit-page ud" data-nivel={meta.nivel} style={{ "--c": c1, "--d": c2 }}>
+        <Link to={`/modulos`} className="ud-volver">
+          <ArrowLeftIcon size={16} /> Unidades {meta.nivel} · <span lang="zh">单元</span>
         </Link>
 
-        <section className="unit-hero imperial-frame unit-hero--v10" style={{ "--c": c1, "--d": c2, "--pct": pct }}>
-          <span className="uh-mapa" aria-hidden="true" />
-          <ParticulasNivel nivel={meta.nivel} />
-          {STOPS.find((x) => x.n === numero) && (
-            <span className="uh-parada">
-              📍 {STOPS.find((x) => x.n === numero).ciudad} · {STOPS.find((x) => x.n === numero).lugar}
-            </span>
-          )}
-          <span className="imperial-cloud c1" />
-          <span className="imperial-cloud c2" />
-          <span className="unit-seal">
-            第{numero}
-            <br />
-            单元
-          </span>
-          <div className="unit-hero-text">
-            <small>
-              {meta.nivel} · UNIDAD {numero}
-              {varias && (
-                <>
-                  {" "}
-                  · CLASE {clase}/{clases.length}
-                </>
-              )}
-            </small>
-            <Volteable as="h1" className="unit-titulo-vt" es={meta.titulo.split(" - ")[0]} zh={meta.tituloChino.split(" - ")[0]} />
-            {meta.titulo.split(" - ")[1] && <Volteable as="p" className="unit-sub-vt" es={meta.titulo.split(" - ")[1]} zh={meta.tituloChino.split(" - ")[1]} />}
-            <div className="unit-hero-progress">
-              <div className="lp-bar" style={{ background: "rgba(0,0,0,.2)" }}>
-                <i style={{ width: `${pct}%`, background: "linear-gradient(180deg,#fff,#e8e8e8)" }} />
-              </div>
-              <b>{pct}%</b>
-              {varias && (
-                <span className="cls-hero-cuenta">
-                  {progreso.completadas}/{progreso.total} clases
-                </span>
-              )}
-            </div>
-            <button className="btn3d unit-cta" style={{ "--c": "#fff", "--d": "rgba(0,0,0,.25)", color: c2 }} disabled={!cta.accion} onClick={cta.accion || undefined}>
-              <PlayIcon size={20} fill="currentColor" /> {cta.texto}
-            </button>
-          </div>
-          <div className="unit-hero-art">
-            <span className="uh-anillo" aria-hidden="true" />
-            <Moneda tamano={190} tono="oro" brillo>
-              <Emoji3D emoji={meta.icono} size={104} float />
-            </Moneda>
-            <b className="uh-pct">{pct}%</b>
-          </div>
-        </section>
-        <span className="unit-stamp" aria-hidden="true">
-          第<span className="tcy">{numero}</span>单元
-        </span>
+        <CabeceraUnidad meta={meta} parada={STOPS.find((x) => x.n === numero)} clase={clase} totalClases={clases.length} progreso={progreso} cta={cta} />
 
-        {varias && <SelectorClases progreso={progreso} actual={clase} onElegir={irAClase} />}
-        <ObjetivoClase info={info} total={clases.length} />
+        <MapaClases progreso={progreso} actual={clase} onElegir={irAClase} onExamen={abrirExamen} info={info} />
 
-        <nav className="unit-jump unit-jump--v11" aria-label="Secciones">
-          {[["guia", "💡 Guía"], ["lecciones", "🎯 Lecciones"], ...(conHistoria ? [["historia", "📖 Historia"]] : []), ["dialogos", "💬 Diálogos"], ["ejercicios", "💪 Ejercicios"], ["produccion", "✍️ Producción"], ["juegos", "🎮 Juegos"], ["palabras", "🔤 Palabras"], ...(varias ? [["fin-clase", "🏁 Fin de la clase"]] : [])].map(([id, label]) => (
-            <button key={id} onClick={() => document.getElementById(`u-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}>
-              {label}
+        <nav className="ud-pestanas gm-no-adapt" id="u-pestanas" role="tablist" aria-label="Secciones de la clase">
+          {PESTANAS.map((x) => (
+            <button key={x.id} type="button" role="tab" id={`tab-${x.id}`} aria-selected={pestana === x.id} aria-controls="u-panel" className={pestana === x.id ? "on" : ""} onClick={() => cambiarPestana(x.id, false)}>
+              <span className="ud-pestana-sello" translate="no" aria-hidden="true">
+                {x.sello}
+              </span>
+              <span className="ud-pestana-txt">
+                <b>{x.es}</b>
+                <small lang="zh">{x.zh}</small>
+              </span>
             </button>
           ))}
         </nav>
 
-        {mod && (mod.teoria || []).length > 0 && <GuideScroll key={`guia-${clase}`} teoria={mod.teoria} todas={modCompleto?.teoria || mod.teoria} numero={numero} />}
+        <div className="ud-panel gm-no-adapt" id="u-panel" role="tabpanel" aria-labelledby={`tab-${pestana}`} key={`${pestana}-${clase}`} style={{ "--sentido": sentido }}>
+        {pestana === "guia" &&
+          (mod ? (
+            (mod.teoria || []).length > 0 ? (
+              <FichaTeoria key={`guia-${clase}`} teoria={mod.teoria} todas={modCompleto?.teoria || mod.teoria} numero={numero} />
+            ) : (
+              <p className="ud-vacio">Esta clase no tiene teoría nueva · 本课没有新语法</p>
+            )
+          ) : (
+            <p className="ud-vacio">Cargando… · 加载中</p>
+          ))}
 
-        <h2 className="unit-h2" id="u-lecciones">
-          {varias ? `Lecciones de la clase ${clase}` : "Lecciones"}
-        </h2>
-        <div className="unit-lessons">
-          {LESSON_META.map((l, i) => {
-            const open = i === 0 || done[i - 1] || done[i];
-            return (
-              <button key={l.key} className={`unit-lesson ${done[i] ? "done" : ""} ${open ? "" : "locked"} ${i === nextIdx ? "current" : ""}`} style={{ "--c": c1, "--d": c2 }} disabled={!mod} onClick={() => start(i)}>
-                <span className="unit-lesson-icon disc">
-                  <img src={`${THEME}${done[i] ? "lazo-oro" : open ? "disco-jade" : "disco-cerrado"}.png`} alt="" />
-                  {done[i] && <CheckIcon className="disc-check" size={16} strokeWidth={4} />}
-                </span>
-                <b>{l.es}</b>
-                <em>{done[i] ? "Hecha ✓" : "+10 XP"}</em>
-              </button>
-            );
-          })}
-        </div>
+        {pestana === "palabras" && mod && <PalabrasUnidad vocabulario={mod.vocabulario || []} clase={clase} varias={varias} />}
 
+        {pestana === "lecciones" && (
+          <>
+            <h2 className="ud-seccion-tit">
+              {varias ? `Lecciones de la clase ${clase}` : "Lecciones"} · <span lang="zh">课</span>
+              <small>5 lecciones cortas: palabras, gramática y frases</small>
+            </h2>
+            <ol className="ud-lecciones">
+              {LESSON_META.map((l, i) => {
+                const open = i === 0 || done[i - 1] || done[i];
+                return (
+                  <li key={l.key} className={`ud-leccion ${done[i] ? "hecha" : ""} ${open ? "" : "cerrada"} ${i === nextIdx ? "actual" : ""}`}>
+                    <button type="button" disabled={!mod} onClick={() => start(i)}>
+                      <span className="ud-leccion-disco">
+                        <img src={`${THEME}${done[i] ? "lazo-oro" : open ? "disco-jade" : "disco-cerrado"}.png`} alt="" />
+                        {done[i] && <CheckIcon className="ud-leccion-check" size={18} strokeWidth={4} />}
+                        <i translate="no">{i + 1}</i>
+                      </span>
+                      <span className="ud-leccion-txt">
+                        <b>{l.es}</b>
+                        <small lang="zh">{l.zh}</small>
+                        <em>{done[i] ? "Hecha ✓" : i === nextIdx ? "¡Ahora! · +10 XP" : "+10 XP"}</em>
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </>
+        )}
+
+        {pestana === "dialogos" && (
+          <>
         {story && conHistoria && (
           <>
             <h2 className="unit-h2" id="u-historia">
@@ -757,7 +413,11 @@ export default function UnitPage() {
           </>
         )}
 
-        {mod && (
+          {!mod?.dialogos?.length && !(story && conHistoria) && <p className="ud-vacio">Esta clase no tiene diálogos · 本课没有对话</p>}
+          </>
+        )}
+
+        {pestana === "practica" && mod && (
           <>
             <h2 className="unit-h2" id="u-ejercicios">Ejercicios <small>(elige los tipos; cambian de orden en cada intento)</small></h2>
             <div className="unit-practice">
@@ -821,18 +481,15 @@ export default function UnitPage() {
               })}
             </div>
 
-            <h2 className="unit-h2" id="u-palabras">
-              {varias ? `Palabras de la clase ${clase}` : "Palabras"} <small>(toca para escuchar y ver el chino)</small>
-            </h2>
-            <div className="unit-words">
-              {(mod.vocabulario || []).slice(0, varias ? 40 : 24).map((v) => (
-                <WordCard key={v.id || v.espanol} v={v} color={c1} />
-              ))}
-            </div>
           </>
         )}
 
-        <h2 className="unit-h2" id="u-extra">Practica más</h2>
+        {pestana === "examen" && (
+          <>
+        <h2 className="ud-seccion-tit" id="u-extra">
+          Examen y lectura · <span lang="zh">考试</span>
+          <small>{varias ? "Examen corto de la clase o examen de toda la unidad" : "Examen del módulo, lectura y errores típicos"}</small>
+        </h2>
         <div className="unit-more">
           {[
             ["descubre", "📖", plus?.lectura ? "Lectura y cultura" : "Frases y errores típicos", plus?.lectura ? "阅读与文化" : "常用句与常见错误"],
@@ -853,6 +510,9 @@ export default function UnitPage() {
             </React.Suspense>
           </div>
         )}
+          </>
+        )}
+        </div>
 
         {varias && (
           <FinDeClase numero={numero} estado={estado} siguiente={siguienteClase} total={clases.length} siguienteUnidad={next} onIrClase={irAClase} onExamen={abrirExamen} />
