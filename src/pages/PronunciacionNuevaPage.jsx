@@ -22,7 +22,7 @@ import { LightShell } from "../components/layout/LightShell.jsx";
 import PracticePlayer from "../components/pron/PracticePlayer.jsx";
 import OndaViva, { useVoz, SelloEstampa } from "../components/pron/OndaViva.jsx";
 import { EscenaSala, FondoTemplo } from "../components/pron/Escenas.jsx";
-import { TemploSala, FondoImperial, DefsTemplos } from "../components/pron/Templos.jsx";
+import { TemploSala, FondoImperial } from "../components/pron/Templos.jsx";
 import { SALAS, salaDeFamilia, duracionVoz, reducido } from "../components/pron/salas.js";
 import { FAMILIAS, materialDe } from "../components/pron/datos.js";
 import { useFavorites } from "../lib/favorites.js";
@@ -307,7 +307,6 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
         </section>
       ) : (
         <div className="pv-recinto tq-recinto">
-          <DefsTemplos />
           {SALAS.map((s, k) => {
             const familias = lista.filter((f) => s.familias.includes(f.id));
             if (!familias.length) return null;
