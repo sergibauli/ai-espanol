@@ -679,7 +679,7 @@ svg .jh-p-resp { transform-box: fill-box; transform-origin: center; animation: j
 .jh .jh-card:hover .jh-p-rueda { animation-duration: 2.4s; }
 .jh-p-bombilla { animation: jh-parpadeo 1.5s ease-in-out infinite; animation-delay: var(--d); }
 .jh-p-estrella { animation: jh-parpadeo 2.6s ease-in-out infinite; animation-delay: var(--d); }
-.jh-p-linterna { animation: jh-balanceo 3.6s ease-in-out infinite; }
+.jh-p-linterna { animation: jh-balanceo 3.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
 .jh-p-letra { animation: jh-aparecer 3s ease-in-out infinite; animation-delay: var(--d); }
 .jh-p-trazo { animation: jh-subrayar 3.4s ease-in-out infinite; }
 .jh-p-trazo.is-b { animation-delay: 1.7s; }
@@ -713,6 +713,31 @@ svg .jh-p-resp { transform-box: fill-box; transform-origin: center; animation: j
 .jh-p-luz { opacity: 0.4; transition: opacity 0.8s ease; }
 .jh .jh-card:hover .jh-p-luz { opacity: 1; }
 .jh-p-llave { animation: jh-flotar-llave 3s ease-in-out infinite; }
+
+/* v3 · portadas ilustradas */
+.jh-p-rayos { animation: jh-girar 40s linear infinite; }
+.jh .jh-card:hover .jh-p-rayos { animation-duration: 12s; }
+.jh-p-foco.is-b { animation-delay: -2s; }
+.jh-p-latido { animation: jh-latido 2.2s ease-in-out infinite; }
+.jh-p-confeti { animation: jh-confeti 3.2s linear infinite; animation-delay: var(--d); }
+.jh-p-chispa { animation: jh-destello 2.4s ease-in-out infinite; animation-delay: var(--d); }
+.jh-p-ventana { animation: jh-parpadeo 3.5s ease-in-out infinite; animation-delay: var(--d); }
+.jh-p-brilla { animation: jh-brilla 2.6s ease-in-out infinite; animation-delay: var(--d); }
+.jh-p-interroga { animation: jh-ocultar 3s ease-in-out infinite; animation-delay: var(--d); }
+.jh-p-tinta { stroke-dashoffset: 320; animation: jh-tinta 4s ease-in-out infinite; }
+.jh-p-tinta.is-b { animation-delay: 2s; }
+.jh-p-enlace { animation: jh-hormiga 1s linear infinite; }
+.jh-p-flota { animation: jh-flotar-llave 3.4s ease-in-out infinite; }
+.jh-p-vuela { animation: jh-vuela 3.6s ease-in-out infinite; }
+.jh-p-nube { animation: jh-nube 9s ease-in-out infinite; }
+.jh-p-nube.is-b { animation-delay: -4s; }
+@keyframes jh-latido { 0%, 100% { transform: scale(0.9); opacity: 0.45; } 50% { transform: scale(1.08); opacity: 0.85; } }
+@keyframes jh-confeti { 0% { transform: translateY(0) rotate(0); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(200px) rotate(540deg); opacity: 0.8; } }
+@keyframes jh-brilla { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+@keyframes jh-ocultar { 0%, 20% { opacity: 1; } 35%, 85% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes jh-tinta { 0% { stroke-dashoffset: 320; opacity: 1; } 40%, 80% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes jh-vuela { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(-6px, -10px) rotate(-6deg); } }
+@keyframes jh-nube { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(16px); } }
 
 /* Pausa las escenas que no están en pantalla de una tarjeta mini */
 .jh .jh-poster.is-mini * { animation: none !important; }
