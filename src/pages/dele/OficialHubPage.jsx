@@ -35,7 +35,7 @@ const MODOS = [
 // Resultados guardados por el examen (oficial_res_<nivel>_<id> → { total }), sin cargar los modelos
 function leerProgreso() {
   const p = {};
-  for (const l of NIVELES) p[l.key] = { hechos: 0, suma: 0 };
+  for (const l of NIVELES) p[l.key] = { hechos: 0, suma: 0, ids: new Set() };
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const clave = localStorage.key(i) || "";
@@ -44,6 +44,7 @@ function leerProgreso() {
       const r = JSON.parse(localStorage.getItem(clave) || "null");
       if (!r) continue;
       p[m[1]].hechos += 1;
+      p[m[1]].ids.add(clave.slice(m[0].length));
       p[m[1]].suma += Number(r.total) || 0;
     }
   } catch {
@@ -52,17 +53,26 @@ function leerProgreso() {
   return p;
 }
 
+// Nivel recomendado: el más alto empezado y sin terminar (o A1 si aún no hay nada) y su primer modelo pendiente
+function siguientePaso(progreso) {
+  const empezados = NIVELES.filter((l) => progreso[l.key].hechos > 0 && progreso[l.key].hechos < 20 + NUEVOS[l.key].length);
+  const nivel = (empezados[empezados.length - 1] || NIVELES[0]).key;
+  let modelo = 1;
+  while (modelo < 20 && progreso[nivel].ids.has(String(modelo))) modelo++;
+  return { nivel, modelo, nuevo: !NIVELES.some((l) => progreso[l.key].hechos > 0) };
+}
+
 // Tejado de pabellón (tejas, aleros curvos y viga lacada) que corona cada puerta
-function Tejado() {
+function Tejado({ id }) {
   return (
     <svg className="dp-tejado" viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id="dpTeja" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={`dpTeja${id}`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="var(--teja2)" />
           <stop offset="1" stopColor="var(--teja1)" />
         </linearGradient>
       </defs>
-      <path d="M150 4 C110 6 60 16 30 30 C18 36 8 34 0 28 C6 42 18 48 34 46 L266 46 C282 48 294 42 300 28 C292 34 282 36 270 30 C240 16 190 6 150 4Z" fill="url(#dpTeja)" />
+      <path d="M150 4 C110 6 60 16 30 30 C18 36 8 34 0 28 C6 42 18 48 34 46 L266 46 C282 48 294 42 300 28 C292 34 282 36 270 30 C240 16 190 6 150 4Z" fill={`url(#dpTeja${id})`} />
       <path d="M30 30 C60 16 110 6 150 4 C190 6 240 16 270 30" fill="none" stroke="#f2c14e" strokeWidth="2.4" />
       {Array.from({ length: 13 }, (_, i) => (
         <line key={i} x1={54 + i * 16} y1={44} x2={60 + i * 15} y2={14 + Math.abs(6 - i) * 2.2} stroke="rgba(0,0,0,.22)" strokeWidth="2" />
@@ -81,6 +91,7 @@ function Dragon() {
   const base = import.meta.env.BASE_URL;
   return (
     <div className="dp-dragon" aria-hidden="true">
+      <span className="dp-sol" />
       <span className="dp-halo" />
       <img className="dp-dragon-img" src={`${base}theme/dragon.webp`} alt="" width="416" height="480" decoding="async" />
       <span className="dp-perla" />
@@ -101,6 +112,7 @@ export default function OficialHubPage() {
   const sumaTotal = NIVELES.reduce((a, l) => a + progreso[l.key].suma, 0);
   const mediaTotal = hechosTotal ? Math.round(sumaTotal / hechosTotal) : null;
   const base = import.meta.env.BASE_URL;
+  const paso = React.useMemo(() => siguientePaso(progreso), [progreso]);
 
   return (
     <LightShell>
@@ -110,13 +122,17 @@ export default function OficialHubPage() {
           <img className="dp-rodillo der" src={`${base}theme/rodillo.webp`} alt="" aria-hidden="true" />
           <div className="dp-lienzo">
             <span className="dp-nubes-fondo" aria-hidden="true" />
+            <span className="dp-marca" aria-hidden="true" translate="no">考</span>
             <Dragon />
             <div className="dp-cab-txt">
               <span className="dp-eyebrow">
                 <i translate="no">考</i> DELE · 官方真题
               </span>
-              <h1>Exámenes DELE oficiales</h1>
+              <h1>
+                <span>Exámenes DELE oficiales</span>
+              </h1>
               <p className="dp-zh" translate="no">西班牙语DELE官方真题 · 四个级别</p>
+              <div className="dp-fila">
               <ul className="dp-stats">
                 <li>
                   <b>{TOTAL}</b>
@@ -131,6 +147,17 @@ export default function OficialHubPage() {
                   <span>nota media · 平均分</span>
                 </li>
               </ul>
+              <Link to={`/oficial/${paso.nivel}/${paso.modelo}`} className="dp-paso">
+                <span className="dp-paso-sello" translate="no">步</span>
+                <span className="dp-paso-txt">
+                  <small>{paso.nuevo ? "Empieza aquí · 从这里开始" : "Tu siguiente paso · 下一步"}</small>
+                  <b>
+                    DELE {paso.nivel} · Modelo {paso.modelo} <span translate="no">· 第{paso.modelo}套</span>
+                  </b>
+                </span>
+                <ArrowRightIcon size={18} strokeWidth={2.8} />
+              </Link>
+              </div>
               <nav className="dp-acciones" aria-label="Accesos rápidos">
                 <Link to="/examenes/generador" className="dp-btn oro">
                   <ZapIcon size={17} strokeWidth={2.6} /> Examen rápido · 快速测试
@@ -159,11 +186,15 @@ export default function OficialHubPage() {
             const { hechos, suma } = progreso[l.key];
             const pct = Math.min(100, Math.round((hechos / total) * 100));
             const media = hechos ? Math.round(suma / hechos) : null;
+            const reco = l.key === paso.nivel;
             return (
-              <Link key={l.key} to={`/oficial/${l.key}`} className="dp-puerta" data-nivel={l.key} style={{ "--i": i }}>
-                <Tejado />
+              <Link key={l.key} to={`/oficial/${l.key}`} className={`dp-puerta${reco ? " reco" : ""}`} data-nivel={l.key} style={{ "--i": i }}>
+                <Tejado id={l.key} />
                 <span className="dp-farol izq" aria-hidden="true" />
                 <span className="dp-farol der" aria-hidden="true" />
+                <span className="dp-bian" aria-hidden="true" translate="no">
+                  {l.mundoZh}
+                </span>
                 <span className="dp-marco">
                   <span className="dp-ventana">
                     <Escena vista={l.vista} />
@@ -176,6 +207,11 @@ export default function OficialHubPage() {
                       </span>
                     )}
                   </span>
+                  {reco && (
+                    <span className="dp-reco" translate="no">
+                      推荐
+                    </span>
+                  )}
                   <span className="dp-medallon" style={{ "--p": pct }} aria-hidden="true">
                     <span className="dp-sello" translate="no">
                       <i>{l.sello}</i>
@@ -219,7 +255,7 @@ export default function OficialHubPage() {
                       })}
                     </span>
                     <span className="dp-cta">
-                      Entrar · 进入 <ArrowRightIcon size={15} strokeWidth={2.8} />
+                      {reco && !paso.nuevo ? `Continuar · 继续` : "Entrar · 进入"} <ArrowRightIcon size={15} strokeWidth={2.8} />
                     </span>
                   </span>
                 </span>
