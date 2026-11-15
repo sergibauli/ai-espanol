@@ -126,7 +126,7 @@ const LINTERNAS = [
 ];
 
 /* Cielo del amanecer con capas en parallax: rayos de sol, nubes de oro, niebla, linternas que suben y pájaros. */
-export function FondoCielo() {
+export const FondoCielo = React.memo(function FondoCielo() {
   const ref = React.useRef(null);
   React.useEffect(() => {
     const el = ref.current;
@@ -179,4 +179,4 @@ export function FondoCielo() {
       ))}
     </div>
   );
-}
+});

@@ -11,6 +11,7 @@ import CATALOG from "../../data/modulos/catalog.json";
 const levelOf = (n) => CATALOG.find((m) => m.numero === Number(n))?.nivel || "A1";
 import { CAST } from "./StoryPlayer.jsx";
 import { Pergamino, FondoCielo } from "./Pergamino.jsx";
+import "../../styles/v28-ejercicios.css";
 
 const TEACH = new Set(["learn", "tip", "dialog", "speak"]);
 const norm = (s) =>
@@ -477,7 +478,10 @@ export function LessonPlayer({ lesson, onClose }) {
     const y = window.scrollY;
     window.scrollTo(0, 0);
     document.body.style.overflow = "hidden";
+    // Mientras la lección está abierta, la página de debajo deja de pintarse y de animarse (era la causa principal del lag)
+    document.documentElement.classList.add("lp-abierta");
     return () => {
+      document.documentElement.classList.remove("lp-abierta");
       document.body.style.overflow = "";
       window.scrollTo(0, y);
       speechSynthesis?.cancel?.();

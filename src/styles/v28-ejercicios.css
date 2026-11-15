@@ -1,0 +1,11 @@
+/* ===== v28 · Ejercicios (LessonPlayer): rendimiento =====
+   Medido con Playwright: con la lección abierta, la página de debajo (unidad/ruta, su fondo v18 y el Rey Mono flotante)
+   seguía animándose y el menú lateral recalculaba su backdrop-filter en cada fotograma. Se dejan de pintar mientras
+   `html.lp-abierta` (lo pone LessonPlayer). El menú lateral sigue visible en escritorio. */
+html.lp-abierta .app-pantalla { content-visibility: hidden; }
+html.lp-abierta :is(.v18-fondo, .mf) { display: none !important; }
+html.lp-abierta .light-page::before { animation: none; }
+html.lp-abierta .side-nav { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+html.lp-abierta .side-nav *, html.lp-abierta .side-nav *::before, html.lp-abierta .side-nav *::after { animation-play-state: paused !important; }
+/* Rayos del cielo: una capa de 190vmax girando obligaba a recomponer media pantalla en cada fotograma. Quietos se ven igual. */
+.fc-rayos { animation: none !important; }
