@@ -15,6 +15,11 @@ export const MUNDOS = {
   B2: { es: "Ciudad Prohibida", zh: "紫禁之巅", sello: "龙", mono: "poder" },
 };
 const MONO = (pose) => `${import.meta.env.BASE_URL}mono/${pose}.png`;
+const TEMA = (f) => `${import.meta.env.BASE_URL}theme/${f}`;
+// Esquinas doradas recortadas de las maquetas
+export function Esquinas() {
+  return ["si", "sd", "ii", "id"].map((k) => <img key={k} className={`ud-esq ${k}`} src={TEMA("barra-esquina.png")} alt="" aria-hidden="true" />);
+}
 
 function Anillo({ pct, children }) {
   const r = 86;
@@ -40,10 +45,16 @@ export function CabeceraUnidad({ meta, parada, clase, totalClases, progreso, cta
       <div className="ud-hero-escena" aria-hidden="true">
         <Escena />
       </div>
+      <span className="ud-hero-rayos" aria-hidden="true" />
+      <img className="ud-hero-montes" src={TEMA("montes-tinta.webp")} alt="" aria-hidden="true" />
+      {[1, 2, 3].map((n) => (
+        <img key={n} className={`ud-nube n${n}`} src={TEMA("nube-oro.png")} alt="" aria-hidden="true" />
+      ))}
       <ParticulasNivel nivel={meta.nivel} />
       <img className="ud-hero-mono" src={MONO(mundo.mono)} alt="" onError={(e) => (e.currentTarget.style.display = "none")} />
 
       <div className="ud-hero-placa">
+        <Esquinas />
         <div className="ud-hero-chips">
           <span className="ud-chip nivel" translate="no">
             {meta.nivel}
@@ -83,6 +94,8 @@ export function CabeceraUnidad({ meta, parada, clase, totalClases, progreso, cta
       </div>
 
       <div className="ud-hero-medalla">
+        <span className="ud-halo" aria-hidden="true" />
+        <img className="ud-dragon" src={TEMA("dragon-luz.webp")} alt="" aria-hidden="true" />
         <Anillo pct={progreso.pct}>
           <span className="ud-moneda">
             <Emoji3D emoji={meta.icono} size={84} float />
@@ -106,6 +119,7 @@ export function MapaClases({ progreso, actual, onElegir, onExamen, info }) {
   const examenAbierto = progreso.completadas >= progreso.total;
   return (
     <section className="ud-mapa gm-no-adapt" id="u-clases" aria-label="Mapa de la unidad">
+      <img className="ud-mapa-montes" src={TEMA("montes-tinta.webp")} alt="" aria-hidden="true" />
       <header className="ud-mapa-cab">
         <h2>
           {varias ? "Mapa de la unidad" : "Tu clase"} · <span lang="zh">单元地图</span>
@@ -137,7 +151,12 @@ export function MapaClases({ progreso, actual, onElegir, onExamen, info }) {
                     ))}
                   </span>
                 </span>
-                {on && <span className="ud-aqui">Estás aquí</span>}
+                {on && (
+                  <span className="ud-aqui">
+                    <img src={MONO("feliz")} alt="" onError={(e) => (e.currentTarget.style.display = "none")} />
+                    <em>Estás aquí</em>
+                  </span>
+                )}
               </button>
             </li>
           );

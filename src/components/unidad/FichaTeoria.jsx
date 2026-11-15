@@ -6,6 +6,7 @@ import { Volume2Icon, ChevronLeftIcon, ChevronRightIcon, CheckIcon } from "lucid
 import { Volteable, AvisoVolteo } from "../ui/Volteable.jsx";
 import { speak } from "../lesson/fx.js";
 import { analizarTeoria, emparejar, terminosAudibles } from "./teoria.js";
+import { Esquinas } from "./CabeceraUnidad.jsx";
 
 const NUM_ZH = ["壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾"];
 
@@ -208,6 +209,13 @@ export function FichaTeoria({ teoria, todas = teoria, numero }) {
 
       <article className="ud-ficha" id="ud-ficha" key={`ficha-${idDe(sel)}`} style={{ "--dir": dir }}>
         <span className="ud-rodillo arriba" aria-hidden="true" />
+        <Esquinas />
+        <span className="ud-ficha-marca" aria-hidden="true" translate="no">
+          {NUM_ZH[sel] || sel + 1}
+        </span>
+        <span className="ud-ficha-cinta" aria-hidden="true" translate="no">
+          {t.tituloChino}
+        </span>
         <header className="ud-ficha-cab">
           <span className="ud-ficha-num" translate="no" aria-hidden="true">
             {NUM_ZH[sel] || sel + 1}

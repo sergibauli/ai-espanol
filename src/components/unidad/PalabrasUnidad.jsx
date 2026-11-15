@@ -18,7 +18,24 @@ function Tarjeta({ v, i, repaso }) {
   const emoji = emojiDe(v.espanol);
   const tapado = repaso && !visto;
   return (
-    <div className={`ud-palabra ${tapado ? "tapada" : ""}`} style={{ "--i": i }}>
+    <div
+      className={`ud-palabra ${tapado ? "tapada" : ""}`}
+      style={{ "--i": i }}
+      onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return;
+        const r = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty("--rx", `${((e.clientY - r.top) / r.height - 0.5) * -10}deg`);
+        e.currentTarget.style.setProperty("--ry", `${((e.clientX - r.left) / r.width - 0.5) * 12}deg`);
+        e.currentTarget.style.setProperty("--gx", `${((e.clientX - r.left) / r.width) * 100}%`);
+      }}
+      onPointerLeave={(e) => {
+        e.currentTarget.style.removeProperty("--rx");
+        e.currentTarget.style.removeProperty("--ry");
+      }}
+    >
+      <span className="ud-palabra-sello" aria-hidden="true" translate="no">
+        {String(i + 1).padStart(2, "0")}
+      </span>
       <button
         type="button"
         className="ud-palabra-main"

@@ -1,5 +1,6 @@
 import "../styles/v19-unidad.css";
 import "../styles/v23-unidad.css";
+import "../styles/v24-unidad-espectacular.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
@@ -336,7 +337,7 @@ export default function UnitPage() {
               {varias ? `Lecciones de la clase ${clase}` : "Lecciones"} · <span lang="zh">课</span>
               <small>5 lecciones cortas: palabras, gramática y frases</small>
             </h2>
-            <ol className="ud-lecciones">
+            <ol className="ud-lecciones" style={{ "--paisaje": `url(${THEME}paisaje-leccion.webp)` }}>
               {LESSON_META.map((l, i) => {
                 const open = i === 0 || done[i - 1] || done[i];
                 return (
