@@ -320,3 +320,78 @@
   .dx-lamina::after, .dx-reflejo { display: none; }
   .dx-hero .dn-particulas { display: none; }
 }
+
+/* v2.1 · Móvil más compacto: controles de 30–36 px, tarjetas más finas */
+@media (max-width: 640px) {
+  .dx-hero { padding: 10px 10px 10px; gap: 8px; }
+  .dx-esquina { width: 30px; height: 30px; }
+  .dx-rodillo { width: 11px; margin: -6px 0; }
+  .dx-placa { padding: 10px 12px; }
+  .dx-volver { padding: 2px 9px 2px 6px; font-size: 11px; }
+  .dx-volver svg { width: 13px; height: 13px; }
+  .dx-mundo { font-size: 9.5px; }
+  .dx-titular { gap: 10px; margin-top: 6px; }
+  .dx-sello { width: 42px; height: 42px; border-radius: 9px; }
+  .dx-sello span { font-size: 26px; }
+  .dx-titulo { font-size: 26px; }
+  .dx-nombre { margin-top: 4px; padding: 2px 9px; font-size: 10px; }
+  .dx-partes { gap: 4px; margin-top: 7px; }
+  .dx-parte { padding: 2px 7px; font-size: 11px; gap: 4px; border-radius: 6px; }
+  .dx-parte svg { width: 12px; height: 12px; }
+  .dx-lateral { flex-direction: row; gap: 6px; }
+  .dx-niveles { flex: 1; padding: 3px; gap: 2px; border-radius: 11px; }
+  .dx-nivel { padding: 4px 0; border-radius: 8px; gap: 4px; }
+  .dx-nivel-sello { display: none; }
+  .dx-nivel b { font-size: 13px; }
+  .dx-progreso { flex: none; padding: 3px 8px 3px 3px; border-radius: 11px; }
+  .dx-anillo { width: 32px; height: 32px; } .dx-anillo b { width: 25px; height: 25px; font-size: 9.5px; }
+  .dx-cifras { display: flex; gap: 0; }
+  .dx-cifras div:not(:first-child) { display: none; }
+  .dx-cifras dt { font-size: 8.5px; }
+  .dx-cifras dd { font-size: 13px; }
+  .dx-cifras dd small { font-size: 10px; }
+
+  .dx-barra { gap: 6px; margin: 10px 0 12px; padding: 5px; border-radius: 14px; }
+  .dx-buscar { height: 34px; padding: 0 10px; border-radius: 10px; }
+  .dx-buscar svg { width: 15px; height: 15px; }
+  .dx-buscar input { font-size: 14px; }
+  .dx-filtros { gap: 4px; }
+  .dx-filtro { height: 28px; padding: 0 9px; font-size: 12px; gap: 4px; }
+  .dx-filtro small { min-width: 18px; padding: 0 5px; font-size: 10.5px; }
+  .dx-sorpresa { width: 32px; height: 28px; border-radius: 9px; }
+  .dx-sorpresa svg { width: 15px; height: 15px; }
+
+  .dx-lista { gap: 12px; }
+  .dx-carta { border-radius: 16px; }
+  .dx-lamina { height: 104px; }
+  .dx-num { left: 12px; top: 9px; }
+  .dx-num small { font-size: 9.5px; }
+  .dx-num b { font-size: 38px; }
+  .dx-emblema { width: 66px; height: 66px; margin-top: -33px; right: 12px; }
+  .dx-emblema svg { width: 44px; height: 44px; }
+  .dx-estado.hecho { width: 44px; height: 48px; left: 70px; bottom: auto; top: 12px; }
+  .dx-estado.hecho i { font-size: 19px; }
+  .dx-estado.hecho b { font-size: 11px; }
+  .dx-cuerpo { padding: 9px 12px 11px; gap: 2px; }
+  .dx-amb { font-size: 9.5px; padding: 1px 7px; }
+  .dx-tit { margin-top: 4px; font-size: 16.5px; }
+  .dx-tit-zh { font-size: 14.5px; }
+  .dx-tema { font-size: 11.5px; }
+  .dx-barras { margin-top: 5px; }
+  .dx-pie { padding-top: 8px; }
+  .dx-meta span { font-size: 11px; padding: 1px 6px; }
+  .dx-ir { padding: 5px 11px; font-size: 12.5px; border-radius: 8px; }
+  .dx-ir svg { width: 13px; height: 13px; }
+
+  .dx-carta.grande .dx-lamina { height: 136px; }
+  .dx-carta.grande .dx-num b { font-size: 44px; }
+  .dx-carta.grande .dx-emblema { width: 78px; height: 78px; margin-top: -39px; }
+  .dx-carta.grande .dx-emblema svg { width: 52px; height: 52px; }
+  .dx-carta.grande .dx-cuerpo { padding: 10px 12px 12px; }
+  .dx-carta.grande .dx-tit { font-size: 19px; }
+  .dx-carta.grande .dx-tit-zh { font-size: 16px; }
+  .dx-carta.grande .dx-pie { margin-top: 8px; }
+  .dx-carta.grande .dx-ir { padding: 7px 14px; font-size: 13.5px; }
+  .dx-mono { height: 104px; right: 92px; bottom: -10px; }
+  .dx-tetoca { left: 12px; bottom: 10px; padding: 4px 10px; font-size: 12.5px; }
+}
