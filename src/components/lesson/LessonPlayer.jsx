@@ -9,8 +9,9 @@ import { recordAnswer } from "../../lib/progresoDele.js";
 import CATALOG from "../../data/modulos/catalog.json";
 
 const levelOf = (n) => CATALOG.find((m) => m.numero === Number(n))?.nivel || "A1";
-import { CAST } from "./StoryPlayer.jsx";
 import { Pergamino, FondoCielo } from "./Pergamino.jsx";
+import "../../styles/v28-ejercicios.css";
+import { IconoTipo, IcoBorrar, IcoRacha, TrazoBien, TrazoMal } from "./IconosEjercicio.jsx";
 
 const TEACH = new Set(["learn", "tip", "dialog", "speak"]);
 const norm = (s) =>
@@ -98,7 +99,7 @@ function Learn({ step, level, onNext }) {
   React.useEffect(() => () => clearTimeout(avance.current), []);
   return (
     <div className="lp-center">
-      <div className="lp-eyebrow">Palabra nueva · 新词</div>
+      <Cabecera tipo="learn" es="Palabra nueva" zh="新词" />
       <Pergamino className="lp-rollo">
         <Emoji3D emoji={step.emoji} size={96} float />
         <div className="lp-word">{step.es}</div>
@@ -120,7 +121,7 @@ function Hablar({ step, level, onNext }) {
   React.useEffect(() => () => clearTimeout(avance.current), []);
   return (
     <div className="lp-center">
-      <div className="lp-eyebrow">🎙️ Di en voz alta · 读出来</div>
+      <Cabecera tipo="speak" es="Di en voz alta" zh="读出来" />
       <Pergamino className="lp-rollo">
         {step.emoji && <Emoji3D emoji={step.emoji} size={80} float />}
         <div className="lp-word">{step.es}</div>
@@ -138,7 +139,7 @@ function Hablar({ step, level, onNext }) {
 function Tip({ step, level }) {
   return (
     <div className="lp-tip">
-      <div className="lp-eyebrow">💡 Idea clave · 要点</div>
+      <Cabecera tipo="tip" es="Idea clave" zh="要点" />
       <h2 className="lp-title">{step.title}</h2>
       {step.titleZh && <div className="lp-zh">{step.titleZh}</div>}
       <div className="lp-points">
@@ -207,6 +208,44 @@ function Dialog({ step, level, emoji }) {
   );
 }
 
+// Cabecera de cada juego: icono propio del tipo + nombre en español y chino
+function Cabecera({ tipo, es, zh }) {
+  return (
+    <div className="ej-cabecera">
+      <span className="ej-cabecera__ico">
+        <IconoTipo tipo={tipo} size={34} />
+      </span>
+      <span className="ej-cabecera__txt">
+        <b>{es}</b>
+        <span lang="zh">{zh}</span>
+      </span>
+    </div>
+  );
+}
+
+// Enunciado en una tablilla con marco de oro
+function Enunciado({ texto, zh, children }) {
+  return (
+    <div className="ej-enunciado">
+      <h2 className="ej-enunciado__es">{texto}</h2>
+      {zh && <div className="ej-enunciado__zh">{zh}</div>}
+      {children}
+    </div>
+  );
+}
+
+// Clase de estado común de cada opción (elegida / correcta / incorrecta tras comprobar)
+const estado = (locked, value, i, answer) => `${value === i ? "is-elegida" : ""} ${locked && i === answer ? "is-bien" : ""} ${locked && value === i && i !== answer ? "is-mal" : ""}`;
+
+function MarcaEstado() {
+  return (
+    <span className="ej-marca" aria-hidden="true">
+      <span className="ej-marca__bien"><TrazoBien size={22} /></span>
+      <span className="ej-marca__mal"><TrazoMal size={20} /></span>
+    </span>
+  );
+}
+
 function Choice({ step, value, onChange, locked }) {
   React.useEffect(() => {
     if (step.type === "listen" || step.speak) {
@@ -214,29 +253,45 @@ function Choice({ step, value, onChange, locked }) {
       return () => clearTimeout(t);
     }
   }, [step]);
+  const escucha = step.type === "listen";
   return (
-    <div>
-      <div className="lp-eyebrow">{step.type === "listen" ? "🎧 Escucha · 听" : "Elige la respuesta · 选择"}</div>
-      <h2 className="lp-title">{step.prompt}</h2>
-      {step.promptZh && <div className="lp-zh">{step.promptZh}</div>}
-      {step.speak && (
-        <div style={{ margin: "14px 0" }}>
-          <SpeakButtons text={step.speak} big={step.type === "listen"} />
+    <div className={`ej ej--${escucha ? "listen" : "choice"}`}>
+      <Cabecera tipo={escucha ? "listen" : "choice"} es={escucha ? "Escucha y elige" : "Elige la respuesta"} zh={escucha ? "听音选择" : "选择正确答案"} />
+      {escucha ? (
+        <div className="ej-gong">
+          <button className="ej-gong__btn" onClick={() => speak(step.speak)} aria-label="Escuchar · 听">
+            <span className="ej-gong__ondas" aria-hidden="true" />
+            <Volume2Icon size={40} />
+          </button>
+          <button className="ej-gong__lento" onClick={() => speak(step.speak, 0.55)} aria-label="Escuchar despacio · 慢速">
+            <SnailIcon size={20} />
+            <span>Despacio · 慢速</span>
+          </button>
         </div>
+      ) : (
+        <Enunciado texto={step.prompt} zh={step.promptZh}>
+          {step.speak && (
+            <button className="ej-oir" onClick={() => speak(step.speak)} aria-label="Escuchar · 听">
+              <Volume2Icon size={18} />
+            </button>
+          )}
+        </Enunciado>
       )}
-      <div className="lp-options">
+      <div className="ej-opciones">
         {step.options.map((o, i) => (
           <button
             key={i}
             disabled={locked}
-            className={`lp-option ${value === i ? "picked" : ""} ${locked && i === step.answer ? "right" : ""} ${locked && value === i && i !== step.answer ? "wrong" : ""}`}
+            style={{ "--i": i }}
+            className={`ej-opcion ${estado(locked, value, i, step.answer)}`}
             onClick={() => {
               sfx("tap");
               onChange(i);
             }}
           >
-            <span className="lp-key">{i + 1}</span>
-            {o}
+            <span className="ej-moneda">{i + 1}</span>
+            <span className="ej-opcion__txt">{o}</span>
+            <MarcaEstado />
           </button>
         ))}
       </div>
@@ -246,23 +301,24 @@ function Choice({ step, value, onChange, locked }) {
 
 function TrueFalse({ step, value, onChange, locked }) {
   return (
-    <div>
-      <div className="lp-eyebrow">¿Verdadero o falso? · 对还是错？</div>
-      <h2 className="lp-title">{step.prompt}</h2>
-      {step.promptZh && <div className="lp-zh">{step.promptZh}</div>}
-      <div className="lp-options two">
+    <div className="ej ej--tf">
+      <Cabecera tipo="tf" es="¿Verdadero o falso?" zh="对还是错？" />
+      <Enunciado texto={step.prompt} zh={step.promptZh} />
+      <div className="ej-sellos">
         {[true, false].map((v) => (
           <button
             key={String(v)}
             disabled={locked}
-            className={`lp-option big ${value === v ? "picked" : ""} ${locked && v === step.answer ? "right" : ""} ${locked && value === v && v !== step.answer ? "wrong" : ""}`}
+            className={`ej-sello-btn ${v ? "es-verdad" : "es-falso"} ${estado(locked, value, v, step.answer)}`}
             onClick={() => {
               sfx("tap");
               onChange(v);
             }}
           >
-            <Emoji3D emoji={v ? "✅" : "❌"} size={40} />
-            {v ? "Verdadero · 对" : "Falso · 错"}
+            <span className="ej-sello-btn__disco">{v ? <TrazoBien size={46} /> : <TrazoMal size={42} />}</span>
+            <span className="ej-sello-btn__es">{v ? "Verdadero" : "Falso"}</span>
+            <span className="ej-sello-btn__zh" lang="zh">{v ? "对" : "错"}</span>
+            <MarcaEstado />
           </button>
         ))}
       </div>
@@ -270,18 +326,20 @@ function TrueFalse({ step, value, onChange, locked }) {
   );
 }
 
-function Character({ who, text, speakText }) {
-  const c = CAST[who] || CAST.lucia;
+// Quien pregunta: el Rey Mono en un medallón, con bocadillo de pergamino (nada de avatares tipo emoji)
+function Character({ text, speakText }) {
   return (
-    <div className="lp-char">
-      <Emoji3D emoji={c.emoji} size={86} float />
-      <div className="lp-char-bubble">
+    <div className="ej-mono">
+      <span className="ej-mono__medallon" aria-hidden="true">
+        <img src="./mono/serio.png" alt="" />
+      </span>
+      <div className="ej-mono__bocadillo">
         {speakText && (
-          <button className="lp-speak" style={{ width: 36, height: 36, borderRadius: 11 }} onClick={() => speak(speakText)} aria-label="Escuchar">
+          <button className="ej-oir" onClick={() => speak(speakText)} aria-label="Escuchar">
             <Volume2Icon size={16} />
           </button>
         )}
-        {text}
+        <span>{text}</span>
       </div>
     </div>
   );
@@ -289,29 +347,30 @@ function Character({ who, text, speakText }) {
 
 function Pictures({ step, value, onChange, locked }) {
   return (
-    <div>
-      <div className="lp-eyebrow">✨ Palabra nueva · 新词</div>
-      <h2 className="lp-title">{step.prompt}</h2>
-      <div className="lp-zh">{step.promptZh}</div>
-      <div className="lp-pics">
+    <div className="ej ej--pictures">
+      <Cabecera tipo="pictures" es="¿Cuál es?" zh="选出图片" />
+      <Enunciado texto={step.prompt} zh={step.promptZh} />
+      <div className="ej-cartas">
         {step.options.map((o, i) => (
           <button
             key={i}
             disabled={locked}
-            className={`lp-pic ${value === i ? "picked" : ""} ${locked && i === step.answer ? "right" : ""} ${locked && value === i && i !== step.answer ? "wrong" : ""}`}
+            style={{ "--i": i }}
+            className={`ej-carta ${estado(locked, value, i, step.answer)}`}
             onClick={() => {
               sfx("tap");
               speak(o, 1);
               onChange(i);
             }}
           >
-            <span className="art">
-              <Emoji3D emoji={step.pics[i]} size={84} />
+            <span className="ej-carta__arte">
+              <Emoji3D emoji={step.pics[i]} size={72} />
             </span>
-            <span className="cap">
+            <span className="ej-carta__pie">
+              <span className="ej-moneda">{i + 1}</span>
               {o}
-              <span className="lp-key">{i + 1}</span>
             </span>
+            <MarcaEstado />
           </button>
         ))}
       </div>
@@ -322,21 +381,23 @@ function Pictures({ step, value, onChange, locked }) {
 function Build({ step, value = [], onChange, locked }) {
   const used = new Set(value);
   return (
-    <div>
-      <h2 className="lp-title">Traduce esta frase · 翻译</h2>
-      <Character who={step.character} text={step.prompt} />
-      <div className="lp-answer-line">
+    <div className="ej ej--build">
+      <Cabecera tipo="build" es="Ordena la frase" zh="排列句子" />
+      <Character text={step.prompt} />
+      <div className={`ej-tablero ${value.length ? "" : "is-vacio"}`}>
+        {value.length === 0 && <span className="ej-tablero__pista">Toca las fichas en orden · 按顺序点击</span>}
         {value.map((ti) => (
-          <button key={ti} className="lp-tile" disabled={locked} onClick={() => onChange(value.filter((x) => x !== ti))}>
+          <button key={ti} className="ej-ficha is-puesta" disabled={locked} onClick={() => onChange(value.filter((x) => x !== ti))}>
             {step.tiles[ti]}
           </button>
         ))}
       </div>
-      <div className="lp-tiles">
+      <div className="ej-fichas">
         {step.tiles.map((t, i) => (
           <button
             key={i}
-            className={`lp-tile ${used.has(i) ? "ghost" : ""}`}
+            style={{ "--i": i }}
+            className={`ej-ficha ${used.has(i) ? "is-hueco" : ""}`}
             disabled={locked || used.has(i)}
             onClick={() => {
               sfx("tap");
@@ -354,38 +415,40 @@ function Build({ step, value = [], onChange, locked }) {
 
 function TypeIt({ step, value = "", onChange, locked, onEnter }) {
   return (
-    <div>
-      <h2 className="lp-title">Escribe en español · 用西语写</h2>
-      {step.character ? <Character who={step.character} text={step.prompt} /> : <div className="lp-title" style={{ fontSize: 19 }}>{step.prompt}</div>}
-      {step.promptZh && <div className="lp-zh">{step.promptZh}</div>}
-      <input
-        className="lp-input"
-        autoFocus
-        value={value}
-        disabled={locked}
-        placeholder={step.hint || "Escribe aquí · 在这里输入"}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && onEnter()}
-        autoCapitalize="off"
-        autoComplete="off"
-        spellCheck={false}
-      />
-      <div className="lp-kbd" aria-label="Teclado español">
+    <div className="ej ej--type">
+      <Cabecera tipo="type" es="Escribe en español" zh="用西语写" />
+      {step.character ? <Character text={step.prompt} /> : <Enunciado texto={step.prompt} />}
+      {step.promptZh && <div className="ej-enunciado__zh ej-suelto">{step.promptZh}</div>}
+      <div className="ej-escribir">
+        <input
+          className="ej-input"
+          autoFocus
+          value={value}
+          disabled={locked}
+          placeholder={step.hint || "Escribe aquí · 在这里输入"}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && onEnter()}
+          autoCapitalize="off"
+          autoComplete="off"
+          spellCheck={false}
+        />
+      </div>
+      <div className="ej-teclado" aria-label="Teclado español">
         {["áéíóúüñ¿¡", "qwertyuiop", "asdfghjklñ", "zxcvbnm"].map((row) => (
-          <div key={row} className="lp-kbd-row">
+          <div key={row} className="ej-teclado__fila">
             {[...new Set(row)].map((c) => (
-              <button key={c} className={`lp-key-btn ${"áéíóúüñ¿¡".includes(c) ? "acc" : ""}`} disabled={locked} onClick={() => onChange(value + c)}>
+              <button key={c} className={`ej-tecla ${"áéíóúüñ¿¡".includes(c) ? "es-especial" : ""}`} disabled={locked} onClick={() => onChange(value + c)}>
                 {c}
               </button>
             ))}
           </div>
         ))}
-        <div className="lp-kbd-row">
-          <button className="lp-key-btn wide" disabled={locked} onClick={() => onChange(value + " ")}>
+        <div className="ej-teclado__fila">
+          <button className="ej-tecla es-ancha" disabled={locked} onClick={() => onChange(value + " ")}>
             espacio · 空格
           </button>
-          <button className="lp-key-btn" disabled={locked} onClick={() => onChange(value.slice(0, -1))} aria-label="Borrar">
-            ⌫
+          <button className="ej-tecla es-borrar" disabled={locked} onClick={() => onChange(value.slice(0, -1))} aria-label="Borrar · 删除">
+            <IcoBorrar size={22} />
           </button>
         </div>
       </div>
@@ -408,7 +471,7 @@ function Match({ step, onDone }) {
       const next = [...done, item.i];
       setDone(next);
       setSel(null);
-      if (next.length === step.pairs.length) setTimeout(onDone, 350);
+      if (next.length === step.pairs.length) setTimeout(onDone, 650);
     } else {
       sfx("bad");
       setBad([sel.i, item.i, side]);
@@ -417,28 +480,59 @@ function Match({ step, onDone }) {
     }
   };
   const cls = (side, item) =>
-    `lp-option ${done.includes(item.i) ? "matched" : ""} ${sel && sel.side === side && sel.i === item.i ? "picked" : ""} ${bad && ((side === bad[2] && bad[1] === item.i) || (side !== bad[2] && bad[0] === item.i)) ? "wrong shake" : ""}`;
+    `ej-ficha ej-ficha--par ${done.includes(item.i) ? "is-pareja" : ""} ${sel && sel.side === side && sel.i === item.i ? "is-elegida" : ""} ${bad && ((side === bad[2] && bad[1] === item.i) || (side !== bad[2] && bad[0] === item.i)) ? "is-mal ej-tiembla" : ""}`;
   return (
-    <div>
-      <div className="lp-eyebrow">Toca las parejas · 点击配对</div>
-      <h2 className="lp-title">{step.prompt}</h2>
-      <div className="lp-match">
-        <div className="lp-options">
+    <div className="ej ej--match">
+      <Cabecera tipo="match" es="Une las parejas" zh="连线配对" />
+      <div className="ej-parejas-cuenta" aria-live="polite">
+        {step.pairs.map((_, k) => (
+          <i key={k} className={k < done.length ? "is-hecha" : ""} />
+        ))}
+        <span>
+          {done.length}/{step.pairs.length}
+        </span>
+      </div>
+      <div className="ej-parejas">
+        <div className="ej-parejas__col">
           {left.map((x) => (
-            <button key={x.i} className={cls("a", x)} onClick={() => pick("a", x)}>
+            <button key={x.i} style={{ "--i": x.i }} className={cls("a", x)} onClick={() => pick("a", x)}>
               {x.t}
             </button>
           ))}
         </div>
-        <div className="lp-options">
+        <div className="ej-parejas__col">
           {right.map((x) => (
-            <button key={x.i} className={cls("b", x)} onClick={() => pick("b", x)}>
+            <button key={x.i} style={{ "--i": x.i }} className={cls("b", x)} onClick={() => pick("b", x)} lang="zh">
               {x.t}
             </button>
           ))}
         </div>
       </div>
     </div>
+  );
+}
+
+// Sello que cae sobre el pergamino al comprobar, con destello dorado (acierto) o salpicadura de tinta (fallo)
+function SelloResultado({ ok }) {
+  return (
+    <aside className={`ej-resultado ${ok ? "es-bien" : "es-mal"}`} aria-hidden="true">
+      <span className="ej-resultado__rayos" />
+      <span className="ej-resultado__sello">
+        <b lang="zh">
+          {[...(ok ? "正确" : "再试")].map((c) => (
+            <span key={c}>{c}</span>
+          ))}
+        </b>
+        <small>{ok ? "¡Bien!" : "Otra vez"}</small>
+      </span>
+      {ok && (
+        <span className="ej-resultado__chispas">
+          {Array.from({ length: 10 }, (_, k) => (
+            <i key={k} style={{ "--a": `${k * 36}deg`, "--d": `${(k % 3) * 40}ms` }} />
+          ))}
+        </span>
+      )}
+    </aside>
   );
 }
 
@@ -466,6 +560,8 @@ export function LessonPlayer({ lesson, onClose }) {
   const [value, setValue] = React.useState(undefined);
   const [feedback, setFeedback] = React.useState(null);
   const [mistakes, setMistakes] = React.useState(0);
+  // Racha de aciertos seguidos: solo se muestra (no cuenta para la puntuación)
+  const [racha, setRacha] = React.useState(0);
   const [hearts, setHearts] = React.useState(() => getGame().hearts);
   const [result, setResult] = React.useState(null);
   const [retried] = React.useState(() => new Set());
@@ -477,7 +573,10 @@ export function LessonPlayer({ lesson, onClose }) {
     const y = window.scrollY;
     window.scrollTo(0, 0);
     document.body.style.overflow = "hidden";
+    // Mientras la lección está abierta, la página de debajo deja de pintarse y de animarse (era la causa principal del lag)
+    document.documentElement.classList.add("lp-abierta");
     return () => {
+      document.documentElement.classList.remove("lp-abierta");
       document.body.style.overflow = "";
       window.scrollTo(0, y);
       speechSynthesis?.cancel?.();
@@ -529,9 +628,12 @@ export function LessonPlayer({ lesson, onClose }) {
     const skill = step.type === "listen" ? "audicion" : ["build", "type"].includes(step.type) ? "gramatica" : step.type === "tf" ? "lectura" : "vocabulario";
     const given = Array.isArray(value) ? value.join(" ") : step.options ? step.options[value] : String(value ?? "");
     recordAnswer({ skill, level: levelOf(lesson.modulo), ok: res.ok, src: `lección ${lesson.modulo}`, error: { prompt: step.prompt || step.speak, given, correct: res.solution, explain: step.explain, options: step.options, answer: step.answer, speak: step.speak, type: step.type } });
-    if (res.ok) sfx("ok");
-    else {
+    if (res.ok) {
+      sfx("ok");
+      setRacha((r) => r + 1);
+    } else {
       sfx("bad");
+      setRacha(0);
       setMistakes((m) => m + 1);
       setHearts(loseHeart());
       if (!retried.has(queue[pos])) {
@@ -541,6 +643,13 @@ export function LessonPlayer({ lesson, onClose }) {
     }
     setFeedback({ ...res, explain: step.explain });
   };
+
+  // Tras comprobar, la opción correcta queda a la vista por encima del panel de corrección (en móvil lo tapaba)
+  React.useEffect(() => {
+    if (!feedback) return;
+    const t = setTimeout(() => document.querySelector(".lp-main .is-bien")?.scrollIntoView({ block: "nearest", behavior: "smooth" }), 120);
+    return () => clearTimeout(t);
+  }, [feedback]);
 
   const canCheck = step && !TEACH.has(step.type) && step.type !== "match" && value !== undefined && value !== "" && !(Array.isArray(value) && !value.length);
   React.useEffect(() => {
@@ -590,8 +699,8 @@ export function LessonPlayer({ lesson, onClose }) {
           </b>
         </div>
       </div>
-      {result.levelUp && <div className="ui-chip is-on" style={{ fontSize: 15 }}>⬆️ ¡Subes de nivel! · 升级了！</div>}
-      {result.goalReached && <div className="ui-chip ok" style={{ fontSize: 15 }}>🎯 ¡Meta diaria cumplida! · 完成今日目标</div>}
+      {result.levelUp && <div className="ui-chip is-on" style={{ fontSize: 15 }}><ZapIcon size={16} /> ¡Subes de nivel! · 升级了！</div>}
+      {result.goalReached && <div className="ui-chip ok" style={{ fontSize: 15 }}><TargetIcon size={16} /> ¡Meta diaria cumplida! · 完成今日目标</div>}
       {result.newBadges?.map((b) => (
         <div key={b.id} className="ui-chip warn" style={{ fontSize: 15 }}>
           <Emoji3D emoji={b.emoji} size={22} /> Logro: {b.es} · {b.zh}
@@ -600,7 +709,7 @@ export function LessonPlayer({ lesson, onClose }) {
     </div>
   ) : outOfHearts ? (
     <div className="lp-center">
-      <Emoji3D emoji="💔" size={120} float />
+      <img className="ej-sin-vidas" src="./mono/serio.png" alt="" />
       <h2 className="lp-word" style={{ fontSize: 30 }}>Te has quedado sin vidas</h2>
       <div className="lp-zh-big">生命值用完了</div>
       <p className="ui-muted" style={{ textAlign: "center", maxWidth: 420 }}>
@@ -642,12 +751,20 @@ export function LessonPlayer({ lesson, onClose }) {
           </div>
           <MonoNube pose={result ? "trofeo" : "poder"} tamano={54} className="lp-bar-mono" style={{ left: `${progress}%` }} />
         </div>
+        {racha >= 2 && !result && (
+          <div className="ej-racha" key={racha} title="Aciertos seguidos · 连续答对">
+            <IcoRacha size={20} />
+            <b>×{racha}</b>
+            <span lang="zh">连对</span>
+          </div>
+        )}
         <div className="lp-hearts">
           <HeartIcon size={20} fill="currentColor" /> {hearts}
         </div>
       </header>
-      <main className="lp-main" key={result ? "end" : `${pos}-${queue[pos]}`}>
+      <main className={`lp-main ${feedback && !result ? (feedback.ok ? "ej-acierto" : "ej-fallo") : ""}`} key={result ? "end" : `${pos}-${queue[pos]}`}>
         {conPergamino && !["learn", "speak"].includes(step.type) ? <Pergamino>{body}</Pergamino> : body}
+        {feedback && !result && !outOfHearts && <SelloResultado ok={feedback.ok} />}
       </main>
       <footer className={`lp-foot ${feedback ? (feedback.ok ? "ok" : "bad") : ""}`}>
         <div className="lp-foot-inner">
@@ -656,8 +773,18 @@ export function LessonPlayer({ lesson, onClose }) {
               <img className="lp-mono" src={`./mono/${feedback.ok ? (pos % 2 ? "guino" : "feliz") : "serio"}.png`} alt="" />
               <div>
                 <b>{feedback.ok ? (feedback.accent ? "¡Bien! Ojo con la tilde · 注意重音" : "¡Correcto! · 正确！") : "Solución correcta · 正确答案"}</b>
-                {(!feedback.ok || feedback.accent) && <div className="lp-solution">{feedback.solution}</div>}
-                {feedback.explain && <div className="lp-explain">{feedback.explain}</div>}
+                {(!feedback.ok || feedback.accent) && (
+                  <div className="lp-solution">
+                    <small>Respuesta · 答案</small>
+                    {feedback.solution}
+                  </div>
+                )}
+                {feedback.explain && (
+                  <div className="lp-explain">
+                    <IconoTipo tipo="tip" size={20} />
+                    <span>{feedback.explain}</span>
+                  </div>
+                )}
               </div>
             </div>
           )}
