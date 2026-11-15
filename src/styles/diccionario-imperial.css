@@ -1,8 +1,10 @@
-/* ===== v22 · Diccionario imperial: portada con rollo que se desenrolla, cuatro tomos con mundos propios,
-   tablillas de temas con seis diseños, fichas de pergamino/bambú con sello y pliego de detalle.
+/* ===== v22 · Diccionario imperial en 3D: libro que se abre, tomos de pie en una estantería, fichas que se
+   inclinan con capas de profundidad, paralaje y farolillos; tablillas de temas con seis diseños y pliego de detalle.
    Todo va bajo .dz (página) y .dz-modal (pliego en portal). Animaciones solo con transform/opacity. ===== */
 
-.dz {
+.dz,
+.dz-modal,
+.dz-apertura {
   --oro: #f2c14e;
   --oro-osc: #c8961e;
   --laca: #c8102e;
@@ -13,14 +15,15 @@
   --cinzel: "Cinzel", "Times New Roman", Georgia, serif;
 }
 .dz,
-.dz-modal {
+.dz-modal,
+.dz-apertura {
   --t1: #2f8f52;
   --t2: #9fc46a;
   --t3: #1d6339;
 }
-:is(.dz, .dz-modal)[data-tomo="A2"] { --t1: #c8102e; --t2: #ff9b3d; --t3: #8f0c21; }
-:is(.dz, .dz-modal)[data-tomo="B1"] { --t1: #2b2630; --t2: #c8961e; --t3: #0d0c12; }
-:is(.dz, .dz-modal)[data-tomo="B2"] { --t1: #5b2a86; --t2: #f2c14e; --t3: #8f0c21; }
+:is(.dz, .dz-modal, .dz-apertura)[data-tomo="A2"] { --t1: #c8102e; --t2: #ff9b3d; --t3: #8f0c21; }
+:is(.dz, .dz-modal, .dz-apertura)[data-tomo="B1"] { --t1: #2b2630; --t2: #c8961e; --t3: #0d0c12; }
+:is(.dz, .dz-modal, .dz-apertura)[data-tomo="B2"] { --t1: #5b2a86; --t2: #f2c14e; --t3: #8f0c21; }
 
 .light-page .unit-page.dz {
   position: relative;
@@ -35,7 +38,8 @@
 .light-page .dz small,
 .dz-modal small { color: inherit; }
 
-/* ---------- Fondo con profundidad ---------- */
+
+/* ---------- Fondo con profundidad: paralaje con el scroll, farolillos y celosía ---------- */
 .dz-fondo {
   position: absolute;
   inset: -6px;
@@ -44,30 +48,25 @@
   border-radius: 26px;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 32% at 50% 0%, rgba(242, 193, 78, 0.2), transparent 70%),
-    linear-gradient(180deg, rgba(8, 17, 35, 0.55) 0, rgba(8, 17, 35, 0.8) 420px, rgba(6, 10, 22, 0.92) 100%);
-  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.28), inset 0 0 80px rgba(0, 0, 0, 0.45);
+    radial-gradient(ellipse 70% 30% at 50% 2%, rgba(242, 193, 78, 0.24), transparent 70%),
+    radial-gradient(ellipse 60% 25% at 50% 36%, rgba(200, 16, 46, 0.18), transparent 70%),
+    linear-gradient(180deg, rgba(8, 17, 35, 0.6) 0, rgba(8, 17, 35, 0.82) 460px, rgba(6, 10, 22, 0.94) 100%);
+  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.28), inset 0 0 90px rgba(0, 0, 0, 0.5);
 }
 .dz-fondo__luna {
   position: absolute;
-  top: 26px;
-  left: 6%;
-  width: 120px;
-  height: 120px;
+  top: 22px;
+  left: 5%;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  background: radial-gradient(circle at 42% 40%, #fff8dc, #f6d77e 45%, rgba(242, 193, 78, 0) 72%);
-  opacity: 0.75;
+  background: radial-gradient(circle at 42% 40%, #fff8dc, #f6d77e 42%, rgba(242, 193, 78, 0) 70%);
+  opacity: 0.8;
 }
-.dz-fondo__montes {
-  position: absolute;
-  left: 0;
-  top: 210px;
-  width: 100%;
-  height: 280px;
-}
-.dz-fondo__montes .m1 { fill: #1d3768; opacity: 0.55; }
-.dz-fondo__montes .m2 { fill: #13264a; opacity: 0.8; }
-.dz-fondo__montes .m3 { fill: #0b1529; opacity: 0.95; }
+.dz-fondo__monte { position: absolute; left: 0; width: 100%; height: 300px; }
+.dz-fondo__monte--1 { top: 230px; fill: #1d3768; opacity: 0.55; }
+.dz-fondo__monte--2 { top: 270px; fill: #13264a; opacity: 0.85; }
+.dz-fondo__monte--3 { top: 310px; fill: #0b1529; }
 .dz-fondo__nube {
   position: absolute;
   width: 230px;
@@ -76,12 +75,12 @@
   opacity: 0.8;
   animation: dzNube 26s ease-in-out infinite alternate;
 }
-.dz-fondo__nube--1 { top: 44px; right: 4%; }
-.dz-fondo__nube--2 { top: 330px; left: -50px; width: 280px; opacity: 0.45; animation-duration: 34s; }
-.dz-fondo__nube--3 { top: 980px; right: -40px; width: 260px; opacity: 0.35; animation-duration: 40s; animation-direction: alternate-reverse; }
+.dz-fondo__nube--1 { top: 40px; right: 4%; }
+.dz-fondo__nube--2 { top: 360px; left: -50px; width: 280px; opacity: 0.45; animation-duration: 34s; }
+.dz-fondo__nube--3 { top: 1100px; right: -40px; width: 260px; opacity: 0.35; animation-duration: 40s; animation-direction: alternate-reverse; }
 .dz-fondo__celosia {
   position: absolute;
-  inset: 470px 0 0;
+  inset: 560px 0 0;
   background-image:
     repeating-linear-gradient(0deg, rgba(242, 193, 78, 0.06) 0 1px, transparent 1px 56px),
     repeating-linear-gradient(90deg, rgba(242, 193, 78, 0.06) 0 1px, transparent 1px 56px);
@@ -90,128 +89,260 @@
 }
 @keyframes dzNube { from { transform: translateX(-36px); } to { transform: translateX(36px); } }
 
-/* ---------- Portada: rollo imperial que se desenrolla ---------- */
-.dz-portada { position: relative; padding: 18px 0 10px; }
-.dz-rollo {
-  container-type: inline-size;
-  position: relative;
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) 30px;
-  max-width: 940px;
-  margin: 0 auto;
-  animation: dzCae 0.4s ease-out both;
-}
-.dz-rollo__vara {
-  position: relative;
-  z-index: 2;
-  margin: -16px 0;
-  border-radius: 15px;
-  background: linear-gradient(90deg, #4a0410, #a30d24 22%, #e0485a 46%, #c8102e 58%, #5e0614);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
-  animation: dzVaraIzq 1.15s cubic-bezier(0.65, 0, 0.25, 1) 0.2s both;
-}
-.dz-rollo__vara--der { animation-name: dzVaraDer; }
-.dz-rollo__vara::before,
-.dz-rollo__vara::after {
-  content: "";
+/* Farolillos rojos que se mecen a distintas profundidades */
+.dz-farol {
   position: absolute;
-  left: 50%;
-  width: 40px;
-  height: 20px;
-  margin-left: -20px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #7a5216, #f6d77e 40%, #fff3cf 52%, #c8961e 70%, #7a5216);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  width: 48px;
+  height: 120px;
+  opacity: calc(0.35 + var(--esc) * 0.55);
+  transform-origin: 50% 0;
+  transform: scale(var(--esc));
+  animation: dzFarol 5.5s ease-in-out var(--d) infinite alternate;
 }
-.dz-rollo__vara::before { top: -8px; }
-.dz-rollo__vara::after { bottom: -8px; }
-.dz-rollo__papel {
+.dz-farol::before { content: ""; position: absolute; left: 23px; top: 0; width: 2px; height: 44px; background: linear-gradient(rgba(242, 193, 78, 0), #c8961e); }
+.dz-farol__cuerpo {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 48px;
+  height: 56px;
+  border-radius: 45% / 50%;
+  background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(110, 0, 10, 0.35) 9px 10px), radial-gradient(circle at 50% 45%, #ffe08a, #ff8a3d 32%, #c8102e 68%, #6e0a17);
+  box-shadow: 0 0 30px rgba(255, 120, 60, 0.65), 0 0 80px rgba(255, 90, 40, 0.3);
+}
+.dz-farol__cuerpo::before,
+.dz-farol__cuerpo::after { content: ""; position: absolute; left: 12px; width: 24px; height: 7px; border-radius: 3px; background: linear-gradient(#f6d77e, #a0701c); }
+.dz-farol__cuerpo::before { top: -4px; }
+.dz-farol__cuerpo::after { bottom: -4px; box-shadow: 10px 10px 0 -1px transparent; }
+.dz-farol::after { content: ""; position: absolute; left: 21px; top: 103px; width: 6px; height: 17px; border-radius: 0 0 3px 3px; background: repeating-linear-gradient(90deg, #f2c14e 0 1px, #c8102e 1px 2px); }
+@keyframes dzFarol { from { transform: scale(var(--esc)) rotate(-5deg); } to { transform: scale(var(--esc)) translateY(12px) rotate(5deg); } }
+
+/* Paralaje con el scroll donde el navegador lo admite (sin JavaScript) */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .dz-fondo__luna { animation: dzPara1 linear both; animation-timeline: scroll(root); animation-range: 0 120vh; }
+    .dz-fondo__monte--1 { animation: dzPara2 linear both; animation-timeline: scroll(root); animation-range: 0 120vh; }
+    .dz-fondo__monte--2 { animation: dzPara3 linear both; animation-timeline: scroll(root); animation-range: 0 120vh; }
+    .dz-fondo__monte--3 { animation: dzPara4 linear both; animation-timeline: scroll(root); animation-range: 0 120vh; }
+  }
+}
+@keyframes dzPara1 { to { transform: translateY(380px); } }
+@keyframes dzPara2 { to { transform: translateY(240px); } }
+@keyframes dzPara3 { to { transform: translateY(130px); } }
+@keyframes dzPara4 { to { transform: translateY(50px); } }
+
+/* ---------- Portada: libro imperial en 3D que llega, abre la tapa y pasa las hojas ---------- */
+.dz-portada { position: relative; padding: 30px 0 34px; }
+.dz-escena { perspective: 2100px; perspective-origin: 50% 10%; }
+.dz-inclina {
+  transform-style: preserve-3d;
+  transform: rotateX(calc(10deg + var(--rx, 0deg))) rotateY(var(--ry, 0deg));
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.dz-libro3d {
   position: relative;
-  padding: 34px clamp(18px, 5cqw, 56px) 26px;
+  width: min(940px, 100%);
+  height: 430px;
+  margin: 0 auto;
+  transform-style: preserve-3d;
+  animation: dzLibroLlega 2.2s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+@keyframes dzLibroLlega {
+  0% { opacity: 0; transform: translateX(-25%) translateY(90px) rotateX(42deg) rotateZ(-4deg) scale(0.72); }
+  24% { opacity: 1; transform: translateX(-25%) translateY(0) rotateX(16deg) rotateZ(-1deg) scale(0.9); }
+  38% { transform: translateX(-25%) rotateX(12deg) scale(0.93); }
+  100% { transform: none; }
+}
+/* página derecha (con el buscador) y grosor del bloque de hojas */
+.dz-libro3d__pagina {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px 42px 26px 38px;
   text-align: center;
   color: var(--tinta);
+  border-radius: 0 6px 6px 0;
   background:
-    linear-gradient(90deg, rgba(120, 70, 20, 0.28), transparent 7%, transparent 93%, rgba(120, 70, 20, 0.28)),
-    radial-gradient(ellipse at center, transparent 55%, rgba(139, 94, 52, 0.22)),
+    linear-gradient(90deg, rgba(90, 50, 10, 0.38), rgba(90, 50, 10, 0.08) 9%, transparent 16%, transparent 94%, rgba(90, 50, 10, 0.12)),
     url("../../public/theme/papel.jpg") center / cover,
     #f2e3c2;
-  box-shadow: inset 0 2px 0 #fff6dd, 0 22px 50px rgba(0, 0, 0, 0.5);
-  transform-origin: center;
-  animation: dzDesenrolla 1.15s cubic-bezier(0.65, 0, 0.25, 1) 0.2s both;
+  box-shadow: 1px 1px 0 #f3e6c4, 2px 2px 0 #e7d6ad, 3px 3px 0 #dcc89c, 4px 4px 0 #d2bc8c, 5px 5px 0 #c6ad7a, 6px 6px 0 #bba06e, 9px 9px 0 #8f0c21, 10px 10px 0 #5e0614, 20px 40px 70px rgba(0, 0, 0, 0.6);
 }
-.dz-rollo__papel::before {
-  /* filete doble dorado */
-  content: "";
+.dz-libro3d__pagina > :not(.dz-libro3d__cinta) { position: relative; animation: dzAparece 0.6s ease-out 2.3s backwards; }
+.dz-libro3d__movil { display: none; }
+.dz-pagina__titulo { margin: 0 0 16px; font: 700 15px/1.2 var(--cinzel); letter-spacing: 2px; text-transform: uppercase; color: var(--laca-osc); }
+.dz-pagina__titulo span { display: block; margin-top: 6px; font: 700 24px/1 var(--kai); letter-spacing: 6px; color: var(--tinta); text-transform: none; }
+.dz-pagina__pista { margin: 18px 0 0; font-size: 12.5px; color: #7a5a3a; }
+.dz-libro3d__cinta {
   position: absolute;
-  inset: 12px 10px;
-  border: 1.5px solid rgba(200, 150, 30, 0.75);
-  outline: 1px solid rgba(200, 150, 30, 0.45);
-  outline-offset: 3px;
+  bottom: -58px;
+  right: 54px;
+  width: 22px;
+  height: 78px;
+  background: linear-gradient(90deg, #6e0a17, #d81d2e 45%, #a30d24 70%, #6e0a17);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 90%, 0 100%);
+  transform-origin: 50% 0;
+  transform: translateZ(3px);
+  animation: dzCinta 3.2s ease-in-out 2.4s infinite alternate;
   pointer-events: none;
 }
-.dz-rollo__papel > * { position: relative; animation: dzAparece 0.55s ease-out 1.05s both; }
-.dz-rollo__ceja {
-  display: inline-block;
-  font: 700 12px/1 var(--cinzel);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--laca-osc);
-}
-.dz-rollo__titulo {
-  margin: 10px 0 4px;
-  font: 800 clamp(38px, 6.4cqw, 62px)/1 var(--cinzel);
-  letter-spacing: 2px;
-  color: var(--laca-osc);
-  text-shadow: 0 1px 0 #fff3cf, 0 3px 0 rgba(200, 150, 30, 0.35);
-}
-.dz-rollo__titulozh {
-  display: block;
-  width: fit-content;
-  margin: 10px auto 0;
-  padding: 0 18px 6px;
-  font: 700 clamp(24px, 3.4cqw, 34px)/1.15 var(--kai);
-  letter-spacing: 8px;
-  color: var(--tinta);
-  background: linear-gradient(90deg, transparent, rgba(200, 16, 46, 0.75) 12%, rgba(200, 16, 46, 0.9) 50%, rgba(200, 16, 46, 0.6) 88%, transparent) bottom / 100% 4px no-repeat;
-}
-.dz-rollo__sub { max-width: 620px; margin: 12px auto 18px; font-size: 14.5px; line-height: 1.5; color: #5a3a22; }
-.dz-rollo__sub span { display: block; font-size: 13px; color: #7a5a3a; }
-.dz-rollo__sello {
+@keyframes dzCinta { from { transform: translateZ(3px) rotate(-3deg); } to { transform: translateZ(3px) rotate(3deg); } }
+/* hojas que pasan al abrir */
+.dz-hoja {
   position: absolute;
-  z-index: 3;
-  top: 22px;
-  right: 50px;
+  top: 3px;
+  bottom: 3px;
+  left: 50%;
+  width: calc(50% - 4px);
+  border-radius: 0 6px 6px 0;
+  background: linear-gradient(90deg, rgba(90, 50, 10, 0.3), transparent 20%, transparent 80%, rgba(90, 50, 10, 0.18)), #f6ead0;
+  transform-origin: left center;
+  opacity: 0;
+  pointer-events: none;
+  animation: dzHoja 0.95s cubic-bezier(0.45, 0, 0.3, 1) calc(1.5s + var(--k) * 0.2s) both;
+}
+@keyframes dzHoja {
+  0% { opacity: 1; transform: translateZ(1px) rotateY(0deg); }
+  86% { opacity: 1; }
+  100% { opacity: 0; transform: translateZ(1px) rotateY(-178deg); }
+}
+/* tapa: frente de laca y, por detrás, la guarda que queda a la izquierda */
+.dz-libro3d__tapa {
+  position: absolute;
+  top: -9px;
+  bottom: -9px;
+  left: 50%;
+  width: calc(50% + 10px);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transform: translateZ(1px) rotateY(-180deg);
+  animation: dzTapaAbre 1.4s cubic-bezier(0.55, 0, 0.25, 1) 0.6s both;
+}
+@keyframes dzTapaAbre {
+  from { transform: translateZ(4px) rotateY(0deg); }
+  to { transform: translateZ(1px) rotateY(-180deg); }
+}
+.dz-libro3d__frente,
+.dz-libro3d__dorso { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.dz-libro3d__frente {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border-radius: 4px 12px 12px 4px;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1) 6%, transparent 10%),
+    repeating-linear-gradient(45deg, rgba(255, 220, 160, 0.04) 0 2px, transparent 2px 9px),
+    radial-gradient(ellipse at 45% 35%, #e0283a, #a30d24 55%, #5e0614);
+  box-shadow: inset 0 0 0 2px #7a0a1a, inset 0 0 50px rgba(40, 0, 0, 0.55), 18px 30px 60px rgba(0, 0, 0, 0.55);
+}
+.dz-libro3d__frente::before { content: ""; position: absolute; inset: 20px 20px 20px 30px; border: 2px solid rgba(242, 193, 78, 0.85); outline: 1px solid rgba(242, 193, 78, 0.5); outline-offset: 5px; border-radius: 4px; }
+.dz-tapa__esquina { position: absolute; width: 58px; height: 58px; background: url("../../public/theme/barra-esquina.png") center / contain no-repeat; }
+.dz-tapa__esquina--1 { top: 12px; left: 22px; }
+.dz-tapa__esquina--2 { top: 12px; right: 12px; transform: scaleX(-1); }
+.dz-tapa__esquina--3 { bottom: 12px; right: 12px; transform: scale(-1); }
+.dz-tapa__esquina--4 { bottom: 12px; left: 22px; transform: scaleY(-1); }
+.dz-tapa__medallon {
   display: grid;
   place-items: center;
-  width: 54px;
-  padding: 8px 0;
-  font: 700 22px/1.05 var(--kai);
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
+  font: 700 66px/1 var(--kai);
+  color: #8f0c21;
+  background: radial-gradient(circle at 38% 32%, #fff8dc, #f6d77e 38%, #d9a93a 70%, #8a5a1e);
+  box-shadow: 0 0 0 4px #7a5216, 0 0 0 7px #f2c14e, 0 0 40px rgba(242, 193, 78, 0.6), inset 0 -6px 12px rgba(120, 70, 10, 0.5);
+}
+.dz-tapa__titulo { font: 800 40px/1 var(--cinzel); letter-spacing: 4px; color: #f6d77e; text-shadow: 0 2px 0 #5e0614, 0 0 18px rgba(242, 193, 78, 0.45); }
+.dz-tapa__zh { font: 700 28px/1 var(--kai); letter-spacing: 12px; color: #f6d77e; text-shadow: 0 2px 0 #5e0614; }
+.dz-libro3d__dorso {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 34px 50px 30px 46px;
+  text-align: center;
+  color: var(--tinta);
+  border-radius: 12px 4px 4px 12px;
+  background:
+    linear-gradient(270deg, rgba(90, 50, 10, 0.4), rgba(90, 50, 10, 0.08) 9%, transparent 16%),
+    url("../../public/theme/papel.jpg") center / cover,
+    #f2e3c2;
+  box-shadow: inset 0 0 0 9px #a30d24, inset 0 0 0 11px #f2c14e, inset 0 0 0 12px #7a5216, -18px 30px 60px rgba(0, 0, 0, 0.55);
+}
+.dz-libro3d__dorso > * { position: relative; animation: dzAparece 0.6s ease-out 1.75s backwards; }
+.dz-ceja { display: block; font: 700 12px/1.2 var(--cinzel); letter-spacing: 3px; text-transform: uppercase; color: var(--laca-osc); }
+.dz-titulo { margin: 10px 0 0; font: 800 clamp(38px, 4.6vw, 56px)/1 var(--cinzel); letter-spacing: 2px; color: var(--laca-osc); text-shadow: 0 1px 0 #fff3cf, 0 3px 0 rgba(200, 150, 30, 0.35); }
+.dz-titulo__zh {
+  display: block;
+  width: fit-content;
+  margin: 12px auto 0;
+  padding: 0 16px 6px;
+  font: 700 clamp(24px, 2.8vw, 32px)/1.15 var(--kai);
+  letter-spacing: 8px;
+  color: var(--tinta);
+  text-shadow: none;
+  background: linear-gradient(90deg, transparent, rgba(200, 16, 46, 0.75) 12%, rgba(200, 16, 46, 0.9) 50%, rgba(200, 16, 46, 0.6) 88%, transparent) bottom / 100% 4px no-repeat;
+}
+.dz-dorso__sub { margin: 14px auto 16px; max-width: 360px; font-size: 13.5px; line-height: 1.5; color: #5a3a22; }
+.dz-dorso__sub span { display: block; font-size: 12.5px; color: #7a5a3a; }
+.dz-cifras { display: flex; justify-content: center; gap: 10px; }
+.dz-cifras span { display: grid; justify-items: center; min-width: 84px; padding: 8px 10px; border-radius: 12px; font: 700 11.5px/1.2 var(--im-font-ui, system-ui), sans-serif; color: #6b4a2e; background: rgba(255, 250, 235, 0.7); box-shadow: inset 0 0 0 1.5px rgba(200, 150, 30, 0.6), 0 3px 0 #c9a660; }
+.dz-cifras b { font: 800 22px/1.1 var(--cinzel); color: var(--laca-osc); }
+.dz-dorso__sello {
+  position: absolute;
+  top: 24px;
+  left: 26px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  padding: 7px 0;
+  font: 700 19px/1.05 var(--kai);
   color: #fff3e6;
   background: radial-gradient(circle at 30% 25%, #e0485a, #b3121f 60%, #8f0c21);
   border-radius: 6px;
-  box-shadow: inset 0 0 0 2px rgba(255, 230, 220, 0.55), inset 0 0 10px rgba(60, 0, 0, 0.45), 0 3px 8px rgba(80, 0, 0, 0.35);
+  box-shadow: inset 0 0 0 2px rgba(255, 230, 220, 0.55), 0 3px 8px rgba(80, 0, 0, 0.35);
   transform: rotate(-8deg);
-  animation: dzSella 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) 1.35s both;
+  animation: dzSella 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) 2.2s backwards !important;
+}
+/* chispas doradas que suben del libro */
+.dz-chispas { position: absolute; left: 50%; top: 46%; z-index: 4; width: 0; height: 0; pointer-events: none; }
+.dz-chispas span {
+  position: absolute;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff8dc, #f2c14e 55%, rgba(242, 193, 78, 0) 72%);
+  opacity: 0;
+  animation: dzChispa 3.8s ease-out calc(2.1s + var(--d)) infinite;
+}
+@keyframes dzChispa {
+  0% { opacity: 0; transform: translate(calc(var(--x) * 0.15), 60px) scale(0.5); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--x), -250px) scale(1.2); }
 }
 .dz-portada__mono {
   position: absolute;
-  z-index: 3;
-  right: max(0px, calc(50% - 560px));
-  bottom: -18px;
-  width: 140px;
+  z-index: 5;
+  right: max(-14px, calc(50% - 600px));
+  bottom: -4px;
+  width: 150px;
   height: auto;
-  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
-  animation: dzAsoma 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) 1.5s both, dzFlota 5s ease-in-out 2.2s infinite;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.5));
+  animation: dzMonoSalta 0.65s cubic-bezier(0.3, 1.5, 0.5, 1) both, dzFlota 5s ease-in-out 0.8s infinite;
   pointer-events: none;
 }
-@keyframes dzCae { from { opacity: 0; transform: translateY(-26px); } to { opacity: 1; transform: none; } }
-@keyframes dzVaraIzq { from { transform: translateX(calc(50cqw - 30px)); } to { transform: none; } }
-@keyframes dzVaraDer { from { transform: translateX(calc(-50cqw + 30px)); } to { transform: none; } }
-@keyframes dzDesenrolla { from { transform: scaleX(0.03); } to { transform: none; } }
+.dz-portada:not(.is-lista) .dz-portada__mono { animation-delay: 2.5s, 3.3s; }
+@keyframes dzMonoSalta { from { opacity: 0; transform: translateY(50px) scale(0.6) rotate(8deg); } to { opacity: 1; transform: none; } }
+@keyframes dzFlota { 0%, 100% { transform: none; } 50% { transform: translateY(-8px); } }
 @keyframes dzAparece { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes dzSella { from { opacity: 0; transform: scale(2.4) rotate(-24deg); } to { opacity: 1; transform: rotate(-8deg); } }
-@keyframes dzAsoma { from { opacity: 0; transform: translateY(40px) rotate(6deg); } to { opacity: 1; transform: none; } }
-@keyframes dzFlota { 0%, 100% { transform: none; } 50% { transform: translateY(-6px); } }
 
 /* Buscador protagonista */
 .dz-buscador {
@@ -267,54 +398,149 @@
 .dz-sugerencias button:hover { transform: translateY(-2px); }
 .dz-sugerencias button.is-on { color: #fff3cf; background: var(--laca); border-style: solid; }
 
-/* ---------- Cuatro tomos con mundos distintos ---------- */
-.dz-tomos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 34px 0 22px; }
+
+/* ---------- Cuatro tomos: libros 3D de pie en una estantería ---------- */
+.dz-tomos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 26px 0 0; padding: 0 10px; }
 .dz-tomo {
+  --D: 34px;
   position: relative;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-areas: "emb nivel" "emb nombre" "cuenta cuenta";
-  align-items: center;
-  column-gap: 12px;
-  min-height: 132px;
-  padding: 16px 14px 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 250px;
+  padding: 0;
+  background: none;
   text-align: left;
-  opacity: 0.8;
-  transition: transform 0.25s cubic-bezier(0.3, 1.4, 0.5, 1), opacity 0.2s ease;
-  animation: dzTomoEntra 0.55s cubic-bezier(0.3, 1.3, 0.5, 1) backwards;
-  animation-delay: calc(0.95s + var(--n, 0) * 90ms);
+  perspective: 900px;
+  perspective-origin: 50% 20%;
+  animation: dzTomoCae 0.8s cubic-bezier(0.3, 1.35, 0.5, 1) calc(2.1s + var(--n, 0) * 0.13s) backwards;
 }
-@keyframes dzTomoEntra { from { opacity: 0; transform: translateY(26px) scale(0.94); } }
-.dz-tomo:hover { opacity: 1; transform: translateY(-3px); }
-.dz-tomo.is-on { opacity: 1; transform: translateY(-7px); }
-.dz-tomo.is-on::after {
+@keyframes dzTomoCae { from { opacity: 0; transform: translateY(-80px) rotate(-6deg); } }
+.dz-tomo__flota { position: relative; z-index: 1; display: block; width: min(100%, 190px); height: 206px; margin-bottom: 4px; transform-style: preserve-3d; }
+.dz-tomo.is-on .dz-tomo__flota { animation: dzBob 3.6s ease-in-out infinite; }
+@keyframes dzBob { 50% { transform: translateY(-8px); } }
+.dz-tomo__libro {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: 50% 100%;
+  transform: rotateY(30deg) rotateX(-5deg);
+  transition: transform 0.55s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+.dz-tomo:hover .dz-tomo__libro { transform: rotateY(14deg) rotateX(-7deg) translateZ(26px) translateY(-10px); }
+.dz-tomo.is-on .dz-tomo__libro { transform: rotateY(-10deg) rotateX(-6deg) translateZ(46px) translateY(-16px); }
+.dz-tomo:focus-visible { outline: none; }
+.dz-tomo:focus-visible .dz-tomo__tapa { outline: 3px solid var(--oro); outline-offset: 4px; }
+.dz-tomo__tapa {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding: 16px 12px 12px 18px;
+  text-align: center;
+  transform: translateZ(var(--D));
+  backface-visibility: hidden;
+}
+.dz-tomo__tapa::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, rgba(0, 0, 0, 0.38), transparent 9%); pointer-events: none; }
+.dz-tomo.is-on .dz-tomo__flota::after {
   content: "Abierto · 已打开";
   position: absolute;
-  right: 10px;
-  top: 10px;
-  padding: 3px 8px;
+  left: 50%;
+  top: -13px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font: 700 10.5px/1.2 var(--im-font-ui, system-ui), sans-serif;
+  white-space: nowrap;
+  font: 700 11px/1.2 var(--im-font-ui, system-ui), sans-serif;
   color: #5e0614;
   background: linear-gradient(#fff3cf, var(--oro));
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  transform: translateX(-50%);
 }
-.dz-tomo__emblema {
-  grid-area: emb;
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  font: 700 30px/1 var(--kai);
-}
-.dz-tomo__nivel { grid-area: nivel; align-self: end; font: 800 34px/1 var(--cinzel); letter-spacing: 1px; }
-.dz-tomo__nombre { grid-area: nombre; align-self: start; font: 700 13.5px/1.25 var(--im-font-ui, system-ui), sans-serif; }
+.dz-tomo__emblema { grid-area: emb; display: grid; place-items: center; width: 54px; height: 54px; font: 700 30px/1 var(--kai); }
+.dz-tomo__nivel { grid-area: nivel; font: 800 36px/1 var(--cinzel); letter-spacing: 1px; }
+.dz-tomo__nombre { grid-area: nombre; margin-top: 12px; font: 700 13.5px/1.25 var(--im-font-ui, system-ui), sans-serif; }
 .dz-tomo__nombre small { display: block; font-weight: 600; font-size: 12px; opacity: 0.85; }
-.dz-tomo__cuenta { grid-area: cuenta; margin-top: 10px; font: 700 11.5px/1 var(--im-font-ui, system-ui), sans-serif; opacity: 0.9; }
+.dz-tomo__cuenta { grid-area: cuenta; margin-top: 8px; font: 700 11.5px/1 var(--im-font-ui, system-ui), sans-serif; opacity: 0.9; }
+/* lomo, cantos de las hojas y cabeza */
+.dz-tomo__lomo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--D);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  font: 700 13px/1 var(--kai);
+  letter-spacing: 3px;
+  color: #f6d77e;
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+  background: linear-gradient(transparent 10%, #f2c14e 10% 12%, transparent 12% 88%, #f2c14e 88% 90%, transparent 90%), var(--lomo, #6e0a17);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.5);
+}
+.dz-tomo__cantos {
+  position: absolute;
+  right: 0;
+  top: 4px;
+  width: var(--D);
+  height: calc(100% - 8px);
+  transform-origin: right center;
+  transform: rotateY(90deg);
+  background: repeating-linear-gradient(90deg, #f6ead0 0 2px, #d9c49a 2px 3px);
+}
+.dz-tomo__cabeza {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(100% - 4px);
+  height: var(--D);
+  transform-origin: center top;
+  transform: rotateX(90deg);
+  background: linear-gradient(90deg, var(--lomo, #6e0a17) 0 4px, transparent 4px), repeating-linear-gradient(0deg, #f6ead0 0 2px, #d9c49a 2px 3px);
+}
+.dz-tomo--a1 { --lomo: linear-gradient(90deg, #3d5a1e, #6b8a35 50%, #3d5a1e); }
+.dz-tomo--a2 { --lomo: linear-gradient(90deg, #6e0a17, #c8102e 50%, #6e0a17); }
+.dz-tomo--b1 { --lomo: linear-gradient(90deg, #0d0c12, #2b2630 50%, #0d0c12); }
+.dz-tomo--b2 { --lomo: linear-gradient(90deg, #3a1858, #6b3a9a 50%, #3a1858); }
+.dz-tomo__sombra {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 78%;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), transparent);
+  transform: translateX(-50%);
+  transition: opacity 0.4s;
+}
+.dz-tomo.is-on .dz-tomo__sombra { background: radial-gradient(closest-side, rgba(242, 193, 78, 0.85), rgba(242, 193, 78, 0.2) 60%, transparent); }
+.dz-tomo.is-on::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  width: 210px;
+  height: 230px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(242, 193, 78, 0.35), transparent);
+  transform: translateX(-50%);
+  pointer-events: none;
+  animation: dzHalo 3s ease-in-out infinite alternate;
+}
+@keyframes dzHalo { from { opacity: 0.55; transform: translateX(-50%) scale(0.92); } to { opacity: 1; transform: translateX(-50%) scale(1.06); } }
+/* estantería de laca con canto dorado */
+.dz-estante { position: relative; height: 24px; margin: 10px 0 30px; border-radius: 4px; background: linear-gradient(#8a3a14, #5a220b 55%, #2e1006); box-shadow: inset 0 2px 0 rgba(255, 200, 120, 0.35), inset 0 -3px 0 #f2c14e, 0 18px 30px rgba(0, 0, 0, 0.6); }
+.dz-estante::before { content: ""; position: absolute; left: 1%; right: 1%; bottom: 100%; height: 12px; background: linear-gradient(#3a1608, #6e2c10); transform-origin: bottom; transform: perspective(500px) rotateX(62deg); }
+.dz-estante::after { content: ""; position: absolute; left: 50%; top: 4px; width: 46px; height: 14px; border-radius: 3px; background: linear-gradient(#fff3cf, #c8961e); transform: translateX(-50%); box-shadow: 0 0 10px rgba(242, 193, 78, 0.6); }
 
 /* A1 · tablillas de bambú atadas con cordón rojo */
-.dz-tomo--a1 {
+.dz-tomo--a1 .dz-tomo__tapa {
   color: #1d3d1c;
   border-radius: 8px;
   background:
@@ -323,12 +549,11 @@
   box-shadow: inset 0 0 0 2px rgba(80, 60, 20, 0.5), 0 10px 22px rgba(0, 0, 0, 0.4);
 }
 .dz-tomo--a1 .dz-tomo__emblema { border-radius: 50%; color: #eafff1; background: radial-gradient(circle at 35% 30%, #7fd1a0, #2f8f52 55%, #1d6339); box-shadow: 0 0 0 3px #f6e7c8, 0 0 0 5px #1d6339; }
-.dz-tomo--a1.is-on { box-shadow: inset 0 0 0 2px rgba(80, 60, 20, 0.5), 0 0 0 3px var(--oro), 0 0 30px rgba(127, 209, 160, 0.6), 0 14px 26px rgba(0, 0, 0, 0.45); }
 
 /* A2 · farol de laca roja con varillas doradas */
-.dz-tomo--a2 {
+.dz-tomo--a2 .dz-tomo__tapa {
   color: #fff3cf;
-  border-radius: 44px / 34px;
+  border-radius: 4px 14px 14px 4px;
   background:
     repeating-linear-gradient(0deg, transparent 0 24px, rgba(242, 193, 78, 0.4) 24px 26px),
     radial-gradient(ellipse at 50% 38%, #ff8a4a, #d81d2e 50%, #7a0a1a);
@@ -336,12 +561,11 @@
 }
 .dz-tomo--a2 .dz-tomo__emblema { border-radius: 50%; color: #8f0c21; background: radial-gradient(circle at 35% 30%, #fff3cf, #f2c14e 60%, #c8961e); box-shadow: 0 0 18px rgba(255, 200, 80, 0.8); }
 .dz-tomo--a2 .dz-tomo__nivel { text-shadow: 0 2px 0 #5e0614; }
-.dz-tomo--a2.is-on { box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.9), 0 0 0 3px var(--oro), 0 0 36px rgba(255, 138, 74, 0.7), 0 14px 26px rgba(0, 0, 0, 0.45); }
 
 /* B1 · papel negro con aguada de tinta y trazo de oro */
-.dz-tomo--b1 {
+.dz-tomo--b1 .dz-tomo__tapa {
   color: #f6e7c8;
-  border-radius: 4px 26px 4px 26px;
+  border-radius: 3px 10px 10px 3px;
   background:
     linear-gradient(100deg, transparent 58%, rgba(200, 150, 30, 0.85) 59%, rgba(242, 193, 78, 0.6) 61%, transparent 64%),
     radial-gradient(circle at 85% 20%, rgba(150, 150, 170, 0.28), transparent 40%),
@@ -351,12 +575,10 @@
 }
 .dz-tomo--b1 .dz-tomo__emblema { border-radius: 4px; color: #15141b; background: #f7f1e3; box-shadow: 3px 3px 0 var(--oro-osc); font-size: 32px; }
 .dz-tomo--b1 .dz-tomo__nivel { color: var(--oro); }
-.dz-tomo--b1.is-on { box-shadow: inset 0 0 0 1px var(--oro), 0 0 0 3px var(--oro), 0 0 30px rgba(242, 193, 78, 0.5), 0 14px 26px rgba(0, 0, 0, 0.5); }
 
 /* B2 · Ciudad Prohibida: tejas doradas sobre muro rojo con clavos de oro */
-.dz-tomo--b2 {
+.dz-tomo--b2 .dz-tomo__tapa {
   color: #fff3cf;
-  padding-top: 30px;
   border-radius: 6px;
   background:
     repeating-radial-gradient(circle at 12px -6px, #f6d77e 0 9px, #b8860b 9px 11px, transparent 11px) 0 0 / 24px 22px repeat-x,
@@ -365,8 +587,7 @@
   box-shadow: inset 0 0 0 2px #f2c14e, inset 0 0 0 5px #6e0a17, inset 0 0 0 6px rgba(242, 193, 78, 0.7), 0 10px 22px rgba(0, 0, 0, 0.45);
 }
 .dz-tomo--b2 .dz-tomo__emblema { border-radius: 50%; color: var(--oro); background: radial-gradient(circle at 35% 30%, #9b6ad6, #5b2a86 60%, #3a1858); box-shadow: 0 0 0 3px var(--oro), 0 4px 10px rgba(0, 0, 0, 0.4); }
-.dz-tomo--b2.is-on { box-shadow: inset 0 0 0 2px #f2c14e, inset 0 0 0 5px #6e0a17, inset 0 0 0 6px rgba(242, 193, 78, 0.7), 0 0 0 3px var(--oro), 0 0 34px rgba(155, 106, 214, 0.6), 0 14px 26px rgba(0, 0, 0, 0.45); }
-.dz-tomo--b2.is-on::after { top: 34px; }
+
 
 /* ---------- Palabra del día: decreto ---------- */
 .dz-decreto {
@@ -403,8 +624,6 @@
   transition: transform 0.15s ease;
 }
 .dz-decreto__audio { width: 56px; height: 56px; }
-:is(.dz-decreto__audio, .dz-ficha__audio):hover { transform: scale(1.08); }
-:is(.dz-decreto__audio, .dz-ficha__audio):active { transform: scale(0.94); }
 
 /* ---------- Filtros: tablillas de temas y abecedario ---------- */
 .dz-filtros {
@@ -490,29 +709,46 @@
 .dz-recuento b { font: 800 22px/1 var(--cinzel); color: var(--oro); }
 .dz-recuento button { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font: 700 12.5px/1 var(--im-font-ui, system-ui), sans-serif; color: #5e0614; background: linear-gradient(#fff3cf, var(--oro)); }
 
-/* ---------- Fichas: pergamino o tablilla según el tomo ---------- */
-.dz-rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr)); gap: 18px; }
+
+/* ---------- Fichas 3D: caen como tablillas, se inclinan con el puntero y tienen capas a distinta profundidad ---------- */
+.dz-resultados { transform-origin: left center; animation: dzPagina 0.75s cubic-bezier(0.3, 0.8, 0.3, 1) backwards; }
+@keyframes dzPagina { from { opacity: 0; transform: perspective(1600px) rotateY(-32deg) translateX(-40px); } }
+.dz-rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr)); gap: 20px; }
 .dz-ficha {
   position: relative;
   display: flex;
+  min-height: 206px;
+  perspective: 900px;
+  transform-origin: 50% 0;
+  animation: dzFichaCae 0.75s cubic-bezier(0.2, 0.9, 0.25, 1.15) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+@keyframes dzFichaCae { from { opacity: 0; transform: perspective(900px) translateY(-36px) rotateX(70deg) scale(0.92); } }
+.dz-ficha::after { content: ""; position: absolute; left: 10%; right: 10%; bottom: -10px; height: 24px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent); opacity: 0.6; transition: opacity 0.3s, transform 0.3s; pointer-events: none; z-index: -1; }
+.dz-ficha.is-inclinada::after { opacity: 1; transform: translateY(10px) scale(1.08); }
+.dz-ficha__in {
+  position: relative;
+  flex: 1;
+  display: flex;
   flex-direction: column;
-  min-height: 200px;
   padding: 18px 16px 14px;
   color: var(--tinta);
   border-radius: 10px;
+  transform-style: preserve-3d;
+  transform: translateZ(var(--z, 0px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   background: linear-gradient(rgba(255, 250, 235, 0.55), rgba(255, 250, 235, 0.55)), url("../../public/theme/papel.jpg") center / 260% auto, var(--papel);
   box-shadow: 0 0 0 1px #e1c27a, 0 0 0 4px rgba(242, 193, 78, 0.22), 0 10px 22px rgba(0, 0, 0, 0.35);
-  content-visibility: auto;
-  contain-intrinsic-size: auto 200px;
-  animation: dzFichaEntra 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-  animation-delay: calc(var(--i, 0) * 32ms);
-  transition: transform 0.22s cubic-bezier(0.3, 1.4, 0.5, 1);
 }
-.dz-ficha:hover { transform: translateY(-6px) rotate(-0.4deg); }
-.dz-ficha:has(.dz-ficha__abrir:focus-visible) { outline: 3px solid var(--oro); outline-offset: 4px; }
-@keyframes dzFichaEntra { from { opacity: 0; transform: translateY(18px) scale(0.96); } to { opacity: 1; transform: none; } }
+.dz-ficha.is-inclinada .dz-ficha__in { --z: 26px; transition-duration: 0.15s; }
+.dz-ficha:has(.dz-ficha__abrir:focus-visible) .dz-ficha__in { outline: 3px solid var(--oro); outline-offset: 4px; }
 .dz-ficha__abrir { position: absolute; inset: 0; z-index: 1; border-radius: inherit; background: transparent; cursor: pointer; }
 .dz-ficha__abrir:focus-visible { outline: none; }
+.dz-ficha__sello,
+.dz-ficha__es,
+.dz-ficha__zh,
+.dz-ficha__tema,
+.dz-ficha__brillo { pointer-events: none; }
 .dz-ficha__sello {
   display: grid;
   place-items: center;
@@ -523,15 +759,15 @@
   font: 700 26px/1 var(--kai);
   color: #fff3e6;
   background: radial-gradient(circle at 30% 25%, #e0485a, #b3121f 60%, #8f0c21);
-  box-shadow: inset 0 0 0 2px rgba(255, 230, 220, 0.5), inset 0 0 8px rgba(60, 0, 0, 0.4), 0 2px 4px rgba(80, 0, 0, 0.3);
-  transform: rotate(-6deg);
+  box-shadow: inset 0 0 0 2px rgba(255, 230, 220, 0.5), inset 0 0 8px rgba(60, 0, 0, 0.4), 0 6px 10px rgba(80, 0, 0, 0.35);
+  transform: translateZ(34px) rotate(-6deg);
 }
-.dz-ficha__es { margin: 0; padding-right: 4px; font: 800 22px/1.15 Georgia, "Times New Roman", serif; color: var(--tinta); overflow-wrap: anywhere; }
+.dz-ficha__es { position: relative; margin: 0; font: 800 22px/1.15 Georgia, "Times New Roman", serif; color: var(--tinta); overflow-wrap: anywhere; transform: translateZ(24px); }
 .dz-ficha__es mark { color: inherit; background: linear-gradient(transparent 55%, rgba(242, 193, 78, 0.85) 55%); border-radius: 2px; }
-.dz-ficha__zh { margin: 6px 0 12px; font: 700 21px/1.2 var(--kai); color: var(--laca-osc); overflow-wrap: anywhere; }
-.dz-ficha__tema { margin-top: auto; padding-right: 34px; font: 600 11.5px/1.3 var(--im-font-ui, system-ui), sans-serif; color: #7a5a3a; }
+.dz-ficha__zh { position: relative; margin: 6px 0 12px; font: 700 21px/1.2 var(--kai); color: var(--laca-osc); overflow-wrap: anywhere; transform: translateZ(18px); }
+.dz-ficha__tema { position: relative; margin-top: auto; padding-right: 34px; font: 600 11.5px/1.3 var(--im-font-ui, system-ui), sans-serif; color: #7a5a3a; transform: translateZ(8px); }
 .dz-ficha__tema small { font-size: 11.5px; }
-.dz-ficha__audio { position: absolute; z-index: 2; top: 14px; right: 14px; width: 46px; height: 46px; }
+.dz-ficha__audio { position: absolute; z-index: 2; top: 14px; right: 14px; width: 48px; height: 48px; transform: translateZ(42px); }
 .dz-ficha__fav {
   position: absolute;
   z-index: 2;
@@ -543,14 +779,35 @@
   height: 30px;
   border-radius: 50%;
   color: #a08060;
-  background: rgba(255, 250, 235, 0.8);
-  box-shadow: inset 0 0 0 1px rgba(160, 112, 28, 0.5);
+  background: rgba(255, 250, 235, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(160, 112, 28, 0.5), 0 3px 6px rgba(0, 0, 0, 0.2);
+  transform: translateZ(20px);
 }
 .dz-ficha__fav.is-on { color: #fff; background: var(--laca); }
 .dz-ficha__fav.is-on svg { fill: currentColor; }
+.dz-ficha__brillo { position: absolute; inset: 0; z-index: 3; overflow: hidden; border-radius: inherit; opacity: 0; transition: opacity 0.3s; transform: translateZ(1px); }
+.dz-ficha__brillo::before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 255, 240, 0.6), rgba(255, 240, 200, 0.12) 22%, transparent 40%);
+  transform: translate(calc(var(--mx, 0) * 0.5%), calc(var(--my, 0) * 0.5%));
+}
+.dz-ficha.is-inclinada .dz-ficha__brillo { opacity: 1; }
+
+/* Monedas de audio: giran sobre sí mismas al pasar el ratón */
+@media (hover: hover) {
+  .dz-decreto__audio:hover { animation: dzMoneda 0.9s cubic-bezier(0.3, 0.7, 0.3, 1); }
+  .dz-ficha__audio:hover { animation: dzMonedaFicha 0.9s cubic-bezier(0.3, 0.7, 0.3, 1); }
+}
+@keyframes dzMoneda { from { transform: rotateY(0); } to { transform: rotateY(360deg); } }
+@keyframes dzMonedaFicha { from { transform: translateZ(42px) rotateY(0); } to { transform: translateZ(42px) rotateY(360deg); } }
 
 /* A1: tablilla de bambú con cordones */
-.dz[data-tomo="A1"] .dz-ficha {
+.dz[data-tomo="A1"] .dz-ficha__in {
   border-radius: 6px;
   background:
     linear-gradient(transparent 9px, rgba(143, 12, 33, 0.75) 9px 12px, transparent 12px calc(100% - 12px), rgba(143, 12, 33, 0.75) calc(100% - 12px) calc(100% - 9px), transparent calc(100% - 9px)),
@@ -559,13 +816,13 @@
 }
 .dz[data-tomo="A1"] .dz-ficha__zh { color: #1d6339; }
 /* A2: pergamino con marco de laca y esquinas de oro */
-.dz[data-tomo="A2"] .dz-ficha { box-shadow: inset 0 0 0 3px #b3121f, inset 0 0 0 5px #fff3dc, inset 0 0 0 6px var(--oro-osc), 0 10px 22px rgba(0, 0, 0, 0.35); }
-.dz[data-tomo="A2"] .dz-ficha::before,
-.dz[data-tomo="A2"] .dz-ficha::after { content: ""; position: absolute; width: 16px; height: 16px; bottom: 7px; border: 3px solid var(--oro-osc); pointer-events: none; }
-.dz[data-tomo="A2"] .dz-ficha::before { left: 7px; border-right: 0; border-top: 0; }
-.dz[data-tomo="A2"] .dz-ficha::after { right: 7px; border-left: 0; border-top: 0; }
+.dz[data-tomo="A2"] .dz-ficha__in { box-shadow: inset 0 0 0 3px #b3121f, inset 0 0 0 5px #fff3dc, inset 0 0 0 6px var(--oro-osc), 0 10px 22px rgba(0, 0, 0, 0.35); }
+.dz[data-tomo="A2"] .dz-ficha__in::before,
+.dz[data-tomo="A2"] .dz-ficha__in::after { content: ""; position: absolute; width: 16px; height: 16px; bottom: 7px; border: 3px solid var(--oro-osc); pointer-events: none; }
+.dz[data-tomo="A2"] .dz-ficha__in::before { left: 7px; border-right: 0; border-top: 0; }
+.dz[data-tomo="A2"] .dz-ficha__in::after { right: 7px; border-left: 0; border-top: 0; }
 /* B1: papel de arroz con mancha de tinta */
-.dz[data-tomo="B1"] .dz-ficha {
+.dz[data-tomo="B1"] .dz-ficha__in {
   border-radius: 3px;
   background: radial-gradient(ellipse 60% 40% at 100% 0%, rgba(30, 28, 36, 0.12), transparent 70%), linear-gradient(160deg, #fbf7ec, #f2ead6);
   box-shadow: inset 0 0 0 1px rgba(43, 38, 48, 0.5), 4px 4px 0 #1c1a22, 0 12px 24px rgba(0, 0, 0, 0.4);
@@ -573,7 +830,7 @@
 .dz[data-tomo="B1"] .dz-ficha__sello { background: #1c1a22; color: var(--oro); box-shadow: inset 0 0 0 2px var(--oro-osc); }
 .dz[data-tomo="B1"] .dz-ficha__zh { color: #1c1a22; }
 /* B2: marco imperial dorado con franja de tejado */
-.dz[data-tomo="B2"] .dz-ficha {
+.dz[data-tomo="B2"] .dz-ficha__in {
   padding-top: 26px;
   border-radius: 4px;
   background:
@@ -585,6 +842,7 @@
 }
 .dz[data-tomo="B2"] .dz-ficha__sello { background: radial-gradient(circle at 35% 30%, #9b6ad6, #5b2a86 60%, #3a1858); color: var(--oro); }
 .dz[data-tomo="B2"] .dz-ficha__audio { top: 22px; }
+
 
 /* Carga y vacío */
 .dz-esqueleto span {
@@ -699,41 +957,356 @@
 .dz-pliego__nav button { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 10px; font: 700 13px/1 var(--im-font-ui, system-ui), sans-serif; color: var(--tinta); background: rgba(255, 250, 235, 0.7); box-shadow: inset 0 0 0 1px rgba(200, 150, 30, 0.6); }
 .dz-pliego__nav button:disabled { opacity: 0.35; }
 
-/* ---------- Móvil ---------- */
-@media (max-width: 900px) {
-  .dz-tomos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-  .dz-portada__mono { width: 104px; right: -6px; bottom: -26px; }
+
+/* ---------- Detalles 3D: decreto que se despliega, tablillas de temas con grosor, pliego que sube ---------- */
+.dz-decreto { transform-origin: 50% 0; animation: dzDecreto 0.9s cubic-bezier(0.3, 1.2, 0.5, 1) 2.5s backwards; }
+@keyframes dzDecreto { from { opacity: 0; transform: perspective(900px) rotateX(-85deg); } }
+.dz-tema { filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.35)); animation: dzAparece 0.45s ease-out calc(2.6s + var(--t, 0) * 45ms) backwards; }
+.dz-tema:hover { transform: perspective(500px) rotateX(16deg) translateY(-3px); }
+.dz-tema.is-on { transform: perspective(500px) rotateX(10deg) translateY(-5px) scale(1.04); }
+.dz-tema:active { transform: translateY(2px); filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35)); }
+
+/* ---------- v22.3 · Cubiertas ricas: placa dorada, esquinas de metal, ilustración y destello ---------- */
+.dz-tomo.is-on .dz-tomo__flota::after { transform: translateX(-50%) translateZ(70px); z-index: 3; }
+.dz-tomo__esquinas {
+  position: absolute;
+  inset: 6px 6px 6px 12px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--oro), var(--oro)) top left / 16px 3px no-repeat,
+    linear-gradient(var(--oro), var(--oro)) top left / 3px 16px no-repeat,
+    linear-gradient(var(--oro), var(--oro)) top right / 16px 3px no-repeat,
+    linear-gradient(var(--oro), var(--oro)) top right / 3px 16px no-repeat,
+    linear-gradient(var(--oro), var(--oro)) bottom left / 16px 3px no-repeat,
+    linear-gradient(var(--oro), var(--oro)) bottom left / 3px 16px no-repeat,
+    linear-gradient(var(--oro), var(--oro)) bottom right / 16px 3px no-repeat,
+    linear-gradient(var(--oro), var(--oro)) bottom right / 3px 16px no-repeat;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
 }
-@media (max-width: 600px) {
+.dz-tomo__placa {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 5px;
+  border-radius: 999px;
+  background: linear-gradient(#fff8dc, #f6d77e 45%, #c8961e);
+  box-shadow: 0 0 0 1.5px #7a5216, 0 3px 6px rgba(0, 0, 0, 0.35), inset 0 1px 0 #fff;
+}
+.dz-tomo__placa .dz-tomo__emblema { width: 36px; height: 36px; font-size: 21px; }
+.dz-tomo__placa .dz-tomo__nivel { font-size: 24px; color: #5e0614 !important; text-shadow: 0 1px 0 #fff3cf !important; }
+.dz-arte { display: block; width: 92%; height: auto; margin: 8px 0 4px; flex: 1; min-height: 0; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3)); }
+.dz-tomo__tapa .dz-tomo__nombre { margin-top: auto; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
+.dz-tomo__tapa .dz-tomo__cuenta { margin-top: 4px; }
+.dz-tomo__brillo { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.dz-tomo__brillo::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 250, 225, 0.55) 50%, transparent);
+  transform: translateX(-160%) skewX(-12deg);
+}
+.dz-tomo:hover .dz-tomo__brillo::before { transition: transform 0.9s ease; transform: translateX(320%) skewX(-12deg); }
+.dz-tomo.is-on .dz-tomo__brillo::before { animation: dzDestello 4.5s ease-in-out 3s infinite; }
+@keyframes dzDestello { 0%, 60% { transform: translateX(-160%) skewX(-12deg); } 85%, 100% { transform: translateX(320%) skewX(-12deg); } }
+/* cada mundo afina su cubierta */
+.dz-tomo--a1 .dz-tomo__tapa { color: #1d3d1c; }
+.dz-tomo--a2 .dz-tomo__tapa { color: #fff3cf; }
+.dz-tomo--b1 .dz-tomo__tapa { color: #f6e7c8; }
+.dz-tomo--b2 .dz-tomo__tapa { color: #fff3cf; }
+.dz-tomo--b1 .dz-tomo__placa { background: linear-gradient(#2b2630, #15141b); box-shadow: 0 0 0 1.5px var(--oro); }
+.dz-tomo--b1 .dz-tomo__placa .dz-tomo__nivel { color: var(--oro) !important; text-shadow: none !important; }
+.dz-tomo--a1 .dz-tomo__tapa::after { content: ""; position: absolute; right: -2px; top: 44%; width: 22px; height: 30px; border-radius: 6px 0 0 6px; background: radial-gradient(circle at 40% 50%, #9fe0b8, #2f8f52 55%, #1d6339); box-shadow: 0 0 0 2px #f2c14e, 0 3px 6px rgba(0, 0, 0, 0.4); }
+
+/* ---------- Portadilla del tomo abierto (encima de las palabras) ---------- */
+.dz-portadilla {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 26px 0 0;
+  padding: 14px 20px 14px 14px;
+  overflow: hidden;
+  border-radius: 16px;
+  color: #fff3d6;
+  background: linear-gradient(110deg, color-mix(in srgb, var(--t1) 70%, #000), color-mix(in srgb, var(--t3) 85%, #000));
+  box-shadow: inset 0 0 0 1.5px rgba(242, 193, 78, 0.7), 0 14px 30px rgba(0, 0, 0, 0.45);
+  scroll-margin-top: 80px;
+  animation: dzPortadilla 0.8s cubic-bezier(0.3, 1.2, 0.5, 1) backwards;
+  transform-origin: 50% 0;
+}
+@keyframes dzPortadilla { from { opacity: 0; transform: perspective(900px) rotateX(-70deg); } }
+.dz-portadilla__arte { flex: none; width: 120px; padding: 6px; border-radius: 10px; background: rgba(255, 243, 207, 0.12); box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.5); }
+.dz-portadilla__arte .dz-arte { width: 100%; margin: 0; }
+.dz-portadilla__ceja { font: 700 11px/1 var(--im-font-ui, system-ui), sans-serif; letter-spacing: 1.5px; text-transform: uppercase; color: var(--oro); }
+.dz-portadilla h2 { margin: 6px 0 2px; font: 800 26px/1.1 var(--cinzel); color: #fff3cf; }
+.dz-portadilla h2 span { font: 700 22px/1 var(--kai); color: var(--oro); }
+.dz-portadilla p { margin: 0; font-size: 13.5px; color: rgba(255, 243, 214, 0.85); }
+.dz-portadilla__sello { margin-left: auto; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 10px; font: 700 38px/1 var(--kai); color: #fff3e6; background: radial-gradient(circle at 30% 25%, #e0485a, #b3121f 60%, #8f0c21); box-shadow: inset 0 0 0 2px rgba(255, 230, 220, 0.5); transform: rotate(-8deg); animation: dzSella 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) 0.5s backwards; }
+
+/* ---------- Apertura de un tomo: el libro vuela al centro y se abre ---------- */
+.dz-apertura {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse at center, rgba(30, 20, 10, 0.55), rgba(4, 8, 18, 0.9));
+  cursor: pointer;
+  animation: dzAperturaFin 0.45s ease-in 2.35s forwards;
+}
+@keyframes dzAperturaFin { to { opacity: 0; } }
+.dz-apertura__escena { perspective: 2000px; }
+.dz-apertura__libro {
+  position: relative;
+  width: min(760px, 92vw);
+  height: min(420px, 60vh);
+  transform-style: preserve-3d;
+  animation: dzApLibro 2.8s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+@keyframes dzApLibro {
+  0% { opacity: 0; transform: translateX(-25%) translateY(30vh) rotateX(50deg) rotateZ(-8deg) scale(0.3); }
+  22% { opacity: 1; transform: translateX(-25%) translateY(0) rotateX(14deg) rotateZ(-2deg) scale(0.92); }
+  30% { transform: translateX(-25%) rotateX(12deg) scale(0.95); }
+  70% { transform: rotateX(8deg) scale(1); }
+  100% { transform: rotateX(4deg) translateZ(90px) scale(1.03); }
+}
+.dz-apertura__pag {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 50%;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--tinta);
+  border-radius: 0 6px 6px 0;
+  background: linear-gradient(90deg, rgba(90, 50, 10, 0.38), transparent 14%), url("../../public/theme/papel.jpg") center / cover, #f2e3c2;
+  box-shadow: 2px 2px 0 #e7d6ad, 4px 4px 0 #d2bc8c, 6px 6px 0 #bba06e, 9px 9px 0 var(--t1), 20px 40px 70px rgba(0, 0, 0, 0.6);
+}
+.dz-apertura__pag > * { animation: dzAparece 0.5s ease-out 1.55s backwards; }
+.dz-apertura__emb { display: grid; place-items: center; width: 92px; height: 92px; border-radius: 12px; font: 700 56px/1 var(--kai); color: #fff3e6; background: radial-gradient(circle at 30% 25%, #e0485a, #b3121f 60%, #8f0c21); box-shadow: inset 0 0 0 3px rgba(255, 230, 220, 0.5); transform: rotate(-6deg); }
+.dz-apertura__pag b { font: 800 clamp(22px, 3.2vw, 32px)/1.1 var(--cinzel); color: var(--laca-osc); }
+.dz-apertura__zh { font: 700 26px/1 var(--kai); letter-spacing: 8px; }
+.dz-apertura__pag small { font-size: 13px; color: #7a5a3a; }
+.dz-ap-hoja {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 50%;
+  width: calc(50% - 4px);
+  border-radius: 0 6px 6px 0;
+  background: linear-gradient(90deg, rgba(90, 50, 10, 0.3), transparent 20%, transparent 80%, rgba(90, 50, 10, 0.18)), #f6ead0;
+  transform-origin: left center;
+  opacity: 0;
+  animation: dzHoja 0.75s cubic-bezier(0.45, 0, 0.3, 1) calc(1.15s + var(--k) * 0.14s) both;
+}
+.dz-apertura__tapa {
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 50%;
+  width: calc(50% + 10px);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transform: translateZ(1px) rotateY(-180deg);
+  animation: dzTapaAbre 1s cubic-bezier(0.55, 0, 0.25, 1) 0.55s both;
+}
+.dz-apertura__frente,
+.dz-apertura__dorso,
+.dz-lf__frente,
+.dz-lf__dorso { position: absolute; inset: 0; overflow: hidden; border-radius: 4px 12px 12px 4px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+/* la cubierta de la estantería (190×206) se escala para llenar la tapa grande */
+:is(.dz-apertura__frente, .dz-lf__frente) .dz-tomo__tapa { inset: 0 auto auto 0; width: 190px; height: 206px; border-radius: 3px 8px 8px 3px; transform-origin: 0 0; }
+.dz-apertura__dorso,
+.dz-lf__dorso {
+  display: grid;
+  place-items: center;
+  transform: rotateY(180deg);
+  border-radius: 12px 4px 4px 12px;
+  background: radial-gradient(circle, rgba(255, 250, 235, 0.3), transparent 70%), url("../../public/theme/papel.jpg") center / cover, #f2e3c2;
+  box-shadow: inset 0 0 0 10px var(--t1), inset 0 0 0 12px var(--oro), inset 0 0 0 13px #7a5216;
+}
+.dz-apertura__dorso span { font: 700 min(180px, 22vw)/1 var(--kai); color: rgba(143, 12, 33, 0.85); text-shadow: 0 4px 0 rgba(242, 193, 78, 0.5); }
+
+/* ---------- La ficha como libro abierto ---------- */
+.dz-modal { padding: 12px; }
+.dz-lf { width: min(1000px, 100%); height: min(620px, calc(100dvh - 24px)); perspective: 2400px; }
+.dz-lf__libro { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; animation: dzLfLlega 1.3s cubic-bezier(0.45, 0, 0.2, 1) both; }
+@keyframes dzLfLlega {
+  0% { opacity: 0; transform: translateX(-25%) translateY(120px) rotateX(45deg) scale(0.6); }
+  28% { opacity: 1; transform: translateX(-25%) translateY(0) rotateX(12deg) scale(0.92); }
+  45% { transform: translateX(-25%) rotateX(8deg) scale(0.95); }
+  100% { transform: none; }
+}
+.dz-lf__base { position: absolute; inset: -12px -14px; border-radius: 14px; background: radial-gradient(ellipse at center, color-mix(in srgb, var(--t1) 85%, #fff 0%), color-mix(in srgb, var(--t3) 80%, #000)); box-shadow: inset 0 0 0 2px var(--oro), inset 0 0 40px rgba(0, 0, 0, 0.5), 0 40px 80px rgba(0, 0, 0, 0.7); transform: translateZ(-4px); animation: dzMostrar 0.3s ease-out 0.55s backwards; }
+.dz-lf__pag {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  color: var(--tinta);
+  background: url("../../public/theme/papel.jpg") center / cover, #f2e3c2;
+}
+.dz-lf__pag--izq {
+  left: 0;
+  padding: 26px 34px 22px 30px;
+  border-radius: 8px 0 0 8px;
+  background: linear-gradient(270deg, rgba(90, 50, 10, 0.4), rgba(90, 50, 10, 0.08) 8%, transparent 14%), url("../../public/theme/papel.jpg") center / cover, #f2e3c2;
+  box-shadow: -2px 2px 0 #e7d6ad, -4px 4px 0 #d2bc8c, -6px 6px 0 #bba06e;
+  animation: dzMostrar 0.25s linear 0.8s backwards;
+}
+@keyframes dzMostrar { from { opacity: 0; } }
+.dz-lf__pag--der {
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 30px 18px 34px;
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(90deg, rgba(90, 50, 10, 0.4), rgba(90, 50, 10, 0.08) 8%, transparent 14%), url("../../public/theme/papel.jpg") center / cover, #f2e3c2;
+  box-shadow: 2px 2px 0 #e7d6ad, 4px 4px 0 #d2bc8c, 6px 6px 0 #bba06e;
+}
+.dz-lf__contenido { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 100%; animation: dzAparece 0.45s ease-out 0.35s backwards; }
+.dz-lf__pag--izq .dz-lf__contenido { align-items: center; text-align: center; }
+.dz-lf__libro > .dz-lf__pag .dz-lf__contenido { animation-delay: 0.35s; }
+.dz-modal:not(.is-navegado) .dz-lf__pag .dz-lf__contenido { animation-delay: 1.15s; }
+.dz-lf__tomo { padding: 5px 12px; border-radius: 999px; font: 700 12px/1.2 var(--im-font-ui, system-ui), sans-serif; color: #fff3cf; background: var(--t1); box-shadow: inset 0 0 0 1px var(--oro); }
+.dz-lf__sello {
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  margin: 22px 0 14px;
+  border-radius: 14px;
+  font: 700 76px/1 var(--kai);
+  color: #fff3e6;
+  background: radial-gradient(circle at 30% 25%, #e0485a, #b3121f 60%, #8f0c21);
+  box-shadow: inset 0 0 0 4px rgba(255, 230, 220, 0.5), inset 0 0 18px rgba(60, 0, 0, 0.5), 0 10px 24px rgba(80, 0, 0, 0.4);
+  transform: rotate(-7deg);
+  animation: dzSella 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) 1.45s backwards;
+}
+.dz-modal.is-navegado .dz-lf__sello { animation-delay: 0.45s; }
+.dz-lf__es { margin: 0; font: 800 clamp(32px, 4.4vw, 50px)/1.05 Georgia, "Times New Roman", serif; color: var(--tinta); overflow-wrap: anywhere; }
+.dz-lf__zh { margin: 10px 0 18px; padding: 0 18px 8px; font: 700 clamp(28px, 3.6vw, 40px)/1.15 var(--kai); color: var(--laca-osc); letter-spacing: 4px; background: linear-gradient(90deg, transparent, rgba(200, 16, 46, 0.6) 15%, rgba(200, 16, 46, 0.8) 50%, rgba(200, 16, 46, 0.5) 85%, transparent) bottom / 100% 3px no-repeat; }
+.dz-lf__pag--izq .dz-pliego__audios { justify-content: center; }
+.dz-lf__folio { margin-top: auto; padding-top: 12px; font: italic 600 13px/1 Georgia, serif; color: #9c7a55; text-align: center; }
+.dz-lf__cerrar { position: absolute; top: 14px; right: 14px; z-index: 2; }
+.dz-lf__bloque { margin: 6px 0 16px; }
+.dz-lf__bloque h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font: 700 12.5px/1 var(--cinzel); letter-spacing: 2px; text-transform: uppercase; color: var(--laca-osc); }
+.dz-lf__bloque h4::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, rgba(200, 16, 46, 0.6), transparent); }
+.dz-lf__capitular { margin: 0; font: 500 19px/1.6 var(--im-font-ui, system-ui), sans-serif; }
+.dz-lf__capitular::first-letter { float: left; margin: 2px 8px 0 0; font: 700 44px/0.9 var(--kai); color: var(--laca-osc); }
+.dz-lf__ejemplo button { display: flex; align-items: flex-start; gap: 14px; width: 100%; padding: 14px 16px; text-align: left; border-radius: 12px; font: italic 600 20px/1.45 Georgia, serif; color: var(--tinta); background: rgba(255, 250, 235, 0.7); box-shadow: inset 0 0 0 1.5px rgba(200, 150, 30, 0.6), 0 4px 0 #c9a660; transition: transform 0.15s; }
+.dz-lf__ejemplo button:hover { transform: translateY(-2px); }
+.dz-lf__ejemplo small { display: block; margin-top: 6px; font: normal 500 15px/1.4 var(--im-font-ui, system-ui), sans-serif; color: #6b4a2e; }
+.dz-lf__moneda { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; color: #6e0a17; background: radial-gradient(circle at 35% 30%, #fff8dc, #f6d77e 40%, #d9a93a 75%, #a0701c); box-shadow: 0 0 0 2px #fff3cf, 0 0 0 3.5px #a0701c; }
+.dz-lf__pag--der .dz-lf__folio { margin-top: 14px; }
+.dz-lf__nav { margin-top: 10px; }
+.dz-lf__pag--der .dz-lf__contenido { flex: 1; min-height: 0; padding-top: 18px; }
+.dz-lf__marca { position: absolute; left: 50%; bottom: 46px; width: 62%; opacity: 0.14; transform: translateX(-50%); pointer-events: none; }
+.dz-lf__marca .dz-arte { width: 100%; margin: 0; filter: grayscale(0.3); }
+.dz-lf__pag--izq::after { content: ""; position: absolute; inset: 14px; border: 1.5px solid rgba(200, 150, 30, 0.55); border-right: 0; border-radius: 6px 0 0 6px; pointer-events: none; }
+.dz-lf__pag--der::after { content: ""; position: absolute; inset: 14px; border: 1.5px solid rgba(200, 150, 30, 0.55); border-left: 0; border-radius: 0 6px 6px 0; pointer-events: none; }
+/* hoja que pasa al navegar */
+.dz-lf__hoja {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  width: calc(50% - 2px);
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(90, 50, 10, 0.32), transparent 22%, transparent 78%, rgba(90, 50, 10, 0.2)), url("../../public/theme/papel.jpg") center / cover, #f6ead0;
+}
+.dz-lf__hoja--sig { left: 50%; border-radius: 0 8px 8px 0; transform-origin: left center; animation: dzLfHojaSig 0.65s cubic-bezier(0.45, 0, 0.3, 1) both; }
+.dz-lf__hoja--ant { left: 0; border-radius: 8px 0 0 8px; transform-origin: right center; animation: dzLfHojaAnt 0.65s cubic-bezier(0.45, 0, 0.3, 1) both; }
+@keyframes dzLfHojaSig { 0% { opacity: 1; transform: translateZ(2px) rotateY(0); } 85% { opacity: 1; } 100% { opacity: 0; transform: translateZ(2px) rotateY(-178deg); } }
+@keyframes dzLfHojaAnt { 0% { opacity: 1; transform: translateZ(2px) rotateY(0); } 85% { opacity: 1; } 100% { opacity: 0; transform: translateZ(2px) rotateY(178deg); } }
+/* tapa del tomo que se abre al entrar */
+.dz-lf__tapa {
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: 50%;
+  width: calc(50% + 14px);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  opacity: 0;
+  pointer-events: none;
+  animation: dzLfTapa 1.05s cubic-bezier(0.55, 0, 0.25, 1) 0.35s both;
+}
+@keyframes dzLfTapa {
+  0% { opacity: 1; transform: translateZ(4px) rotateY(0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateZ(4px) rotateY(-180deg); }
+}
+
+/* ---------- Tableta y móvil ---------- */
+@media (max-width: 1100px) {
+  .dz-portada__mono { width: 116px; right: -8px; bottom: 0; }
+}
+@media (max-width: 900px) {
+  .dz-tomos { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 0; }
+  .dz-tomos .dz-tomo:nth-child(n + 3) { margin-top: -6px; }
+  .dz-libro3d__dorso { padding: 30px 30px 26px 30px; }
+  .dz-libro3d__pagina { padding: 26px 28px 24px 26px; }
+  .dz-cifras span { min-width: 70px; }
+}
+@media (max-width: 700px) {
   .light-page .unit-page.dz { padding-left: 10px !important; padding-right: 10px !important; }
-  .dz-rollo { grid-template-columns: 18px minmax(0, 1fr) 18px; }
-  .dz-rollo__vara { border-radius: 9px; }
-  .dz-rollo__vara::before, .dz-rollo__vara::after { width: 28px; margin-left: -14px; height: 16px; }
-  @keyframes dzVaraIzq { from { transform: translateX(calc(50cqw - 18px)); } to { transform: none; } }
-  @keyframes dzVaraDer { from { transform: translateX(calc(-50cqw + 18px)); } to { transform: none; } }
-  .dz-rollo__papel { padding: 30px 14px 22px; }
-  .dz-rollo__titulo { letter-spacing: 0; }
-  .dz-rollo__sello { right: 6px; top: -10px; width: 38px; font-size: 15px; }
-  .dz-rollo__ceja { font-size: 10px; letter-spacing: 1.5px; }
-  .dz-rollo__sub { font-size: 13.5px; margin-bottom: 14px; }
+  .dz-portada { padding: 18px 0 40px; }
+  .dz-inclina { transform: rotateX(calc(6deg + var(--rx, 0deg))) rotateY(var(--ry, 0deg)); }
+  .dz-libro3d { height: 430px; animation-name: dzLibroLlegaMovil; }
+  @keyframes dzLibroLlegaMovil {
+    0% { opacity: 0; transform: translateY(80px) rotateX(40deg) scale(0.8); }
+    30% { opacity: 1; transform: translateY(0) rotateX(12deg) scale(0.94); }
+    100% { transform: none; }
+  }
+  .dz-libro3d__pagina { left: 0; width: 100%; padding: 22px 16px 22px; border-radius: 6px; }
+  .dz-libro3d__movil { display: block; margin-bottom: 14px; }
+  .dz-libro3d__movil .dz-ceja { font-size: 10px; letter-spacing: 1.5px; }
+  .dz-libro3d__movil .dz-titulo { font-size: 38px; letter-spacing: 0; }
+  .dz-pagina__titulo { display: none; }
+  .dz-hoja { left: 0; width: calc(100% - 4px); }
+  .dz-libro3d__tapa { left: 0; width: calc(100% + 8px); opacity: 0; pointer-events: none; animation-name: dzTapaAbreMovil; }
+  @keyframes dzTapaAbreMovil {
+    0% { opacity: 1; transform: translateZ(4px) rotateY(0deg); }
+    55% { opacity: 1; }
+    100% { opacity: 0; transform: translateZ(4px) rotateY(-120deg); }
+  }
+  .dz-libro3d__dorso { display: none; }
+  .dz-tapa__medallon { width: 100px; height: 100px; font-size: 54px; }
+  .dz-tapa__titulo { font-size: 32px; }
+  .dz-libro3d__cinta { right: 24px; width: 16px; height: 60px; bottom: -44px; }
+  .dz-portada__mono { display: none; }
+  .dz-chispas { top: 34%; }
   .dz-buscador { min-height: 58px; gap: 8px; border-radius: 14px; }
   .dz-buscador__icono { width: 40px; height: 40px; }
   .dz-buscador input { font-size: 17px; height: 42px; }
   .dz-buscador input::placeholder { font-size: 14px; }
-  .dz-portada__mono { display: none; }
-  .dz-tomos { gap: 12px; margin-top: 30px; }
-  .dz-tomo { min-height: 118px; padding: 14px 10px 10px; column-gap: 8px; grid-template-areas: "emb nivel" "nombre nombre" "cuenta cuenta"; }
-  .dz-tomo__emblema { width: 42px; height: 42px; font-size: 22px; }
-  .dz-tomo__nivel { font-size: 28px; align-self: center; }
-  .dz-tomo__nombre { margin-top: 8px; font-size: 12.5px; }
-  .dz-tomo.is-on::after { content: "已打开"; }
+  .dz-tomos { gap: 12px; padding: 0; margin-top: 10px; }
+  .dz-tomo { --D: 24px; height: 200px; perspective: 700px; }
+  .dz-tomo__flota { width: min(100%, 148px); height: 164px; }
+  .dz-tomo__tapa { padding: 12px 8px 10px 14px; column-gap: 6px; }
+  .dz-tomo__emblema { width: 40px; height: 40px; font-size: 22px; }
+  .dz-tomo__nivel { font-size: 28px; }
+  .dz-tomo__nombre { margin-top: 8px; font-size: 12px; }
+  .dz-tomo__nombre small { font-size: 11px; }
+  .dz-tomo__cuenta { font-size: 10.5px; }
+  .dz-tomo.is-on .dz-tomo__flota::after { content: "已打开"; }
+  .dz-tomo.is-on::before { width: 160px; height: 180px; }
   .dz-decreto { padding: 14px 12px 14px 20px; gap: 12px; }
   .dz-decreto__sello { width: 46px; height: 46px; font-size: 26px; }
   .dz-decreto__palabra b { font-size: 22px; }
   .dz-decreto__palabra span { font-size: 18px; }
   .dz-decreto__audio { width: 48px; height: 48px; }
   .dz-filtros { padding: 12px; }
-  .dz-temas { flex-wrap: nowrap; overflow-x: auto; margin: -6px -12px 0; padding: 8px 12px 8px; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .dz-temas { flex-wrap: nowrap; overflow-x: auto; margin: -6px -12px 0; padding: 8px 12px 10px; scroll-snap-type: x proximity; scrollbar-width: none; }
   .dz-temas::-webkit-scrollbar { display: none; }
   .dz-tema { flex: none; scroll-snap-align: start; }
   .dz-tema-mas { display: none; }
@@ -741,7 +1314,8 @@
   .dz-abc::-webkit-scrollbar { display: none; }
   .dz-abc button { flex: none; }
   .dz-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .dz-ficha { min-height: 178px; padding: 14px 12px 12px; contain-intrinsic-size: auto 178px; }
+  .dz-ficha { min-height: 182px; }
+  .dz-ficha__in { padding: 14px 12px 12px; }
   .dz-ficha__sello { width: 36px; height: 36px; font-size: 21px; margin-bottom: 10px; }
   .dz-ficha__es { font-size: 18px; }
   .dz-ficha__zh { font-size: 18px; margin-bottom: 10px; }
@@ -751,9 +1325,48 @@
   .dz-pliego__papel { padding: 16px 16px 18px; }
   .dz-pliego__sello { width: 66px; height: 66px; font-size: 38px; }
   .dz-pliego__entrada { gap: 14px; }
+  .dz-farol { display: none; }
 }
 
-/* ---------- Movimiento reducido ---------- */
+@media (max-width: 700px) {
+  .dz-tomo .dz-tomo__placa { padding: 3px 8px 3px 3px; gap: 5px; }
+  .dz-tomo__placa .dz-tomo__emblema { width: 28px; height: 28px; font-size: 16px; }
+  .dz-tomo__placa .dz-tomo__nivel { font-size: 19px; }
+  .dz-tomo__esquinas { inset: 4px 4px 4px 9px; }
+  .dz-portadilla { gap: 12px; padding: 12px; }
+  .dz-portadilla__arte { width: 74px; }
+  .dz-portadilla h2 { font-size: 19px; }
+  .dz-portadilla h2 span { font-size: 17px; }
+  .dz-portadilla p { font-size: 12px; }
+  .dz-portadilla__sello { display: none; }
+  .dz-apertura__libro { width: 72vw; height: 58vh; animation-name: dzApLibroMovil; }
+  @keyframes dzApLibroMovil {
+    0% { opacity: 0; transform: translateY(30vh) rotateX(50deg) scale(0.3); }
+    25% { opacity: 1; transform: rotateX(12deg) scale(0.95); }
+    100% { transform: rotateX(4deg) translateZ(200px) scale(1.05); }
+  }
+  .dz-apertura__pag, .dz-ap-hoja { left: 0; width: 100%; }
+  .dz-apertura__tapa { left: 0; width: calc(100% + 8px); animation-name: dzTapaAbreMovil; opacity: 0; }
+  .dz-apertura__dorso { display: none; }
+  .dz-lf { height: calc(100dvh - 24px); }
+  .dz-lf__libro { animation-name: dzLibroLlegaMovil; }
+  .dz-lf__base { inset: -6px; }
+  .dz-lf__pag--izq { left: 0; width: 100%; bottom: auto; height: 46%; padding: 16px 16px 10px; border-radius: 8px 8px 0 0; background: linear-gradient(0deg, rgba(90, 50, 10, 0.3), transparent 8%), url("../../public/theme/papel.jpg") center / cover, #f2e3c2; box-shadow: none; }
+  .dz-lf__pag--der { left: 0; width: 100%; top: 46%; padding: 16px 16px 12px; border-radius: 0 0 8px 8px; background: linear-gradient(180deg, rgba(90, 50, 10, 0.3), transparent 8%), url("../../public/theme/papel.jpg") center / cover, #f2e3c2; box-shadow: 0 3px 0 #d2bc8c, 0 6px 0 #bba06e; }
+  .dz-lf__sello { width: 64px; height: 64px; font-size: 40px; margin: 10px 0 6px; }
+  .dz-lf__es { font-size: 30px; }
+  .dz-lf__zh { font-size: 24px; margin: 6px 0 10px; }
+  .dz-lf__pag--izq .dz-lf__folio { display: none; }
+  .dz-lf__cerrar { top: 8px; right: 8px; }
+  .dz-lf__capitular { font-size: 15.5px; }
+  .dz-lf__ejemplo button { font-size: 16px; padding: 12px; }
+  .dz-lf__hoja { left: 0; width: 100%; top: 0; bottom: 0; border-radius: 8px; }
+  .dz-lf__hoja--ant { transform-origin: left center; animation-name: dzLfHojaSig; }
+  .dz-lf__tapa { left: 0; width: calc(100% + 8px); animation-name: dzTapaAbreMovil; }
+  .dz-lf__dorso { display: none; }
+}
+
+/* ---------- Movimiento reducido: todo quieto y el libro ya abierto ---------- */
 @media (prefers-reduced-motion: reduce) {
   .dz *,
   .dz *::before,
