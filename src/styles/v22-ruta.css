@@ -1,0 +1,212 @@
+/* ===== v22 · Ruta espectacular (RutaPage + components/ruta/CabeceraRuta, paisajes, SelloPasaporte) =====
+   Prefijos: rh- cabecera (dintel con dragones y tablillas de nivel) · ru- estandarte/terreno por paisaje ·
+   rp- paradas (marca, bruma, desbloqueo) · sp- sellos del pasaporte.
+   Solo se anima transform y opacity; todo se para con prefers-reduced-motion. */
+.rt22 { --rh-oro: #f6d77e; --rh-oro2: #c8961e; --rh-laca: #c8102e; --rh-tinta: #3b2416; }
+
+/* ---------- Cabecera: dintel de laca con «dos dragones juegan con la perla» ---------- */
+.rh-cabecera { position: relative; z-index: 7; margin: 16px 26px 0; }
+.rh-dintel { position: relative; isolation: isolate; min-height: 140px; padding: 26px 128px 16px; text-align: center; border-radius: 18px; color: #fff3d6;
+  background:
+    radial-gradient(70% 90% at 50% -10%, rgba(255,220,140,.35), transparent 60%),
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(246,215,126,.07) 22px 24px),
+    url("../../public/theme/papel.jpg") center / 420px,
+    linear-gradient(170deg, #b8142f, #7d0a1d 55%, #3e0610);
+  background-blend-mode: normal, normal, soft-light, normal;
+  border: 2px solid var(--rh-oro);
+  box-shadow: 0 0 0 1.5px #7a4d12, inset 0 0 0 4px rgba(60,5,10,.45), inset 0 0 0 5.5px rgba(246,215,126,.7), inset 0 -24px 40px rgba(0,0,0,.28), 0 18px 30px -10px rgba(60,10,0,.55); }
+/* Esquinas de oro */
+.rh-dintel::before, .rh-dintel::after { content: ""; position: absolute; z-index: 1; top: 7px; width: 44px; height: 44px; pointer-events: none; background: url("../../public/theme/barra-esquina.png") center / contain no-repeat; opacity: .9; }
+.rh-dintel::before { left: 7px; } .rh-dintel::after { right: 7px; scale: -1 1; }
+.rh-titulo { position: relative; z-index: 3; }
+.rh-titulo h1 { margin: 0; font: 800 clamp(24px, 2.5vw, 34px)/1.05 var(--im-font-display, Georgia, serif); letter-spacing: .01em; }
+.rh-titulo h1 b { background: linear-gradient(180deg, #fffbe6 10%, #f6d77e 55%, #d9a43a); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 0 rgba(60,5,10,.65)) drop-shadow(0 0 12px rgba(255,200,100,.35)); }
+.rh-titulo h1 i { font: 700 clamp(20px, 2.2vw, 27px) "STKaiti", "KaiTi", "Kaiti SC", serif; font-style: normal; color: #ffe29a; text-shadow: 0 2px 0 rgba(60,5,10,.6); white-space: nowrap; }
+.rh-tema { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 8px 0 4px; font: 800 13px/1.2 var(--rt-ui); letter-spacing: .22em; text-transform: uppercase; color: #ffe9bd; }
+.rh-tema-raya { flex: 0 1 46px; height: 2px; background: linear-gradient(90deg, transparent, var(--rh-oro)); }
+.rh-tema-raya:last-child { transform: scaleX(-1); }
+.light-page .rt22 .rh-titulo small { display: block; font: 600 12px/1.35 var(--rt-ui); color: rgba(255,240,210,.82) !important; }
+
+/* Dragones: nacen de una nube de oro (el corte de la imagen queda dentro de la nube) y miran a la perla */
+.rh-dragon { position: absolute; z-index: 2; bottom: 4px; width: 124px; height: 132px; pointer-events: none; }
+.rh-dragon.izq { left: 10px; } .rh-dragon.der { right: 10px; scale: -1 1; }
+.rh-dragon-cuerpo { position: absolute; left: 0; bottom: 12px; width: 108px; aspect-ratio: 410 / 470; background: url("../../public/theme/dragon-luz.webp") center / contain no-repeat;
+  filter: drop-shadow(0 0 10px rgba(255,200,90,.55)) drop-shadow(0 6px 8px rgba(40,0,0,.5));
+  -webkit-mask-image: radial-gradient(circle at 75% 69%, transparent 8.5%, #000 10.5%); mask-image: radial-gradient(circle at 75% 69%, transparent 8.5%, #000 10.5%);
+  transform-origin: 40% 90%; animation: rhDragon 6s ease-in-out infinite; }
+.rh-dragon.der .rh-dragon-cuerpo { animation-delay: -3s; }
+.rh-nube { position: absolute; left: 12px; bottom: 0; width: 112px; height: 40px; background: url("../../public/theme/nube-oro.png") center / contain no-repeat; filter: drop-shadow(0 3px 4px rgba(60,10,0,.45)); animation: rhNube 7s ease-in-out infinite; }
+.rh-dragon.der .rh-nube { animation-delay: -3.5s; }
+@keyframes rhDragon { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-7px) rotate(-2.5deg); } }
+@keyframes rhNube { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+/* La perla flameante entre los dos */
+.rh-perla { position: absolute; z-index: 2; left: 50%; top: -20px; width: 40px; height: 40px; margin-left: -20px; pointer-events: none; }
+.rh-perla::before { content: ""; position: absolute; inset: -16px; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 8%, rgba(255,140,40,.85) 12%, transparent 18% 33%, rgba(255,190,60,.85) 38%, transparent 44% 58%, rgba(255,120,40,.85) 63%, transparent 69% 83%, rgba(255,200,80,.85) 88%, transparent 94%);
+  -webkit-mask-image: radial-gradient(closest-side, transparent 52%, #000 60%, transparent 100%); mask-image: radial-gradient(closest-side, transparent 52%, #000 60%, transparent 100%); animation: rhGira 9s linear infinite; }
+.rh-perla i { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 36% 30%, #fff 0, #fff6d8 22%, #f6d77e 55%, #d9822a 100%); box-shadow: 0 0 0 2px rgba(255,246,216,.6), 0 0 18px 6px rgba(255,200,90,.75), 0 0 40px 10px rgba(255,140,40,.35); animation: rhLate 3.2s ease-in-out infinite; }
+@keyframes rhGira { to { transform: rotate(360deg); } }
+@keyframes rhLate { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+/* ---------- Tablillas de nivel: cada nivel con su mundo ---------- */
+.rh-niveles { position: relative; z-index: 6; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0 26px; padding: 16px 2px 18px; }
+.rh-tablilla { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 8px; min-height: 104px; padding: 9px 10px 10px; text-align: left; cursor: pointer; border-radius: 14px; color: #fff; font-family: var(--rt-ui);
+  border: 2px solid #f3dd9a; background: var(--d);
+  box-shadow: 0 0 0 1.5px #8a5a1e, 0 5px 0 #6b4a1e, 0 10px 16px rgba(60,30,0,.28);
+  filter: saturate(.6) brightness(.93); transition: transform 380ms cubic-bezier(.3,1.5,.5,1), filter 300ms, box-shadow 300ms; -webkit-tap-highlight-color: transparent; }
+.rh-tablilla:hover { filter: none; transform: translateY(-3px); }
+.rh-tablilla:active { transform: translateY(2px) scale(.97); transition-duration: 80ms; }
+.rh-escena { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; }
+.rh-velo { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in srgb, var(--d) 10%, transparent) 0%, color-mix(in srgb, var(--d) 35%, transparent) 38%, color-mix(in srgb, var(--d) 94%, transparent) 100%); }
+.rh-medalla { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #fffbe6, #f6d77e 40%, #d9a43a 72%, #8a5a1e); box-shadow: 0 0 0 2px #fff3cf, 0 0 0 3.5px #8a5a1e, 0 4px 8px rgba(0,0,0,.4); }
+.rh-medalla b { font: 900 17px/1 var(--ui-display, var(--rt-tit)); color: var(--d); text-shadow: 0 1px 0 rgba(255,250,220,.8); }
+.rh-textos { display: contents; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.rh-textos > * { text-shadow: 0 1px 3px rgba(0,0,0,.7); }
+.rh-textos small { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; text-align: right; }
+.rh-textos em, .rh-mundo, .rh-barra { grid-column: 1 / -1; }
+.rh-textos em { margin-top: 2px; font: 800 13px/1.15 var(--rt-ui); font-style: normal; color: #fff !important; }
+.rh-mundo { font: 700 10.5px/1.2 var(--rt-ui); color: var(--luz) !important; }
+.rh-mundo span { font-family: "STKaiti", "KaiTi", serif; font-size: 12px; }
+.rh-barra { display: block; height: 5px; margin: 3px 0 1px; border-radius: 3px; overflow: hidden; background: rgba(0,0,0,.4); box-shadow: inset 0 1px 1px rgba(0,0,0,.4); }
+.rh-barra i { display: block; height: 100%; transform-origin: 0 50%; background: linear-gradient(90deg, #f2c14e, #fff3c4); transition: transform 700ms cubic-bezier(.2,.8,.2,1); }
+.light-page .rt22 .rh-textos small { font: 900 15px/1 var(--rt-ui); color: #fff3d6 !important; }
+.light-page .rt22 .rh-textos small span { display: block; margin-top: 2px; font: 800 9.5px/1 var(--rt-ui); color: #fff3d6 !important; opacity: .9; }
+/* Activa: se levanta, marco de oro vivo, brillo que pasa, borla «在此» y su mundo se mueve */
+.rh-tablilla.on { filter: none; transform: translateY(-5px) scale(1.035); border-color: #fff3c4;
+  box-shadow: 0 0 0 2px var(--rh-oro), 0 0 0 4px #8a5a1e, 0 0 26px 4px color-mix(in srgb, var(--c) 70%, #f2c14e), 0 7px 0 #6b4a1e, 0 16px 24px rgba(60,30,0,.4); }
+.rh-tablilla.on::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%); transform: translateX(-120%); animation: rhBrilla 4.5s ease-in-out infinite 600ms; }
+@keyframes rhBrilla { 0%, 70% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+.rh-borla { position: absolute; z-index: 4; top: 0; right: 10px; width: 26px; padding: 6px 0 9px; display: grid; justify-items: center; color: #fff3c4; font: 700 12px/1.05 "STKaiti", "KaiTi", serif; writing-mode: vertical-rl; letter-spacing: 1px;
+  background: linear-gradient(180deg, #e0283f, #8f0c21); border: 1.5px solid var(--rh-oro); border-top: 0; border-radius: 0 0 6px 6px; box-shadow: 0 4px 8px rgba(0,0,0,.4);
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 50% 100%, 0 86%); transform-origin: 50% 0; animation: rhBorla 3.4s ease-in-out infinite; }
+@keyframes rhBorla { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+/* Vida de cada mundo (solo en la activa) */
+.rh-bambu, .rh-linterna, .rh-niebla, .rh-chispa { animation-play-state: paused; }
+.rh-tablilla.on :is(.rh-bambu, .rh-linterna, .rh-niebla, .rh-chispa) { animation-play-state: running; }
+.rh-bambu { animation: rhBambu 4.8s ease-in-out infinite; animation-delay: calc(var(--k) * -1.1s); }
+@keyframes rhBambu { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2.5deg); } }
+.rh-linterna { animation: rhLinterna 3.2s ease-in-out infinite; animation-delay: calc(var(--k) * -.8s); }
+@keyframes rhLinterna { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+.rh-niebla { animation: rhNiebla 9s ease-in-out infinite; }
+@keyframes rhNiebla { 0%, 100% { transform: translateX(-10px); } 50% { transform: translateX(12px); } }
+.rh-chispa { animation: rhChispa 2.6s ease-in-out infinite; animation-delay: calc(var(--k) * -.5s); transform-box: fill-box; transform-origin: center; }
+@keyframes rhChispa { 0%, 100% { opacity: .25; transform: scale(.6); } 50% { opacity: 1; transform: scale(1.6); } }
+
+/* ---------- Estandarte de unidad con el color y la silueta de su paisaje ---------- */
+.rt22 .ru-estandarte { overflow: visible; }
+.ru-paisaje { position: absolute; z-index: -1; inset: 3px; overflow: hidden; border-radius: 6px; pointer-events: none; }
+.ru-paisaje::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--pd) 96%, transparent) 0%, color-mix(in srgb, var(--pd) 80%, transparent) 30%, transparent 48%, transparent 66%, color-mix(in srgb, var(--pd) 60%, transparent) 100%), linear-gradient(180deg, rgba(255,255,255,.18), transparent 40%); }
+.ru-banda { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ru-sol { transform-box: fill-box; transform-origin: center; animation: ruSol 6s ease-in-out infinite; }
+.ru-nubes { animation: ruNubes 18s ease-in-out infinite; }
+@keyframes ruSol { 0%, 100% { opacity: .8; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes ruNubes { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-30px); } }
+.rt22 .ru-estandarte { min-height: 112px; }
+.rt22 .ru-estandarte .ru-guia, .rt22 .ru-estandarte .ru-sello { box-shadow: 0 0 0 1.5px #8a5a1e, 0 4px 0 #7a4d12, 0 8px 16px rgba(0,0,0,.45); }
+.rt22 .ru-estandarte .ru-sello { width: 52px; height: 52px; font-size: 21px; color: var(--pt, #c8102e); border-color: var(--pt, #c8102e); outline-color: color-mix(in srgb, var(--pt, #c8102e) 60%, transparent); }
+
+/* ---------- Terreno de cada unidad: lavado de color del paisaje y marca de agua del monumento ---------- */
+.rt22 .ru-terreno::before { opacity: 1; background: radial-gradient(ellipse 54% 46% at 50% 52%, color-mix(in srgb, var(--ps) 85%, transparent), transparent 75%) !important; mix-blend-mode: multiply; }
+.ru-marca-agua { position: absolute; z-index: 0; left: 50%; top: 70px; display: grid; justify-items: center; transform: translateX(-50%); color: var(--pt); opacity: .1; pointer-events: none; }
+.ru-marca-agua b { margin-top: -10px; font: 700 64px/1 "STKaiti", "KaiTi", serif; letter-spacing: 6px; white-space: nowrap; }
+.rt22 .ruta-carretera .borde { stroke: color-mix(in srgb, var(--pd) 32%, transparent); }
+.rt22 .ruta-carretera .losas { fill: none; stroke: color-mix(in srgb, var(--ps) 70%, #fff); stroke-width: 22; stroke-dasharray: 3 19; stroke-linecap: butt; opacity: .85; }
+
+/* ---------- Paradas: peana del paisaje, marca estampada, bruma en las cerradas, desbloqueo ---------- */
+.rt22 .rp-parada.open:not(.actual) .rp-peana { background: radial-gradient(ellipse at 42% 28%, #fffbe9 0, color-mix(in srgb, var(--ps) 70%, #fff) 34%, color-mix(in srgb, var(--pc) 70%, #c2a066) 72%, var(--pd) 100%); }
+.rt22 .rp-parada.done .rp-peana { background: radial-gradient(ellipse at 42% 28%, #fffbe9 0, #f6d77e 34%, color-mix(in srgb, var(--pc) 45%, #c8961e) 72%, var(--pd) 100%); }
+.rp-marca { position: absolute; z-index: 3; right: -8px; top: -6px; display: grid; place-items: center; width: 32px; height: 32px; rotate: 10deg; border-radius: 50%; color: var(--pt);
+  background: radial-gradient(circle at 40% 35%, #fffaf0, #f3e2bb); box-shadow: 0 0 0 2px var(--pt), 0 0 0 3.5px #fff3cf, 0 3px 6px rgba(0,0,0,.35); }
+/* Bruma sobre las paradas cerradas (deriva lenta) */
+.rp-bruma { position: absolute; z-index: 2; left: 50%; top: 50%; width: 132px; height: 46px; margin: 8px 0 0 -66px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255,255,255,.85), rgba(255,255,255,.45) 55%, transparent); animation: rpBruma 8s ease-in-out infinite; }
+@keyframes rpBruma { 0%, 100% { transform: translateX(-8px); opacity: .75; } 50% { transform: translateX(8px); opacity: 1; } }
+.rt22 .rp-parada.locked .rp-moneda { filter: grayscale(.55) brightness(.9); }
+/* La actual: aro del paisaje que gira detrás de la moneda */
+.rt22 .rp-energia::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; background: conic-gradient(from 0deg, var(--pc), #f6d77e, var(--pc), #fff3c4, var(--pc));
+  -webkit-mask-image: radial-gradient(closest-side, transparent 86%, #000 88%, #000 98%, transparent); mask-image: radial-gradient(closest-side, transparent 86%, #000 88%, #000 98%, transparent); animation: rhGira 6s linear infinite; }
+/* Desbloqueo: el candado salta en dos, aro de luz y la moneda da la vuelta */
+.rp-desbloquea .rp-moneda { animation: rpVuelta 900ms cubic-bezier(.3,1.3,.5,1) 250ms both; }
+@keyframes rpVuelta { 0% { transform: rotateY(180deg) scale(.8); } 60% { transform: rotateY(-12deg) scale(1.15); } 100% { transform: none; } }
+.rp-cadenas { position: absolute; z-index: 4; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.rp-cadenas i { position: absolute; width: 16px; height: 22px; margin: -11px 0 0 -8px; border-radius: 4px; background: linear-gradient(160deg, #b08a5a, #5a3c1c); box-shadow: 0 0 0 1.5px #3b2416; }
+.rp-cadenas i::before { content: ""; position: absolute; left: 3px; right: 3px; top: -9px; height: 12px; border: 3px solid #8a6a3a; border-bottom: 0; border-radius: 8px 8px 0 0; }
+.rp-cadenas i:first-child { clip-path: inset(0 50% 0 0); animation: rpMitadIzq 800ms cubic-bezier(.2,.7,.3,1) both; }
+.rp-cadenas i:nth-child(2) { clip-path: inset(0 0 0 50%); animation: rpMitadDer 800ms cubic-bezier(.2,.7,.3,1) both; }
+.rp-cadenas b { position: absolute; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 4px solid #fff3c4; box-shadow: 0 0 22px #f6d77e, inset 0 0 18px #f6d77e; opacity: 0; animation: rpAro 900ms ease-out 200ms both; }
+@keyframes rpMitadIzq { 0% { transform: none; opacity: 1; } 100% { transform: translate(-46px, 30px) rotate(-70deg); opacity: 0; } }
+@keyframes rpMitadDer { 0% { transform: none; opacity: 1; } 100% { transform: translate(46px, 26px) rotate(80deg); opacity: 0; } }
+@keyframes rpAro { 0% { opacity: 1; transform: scale(.3); } 100% { opacity: 0; transform: scale(1.6); } }
+
+/* ---------- Pasaporte: página de visado con sellos de verdad ---------- */
+.rt22 .ruta-passport .ruta-jade-dato { margin-bottom: 8px; }
+.sp-pagina { position: relative; padding: 10px 8px 12px; border-radius: 10px; color: var(--rh-tinta);
+  background:
+    repeating-radial-gradient(circle at 50% 120%, transparent 0 9px, rgba(138,90,30,.07) 9px 10px),
+    repeating-linear-gradient(45deg, transparent 0 14px, rgba(200,16,46,.035) 14px 15px),
+    url("../../public/theme/papel.jpg") center / 360px, #f4e6c6;
+  box-shadow: inset 0 0 0 1px rgba(138,90,30,.45), inset 0 0 0 5px rgba(255,250,235,.5), inset 0 0 0 6px rgba(200,16,46,.3), inset 0 0 30px rgba(139,94,52,.25), 0 6px 14px rgba(60,10,0,.35); }
+/* Costura del pasaporte */
+.sp-pagina::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1px; width: 6px; border-radius: 10px 0 0 10px; background: repeating-linear-gradient(180deg, #8f0c21 0 8px, transparent 8px 14px), linear-gradient(90deg, rgba(60,10,0,.35), transparent); }
+.light-page .rt22 .sp-pagina-cabecera { display: block; margin: 0 4px 6px 8px; padding-bottom: 5px; border-bottom: 1px dashed rgba(138,90,30,.5); font: 800 9.5px/1.3 ui-monospace, Menlo, monospace; letter-spacing: .08em; color: #8f0c21 !important; text-shadow: none !important; text-transform: uppercase; }
+.sp-pagina-cabecera b { font: 700 11px "STKaiti", "KaiTi", serif; letter-spacing: 1px; color: #8f0c21 !important; text-shadow: none !important; margin-right: 4px; }
+.sp-rejilla { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px 0; padding-left: 4px; }
+.sp-sello { position: relative; display: block; aspect-ratio: 1; margin: -2px; color: var(--tinta); transform: rotate(var(--giro)); }
+.sp-sello svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.sp-sello.got { mix-blend-mode: multiply; opacity: .9; }
+.sp-sello.fantasma { opacity: .32; }
+.sp-sello.siguiente { opacity: .62; animation: spEspera 2.4s ease-in-out infinite; }
+@keyframes spEspera { 0%, 100% { opacity: .38; } 50% { opacity: .75; } }
+.light-page .rt22 .sp-num { position: absolute; right: 2px; bottom: 0; font: 800 8.5px/1 var(--rt-ui); color: rgba(59,36,22,.55) !important; text-shadow: none !important; transform: rotate(calc(var(--giro) * -1)); }
+.sp-sello.got .sp-num { display: none; }
+/* Estampado: el sello cae, golpea y suelta la tinta */
+.sp-sello.recien { z-index: 3; animation: spEstampa 760ms cubic-bezier(.2,1.25,.4,1) both; }
+.sp-sello.recien::after { content: ""; position: absolute; inset: 8%; border-radius: 50%; border: 3px solid var(--tinta); opacity: 0; animation: spSalpica 700ms ease-out 330ms both; }
+@keyframes spEstampa { 0% { opacity: 0; transform: translateY(-30px) scale(2.6) rotate(-28deg); } 45% { opacity: 1; transform: scale(.86) rotate(calc(var(--giro) - 3deg)); } 70% { transform: scale(1.06) rotate(var(--giro)); } 100% { opacity: .9; transform: rotate(var(--giro)); } }
+@keyframes spSalpica { 0% { opacity: .7; transform: scale(.8); } 100% { opacity: 0; transform: scale(1.5); } }
+
+/* ---------- Móvil y tableta ---------- */
+@media (max-width: 1000px) {
+  .rh-cabecera { margin: 12px 14px 0; }
+  .rh-niveles { margin: 0 14px; }
+  .rh-dintel { padding: 26px 120px 16px; min-height: 130px; }
+  .rh-dragon { width: 112px; height: 112px; } .rh-dragon-cuerpo { width: 96px; } .rh-nube { width: 100px; height: 34px; left: 10px; }
+  .rh-niveles { position: sticky; top: 58px; z-index: 6; }
+}
+@media (max-width: 700px) {
+  .rh-cabecera { margin: 10px 4px 0; }
+  .rh-dintel { padding: 22px 64px 12px; min-height: 0; border-radius: 14px; }
+  .rh-dintel::before, .rh-dintel::after { width: 28px; height: 28px; top: 5px; }
+  .rh-dintel::before { left: 5px; } .rh-dintel::after { right: 5px; }
+  .rh-dragon { width: 70px; height: 74px; bottom: 2px; } .rh-dragon.izq { left: 2px; } .rh-dragon.der { right: 2px; }
+  .rh-dragon-cuerpo { width: 60px; bottom: 9px; } .rh-nube { width: 64px; height: 22px; left: 4px; }
+  .rh-perla { width: 28px; height: 28px; margin-left: -14px; top: -14px; }
+  .rh-titulo h1 b { font-size: 22px; } .rh-titulo h1 i { display: block; font-size: 17px; margin-top: 2px; }
+  .rh-tema { font-size: 11px; letter-spacing: .14em; margin-top: 5px; } .rh-tema-raya { flex-basis: 18px; }
+  .rh-titulo small { display: none !important; }
+  .rh-niveles { gap: 6px; margin: 0 -4px; padding: 10px 4px 12px; top: 56px; background: linear-gradient(180deg, rgba(241,226,192,.97) 75%, rgba(241,226,192,0)); }
+  .rh-tablilla { min-height: 54px; padding: 6px; justify-content: center; border-radius: 10px; }
+  .rh-tablilla.on { transform: translateY(-2px) scale(1.04); }
+  .rh-velo { background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--d) 75%, transparent)); }
+  .rh-medalla { width: auto; height: auto; padding: 0; background: none; box-shadow: none; }
+  .rh-medalla b { font-size: 19px; color: #fff; text-shadow: 0 2px 3px rgba(0,0,0,.7), 0 0 8px rgba(0,0,0,.4); }
+  .rh-textos { position: absolute; left: 4px; right: 4px; bottom: 4px; }
+  .rh-textos em, .rh-mundo, .rh-textos small span { display: none; }
+  .light-page .rt22 .rh-textos small { position: absolute; right: 4px; top: 6px; font-size: 10px; }
+  .rh-tablilla { justify-content: start; } .rh-medalla { justify-self: start; }
+  .rh-barra { height: 4px; margin: 0; }
+  .rh-borla { display: none; }
+  .rt22 .ru-estandarte { min-height: 0; }
+  .ru-paisaje::after { background: linear-gradient(90deg, color-mix(in srgb, var(--pd) 94%, transparent) 0%, color-mix(in srgb, var(--pd) 70%, transparent) 55%, color-mix(in srgb, var(--pd) 20%, transparent) 85%); }
+  .ru-marca-agua b { font-size: 44px; }
+  .rp-marca { width: 26px; height: 26px; right: -6px; } .rp-marca svg { width: 18px; height: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rh-dragon-cuerpo, .rh-nube, .rh-perla::before, .rh-perla i, .rh-tablilla.on::after, .rh-borla, .rh-bambu, .rh-linterna, .rh-niebla, .rh-chispa,
+  .rp-bruma, .ru-sol, .ru-nubes, .rt22 .rp-energia::after, .sp-sello.siguiente { animation: none !important; }
+  .rp-desbloquea .rp-moneda, .rp-cadenas i, .rp-cadenas b, .sp-sello.recien, .sp-sello.recien::after { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .rh-tablilla, .rh-barra i { transition: none; }
+}
+/* Contador de clases legible sobre el monumento dorado */
+@media (min-width: 701px) { .rt22 .ru-estandarte .ru-clases { padding: 7px 9px 6px; border-radius: 10px; background: color-mix(in srgb, var(--pd) 78%, transparent); box-shadow: inset 0 0 0 1px rgba(246,215,126,.55); } }

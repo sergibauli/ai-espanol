@@ -1,13 +1,16 @@
 import * as React from "react";
 import { useNavigate } from "react-router";
-import { SearchIcon, PlayIcon, CheckIcon, LeafIcon } from "lucide-react";
+import { SearchIcon, PlayIcon, XIcon, ChevronRightIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
+import { ParticulasNivel } from "../components/ui/ParticulasNivel.jsx";
+import { ESCENAS } from "../components/dele/EscenasNivel.jsx";
+import { MotivoUnidad } from "../components/unidades/MotivoUnidad.jsx";
 import { useGame } from "../lib/gamification.js";
 import { progresoUnidad } from "../lib/clases.js";
+import { temaDeUnidad } from "../lib/temasUnidad.js";
 import CATALOG from "../data/modulos/catalog.json";
-import { Ruyi, Esquina } from "../components/layout/DecoV18.jsx";
-import "../styles/v18-unidades.css";
+import "../styles/v19-unidades.css";
 
 // Cada nivel es un tramo del viaje con su mundo (los mismos que los niveles DELE)
 const LEVELS = [
@@ -16,50 +19,133 @@ const LEVELS = [
   { lv: "B1", es: "Intermedio", zh: "中级", mundo: "Montañas de tinta", mundoZh: "水墨山河", sello: "山" },
   { lv: "B2", es: "Avanzado", zh: "中高级", mundo: "Ciudad Prohibida", mundoZh: "紫禁之巅", sello: "龙" },
 ];
+const CLAVE_NIVEL = "ai-espanol:unidades-nivel";
+const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const sinMovimiento = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-function TarjetaUnidad({ m, hechas, prog, onAbrir, i }) {
-  const estado = hechas === 5 ? "completada" : hechas > 0 ? "en-curso" : "nueva";
+// Anillo de progreso (SVG) para el contador, las pestañas y el medallón en curso
+function Anillo({ pct, r = 20, grosor = 4, className }) {
+  const c = 2 * Math.PI * r;
+  const lado = (r + grosor) * 2;
   return (
-    <button type="button" className={`u18-carta is-${estado}`} onClick={onAbrir} style={{ animationDelay: `${Math.min(i, 14) * 30}ms` }}>
-      <Ruyi className="u18-carta__remate arriba" />
-      <Ruyi className="u18-carta__remate abajo" />
-      <span className="u18-carta__num" translate="no">{String(m.numero).padStart(2, "0")}</span>
-      <span className="u18-medallon" aria-hidden="true">
-        <span className="u18-medallon__int">
-          <Emoji3D emoji={m.icono} size={40} />
+    <svg className={className} viewBox={`0 0 ${lado} ${lado}`} aria-hidden="true">
+      <circle cx={lado / 2} cy={lado / 2} r={r} fill="none" strokeWidth={grosor} className="fondo" />
+      <circle cx={lado / 2} cy={lado / 2} r={r} fill="none" strokeWidth={grosor} strokeLinecap="round" className="valor"
+        strokeDasharray={c} strokeDashoffset={c * (1 - Math.min(1, Math.max(0, pct)))} transform={`rotate(-90 ${lado / 2} ${lado / 2})`} />
+    </svg>
+  );
+}
+
+function TarjetaUnidad({ m, prog, siguiente, onAbrir, i }) {
+  const tema = temaDeUnidad(m);
+  const estado = prog.completa ? "completada" : prog.pct > 0 ? "en-curso" : "nueva";
+  const titulo = m.titulo.split(" - ")[0];
+  const zh = m.tituloChino.split(" - ")[0];
+  return (
+    <button type="button" className={`u19-carta is-${estado} ${siguiente ? "is-siguiente" : ""}`} data-tema={tema.clave} onClick={onAbrir}
+      style={{ "--t1": tema.t1, "--t2": tema.t2, "--i": Math.min(i, 16) }}
+      aria-label={`Unidad ${m.numero}: ${titulo} · ${zh} — ${estado === "completada" ? "completada · 已完成" : estado === "en-curso" ? `${prog.pct}%` : "nueva · 新"}`}>
+      <span className="u19-carta__cuerpo">
+        <span className="u19-ventana" aria-hidden="true">
+          <span className="u19-ventana__glifo" translate="no">{tema.glifo}</span>
+          <MotivoUnidad motivo={tema.motivo} />
+          <span className="u19-medallon">
+            <span className="u19-medallon__halo" />
+            {estado === "en-curso" && <Anillo pct={prog.pct / 100} r={44} grosor={5} className="u19-medallon__anillo" />}
+            <span className="u19-medallon__disco">
+              <Emoji3D emoji={m.icono} size={46} />
+            </span>
+          </span>
+          <span className="u19-num" translate="no">{String(m.numero).padStart(2, "0")}</span>
+          {estado === "nueva" && (
+            <span className="u19-cinta">
+              Nueva <span lang="zh">新</span>
+            </span>
+          )}
+          {estado === "completada" && (
+            <span className="u19-sello" translate="no">
+              <i>完</i>
+              <i>成</i>
+            </span>
+          )}
         </span>
-      </span>
-      <span className="u18-carta__titulo">{m.titulo.split(" - ")[0]}</span>
-      <span className="u18-carta__zh">{m.tituloChino.split(" - ")[0]}</span>
-      {prog && (
-        <span className="u18-carta__clases">
-          {prog.total} clases · {prog.total}课
+        <span className="u19-carta__texto">
+          <span className="u19-carta__titulo">{titulo}</span>
+          <span className="u19-carta__zh" lang="zh">{zh}</span>
+          <span className="u19-pips" aria-hidden="true">
+            {prog.clases.map((c) => (
+              <i key={c.n} className={c.completada ? "ok" : c.fraccion > 0 ? "medio" : ""} />
+            ))}
+            <small>
+              {prog.total} clases · {prog.total}课
+            </small>
+          </span>
+          <span className="u19-carta__pie">
+            {estado === "completada" ? (
+              <span className="u19-accion ok">Repasar · 复习</span>
+            ) : estado === "en-curso" ? (
+              <span className="u19-accion curso">
+                <PlayIcon size={12} strokeWidth={3} fill="currentColor" /> Continuar · 继续 <em>{prog.pct}%</em>
+              </span>
+            ) : (
+              <span className="u19-accion nueva">
+                Empezar · <span lang="zh">开始</span> <ChevronRightIcon size={15} strokeWidth={3} />
+              </span>
+            )}
+          </span>
         </span>
-      )}
-      <span className="u18-carta__pie">
-        {estado === "completada" ? (
-          <span className="u18-accion ok">
-            <CheckIcon size={14} strokeWidth={3} /> Completada · 已完成
-          </span>
-        ) : estado === "en-curso" ? (
-          <span className="u18-accion curso">
-            <PlayIcon size={12} strokeWidth={3} fill="currentColor" /> {prog ? `${prog.completadas}/${prog.total} clases` : `${hechas}/5`}
-          </span>
-        ) : (
-          <span className="u18-accion nueva">
-            <LeafIcon size={15} strokeWidth={2.6} /> Empezar <span lang="zh">开始</span>
-          </span>
-        )}
+        <span className="u19-brillo" aria-hidden="true" />
+        <span className="u19-chispas" aria-hidden="true">
+          <i /><i /><i /><i /><i /><i />
+        </span>
       </span>
     </button>
   );
 }
 
-const CLAVE_NIVEL = "ai-espanol:unidades-nivel";
+// Inclinación 3D y brillo que sigue al puntero (un solo manejador para toda la rejilla, escrito en variables CSS)
+function useInclinacion() {
+  const actual = React.useRef(null);
+  const marco = React.useRef(0);
+  const soltar = (carta) => {
+    if (!carta) return;
+    carta.style.removeProperty("--rx");
+    carta.style.removeProperty("--ry");
+    carta.classList.remove("is-inclinada");
+  };
+  const onPointerMove = (e) => {
+    if (e.pointerType !== "mouse" || sinMovimiento()) return;
+    const carta = e.target.closest?.(".u19-carta");
+    if (carta !== actual.current) {
+      soltar(actual.current);
+      actual.current = carta;
+    }
+    if (!carta) return;
+    const { clientX, clientY } = e;
+    cancelAnimationFrame(marco.current);
+    marco.current = requestAnimationFrame(() => {
+      const r = carta.getBoundingClientRect();
+      const x = (clientX - r.left) / r.width;
+      const y = (clientY - r.top) / r.height;
+      carta.classList.add("is-inclinada");
+      carta.style.setProperty("--rx", `${((0.5 - y) * 14).toFixed(2)}deg`);
+      carta.style.setProperty("--ry", `${((x - 0.5) * 16).toFixed(2)}deg`);
+      carta.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
+      carta.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
+    });
+  };
+  const onPointerLeave = () => {
+    cancelAnimationFrame(marco.current);
+    soltar(actual.current);
+    actual.current = null;
+  };
+  return { onPointerMove, onPointerLeave };
+}
 
 export default function UnidadesPage() {
   const game = useGame();
   const navigate = useNavigate();
+  const inclinacion = useInclinacion();
   const [busqueda, setBusqueda] = React.useState("");
   const [nivel, setNivel] = React.useState(() => {
     try {
@@ -68,120 +154,155 @@ export default function UnidadesPage() {
     } catch {}
     return "A1";
   });
-  const elegirNivel = (lv) => {
+  // Desde dónde se abre el nuevo mundo (centro de la pestaña pulsada, en % del ancho)
+  const [origen, setOrigen] = React.useState(50);
+  const elegirNivel = (lv, e) => {
+    const caja = e?.currentTarget?.getBoundingClientRect?.();
+    if (caja) setOrigen(Math.round(((caja.left + caja.width / 2) / window.innerWidth) * 100));
     setNivel(lv);
     setBusqueda("");
     try {
       sessionStorage.setItem(CLAVE_NIVEL, lv);
     } catch {}
   };
-  const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-  // Progreso por clases (0–5 para la tarjeta): 5 = todas las clases de la unidad hechas
-  const progresoDe = (m) => progresoUnidad(m.numero, game.lessons);
-  const hechasDe = (m) => {
-    const p = progresoDe(m);
-    return p.completa ? 5 : p.pct > 0 ? Math.min(4, Math.max(1, Math.round(p.pct / 20))) : 0;
-  };
-  const completadas = CATALOG.filter((m) => hechasDe(m) === 5).length;
+
+  const progresos = React.useMemo(() => {
+    const mapa = new Map();
+    for (const m of CATALOG) mapa.set(m.numero, progresoUnidad(m.numero, game.lessons));
+    return mapa;
+  }, [game.lessons]);
+  const completadas = CATALOG.filter((m) => progresos.get(m.numero).completa).length;
   const resumen = LEVELS.map((L) => {
     const todas = CATALOG.filter((m) => m.nivel === L.lv);
-    return { ...L, total: todas.length, hechas: todas.filter((m) => hechasDe(m) === 5).length };
+    const hechas = todas.filter((m) => progresos.get(m.numero).completa).length;
+    const siguiente = todas.find((m) => !progresos.get(m.numero).completa) || null;
+    return { ...L, todas, total: todas.length, hechas, siguiente };
   });
-  // Con búsqueda se muestran todos los niveles que coinciden; sin ella, solo el nivel elegido
-  const visibles = busqueda ? resumen : resumen.filter((L) => L.lv === nivel);
-  let hayResultados = false;
+  const activo = resumen.find((L) => L.lv === nivel);
+  const Escena = ESCENAS[nivel];
+  const resultados = busqueda
+    ? resumen.map((L) => ({ ...L, mods: L.todas.filter((m) => norm(m.titulo + m.tituloChino).includes(norm(busqueda))) })).filter((L) => L.mods.length)
+    : [{ ...activo, mods: activo.todas }];
+
+  const rejilla = (L) => (
+    <div className="u19-rejilla" {...inclinacion}>
+      {L.mods.map((m, i) => (
+        <TarjetaUnidad key={m.numero} m={m} i={i} prog={progresos.get(m.numero)} siguiente={!busqueda && L.siguiente?.numero === m.numero} onAbrir={() => navigate(`/modulos/modulo-${m.numero}`)} />
+      ))}
+    </div>
+  );
 
   return (
     <LightShell>
-      <div className="u18">
-        <header className="u18-cab">
-          <p className="u18-contador" aria-label={`${completadas} de ${CATALOG.length} unidades completadas`}>
-            <b>{completadas}</b>
-            <i>/</i>
-            <b>{CATALOG.length}</b>
-            <small>
-              Unidades completadas · <span lang="zh">已完成</span>
-            </small>
-          </p>
-          <div className="u18-placa">
-            <span className="u18-placa__a">
-              <span className="u18-placa__b">
-                <h1>
-                  Unidades <span lang="zh">单元</span>
-                </h1>
-              </span>
-            </span>
-            <i className="u18-placa__gema izq" aria-hidden="true" />
-            <i className="u18-placa__gema der" aria-hidden="true" />
+      <div className="u19" data-nivel={nivel}>
+        <header className="u19-cab">
+          <div className="u19-titulo">
+            <span className="u19-titulo__sello" aria-hidden="true" translate="no"><i>单</i><i>元</i></span>
+            <h1>
+              Unidades <span lang="zh">单元</span>
+            </h1>
           </div>
-          <label className="u18-buscar">
-            <SearchIcon size={18} aria-hidden="true" />
+          <label className="u19-buscar">
+            <SearchIcon size={17} aria-hidden="true" />
             <input value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Buscar unidad · 搜索单元" aria-label="Buscar unidad · 搜索单元" />
+            {busqueda && (
+              <button type="button" className="u19-buscar__borrar" onClick={() => setBusqueda("")} aria-label="Borrar · 清除">
+                <XIcon size={15} />
+              </button>
+            )}
           </label>
-          <nav className="u18-niveles" aria-label="Nivel · 级别">
+          <p className="u19-contador" aria-label={`${completadas} de ${CATALOG.length} unidades completadas`}>
+            <Anillo pct={completadas / CATALOG.length} r={21} grosor={4.5} className="u19-contador__anillo" />
+            <span>
+              <b>
+                {completadas}
+                <i>/{CATALOG.length}</i>
+              </b>
+              <small>
+                Completadas · <span lang="zh">已完成</span>
+              </small>
+            </span>
+          </p>
+          <nav className="u19-niveles" aria-label="Nivel · 级别">
             {resumen.map((L) => {
-              const activo = !busqueda && L.lv === nivel;
+              const on = !busqueda && L.lv === nivel;
               return (
-                <button key={L.lv} type="button" className={`u18-nivel ${activo ? "on" : ""}`} data-nivel={L.lv} aria-pressed={activo} onClick={() => elegirNivel(L.lv)}>
-                  <span className="u18-nivel__in">
+                <button key={L.lv} type="button" className={`u19-nivel ${on ? "on" : ""}`} data-nivel={L.lv} aria-pressed={on} onClick={(e) => elegirNivel(L.lv, e)}>
+                  <span className="u19-nivel__moneda">
+                    <Anillo pct={L.hechas / L.total} r={19} grosor={3} className="u19-nivel__anillo" />
                     <i translate="no" aria-hidden="true">{L.sello}</i>
+                  </span>
+                  <span className="u19-nivel__txt">
                     <b translate="no">{L.lv}</b>
                     <small>
                       {L.es} · <span lang="zh">{L.zh}</span>
                     </small>
-                    <em>
-                      {L.hechas}/{L.total}
-                    </em>
                   </span>
+                  <em>
+                    {L.hechas}/{L.total}
+                  </em>
                 </button>
               );
             })}
           </nav>
         </header>
 
-        {visibles.map((L) => {
-          const mods = CATALOG.filter((m) => m.nivel === L.lv && (!busqueda || norm(m.titulo + m.tituloChino).includes(norm(busqueda))));
-          if (!mods.length) return null;
-          hayResultados = true;
-          return (
-            <section key={L.lv} id={`un-${L.lv}`} className="u18-tramo" data-nivel={L.lv}>
-              <div className="u18-banda">
-                <span className="u18-banda__sello" aria-hidden="true" translate="no">
-                  <b>{L.lv}</b>
-                </span>
-                <span className="u18-banda__txt">
-                  <small>
-                    {L.mundo} · <span translate="no">{L.mundoZh}</span>
-                  </small>
-                  <b>
-                    {L.es} · <span lang="zh">{L.zh}</span>
-                  </b>
-                </span>
-                <span className="u18-banda__prog" role="img" aria-label={`${L.hechas} de ${L.total} unidades`}>
-                  <span className="u18-banda__barra">
-                    <i style={{ width: `${(L.hechas / L.total) * 100}%` }} />
+        {!busqueda && (
+          <section key={nivel} className="u19-mundo" data-nivel={nivel} style={{ "--ox": `${origen}%` }} aria-label={`${activo.mundo} · ${activo.mundoZh}`}>
+            <div className="u19-mundo__escena">
+              <Escena />
+              <ParticulasNivel nivel={nivel} />
+            </div>
+            <span className="u19-mundo__glifo" aria-hidden="true" translate="no">{activo.sello}</span>
+            <span className="u19-mundo__rayos" aria-hidden="true" />
+            <div className="u19-mundo__txt">
+              <span className="u19-mundo__sello" aria-hidden="true" translate="no">
+                {activo.sello}
+              </span>
+              <span>
+                <small>
+                  {activo.mundo} · <span translate="no">{activo.mundoZh}</span>
+                </small>
+                <b>
+                  {activo.lv} · {activo.es} <span lang="zh">{activo.zh}</span>
+                </b>
+                <span className="u19-mundo__prog" role="img" aria-label={`${activo.hechas} de ${activo.total} unidades`}>
+                  <span className="u19-mundo__barra">
+                    <i style={{ width: `${(activo.hechas / activo.total) * 100}%` }} />
                   </span>
                   <em>
-                    {L.hechas}/{L.total}
+                    {activo.hechas}/{activo.total}
                   </em>
                 </span>
-              </div>
-              <div className="u18-panel">
-                <Esquina className="e-si" />
-                <Esquina className="e-sd" />
-                <Esquina className="e-ii" />
-                <Esquina className="e-id" />
-                <div className="u18-rejilla">
-                  {mods.map((m, i) => (
-                    <TarjetaUnidad key={m.numero} m={m} i={i} hechas={hechasDe(m)} prog={progresoDe(m)} onAbrir={() => navigate(`/modulos/modulo-${m.numero}`)} />
-                  ))}
-                </div>
-              </div>
-            </section>
-          );
-        })}
-        {!hayResultados && (
-          <p className="u18-vacio">
+              </span>
+            </div>
+            {activo.siguiente && (
+              <button type="button" className="u19-mundo__seguir" onClick={() => navigate(`/modulos/modulo-${activo.siguiente.numero}`)}>
+                <span>
+                  <small>{progresos.get(activo.siguiente.numero).pct > 0 ? "Continuar · 继续" : activo.hechas ? "Siguiente · 下一个" : "Empezar · 开始"}</small>
+                  <b>
+                    {String(activo.siguiente.numero).padStart(2, "0")} · {activo.siguiente.titulo.split(" - ")[0]}
+                  </b>
+                </span>
+                <PlayIcon size={16} strokeWidth={3} fill="currentColor" />
+              </button>
+            )}
+          </section>
+        )}
+
+        {resultados.map((L) => (
+          <section key={`${L.lv}-${busqueda ? "b" : nivel}`} className="u19-tramo" data-nivel={L.lv}>
+            {busqueda && (
+              <h2 className="u19-tramo__cab">
+                <i translate="no">{L.sello}</i> {L.lv} · {L.es} <span lang="zh">{L.zh}</span>
+                <em>{L.mods.length}</em>
+              </h2>
+            )}
+            {rejilla(L)}
+          </section>
+        ))}
+        {!resultados.length && (
+          <p className="u19-vacio">
             No hay unidades con «{busqueda}» · <span lang="zh">没有找到相关单元</span>
           </p>
         )}

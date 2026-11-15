@@ -4,13 +4,12 @@ import {
   Grid3x3Icon,
   ShuffleIcon,
   SearchIcon,
-  BookOpenIcon,
   HashIcon,
   CrownIcon,
   DicesIcon,
+  Dice5Icon,
   PlayIcon,
   ClockIcon,
-  UsersIcon,
   SparklesIcon,
   HistoryIcon,
   XIcon,
@@ -18,14 +17,34 @@ import {
   NetworkIcon,
   DramaIcon,
   KeyRoundIcon,
+  LayersIcon,
+  TypeIcon,
+  SpadeIcon,
+  CompassIcon,
 } from "lucide-react";
 import * as React from "react";
+import { flushSync } from "react-dom";
 import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
+import { Portada } from "./PortadasJuegos.jsx";
+import "../../styles/juegos-hub.css";
 
 // Los juegos de la app (el resto se retiró para quedarnos solo con los mejores).
 // `gradient` e `icon` los usa también la pestaña de juegos de cada unidad (UnitPage).
-export const READY_GAMES = new Set(["/juegos/kahoot", "/juegos/memory", "/juegos/ruleta", "/juegos/uno", "/juegos/scramble", "/juegos/sopa", "/juegos/ahorcado", "/juegos/apalabrados", "/juegos/mapa-mental", "/juegos/teatro", "/juegos/dragon-jade", "/juegos/escape-palacio"]);
+export const READY_GAMES = new Set([
+  "/juegos/kahoot",
+  "/juegos/memory",
+  "/juegos/ruleta",
+  "/juegos/uno",
+  "/juegos/scramble",
+  "/juegos/sopa",
+  "/juegos/ahorcado",
+  "/juegos/apalabrados",
+  "/juegos/mapa-mental",
+  "/juegos/teatro",
+  "/juegos/dragon-jade",
+  "/juegos/escape-palacio",
+]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
 const TONOS = {
@@ -267,25 +286,42 @@ function rememberGame(id) {
   } catch {}
 }
 
-// Medallón de laca con el icono en oro y un sello caligráfico
-function Medallon({ game, grande = false }) {
-  const Icon = game.icon;
-  return (
-    <span className={`jd-medallon${grande ? " is-grande" : ""}`} style={{ "--jd-tono": game.gradient }} aria-hidden="true">
-      <span className="jd-medallon__aro" />
-      <Icon className="jd-medallon__icono" strokeWidth={2.2} />
-      <span className="jd-medallon__sello" translate="no">
-        {game.sello}
-      </span>
-    </span>
-  );
+// Identidad visual de cada categoría: sello caligráfico, color e icono
+const IDENTIDAD = {
+  todos: { glifo: "全", icono: LayersIcon },
+  concurso: { glifo: "竞", icono: ZapIcon },
+  letras: { glifo: "字", icono: TypeIcon },
+  mesa: { glifo: "棋", icono: SpadeIcon },
+  aventura: { glifo: "险", icono: CompassIcon },
+};
+
+const sinMovimiento = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+// Inclinación 3D al pasar el ratón: solo variables CSS (transform), una vez por evento y con rAF
+function inclinar(e) {
+  if (e.pointerType !== "mouse" || sinMovimiento()) return;
+  const el = e.currentTarget;
+  const r = el.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width;
+  const y = (e.clientY - r.top) / r.height;
+  cancelAnimationFrame(el._jhRaf);
+  el._jhRaf = requestAnimationFrame(() => {
+    el.style.setProperty("--jh-x", x.toFixed(3));
+    el.style.setProperty("--jh-y", y.toFixed(3));
+  });
+}
+function soltar(e) {
+  const el = e.currentTarget;
+  cancelAnimationFrame(el._jhRaf);
+  el.style.removeProperty("--jh-x");
+  el.style.removeProperty("--jh-y");
 }
 
 function Dificultad({ nivel }) {
   const etiqueta = NIVELES[nivel];
   return (
-    <span className="jd-meta" title={`Dificultad · 难度: ${etiqueta.es} · ${etiqueta.zh}`}>
-      <span className="jd-dots" aria-hidden="true">
+    <span className="jh-meta" title={`Dificultad · 难度: ${etiqueta.es} · ${etiqueta.zh}`}>
+      <span className="jh-dots" aria-hidden="true">
         {[1, 2, 3].map((n) => (
           <i key={n} className={n <= nivel ? "is-on" : ""} />
         ))}
@@ -296,41 +332,132 @@ function Dificultad({ nivel }) {
 }
 
 function GameCard({ game, jugado, index }) {
+  const cat = IDENTIDAD[game.category];
   return (
-    <Link to={game.path} onClick={() => rememberGame(game.id)} className={`jd-card jd-card--${game.tono}`} style={{ "--jd-i": index }} aria-label={`${game.name} · ${game.nameCn}`}>
-      <span className="jd-card__filete" aria-hidden="true" />
-      {jugado && (
-        <span className="jd-card__cinta">
-          <HistoryIcon size={12} /> Jugado · 玩过
+    <Link
+      to={game.path}
+      onClick={() => rememberGame(game.id)}
+      onPointerMove={inclinar}
+      onPointerLeave={soltar}
+      className={`jh-card jh-cat--${game.category}`}
+      style={{ "--jh-i": index, viewTransitionName: `jh-${game.id}` }}
+      aria-label={`${game.name} · ${game.nameCn}`}
+    >
+      <span className="jh-card__brillo" aria-hidden="true" />
+      <div className="jh-card__portada">
+        <Portada id={game.id} />
+        <span className="jh-card__catsello" translate="no" aria-hidden="true">
+          {cat.glifo}
         </span>
-      )}
-      <div className="jd-card__cabeza">
-        <Medallon game={game} />
-        <div className="jd-card__titulos">
-          <h3 className="jd-card__titulo">{game.name}</h3>
-          <div className="jd-card__zh">{game.nameCn}</div>
-          <span className="jd-chip">
-            {game.habilidad.es} · {game.habilidad.zh}
+        <span className="jh-card__sello" translate="no" aria-hidden="true">
+          {game.sello}
+        </span>
+        {jugado && (
+          <span className="jh-card__cinta">
+            <HistoryIcon size={12} aria-hidden="true" /> Jugado · 玩过
           </span>
-        </div>
-      </div>
-      <p className="jd-card__desc">
-        {game.desc}
-        <span className="jd-card__desczh">{game.descCn}</span>
-      </p>
-      <div className="jd-card__pie">
-        <Dificultad nivel={game.nivel} />
-        <span className="jd-meta">
-          <ClockIcon size={14} aria-hidden="true" /> {game.minutos} min
-        </span>
-        <span className="jd-meta">
-          <UsersIcon size={14} aria-hidden="true" /> {game.jugadores}
-        </span>
-        <span className="jd-card__jugar" aria-hidden="true">
+        )}
+        <span className="jh-card__jugar" aria-hidden="true">
           <PlayIcon size={14} fill="currentColor" /> Jugar · 开始
         </span>
       </div>
+      <div className="jh-card__cuerpo">
+        <h3 className="jh-card__titulo">{game.name}</h3>
+        <div className="jh-card__zh">{game.nameCn}</div>
+        <p className="jh-card__desc">{game.desc}</p>
+        <div className="jh-card__pie">
+          <span className="jh-chip">
+            {game.habilidad.es} · {game.habilidad.zh}
+          </span>
+          <Dificultad nivel={game.nivel} />
+          <span className="jh-meta">
+            <ClockIcon size={13} aria-hidden="true" /> {game.minutos} min
+          </span>
+        </div>
+      </div>
     </Link>
+  );
+}
+
+// «Juego del día»: tarjeta grande con rayos dorados girando y sello de 今日
+function JuegoDelDia({ game }) {
+  return (
+    <Link
+      to={game.path}
+      onClick={() => rememberGame(game.id)}
+      onPointerMove={inclinar}
+      onPointerLeave={soltar}
+      className={`jh-card jh-dia jh-cat--${game.category}`}
+      style={{ viewTransitionName: "jh-dia" }}
+      aria-label={`Juego del día · 今日推荐: ${game.name} · ${game.nameCn}`}
+    >
+      <span className="jh-card__brillo" aria-hidden="true" />
+      <div className="jh-dia__portada">
+        <span className="jh-dia__rayos" aria-hidden="true" />
+        <Portada id={game.id} className="is-grande" />
+        <span className="jh-destello is-1" aria-hidden="true" />
+        <span className="jh-destello is-2" aria-hidden="true" />
+        <span className="jh-destello is-3" aria-hidden="true" />
+        <span className="jh-destello is-4" aria-hidden="true" />
+        <span className="jh-dia__sello" translate="no" aria-hidden="true">
+          今日
+          <br />
+          推荐
+        </span>
+      </div>
+      <img className="jh-dia__mono" src="./mono/trofeo.png" alt="" aria-hidden="true" />
+      <div className="jh-dia__cuerpo">
+        <span className="jh-dia__ceja">
+          <SparklesIcon size={14} aria-hidden="true" /> Juego del día · 今日推荐
+        </span>
+        <h2 className="jh-dia__titulo">{game.name}</h2>
+        <div className="jh-dia__zh">{game.nameCn}</div>
+        <p className="jh-dia__desc">
+          {game.desc}
+          <span>{game.descCn}</span>
+        </p>
+        <div className="jh-dia__pie">
+          <span className="jh-btn-laca">
+            <PlayIcon size={16} fill="currentColor" aria-hidden="true" /> ¡A jugar! · 开始玩
+          </span>
+          <span className="jh-meta is-claro">
+            <ClockIcon size={14} aria-hidden="true" /> {game.minutos} min
+          </span>
+          <Dificultad nivel={game.nivel} />
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+// Piezas flotantes del salón: ficha de mahjong, cartas, dado, abanico y moneda
+function PiezasSalon() {
+  return (
+    <div className="jh-hero__piezas" aria-hidden="true">
+      <span className="jh-pieza jh-pieza--mahjong" translate="no">
+        中
+      </span>
+      <span className="jh-pieza jh-pieza--mahjong is-b" translate="no">
+        發
+      </span>
+      <span className="jh-pieza jh-pieza--carta" translate="no">
+        A
+      </span>
+      <span className="jh-pieza jh-pieza--carta is-b" translate="no">
+        ñ
+      </span>
+      <span className="jh-pieza jh-pieza--dado">
+        <i />
+        <i />
+        <i />
+        <i />
+        <i />
+      </span>
+      <span className="jh-pieza jh-pieza--moneda" />
+      {Array.from({ length: 10 }, (_, i) => (
+        <span key={i} className="jh-chispa" style={{ "--i": i }} />
+      ))}
+    </div>
   );
 }
 
@@ -338,160 +465,202 @@ function JuegosHubPage() {
   const navigate = useNavigate();
   const [category, setCategory] = React.useState("todos");
   const [query, setQuery] = React.useState("");
+  const [dado, setDado] = React.useState(false);
   const recentIds = readRecent();
   const recent = recentIds.map((id) => GAMES.find((game) => game.id === id)).filter(Boolean);
   const daySeed = Math.floor(Date.now() / 86400000);
   const featured = GAMES[daySeed % GAMES.length];
   const normalizedQuery = normalize(query.trim());
-  const list = GAMES.filter((game) => (category === "todos" || game.category === category) && (!normalizedQuery || normalize(searchText(game)).includes(normalizedQuery)));
+  const conDestacado = category === "todos" && !normalizedQuery;
+  const list = GAMES.filter((game) => (category === "todos" || game.category === category) && (!normalizedQuery || normalize(searchText(game)).includes(normalizedQuery)) && !(conDestacado && game.id === featured.id));
   const countOf = (key) => GAMES.filter((game) => key === "todos" || game.category === key).length;
+
+  // Al cambiar de categoría las tarjetas se recolocan con View Transitions (si el navegador lo admite)
+  const elegirCategoria = (key) => {
+    if (key === category) return;
+    if (document.startViewTransition && !sinMovimiento()) document.startViewTransition(() => flushSync(() => setCategory(key)));
+    else setCategory(key);
+  };
 
   const partidaRapida = () => {
     const game = GAMES[Math.floor(Math.random() * GAMES.length)];
     rememberGame(game.id);
-    navigate(game.path);
+    if (sinMovimiento()) return navigate(game.path);
+    setDado(true);
+    window.setTimeout(() => navigate(game.path), 550);
   };
 
   return (
     <LightShell>
-      <div className="ui-page jd-hub">
-        <Link to="/dashboard" className="sh-back no-print jd-back">
-          <ArrowLeftIcon size={14} /> Inicio · 首页
-        </Link>
-
-        {/* Héroe: pabellón de los juegos con el Rey Mono */}
-        <section className="jd-hero" aria-labelledby="jd-hero-titulo">
-          <span className="jd-hero__linterna is-izq" aria-hidden="true" />
-          <span className="jd-hero__linterna is-der" aria-hidden="true" />
-          <div className="jd-hero__texto">
-            <span className="jd-hero__ceja">
-              <span className="jd-sello-mini" translate="no">
+      <div className="ui-page jh">
+        {/* Cabecera: salón imperial de juegos, compacta y viva */}
+        <section className="jh-hero" aria-labelledby="jh-titulo">
+          <span className="jh-hero__marco" aria-hidden="true" />
+          <span className="jh-hero__dragon" aria-hidden="true" />
+          <span className="jh-fuego is-1" aria-hidden="true" />
+          <span className="jh-fuego is-2" aria-hidden="true" />
+          <span className="jh-fuego is-3" aria-hidden="true" />
+          <span className="jh-nube-viaje" aria-hidden="true" />
+          <svg className="jh-alero" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 0h1000v14c-14 0-24 6-34 16-6-10-16-14-30-14H64c-14 0-24 4-30 14C24 20 14 14 0 14z" fill="#3a0510" />
+            <path d="M0 14c14 0 24 6 34 16 6-10 16-14 30-14h872c14 0 24 4 30 14 10-10 20-16 34-16" fill="none" stroke="#f2c14e" strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
+            <path d="M40 6h920" stroke="#7a0a1c" strokeWidth="9" strokeDasharray="7 3" />
+            <path d="M0 1.5h1000" stroke="#f2c14e" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+            <path d="M64 13h872" stroke="#f2c14e" strokeWidth="1" strokeDasharray="2 8" vectorEffect="non-scaling-stroke" opacity=".8" />
+          </svg>
+          <span className="jh-esquina is-ii" aria-hidden="true" />
+          <span className="jh-esquina is-id" aria-hidden="true" />
+          <span className="jh-linterna is-1" aria-hidden="true" />
+          <span className="jh-linterna is-2" aria-hidden="true" />
+          <span className="jh-linterna is-3" aria-hidden="true" />
+          <PiezasSalon />
+          <div className="jh-hero__texto">
+            <Link to="/dashboard" className="jh-volver no-print">
+              <ArrowLeftIcon size={13} aria-hidden="true" /> Inicio · 首页
+            </Link>
+            <span className="jh-hero__ceja">
+              <span className="jh-sello-mini" translate="no">
                 戏
               </span>
               Pabellón de juegos · 游戏阁
             </span>
-            <h1 id="jd-hero-titulo" className="jd-hero__titulo">
-              Aprende jugando
+            <h1 id="jh-titulo" className="jh-hero__titulo">
+              Aprende jugando <span className="jh-hero__zh">边玩边学</span>
             </h1>
-            <div className="jd-hero__zh">边玩边学西班牙语</div>
-            <p className="jd-hero__desc">
-              Ocho juegos con las palabras de tus unidades: elige una unidad dentro de cada juego y repasa sin darte cuenta.
-              <span>八个游戏，用你学过的单元词汇，玩着玩着就复习好了。</span>
+            <p className="jh-hero__desc">
+              {GAMES.length} juegos con las palabras de tus unidades. <span>{GAMES.length} 个游戏，用你学过的单元词汇。</span>
             </p>
-            <div className="jd-hero__acciones">
-              <button type="button" className="jd-btn-oro" onClick={partidaRapida}>
-                <ShuffleIcon size={18} /> Partida rápida · 随机一局
+            <div className="jh-hero__acciones">
+              <button type="button" className={`jh-btn-oro${dado ? " is-tirando" : ""}`} onClick={partidaRapida}>
+                <Dice5Icon size={18} className="jh-btn-oro__dado" aria-hidden="true" />
+                <span>
+                  Partida rápida<span className="jh-btn__sep"> · </span>
+                  <span className="jh-btn__zh">随机一局</span>
+                </span>
               </button>
-              <Link to={featured.path} onClick={() => rememberGame(featured.id)} className="jd-btn-linea">
-                <SparklesIcon size={16} /> Juego del día · 今日推荐
+              <Link to={featured.path} onClick={() => rememberGame(featured.id)} className="jh-btn-linea">
+                <SparklesIcon size={16} aria-hidden="true" />
+                <span>
+                  Juego del día<span className="jh-btn__sep"> · </span>
+                  <span className="jh-btn__zh">今日推荐</span>
+                </span>
               </Link>
             </div>
-            <div className="jd-hero__stats">
-              <span>
-                <b>{GAMES.length}</b> juegos · 个游戏
-              </span>
-              <span>
-                <b>{CATEGORIAS.length - 1}</b> categorías · 类别
-              </span>
-              <span>
-                <b>{recent.length}</b> jugados · 玩过
-              </span>
-            </div>
           </div>
-          <div className="jd-hero__escena" aria-hidden="true">
-            <span className="jd-hero__halo" />
-            <img className="jd-hero__nube" src="./theme/nube-oro.png" alt="" />
-            <img className="jd-hero__mono" src="./mono/poder.png" alt="" />
+          <div className="jh-hero__escena" aria-hidden="true">
+            <span className="jh-hero__halo" />
+            <img className="jh-hero__nube" src="./theme/nube-oro.png" alt="" />
+            <img className="jh-hero__mono" src="./mono/poder.png" alt="" />
           </div>
-        </section>
-
-        {/* Juego del día + seguir jugando */}
-        <section className="jd-destacados">
-          <Link to={featured.path} onClick={() => rememberGame(featured.id)} className="jd-pergamino" aria-label={`Juego del día: ${featured.name} · ${featured.nameCn}`}>
-            <span className="jd-pergamino__rodillo is-arriba" aria-hidden="true" />
-            <div className="jd-pergamino__cuerpo">
-              <Medallon game={featured} grande />
-              <div className="jd-pergamino__texto">
-                <span className="jd-eyebrow">
-                  <SparklesIcon size={13} /> Juego del día · 今日推荐
-                </span>
-                <h2 className="jd-pergamino__titulo">{featured.name}</h2>
-                <div className="jd-pergamino__zh">{featured.nameCn}</div>
-                <p className="jd-pergamino__desc">
-                  {featured.desc} <span>{featured.descCn}</span>
-                </p>
-                <span className="jd-btn-laca">
-                  <PlayIcon size={16} fill="currentColor" /> ¡A jugar! · 开始玩
-                </span>
-              </div>
-            </div>
-            <span className="jd-pergamino__rodillo is-abajo" aria-hidden="true" />
-          </Link>
-
-          <div className="jd-recientes">
-            <h2 className="jd-h3">
-              <HistoryIcon size={18} /> Seguir jugando · 继续玩
-            </h2>
+          <div className="jh-seguir">
+            <span className="jh-seguir__titulo">
+              <HistoryIcon size={15} aria-hidden="true" /> Seguir jugando · 继续玩
+            </span>
             {recent.length ? (
-              <div className="jd-recientes__lista">
-                {recent.map((game) => (
-                  <Link key={game.id} to={game.path} onClick={() => rememberGame(game.id)} className="jd-reciente" title={`${game.name} · ${game.nameCn}`}>
-                    <Medallon game={game} />
-                    <span className="jd-reciente__nombre">{game.name}</span>
+              <div className="jh-seguir__lista">
+                {recent.slice(0, 4).map((game) => (
+                  <Link key={game.id} to={game.path} onClick={() => rememberGame(game.id)} className="jh-seguir__item" title={`${game.name} · ${game.nameCn}`}>
+                    <Portada id={game.id} className="is-mini" />
+                    <span>
+                      {game.name}
+                      <small>{game.nameCn}</small>
+                    </span>
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="jd-recientes__vacio">
-                <img src="./mono/guino.png" alt="" />
-                <p>
-                  Aquí aparecerán los últimos juegos que abras. ¡Empieza por el juego del día!
-                  <span>这里会显示你最近玩过的游戏。先试试今日推荐吧！</span>
-                </p>
-              </div>
+              <span className="jh-seguir__vacio">
+                Aquí verás tus últimas partidas. <span>这里会显示你最近玩过的游戏。</span>
+              </span>
             )}
           </div>
         </section>
 
-        {/* Filtros */}
-        <section className="jd-catalogo" aria-labelledby="jd-catalogo-titulo">
-          <div className="jd-catalogo__cabeza">
-            <h2 id="jd-catalogo-titulo" className="jd-h2">
-              <span className="jd-sello-mini" translate="no">
+        {/* Catálogo: filtros con identidad + portadas */}
+        <section className="jh-catalogo" aria-labelledby="jh-catalogo-titulo">
+          <div className="jh-barra">
+            <h2 id="jh-catalogo-titulo" className="jh-barra__titulo">
+              <span className="jh-sello-mini" translate="no">
                 全
               </span>
               Todos los juegos · 全部游戏
             </h2>
-            <div className="jd-filtros">
-              <div className="jd-tabs" role="tablist" aria-label="Categorías · 类别">
-                {CATEGORIAS.map((cat) => (
-                  <button key={cat.key} type="button" role="tab" aria-selected={category === cat.key} className={category === cat.key ? "is-on" : ""} onClick={() => setCategory(cat.key)}>
-                    {cat.es} · {cat.zh}
-                    <span className="jd-tabs__n">{countOf(cat.key)}</span>
+            <div className="jh-tabs" role="tablist" aria-label="Categorías · 类别">
+              {CATEGORIAS.map((cat) => {
+                const id = IDENTIDAD[cat.key];
+                const Icono = id.icono;
+                return (
+                  <button
+                    key={cat.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={category === cat.key}
+                    className={`jh-tab jh-cat--${cat.key}${category === cat.key ? " is-on" : ""}`}
+                    onClick={() => elegirCategoria(cat.key)}
+                  >
+                    <span className="jh-tab__sello" translate="no" aria-hidden="true">
+                      {id.glifo}
+                    </span>
+                    <Icono size={15} className="jh-tab__icono" aria-hidden="true" />
+                    <span className="jh-tab__txt">
+                      {cat.es} <small>{cat.zh}</small>
+                    </span>
+                    <span className="jh-tab__n">{countOf(cat.key)}</span>
                   </button>
-                ))}
-              </div>
-              <label className="jd-buscar">
-                <SearchIcon size={17} aria-hidden="true" />
-                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar juego · 搜索游戏" aria-label="Buscar juego · 搜索游戏" />
-                {query && (
-                  <button type="button" onClick={() => setQuery("")} aria-label="Borrar · 清除">
-                    <XIcon size={16} />
-                  </button>
-                )}
-              </label>
+                );
+              })}
             </div>
+            <label className="jh-buscar">
+              <SearchIcon size={17} aria-hidden="true" />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar juego · 搜索游戏" aria-label="Buscar juego · 搜索游戏" />
+              {query && (
+                <button type="button" onClick={() => setQuery("")} aria-label="Borrar · 清除">
+                  <XIcon size={16} />
+                </button>
+              )}
+            </label>
           </div>
 
-          {list.length ? (
-            <div className="jd-grid">
+          {conDestacado || list.length ? (
+            <div className="jh-grid">
+              {conDestacado && <JuegoDelDia game={featured} />}
               {list.map((game, index) => (
                 <GameCard key={game.id} game={game} index={index} jugado={recentIds.includes(game.id)} />
               ))}
+              {conDestacado && (
+                <button type="button" className="jh-card jh-azar jh-cat--todos" style={{ "--jh-i": list.length, viewTransitionName: "jh-azar" }} onClick={partidaRapida} onPointerMove={inclinar} onPointerLeave={soltar}>
+                  <span className="jh-card__brillo" aria-hidden="true" />
+                  <span className="jh-azar__dados" aria-hidden="true">
+                    <span className="jh-azar__dado">?</span>
+                    <span className="jh-azar__dado is-b" translate="no">
+                      戏
+                    </span>
+                  </span>
+                  <span className="jh-azar__titulo">Partida rápida</span>
+                  <span className="jh-azar__zh">随机一局</span>
+                  <span className="jh-azar__desc">
+                    Deja que el dado elija el juego.
+                    <span>让骰子帮你选游戏。</span>
+                  </span>
+                </button>
+              )}
             </div>
           ) : (
-            <div className="jd-vacio">
-              <BookOpenIcon size={22} /> No hay juegos con «{query}». · 没有找到相关游戏。
+            <div className="jh-vacio">
+              <img src="./mono/serio.png" alt="" />
+              <p>
+                No hay juegos con «{query}». <span>没有找到相关游戏。</span>
+              </p>
+              <button
+                type="button"
+                className="jh-btn-laca"
+                onClick={() => {
+                  setQuery("");
+                  setCategory("todos");
+                }}
+              >
+                Ver todos · 查看全部
+              </button>
             </div>
           )}
         </section>

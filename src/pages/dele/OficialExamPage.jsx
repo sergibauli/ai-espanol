@@ -31,6 +31,30 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import TextoDele from "../../components/dele/TextoDele.jsx";
+import { createPortal } from "react-dom";
+import { FileDownIcon } from "lucide-react";
+import { CuotaIA } from "../../components/ui/CuotaIA.jsx";
+import ImpresionExamen from "../../components/examen/ImpresionExamen.jsx";
+import {
+  PRUEBAS_SX,
+  SalaHero,
+  Medallones,
+  TareasTabs,
+  Instrucciones,
+  TableroJade,
+  PreguntaSX,
+  Incienso,
+  Esquinas,
+  OndasCirculares,
+  Linterna,
+  PincelPalabras,
+  MedallonJade,
+  Confeti,
+  resaltarFrase,
+  reducirMovimiento,
+  formatoReloj,
+  recurso,
+} from "../../components/examen/SalaExamen.jsx";
 import "../../styles/v14-fix-examenes.css";
 import { turnosDeAudio, anuncioAudio, claveOficial } from "../../lib/vocesDele.js";
 
@@ -178,8 +202,16 @@ function As(t) {
   }
   return i || n;
 }
+// Barajado de opciones estable por examen (semilla = nivel + modelo) para poder guardar y continuar
 function zs(t) {
-  const r = () => Math.random();
+  let semilla = 0;
+  for (const ch of `${t.nivel || t.level || ""}-${t.modelo || t.id || ""}`) semilla = (Math.imul(semilla, 31) + ch.charCodeAt(0)) | 0;
+  const r = () => {
+    semilla = (semilla + 0x6d2b79f5) | 0;
+    let x = Math.imul(semilla ^ (semilla >>> 15), 1 | semilla);
+    x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
   const l = (n) => {
     const x = n.slice();
     for (let u = x.length - 1; u > 0; u--) {
@@ -244,118 +276,6 @@ function zs(t) {
     pruebas,
     claves: t_claves,
   };
-}
-function ZComponent({ children, color = c }) {
-  return (
-    <span
-      className="inline-flex items-center px-2 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wide"
-      style={{
-        background: `${color}14`,
-        color: `${color}dd`,
-        border: `1px solid ${color}33`,
-      }}
-    >
-      {children}
-    </span>
-  );
-}
-function YComponent({ titulo, icono, color = c, children, abiertoInicial = false, contador }) {
-  const [n, setN] = React.useState(abiertoInicial);
-  return (
-    <div
-      className="rounded-2xl overflow-hidden mb-3.5"
-      style={{
-        background: "rgba(0,0,0,.22)",
-        border: `1px solid ${color}22`,
-      }}
-    >
-      <button
-        onClick={() => setN((u) => !u)}
-        className="w-full flex items-center gap-2.5 px-4 py-3 text-left transition-colors hover:bg-white/[.02]"
-      >
-        {icono &&
-          jsxRuntime.jsx(icono, {
-            size: 14,
-            style: {
-              color,
-            },
-            className: "shrink-0",
-          })}
-        <span
-          className="text-[11.5px] font-black uppercase tracking-[0.14em] flex-1"
-          style={{
-            color: `${color}dd`,
-          }}
-        >
-          {titulo}
-        </span>
-        {contador !== undefined && (
-          <span
-            className="text-[11px] font-black px-2 py-0.5 rounded-md"
-            style={{
-              background: `${color}18`,
-              color: `${color}cc`,
-            }}
-          >
-            {contador}
-          </span>
-        )}
-        <ChevronDownIcon
-          size={14}
-          className="shrink-0 transition-transform"
-          style={{
-            color: `${color}99`,
-            transform: n ? "rotate(180deg)" : "none",
-          }}
-        />
-      </button>
-      {n && <div className="px-4 pb-4">{children}</div>}
-    </div>
-  );
-}
-function Ge1Component({ children, color = c, icono = InfoIcon }) {
-  return (
-    <div
-      className="rounded-2xl p-3.5 mb-4 flex items-start gap-2.5"
-      style={{
-        background: `${color}0d`,
-        border: `1px solid ${color}2e`,
-      }}
-    >
-      {jsxRuntime.jsx(icono, {
-        size: 14,
-        style: {
-          color,
-          marginTop: 2,
-        },
-        className: "shrink-0",
-      })}
-      <div className="text-white/60 text-[12.5px] leading-relaxed flex-1">{children}</div>
-    </div>
-  );
-}
-function Ne1Component({ texto, color = c }) {
-  // Sin texto no se pinta la caja vacía de instrucciones
-  if (!texto || !String(texto).trim()) return null;
-  return (
-    <div
-      className="ofe-instr rounded-xl p-3.5 mb-4"
-      style={{
-        background: "rgba(224,181,102,.06)",
-        border: `1px solid ${color}22`,
-      }}
-    >
-      <div
-        className="text-[11px] font-black uppercase tracking-[0.16em] mb-1"
-        style={{
-          color,
-        }}
-      >
-        INSTRUCCIONES
-      </div>
-      <p className="text-white/65 text-[12.5px] leading-relaxed">{texto}</p>
-    </div>
-  );
 }
 function EsComponent({ texto }) {
   const r = texto.replace(/^\[|\]$/g, "").replace(/^FOTOGRAF[IÍ]A\s*\d*\s*:?\s*/i, "");
@@ -449,7 +369,7 @@ function TsComponent({ escena, semilla }) {
     </div>
   );
 }
-function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave }) {
+function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave, modoExamen = false, transcripcionLibre = true }) {
   const { t: t_1 } = useLanguage();
   const n = React.useMemo(() => {
     const y = h(clips);
@@ -470,6 +390,8 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
   const [d, setD] = React.useState(null);
   const [k, setK] = React.useState(false);
   const [v, setV] = React.useState(false);
+  // Escuchas de cada parte (en el DELE cada audio suena dos veces)
+  const [escuchas, setEscuchas] = React.useState({});
   const TRef = React.useRef(0);
   const audioActualRef = React.useRef(null);
   const [vocesNativas, setVocesNativas] = React.useState(null);
@@ -573,6 +495,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
           }
           const G = y + S;
           setD(G);
+          setEscuchas((prev) => ({ ...prev, [G]: (prev[G] || 0) + 1 }));
           const p = E[S].etiqueta || `Audio ${S + 1}`;
           await decir(anuncioAudio(de(p, S + 1), reparto), p);
           if (TRef.current !== z) {
@@ -602,182 +525,117 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
     },
     [n, velocidad, t_1, vocesNativas, examenClave],
   );
-  const U = React.useMemo(() => k_2(guion), [guion]);
+  const total = n.length;
+  const agotada = (indice) => modoExamen && (escuchas[indice] || 0) >= 2;
+  const todasAgotadas = total > 0 && n.every((_, indice) => agotada(indice));
+  const parteVista = d ?? Object.keys(escuchas).map(Number).sort((p1, p2) => p2 - p1)[0] ?? 0;
+  const vecesParte = escuchas[parteVista] || 0;
+  const frac = total ? (x ? (parteVista + 0.5) / total : Object.keys(escuchas).length / total) : 0;
+  const etiquetaParte = (indice) => Is(n[indice] || {}, indice, t_1);
   return (
-    <div
-      className="rounded-2xl p-4 mb-4"
-      style={{
-        background: `linear-gradient(140deg, ${c}0d, rgba(0,0,0,.22))`,
-        border: `1px solid ${c}28`,
-      }}
-    >
-      <div className="flex flex-wrap items-center gap-3">
+    <div className="sx-gong-caja gm-no-adapt">
+      <div className={`sx-gong ${x ? "sonando" : ""}`}>
+        <OndasCirculares frac={frac} />
         <button
-          onClick={() => {
-            if (x) {
-              return onClick();
-            }
-            return V(0);
-          }}
-          className="xm-ofe-play gm-no-adapt flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.03]"
-          style={{
-            background: `linear-gradient(135deg, ${c}, ${C})`,
-            color: "#17130a",
-            boxShadow: `0 0 22px ${c}40`,
-          }}
+          type="button"
+          className="sx-gong-boton"
+          disabled={!x && todasAgotadas}
+          onClick={() => (x ? onClick() : V(0))}
+          aria-label={x ? "Parar el audio · 停止" : "Escuchar todo el audio · 播放完整音频"}
+          title={x ? "Parar · 停止" : "Escuchar todo · 播放全部"}
         >
-          <PlayIcon size={14} />
-          {x ? t_1("Reiniciar audio", "重新播放") : t_1("Escuchar todo el audio", "播放完整音频")}
+          {x ? <PauseIcon fill="currentColor" /> : <PlayIcon fill="currentColor" />}
         </button>
-        {x && (
-          <button
-            onClick={onClick}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12px] font-bold text-white/60"
-            style={{
-              background: "rgba(255,255,255,.05)",
-              border: "1px solid rgba(255,255,255,.1)",
-            }}
-          >
-            <SquareIcon size={12} /> {t_1("Parar", "停止")}
-          </button>
+        <div className="sx-gong-t">
+          {total ? `${Math.min(parteVista + 1, total)} / ${total}` : "—"}
+        </div>
+      </div>
+      <div className="sx-ainfo">
+        <div className="now">
+          {x ? "● Sonando · " : "Audio · "}
+          <span className="sx-zh" lang="zh-CN">{x ? "正在播放" : "音频"}</span>
+        </div>
+        <h3>
+          {total ? etiquetaParte(parteVista) : t_1("Audio", "音频")}
+          <span className="sx-zh" lang="zh-CN">第{Math.min(parteVista + 1, total || 1)}段</span>
+        </h3>
+        <div className="sx-linternas">
+          <Linterna encendida={vecesParte >= 1} />
+          <Linterna encendida={vecesParte >= 2} />
+          <div className="txt">
+            {vecesParte ? `Escucha ${Math.min(vecesParte, 2)} de 2` : "Cada audio suena dos veces"}
+            <span className="sx-zh" lang="zh-CN">{vecesParte ? `第${Math.min(vecesParte, 2)}遍 / 共2遍` : "每段播放两遍"}</span>
+          </div>
+        </div>
+        {total > 1 && (
+          <div className="sx-tablillas" aria-label="Escuchar por partes · 分段播放">
+            {n.map((parte, indice) => (
+              <button
+                key={indice}
+                type="button"
+                className={`sx-tablilla ${d === indice && x ? "on" : ""}`}
+                disabled={agotada(indice)}
+                onClick={() => V(indice)}
+                title={(parte.texto || "").slice(0, 160)}
+              >
+                {indice + 1}
+                <small>{etiquetaParte(indice)}</small>
+                {escuchas[indice] ? <span className="vez">{"✓".repeat(Math.min(2, escuchas[indice]))}</span> : null}
+              </button>
+            ))}
+          </div>
         )}
-        <div className="flex items-center gap-1.5 ml-auto">
-          <GaugeIcon size={13} className="text-white/35" />
+        <div className="sx-vel" role="group" aria-label="Velocidad · 语速">
           {[0.75, 0.9, 1, 1.15].map((y) => (
             <button
               key={y}
+              type="button"
+              aria-pressed={velocidad === y}
               onClick={() => {
                 setVelocidad(y);
-                if (x) {
-                  onClick();
-                }
-              }}
-              className="px-2 py-1 rounded-md text-[11px] font-black transition-colors"
-              style={{
-                background: velocidad === y ? `${c}25` : "rgba(255,255,255,.04)",
-                color: velocidad === y ? C : "rgba(255,255,255,.4)",
-                border: `1px solid ${velocidad === y ? `${c}50` : "rgba(255,255,255,.08)"}`,
+                if (x) onClick();
               }}
             >
-              {y}x
+              {String(y).replace(".", ",")}×
             </button>
           ))}
         </div>
-      </div>
-      <div
-        className="mt-3 h-1 rounded-full overflow-hidden"
-        style={{
-          background: "rgba(255,255,255,.07)",
-        }}
-      >
-        <div
-          className="h-full rounded-full transition-all duration-300"
-          style={{
-            width: `${n.length ? ((d === null ? 0 : d + 1) / n.length) * 100 : 0}%`,
-            background: `linear-gradient(90deg, ${c}, ${C})`,
-          }}
-        />
-      </div>
-      {n.length > 0 && (
-        <div className="mt-3.5">
-          <div
-            className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
-            style={{
-              color: `${c}bb`,
-            }}
-          >
-            {t_1("Escuchar por partes", "分段播放")} · {n.length}
+        <div className="sx-lock">
+          {transcripcionLibre ? (
+            <>
+              <button type="button" onClick={() => setV((y) => !y)}>
+                {v ? <EyeOffIcon size={13} /> : <EyeIcon size={13} />}
+                {v ? "Ocultar transcripción · 隐藏原文" : "Ver transcripción · 查看原文"}
+              </button>
+              <button type="button" onClick={() => setK((y) => !y)}>
+                {k ? <EyeOffIcon size={13} /> : <EyeIcon size={13} />}
+                {k ? "Ocultar guion · 隐藏脚本" : "Guion por partes · 分段脚本"}
+              </button>
+            </>
+          ) : (
+            <>
+              <KeyRoundIcon size={14} />
+              {modoExamen
+                ? "La transcripción se abre al entregar la prueba · 交卷后可看原文"
+                : "La transcripción se abre al comprobar una pregunta · 检查后可看原文"}
+            </>
+          )}
+        </div>
+        {transcripcionLibre && v && (
+          <div className="sx-transc">
+            <TextoDele texto={guion} variante="guion" />
           </div>
-          <div className="flex flex-wrap gap-2">
-            {n.map((y, A) => {
-              const z = d === A && x;
-              return (
-                <button
-                  key={A}
-                  onClick={() => V(A)}
-                  title={y.texto.slice(0, 160)}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition-colors max-w-full"
-                  style={{
-                    background: z ? `${c}22` : "rgba(255,255,255,.045)",
-                    border: `1px solid ${z ? `${c}60` : "rgba(255,255,255,.09)"}`,
-                    color: z ? C : "rgba(255,255,255,.6)",
-                  }}
-                >
-                  <Volume2Icon
-                    size={11}
-                    style={{
-                      color: c,
-                    }}
-                  />
-                  <span className="truncate max-w-[190px]">{Is(y, A, t_1)}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-      <div className="flex flex-wrap gap-4 mt-3.5">
-        <button
-          onClick={() => {
-            setK((y) => !y);
-          }}
-          className="flex items-center gap-1.5 text-[11px] font-bold text-white/35 hover:text-white/65 transition-colors"
-        >
-          {k ? <EyeOffIcon size={12} /> : <EyeIcon size={12} />}
-          {k
-            ? t_1("Ocultar guion", "隐藏脚本")
-            : t_1("Ver guion con marcas de locución", "查看带播音标记的脚本")}
-        </button>
-        <button
-          onClick={() => {
-            setV((y) => !y);
-          }}
-          className="flex items-center gap-1.5 text-[11px] font-bold text-white/35 hover:text-white/65 transition-colors"
-        >
-          {v ? <EyeOffIcon size={12} /> : <EyeIcon size={12} />}
-          {v ? t_1("Ocultar transcripción", "隐藏文本") : t_1("Ver transcripción", "查看文本")}
-        </button>
-      </div>
-      {k && (
-        <div
-          className="mt-2.5 rounded-xl p-3.5 max-h-80 overflow-y-auto whitespace-pre-line text-[12.5px] leading-relaxed"
-          style={{
-            background: "rgba(255,255,255,.03)",
-            border: "1px solid rgba(255,255,255,.07)",
-          }}
-        >
-          {n.map((y, A) => (
-            <span key={A} className="block mb-2">
-              <span
-                className="font-mono text-[11px] font-black mr-1.5"
-                style={{
-                  color: c,
-                }}
-              >
-                [{y.etiqueta}]
-              </span>
-              <span className="text-white/60">{y.texto}</span>
-            </span>
-          ))}
-        </div>
-      )}
-      {v && (
-        <div
-          className="mt-2.5 rounded-xl p-3.5 max-h-80 overflow-y-auto"
-          style={{
-            background: "rgba(255,255,255,.03)",
-            border: "1px solid rgba(255,255,255,.07)",
-          }}
-        >
-          <TextoDele texto={guion} variante="guion" />
-        </div>
-      )}
-      <p className="mt-2.5 text-[11px] text-white/25">
-        {t_1(
-          "Cada audio se reproduce con la voz española de tu dispositivo.",
-          "音频使用设备的西班牙语语音合成播放。",
         )}
-      </p>
+        {transcripcionLibre && k && (
+          <div className="sx-transc">
+            {n.map((y, A) => (
+              <p key={A} style={{ margin: "0 0 8px", fontSize: 13.5, lineHeight: 1.55 }}>
+                <b style={{ color: "#8f0c21" }}>[{y.etiqueta}]</b> {y.texto}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -796,115 +654,6 @@ function Is(t, r, l) {
     return s;
   }
   return `${l("Parte", "第")} ${r + 1}`;
-}
-function LeComponent({ item, valor, onSelect, corregido, color, t: t_1 }) {
-  const [showSupport, setShowSupport] = React.useState(false);
-  const isRight = corregido && valor === item.correcta;
-  const isWrong = corregido && valor !== undefined && valor !== item.correcta;
-  const hasKey = !!(item.justificacion || item.fraseSoporte);
-  const letterMode = o(item.opciones);
-  const optionClass = (index) => {
-    const picked = valor === index;
-    if (corregido) {
-      if (index === item.correcta) return "is-right";
-      if (picked) return "is-wrong";
-      return "is-dim";
-    }
-    return picked ? "is-picked" : "";
-  };
-  // Ítem con estilos propios (v12-examenes.css): fuera del adaptador de colores
-  return (
-    <div className={`ofe-item xm-item gm-no-adapt ${isRight ? "is-ok" : isWrong ? "is-bad" : ""}`} style={{ "--xm-lvl": color }}>
-      <div className="xm-item-head">
-        <span className="xm-item-num">{item.num}</span>
-        <p data-enunciado={item.num} className="xm-item-q">
-          {item.enunciado}
-        </p>
-        {corregido &&
-          (isRight ? (
-            <span className="xm-item-flag ok">
-              <CircleCheckIcon size={16} /> {t_1("Correcta", "正确")}
-            </span>
-          ) : isWrong ? (
-            <span className="xm-item-flag bad">
-              <CircleXIcon size={16} /> {t_1("Incorrecta", "错误")}
-            </span>
-          ) : (
-            <span className="xm-item-flag none">{t_1("Sin responder", "未作答")}</span>
-          ))}
-      </div>
-      {letterMode ? (
-        <div className="xm-item-letters">
-          <span className="xm-item-hint">{t_1("Marque el texto", "选择对应文本")}</span>
-          {item.opciones.map((option, index) => (
-            <button
-              key={index}
-              type="button"
-              data-opcion={index}
-              data-item={item.num}
-              data-correcta={index === item.correcta ? "1" : "0"}
-              aria-pressed={valor === index}
-              onClick={() => !corregido && onSelect(index)}
-              disabled={corregido}
-              className={`xm-item-letter ${optionClass(index)}`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      ) : (
-        <div className="xm-item-opts">
-          {item.opciones.map((option, index) => (
-            <button
-              key={index}
-              type="button"
-              data-opcion={index}
-              data-item={item.num}
-              data-correcta={index === item.correcta ? "1" : "0"}
-              aria-pressed={valor === index}
-              onClick={() => !corregido && onSelect(index)}
-              disabled={corregido}
-              className={`xm-item-opt ${optionClass(index)}`}
-            >
-              <span className="xm-item-abc">{g(index)}</span>
-              <span className="xm-item-txt">{option}</span>
-            </button>
-          ))}
-        </div>
-      )}
-      {corregido && hasKey && (
-        <div data-clave={item.num} className="xm-item-key">
-          <div className="xm-item-key-head">
-            <KeyRoundIcon size={14} />
-            <span>{t_1("Clave", "答案与依据")}</span>
-            <b>
-              {g(item.correcta)} · {item.opciones[item.correcta]}
-            </b>
-          </div>
-          {item.justificacion && (
-            <p data-justificacion={item.num} className="xm-item-why">
-              {item.justificacion}
-            </p>
-          )}
-          {item.fraseSoporte && (
-            <>
-              <button type="button" onClick={() => setShowSupport((value) => !value)} className="xm-item-support-btn">
-                <EyeIcon size={14} />{" "}
-                {showSupport
-                  ? t_1("Ocultar la frase que lo justifica", "隐藏依据句")
-                  : t_1("Ver la frase que lo justifica", "查看依据句")}
-              </button>
-              {showSupport && (
-                <p data-frase={item.num} className="xm-item-support">
-                  «{item.fraseSoporte}»
-                </p>
-              )}
-            </>
-          )}
-        </div>
-      )}
-    </div>
-  );
 }
 function VeComponent({ rubrica, color }) {
   const { t: t_1 } = useLanguage();
@@ -1129,209 +878,6 @@ function RsComponent({ encuesta }) {
     </div>
   );
 }
-function Oe1Component({ tarea, color, extra }) {
-  const { t: t_1 } = useLanguage();
-  const itemCount = (tarea.items || []).length;
-  // Cabecera de tarea: cinta de laca roja con sello (estilos en v12-examenes.css)
-  return (
-    <div className="ofe-thead xm-thead gm-no-adapt">
-      <span className="xm-thead-seal">
-        <small>TAREA</small>
-        {tarea.num}
-      </span>
-      <div className="xm-thead-text">
-        <div className="xm-thead-title">{tarea.titulo}</div>
-        <div className="xm-thead-tags">
-          {tarea.genero && <span className="xm-thead-tag">{tarea.genero}</span>}
-          {tarea.subgenero && tarea.subgenero !== tarea.genero && tarea.subgenero !== tarea.tipoAudio && (
-            <span className="xm-thead-tag">{tarea.subgenero}</span>
-          )}
-          {tarea.tipoAudio && <span className="xm-thead-tag">{tarea.tipoAudio}</span>}
-          {tarea.ambito && <span className="xm-thead-tag soft">{e(tarea.ambito)}</span>}
-          {tarea.subtema && <span className="xm-thead-sub">{tarea.subtema}</span>}
-          {tarea.tiempo && (
-            <span className="xm-thead-meta">
-              <ClockIcon size={12} />
-              {tarea.tiempo}
-            </span>
-          )}
-          <span className="xm-thead-meta">
-            {itemCount ? `${itemCount} ${t_1("ítems", "题")}` : `${(tarea.puntosGuia || []).length} ${t_1("puntos guía", "提示要点")}`}
-          </span>
-        </div>
-      </div>
-      {extra}
-    </div>
-  );
-}
-function PsComponent({ tarea }) {
-  const { t: t_1 } = useLanguage();
-  const tarea_material = tarea.material;
-  return (
-    <>
-      {tarea.texto && (
-        <div
-          className="ofe-paper rounded-2xl p-4 mb-4"
-          style={{
-            background: "rgba(0,0,0,.25)",
-            border: "1px solid rgba(255,255,255,.07)",
-          }}
-        >
-          {tarea.tituloTexto && (
-            <div
-              className="text-center text-white/85 font-black text-[15px] mb-2.5 pb-2"
-              style={{
-                borderBottom: "1px solid rgba(255,255,255,.09)",
-              }}
-            >
-              {tarea.tituloTexto}
-            </div>
-          )}
-          <TextoDele texto={tarea.texto} variante="lectura" />
-          <div
-            className="flex flex-wrap items-center gap-3 mt-3 pt-2.5"
-            style={{
-              borderTop: "1px dashed rgba(255,255,255,.09)",
-            }}
-          >
-            {tarea.palabras ? (
-              <span className="text-[11px] font-bold text-white/25">
-                {tarea.palabras} {t_1("palabras", "词")}
-              </span>
-            ) : null}
-            {tarea.fuente && <span className="text-[11px] italic text-white/25">{tarea.fuente}</span>}
-          </div>
-        </div>
-      )}
-      {tarea_material?.bloques && tarea_material.bloques.length > 0 && (
-        <div className="grid sm:grid-cols-2 gap-2.5 mb-4">
-          {tarea_material.bloques.map((s) => (
-            <div
-              key={s.letra}
-              className="rounded-xl p-3"
-              style={{
-                background: "rgba(0,0,0,.24)",
-                border: "1px solid rgba(255,255,255,.07)",
-              }}
-            >
-              <div className="flex items-center gap-2 mb-1.5">
-                <span
-                  className="font-mono font-black text-[11px] w-5 h-5 rounded flex items-center justify-center"
-                  style={{
-                    background: `${c}18`,
-                    color: C,
-                    border: `1px solid ${c}30`,
-                  }}
-                >
-                  {s.letra}
-                </span>
-                {s.titulo && <span className="text-white/80 font-bold text-[12.5px]">{s.titulo}</span>}
-              </div>
-              <TextoDele texto={s.texto} variante="compacto" data-bloque={s.letra} />
-            </div>
-          ))}
-        </div>
-      )}
-      {tarea_material?.enunciados && tarea_material.enunciados.length > 0 && tarea.tipo !== "relacionar" && (
-        <div
-          className="rounded-2xl p-3.5 mb-4"
-          style={{
-            background: "rgba(0,0,0,.22)",
-            border: "1px solid rgba(255,255,255,.07)",
-          }}
-        >
-          <div
-            className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
-            style={{
-              color: c,
-            }}
-          >
-            Enunciados
-          </div>
-          <ul className="space-y-1.5">
-            {tarea_material.enunciados.map((s, g) => (
-              <li key={g} className="flex items-start gap-2 text-[12.5px] text-white/55">
-                <span
-                  className="font-mono text-[11px] mt-0.5 shrink-0"
-                  style={{
-                    color: C,
-                  }}
-                >
-                  {g + 1}.
-                </span>
-                <span className="leading-relaxed">{s}</span>
-              </li>
-            ))}
-          </ul>
-          {typeof tarea_material.sobrantes === "number" && tarea_material.sobrantes > 0 && (
-            <p className="text-[11px] text-white/25 mt-2">
-              Hay {tarea_material.sobrantes} {t_1("opciones que no se utilizan.", "个选项不使用。")}
-            </p>
-          )}
-        </div>
-      )}
-      {tarea_material?.fragmentos && tarea_material.fragmentos.length > 0 && (
-        <div
-          className="rounded-2xl p-3.5 mb-4"
-          style={{
-            background: "rgba(0,0,0,.22)",
-            border: "1px solid rgba(255,255,255,.07)",
-          }}
-        >
-          <div
-            className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
-            style={{
-              color: c,
-            }}
-          >
-            Fragmentos
-          </div>
-          <div className="space-y-1.5">
-            {tarea_material.fragmentos.map((s) => (
-              <div key={s.letra} className="flex gap-2 text-[12px] text-white/55">
-                <span
-                  className="font-mono font-black shrink-0"
-                  style={{
-                    color: C,
-                  }}
-                >
-                  {s.letra}
-                </span>
-                <TextoDele texto={s.texto} variante="compacto" className="flex-1" />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {tarea_material?.textos && tarea_material.textos.length > 0 && (
-        <div className="grid sm:grid-cols-2 gap-2.5 mb-4">
-          {tarea_material.textos.map((s, g) => (
-            <div
-              key={g}
-              className="rounded-xl p-3"
-              style={{
-                background: "rgba(0,0,0,.24)",
-                border: "1px solid rgba(255,255,255,.07)",
-              }}
-            >
-              {(s.titulo || s.tituloTexto) && (
-                <div className="text-white/80 font-bold text-[12.5px] mb-1.5">
-                  {s.titulo || s.tituloTexto}
-                </div>
-              )}
-              <TextoDele texto={s.texto} variante="compacto" />
-              {s.palabras ? (
-                <div className="text-[11px] text-white/25 mt-1.5">
-                  {s.palabras} {t_1("palabras", "词")}
-                </div>
-              ) : null}
-            </div>
-          ))}
-        </div>
-      )}
-    </>
-  );
-}
 function IaComponent() {
   const { level = "A1", examId = "1" } = useParams();
   const nivel = String(level).toUpperCase();
@@ -1551,6 +1097,112 @@ function IaComponent() {
     } catch {}
     setDe(null);
   }, []);
+  // ===== Sala imperial: modo, corrección por pregunta, borrador guardado, temporizadores e impresión
+  const [modo, setModo] = React.useState("practica");
+  const [comprobadas, setComprobadas] = React.useState({});
+  const [tareaIdx, setTareaIdx] = React.useState({});
+  const [actual, setActual] = React.useState(null);
+  const [guia, setGuia] = React.useState({});
+  const [temaOral, setTemaOral] = React.useState({});
+  const [tiempos, setTiempos] = React.useState({});
+  const [relojEnMarcha, setRelojEnMarcha] = React.useState(true);
+  const [prep, setPrep] = React.useState({ restantes: 0, enMarcha: false });
+  const [habla, setHabla] = React.useState({});
+  const [zoom, setZoom] = React.useState(1);
+  const [imprimir, setImprimir] = React.useState(null);
+  const hojaRef = React.useRef(null);
+  const salaRef = React.useRef(null);
+  const borradorListo = React.useRef(false);
+  const claveBorrador = examen ? `dele_oficial_borrador_${nivel}_${examen.modelo}` : null;
+  // Cargar el borrador guardado (guardar y continuar)
+  React.useEffect(() => {
+    borradorListo.current = false;
+    if (!examen) return;
+    let guardado = null;
+    try {
+      guardado = JSON.parse(localStorage.getItem(claveBorrador) || "null");
+    } catch {}
+    const base = {};
+    (examen.pruebas || []).forEach((pr) => {
+      if (pr.duracion) base[`p${pr.prueba}`] = pr.duracion * 60;
+    });
+    setJ(guardado?.j || {});
+    setComprobadas(guardado?.comprobadas || {});
+    setE(guardado?.E || {});
+    setP(guardado?.P || {});
+    setK(guardado?.K || {});
+    setN_1(!!guardado?.N);
+    setO(!!guardado?.O);
+    setModo(guardado?.modo === "examen" ? "examen" : "practica");
+    setTiempos({ ...base, ...(guardado?.tiempos || {}) });
+    setGuia(guardado?.guia || {});
+    setTemaOral(guardado?.temaOral || {});
+    setTareaIdx(guardado?.tareaIdx || {});
+    if (guardado?.b) setB(guardado.b);
+    setPrep({ restantes: (c_2(examen, 4)?.preparacion || 0) * 60, enMarcha: false });
+    borradorListo.current = true;
+  }, [examen, claveBorrador]);
+  React.useEffect(() => {
+    if (!examen || !borradorListo.current) return;
+    const temporizador = window.setTimeout(() => {
+      try {
+        localStorage.setItem(claveBorrador, JSON.stringify({ j, comprobadas, E, P, K, N, O, modo, tiempos, guia, temaOral, tareaIdx, b, fecha: Date.now() }));
+      } catch {}
+    }, 600);
+    return () => window.clearTimeout(temporizador);
+  }, [examen, claveBorrador, j, comprobadas, E, P, K, N, O, modo, tiempos, guia, temaOral, tareaIdx, b]);
+  // Temporizador de la prueba activa (varilla de incienso)
+  const quedaTiempo = (tiempos[b] || 0) > 0;
+  React.useEffect(() => {
+    if (!examen || !relojEnMarcha || imprimir || !quedaTiempo) return;
+    const clave = b;
+    const intervalo = window.setInterval(() => setTiempos((t) => ({ ...t, [clave]: Math.max(0, (t[clave] || 0) - 1) })), 1000);
+    return () => window.clearInterval(intervalo);
+  }, [examen, b, relojEnMarcha, imprimir, quedaTiempo]);
+  // En modo examen, al acabarse el tiempo se entrega la prueba
+  React.useEffect(() => {
+    if (modo !== "examen") return;
+    if (tiempos.p1 === 0 && !N) setN_1(true);
+    if (tiempos.p2 === 0 && !O) {
+      B()?.cancel();
+      setO(true);
+    }
+  }, [modo, tiempos.p1, tiempos.p2, N, O]);
+  // Preparación del oral y cronómetro mientras se graba
+  const quedaPrep = prep.restantes > 0;
+  React.useEffect(() => {
+    if (!prep.enMarcha || !quedaPrep) return;
+    const intervalo = window.setInterval(() => setPrep((pr) => ({ restantes: Math.max(0, pr.restantes - 1), enMarcha: pr.restantes > 1 })), 1000);
+    return () => window.clearInterval(intervalo);
+  }, [prep.enMarcha, quedaPrep]);
+  React.useEffect(() => {
+    if (!de) return;
+    const intervalo = window.setInterval(() => setHabla((h) => ({ ...h, [de]: (h[de] || 0) + 1 })), 1000);
+    return () => window.clearInterval(intervalo);
+  }, [de]);
+  // Si en práctica se han comprobado todas las preguntas de una prueba, queda corregida (y se guarda la nota)
+  React.useEffect(() => {
+    if (!examen) return;
+    const todas = (num) => {
+      const claves = (c_2(examen, num)?.tareas || []).flatMap((t) => (t.items || []).map((it) => `p${num}-${t.num}-${it.num}`));
+      return claves.length > 0 && claves.every((k) => comprobadas[k]);
+    };
+    if (!N && todas(1)) setN_1(true);
+    if (!O && todas(2)) setO(true);
+  }, [examen, comprobadas, N, O]);
+  // Descarga en PDF: se pinta la versión imprimible y se abre el diálogo del navegador
+  React.useEffect(() => {
+    if (!imprimir) return;
+    document.body.classList.add("sx-imprimiendo");
+    const fin = () => setImprimir(null);
+    window.addEventListener("afterprint", fin);
+    const temporizador = window.setTimeout(() => window.print(), 400);
+    return () => {
+      window.clearTimeout(temporizador);
+      window.removeEventListener("afterprint", fin);
+      document.body.classList.remove("sx-imprimiendo");
+    };
+  }, [imprimir]);
   if (cargando) {
     return (
       <StarfieldBackground>
@@ -1610,957 +1262,906 @@ function IaComponent() {
   const se = c_2(examen, 2);
   const Se = c_2(examen, 3);
   const te = c_2(examen, 4);
-  const xe = b === "claves" ? null : c_2(examen, Number(b.slice(1)));
   const n_evaluacion = examen.evaluacion;
-  return (
-    <StarfieldBackground>
-      <style>{`
-        .of-scroll { scroll-margin-top: 108px; }
-        @keyframes ofIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-        .of-in { animation: ofIn .4s cubic-bezier(.16,1,.3,1) both; }
-      `}</style>
-      <img className="ofe-dragon" src={`${import.meta.env.BASE_URL}theme/dragon-enroscado.webp`} alt="" aria-hidden="true" />
-      <div className="ofe max-w-5xl mx-auto px-4 py-8">
-        <Link
-          to={`/oficial/${nivel}`}
-          className="inline-flex items-center gap-2 text-white/50 hover:text-amber-300 transition-all mb-6 text-sm group"
-        >
-          <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" />
-          {t_1("Volver a los modelos", "返回模型列表")}
-        </Link>
-        <div
-          className="ofe-ribbon relative rounded-3xl overflow-hidden mb-6 p-5 md:p-6"
-          style={{
-            border: `1px solid ${p.color}30`,
-            background: `linear-gradient(140deg, ${p.color}12, rgba(10,13,28,.96) 52%, rgba(24,18,10,.92))`,
+  const modoExamen = modo === "examen";
+  const numPrueba = b === "claves" ? "claves" : Number(b.slice(1));
+  const pruebaActual = b === "claves" ? null : c_2(examen, numPrueba);
+  const tareasActuales = pruebaActual?.tareas || [];
+  const idxTarea = Math.min(tareaIdx[b] || 0, Math.max(0, tareasActuales.length - 1));
+  const tareaActual = tareasActuales[idxTarea];
+  const cfgPrueba = PRUEBAS_SX[numPrueba] || PRUEBAS_SX[1];
+  const corregidaPrueba = (num) => (num === 1 ? N : num === 2 ? O : false);
+  const clavesDe = (num, tarea) => (tarea.items || []).map((it) => `p${num}-${tarea.num}-${it.num}`);
+  const reveladaItem = (key, num) => corregidaPrueba(num) || (U && (!modoExamen || corregidaPrueba(num))) || (!modoExamen && !!comprobadas[key]);
+  const estadoItem = (key, num, it) => {
+    const valor = j[key];
+    if (reveladaItem(key, num)) return valor === undefined ? "" : valor === it.correcta ? "ok" : "ko";
+    return valor === undefined ? "" : "r";
+  };
+  const progresoPrueba = (num) => {
+    const ts = c_2(examen, num)?.tareas || [];
+    if (num <= 2) {
+      const claves = ts.flatMap((t) => clavesDe(num, t));
+      return claves.length ? claves.filter((k) => j[k] !== undefined).length / claves.length : 0;
+    }
+    if (num === 3) return ts.length ? ts.filter((t) => d(E[`esc-${t.num}`]) >= (t.minPalabras || 1)).length / ts.length : 0;
+    return ts.length ? ts.filter((t) => (E[`oral-${t.num}`] || "").trim()).length / ts.length : 0;
+  };
+  const pruebaHecha = (num) => {
+    if (num <= 2) return corregidaPrueba(num);
+    const ts = c_2(examen, num)?.tareas || [];
+    const res = num === 3 ? P : K;
+    return ts.length > 0 && ts.every((t) => res[`${num === 3 ? "esc" : "oral"}-${t.num}`]);
+  };
+  const subir = () => {
+    const destino = salaRef.current?.querySelector(".sx-medallas");
+    destino?.scrollIntoView({ behavior: reducirMovimiento() ? "auto" : "smooth", block: "start" });
+  };
+  const cambiarPrueba = (id) => {
+    B()?.cancel();
+    ss();
+    if (CSS?.highlights) CSS.highlights.delete("sx-frase");
+    setB(id === "claves" ? "claves" : `p${id}`);
+    setActual(null);
+    subir();
+  };
+  const cambiarTarea = (indice) => {
+    B()?.cancel();
+    if (CSS?.highlights) CSS.highlights.delete("sx-frase");
+    setTareaIdx((t) => ({ ...t, [b]: indice }));
+    setActual(null);
+    window.setTimeout(() => salaRef.current?.querySelector(".sx-sala")?.scrollIntoView({ behavior: reducirMovimiento() ? "auto" : "smooth", block: "start" }), 30);
+  };
+  const irAPregunta = (key) => {
+    const [, num, tnum] = key.match(/^p(\d+)-(\d+)-/) || [];
+    const pr = c_2(examen, Number(num));
+    const indice = Math.max(0, (pr?.tareas || []).findIndex((t) => String(t.num) === tnum));
+    if (b !== `p${num}`) setB(`p${num}`);
+    setTareaIdx((t) => ({ ...t, [`p${num}`]: indice }));
+    setActual(key);
+    window.setTimeout(() => {
+      const el = document.getElementById(`q-${key}`);
+      el?.scrollIntoView({ behavior: reducirMovimiento() ? "auto" : "smooth", block: "center" });
+      el?.focus({ preventScroll: true });
+    }, 60);
+  };
+  const navTeclas = (ev) => {
+    if (ev.key !== "ArrowDown" && ev.key !== "ArrowUp") return;
+    const actualQ = ev.target.closest?.(".sx-q");
+    if (!actualQ) return;
+    const todas = [...(salaRef.current?.querySelectorAll(".sx-sala .sx-q") || [])];
+    const siguiente = todas[todas.indexOf(actualQ) + (ev.key === "ArrowDown" ? 1 : -1)];
+    if (siguiente) {
+      ev.preventDefault();
+      siguiente.focus({ preventScroll: true });
+      siguiente.scrollIntoView({ behavior: reducirMovimiento() ? "auto" : "smooth", block: "center" });
+    }
+  };
+  const entregar = (num) => {
+    const ts = c_2(examen, num)?.tareas || [];
+    const sinResponder = ts.flatMap((t) => clavesDe(num, t)).filter((k) => j[k] === undefined).length;
+    if (sinResponder && !window.confirm(`Quedan ${sinResponder} preguntas sin responder. ¿Corregir igualmente?\n还有 ${sinResponder} 题未作答，确定要批改吗？`)) return;
+    if (num === 1) setN_1(true);
+    else {
+      B()?.cancel();
+      setO(true);
+    }
+  };
+  const rehacerPrueba = (num) => {
+    if (!window.confirm("¿Borrar tus respuestas de esta prueba y empezar de nuevo?\n确定清除本项答案并重新开始吗？")) return;
+    const prefijo = `p${num}-`;
+    const sin = (obj) => Object.fromEntries(Object.entries(obj).filter(([k]) => !k.startsWith(prefijo)));
+    setJ(sin);
+    setComprobadas(sin);
+    if (num === 1) setN_1(false);
+    else setO(false);
+    setU_1(false);
+    const pr = c_2(examen, num);
+    if (pr?.duracion) setTiempos((t) => ({ ...t, [`p${num}`]: pr.duracion * 60 }));
+  };
+  const repetirFallos = () => {
+    const fallos = [1, 2].flatMap((num) => (c_2(examen, num)?.tareas || []).flatMap((t) => (t.items || []).filter((it) => j[`p${num}-${t.num}-${it.num}`] !== it.correcta).map((it) => `p${num}-${t.num}-${it.num}`)));
+    if (!fallos.length) return;
+    const fuera = (obj) => Object.fromEntries(Object.entries(obj).filter(([k]) => !fallos.includes(k)));
+    setJ(fuera);
+    setComprobadas(fuera);
+    setN_1(false);
+    setO(false);
+    setU_1(false);
+    setModo("practica");
+    irAPregunta(fallos[0]);
+  };
+  const empezarDeNuevo = () => {
+    if (!window.confirm("¿Borrar todo lo hecho en este examen y empezar de cero?\n确定清除本套试卷的所有作答并重新开始吗？")) return;
+    try {
+      localStorage.removeItem(claveBorrador);
+    } catch {}
+    setIntento((v) => v + 1);
+  };
+  // Puntuación (misma regla que antes: 25 puntos por prueba, APTO con ≥30 en cada grupo)
+  const aNota = (bien, total) => (total ? (bien / total) * 25 : 0);
+  const pLect = N ? aNota(Q.bien, Q.total) : null;
+  const pAud = O ? aNota(W.bien, W.total) : null;
+  const pEsc = mediaEsc !== null ? (mediaEsc / 100) * 25 : null;
+  const pOral = mediaOral !== null ? (mediaOral / 100) * 25 : null;
+  const grupo1 = pLect !== null || pEsc !== null ? (pLect || 0) + (pEsc || 0) : null;
+  const grupo2 = pAud !== null || pOral !== null ? (pAud || 0) + (pOral || 0) : null;
+  const minimo = n_evaluacion?.grupo1?.minimo ?? 30;
+  const completo = pLect !== null && pEsc !== null && pAud !== null && pOral !== null;
+  const apto = completo ? grupo1 >= minimo && grupo2 >= minimo : null;
+  const puntuacion = { pLect, pAud, pEsc, pOral, grupo1, grupo2, apto, minimo };
+  const esNuevo = /Simulacro nuevo/.test(examen.titulo || "");
+  const tiempoTotal = pruebaActual?.duracion ? pruebaActual.duracion * 60 : 0;
+  const incienso =
+    b === "p4" && te?.preparacion ? (
+      <Incienso
+        restantes={prep.restantes}
+        total={te.preparacion * 60}
+        enMarcha={prep.enMarcha}
+        etiqueta="Preparación · 准备"
+        onToggle={() => setPrep((pr) => ({ ...pr, enMarcha: !pr.enMarcha && pr.restantes > 0 }))}
+        onReset={() => setPrep({ restantes: te.preparacion * 60, enMarcha: false })}
+      />
+    ) : tiempoTotal ? (
+      <Incienso
+        restantes={tiempos[b] ?? tiempoTotal}
+        total={tiempoTotal}
+        enMarcha={relojEnMarcha}
+        onToggle={modoExamen ? undefined : () => setRelojEnMarcha((v) => !v)}
+        onReset={modoExamen ? undefined : () => setTiempos((t) => ({ ...t, [b]: tiempoTotal }))}
+      />
+    ) : null;
+  const chips =
+    numPrueba === 1 || numPrueba === 2
+      ? [`${(numPrueba === 1 ? _.lectura : _.audicion).preguntas} preguntas · 题`, `${tareasActuales.length} tareas · 项`, tareaActual?.genero || tareaActual?.tipoAudio, esNuevo ? "Simulacro nuevo · 新模拟题" : "Modelo oficial · 官方真题"]
+      : numPrueba === 3
+        ? [`${tareasActuales.length} tareas · 项`, tareaActual ? `${tareaActual.minPalabras}–${tareaActual.maxPalabras} palabras · 词` : null, "Corrección con IA · AI批改"]
+        : numPrueba === 4
+          ? [`${tareasActuales.length} tareas · 项`, te?.preparacion ? `Preparación ${te.preparacion} min · 准备` : null, "Examinador IA · AI考官"]
+          : [examen.temaCentral, esNuevo ? "Simulacro nuevo · 新模拟题" : "Modelo oficial · 官方真题"];
+  const tablero = (num) =>
+    num <= 2 ? (
+      <TableroJade
+        modoExamen={modoExamen && !corregidaPrueba(num)}
+        actual={actual}
+        onIr={irAPregunta}
+        grupos={(c_2(examen, num)?.tareas || []).map((t) => ({
+          titulo: `Tarea ${t.num} · 任务${t.num}`,
+          items: (t.items || []).map((it) => {
+            const key = `p${num}-${t.num}-${it.num}`;
+            return { key, num: it.num, estado: estadoItem(key, num, it) };
+          }),
+        }))}
+      />
+    ) : null;
+  const preguntas = (num, tarea) =>
+    (tarea.items || []).map((it) => {
+      const key = `p${num}-${tarea.num}-${it.num}`;
+      const revelada = reveladaItem(key, num);
+      return (
+        <PreguntaSX
+          key={key}
+          id={`q-${key}`}
+          item={it}
+          valor={j[key]}
+          onSelect={(v) => {
+            if (revelada) return;
+            q(key, v);
+            setActual(key);
           }}
-        >
-          <div
-            className="absolute top-0 left-0 right-0 h-[3px]"
-            style={{
-              background: `linear-gradient(90deg, transparent, ${p.glow}, ${c}, transparent)`,
-            }}
-          />
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center font-mono font-black text-lg shrink-0"
-                style={{
-                  background: `linear-gradient(135deg, ${p.color}, ${p.glow})`,
-                  color: "#0b0f1e",
-                  boxShadow: `0 0 24px ${p.glow}50`,
-                }}
-              >
-                {nivel}
-              </div>
-              <div>
-                <div
-                  className="text-[11px] font-black uppercase tracking-[0.2em]"
-                  style={{
-                    color: `${c}99`,
-                  }}
-                >
-                  {examen.codigo || `MODELO ${String(examen.modelo).padStart(2, "0")}`}
-                </div>
-                <h1 className="text-white font-black text-xl md:text-2xl leading-tight">{examen.temaCentral}</h1>
-                <div className="ofe-ribbon-zh">
-                  {/Simulacro nuevo/.test(examen.titulo || "") ? (
-                    <>
-                      模拟题 <span className="ofe-seal">新</span>
-                    </>
-                  ) : (
-                    <>
-                      官方试卷 <span className="ofe-seal">真题</span>
-                    </>
-                  )}
-                </div>
-                <p className="text-white/35 text-[12px] font-bold mt-0.5">{examen.titulo}</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 text-[11px] font-bold text-white/40">
-              <span className="flex items-center gap-1.5">
-                <ListChecksIcon
-                  size={12}
-                  style={{
-                    color: p.glow,
-                  }}
-                />{" "}
-                {_.lectura.preguntas + _.audicion.preguntas} {t_1("ítems", "题")}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <ClockIcon
-                  size={12}
-                  style={{
-                    color: p.glow,
-                  }}
-                />{" "}
-                {_.lectura.minutos + _.audicion.minutos + _.escritura.minutos} min
-              </span>
-            </div>
-          </div>
-          {(_.generosLectura.length > 0 || _.variedadesAudio.length > 0) && (
-            <div className="flex flex-wrap gap-1.5 mt-4">
-              {examen.ambito && <ZComponent color="#94a3b8">{e(examen.ambito)}</ZComponent>}
-              {_.generosLectura.slice(0, 4).map((a, o) => (
-                <ZComponent key={`g${o}`} color={p.glow}>
-                  {a}
-                </ZComponent>
-              ))}
-              {_.tiposAudio.slice(0, 3).map((a, o) => (
-                <ZComponent key={`a${o}`} color="#60a5fa">
-                  {a}
-                </ZComponent>
-              ))}
-              {_.variedadesAudio.map((a, o) => (
-                <ZComponent key={`v${o}`} color="#a855f7">
-                  {a}
-                </ZComponent>
-              ))}
-            </div>
+          revelada={revelada}
+          modoExamen={modoExamen}
+          actual={actual === key}
+          onFoco={() => setActual(key)}
+          onComprobar={() => setComprobadas((c) => ({ ...c, [key]: true }))}
+          onReintentar={
+            !modoExamen && !corregidaPrueba(num) && !U
+              ? () => {
+                  setComprobadas((c) => {
+                    const x = { ...c };
+                    delete x[key];
+                    return x;
+                  });
+                  setJ((v) => {
+                    const x = { ...v };
+                    delete x[key];
+                    return x;
+                  });
+                }
+              : undefined
+          }
+          onVerTexto={num === 1 ? (frase) => resaltarFrase(hojaRef.current, frase) : undefined}
+        />
+      );
+    });
+  const barraAcciones = (num) => {
+    const res = num === 1 ? Q : W;
+    const ts = c_2(examen, num)?.tareas || [];
+    const respondidas = ts.flatMap((t) => clavesDe(num, t)).filter((k) => j[k] !== undefined).length;
+    const corregida = corregidaPrueba(num);
+    return (
+      <div className="sx-barra-acc gm-no-adapt">
+        <div className="sx-res">
+          {corregida ? (
+            <>
+              Nota · <span lang="zh-CN">得分</span> <b>{res.bien}/{res.total}</b> ({res.pct}%)
+            </>
+          ) : (
+            <>
+              Respondidas · <span lang="zh-CN">已答</span> <b>{respondidas}/{res.total}</b>
+            </>
           )}
         </div>
-        <div className="ofe-tabs ofx-tabs grid grid-cols-2 md:grid-cols-5 gap-2.5 mb-5" role="tablist" aria-label="Pruebas del examen · 考试科目">
-          {examen.pruebas.map((prueba) => {
-            const idPestana = `p${prueba.prueba}`;
-            const activa = b === idPestana;
-            const IconoPrueba = $s[prueba.prueba] || BookOpenIcon;
-            const corta = ETIQUETA_CORTA_PRUEBA[prueba.prueba] || { es: `Prueba ${prueba.prueba}`, zh: "" };
-            return (
-              <button
-                key={prueba.prueba}
-                type="button"
-                role="tab"
-                aria-selected={activa}
-                onClick={() => {
-                  B()?.cancel();
-                  setB(idPestana);
-                }}
-                className="ofe-tab ofx-tab relative rounded-2xl p-3.5 text-left transition-all overflow-hidden"
-                style={{
-                  background: activa
-                    ? `linear-gradient(140deg, ${p.color}26, rgba(12,16,34,.9))`
-                    : "rgba(255,255,255,.03)",
-                  border: `1px solid ${activa ? `${p.glow}55` : "rgba(255,255,255,.07)"}`,
-                  boxShadow: activa ? `0 0 26px ${p.glow}25` : "none",
-                }}
-              >
-                {activa && (
-                  <div
-                    className="absolute top-0 left-0 right-0 h-[2px]"
-                    style={{
-                      background: `linear-gradient(90deg, transparent, ${c}, transparent)`,
-                    }}
-                  />
-                )}
-                <IconoPrueba size={15} aria-hidden="true" />
-                <div className="ofx-tab-meta text-[11px] font-black uppercase tracking-[0.16em] mt-2">
-                  PRUEBA {prueba.prueba}
-                  {prueba.duracion ? ` · ${prueba.duracion} min` : ""}
-                </div>
-                <div className="ofx-tab-nombre text-[12px] font-black leading-tight">
-                  <span className="ofx-tab-larga">{prueba.nombre}</span>
-                  <span className="ofx-tab-corta">{corta.es}</span>
-                  {corta.zh && (
-                    <span className="ofx-tab-zh" lang="zh-CN">
-                      {corta.zhLargo}
-                    </span>
-                  )}
-                </div>
-              </button>
-            );
-          })}
-          <button
-            type="button"
-            role="tab"
-            aria-selected={b === "claves"}
-            onClick={() => {
-              B()?.cancel();
-              setB("claves");
-            }}
-            className="ofe-tab ofx-tab relative rounded-2xl p-3.5 text-left transition-all overflow-hidden"
-            style={{
-              background:
-                b === "claves"
-                  ? `linear-gradient(140deg, ${p.color}26, rgba(12,16,34,.9))`
-                  : "rgba(255,255,255,.03)",
-              border: `1px solid ${b === "claves" ? `${p.glow}55` : "rgba(255,255,255,.07)"}`,
-            }}
-          >
-            {b === "claves" && (
-              <div
-                className="absolute top-0 left-0 right-0 h-[2px]"
-                style={{
-                  background: `linear-gradient(90deg, transparent, ${c}, transparent)`,
-                }}
-              />
-            )}
-            <KeyRoundIcon size={15} aria-hidden="true" />
-            <div className="ofx-tab-meta text-[11px] font-black uppercase tracking-[0.16em] mt-2">CORRECCIÓN</div>
-            <div className="ofx-tab-nombre text-[12px] font-black leading-tight">
-              <span className="ofx-tab-larga">Claves y evaluación</span>
-              <span className="ofx-tab-corta">Claves</span>
-              <span className="ofx-tab-zh" lang="zh-CN">
-                答案与评分
-              </span>
-            </div>
-          </button>
+        <div className="grupo">
+          {(!modoExamen || corregida) && (
+            <button type="button" className="sx-btn sx-btn-papel sx-btn-sm" onClick={() => setU_1((v) => !v)}>
+              {U ? <EyeOffIcon size={15} /> : <KeyRoundIcon size={15} />} {U ? "Ocultar claves · 隐藏答案" : "Ver claves · 查看答案"}
+            </button>
+          )}
+          {(corregida || respondidas > 0) && (
+            <button type="button" className="sx-btn sx-btn-papel sx-btn-sm" onClick={() => rehacerPrueba(num)}>
+              <RotateCcwIcon size={15} /> Rehacer · <span className="sx-zh" lang="zh-CN">重做</span>
+            </button>
+          )}
+          {corregida ? (
+            <button type="button" className="sx-btn sx-btn-oro sx-btn-sm" onClick={() => cambiarPrueba("claves")}>
+              <GraduationCapIcon size={15} /> Ver la nota · <span className="sx-zh" lang="zh-CN">查看成绩</span>
+            </button>
+          ) : (
+            <button type="button" className="sx-btn sx-btn-laca sx-btn-sm" onClick={() => entregar(num)}>
+              <CircleCheckIcon size={15} /> {modoExamen ? "Entregar y corregir · 交卷批改" : "Corregir todo · 全部批改"}
+            </button>
+          )}
         </div>
-        {xe && (xe.tareas || []).length > 1 && (
-          <nav className="ofx-saltos gm-no-adapt" aria-label="Ir a la tarea · 跳至任务">
-            <span className="ofx-saltos-rot">
-              Ir a · <span lang="zh-CN">跳至</span>
-            </span>
-            {(xe.tareas || []).map((tarea) => {
-              const tituloCorto = (tarea.titulo || "").trim();
-              return (
-                <button
-                  key={tarea.num}
-                  type="button"
-                  title={tituloCorto || `Tarea ${tarea.num}`}
-                  onClick={() =>
-                    document.getElementById(`tarea-${tarea.num}`)?.scrollIntoView({
-                      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-                      block: "start",
-                    })
-                  }
-                >
-                  <b>T{tarea.num}</b>
-                  {tituloCorto ? (
-                    <span>
-                      {tituloCorto.slice(0, 28)}
-                      {tituloCorto.length > 28 ? "…" : ""}
-                    </span>
-                  ) : (
-                    <span>
-                      Tarea {tarea.num} · <span lang="zh-CN">任务{tarea.num}</span>
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </nav>
+      </div>
+    );
+  };
+  const pieTareas = () => {
+    const orden = ["p1", "p2", "p3", "p4", "claves"];
+    const siguientePrueba = orden[orden.indexOf(b) + 1];
+    const hayMasTareas = idxTarea < tareasActuales.length - 1;
+    return (
+      <div className="sx-pie">
+        <button type="button" className="sx-btn sx-btn-papel" disabled={idxTarea === 0} onClick={() => cambiarTarea(idxTarea - 1)}>
+          <ArrowLeftIcon size={16} /> Anterior · <span className="sx-zh" lang="zh-CN">上一项</span>
+        </button>
+        <span className="medio">
+          Tarea {idxTarea + 1} de {tareasActuales.length} · <span lang="zh-CN">第{idxTarea + 1}项 / 共{tareasActuales.length}项</span>
+        </span>
+        {hayMasTareas ? (
+          <button type="button" className="sx-btn sx-btn-laca" onClick={() => cambiarTarea(idxTarea + 1)}>
+            Tarea {idxTarea + 2} · <span className="sx-zh" lang="zh-CN">下一项</span> <ChevronRightIcon size={16} />
+          </button>
+        ) : (
+          siguientePrueba && (
+            <button type="button" className="sx-btn sx-btn-laca" onClick={() => cambiarPrueba(siguientePrueba === "claves" ? "claves" : Number(siguientePrueba.slice(1)))}>
+              {siguientePrueba === "claves" ? "Ver la nota · 查看成绩" : `${PRUEBAS_SX[Number(siguientePrueba.slice(1))].es} · ${PRUEBAS_SX[Number(siguientePrueba.slice(1))].zh}`} <ChevronRightIcon size={16} />
+            </button>
+          )
         )}
-        {b === "p1" && ee && (
-          <div className="of-in">
-            <EComponent
-              titulo={ee.nombre}
-              res={Q}
-              corregido={N}
-              color={p.glow}
-              onCorregir={() => setN_1(true)}
-              onVerClaves={() => setU_1((a) => !a)}
-              mostrarClaves={U}
-              duracion={ee.duracion}
-            />
-            {(ee.tareas || []).map((a) => (
-              <div
-                key={a.num}
-                id={`tarea-${a.num}`}
-                className="ofe-tarea of-scroll rounded-3xl overflow-hidden mb-6"
-                style={{
-                  background: "linear-gradient(150deg, rgba(255,255,255,.045), rgba(255,255,255,.012))",
-                  border: "1px solid rgba(255,255,255,.08)",
-                }}
-              >
-                <Oe1Component tarea={a} color={p.glow} />
-                <div className="p-5">
-                  <Ne1Component texto={a.instrucciones} />
-                  <PsComponent tarea={a} />
-                  <div className="space-y-2.5">
-                    {(a.items || []).map((o) => (
-                      <LeComponent
-                        key={o.num}
-                        item={o}
-                        color={p.glow}
-                        t={t_1}
-                        valor={j[`p1-${a.num}-${o.num}`]}
-                        onSelect={(h) => q(`p1-${a.num}-${o.num}`, h)}
-                        corregido={N || U}
-                      />
-                    ))}
+      </div>
+    );
+  };
+  const barraMovil = () => {
+    const pendiente = actual && j[actual] !== undefined && !modoExamen && !comprobadas[actual] && !corregidaPrueba(numPrueba);
+    const hayMasTareas = idxTarea < tareasActuales.length - 1;
+    return (
+      <div className="sx-bnav gm-no-adapt">
+        {numPrueba <= 2 && (
+          <button type="button" className="sx-btn sx-btn-papel mini" aria-label="Tablero de preguntas · 题目导航" onClick={() => salaRef.current?.querySelector(".sx-mapa")?.scrollIntoView({ behavior: reducirMovimiento() ? "auto" : "smooth", block: "center" })}>
+            <ListChecksIcon size={18} />
+          </button>
+        )}
+        <button type="button" className="sx-btn sx-btn-papel mini" aria-label="Tarea anterior · 上一项" disabled={idxTarea === 0} onClick={() => cambiarTarea(idxTarea - 1)}>
+          <ArrowLeftIcon size={18} />
+        </button>
+        {pendiente ? (
+          <button type="button" className="sx-btn sx-btn-laca" onClick={() => setComprobadas((c) => ({ ...c, [actual]: true }))}>
+            <CircleCheckIcon size={16} /> Comprobar · 检查
+          </button>
+        ) : hayMasTareas ? (
+          <button type="button" className="sx-btn sx-btn-laca" onClick={() => cambiarTarea(idxTarea + 1)}>
+            Tarea {idxTarea + 2} · 下一项 <ChevronRightIcon size={16} />
+          </button>
+        ) : (
+          <button type="button" className="sx-btn sx-btn-laca" onClick={() => cambiarPrueba(numPrueba === 4 ? "claves" : numPrueba + 1)}>
+            {numPrueba === 4 ? "Ver la nota · 成绩" : `${PRUEBAS_SX[numPrueba + 1].es} · ${PRUEBAS_SX[numPrueba + 1].zh}`} <ChevronRightIcon size={16} />
+          </button>
+        )}
+      </div>
+    );
+  };
+  const tabsTareas = (
+    <TareasTabs
+      activa={idxTarea}
+      onSelect={cambiarTarea}
+      tareas={tareasActuales.map((t) => ({
+        id: t.num,
+        titulo: (t.titulo || t.genero || t.tipoAudio || "").trim(),
+        ok: numPrueba <= 2 ? (t.items || []).length > 0 && clavesDe(numPrueba, t).every((k) => reveladaItem(k, numPrueba) || (modoExamen && j[k] !== undefined)) : numPrueba === 3 ? !!P[`esc-${t.num}`] : !!K[`oral-${t.num}`],
+      }))}
+    />
+  );
+  return (
+    <StarfieldBackground>
+      <div className="sx" ref={salaRef} onKeyDown={navTeclas}>
+        <SalaHero
+          prueba={numPrueba}
+          codigo={`DELE ${nivel} · ${String(examen.modelo).padStart(2, "0")}`}
+          subtitulo={examen.temaCentral}
+          volverA={`/oficial/${nivel}`}
+          modo={modo}
+          onModo={(m) => {
+            if (m === modo) return;
+            if (m === "examen") setU_1(false);
+            setModo(m);
+          }}
+          incienso={incienso}
+          onPdf={() => setImprimir(N || O || mediaEsc !== null || mediaOral !== null ? "corregido" : "blanco")}
+          chips={chips}
+        />
+        <Medallones
+          activa={numPrueba}
+          onSelect={cambiarPrueba}
+          items={[
+            ...examen.pruebas.map((pr) => ({ id: pr.prueba, min: pr.duracion, progreso: progresoPrueba(pr.prueba), hecho: pruebaHecha(pr.prueba) })),
+            { id: "claves", progreso: [1, 2, 3, 4].filter(pruebaHecha).length / 4, hecho: apto === true },
+          ]}
+        />
+        <div key={`${b}-${idxTarea}`} className="sx-sala sx-entra" style={{ "--sx-c": cfgPrueba.c }}>
+          <Esquinas />
+          {numPrueba !== "claves" && tabsTareas}
+          {(numPrueba === 1 || numPrueba === 2) && tareaActual && (
+            <>
+              {barraAcciones(numPrueba)}
+              <Instrucciones sello={cfgPrueba.glifo} texto={tareaActual.instrucciones} />
+              {numPrueba === 1 ? (
+                tieneMaterial(tareaActual) ? (
+                  <div className="sx-split">
+                    <MaterialLectura tarea={tareaActual} zoom={zoom} setZoom={setZoom} hojaRef={hojaRef} />
+                    <div className="sx-qs">
+                      {tablero(1)}
+                      {preguntas(1, tareaActual)}
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        {b === "p2" && se && (
-          <div className="of-in">
-            <EComponent
-              titulo={se.nombre}
-              res={W}
-              corregido={O}
-              color={p.glow}
-              onCorregir={() => {
-                B()?.cancel();
-                setO(true);
-              }}
-              onVerClaves={() => setU_1((a) => !a)}
-              mostrarClaves={U}
-              duracion={se.duracion}
-            />
-            {(se.tareas || []).map((a) => (
-              <div
-                key={a.num}
-                id={`tarea-${a.num}`}
-                className="ofe-tarea of-scroll rounded-3xl overflow-hidden mb-6"
-                style={{
-                  background: "linear-gradient(150deg, rgba(255,255,255,.045), rgba(255,255,255,.012))",
-                  border: "1px solid rgba(255,255,255,.08)",
-                }}
-              >
-                <Oe1Component tarea={a} color={p.glow} />
-                <div className="p-5">
-                  <Ne1Component texto={a.instrucciones} />
-                  {a.guion ? (
+                ) : (
+                  <div className="sx-qs sx-unacol">
+                    {tablero(1)}
+                    {preguntas(1, tareaActual)}
+                  </div>
+                )
+              ) : (
+                <>
+                  {tareaActual.guion ? (
                     <GeComponent
-                      guion={a.guion}
-                      items={a.items}
-                      clips={a.clips}
+                      key={`audio-${tareaActual.num}`}
+                      guion={tareaActual.guion}
+                      items={tareaActual.items}
+                      clips={tareaActual.clips}
                       examenClave={claveOficial(examen.nivel || nivel, examen.modelo)}
                       velocidad={velocidad}
                       setVelocidad={setVelocidad}
+                      modoExamen={modoExamen && !O}
+                      transcripcionLibre={O || (!modoExamen && (U || clavesDe(2, tareaActual).some((k) => comprobadas[k])))}
                     />
                   ) : (
-                    <Ge1Component icono={TriangleAlertIcon} color="#a8741e">
-                      {t_1("Este modelo no incluye el guion de audio.", "该模型未包含音频脚本。")}
-                    </Ge1Component>
+                    <Instrucciones sello="!" texto={t_1("Este modelo no incluye el guion de audio.", "该模型未包含音频脚本。")} />
                   )}
-                  {a.fichaTecnica && null}
-                  {a.material?.bloques && a.material.bloques.length > 0 && (
-                    <div className="grid sm:grid-cols-2 gap-2.5 mb-4">
-                      {a.material.bloques.map((o) => (
-                        <div
-                          key={o.letra}
-                          className="rounded-xl p-3"
-                          style={{
-                            background: "rgba(0,0,0,.24)",
-                            border: "1px solid rgba(255,255,255,.07)",
-                          }}
-                        >
-                          <span
-                            className="font-mono font-black text-[11px] mr-2"
-                            style={{
-                              color: C,
-                            }}
-                          >
-                            {o.letra}
-                          </span>
-                          <TextoDele texto={o.texto} variante="compacto" className="mt-1" />
+                  {tareaActual.material?.bloques?.length > 0 && (
+                    <div className="sx-bloques" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", marginBottom: 18 }}>
+                      {tareaActual.material.bloques.map((bl) => (
+                        <div key={bl.letra} className="sx-bloque">
+                          <div className="sx-bloque-cab">
+                            <span className="sx-letra">{bl.letra}</span>
+                            {bl.titulo}
+                          </div>
+                          <TextoDele texto={bl.texto} variante="compacto" />
                         </div>
                       ))}
                     </div>
                   )}
-                  {a.parejas && a.parejas.length > 0 && (
-                    <YComponent
-                      titulo={t_1("Opciones para relacionar", "配对选项")}
-                      icono={ClipboardListIcon}
-                      color={p.glow}
-                      contador={a.parejas.length}
-                      abiertoInicial
-                    >
-                      <div className="space-y-1.5">
-                        {a.parejas.map((o, h) => (
-                          <div key={h} className="flex items-start gap-2 text-[12.5px] text-white/65">
-                            <span
-                              className="font-mono font-black text-[11px] mt-0.5 shrink-0 w-4 text-center"
-                              style={{
-                                color: C,
-                              }}
-                            >
-                              {String(o.corresponde || o.letra || "").trim() || String.fromCharCode(65 + h)}
-                            </span>
-                            <span className="leading-relaxed flex-1">{o.enunciado}</span>
-                          </div>
+                  {tareaActual.parejas?.length > 0 && (
+                    <details className="sx-plegable" open style={{ marginBottom: 18 }}>
+                      <summary>
+                        <ClipboardListIcon size={16} /> Opciones para relacionar · <span lang="zh-CN">配对选项</span> ({tareaActual.parejas.length})
+                      </summary>
+                      <ul className="sx-lista-num">
+                        {tareaActual.parejas.map((pa, i) => (
+                          <li key={i}>
+                            <span className="sx-letra">{String(pa.corresponde || pa.letra || "").trim() || String.fromCharCode(65 + i)}</span>
+                            <span>{pa.enunciado}</span>
+                          </li>
                         ))}
-                        {typeof a.sobrantes === "number" && a.sobrantes > 0 && (
-                          <p className="text-[11px] text-white/25">
-                            {a.sobrantes} {t_1("opciones no se utilizan.", "个选项不使用。")}
-                          </p>
+                      </ul>
+                    </details>
+                  )}
+                  {tablero(2)}
+                  <div className="sx-qgrid">{preguntas(2, tareaActual)}</div>
+                </>
+              )}
+              {pieTareas()}
+            </>
+          )}
+          {numPrueba === 3 && tareaActual && (() => {
+            const a = tareaActual;
+            const o = `esc-${a.num}`;
+            const palabras = d(E[o]);
+            const mat = a.material;
+            return (
+              <>
+                <Instrucciones sello="写" texto={a.instrucciones || a.titulo} zh="写下你的回答，然后点击“AI 批改”。每次批改计入每周5次AI额度。" />
+                <div className="sx-escritorio">
+                  <div className="sx-encargo">
+                    {(a.situacion || a.destinatario || a.proposito) && (
+                      <div className="sx-cartela">
+                        {a.situacion && (
+                          <div style={{ "--sx-c2": "#1f4e8c" }}>
+                            <span className="ico" aria-hidden="true">境</span>
+                            <div className="k">Situación · <span lang="zh-CN">情境</span></div>
+                            <p>{a.situacion}</p>
+                          </div>
+                        )}
+                        {a.destinatario && (
+                          <div style={{ "--sx-c2": "#b07a12" }}>
+                            <span className="ico" aria-hidden="true">收</span>
+                            <div className="k">Para · <span lang="zh-CN">收件人</span></div>
+                            <p>{a.destinatario}</p>
+                          </div>
+                        )}
+                        {a.proposito && (
+                          <div style={{ "--sx-c2": "#1d6b3a" }}>
+                            <span className="ico" aria-hidden="true">的</span>
+                            <div className="k">Propósito · <span lang="zh-CN">目的</span></div>
+                            <p>{a.proposito}</p>
+                          </div>
                         )}
                       </div>
-                    </YComponent>
-                  )}
-                  <div className="space-y-2.5">
-                    {(a.items || []).map((o) => (
-                      <LeComponent
-                        key={o.num}
-                        item={o}
-                        color={p.glow}
-                        t={t_1}
-                        valor={j[`p2-${a.num}-${o.num}`]}
-                        onSelect={(h) => q(`p2-${a.num}-${o.num}`, h)}
-                        corregido={O || U}
+                    )}
+                    {mat && (mat.contenido || mat.guionAudio) && (
+                      <div className="sx-sobre">
+                        <div className="sx-sobre-de">
+                          {mat.tipo === "audio" ? "Estímulo oral · 听力材料" : "Texto de partida · 阅读材料"}
+                          {mat.palabras ? ` · ${mat.palabras} palabras` : ""}
+                        </div>
+                        {mat.contenido && <TextoDele texto={mat.contenido} variante={mat.tipo === "audio" ? "guion" : "compacto"} />}
+                        {mat.guionAudio && (
+                          <GeComponent guion={mat.guionAudio} examenClave={claveOficial(examen.nivel || nivel, examen.modelo)} velocidad={velocidad} setVelocidad={setVelocidad} />
+                        )}
+                      </div>
+                    )}
+                    {(a.puntosGuia || []).length > 0 && (
+                      <div className="sx-bambu">
+                        <div className="sx-bambu-k">
+                          <span>
+                            Puntos guía · <span lang="zh-CN">写作要点</span>
+                          </span>
+                          <span>
+                            {a.puntosGuia.filter((_x, i) => guia[`${o}-${i}`]).length} / {a.puntosGuia.length}
+                          </span>
+                        </div>
+                        {a.puntosGuia.map((pg, i) => (
+                          <button key={i} type="button" className="sx-slip" aria-pressed={!!guia[`${o}-${i}`]} onClick={() => setGuia((g0) => ({ ...g0, [`${o}-${i}`]: !g0[`${o}-${i}`] }))}>
+                            <span className="sl">{guia[`${o}-${i}`] ? "✓" : ""}</span>
+                            <span className="tx">{pg}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div className="sx-lienzo">
+                      <div className="sx-lienzo-cab">
+                        <span>
+                          写 Tu respuesta · <span lang="zh-CN">你的作文</span>
+                        </span>
+                        <span>✓ Se guarda solo · 自动保存</span>
+                      </div>
+                      <textarea
+                        className="sx-renglones"
+                        value={E[o] || ""}
+                        onChange={(ev) => setE((le) => ({ ...le, [o]: ev.target.value }))}
+                        placeholder="Escribe aquí tu texto en español… · 在此用西班牙语写作…"
+                        aria-label={`Tu respuesta a la tarea ${a.num} · 你的作文`}
+                        spellCheck={false}
                       />
-                    ))}
+                      <PincelPalabras palabras={palabras} minimo={a.minPalabras} maximo={a.maxPalabras} />
+                      <div className="sx-iabar">
+                        <CuotaIA />
+                        <button type="button" className="sx-btn sx-btn-laca" onClick={() => Ce(o, E[o] || "", "escritura", a)} disabled={isCorrecting || !(E[o] || "").trim()}>
+                          {isCorrecting ? <LoaderCircleIcon size={16} className="animate-spin" /> : <SparklesIcon size={16} />}
+                          {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir con IA · AI批改"}
+                        </button>
+                      </div>
+                    </div>
+                    {P[o] && (
+                      <div className="sx-veredicto">
+                        <C_2 data={P[o]} />
+                      </div>
+                    )}
                   </div>
                 </div>
+                {f(a.rubrica) && (
+                  <details className="sx-plegable">
+                    <summary>
+                      <TargetIcon size={16} /> Rúbrica de evaluación · <span lang="zh-CN">评分标准</span>
+                    </summary>
+                    <div>
+                      <VeComponent rubrica={a.rubrica || []} color={p.glow} />
+                    </div>
+                  </details>
+                )}
+                {a.modeloRespuesta && (
+                  <details className="sx-plegable">
+                    <summary>
+                      <GraduationCapIcon size={16} /> Modelo de respuesta · <span lang="zh-CN">参考范文</span>
+                    </summary>
+                    <div>
+                      <TextoDele texto={a.modeloRespuesta} variante="compacto" />
+                    </div>
+                  </details>
+                )}
+                {pieTareas()}
+              </>
+            );
+          })()}
+          {numPrueba === 4 && tareaActual && (() => {
+            const a = tareaActual;
+            const o = `oral-${a.num}`;
+            const grabando = de === o;
+            const palabras = d(E[o]);
+            return (
+              <>
+                <Instrucciones sello="说" texto={a.instrucciones} zh="先准备，再按麦克风开始说。说完可以请 AI 批改（计入每周5次额度）。" />
+                <div className="sx-oral">
+                  <div>
+                    <div className="sx-lamina">
+                      <div className="sx-lamina-k">
+                        Lámina · Tarea {a.num} {a.tiempo ? `· ${a.tiempo}` : ""} · <span lang="zh-CN">题卡</span>
+                      </div>
+                      <h3>{a.titulo}</h3>
+                      {a.situacion && <p style={{ margin: "0 0 10px", fontSize: 14.5, lineHeight: 1.5 }}>{a.situacion}</p>}
+                      {(a.opciones || []).length > 0 && (
+                        <div className="sx-temas" role="group" aria-label="Elige un tema · 选一个题目">
+                          {a.opciones.map((op, i) => (
+                            <button key={i} type="button" className="sx-tema" aria-pressed={temaOral[o] === i} onClick={() => setTemaOral((t) => ({ ...t, [o]: i }))}>
+                              {op}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      {(a.propuestas || []).length > 0 && (
+                        <ul className="sx-lista-num" style={{ margin: "8px 0" }}>
+                          {a.propuestas.map((pp, i) => (
+                            <li key={i}>
+                              <span>{i + 1}</span>
+                              <span>{pp}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {a.foto && <EsComponent texto={a.foto} />}
+                      {!a.foto && a.escena && <TsComponent escena={a.escena} semilla={(examen.modelo || 0) + a.num} />}
+                      {a.encuesta && <RsComponent encuesta={a.encuesta} />}
+                      {(a.puntosGuia || []).length > 0 && (
+                        <ul className="sx-aspectos">
+                          {a.puntosGuia.map((pg, i) => (
+                            <li key={i}>
+                              <span>{i + 1}</span>
+                              <span>{pg}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {a.cuadernilloCandidato && a.cuadernilloCandidato !== a.instrucciones && (
+                        <details className="sx-plegable">
+                          <summary>
+                            <ClipboardListIcon size={16} /> Cuadernillo del candidato · <span lang="zh-CN">考生手册</span>
+                          </summary>
+                          <div>
+                            <TextoDele texto={a.cuadernilloCandidato} variante="compacto" />
+                          </div>
+                        </details>
+                      )}
+                    </div>
+                    <a
+                      className="sx-examinador"
+                      href={`#/examinador-oral?nivel=${encodeURIComponent(nivel || "")}&tema=${encodeURIComponent(a.titulo || "")}&tarea=${encodeURIComponent(a.instrucciones || "")}`}
+                    >
+                      <img src={recurso("mono/serio.png")} alt="" aria-hidden="true" />
+                      <p>
+                        Hacer esta tarea con el examinador IA (cuenta como 1 uso)
+                        <span className="sx-zh" lang="zh-CN">用 AI 考官模拟本项（计1次）</span>
+                      </p>
+                    </a>
+                  </div>
+                  <section className="sx-estudio gm-no-adapt">
+                    <div className="sx-fases">
+                      <button
+                        type="button"
+                        className={`sx-fase ${prep.enMarcha ? "on" : ""}`}
+                        onClick={() => setPrep((pr) => (pr.restantes > 0 ? { ...pr, enMarcha: !pr.enMarcha } : { restantes: (te.preparacion || 0) * 60, enMarcha: true }))}
+                        disabled={!te.preparacion}
+                      >
+                        Preparación · 准备
+                        <b>{te.preparacion ? formatoReloj(prep.restantes) : "—"}</b>
+                        {te.preparacion ? (prep.enMarcha ? "Pausar · 暂停" : "Empezar · 开始") : ""}
+                      </button>
+                      <div className={`sx-fase ${grabando ? "on" : ""}`}>
+                        Hablando · 发言
+                        <b>{formatoReloj(habla[o] || 0)}</b>
+                        {a.tiempo ? `objetivo ${a.tiempo}` : ""}
+                      </div>
+                    </div>
+                    <div className={`sx-micz ${grabando ? "graba" : ""}`}>
+                      <OndasCirculares n={80} r0={66} r1={98} frac={1} color="#ffd27a" tenue="#ffd27a" />
+                      <i className="halo" />
+                      <i className="halo b" />
+                      <button
+                        type="button"
+                        className="sx-micb"
+                        aria-label={grabando ? "Detener grabación · 停止录音" : "Grabar con micrófono · 麦克风录音"}
+                        onClick={() => {
+                          if (grabando) return ss();
+                          setHabla((h) => ({ ...h, [o]: 0 }));
+                          return es(o);
+                        }}
+                      >
+                        {grabando ? <SquareIcon fill="currentColor" /> : <MicIcon />}
+                      </button>
+                    </div>
+                    <div className={`sx-grabando ${grabando ? "on" : ""}`}>
+                      {grabando ? "Grabando · 录音中 — pulsa para parar" : "Pulsa el micrófono y habla · 点击麦克风开始说"}
+                    </div>
+                    <textarea
+                      className="sx-renglones oral"
+                      value={E[o] || ""}
+                      onChange={(ev) => setE((w) => ({ ...w, [o]: ev.target.value }))}
+                      placeholder="Aquí aparece lo que dices (o escribe tus ideas)… · 识别出的文字会显示在这里…"
+                      aria-label="Transcripción de tu respuesta · 你的回答"
+                    />
+                    <div className="sx-iabar">
+                      <span className="cuenta">
+                        {palabras} palabras · <span lang="zh-CN">词</span>
+                      </span>
+                      <button type="button" className="sx-btn sx-btn-oro" onClick={() => Ce(o, E[o] || "", "monologo", a)} disabled={isCorrecting || !(E[o] || "").trim()}>
+                        {isCorrecting ? <LoaderCircleIcon size={16} className="animate-spin" /> : <SparklesIcon size={16} />}
+                        {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir con IA · AI批改"}
+                      </button>
+                    </div>
+                  </section>
+                </div>
+                <div style={{ marginTop: 14 }}>
+                  <CuotaIA />
+                </div>
+                {K[o] && (
+                  <div className="sx-veredicto">
+                    <C_2 data={K[o]} />
+                  </div>
+                )}
+                {a.entrevistador && (
+                  <details className="sx-plegable">
+                    <summary>
+                      <UserCheckIcon size={16} /> Guion del entrevistador · <span lang="zh-CN">考官脚本</span>
+                    </summary>
+                    <div>
+                      <OsComponent entrevistador={a.entrevistador} color={p.glow} />
+                    </div>
+                  </details>
+                )}
+                {f(a.rubrica) && (
+                  <details className="sx-plegable">
+                    <summary>
+                      <TargetIcon size={16} /> Rúbrica de evaluación · <span lang="zh-CN">评分标准</span>
+                    </summary>
+                    <div>
+                      <VeComponent rubrica={a.rubrica || []} color={p.glow} />
+                    </div>
+                  </details>
+                )}
+                {a.ejemploEsperado && (
+                  <details className="sx-plegable">
+                    <summary>
+                      <GraduationCapIcon size={16} /> Ejemplo de lo esperado · <span lang="zh-CN">示例回答</span>
+                    </summary>
+                    <div>
+                      <TextoDele texto={a.ejemploEsperado} variante="compacto" />
+                    </div>
+                  </details>
+                )}
+                {pieTareas()}
+              </>
+            );
+          })()}
+          {numPrueba === "claves" && (
+            <>
+              <div className="sx-diploma-zona gm-no-adapt">
+                <i className="sx-rodv l" aria-hidden="true" />
+                <i className="sx-rodv r" aria-hidden="true" />
+                <div className="sx-diploma">
+                  {apto && <Confeti />}
+                  <img className="dragon l" src={recurso("theme/dragon-luz.webp")} alt="" aria-hidden="true" />
+                  <img className="dragon r" src={recurso("theme/dragon-luz.webp")} alt="" aria-hidden="true" />
+                  <div className="k">
+                    RESULTADO DEL EXAMEN · <span lang="zh-CN">考试结果</span>
+                  </div>
+                  <h2>{apto === true ? "¡Enhorabuena!" : apto === false ? "¡Sigue entrenando!" : "Tu nota provisional"}</h2>
+                  <span className="lema" lang="zh-CN">
+                    {apto === true ? "恭喜通过" : apto === false ? "继续加油" : "暂定成绩"}
+                  </span>
+                  {apto === null && (
+                    <p className="provisional">
+                      Completa y corrige las cuatro pruebas para obtener el veredicto. · <span lang="zh-CN">完成并批改四项考试后即可得到最终结果。</span>
+                    </p>
+                  )}
+                  <div className="sx-medallones">
+                    <MedallonJade valor={grupo1} max={50} etiqueta="Grupo 1 · Lectura + Escrita" sub={`阅读 + 写作 · mín. ${minimo}`} />
+                    <MedallonJade valor={grupo2} max={50} etiqueta="Grupo 2 · Auditiva + Oral" sub={`听力 + 口语 · mín. ${minimo}`} oro />
+                  </div>
+                  {apto !== null && (
+                    <div className={`sx-veredicto-sello ${apto ? "" : "no"}`} translate="no">
+                      {apto ? "合格" : "未过"}
+                      <small>{apto ? "APTO" : "NO APTO"}</small>
+                    </div>
+                  )}
+                  {apto && <img className="mono" src={recurso("mono/trofeo.png")} alt="" aria-hidden="true" />}
+                  <div className="sx-franjas">
+                    {[
+                      [1, pLect],
+                      [3, pEsc],
+                      [2, pAud],
+                      [4, pOral],
+                    ].map(([num, v]) => {
+                      const cfg = PRUEBAS_SX[num];
+                      return (
+                        <button key={num} type="button" className="sx-franja" style={{ "--sx-c": cfg.c }} onClick={() => cambiarPrueba(num)}>
+                          <div className="t">
+                            <span translate="no">{cfg.glifo}</span>
+                            {cfg.es}
+                          </div>
+                          {v === null ? (
+                            <div className="pend">
+                              {num <= 2 ? "Sin corregir · 未批改" : "Pide la corrección con IA · 请AI批改"} →
+                            </div>
+                          ) : (
+                            <>
+                              <div className="v">
+                                {v.toFixed(1).replace(".", ",").replace(",0", "")}
+                                <small> / 25</small>
+                              </div>
+                              <div className="bb">
+                                <i style={{ width: `${(v / 25) * 100}%` }} />
+                              </div>
+                            </>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="sx-acciones">
+                    <button type="button" className="sx-btn sx-btn-laca" onClick={() => setImprimir("corregido")}>
+                      <FileDownIcon size={17} /> PDF corregido · <span className="sx-zh" lang="zh-CN">下载批改版</span>
+                    </button>
+                    <button type="button" className="sx-btn sx-btn-oro" onClick={() => setImprimir("blanco")}>
+                      <FileDownIcon size={17} /> Examen en blanco · <span className="sx-zh" lang="zh-CN">空白试卷</span>
+                    </button>
+                    {(N || O) && (
+                      <button type="button" className="sx-btn sx-btn-papel" onClick={repetirFallos}>
+                        <RotateCcwIcon size={16} /> Repetir fallos · <span className="sx-zh" lang="zh-CN">重做错题</span>
+                      </button>
+                    )}
+                    <button type="button" className="sx-btn sx-btn-papel" onClick={empezarDeNuevo}>
+                      <RotateCcwIcon size={16} /> Empezar de cero · <span className="sx-zh" lang="zh-CN">全部重来</span>
+                    </button>
+                  </div>
+                  <p className="sx-nota-pie">
+                    {n_evaluacion?.criterio || `APTO con ≥${minimo} puntos en cada grupo`}. Lectura y auditiva se puntúan con la clave oficial; escritura y oral, con la corrección por IA. ·{" "}
+                    <span lang="zh-CN">阅读与听力按官方答案计分；写作与口语按 AI 批改估算。</span>
+                  </p>
+                </div>
+              </div>
+              <div className="sx-claves">
+                <UeComponent titulo="Claves · Comprensión de lectura · 答案 · 阅读理解" claves={examen.claves?.lectura || []} tareas={ee?.tareas || []} t={t_1} />
+                <UeComponent titulo="Claves · Comprensión auditiva · 答案 · 听力理解" claves={examen.claves?.auditiva || qs(examen, 2)} tareas={se?.tareas || []} t={t_1} />
+              </div>
+            </>
+          )}
+        </div>
+        {numPrueba !== "claves" && barraMovil()}
+      </div>
+      {imprimir &&
+        createPortal(
+          <ImpresionExamen examen={examen} nivel={nivel} variante={imprimir} respuestas={j} textos={E} correccionesEsc={P} correccionesOral={K} temaOral={temaOral} puntuacion={puntuacion} />,
+          document.body,
+        )}
+    </StarfieldBackground>
+  );
+}
+function tieneMaterial(tarea) {
+  const m = tarea.material;
+  return Boolean(tarea.texto || m?.bloques?.length || m?.fragmentos?.length || m?.textos?.length || (m?.enunciados?.length > 0 && tarea.tipo !== "relacionar"));
+}
+function MaterialLectura({ tarea, zoom, setZoom, hojaRef }) {
+  const m = tarea.material;
+  const hayEnunciados = m?.enunciados?.length > 0 && tarea.tipo !== "relacionar";
+  if (!tieneMaterial(tarea)) return null;
+  return (
+    <div className="sx-rollo gm-no-adapt">
+      <i className="sx-rod t" aria-hidden="true" />
+      <div className="sx-hoja" ref={hojaRef} style={{ "--sx-zoom": zoom }}>
+        <div className="sx-hoja-cab">
+          <span>
+            {tarea.genero || "Texto"} · <span lang="zh-CN">原文</span>
+          </span>
+          <span className="sx-hoja-tools">
+            <button type="button" onClick={() => setZoom((z) => Math.max(0.85, +(z - 0.1).toFixed(2)))} aria-label="Letra más pequeña · 缩小字体">
+              A−
+            </button>
+            <button type="button" onClick={() => setZoom((z) => Math.min(1.4, +(z + 0.1).toFixed(2)))} aria-label="Letra más grande · 放大字体">
+              A+
+            </button>
+          </span>
+        </div>
+        {tarea.tituloTexto && <h3>{tarea.tituloTexto}</h3>}
+        {tarea.texto && <TextoDele texto={tarea.texto} variante="lectura" />}
+        {m?.bloques?.length > 0 && (
+          <div className="sx-bloques">
+            {m.bloques.map((bl) => (
+              <div key={bl.letra} className="sx-bloque">
+                <div className="sx-bloque-cab">
+                  <span className="sx-letra">{bl.letra}</span>
+                  {bl.titulo}
+                </div>
+                <TextoDele texto={bl.texto} variante="compacto" data-bloque={bl.letra} />
               </div>
             ))}
           </div>
         )}
-        {b === "p3" && Se && (
-          <div className="of-in">
-            <Ge1Component icono={SparklesIcon} color={p.glow}>
-              {t_1(
-                "Escribe tu respuesta y pulsa «Corregir con IA». Recibirás puntuación, errores, correcciones y consejos adaptados a tu nivel. Al final de cada tarea tienes la rúbrica oficial y un modelo de respuesta.",
-                "写下你的答案并点击“AI 批改”。你会得到分数、错误、修改和针对你级别的建议。每项任务末尾附有官方评分标准与参考范文。",
-              )}
-            </Ge1Component>
-            {(Se.tareas || []).map((a) => {
-              const o = `esc-${a.num}`;
-              const h = d(E[o]);
-              const m = a.minPalabras || 0;
-              const $ = a.maxPalabras || 0;
-              const w = h >= m && h <= $ + 25;
-              const a_material = a.material;
-              return (
-                <div
-                  key={a.num}
-                  id={`tarea-${a.num}`}
-                  className="ofe-tarea of-scroll rounded-3xl overflow-hidden mb-6"
-                  style={{
-                    background: "linear-gradient(150deg, rgba(255,255,255,.045), rgba(255,255,255,.012))",
-                    border: "1px solid rgba(255,255,255,.08)",
-                  }}
-                >
-                  <Oe1Component
-                    tarea={a}
-                    color={p.glow}
-                    extra={
-                      <span
-                        className="text-[11px] font-black uppercase tracking-wider"
-                        style={{
-                          color: `${c}aa`,
-                        }}
-                      >
-                        {m}–{$} {t_1("palabras", "词")}
-                      </span>
-                    }
-                  />
-                  <div className="p-5">
-                    <Ne1Component texto={a.instrucciones} />
-                    {(a.situacion || a.destinatario || a.proposito) && (
-                      <div className="grid sm:grid-cols-3 gap-2.5 mb-4">
-                        {a.situacion && (
-                          <div
-                            className="rounded-xl p-3"
-                            style={{
-                              background: "rgba(59,130,246,.07)",
-                              border: "1px solid rgba(59,130,246,.2)",
-                            }}
-                          >
-                            <div className="text-[11px] font-black uppercase tracking-[0.16em] ofx-acento mb-1">
-                              {t_1("Situación", "情境")}
-                            </div>
-                            <p className="text-white/65 text-[12px] leading-relaxed">{a.situacion}</p>
-                          </div>
-                        )}
-                        {a.destinatario && (
-                          <div
-                            className="rounded-xl p-3"
-                            style={{
-                              background: "rgba(200,150,30,.07)",
-                              border: "1px solid rgba(200,150,30,.2)",
-                            }}
-                          >
-                            <div className="text-[11px] font-black uppercase tracking-[0.16em] ofx-acento mb-1">
-                              {t_1("Destinatario", "收件人")}
-                            </div>
-                            <p className="text-white/65 text-[12px] leading-relaxed">{a.destinatario}</p>
-                          </div>
-                        )}
-                        {a.proposito && (
-                          <div
-                            className="rounded-xl p-3"
-                            style={{
-                              background: "rgba(46,107,63,.07)",
-                              border: "1px solid rgba(46,107,63,.2)",
-                            }}
-                          >
-                            <div className="text-[11px] font-black uppercase tracking-[0.16em] ofx-acento mb-1">
-                              {t_1("Propósito", "目的")}
-                            </div>
-                            <p className="text-white/65 text-[12px] leading-relaxed">{a.proposito}</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {a_material && (a_material.contenido || a_material.guionAudio) && (
-                      <div
-                        className="rounded-2xl p-4 mb-4"
-                        style={{
-                          background: "rgba(0,0,0,.25)",
-                          border: "1px solid rgba(255,255,255,.07)",
-                        }}
-                      >
-                        <div
-                          className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
-                          style={{
-                            color: c,
-                          }}
-                        >
-                          {a_material.tipo === "audio"
-                            ? t_1("Estímulo oral", "听力材料")
-                            : t_1("Texto estímulo", "阅读材料")}
-                          {a_material.palabras ? ` · ${a_material.palabras} ${t_1("palabras", "词")}` : ""}
-                        </div>
-                        {a_material.contenido && (
-                          <TextoDele texto={a_material.contenido} variante={a_material.tipo === "audio" ? "guion" : "compacto"} />
-                        )}
-                        {a_material.guionAudio && (
-                          <div className="mt-3">
-                            <GeComponent
-                              guion={a_material.guionAudio}
-                              examenClave={claveOficial(examen.nivel || nivel, examen.modelo)}
-                              velocidad={velocidad}
-                              setVelocidad={setVelocidad}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {(a.puntosGuia || []).length > 0 && (
-                      <div
-                        className="rounded-2xl p-3.5 mb-4"
-                        style={{
-                          background: "rgba(0,0,0,.2)",
-                          border: "1px solid rgba(255,255,255,.07)",
-                        }}
-                      >
-                        <div
-                          className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
-                          style={{
-                            color: `${c}bb`,
-                          }}
-                        >
-                          {t_1("Puntos guía", "提示要点")}
-                        </div>
-                        <ul className="space-y-1.5">
-                          {(a.puntosGuia || []).map((L, le) => (
-                            <li key={le} className="flex items-start gap-2 text-[12.5px] text-white/60">
-                              <span
-                                className="font-mono text-[11px] mt-0.5 shrink-0"
-                                style={{
-                                  color: p.glow,
-                                }}
-                              >
-                                {le + 1}.
-                              </span>
-                              <span className="leading-relaxed">{L}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    <textarea
-                      value={E[o] || ""}
-                      onChange={(L) =>
-                        setE((le) => ({
-                          ...le,
-                          [o]: L.target.value,
-                        }))
-                      }
-                      rows={7}
-                      placeholder={t_1("Escribe aquí tu texto en español…", "在此用西班牙语写下你的文章…")}
-                      className="w-full rounded-xl p-3.5 text-[13.5px] text-white/85 outline-none resize-y leading-relaxed placeholder:text-white/20"
-                      style={{
-                        background: "rgba(0,0,0,.28)",
-                        border: `1px solid ${w ? "rgba(46,107,63,.35)" : "rgba(255,255,255,.09)"}`,
-                      }}
-                    />
-                    <div className="flex flex-wrap items-center justify-between gap-3 mt-3">
-                      <span
-                        className="text-[11px] font-bold"
-                        style={{
-                          color: w ? "#2e6b3f" : "rgba(255,255,255,.35)",
-                        }}
-                      >
-                        {h} {t_1("palabras", "词")} ·{" "}
-                        {w
-                          ? t_1("extensión correcta", "字数合适")
-                          : t_1(`objetivo ${m}-${$}`, `目标 ${m}-${$}`)}
-                      </span>
-                      <button
-                        onClick={() => Ce(o, E[o] || "", "escritura", a)}
-                        disabled={isCorrecting || !(E[o] || "").trim()}
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.02] disabled:opacity-40 disabled:hover:scale-100"
-                        style={{
-                          background: `linear-gradient(180deg, ${p.color}, ${p.glow})`,
-                          color: "#fff6e0",
-                          border: "2px solid #f2c14e",
-                        }}
-                      >
-                        {isCorrecting ? (
-                          <LoaderCircleIcon size={14} className="animate-spin" />
-                        ) : (
-                          <SparklesIcon size={14} />
-                        )}
-                        {isCorrecting ? t_1("Corrigiendo…", "批改中…") : t_1("Corregir con IA", "AI 批改")}
-                      </button>
-                    </div>
-                    {P[o] && <C_2 data={P[o]} />}
-                    {f(a.rubrica) && (
-                      <div className="mt-4">
-                        <YComponent
-                          titulo={t_1("Rúbrica de evaluación", "评分标准")}
-                          icono={TargetIcon}
-                          color={p.glow}
-                          contador={(a.rubrica || []).length}
-                        >
-                          <VeComponent rubrica={a.rubrica || []} color={p.glow} />
-                        </YComponent>
-                      </div>
-                    )}
-                    {a.modeloRespuesta && (
-                      <YComponent
-                        titulo={t_1("Modelo de respuesta", "参考范文")}
-                        icono={GraduationCapIcon}
-                        color={c}
-                      >
-                        <TextoDele texto={a.modeloRespuesta} variante="compacto" />
-                      </YComponent>
-                    )}
-                  </div>
+        {hayEnunciados && (
+          <div className="sx-bloque" style={{ marginTop: 12 }}>
+            <div className="sx-bloque-cab">Enunciados · 陈述</div>
+            <ul className="sx-lista-num">
+              {m.enunciados.map((en, i) => (
+                <li key={i}>
+                  <span>{i + 1}</span>
+                  <span>{en}</span>
+                </li>
+              ))}
+            </ul>
+            {typeof m.sobrantes === "number" && m.sobrantes > 0 && <p style={{ fontSize: 12, margin: "8px 0 0" }}>Hay {m.sobrantes} opciones que no se utilizan · 有{m.sobrantes}个选项不使用</p>}
+          </div>
+        )}
+        {m?.fragmentos?.length > 0 && (
+          <div className="sx-bloques">
+            {m.fragmentos.map((fr) => (
+              <div key={fr.letra} className="sx-bloque">
+                <div className="sx-bloque-cab">
+                  <span className="sx-letra">{fr.letra}</span>
+                  Fragmento · 片段
                 </div>
-              );
-            })}
+                <TextoDele texto={fr.texto} variante="compacto" />
+              </div>
+            ))}
           </div>
         )}
-        {b === "p4" && te && (
-          <div className="of-in">
-            <Ge1Component icono={SparklesIcon} color={p.glow}>
-              {t_1(
-                "Prepara cada tarea en voz alta. Puedes escribir tus ideas o grabarte con el micrófono y pedir la corrección por IA. Abajo tienes el guion del entrevistador y la rúbrica oficial.",
-                "先准备每项任务并大声练习。你可以写下来，或用麦克风录音后请求 AI 批改。下方附有考官脚本与官方评分标准。",
-              )}
-              {te.preparacion ? ` ${t_1("Tiempo de preparación", "准备时间")}: ${te.preparacion} min.` : ""}
-            </Ge1Component>
-            {(te.tareas || []).map((a) => {
-              const o = `oral-${a.num}`;
-              const h = d(E[o]);
-              const m = de === o;
-              return (
-                <div
-                  key={a.num}
-                  id={`tarea-${a.num}`}
-                  className="ofe-tarea of-scroll rounded-3xl overflow-hidden mb-6"
-                  style={{
-                    background: "linear-gradient(150deg, rgba(255,255,255,.045), rgba(255,255,255,.012))",
-                    border: "1px solid rgba(255,255,255,.08)",
-                  }}
-                >
-                  <Oe1Component
-                    tarea={a}
-                    color={p.glow}
-                    extra={
-                      a.obligatoria ? (
-                        <span
-                          className="text-[11px] font-black px-1.5 py-0.5 rounded"
-                          style={{
-                            background: "#b3382f30",
-                            color: "#f8a9a2",
-                            border: "1px solid #b3382f60",
-                          }}
-                        >
-                          OBLIGATORIA
-                        </span>
-                      ) : undefined
-                    }
-                  />
-                  <div className="p-5">
-                    <Ne1Component texto={a.instrucciones} />
-                    {a.situacion && (
-                      <div
-                        className="rounded-xl p-3.5 mb-3.5"
-                        style={{
-                          background: "rgba(59,130,246,.07)",
-                          border: "1px solid rgba(59,130,246,.2)",
-                        }}
-                      >
-                        <div className="text-[11px] font-black uppercase tracking-[0.16em] mb-1 ofx-acento">
-                          SITUACIÓN
-                        </div>
-                        <p className="text-white/65 text-[12.5px] leading-relaxed">{a.situacion}</p>
-                      </div>
-                    )}
-                    {(a.opciones || []).length > 0 && (
-                      <div className="mb-3.5">
-                        <div
-                          className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
-                          style={{
-                            color: `${c}aa`,
-                          }}
-                        >
-                          {t_1("Opciones (elige una)", "选项（选一项）")}
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                          {(a.opciones || []).map(($) => (
-                            <span
-                              key={$}
-                              className="px-2.5 py-1.5 rounded-lg text-[11.5px] font-bold text-white/60"
-                              style={{
-                                background: "rgba(255,255,255,.05)",
-                                border: "1px solid rgba(255,255,255,.1)",
-                              }}
-                            >
-                              {$}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {(a.propuestas || []).length > 0 && (
-                      <div
-                        className="rounded-2xl p-3.5 mb-3.5"
-                        style={{
-                          background: "rgba(0,0,0,.24)",
-                          border: "1px solid rgba(255,255,255,.07)",
-                        }}
-                      >
-                        <div
-                          className="text-[11px] font-black uppercase tracking-[0.16em] mb-2"
-                          style={{
-                            color: c,
-                          }}
-                        >
-                          {t_1("Propuestas para valorar", "待评估方案")} · {(a.propuestas || []).length}
-                        </div>
-                        <ul className="space-y-1.5">
-                          {(a.propuestas || []).map(($, w) => (
-                            <li key={w} className="flex items-start gap-2 text-[12.5px] text-white/60">
-                              <span
-                                className="font-mono text-[11px] mt-0.5 shrink-0"
-                                style={{
-                                  color: p.glow,
-                                }}
-                              >
-                                {w + 1}.
-                              </span>
-                              <span className="leading-relaxed">{$}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    {a.foto && <EsComponent texto={a.foto} />}
-                    {!a.foto && a.escena && (
-                      <TsComponent escena={a.escena} semilla={(examen.modelo || 0) + a.num} />
-                    )}
-                    {a.encuesta && <RsComponent encuesta={a.encuesta} />}
-                    {a.cuadernilloCandidato && a.cuadernilloCandidato !== a.instrucciones && (
-                      <YComponent
-                        titulo={t_1("Cuadernillo del candidato", "考生手册")}
-                        icono={ClipboardListIcon}
-                        color={p.glow}
-                      >
-                        <TextoDele texto={a.cuadernilloCandidato} variante="compacto" />
-                      </YComponent>
-                    )}
-                    {(a.puntosGuia || []).length > 0 && (
-                      <ul className="space-y-1.5 mb-4">
-                        {(a.puntosGuia || []).map(($, w) => (
-                          <li key={w} className="flex items-start gap-2 text-[12.5px] text-white/55">
-                            <span
-                              className="font-mono text-[11px] mt-0.5 shrink-0"
-                              style={{
-                                color: p.glow,
-                              }}
-                            >
-                              {w + 1}.
-                            </span>
-                            <span className="leading-relaxed">{$}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    <textarea
-                      value={E[o] || ""}
-                      onChange={($) =>
-                        setE((w) => ({
-                          ...w,
-                          [o]: $.target.value,
-                        }))
-                      }
-                      rows={5}
-                      placeholder={t_1(
-                        "Escribe aquí tus ideas o el texto reconocido por el micrófono…",
-                        "在此写下你的思路或麦克风识别出的文字…",
-                      )}
-                      className="w-full rounded-xl p-3.5 text-[13.5px] text-white/85 outline-none resize-y leading-relaxed placeholder:text-white/20"
-                      style={{
-                        background: "rgba(0,0,0,.28)",
-                        border: "1px solid rgba(255,255,255,.09)",
-                      }}
-                    />
-                    <div className="flex flex-wrap items-center justify-between gap-3 mt-3">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => {
-                            if (m) {
-                              return ss();
-                            }
-                            return es(o);
-                          }}
-                          className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[12px] font-black transition-colors"
-                          style={{
-                            background: m ? "rgba(239,68,68,.16)" : "rgba(255,255,255,.05)",
-                            border: `1px solid ${m ? "rgba(239,68,68,.45)" : "rgba(255,255,255,.1)"}`,
-                            color: m ? "#a3122a" : "rgba(255,255,255,.6)",
-                          }}
-                        >
-                          {m ? <SquareIcon size={12} /> : <MicIcon size={12} />}
-                          {m
-                            ? t_1("Detener grabación", "停止录音")
-                            : t_1("Grabar con micrófono", "麦克风录音")}
-                        </button>
-                        <span className="text-[11px] font-bold text-white/30">
-                          {h} {t_1("palabras", "词")}
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => Ce(o, E[o] || "", "monologo", a)}
-                        disabled={isCorrecting || !(E[o] || "").trim()}
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.02] disabled:opacity-40 disabled:hover:scale-100"
-                        style={{
-                          background: `linear-gradient(180deg, ${p.color}, ${p.glow})`,
-                          color: "#fff6e0",
-                          border: "2px solid #f2c14e",
-                        }}
-                      >
-                        {isCorrecting ? (
-                          <LoaderCircleIcon size={14} className="animate-spin" />
-                        ) : (
-                          <SparklesIcon size={14} />
-                        )}
-                        {isCorrecting ? t_1("Corrigiendo…", "批改中…") : t_1("Corregir con IA", "AI 批改")}
-                      </button>
-                    </div>
-                    <a className="oe-link" href={`#/examinador-oral?nivel=${encodeURIComponent(nivel || "")}&tema=${encodeURIComponent(a.titulo || "")}&tarea=${encodeURIComponent(a.instrucciones || "")}&puntos=${encodeURIComponent(JSON.stringify(a.puntosGuia || []))}`}>
-                        🎙️ Hacer esta tarea con el examinador IA · 用AI考官模拟
-                      </a>
-                    {K[o] && <C_2 data={K[o]} />}
-                    {a.entrevistador && (
-                      <div className="mt-4">
-                        <OsComponent entrevistador={a.entrevistador} color={p.glow} />
-                      </div>
-                    )}
-                    {f(a.rubrica) && (
-                      <YComponent
-                        titulo={t_1("Rúbrica de evaluación", "评分标准")}
-                        icono={TargetIcon}
-                        color={p.glow}
-                        contador={(a.rubrica || []).length}
-                      >
-                        <VeComponent rubrica={a.rubrica || []} color={p.glow} />
-                      </YComponent>
-                    )}
-                    {a.ejemploEsperado && (
-                      <YComponent
-                        titulo={t_1("Ejemplo de lo esperado", "示例回答")}
-                        icono={GraduationCapIcon}
-                        color={c}
-                      >
-                        <TextoDele texto={a.ejemploEsperado} variante="compacto" />
-                      </YComponent>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+        {m?.textos?.length > 0 && (
+          <div className="sx-bloques">
+            {m.textos.map((tx, i) => (
+              <div key={i} className="sx-bloque">
+                {(tx.titulo || tx.tituloTexto) && <div className="sx-bloque-cab">{tx.titulo || tx.tituloTexto}</div>}
+                <TextoDele texto={tx.texto} variante="compacto" />
+              </div>
+            ))}
           </div>
         )}
-        {b === "claves" && (
-          <div className="of-in">
-            <GsComponent
-              evaluacion={n_evaluacion}
-              materia={examen}
-              res1={Q}
-              res2={W}
-              corregido1={N}
-              corregido2={O}
-              mediaEsc={mediaEsc}
-              mediaOral={mediaOral}
-              color={p.glow}
-            />
-            <UeComponent
-              titulo="Claves · Comprensión de lectura · 答案 · 阅读理解"
-              claves={examen.claves?.lectura || []}
-              tareas={ee?.tareas || []}
-              t={t_1}
-            />
-            <UeComponent
-              titulo="Claves · Comprensión auditiva · 答案 · 听力理解"
-              claves={examen.claves?.auditiva || qs(examen, 2)}
-              tareas={se?.tareas || []}
-              t={t_1}
-            />
+        {(tarea.palabras || tarea.fuente) && (
+          <div className="sx-hoja-pie">
+            {tarea.palabras ? <span>{tarea.palabras} palabras · 词</span> : null}
+            {tarea.fuente && <i>{tarea.fuente}</i>}
           </div>
         )}
-        <div className="flex items-center justify-between gap-3 mt-8">
-          {(() => {
-            const a = ["p1", "p2", "p3", "p4", "claves"];
-            const o = a.indexOf(b);
-            const h = a[o - 1];
-            const m = a[o + 1];
-            const $ = (w) => {
-              if (w === "claves") {
-                return t_1("Claves y evaluación", "答案与评分");
-              }
-              return c_2(examen, Number(w.slice(1)))?.nombre || "";
-            };
-            return (
-              <>
-                {h ? (
-                  <button
-                    onClick={() => {
-                      B()?.cancel();
-                      setB(h);
-                    }}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12.5px] font-bold text-white/55 hover:text-white/85 transition-colors"
-                    style={{
-                      background: "rgba(255,255,255,.04)",
-                      border: "1px solid rgba(255,255,255,.09)",
-                    }}
-                  >
-                    <ArrowLeftIcon size={13} /> {$(h)}
-                  </button>
-                ) : (
-                  <span />
-                )}
-                {m ? (
-                  <button
-                    onClick={() => {
-                      B()?.cancel();
-                      setB(m);
-                    }}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12.5px] font-black transition-transform hover:scale-[1.02]"
-                    style={{
-                      background: `linear-gradient(180deg, ${p.color}, ${p.glow})`,
-                      color: "#fff6e0",
-                      border: "2px solid #f2c14e",
-                    }}
-                  >
-                    {$(m)} <ChevronRightIcon size={13} />
-                  </button>
-                ) : (
-                  <Link
-                    to={`/oficial/${nivel}`}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12.5px] font-black"
-                    style={{
-                      background: `linear-gradient(135deg, ${c}, ${C})`,
-                      color: "#17130a",
-                    }}
-                  >
-                    {t_1("Terminar y volver", "完成并返回")} <ChevronRightIcon size={13} />
-                  </Link>
-                )}
-              </>
-            );
-          })()}
-        </div>
       </div>
-    </StarfieldBackground>
+      <i className="sx-rod b" aria-hidden="true" />
+    </div>
   );
 }
 function qs(t, r) {
@@ -2573,316 +2174,6 @@ function qs(t, r) {
       fraseSoporte: s.fraseSoporte,
     })),
   }));
-}
-function MsComponent({ minutos }) {
-  const totalSegundos = Math.max(0, Math.round((minutos || 0) * 60));
-  const [restantes, setRestantes] = React.useState(totalSegundos);
-  const [enMarcha, setEnMarcha] = React.useState(true);
-  React.useEffect(() => {
-    if (!enMarcha || restantes <= 0) {
-      return;
-    }
-    const intervalo = window.setInterval(() => setRestantes((seg) => (seg <= 1 ? 0 : seg - 1)), 1000);
-    return () => window.clearInterval(intervalo);
-  }, [enMarcha, restantes]);
-  if (!totalSegundos) {
-    return null;
-  }
-  const mm = String(Math.floor(restantes / 60)).padStart(2, "0");
-  const ss = String(restantes % 60).padStart(2, "0");
-  const estado = restantes === 0 ? "fin" : restantes <= 300 ? "aviso" : "normal";
-  return (
-    <div className={`ofx-reloj gm-no-adapt ofx-reloj-${estado}`} role="timer" aria-label={`Tiempo restante · 剩余时间 ${mm}:${ss}`}>
-      <ClockIcon size={16} aria-hidden="true" />
-      <span className="ofx-reloj-cifra">
-        {mm}:{ss}
-      </span>
-      <button
-        type="button"
-        onClick={() => setEnMarcha((v) => !v)}
-        title={enMarcha ? "Pausar · 暂停" : "Reanudar · 继续"}
-        aria-label={enMarcha ? "Pausar · 暂停" : "Reanudar · 继续"}
-      >
-        {enMarcha ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          setRestantes(totalSegundos);
-          setEnMarcha(true);
-        }}
-        title="Reiniciar la cuenta · 重置计时"
-        aria-label="Reiniciar la cuenta · 重置计时"
-      >
-        <RotateCcwIcon size={16} />
-      </button>
-    </div>
-  );
-}
-function EComponent({ titulo, res, corregido, onCorregir, onVerClaves, mostrarClaves, color, duracion }) {
-  return (
-    <div
-      className="ofe-phead rounded-2xl p-4 mb-6 flex flex-wrap items-center justify-between gap-3"
-      style={{
-        background: "linear-gradient(140deg, rgba(255,255,255,.045), rgba(255,255,255,.012))",
-        border: "1px solid rgba(255,255,255,.08)",
-      }}
-    >
-      <div className="flex items-center gap-3">
-        <ListChecksIcon
-          size={16}
-          style={{
-            color,
-          }}
-        />
-        <div>
-          <div className="text-white/80 font-black text-[13.5px]">{titulo}</div>
-          <div className="text-[11px] font-bold text-white/30">
-            {duracion ? `${duracion} min · ` : ""}
-            Responde y corrige para ver tu puntuación · <span lang="zh-CN">作答后批改查看得分</span>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-wrap items-center gap-3">
-        <MsComponent minutos={duracion} />
-        {corregido && (
-          <div className={`ofx-nota gm-no-adapt ${res.pct >= 60 ? "ofx-nota-apto" : "ofx-nota-noapto"}`}>
-            <span className="ofx-nota-pct">{res.pct}%</span>
-            <span className="ofx-nota-frac">
-              {res.bien}/{res.total}
-            </span>
-          </div>
-        )}
-        <button
-          onClick={onVerClaves}
-          className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl font-black text-[12px] transition-colors"
-          style={{
-            background: mostrarClaves ? `${c}22` : "rgba(255,255,255,.05)",
-            border: `1px solid ${mostrarClaves ? `${c}55` : "rgba(255,255,255,.1)"}`,
-            color: mostrarClaves ? C : "rgba(255,255,255,.55)",
-          }}
-        >
-          {mostrarClaves ? <EyeOffIcon size={13} /> : <KeyRoundIcon size={13} />}
-          {mostrarClaves ? "Ocultar claves · 隐藏答案" : "Ver claves · 查看答案"}
-        </button>
-        <button
-          onClick={onCorregir}
-          disabled={corregido}
-          className="xm-ofe-correct gm-no-adapt flex items-center gap-2 px-4 py-2.5 rounded-xl font-black text-[12.5px] transition-transform hover:scale-[1.02] disabled:hover:scale-100"
-          style={{
-            background: corregido ? "rgba(255,255,255,.06)" : "linear-gradient(135deg, #e0b566, #f6dfa8)",
-            color: corregido ? "rgba(255,255,255,.5)" : "#17130a",
-          }}
-        >
-          <CircleCheckIcon size={14} />{" "}
-          {corregido ? "Corregido · 已批改" : "Corregir prueba · 批改本项"}
-        </button>
-      </div>
-    </div>
-  );
-}
-function GsComponent({
-  evaluacion,
-  materia,
-  res1,
-  res2,
-  corregido1,
-  corregido2,
-  mediaEsc,
-  mediaOral,
-  color,
-}) {
-  const { t: t_1 } = useLanguage();
-  const b = (bien, total) => {
-    if (total) {
-      return (bien / total) * 25;
-    }
-    return 0;
-  };
-  const k = corregido1 ? b(res1.bien, res1.total) : null;
-  const j = corregido2 ? b(res2.bien, res2.total) : null;
-  const v = mediaEsc !== null ? (mediaEsc / 100) * 25 : null;
-  const N = mediaOral !== null ? (mediaOral / 100) * 25 : null;
-  const T = k !== null || v !== null ? (k || 0) + (v || 0) : null;
-  const O = j !== null || N !== null ? (j || 0) + (N || 0) : null;
-  const min = evaluacion?.grupo1?.minimo ?? 30;
-  const U = k !== null && v !== null;
-  const y = j !== null && N !== null;
-  const A = U && y ? T >= min && O >= min : null;
-  const z = (R) => {
-    if (R === null) {
-      return "—";
-    }
-    return R.toFixed(2).replace(".", ",");
-  };
-  const E = [
-    [t_1("Comprensión de lectura", "阅读理解"), k, "25"],
-    [t_1("Expresión e interacción escritas", "书面表达"), v, "25"],
-    [t_1("Comprensión auditiva", "听力理解"), j, "25"],
-    [t_1("Expresión e interacción orales", "口头表达"), N, "25"],
-  ];
-  return (
-    <div
-      className="rounded-3xl overflow-hidden mb-6"
-      style={{
-        background: "linear-gradient(150deg, rgba(255,255,255,.05), rgba(255,255,255,.014))",
-        border: "1px solid rgba(255,255,255,.09)",
-      }}
-    >
-      <div
-        className="flex items-center gap-3 px-5 py-3.5"
-        style={{
-          background: "rgba(0,0,0,.24)",
-          borderBottom: `1px solid ${c}18`,
-        }}
-      >
-        <GraduationCapIcon
-          size={16}
-          style={{
-            color,
-          }}
-        />
-        <div>
-          <div className="text-white font-black text-[15px] leading-tight">
-            {t_1("Sistema de calificación", "评分系统")}
-          </div>
-          <div className="text-[11px] font-bold uppercase tracking-wider text-white/30">
-            {evaluacion?.criterio || t_1("APTO si ≥30,00 puntos en cada grupo", "两组各≥30分即通过")}
-          </div>
-        </div>
-        <div className="ml-auto text-right">
-          <div
-            className="font-mono font-black text-xl"
-            style={{
-              color: A === null ? "rgba(255,255,255,.35)" : A ? "#2e6b3f" : "#a3122a",
-            }}
-          >
-            {A === null ? "—" : A ? "APTO" : "NO APTO"}
-          </div>
-          <div className="text-[11px] font-bold uppercase tracking-wider text-white/25">
-            {t_1("provisional", "暂定")}
-          </div>
-        </div>
-      </div>
-      <div className="p-5">
-        <div className="grid sm:grid-cols-4 gap-2.5 mb-4">
-          {E.map(([R, P, M]) => (
-            <div
-              key={R}
-              className="rounded-xl p-3"
-              style={{
-                background: "rgba(0,0,0,.22)",
-                border: "1px solid rgba(255,255,255,.07)",
-              }}
-            >
-              <div className="text-[11px] font-black uppercase tracking-wider text-white/30 mb-1">{R}</div>
-              <div
-                className="font-mono font-black text-lg"
-                style={{
-                  color: P === null ? "rgba(255,255,255,.3)" : C,
-                }}
-              >
-                {z(P)}
-                <span className="text-white/25 text-[12px]">/{M}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="grid sm:grid-cols-3 gap-2.5">
-          <BeComponent
-            etiqueta={t_1("Grupo 1 (lectura + escritura)", "第一组（阅读+写作）")}
-            valor={T}
-            max={50}
-            min={min}
-            color={color}
-          />
-          <BeComponent
-            etiqueta={t_1("Grupo 2 (audición + oral)", "第二组（听力+口语）")}
-            valor={O}
-            max={50}
-            min={min}
-            color={color}
-          />
-          <div
-            className="rounded-xl p-3"
-            style={{
-              background: `${c}0d`,
-              border: `1px solid ${c}28`,
-            }}
-          >
-            <div className="text-[11px] font-black uppercase tracking-wider text-white/30 mb-1">
-              {t_1("Total", "总分")}
-            </div>
-            <div
-              className="font-mono font-black text-lg"
-              style={{
-                color: C,
-              }}
-            >
-              {T === null && O === null ? "—" : ((T || 0) + (O || 0)).toFixed(2).replace(".", ",")}
-              <span className="text-white/25 text-[12px]">/{evaluacion?.total ?? 100}</span>
-            </div>
-          </div>
-        </div>
-        <p className="text-[11px] text-white/25 mt-3 leading-relaxed">
-          {t_1(
-            "Las pruebas objetivas puntúan con la clave oficial (1 punto por acierto). La escritura y el oral se estiman a partir de la corrección por IA y solo se muestran si has pedido la corrección.",
-            "客观题按官方答案计分（答对得1分）。写作与口语根据AI批改估算，仅在你请求批改后显示。",
-          )}
-        </p>
-        {(!U || !y) && (
-          <p className="text-[11px] text-amber-300/70 mt-1">
-            {t_1(
-              "Completa las pruebas y sus correcciones para obtener un veredicto definitivo.",
-              "完成所有测试及批改后可获得最终判定。",
-            )}
-          </p>
-        )}
-        <div className="mt-3 text-[11px] text-white/30">
-          {t_1("Modelo", "模型")} {materia.codigo || materia.modelo} · {materia.temaCentral}
-        </div>
-      </div>
-    </div>
-  );
-}
-function BeComponent({ etiqueta, valor, max, min, color }) {
-  const i = valor !== null && valor >= min;
-  const n = valor === null ? 0 : Math.min((valor / max) * 100, 100);
-  return (
-    <div
-      className="rounded-xl p-3"
-      style={{
-        background: "rgba(0,0,0,.22)",
-        border: `1px solid ${valor === null ? "rgba(255,255,255,.07)" : i ? "rgba(46,107,63,.28)" : "rgba(200,16,46,.28)"}`,
-      }}
-    >
-      <div className="text-[11px] font-black uppercase tracking-wider text-white/30 mb-1">{etiqueta}</div>
-      <div
-        className="font-mono font-black text-lg"
-        style={{
-          color: valor === null ? "rgba(255,255,255,.3)" : i ? "#2e6b3f" : "#a3122a",
-        }}
-      >
-        {valor === null ? "—" : valor.toFixed(2).replace(".", ",")}
-        <span className="text-white/25 text-[12px]">/{max}</span>
-      </div>
-      <div
-        className="h-1.5 rounded-full mt-2 overflow-hidden"
-        style={{
-          background: "rgba(255,255,255,.07)",
-        }}
-      >
-        <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{
-            width: `${n}%`,
-            background: i ? "linear-gradient(90deg,#3f8a5a,#2e6b3f)" : `linear-gradient(90deg,${color},${C})`,
-          }}
-        />
-      </div>
-      <div className="text-[11px] font-bold text-white/25 mt-1.5">min. {min}</div>
-    </div>
-  );
 }
 function UeComponent({ titulo, claves, tareas, t: t_1 }) {
   const [abierto, setAbierto] = React.useState(true);
