@@ -21,6 +21,53 @@ export function Esquinas() {
   return ["si", "sd", "ii", "id"].map((k) => <img key={k} className={`ud-esq ${k}`} src={TEMA("barra-esquina.png")} alt="" aria-hidden="true" />);
 }
 
+// Puertas de palacio que se abren al entrar en la unidad (una vez por sesión y unidad; nunca con «reducir movimiento»)
+function Puertas({ numero }) {
+  const clave = `ud-puertas-${numero}`;
+  const [ver, setVer] = React.useState(() => {
+    try {
+      return !window.matchMedia("(prefers-reduced-motion: reduce)").matches && !sessionStorage.getItem(clave);
+    } catch {
+      return false;
+    }
+  });
+  React.useEffect(() => {
+    if (!ver) return;
+    try {
+      sessionStorage.setItem(clave, "1");
+    } catch {}
+    const t = setTimeout(() => setVer(false), 2600);
+    return () => clearTimeout(t);
+  }, [ver, clave]);
+  if (!ver) return null;
+  return (
+    <div className="ud-puertas" aria-hidden="true" onClick={() => setVer(false)}>
+      <span className="ud-puerta izq">
+        <i className="ud-aldaba" />
+      </span>
+      <span className="ud-puerta der">
+        <i className="ud-aldaba" />
+      </span>
+      <span className="ud-puertas-sello" translate="no">
+        第{numero}
+        <br />
+        单元
+      </span>
+    </div>
+  );
+}
+
+// Farolillo rojo con borla que se balancea
+const Farol = ({ lado, retraso = 0 }) => (
+  <span className={`ud-farol ${lado}`} style={{ animationDelay: `${retraso}s` }} aria-hidden="true">
+    <i className="ud-farol-cuerda" />
+    <i className="ud-farol-cuerpo">
+      <b translate="no">福</b>
+    </i>
+    <i className="ud-farol-borla" />
+  </span>
+);
+
 function Anillo({ pct, children }) {
   const r = 86;
   const c = 2 * Math.PI * r;
@@ -40,8 +87,27 @@ export function CabeceraUnidad({ meta, parada, clase, totalClases, progreso, cta
   const mundo = MUNDOS[meta.nivel] || MUNDOS.A1;
   const [titulo, sub] = meta.titulo.split(" - ");
   const [tituloZh, subZh] = meta.tituloChino.split(" - ");
+  // Paralaje: las capas se desplazan con el ratón a distinta profundidad
+  const mover = (e) => {
+    if (e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--px", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+    e.currentTarget.style.setProperty("--py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+  };
+  // Las animaciones de la cabecera se pausan cuando no se ve (ahorra batería en móvil)
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const ojo = new IntersectionObserver(([e]) => el.classList.toggle("ud-fuera", !e.isIntersecting));
+    ojo.observe(el);
+    return () => ojo.disconnect();
+  }, []);
   return (
-    <section className="ud-hero gm-no-adapt" data-nivel={meta.nivel}>
+    <section ref={ref} className="ud-hero gm-no-adapt" data-nivel={meta.nivel} onPointerMove={mover} onPointerLeave={(e) => (e.currentTarget.style.setProperty("--px", 0), e.currentTarget.style.setProperty("--py", 0))}>
+      <Puertas numero={meta.numero} />
+      <Farol lado="izq" />
+      <Farol lado="der" retraso={-1.3} />
       <div className="ud-hero-escena" aria-hidden="true">
         <Escena />
       </div>

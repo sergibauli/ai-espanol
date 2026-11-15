@@ -1,6 +1,7 @@
 import "../styles/v19-unidad.css";
 import "../styles/v23-unidad.css";
 import "../styles/v24-unidad-espectacular.css";
+import "../styles/v25-unidad-ceremonia.css";
 import * as React from "react";
 import { Link, useParams, useSearchParams } from "react-router";
 import { createPortal } from "react-dom";
@@ -21,6 +22,24 @@ import "../styles/v22-volteo.css";
 import { CabeceraUnidad, MapaClases } from "../components/unidad/CabeceraUnidad.jsx";
 import { FichaTeoria } from "../components/unidad/FichaTeoria.jsx";
 import { PalabrasUnidad } from "../components/unidad/PalabrasUnidad.jsx";
+import { ESCENAS } from "../components/dele/EscenasNivel.jsx";
+
+// Chispas doradas que saltan desde la pestaña pulsada
+function chispas(boton) {
+  try {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  } catch {}
+  for (let i = 0; i < 12; i++) {
+    const c = document.createElement("i");
+    c.className = "ud-chispa";
+    const ang = (Math.PI * 2 * i) / 12 + Math.random() * 0.4;
+    const dist = 40 + Math.random() * 40;
+    c.style.setProperty("--dx", `${Math.cos(ang) * dist}px`);
+    c.style.setProperty("--dy", `${Math.sin(ang) * dist}px`);
+    boton.appendChild(c);
+    setTimeout(() => c.remove(), 800);
+  }
+}
 
 import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
 import "../styles/v14-fix-juegos.css";
@@ -295,6 +314,9 @@ export default function UnitPage() {
   return (
     <LightShell>
       <div className="unit-page ud" data-nivel={meta.nivel} style={{ "--c": c1, "--d": c2 }}>
+        <div className="ud-mundo-fondo" aria-hidden="true">
+          {React.createElement(ESCENAS[meta.nivel] || ESCENAS.A1)}
+        </div>
         <Link to={`/modulos`} className="ud-volver">
           <ArrowLeftIcon size={16} /> Unidades {meta.nivel} · <span lang="zh">单元</span>
         </Link>
@@ -305,7 +327,7 @@ export default function UnitPage() {
 
         <nav className="ud-pestanas gm-no-adapt" id="u-pestanas" role="tablist" aria-label="Secciones de la clase">
           {PESTANAS.map((x) => (
-            <button key={x.id} type="button" role="tab" id={`tab-${x.id}`} aria-selected={pestana === x.id} aria-controls="u-panel" className={pestana === x.id ? "on" : ""} onClick={() => cambiarPestana(x.id, false)}>
+            <button key={x.id} type="button" role="tab" id={`tab-${x.id}`} aria-selected={pestana === x.id} aria-controls="u-panel" className={pestana === x.id ? "on" : ""} onClick={(e) => (chispas(e.currentTarget), cambiarPestana(x.id, false))}>
               <span className="ud-pestana-sello" translate="no" aria-hidden="true">
                 {x.sello}
               </span>

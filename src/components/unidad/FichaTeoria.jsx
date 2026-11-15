@@ -301,6 +301,7 @@ export function FichaTeoria({ teoria, todas = teoria, numero }) {
           )}
         </footer>
         <span className="ud-rodillo abajo" aria-hidden="true" />
+        <span className="ud-rodillo viajero" aria-hidden="true" />
       </article>
     </div>
   );
