@@ -13,12 +13,36 @@ export const SECCIONES = {
   "/tv": () => import("../pages/TvPage.jsx"),
 };
 
+// En producción, `precarga.json` (scripts/vite-precarga-secciones.mjs) dice qué ficheros JS y CSS usa cada
+// sección y se piden con <link rel="prefetch">: quedan en la caché sin ejecutarse ni aplicar su CSS a la
+// pantalla actual (con import() cada hoja recalculaba los estilos de todo el documento). En desarrollo, o si
+// el mapa no llega, se usa import() como antes.
+let mapa = null;
+const obtenerMapa = () =>
+  (mapa ||= import.meta.env.DEV
+    ? Promise.resolve(null)
+    : fetch("./precarga.json")
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null));
+const pedidos = new Set();
+const prefetch = (url) =>
+  new Promise((listo) => {
+    if (pedidos.has(url)) return listo();
+    pedidos.add(url);
+    const enlace = document.createElement("link");
+    enlace.rel = "prefetch";
+    enlace.href = `./${url}`;
+    enlace.onload = enlace.onerror = () => listo();
+    document.head.appendChild(enlace);
+  });
+const descargar = (ruta) =>
+  obtenerMapa().then((m) => (m?.[ruta] ? Promise.all(m[ruta].map(prefetch)) : SECCIONES[ruta]()));
+
 const hechas = new Set();
 export function precargar(ruta) {
-  const cargar = SECCIONES[ruta];
-  if (!cargar || hechas.has(ruta)) return;
+  if (!SECCIONES[ruta] || hechas.has(ruta)) return;
   hechas.add(ruta);
-  cargar().catch(() => hechas.delete(ruta));
+  descargar(ruta).catch(() => hechas.delete(ruta));
 }
 
 // En reposo y de una en una, sin competir con la pantalla actual:
@@ -43,7 +67,7 @@ export function precargarSecciones() {
     while (ruta && (hechas.has(ruta) || actual === ruta || actual.startsWith(`${ruta}/`))) ruta = cola.shift();
     if (!ruta) return;
     hechas.add(ruta);
-    SECCIONES[ruta]()
+    descargar(ruta)
       .catch(() => hechas.delete(ruta))
       .finally(() => setTimeout(() => reposo(siguiente), 400));
   };
