@@ -146,6 +146,8 @@ export function tocarAudioExamen(url, { ritmo = 1, alAvanzar } = {}) {
   if (!estado.sonando) emitir({ sonando: true, pausado: false, fallo: null });
   return new Promise((resolve) => {
     let reintentos = 0;
+    let intento = 0; // el evento «error» y el rechazo de play() llegan juntos: un solo fallo por intento
+    let fallado = -1;
     let acabado = false;
     const alTerminar = () => terminar("fin");
     const alError = () => fallar(audio.error || new Error("error"));
@@ -172,6 +174,8 @@ export function tocarAudioExamen(url, { ritmo = 1, alAvanzar } = {}) {
     function fallar(error) {
       if (acabado || numero !== sesion) return;
       if (error?.name === "AbortError") return; // el src cambió: no es un fallo
+      if (fallado === intento) return;
+      fallado = intento;
       const bloqueado = error?.name === "NotAllowedError";
       console.warn("[audio examen]", bloqueado ? "bloqueado por el navegador" : "no se pudo cargar", url, error);
       if (!bloqueado && reintentos < 1) {
@@ -184,6 +188,7 @@ export function tocarAudioExamen(url, { ritmo = 1, alAvanzar } = {}) {
     function arrancar(manual) {
       if (acabado || numero !== sesion) return;
       if (manual) reintentos = 0;
+      intento += 1;
       if (estado.fallo) emitir({ fallo: null, pausado: false });
       audio.src = url;
       audio.defaultPlaybackRate = ritmo;
