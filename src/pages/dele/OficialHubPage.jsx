@@ -6,6 +6,7 @@ import "../../styles/v23-dele-modos.css";
 import "../../styles/dele-portada.css";
 import { ESCENAS } from "../../components/dele/EscenasNivel.jsx";
 import { ParticulasNivel } from "../../components/ui/ParticulasNivel.jsx";
+import "../../styles/movil-dele.css";
 // Solo cuenta los simulacros nuevos por el nombre del archivo (A1-21.json…), sin descargar su contenido
 const NUEVOS = { A1: [], A2: [], B1: [], B2: [] };
 for (const ruta of Object.keys(import.meta.glob("../../data/oficial/nuevos/*.json"))) NUEVOS[ruta.split("/").pop().slice(0, 2)]?.push(ruta);

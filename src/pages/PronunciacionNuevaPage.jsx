@@ -283,7 +283,7 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
           })}
           <span className="ph-bruma is-a" aria-hidden="true" />
           <span className="ph-bruma is-b" aria-hidden="true" />
-          <img className="ph-mono" src="./mono/saluda.png" alt="" aria-hidden="true" />
+          <img className="ph-mono" src="./mono/saluda.webp" alt="" aria-hidden="true" />
         </div>
 
         <div className="ph-pie">
@@ -345,7 +345,7 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
             })
           ) : (
             <p className="pt-vacio">
-              <img src="./mono/serio.png" alt="" /> No hay ninguna sílaba con «{busqueda}» · 没有找到这个音节
+              <img src="./mono/serio.webp" alt="" /> No hay ninguna sílaba con «{busqueda}» · 没有找到这个音节
             </p>
           )}
         </section>

@@ -187,7 +187,7 @@ html body .light-page .unit-page .unit-lessons .unit-lesson b { font-size: 16px 
 /* Historia */
 html body .light-page .unit-page .unit-story { position: relative; overflow: hidden; box-shadow: 0 0 0 1px #5e0614, inset 0 0 0 4px rgba(242,193,78,.35), 0 14px 30px rgba(110,10,20,.3) !important; }
 html body .light-page .unit-page .unit-story::after { content: ""; position: absolute; right: 92px; bottom: -10px; width: 120px; height: 140px; pointer-events: none; opacity: .95;
-  background: url("../../public/mono/saluda.png") center bottom / contain no-repeat; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)); }
+  background: url("../../public/mono/saluda.webp") center bottom / contain no-repeat; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)); }
 html body .light-page .unit-page .unit-story .unit-play { position: relative; z-index: 1; min-width: 64px; min-height: 64px; }
 @media (max-width: 760px) { html body .light-page .unit-page .unit-story::after { display: none; } }
 

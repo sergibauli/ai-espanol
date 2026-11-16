@@ -42,6 +42,7 @@ import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx
 import { l as l_1 } from "../../lib/exams-loader.js";
 import "../../data/generated-content.js";
 import "../../styles/v14-fix-examenes.css";
+import "../../styles/movil-dele.css";
 const Ba = {
   "Presentaciones y saludos": "自我介绍与问候",
   "La familia": "家庭",

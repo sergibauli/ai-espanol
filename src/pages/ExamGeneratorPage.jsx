@@ -7,6 +7,7 @@ import { generateExam, SKILLS, encodeExamConfig, decodeExamConfig, loadExamHisto
 import { getModuleProgress } from "../lib/progress.js";
 import { useCampus } from "../lib/campus.jsx";
 import CATALOG from "../data/modulos/catalog.json";
+import "../styles/movil-dele.css";
 
 const LEVELS = ["A1", "A2", "B1", "B2"];
 const PRESETS = [
@@ -182,7 +183,7 @@ export default function ExamGeneratorPage() {
             </div>
           </div>
           <div className="xm-gen-hero-art" aria-hidden="true">
-            <img src="./mono/poder.png" alt="" />
+            <img src="./mono/poder.webp" alt="" />
           </div>
         </section>
 

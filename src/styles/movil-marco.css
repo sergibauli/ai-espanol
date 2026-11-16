@@ -25,6 +25,7 @@
   html.scroll-bajando .mf { transform: translateX(115%); opacity: 0; pointer-events: none; }
   html.scroll-bajando .mf .mf-boton, html.scroll-bajando .mf .mf-bocadillo { pointer-events: none; }
   .mf-aura::after, .mf-destellos, .mf-nube__estela { display: none; }
+  .mf .mf-aura { width: 100%; }
   /* solo flota: sin aura que respira, saludo, guiño ni sello que late (cada una forzaba trabajo por fotograma) */
   .mf .mf-aura, .mf .mf-mono.base, .mf .mf-sello { animation: none; }
   .mf .mf-mono.guino { animation: none; opacity: 0; }

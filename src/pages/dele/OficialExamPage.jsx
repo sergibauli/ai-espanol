@@ -83,6 +83,7 @@ import {
   n,
   s,
 } from "../../lib/oficial-loader.js";
+import "../../styles/movil-dele.css";
 const c = "#e0b566";
 const C = "#f6dfa8";
 // Paleta imperial (laca roja + tinta) igual para todos los niveles: el papel es claro, el acento debe ser oscuro (AA)
@@ -1867,7 +1868,7 @@ function IaComponent() {
                       className="sx-examinador"
                       href={`#/examinador-oral?nivel=${encodeURIComponent(nivel || "")}&tema=${encodeURIComponent(a.titulo || "")}&tarea=${encodeURIComponent(a.instrucciones || "")}`}
                     >
-                      <img src={recurso("mono/serio.png")} alt="" aria-hidden="true" />
+                      <img src={recurso("mono/serio.webp")} alt="" aria-hidden="true" />
                       <p>
                         Hacer esta tarea con el examinador IA (cuenta como 1 uso)
                         <span className="sx-zh" lang="zh-CN">用 AI 考官模拟本项（计1次）</span>
@@ -2003,7 +2004,7 @@ function IaComponent() {
                       <small>{apto ? "APTO" : "NO APTO"}</small>
                     </div>
                   )}
-                  {apto && <img className="mono" src={recurso("mono/trofeo.png")} alt="" aria-hidden="true" />}
+                  {apto && <img className="mono" src={recurso("mono/trofeo.webp")} alt="" aria-hidden="true" />}
                   <div className="sx-franjas">
                     {[
                       [1, pLect],

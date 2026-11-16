@@ -1439,7 +1439,7 @@ function JuegoDragon({ contenido }) {
         createPortal(
           <div className="jb-modal gm-no-adapt" role="dialog" aria-modal="true" aria-labelledby="jb-fin-titulo">
             <div className="jb-tarjeta jb-pergamino jb-fin">
-              <img className="jb-fin__mono" src={resultado.gana ? "./mono/trofeo.png" : "./mono/serio.png"} alt="Rey Mono · 美猴王" />
+              <img className="jb-fin__mono" src={resultado.gana ? "./mono/trofeo.webp" : "./mono/serio.webp"} alt="Rey Mono · 美猴王" />
               <Sello grande>{resultado.gana ? "通关" : "再来"}</Sello>
               <h2 id="jb-fin-titulo" className="jb-titulo jb-titulo--tinta">
                 {resultado.gana ? "¡Has vencido a la tormenta!" : "El dragón descansa"}
