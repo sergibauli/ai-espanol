@@ -21,7 +21,9 @@ function elegir(variantes) {
 
 function ahorroDatos() {
   try {
-    return Boolean(navigator.connection?.saveData);
+    const c = navigator.connection;
+    // ahorro de datos o red lenta (2G/3G): se queda en la imagen fija
+    return Boolean(c?.saveData) || /(^|-)(2g|3g)$/.test(c?.effectiveType || "");
   } catch {
     return false;
   }

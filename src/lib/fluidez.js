@@ -3,6 +3,7 @@
 //    así al soltar ya está descargada y el cambio de pantalla es inmediato.
 // 2) Detiene las animaciones infinitas cuando la pestaña no se ve.
 import { precargar } from "./precarga.js";
+import { iniciarMovilLigero } from "./movilLigero.js";
 
 const PAGINAS = [
   [/^\/modulos\/modulo-(\d+)/, (m) => [import("../pages/UnitPage.jsx"), import("./examGenerator.js").then((g) => g.loadModule(Number(m[1])))]],
@@ -74,6 +75,7 @@ export function iniciarFluidez() {
   document.addEventListener("focusin", alSeñalar, { passive: true });
   const visibilidad = () => document.documentElement.classList.toggle("sin-anim", document.hidden);
   document.addEventListener("visibilitychange", visibilidad);
-  if (document.body) pausarFueraDePantalla();
-  else document.addEventListener("DOMContentLoaded", pausarFueraDePantalla, { once: true });
+  const alArrancar = () => (pausarFueraDePantalla(), iniciarMovilLigero());
+  if (document.body) alArrancar();
+  else document.addEventListener("DOMContentLoaded", alArrancar, { once: true });
 }

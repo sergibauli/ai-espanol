@@ -1,0 +1,5 @@
+/* ===== móvil · Inicio (ruta) ===== */
+@media (max-width: 1023px) {
+  /* parallax ligado al scroll del mundo de fondo: en móvil, quieto (el cielo animaba un filtro y repintaba toda la pantalla al bajar) */
+  .mr-lejos, .mr-medio, .mr-cerca, .mr-px2, .mr-px3, .mr-cielo, .mr-vineta { animation: none !important; }
+}

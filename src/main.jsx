@@ -18,6 +18,7 @@ import "./styles/v12-clases.css";
 import "./styles/v14-fix-nav.css";
 import "./styles/v20-fluidez.css";
 import "./styles/v13-pergamino.css";
+import "./styles/movil-marco.css";
 import { iniciarFluidez } from "./lib/fluidez.js";
 import { iniciarAppNativo } from "./lib/appNativo.js";
 // En producción define VITE_CLERK_PUBLISHABLE_KEY (pk_live_…); la clave de desarrollo queda como respaldo

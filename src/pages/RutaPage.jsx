@@ -24,6 +24,7 @@ import { ANCHO_CARRIL, FILA, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, punt
 import "../styles/v13-ruta-mundos.css";
 import "../styles/v14-ruta.css";
 import "../styles/v22-ruta.css";
+import "../styles/movil-ruta.css";
 
 const STOP = Object.fromEntries(STOPS.map((parada) => [parada.n, parada]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
