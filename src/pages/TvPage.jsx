@@ -3,6 +3,7 @@ import { PlayIcon, CheckIcon, Volume2Icon, SkipForwardIcon, ClapperboardIcon } f
 import { SERIES } from "../data/tv.js";
 import { speak } from "../components/lesson/fx.js";
 import "../styles/tv.css";
+import "../styles/movil-recursos.css";
 
 // TV · 电视: series cortas en español con subtítulos en chino. Los episodios vistos se guardan en dele_tv_vistos.
 const CLAVE = "dele_tv_vistos";

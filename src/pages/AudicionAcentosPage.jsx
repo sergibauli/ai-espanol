@@ -5,6 +5,7 @@ import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { recordAnswer } from "../lib/progresoDele.js";
 import DIALOGOS from "../data/audicion-acentos.json";
 import "../styles/v14-fix-recursos.css";
+import "../styles/movil-recursos.css";
 
 // Audición con acentos reales (España, México, Argentina): como en el DELE, se escucha dos veces y luego se responde
 const PAIS = { España: { zh: "西班牙", c: "#a50f27" }, México: { zh: "墨西哥", c: "#1d6339" }, Argentina: { zh: "阿根廷", c: "#24476b" } };

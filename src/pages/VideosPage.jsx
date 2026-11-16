@@ -2,6 +2,7 @@ import { PlayIcon, FunnelIcon, ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import "../styles/v14-fix-recursos.css";
+import "../styles/movil-recursos.css";
 const VIDEOS = [
   {
     id: "v1",
