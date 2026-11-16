@@ -54,41 +54,35 @@ function We(word) {
   }
   return "hard";
 }
+// Confeti al acertar: animado con transform (Web Animations), sin mover top/left en cada fotograma.
 function Ee() {
   const a = ["#e0283f", "#f2c14e", "#f2c14e", "#5fd08a", "#d99a22", "#a50f25", "#e0283f", "#a50f25"];
-  for (let o = 0; o < 120; o++) {
+  const total = window.innerWidth < 768 ? 60 : 120;
+  const capa = document.createDocumentFragment();
+  for (let o = 0; o < total; o++) {
     const n = document.createElement("div");
     const m = 4 + Math.random() * 10;
     const d = Math.random() > 0.5 ? "50%" : "2px";
-    n.style.cssText = `position:fixed;left:50%;top:45%;width:${m}px;height:${m}px;border-radius:${d};background:${a[o % a.length]};pointer-events:none;z-index:9999;box-shadow:0 0 10px ${a[o % a.length]};`;
-    document.body.appendChild(n);
-    const x = (Math.PI * 2 * o) / 120;
+    n.style.cssText = `position:fixed;left:50%;top:45%;width:${m}px;height:${m}px;border-radius:${d};background:${a[o % a.length]};pointer-events:none;z-index:9999;box-shadow:0 0 10px ${a[o % a.length]};will-change:transform,opacity;`;
+    capa.appendChild(n);
+    // misma trayectoria que antes: ~83 fotogramas con velocidad constante y caída de 2 px por fotograma
+    const x = (Math.PI * 2 * o) / total;
     const h = 5 + Math.random() * 20;
-    let b = window.innerWidth / 2;
-    let C = window.innerHeight * 0.45;
-    let u = 1;
-    const S = Math.cos(x) * h;
-    const z = Math.sin(x) * h;
-    const Y = Math.random() * 360;
-    const j = (Math.random() - 0.5) * 20;
-    let k = Y;
-    const N = () => {
-      b += S;
-      C += z + 2;
-      u -= 0.012;
-      k += j;
-      n.style.left = `${b}px`;
-      n.style.top = `${C}px`;
-      n.style.opacity = String(u);
-      n.style.transform = `rotate(${k}deg)`;
-      if (u > 0) {
-        requestAnimationFrame(N);
-      } else {
-        n.remove();
-      }
-    };
-    requestAnimationFrame(N);
+    const pasos = 83;
+    const dx = Math.cos(x) * h * pasos;
+    const dy = (Math.sin(x) * h + 2) * pasos;
+    const giro0 = Math.random() * 360;
+    const giro1 = giro0 + (Math.random() - 0.5) * 20 * pasos;
+    const anim = n.animate(
+      [
+        { transform: `translate3d(0,0,0) rotate(${giro0}deg)`, opacity: 1 },
+        { transform: `translate3d(${dx}px,${dy}px,0) rotate(${giro1}deg)`, opacity: 0 },
+      ],
+      { duration: 1400, easing: "linear", fill: "forwards" },
+    );
+    anim.onfinish = () => n.remove();
   }
+  document.body.appendChild(capa);
 }
 function Pe1Component() {
   const aRef = React.useRef([]);
@@ -501,31 +495,42 @@ function HeComponent() {
       }
     }
   };
+  // Teclado: un único listener mientras se juega, que siempre llama a la versión actual del manejador
+  // (antes se quitaba y ponía en cada render y, entre medias, las teclas usaban estado viejo).
+  const teclaRef = React.useRef(null);
+  teclaRef.current = (evento) => {
+    if (evento.target?.closest?.("input, textarea, [contenteditable]") || evento.ctrlKey || evento.metaKey || evento.altKey) return;
+    if (evento.key === "Enter") {
+      // Sin esto, con un botón enfocado (p. ej. «Saltar») Enter comprobaba y además pulsaba ese botón.
+      evento.preventDefault();
+      return onKeyDown(evento);
+    }
+    if (l !== "playing" || !p) return;
+    if (evento.key === "Backspace") {
+      evento.preventDefault();
+      setJ((actual) => actual.slice(0, -1));
+      return;
+    }
+    // Con el IME chino activo la tecla llega como «Process»: se usa el código físico (KeyA → A).
+    let letra = evento.key.length === 1 ? evento.key.toUpperCase() : "";
+    if (!letra && /^Key[A-Z]$/.test(evento.code || "")) letra = evento.code.slice(3);
+    if (!/^[A-ZÑ]$/.test(letra)) return;
+    evento.preventDefault();
+    setJ((actual) => {
+      const libres = z.split("");
+      for (const usada of actual) {
+        const k = libres.indexOf(usada);
+        if (k >= 0) libres[k] = null;
+      }
+      return libres.includes(letra) && actual.length < z.length ? actual + letra : actual;
+    });
+  };
   React.useEffect(() => {
     if (x !== "playing") return undefined;
-    const tecla = (evento) => {
-      if (evento.target?.closest?.("input, textarea")) return;
-      if (evento.key === "Enter") return onKeyDown(evento);
-      if (l !== "playing" || !p) return;
-      if (evento.key === "Backspace") {
-        evento.preventDefault();
-        setJ((actual) => actual.slice(0, -1));
-        return;
-      }
-      const letra = evento.key.length === 1 ? evento.key.toUpperCase() : "";
-      if (!/^[A-ZÑ]$/.test(letra)) return;
-      setJ((actual) => {
-        const libres = z.split("");
-        for (const usada of actual) {
-          const k = libres.indexOf(usada);
-          if (k >= 0) libres[k] = null;
-        }
-        return libres.includes(letra) && actual.length < z.length ? actual + letra : actual;
-      });
-    };
+    const tecla = (evento) => teclaRef.current?.(evento);
     window.addEventListener("keydown", tecla);
     return () => window.removeEventListener("keydown", tecla);
-  });
+  }, [x]);
   const F = (t) => {
     switch (t) {
       case "easy":
@@ -559,7 +564,7 @@ function HeComponent() {
   const poner = (i) => {
     if (l !== "playing" || usados.includes(i)) return;
     playClick();
-    setJ(j + z[i]);
+    setJ((actual) => (actual.length < z.length ? actual + z[i] : actual));
   };
   const quitar = (posicion) => {
     if (l !== "playing") return;

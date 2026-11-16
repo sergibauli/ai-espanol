@@ -131,7 +131,6 @@ function PtComponent() {
   const [u, setU] = React.useState([]);
   const [l, setL] = React.useState("4x4");
   const [m, setM] = React.useState([]);
-  const [y, setY] = React.useState([]);
   const [z, setZ] = React.useState(0);
   const [j, setJ] = React.useState(0);
   const [g, setG] = React.useState(false);
@@ -158,6 +157,25 @@ function PtComponent() {
   const PRef = React.useRef(null);
   const [oe, setOe] = React.useState("");
   const [Pe, setPe] = React.useState(false);
+  // Turno de comparación sin cierres obsoletos: la primera carta, el bloqueo del tablero mientras se
+  // comparan dos, el combo y todos los temporizadores pendientes (se cancelan al reiniciar o salir).
+  const primeraRef = React.useRef(null);
+  const bloqueoRef = React.useRef(false);
+  const comboRef = React.useRef(0);
+  const cartasRef = React.useRef([]);
+  const timersRef = React.useRef(new Set());
+  const programar = React.useCallback((fn, ms) => {
+    const id = setTimeout(() => {
+      timersRef.current.delete(id);
+      fn();
+    }, ms);
+    timersRef.current.add(id);
+  }, []);
+  const cancelarTimers = React.useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current.clear();
+  }, []);
+  React.useEffect(() => cancelarTimers, [cancelarTimers]);
   const { playCorrect, playWrong, playWin, playClick } = useSound();
   const K = G[l];
   const C = Math.max(10, Math.floor(K.baseTime * 0.85 ** (M - 1)));
@@ -181,7 +199,7 @@ function PtComponent() {
         color: x,
       },
     ]);
-    setTimeout(() => setNe((i) => i.filter((v) => v.id !== n)), 1500);
+    programar(() => setNe((i) => i.filter((v) => v.id !== n)), 1500);
   };
   const Xe = (t, o, p, x) => {
     const n = ++URef.current;
@@ -196,7 +214,7 @@ function PtComponent() {
         scale: 1 + F * 0.15,
       },
     ]);
-    setTimeout(() => setMe((i) => i.filter((v) => v.id !== n)), 1800);
+    programar(() => setMe((i) => i.filter((v) => v.id !== n)), 1800);
   };
   const Be = (t, o, p = "#f2c14e", x = 50) => {
     const n = ["#f2c14e", "#e0283f", "#f2c14e", "#5fd08a", "#d99a22", "#a50f25", "#ffffff", "#5fd08a"];
@@ -275,8 +293,12 @@ function PtComponent() {
           state: "hidden",
         });
       });
-      setM(ve(v));
-      setY([]);
+      cancelarTimers();
+      primeraRef.current = null;
+      bloqueoRef.current = false;
+      comboRef.current = 0;
+      cartasRef.current = ve(v);
+      setM(cartasRef.current);
       setZ(0);
       setJ(0);
       setG(false);
@@ -295,7 +317,7 @@ function PtComponent() {
       }
       setM_1(o);
     },
-    [u],
+    [u, cancelarTimers],
   );
   React.useEffect(() => {
     if (a === "playing") {
@@ -312,79 +334,6 @@ function PtComponent() {
       };
     }
   }, [g, $]);
-  React.useEffect(() => {
-    if (y.length === 2) {
-      const [t, o] = y;
-      const p = m.find((n) => n.id === t);
-      const x = m.find((n) => n.id === o);
-      if (p && x && p.pairId === x.pairId) {
-        playCorrect();
-        const n = F + 1;
-        setF_1(n);
-        setX((c) => Math.max(c, n));
-        const i = n >= 3 ? "super" : "happy";
-        setMood(i);
-        const v = Math.floor(100 * Math.min(1 + n * 0.5, 5));
-        const k = document.getElementById(`mem-card-${t}`);
-        if (k) {
-          const c = k.getBoundingClientRect();
-          Be(c.left + c.width / 2, c.top + c.height / 2, "#5fd08a", 30 + n * 10);
-          Te(c.left + c.width / 2, c.top, `+${v}`, "#5fd08a");
-          if (n >= 2) {
-            Xe(c.left + c.width / 2, c.top - 30, `COMBO x${n}!`, "#f2c14e");
-          }
-        }
-        setMatchIds((c) => new Set(c).add(t).add(o));
-        setTimeout(() => {
-          setM((c) =>
-            c.map((N) => {
-              if (N.id === t || N.id === o) {
-                return {
-                  ...N,
-                  state: "matched",
-                };
-              }
-              return N;
-            }),
-          );
-          setY([]);
-          setMatchIds((c) => {
-            const N = new Set(c);
-            N.delete(t);
-            N.delete(o);
-            return N;
-          });
-        }, 700);
-      } else {
-        playWrong();
-        setMood("sad");
-        set$e(true);
-        setTimeout(() => set$e(false), 500);
-        setShakeIds((n) => new Set(n).add(t).add(o));
-        setF_1(0);
-        setTimeout(() => {
-          setM((n) =>
-            n.map((i) => {
-              if (i.id === t || i.id === o) {
-                return {
-                  ...i,
-                  state: "hidden",
-                };
-              }
-              return i;
-            }),
-          );
-          setY([]);
-          setShakeIds((n) => {
-            const i = new Set(n);
-            i.delete(t);
-            i.delete(o);
-            return i;
-          });
-        }, 1000);
-      }
-    }
-  }, [y, m, playCorrect, playWrong, F]);
   React.useEffect(() => {
     if (m.length > 0 && m.every((t) => t.state === "matched") && !$) {
       set$(true);
@@ -412,36 +361,82 @@ function PtComponent() {
       });
     }
   }, [m, $, z, j, l, M, X, C, playWin]);
+  cartasRef.current = m;
+  const marcar = (ids, state) =>
+    setM((cartas) => cartas.map((carta) => (ids.includes(carta.id) ? { ...carta, state } : carta)));
+  // Levantar una carta: se decide aquí, con refs, y no en un efecto que dependa del combo.
   const Le = (card) => {
-    if (!(card.state !== "hidden" || y.length >= 2 || $)) {
-      playClick();
-      if (!g) {
-        setG(true);
-      }
-      setM((o) =>
-        o.map((p) => {
-          if (p.id === card.id) {
-            return {
-              ...p,
-              state: "revealed",
-            };
-          }
-          return p;
-        }),
-      );
-      setY((o) => {
-        const p = [...o, card.id];
-        if (p.length === 2) {
-          setZ((x) => x + 1);
+    if ($ || bloqueoRef.current) return;
+    const actual = cartasRef.current.find((carta) => carta.id === card.id);
+    if (!actual || actual.state !== "hidden" || primeraRef.current === card.id) return;
+    playClick();
+    if (!g) setG(true);
+    cartasRef.current = cartasRef.current.map((carta) => (carta.id === card.id ? { ...carta, state: "revealed" } : carta));
+    marcar([card.id], "revealed");
+    if (primeraRef.current === null) {
+      primeraRef.current = card.id;
+      return;
+    }
+    const t = primeraRef.current;
+    const o = card.id;
+    primeraRef.current = null;
+    bloqueoRef.current = true;
+    setZ((pasos) => pasos + 1);
+    const p = cartasRef.current.find((carta) => carta.id === t);
+    if (p && p.pairId === actual.pairId) {
+      playCorrect();
+      const n = comboRef.current + 1;
+      comboRef.current = n;
+      setF_1(n);
+      setX((c) => Math.max(c, n));
+      setMood(n >= 3 ? "super" : "happy");
+      const v = Math.floor(100 * Math.min(1 + n * 0.5, 5));
+      const k = document.getElementById(`mem-card-${t}`);
+      if (k) {
+        const c = k.getBoundingClientRect();
+        Be(c.left + c.width / 2, c.top + c.height / 2, "#5fd08a", 30 + n * 10);
+        Te(c.left + c.width / 2, c.top, `+${v}`, "#5fd08a");
+        if (n >= 2) {
+          Xe(c.left + c.width / 2, c.top - 30, `COMBO x${n}!`, "#f2c14e");
         }
-        return p;
-      });
+      }
+      cartasRef.current = cartasRef.current.map((carta) => (carta.id === t || carta.id === o ? { ...carta, state: "matched" } : carta));
+      setMatchIds((c) => new Set(c).add(t).add(o));
+      programar(() => {
+        marcar([t, o], "matched");
+        setMatchIds((c) => {
+          const N = new Set(c);
+          N.delete(t);
+          N.delete(o);
+          return N;
+        });
+        bloqueoRef.current = false;
+      }, 700);
+    } else {
+      playWrong();
+      comboRef.current = 0;
+      setMood("sad");
+      set$e(true);
+      programar(() => set$e(false), 500);
+      setShakeIds((n) => new Set(n).add(t).add(o));
+      setF_1(0);
+      programar(() => {
+        cartasRef.current = cartasRef.current.map((carta) => (carta.id === t || carta.id === o ? { ...carta, state: "hidden" } : carta));
+        marcar([t, o], "hidden");
+        setShakeIds((n) => {
+          const i = new Set(n);
+          i.delete(t);
+          i.delete(o);
+          return i;
+        });
+        bloqueoRef.current = false;
+      }, 1000);
     }
   };
   const onClick = () => {
     playClick();
     setPe(true);
-    setTimeout(() => {
+    programar(() => {
       W(l, M + 1);
     }, 800);
   };

@@ -535,7 +535,12 @@ function YtComponent() {
       if (c !== "playing" || !l || P || M.has(l.word)) {
         return;
       }
-      const S = k.key.toUpperCase();
+      if (k.target?.closest?.("input, textarea") || k.ctrlKey || k.metaKey || k.altKey) {
+        return;
+      }
+      // Con el IME chino activo la tecla llega como «Process»: se usa el código físico (KeyA → A).
+      let S = k.key.length === 1 ? k.key.toUpperCase() : "";
+      if (!S && /^Key[A-Z]$/.test(k.code || "")) S = k.code.slice(3);
       if (/^[A-ZÑ]$/.test(S) && !w.has(S)) {
         ne(S);
       }

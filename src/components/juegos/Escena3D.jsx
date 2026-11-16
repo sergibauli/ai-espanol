@@ -28,8 +28,28 @@ export function Escena3D({ tema = "kahoot", className = "", children, suelo = tr
     });
   }, []);
   React.useEffect(() => () => cancelAnimationFrame(pendiente.current), []);
+  // Clic fiable con ratón: las fichas y bloques se hunden al pulsar (:active) y, dentro de un plano
+  // inclinado en 3D, al soltar el botón ya no quedan bajo el puntero; el navegador entregaba entonces
+  // el «click» al contenedor y la pulsación se perdía. Si se suelta dentro del rectángulo que tenía el
+  // botón al pulsarlo, se completa el clic en ese botón (con el dedo no pasa: el puntero queda capturado).
+  const pulsado = React.useRef(null);
+  const alPulsar = React.useCallback((evento) => {
+    pulsado.current = null;
+    if (evento.pointerType === "touch" || evento.button !== 0) return;
+    const boton = evento.target.closest?.("button");
+    if (boton && raiz.current?.contains(boton)) pulsado.current = { boton, caja: boton.getBoundingClientRect() };
+  }, []);
+  const alSoltar = React.useCallback((evento) => {
+    const datos = pulsado.current;
+    pulsado.current = null;
+    if (!datos || evento.pointerType === "touch") return;
+    const { boton, caja } = datos;
+    if (boton.contains(evento.target) || boton.disabled || !boton.isConnected) return;
+    const { clientX: x, clientY: y } = evento;
+    if (x >= caja.left && x <= caja.right && y >= caja.top - 20 && y <= caja.bottom + 20) boton.click();
+  }, []);
   return (
-    <div ref={raiz} className={`j3 j3--${tema} gm-no-adapt ${className}`} onPointerMove={alMover}>
+    <div ref={raiz} className={`j3 j3--${tema} gm-no-adapt ${className}`} onPointerMove={alMover} onPointerDown={alPulsar} onPointerUp={alSoltar}>
       <div className="j3-fondo" aria-hidden="true" translate="no">
         <div className="j3-luna" />
         <div className="j3-bruma" />
