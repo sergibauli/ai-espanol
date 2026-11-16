@@ -16,7 +16,9 @@ const pwa = VitePWA({
     skipWaiting: true,
     clientsClaim: true,
     navigateFallback: 'index.html',
-    globPatterns: ['index.html', 'assets/index-*.{js,css}', 'assets/*.css', 'icons/*.{png,svg}', 'theme/*.{webp,jpg}', 'mono/*.webp'],
+    // theme/: solo las imágenes que el código pide por URL (las que usa el CSS van con hash en assets/ y se guardan al usarse);
+    // antes 'theme/*.{webp,jpg}' precargaba ~1,3 MB de copias que nadie pedía (mapa, fondos de portadas antiguas…)
+    globPatterns: ['index.html', 'assets/index-*.{js,css}', 'assets/*.css', 'icons/*.{png,svg}', 'theme/{dragon-luz,dragon,montes-tinta,paisaje-leccion}.webp', 'mono/*.webp'],
     maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
     runtimeCaching: [
       { urlPattern: ({ url, request }) => request.destination === 'script' || url.pathname.includes('/assets/'), handler: 'StaleWhileRevalidate', options: { cacheName: 'ae-codigo', expiration: { maxEntries: 400, maxAgeSeconds: 60 * 24 * 3600 } } },
