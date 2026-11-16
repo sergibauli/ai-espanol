@@ -26,6 +26,7 @@ import {
 } from "./jbComun.jsx";
 import "../../styles/v13-juegos-b.css";
 import "../../styles/v17-dragon-escape.css";
+import "../../styles/movil-juegos.css";
 
 const ACIERTOS_POR_NIVEL = 5;
 const NIVELES_ANTES_DEL_JEFE = 3;

@@ -23,6 +23,7 @@ import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/Selec
 import { useSound } from "../../lib/sound.jsx";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-ruleta.css";
+import "../../styles/movil-juegos.css";
 const Se = ["#e0283f", "#d99a22", "#f2c14e", "#f2c14e", "#a50f25", "#5fd08a", "#e0283f", "#f2c14e"];
 const _e = ["QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM"];
 function Qe(espanol) {
