@@ -297,7 +297,7 @@ export default function PracticePlayer({ item, familia, onClose, onTerminar, col
           </div>
           <div className="pp-end">
             <div className="pv-pp__final">
-              <img className="jd-pp-mono" src={`./mono/${stars === 3 ? "trofeo" : "feliz"}.png`} alt="" />
+              <img className="jd-pp-mono" src={`./mono/${stars === 3 ? "trofeo" : "feliz"}.webp`} alt="" />
               {ratio0 >= 0.7 && <SelloEstampa texto="印" sub="dominada · 掌握" className="pv-pp__sello-final" />}
             </div>
             <h2>{title}</h2>
