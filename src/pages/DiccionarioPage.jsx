@@ -6,6 +6,7 @@ import { speak } from "../components/lesson/fx.js";
 import { useFavorites } from "../lib/favorites.js";
 import { temaZh, primerHan, ESTILOS_TEMA } from "../lib/temasDiccionario.js";
 import "../styles/diccionario-imperial.css";
+import { useModalAccesible } from "../lib/useModalAccesible.js";
 
 // Diccionario español–chino: cuatro tomos (uno por nivel, cada uno con su mundo),
 // buscador protagonista y fichas de pergamino/tablilla con sello y audio con la voz del profesor.
@@ -243,6 +244,9 @@ function AperturaTomo({ t, onFin }) {
 /** Ficha abierta como un libro: la tapa del tomo se abre y «Anterior/Siguiente» pasan la página. */
 function Pliego({ word, tomo, posicion, total, favorita, onFavorita, onCerrar, onMover }) {
   const cerrarRef = React.useRef(null);
+  // Tab no sale de la ficha abierta (el foco inicial y Escape ya los gestiona este componente)
+  const modalRef = React.useRef(null);
+  useModalAccesible(modalRef);
   const acciones = React.useRef({ onCerrar, onMover });
   acciones.current = { onCerrar, onMover };
   const previa = React.useRef(posicion);
@@ -277,7 +281,7 @@ function Pliego({ word, tomo, posicion, total, favorita, onFavorita, onCerrar, o
   const zhTema = temaZh(word.theme);
 
   return createPortal(
-    <div className={`dz-modal ${navegado ? "is-navegado" : ""}`} data-tomo={tomo.key} role="dialog" aria-modal="true" aria-label={`${word.es} · ${word.zh}`} onClick={(e) => e.target === e.currentTarget && onCerrar()}>
+    <div ref={modalRef} className={`dz-modal ${navegado ? "is-navegado" : ""}`} data-tomo={tomo.key} role="dialog" aria-modal="true" aria-label={`${word.es} · ${word.zh}`} onClick={(e) => e.target === e.currentTarget && onCerrar()}>
       <div className="dz-lf">
         <div className="dz-lf__libro">
           <span className="dz-lf__base" aria-hidden="true" />

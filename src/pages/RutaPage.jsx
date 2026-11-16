@@ -593,7 +593,7 @@ export default function RutaPage() {
               </div>
               <div className="ui-row" style={{ gap: 6, marginTop: 8 }}>
                 {[20, 30, 50].map((meta) => (
-                  <button key={meta} className={`ui-chip ${game.goal === meta ? "is-on" : ""}`} onClick={() => setDailyGoal(meta)}>
+                  <button key={meta} type="button" aria-pressed={game.goal === meta} className={`ui-chip ${game.goal === meta ? "is-on" : ""}`} onClick={() => setDailyGoal(meta)}>
                     {meta} XP
                   </button>
                 ))}
