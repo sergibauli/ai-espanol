@@ -1,0 +1,6 @@
+/* ===== v31 · Fluidez de Unidades y de la unidad (sin cambios visuales) =====
+   Los escenarios SVG de fondo son decorado: que el ratón no los atraviese. Sin esto, cada movimiento del ratón
+   (y cada fotograma con layout) hace hit-test contra decenas de trazados SVG (bambú, montes, linternas…).
+   La cabecera de la unidad recibe igual el pointermove del paralaje (el evento llega a la <section>). */
+.ud .ud-hero-escena,
+.u19-mundo__escena { pointer-events: none; }
