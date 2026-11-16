@@ -4,6 +4,7 @@ import { BookOpenIcon, HeadphonesIcon, PenLineIcon, MicIcon, LanguagesIcon, Puzz
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { getDele, setDele, predict, skillStats, errorNotebook, markReviewed, weekKey, monthKey, LEVELS, SKILLS } from "../lib/progresoDele.js";
+import "../styles/movil-dele.css";
 
 const RUTAS = { "/ruta": "Ruta", "/modulos": "Unidades", "/examenes": "Práctica DELE", "/oficial": "Simulacro DELE", "/juegos": "Juegos", "/pronunciacion": "Pronunciación", "/diccionarios": "Diccionario", "/mi-dele": "Cuaderno de errores", "/examinador-oral": "Examinador oral IA", "/audicion": "Audición con acentos" };
 const DIAS = ["Lunes · 周一", "Martes · 周二", "Miércoles · 周三", "Jueves · 周四", "Viernes · 周五", "Sábado · 周六", "Domingo · 周日"];

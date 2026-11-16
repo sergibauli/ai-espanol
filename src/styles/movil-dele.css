@@ -1,0 +1,213 @@
+/* ===== móvil · DELE ===== */
+/* Adaptación móvil de la sección DELE (portada /oficial, mundos /oficial/A1…B2, sala de examen,
+   práctica por destrezas, generador, diagnóstico y Mi DELE). Solo media queries ≤1023px / ≤600px:
+   el escritorio (≥1024px) no cambia. Se importa al final de cada página de la sección. */
+
+/* ---------------------------------------------------------------------------------------------
+   1 · Rendimiento en móvil y tableta: menos partículas y fuera las animaciones que repintan
+       (SVG del escenario, brillos con background-position, sombras animadas)
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  /* Partículas de los mundos: la mitad en la cabecera del nivel, un tercio en cada puerta de la portada */
+  .dx-hero .dn-particulas span:nth-child(n+10),
+  .dp .dn-particulas span:nth-child(n+7) { display: none; }
+  /* La niebla de B1 lleva blur por partícula: en móvil, sin blur (se ve casi igual a ese tamaño) */
+  .dx-hero .dn-p-B1 span, .dp .dn-p-B1 span { filter: none; opacity: .7; }
+  /* Escenario SVG quieto (el balanceo del bambú, la grulla, la niebla y la aurora repintan el SVG entero) */
+  .dx-hero .dn-escena .dn-bambu, .dx-hero .dn-escena .dn-niebla, .dx-hero .dn-escena .dn-grulla, .dx-hero .dn-escena .dn-aurora,
+  .dp .dn-escena .dn-bambu, .dp .dn-escena .dn-niebla, .dp .dn-escena .dn-grulla, .dp .dn-escena .dn-aurora { animation: none; }
+  /* Brillos que mueven el degradado del texto (repintan el título con sus drop-shadow en cada fotograma) */
+  .dx .dx-titulo b, .dp .dp-cab-txt h1 span, .in-md .in-md-hero h1, .in-dg .in-md-hero h1 { animation: none; }
+  /* Sala de examen: nubes a la deriva fuera, brasa y brillo del botón quietos */
+  .sx .sx-hero .sx-nube { display: none; }
+  .sx .sx-palito .brasa { animation: none; }
+  .sx .sx-btn-laca:not(:disabled)::after { animation: none; opacity: 0; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   2 · Portada DELE (#/oficial)
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .dp .dp-paso-txt small { font-size: 12px; }
+  .dp .dp-nuevos { font-size: 12px; }
+  .dp .dp-mundo { font-size: 12px; line-height: 1.25; }
+  .dp .dp-tiempos em { font-size: 12px; }
+  .dp .dm-txt small { font-size: 12px; }
+  .dp .dm-chips em { font-size: 12px; }
+}
+@media (max-width: 600px) {
+  .dp .dp-eyebrow { font-size: 12px; letter-spacing: .12em; }
+  .dp .dp-stats span { font-size: 12px; }
+  .dp .dp-acciones { gap: 8px; }
+  .dp .dp-btn { height: 44px; font-size: 12.5px; }
+  .dp .dp-btn.oro { height: 46px; }
+  .dp .dp-nuevos { padding: 2px 8px; }
+  .dp .dp-reco { width: 20px; font-size: 12px; }
+  .dp .dp-mundo { letter-spacing: .02em; }
+  .dp .dp-prog-txt { font-size: 12px; }
+  .dp .dp-placa .dp-cta { min-height: 42px; font-size: 13px; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   3 · DELE por nivel (#/oficial/A1…B2)
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  /* Volver: la píldora mantiene su tamaño, la zona táctil crece por fuera */
+  .dx .dx-volver { position: relative; }
+  .dx .dx-volver::after { content: ""; position: absolute; inset: -10px -8px; }
+  .dx .dx-mundo { font-size: 12px; }
+  .dx .dx-nivel small { font-size: 12px; }
+  .dx .dx-cifras dt { font-size: 12px; }
+  .dx .dx-mapa { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); }
+  .dx .dx-punto { height: 40px; font-size: 12px; }
+  .dx .dx-filtro { min-height: 42px; }
+  .dx .dx-sorpresa small { font-size: 12px; }
+  .dx .dx-num small { font-size: 12px; }
+  .dx .dx-amb { font-size: 12px; }
+  .dx .dx-buscar input { font-size: 16px; }
+}
+@media (max-width: 600px) {
+  .dx .dx-volver { padding: 4px 10px 4px 7px; font-size: 12.5px; }
+  .dx .dx-volver::after { inset: -12px -8px; }
+  .dx .dx-mundo { letter-spacing: .04em; }
+  .dx .dx-nombre { font-size: 12px; }
+  .dx .dx-parte { font-size: 12px; padding: 3px 8px; }
+  /* Pestañas de nivel y progreso: 40px de alto */
+  .dx .dx-niveles { align-items: stretch; }
+  .dx .dx-nivel { min-height: 40px; }
+  .dx .dx-nivel b { font-size: 15px; }
+  .dx .dx-anillo { width: 40px; height: 40px; }
+  .dx .dx-anillo b { width: 33px; height: 33px; font-size: 12px; letter-spacing: -.02em; }
+  .dx .dx-cifras dt { letter-spacing: .04em; }
+  .dx .dx-cifras dd { font-size: 15px; }
+  .dx .dx-cifras dd small { font-size: 12px; }
+  /* Buscador (16px: iOS no hace zoom) y filtros */
+  .dx .dx-buscar { height: 44px; }
+  .dx .dx-buscar input { min-height: 40px; }
+  .dx .dx-filtros { gap: 6px; }
+  .dx .dx-filtro { height: 40px; padding: 0 12px; font-size: 13.5px; }
+  .dx .dx-filtro small { font-size: 12px; }
+  .dx .dx-sorpresa { width: 44px; height: 40px; }
+  /* Tarjetas de modelo */
+  .dx .dx-tema { font-size: 13px; }
+  .dx .dx-meta span { font-size: 12px; }
+  .dx .dx-ir { padding: 8px 13px; font-size: 13.5px; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   4 · Sala de examen (#/oficial/A1/1 y #/examenes/:nivel/:id)
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  /* Las esquinas doradas de la cabecera tapaban el botón de volver en tableta */
+  .sx .sx-hero > .sx-esq { display: none; }
+  /* Controles a 40–44px */
+  .sx .sx-volver { width: 44px; height: 44px; }
+  .sx .sx-btn-cristal { min-width: 44px; min-height: 44px; justify-content: center; }
+  .sx .sx-incienso button { width: 40px; height: 40px; }
+  .sx .sx-modo button { min-height: 42px; }
+  .sx .sx-hoja-tools button { width: 40px; height: 40px; font-size: 13px; }
+  .sx .sx-btn-sm { min-height: 44px; }
+  .sx .sx-barra-acc .sx-btn { min-height: 44px; }
+  .sx .sx-dot { min-width: 42px; min-height: 42px; }
+  /* Letra mínima 12px */
+  .sx .sx-reloj small { font-size: 12px; letter-spacing: .04em; }
+  .sx .sx-tab small { font-size: 12px; }
+  .sx .sx-hoja-cab { font-size: 12px; }
+  .sx .sx-mapa-cab, .sx .sx-mapa-grupo > span, .sx .sx-leyenda span { font-size: 12px; }
+  /* Audición: tablillas de audio y velocidades */
+  .sx .sx-tablilla { min-height: 44px; justify-content: center; }
+  .sx .sx-vel button { min-width: 44px; min-height: 40px; }
+  .sx .sx-ainfo .now, .sx .sx-tablilla small, .sx .sx-tablilla .vez { font-size: 12px; }
+  /* Escritura, oral y nota */
+  .sx .sx-cartela .k, .sx .sx-sobre-de, .sx .sx-sellito, .sx .sx-lamina-k, .sx .sx-fase { font-size: 12px; }
+  .sx .sx-diploma .k, .sx .sx-jade .d .n, .sx .sx-jade .lbl, .sx .sx-franja .pend { font-size: 12px; }
+  .sx .text-\[11px\], .sx .text-\[11\.5px\] { font-size: 12px; }
+}
+@media (max-width: 600px) {
+  /* Cabecera más baja: el texto de la prueba empieza antes */
+  .sx .sx-hero { padding-bottom: 70px; }
+  .sx .sx-titular { margin-top: 8px; gap: 10px; }
+  .sx .sx-glifo { font-size: 52px; }
+  .sx .sx-titular h1 { font-size: 19px; }
+  .sx .sx-titular h1 .sx-zh { font-size: 16px; }
+  /* Las cinco pruebas caben a lo ancho, sin cortarse por la derecha */
+  .sx .sx-medallas { justify-content: space-between; gap: 2px; padding: 18px 4px 6px; overflow-x: visible; }
+  .sx .sx-medallas .sx-med { flex: 1 1 0; width: auto; min-width: 0; }
+  .sx .sx-med .disco { width: 52px; height: 52px; }
+  .sx .sx-med .disco > span { font-size: 25px; }
+  .sx .sx-med b { font-size: 12px; padding: 3px 5px; max-width: 100%; }
+  .sx .sx-med small { font-size: 12px; white-space: nowrap; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   5 · Práctica por destrezas (#/examenes) y lista por nivel (#/examenes-nivel/A1)
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+  .unit-page:has(> .dele-levels) .imperial-hero { padding: 18px 16px; gap: 10px; }
+  .unit-page:has(> .dele-levels) .imperial-hero h1 { font-size: 22px; line-height: 1.15; margin: 4px 0 0; }
+  .unit-page:has(> .dele-levels) .imperial-hero-art img { width: 60px !important; height: 60px !important; }
+  /* Las cuatro destrezas en una rejilla de 2×2 en vez de cuatro filas */
+  .unit-page:has(> .dele-levels) .imperial-skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 14px 0; }
+  .unit-page:has(> .dele-levels) .imperial-skills span { min-width: 0; padding: 6px 10px; font-size: 13.5px; }
+  .unit-page:has(> .dele-levels) .imperial-skills span > img { width: 26px !important; height: 26px !important; flex: none; }
+  .unit-page:has(> .dele-levels) .imperial-skills span > span { font-size: 21px !important; flex: none; }
+
+  .xn .xn-hero { padding: 14px 14px 16px; gap: 8px; }
+  .xn .xn-hero-sello { width: 64px; height: 64px; }
+  .xn .xn-hero-sello span { font-size: 40px; }
+  .xn .xn-hero-sello b { font-size: 22px; }
+  .xn .xn-hero-kicker { font-size: 12px; }
+  .xn .xn-hero-datos { margin-top: 6px; gap: 4px 14px; }
+  .xn .xn-niveles { margin-bottom: 16px; }
+  .xn .xn-nivel { min-height: 60px; padding: 6px 4px; }
+  .xn .xn-nivel-sello { width: 26px; height: 26px; font-size: 16px; }
+  .xn .xn-nivel-txt b { font-size: 17px; }
+  .xn .xn-nivel-txt small { font-size: 13px; }
+}
+@media (max-width: 1023px) {
+  .dele-levels .im-examen__datos li { font-size: 12px; }
+  .dele-levels .im-boton--sm { height: 44px; font-size: 13px; }
+  .xn .xn-carta-num small { font-size: 12px; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   6 · Generador (#/examenes/generador)
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+  .xm-gen .xm-gen-hero { padding-top: 16px; }
+  .xm-gen .xm-gen-hero-art { width: 76px; }
+  .xm-gen .xm-gen-hero h1 { margin-top: 4px; }
+}
+@media (max-width: 1023px) {
+  .xm-gen .xm-gen-links a { display: inline-block; padding: 10px 0; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   7 · Mi DELE (#/mi-dele) y Diagnóstico (#/diagnostico)
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+  /* El medidor de probabilidad pasa a una fila: anillo pequeño + nota al lado */
+  .in-md .in-md-hero__medidor { flex-wrap: nowrap; align-items: center; justify-content: flex-start; gap: 12px; padding-right: 40px; }
+  .in-md .in-md-anillo { width: 124px; height: 124px; flex: none; }
+  .in-md .in-md-anillo__centro { inset: 14px; }
+  .in-md .in-md-anillo__centro b { font-size: 26px; }
+  .in-md .in-md-anillo__centro span { margin-top: 2px; padding: 0 6px; font-size: 12px; line-height: 1.15; }
+  .in-md .in-md-anillo__centro small { font-size: 12px; }
+  .in-md .in-md-hero__nota { flex: 1 1 auto; flex-basis: auto; min-width: 0; text-align: left; font-size: 13px; }
+  .in-md .in-md-hero__nota small { font-size: 12px; }
+
+  .in-dg .in-dg-hero__mono { height: 128px; }
+  .in-dg .in-dg-hero__mono img:not(.in-dg-hero__nube) { height: 120px; }
+  .in-dg .in-dg-hero__nube { width: 112px; }
+}
+@media (max-width: 1023px) {
+  .in-md .in-boton-oro__et, .in-dg .in-boton-oro__et { font-size: 12px; }
+  .in-md .in-md-anillo__centro span, .in-md .in-md-hero__nota small { font-size: 12px; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   8 · Examen de práctica (#/examenes/:nivel/:id): enlace «Volver» con zona táctil de 44px
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .exam-experience > a.inline-flex { min-height: 44px; }
+}

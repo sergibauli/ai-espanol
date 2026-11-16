@@ -7,6 +7,7 @@ import { loadAllModules } from "../lib/examGenerator.js";
 import { recordAnswer, setDele, LEVELS, SKILLS } from "../lib/progresoDele.js";
 import CATALOG from "../data/modulos/catalog.json";
 import { bancoNivel, registrarItem } from "../lib/banco.js";
+import "../styles/movil-dele.css";
 
 const nivelDe = (m) => m.nivel || CATALOG.find((c) => c.numero === m.numero)?.nivel;
 

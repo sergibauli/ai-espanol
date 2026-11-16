@@ -83,6 +83,7 @@ import {
   n,
   s,
 } from "../../lib/oficial-loader.js";
+import "../../styles/movil-dele.css";
 const c = "#e0b566";
 const C = "#f6dfa8";
 // Paleta imperial (laca roja + tinta) igual para todos los niveles: el papel es claro, el acento debe ser oscuro (AA)
