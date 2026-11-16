@@ -33,8 +33,26 @@
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script>
+      // En cuanto llega la hoja de Google se piden ya las fuentes que usará la pantalla, sin esperar a que React pinte
+      // el texto que las necesita: así llegan antes del contenido y no hay un segundo relayout ni saltos (CLS 0,25 en el
+      // examen). Son fuentes variables (un fichero por familia para todos los pesos). Si Google no responde, no se hace nada.
+      window.__pideFuentes = function () {
+        if (!document.fonts || !document.fonts.load) return;
+        var pedidas = window.__fuentesPedidas = window.__fuentesPedidas || {};
+        var pide = function (caras) { caras.forEach(function (c) { if (!pedidas[c]) { pedidas[c] = 1; document.fonts.load(c).catch(function () {}); } }); };
+        var porRuta = function () {
+          var h = location.hash;
+          if (/^#\/(oficial|examenes)/.test(h)) pide(['400 1em "Source Serif 4"', '600 1em "Source Serif 4"', '500 1em "JetBrains Mono"', '700 1em "JetBrains Mono"']);
+          if (/^#\/(ruta|oficial|examenes)/.test(h)) pide(['500 1em Unbounded', '700 1em Unbounded', '900 1em Unbounded']);
+        };
+        pide(['400 1em "Plus Jakarta Sans"', '500 1em "Plus Jakarta Sans"', '600 1em "Plus Jakarta Sans"', '700 1em "Plus Jakarta Sans"', '800 1em "Plus Jakarta Sans"', '600 1em Cinzel', '700 1em Cinzel', '900 1em Cinzel']);
+        porRuta();
+        window.addEventListener('hashchange', porRuta);
+      };
+    </script>
     <!-- Sin bloquear el primer pintado: si Google Fonts no responde (China), se ve con las fuentes del sistema -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Unbounded:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Unbounded:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" media="print" onload="this.media='all';window.__pideFuentes()" />
 </head>
   <body>
     <!-- Loader OUTSIDE #root so React never touches it -->
