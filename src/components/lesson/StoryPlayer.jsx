@@ -4,6 +4,7 @@ import { XIcon, Volume2Icon, LanguagesIcon } from "lucide-react";
 import { Emoji3D } from "../ui/Emoji3D.jsx";
 import { sfx, speak, confetti } from "./fx.js";
 import { addXp } from "../../lib/gamification.js";
+import { useModalAccesible } from "../../lib/useModalAccesible.js";
 
 // Reparto fijo de personajes de las historias
 export const CAST = {
@@ -18,6 +19,8 @@ const MOOD = { feliz: "😄", sorpresa: "😮", duda: "🤔", triste: "😢", ri
 
 /** Historia interactiva: líneas que aparecen una a una con voz + preguntas de comprensión. */
 export function StoryPlayer({ story, onClose }) {
+  const raiz = React.useRef(null);
+  useModalAccesible(raiz);
   const items = React.useMemo(() => {
     const out = [];
     story.lineas.forEach((l, i) => {
@@ -59,7 +62,7 @@ export function StoryPlayer({ story, onClose }) {
   };
 
   return createPortal(
-    <div className="lp-root story" role="dialog" aria-modal="true" aria-label={story.titulo}>
+    <div className="lp-root story" ref={raiz} role="dialog" aria-modal="true" aria-label={story.titulo}>
       <header className="lp-top">
         <button className="lp-close" onClick={onClose} aria-label="Salir">
           <XIcon size={22} />

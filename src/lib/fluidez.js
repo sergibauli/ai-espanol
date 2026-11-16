@@ -40,18 +40,39 @@ export function precargarEnlace(href) {
 // Bloques pesados (cada unidad de la ruta, tarjetas…): fuera de pantalla se pausan todas sus animaciones,
 // así el navegador no recalcula estilos de cientos de animaciones que no se ven.
 const BLOQUES = ".ruta-unit, .ruta-head, .u18-carta, .u19-carta, .u19-mundo, .unit-hero, .mr-capa, .v18-deco, .pc-apertura, .pc-mundo";
+// Escenas con animaciones de entrada propias (juegos, DELE, pronunciación): fuera de pantalla solo se pausan
+// sus animaciones infinitas, con la API de animaciones, para que las entradas sigan su curso de siempre.
+const ESCENAS =
+  ".jh-hero, .jh-card__portada, .jh-dia__portada, .dm-portal, .dp-lienzo, .dp-puerta, .dx-hero, .tq-escena, .tq-plaza, .dz-fondo";
+const pausadas = new WeakSet();
+function pausarInfinitas(el, fuera) {
+  for (const a of el.getAnimations({ subtree: true })) {
+    if (a.effect?.getTiming?.().iterations !== Infinity) continue;
+    if (fuera) {
+      if (a.playState === "running") (a.pause(), pausadas.add(a));
+    } else if (pausadas.has(a)) {
+      pausadas.delete(a);
+      if (a.playState === "paused") a.play();
+    }
+  }
+}
 function pausarFueraDePantalla() {
   if (typeof IntersectionObserver === "undefined") return;
   const vistos = new WeakSet();
+  const conApi = typeof Element !== "undefined" && "getAnimations" in Element.prototype;
   const ojo = new IntersectionObserver(
     (entradas) => {
-      for (const e of entradas) e.target.toggleAttribute("data-fuera", !e.isIntersecting);
+      for (const e of entradas) {
+        if (e.target.matches(BLOQUES)) e.target.toggleAttribute("data-fuera", !e.isIntersecting);
+        else pausarInfinitas(e.target, !e.isIntersecting);
+      }
     },
     { rootMargin: "200px 0px" },
   );
+  const selector = conApi ? `${BLOQUES}, ${ESCENAS}` : BLOQUES;
   const buscar = () => {
     pendiente = 0;
-    document.querySelectorAll(BLOQUES).forEach((el) => {
+    document.querySelectorAll(selector).forEach((el) => {
       if (vistos.has(el)) return;
       vistos.add(el);
       ojo.observe(el);

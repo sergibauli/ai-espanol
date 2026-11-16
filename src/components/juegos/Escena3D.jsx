@@ -67,7 +67,7 @@ export function Escena3D({ tema = "kahoot", className = "", children, suelo = tr
 export function BarraJuego({ volverA = "/juegos", alVolver, titulo, tituloZh, children }) {
   return (
     <header className="j3-barra">
-      <Link to={volverA} onClick={alVolver} className="j3-volver" aria-label="Volver a juegos · 返回游戏">
+      <Link to={volverA} onClick={alVolver} className="j3-volver" aria-label="Volver · 返回: a juegos · 游戏">
         <ArrowLeftIcon size={18} />
         <span>Volver · 返回</span>
       </Link>

@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import CATALOGO from "../../data/modulos/catalog.json";
 import { contenidoJuego } from "../../lib/contenidoJuego.js";
 import { clasesDe } from "../../lib/clases.js";
+import { useModalAccesible } from "../../lib/useModalAccesible.js";
 
 export const NIVELES = ["A1", "A2", "B1", "B2"];
 const NIVEL_ZH = { A1: "入门", A2: "初级", B1: "中级", B2: "中高级" };
@@ -107,7 +108,7 @@ export function SelloJA({ texto, grande = false }) {
 export function CabeceraJA({ titulo, tituloZh, sello, contenido, onCambiar, children }) {
   return (
     <header className="ja-cabecera">
-      <Link to="/juegos" className="ja-volver" aria-label="Volver a juegos · 返回游戏">
+      <Link to="/juegos" className="ja-volver" aria-label="Juegos · 游戏: volver · 返回">
         <ArrowLeftIcon size={20} aria-hidden="true" />
         <span>Juegos · 游戏</span>
       </Link>
@@ -141,6 +142,9 @@ export function CabeceraJA({ titulo, tituloZh, sello, contenido, onCambiar, chil
 export function SelectorUnidadJA({ titulo, tituloZh, sello, descripcion, onElegir }) {
   const [nivel, setNivel] = React.useState("A1");
   const [unidad, setUnidad] = React.useState(null);
+  // Hoja «Elegir clase»: foco dentro al abrir, Tab atrapado y Escape la cierra
+  const hoja = React.useRef(null);
+  useModalAccesible(hoja, { activo: Boolean(unidad), enfocar: true, onEscape: () => setUnidad(null) });
   const unidades = CATALOGO.filter((u) => u.nivel === nivel);
   const clases = unidad ? clasesDe(unidad.numero) : [];
   return (
@@ -175,7 +179,7 @@ export function SelectorUnidadJA({ titulo, tituloZh, sello, descripcion, onElegi
       {unidad &&
         createPortal(
           <div className="ja-modal-fondo gm-no-adapt" onClick={() => setUnidad(null)}>
-            <div className="ja-modal" role="dialog" aria-modal="true" aria-label="Elegir clase · 选择课" onClick={(e) => e.stopPropagation()}>
+            <div className="ja-modal" ref={hoja} role="dialog" aria-modal="true" aria-label="Elegir clase · 选择课" onClick={(e) => e.stopPropagation()}>
               <button type="button" className="ja-modal-cerrar" onClick={() => setUnidad(null)} aria-label="Cerrar · 关闭">
                 <XIcon size={20} />
               </button>

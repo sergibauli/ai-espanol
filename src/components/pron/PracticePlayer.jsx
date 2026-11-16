@@ -2,6 +2,7 @@ import * as React from "react";
 import { XIcon, Volume2Icon, Volume1Icon, MicIcon, CheckIcon, RotateCcwIcon, ArrowRightIcon, SquareIcon, PlayIcon } from "lucide-react";
 import OndaViva, { useVoz, SelloEstampa } from "./OndaViva.jsx";
 import "../../styles/pronunciacion-v2.css";
+import { useModalAccesible } from "../../lib/useModalAccesible.js";
 
 // Normaliza: minúsculas, sin tildes (salvo ñ), sin puntuación.
 function norm(t) {
@@ -83,6 +84,9 @@ export default function PracticePlayer({ item, familia, onClose, onTerminar, col
   const [heard, setHeard] = React.useState("");
   const [results, setResults] = React.useState([]);
   const [ended, setEnded] = React.useState(false);
+  // Foco dentro al abrir, Tab atrapado y vuelta del foco al cerrar
+  const raiz = React.useRef(null);
+  useModalAccesible(raiz, { enfocar: true });
   // Escape cierra el diálogo
   React.useEffect(() => {
     const alPulsar = (e) => e.key === "Escape" && onClose();
@@ -288,7 +292,7 @@ export default function PracticePlayer({ item, familia, onClose, onTerminar, col
     const stars = ratio0 >= 0.9 ? 3 : ratio0 >= 0.6 ? 2 : 1;
     const title = ratio0 >= 0.7 ? "¡Sílaba dominada! · 音节掌握！" : "¡Buen trabajo! · 做得好！";
     return (
-      <div className="pp-overlay" role="dialog" aria-modal="true" onClick={onClose}>
+      <div className="pp-overlay" ref={raiz} role="dialog" aria-modal="true" aria-label="Práctica de pronunciación · 发音练习" onClick={onClose}>
         <div className="pp-card pv-pp" style={{ "--sala": color }} onClick={(e) => e.stopPropagation()}>
           <div className="pp-top">
             <button className="pp-close" aria-label="Cerrar · 关闭" onClick={onClose}><XIcon /></button>
@@ -322,7 +326,7 @@ export default function PracticePlayer({ item, familia, onClose, onTerminar, col
   if (!step) return null;
 
   return (
-    <div className="pp-overlay" role="dialog" aria-modal="true" onClick={onClose}>
+    <div className="pp-overlay" ref={raiz} role="dialog" aria-modal="true" aria-label="Práctica de pronunciación · 发音练习" onClick={onClose}>
       <div className="pp-card pv-pp" style={{ "--sala": color }} onClick={(e) => e.stopPropagation()}>
         <div className="pp-top">
           <button className="pp-close" aria-label="Cerrar · 关闭" onClick={onClose}><XIcon /></button>
