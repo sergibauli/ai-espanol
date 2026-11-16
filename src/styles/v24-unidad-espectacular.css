@@ -15,7 +15,10 @@
 .ud .ud-nube.n1 { top: 18px; animation-duration: 34s; }
 .ud .ud-nube.n2 { top: 46%; width: 110px; animation-duration: 46s; animation-delay: -18s; opacity: 0.7; }
 .ud .ud-nube.n3 { bottom: 14px; width: 190px; animation-duration: 58s; animation-delay: -30s; }
-@keyframes ud-nube { from { transform: translateX(-220px); left: 0; } to { transform: translateX(110%); left: 100%; } }
+/* Rendimiento: mismo recorrido que con `left: 0 → 100%`, pero solo con transform (va al compositor, sin layout en cada fotograma).
+   --ud-ancho = ancho interior de la cabecera (lo pone CabeceraUnidad.jsx); left: 0 solo cuando la nube se anima. */
+@keyframes ud-nube { from { transform: translateX(-220px); } to { transform: translateX(calc(var(--ud-ancho, 0px) + 110%)); } }
+@media (prefers-reduced-motion: no-preference) { .ud .ud-nube { left: 0; } }
 .ud .ud-hero-mono { right: 250px; width: 150px; z-index: 3; }
 
 /* placa de laca con título en pan de oro */

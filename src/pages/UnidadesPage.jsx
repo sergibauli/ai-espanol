@@ -11,6 +11,7 @@ import { progresoUnidad } from "../lib/clases.js";
 import { temaDeUnidad } from "../lib/temasUnidad.js";
 import CATALOG from "../data/modulos/catalog.json";
 import "../styles/v19-unidades.css";
+import "../styles/v31-fluidez-unidad.css";
 
 // Cada nivel es un tramo del viaje con su mundo (los mismos que los niveles DELE)
 const LEVELS = [

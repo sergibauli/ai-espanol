@@ -103,13 +103,27 @@ export function CabeceraUnidad({ meta, parada, clase, totalClases, progreso, cta
     ojo.observe(el);
     return () => ojo.disconnect();
   }, []);
+  // Ancho interior de la cabecera para el vuelo de las nubes (se animan con transform: sin layout en cada fotograma)
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const medir = () => el.style.setProperty("--ud-ancho", `${el.clientWidth}px`);
+    medir();
+    if (typeof ResizeObserver === "undefined") return undefined;
+    const ro = new ResizeObserver(medir);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  // El escenario SVG y las partículas no dependen del progreso: no se vuelven a renderizar con cada cambio de la página
+  const escena = React.useMemo(() => <Escena />, [Escena]);
+  const particulas = React.useMemo(() => <ParticulasNivel nivel={meta.nivel} />, [meta.nivel]);
   return (
     <section ref={ref} className="ud-hero gm-no-adapt" data-nivel={meta.nivel} onPointerMove={mover} onPointerLeave={(e) => (e.currentTarget.style.setProperty("--px", 0), e.currentTarget.style.setProperty("--py", 0))}>
       <Puertas numero={meta.numero} />
       <Farol lado="izq" />
       <Farol lado="der" retraso={-1.3} />
       <div className="ud-hero-escena" aria-hidden="true">
-        <Escena />
+        {escena}
       </div>
       <span className="ud-hero-rayos" aria-hidden="true" />
       <img className="ud-hero-montes" src={TEMA("montes-tinta.webp")} alt="" aria-hidden="true" />
@@ -117,7 +131,7 @@ export function CabeceraUnidad({ meta, parada, clase, totalClases, progreso, cta
         <img key={n} className={`ud-nube n${n}`} src={TEMA("nube-oro.png")} alt="" aria-hidden="true" />
       ))}
       <img className="ud-dragon-marco izq" src={TEMA("dragon-luz.webp")} alt="" aria-hidden="true" />
-      <ParticulasNivel nivel={meta.nivel} />
+      {particulas}
       <span className="ud-hero-jinete" aria-hidden="true">
         <img className="ud-hero-mono" src={MONO(mundo.mono)} alt="" onError={(e) => (e.currentTarget.style.display = "none")} />
         <img className="ud-hero-nubemono" src={TEMA("nube-oro.png")} alt="" />
