@@ -89,6 +89,31 @@ const C = "#f6dfa8";
 // Paleta imperial (laca roja + tinta) igual para todos los niveles: el papel es claro, el acento debe ser oscuro (AA)
 const ACENTO_IMPERIAL = { color: "#c8102e", glow: "#8f0c21" };
 const be = { A1: ACENTO_IMPERIAL, A2: ACENTO_IMPERIAL, B1: ACENTO_IMPERIAL, B2: ACENTO_IMPERIAL };
+// La cabecera de la sala (código del modelo, modo, incienso, PDF) cambia de ancho al llegar Cinzel y la fila se
+// partía después del primer pintado (salto de diseño, CLS 0,25). Mientras llegan los datos del examen se esperan
+// también sus fuentes (1,5 s como mucho): la sala se pinta una sola vez, ya con su aspecto final.
+const FUENTES_SALA = ["900 12px Cinzel", '800 12.5px "Plus Jakarta Sans"', '700 18px "JetBrains Mono"'];
+function fuentesDeSala(maximo = 1500) {
+  const fuentes = typeof document !== "undefined" ? document.fonts : null;
+  if (!fuentes?.load) return Promise.resolve();
+  return new Promise((listo) => {
+    let hecho = false;
+    const fin = () => {
+      if (hecho) return;
+      hecho = true;
+      clearTimeout(tope);
+      listo();
+    };
+    const tope = setTimeout(fin, maximo);
+    // La hoja de Google Fonts llega asíncrona: hasta que registra sus caras, load() no tiene nada que cargar
+    const intentar = () => {
+      if (hecho) return;
+      if ([...fuentes].some((f) => f.family.replace(/["']/g, "") === "Cinzel")) Promise.all(FUENTES_SALA.map((f) => fuentes.load(f))).then(fin, fin);
+      else setTimeout(intentar, 60);
+    };
+    intentar();
+  });
+}
 const ETIQUETA_CORTA_PRUEBA = {
   1: { es: "Lectura", zh: "阅读", zhLargo: "阅读理解" },
   2: { es: "Audición", zh: "听力", zhLargo: "听力理解" },
@@ -921,8 +946,8 @@ function IaComponent() {
         activo = false;
       };
     }
-    b_1(nivel, numeroModelo)
-      .then((modelo) => {
+    Promise.all([b_1(nivel, numeroModelo), fuentesDeSala()])
+      .then(([modelo]) => {
         if (!activo) return;
         if (modelo && Array.isArray(modelo.pruebas)) {
           setExamen(zs(modelo));
