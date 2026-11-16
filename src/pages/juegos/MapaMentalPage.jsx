@@ -23,6 +23,7 @@ import { useContenidoJA, CabeceraJA, SelectorUnidadJA, chispasOro, barajar, redu
 import { categoriaPorReglas, claveCategoria } from "../../lib/categoriaReglas.js";
 import CATEGORIAS_REVISADAS from "../../data/categorias-palabras.json";
 import "../../styles/v13-juegos-a.css";
+import "../../styles/movil-juegos.css";
 
 // ---------- Colores imperiales de los nodos ----------
 const COLORES = {

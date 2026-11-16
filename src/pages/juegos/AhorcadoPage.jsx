@@ -22,6 +22,7 @@ import { useSound } from "../../lib/sound.jsx";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-ruleta.css";
 import "../../styles/v17-ahorcado.css";
+import "../../styles/movil-juegos.css";
 const Ye = ["QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM"];
 const maxTime = 90;
 const Fe = 6;

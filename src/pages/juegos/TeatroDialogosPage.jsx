@@ -8,6 +8,7 @@ import { addXp } from "../../lib/gamification.js";
 import { contenidoJuego } from "../../lib/contenidoJuego.js";
 import { useContenidoJA, CabeceraJA, SelectorUnidadJA, chispasOro, barajar, reducido } from "./ja-comun.jsx";
 import "../../styles/v13-juegos-a.css";
+import "../../styles/movil-juegos.css";
 
 const MODOS = [
   { id: "ordenar", es: "Ordenar el guion", zh: "排列台词", desc: "Arrastra las líneas al orden correcto · 把台词拖到正确顺序" },

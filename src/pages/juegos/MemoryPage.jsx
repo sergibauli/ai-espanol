@@ -23,6 +23,7 @@ import { useSound } from "../../lib/sound.jsx";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-ruleta.css";
 import "../../styles/v17-memory.css";
+import "../../styles/movil-juegos.css";
 const G = {
   "4x4": {
     pairs: 8,

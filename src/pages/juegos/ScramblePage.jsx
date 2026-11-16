@@ -24,6 +24,7 @@ import { useSound } from "../../lib/sound.jsx";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-ruleta.css";
 import "../../styles/v17-imprenta.css";
+import "../../styles/movil-juegos.css";
 function Re(espanol) {
   return espanol
     .toUpperCase()

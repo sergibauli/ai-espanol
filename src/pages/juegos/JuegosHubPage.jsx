@@ -28,6 +28,7 @@ import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Portada } from "./PortadasJuegos.jsx";
 import "../../styles/juegos-hub.css";
+import "../../styles/movil-juegos.css";
 
 // Los juegos de la app (el resto se retiró para quedarnos solo con los mejores).
 // `gradient` e `icon` los usa también la pestaña de juegos de cada unidad (UnitPage).

@@ -27,6 +27,7 @@ import {
 } from "./jbComun.jsx";
 import "../../styles/v13-juegos-b.css";
 import "../../styles/v17-dragon-escape.css";
+import "../../styles/movil-juegos.css";
 
 const PISTAS = 3;
 const COSTE_PISTA = 30;
