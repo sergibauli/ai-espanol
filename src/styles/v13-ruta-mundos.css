@@ -4,8 +4,8 @@
 
 .light-page .ruta-main.mr-on { background: var(--mr-base) !important; }
 .ruta-main.mr-on { view-timeline: --mrRuta block; }
-.ruta-main.mr-on:has(.mr-A1) { --mr-base: #dfe6ec; } .ruta-main.mr-on:has(.mr-A2) { --mr-base: #e9a85a; }
-.ruta-main.mr-on:has(.mr-B1) { --mr-base: #102a44; } .ruta-main.mr-on:has(.mr-B2) { --mr-base: #cfe0d6; }
+.ruta-main.mr-on.map-A1 { --mr-base: #dfe6ec; } .ruta-main.mr-on.map-A2 { --mr-base: #e9a85a; }
+.ruta-main.mr-on.map-B1 { --mr-base: #102a44; } .ruta-main.mr-on.map-B2 { --mr-base: #cfe0d6; }
 
 .mr-mundo { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: clip; border-radius: inherit; }
 .mr-fijo { position: sticky; top: 0; height: 100vh; overflow: hidden; container-type: inline-size; }
@@ -64,9 +64,9 @@
   -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent 98%); mask-image: linear-gradient(180deg, #000 74%, transparent 98%); }
 /* Base de nube / bruma bajo cada viñeta: parecen islas flotando en el mapa, como las nubes auspiciosas */
 .mr-vineta::before { content: ""; position: absolute; left: -14%; right: -14%; bottom: -4%; height: 34%; border-radius: 50%; background: radial-gradient(closest-side, var(--halo), transparent); }
-.ruta-main:has(.mr-A2) .mr-vineta { --halo: rgba(255,214,150,.75); }
-.ruta-main:has(.mr-B1) .mr-vineta { --halo: rgba(110,170,230,.3); }
-.ruta-main:has(.mr-B2) .mr-vineta { --halo: rgba(255,255,255,.78); }
+.ruta-main.map-A2 .mr-vineta { --halo: rgba(255,214,150,.75); }
+.ruta-main.map-B1 .mr-vineta { --halo: rgba(110,170,230,.3); }
+.ruta-main.map-B2 .mr-vineta { --halo: rgba(255,255,255,.78); }
 .mr-vineta.izq { left: 4px; } .mr-vineta.der { right: 4px; }
 .mr-vineta.baja { top: 44%; }
 /* Animaciones de las viñetas */
@@ -100,12 +100,12 @@
 
 /* ---------- Legibilidad del camino sobre cada mundo ---------- */
 .mr-on.ruta-main .ruta-carretera .borde { stroke-width: 34; }
-.ruta-main:has(.mr-A1) .ruta-carretera .borde { stroke: rgba(52,66,90,.26); }
-.ruta-main:has(.mr-A2) .ruta-carretera .borde { stroke: rgba(92,40,12,.3); }
-.ruta-main:has(.mr-B1) .ruta-carretera .borde { stroke: rgba(4,10,24,.5); }
-.ruta-main:has(.mr-B2) .ruta-carretera .borde { stroke: rgba(24,58,44,.3); }
-.ruta-main:has(.mr-B1) .ruta-camino-wrap::after { background: radial-gradient(ellipse 46% 58% at 50% 50%, rgba(255,190,90,.22), transparent 72%); }
-.ruta-main:has(.mr-A1) .ruta-camino-wrap::after { background: radial-gradient(ellipse 46% 58% at 50% 50%, rgba(255,236,190,.4), transparent 72%); mix-blend-mode: normal; }
+.ruta-main.map-A1 .ruta-carretera .borde { stroke: rgba(52,66,90,.26); }
+.ruta-main.map-A2 .ruta-carretera .borde { stroke: rgba(92,40,12,.3); }
+.ruta-main.map-B1 .ruta-carretera .borde { stroke: rgba(4,10,24,.5); }
+.ruta-main.map-B2 .ruta-carretera .borde { stroke: rgba(24,58,44,.3); }
+.ruta-main.map-B1 .ruta-camino-wrap::after { background: radial-gradient(ellipse 46% 58% at 50% 50%, rgba(255,190,90,.22), transparent 72%); }
+.ruta-main.map-A1 .ruta-camino-wrap::after { background: radial-gradient(ellipse 46% 58% at 50% 50%, rgba(255,236,190,.4), transparent 72%); mix-blend-mode: normal; }
 
 @media (max-width: 900px) {
   .mr-vineta { width: 30%; opacity: .62; }

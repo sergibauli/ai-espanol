@@ -1,5 +1,5 @@
 /* ===== v14 · Ruta B1: animación y vida del mundo (src/components/ruta/mundos/B1.jsx) =====
-   Todo cuelga de .mr-B1 (o de .ruta-main:has(.mr-B1) para las viñetas). Solo se animan transform y opacity.
+   Todo cuelga de .mr-B1 (o de .ruta-main.map-B1 para las viñetas). Solo se animan transform y opacity.
    Orden: 1) cielo y encuadre  2) momentos (tintes y luces)  3) vida del panorama  4) entrada  5) fiesta  6) viñetas  7) móvil y reduced-motion */
 
 /* ---------- 1 · Cielo y lienzo que coincide con el viewBox 800×1000 ---------- */
@@ -41,9 +41,9 @@
 .mr-B1[data-momento="noche"] .b1-t-noche { opacity: 1; }
 .mr-B1[data-momento="noche"] .b1-luz { opacity: 1; }
 .mr-B1[data-momento="noche"] .b1-noche-cielo { opacity: 1; }
-.ruta-main.mr-on:has(.mr-B1[data-momento="dia"]) { --mr-base: #b9d2c8; }
-.ruta-main.mr-on:has(.mr-B1[data-momento="atardecer"]) { --mr-base: #6a5a8c; }
-.ruta-main.mr-on:has(.mr-B1[data-momento="noche"]) { --mr-base: #101c44; }
+.ruta-main.mr-on.map-B1[data-momento="dia"] { --mr-base: #b9d2c8; }
+.ruta-main.mr-on.map-B1[data-momento="atardecer"] { --mr-base: #6a5a8c; }
+.ruta-main.mr-on.map-B1[data-momento="noche"] { --mr-base: #101c44; }
 
 /* ---------- 4 · Entrada escalonada al montarse el mundo (≤1,1 s; el estado final es el de reposo) ---------- */
 .mr-B1 .b1-entra { animation: b1Entra 600ms var(--v14-salida) calc(var(--i, 0) * 80ms) both; }
@@ -190,15 +190,15 @@
 .mr-B1[data-momento="atardecer"] .b1-ocaso { opacity: 1; }
 
 /* ---------- 6 · Viñetas a los lados del camino ---------- */
-.ruta-main:has(.mr-B1) .mr-vineta { --halo: rgba(236,244,236,.8); }
-.ruta-main:has(.mr-B1[data-momento="atardecer"]) .mr-vineta { --halo: rgba(255,190,170,.4); }
-.ruta-main:has(.mr-B1[data-momento="noche"]) .mr-vineta { --halo: rgba(110,150,240,.28); }
+.ruta-main.map-B1 .mr-vineta { --halo: rgba(236,244,236,.8); }
+.ruta-main.map-B1[data-momento="atardecer"] .mr-vineta { --halo: rgba(255,190,170,.4); }
+.ruta-main.map-B1[data-momento="noche"] .mr-vineta { --halo: rgba(110,150,240,.28); }
 /* acompañan al momento con un filtro fijo (no animado) y encienden sus luces */
-.ruta-main:has(.mr-B1[data-momento="atardecer"]) .mr-vineta svg { filter: sepia(.2) saturate(1.2) hue-rotate(-14deg) brightness(.92); }
-.ruta-main:has(.mr-B1[data-momento="noche"]) .mr-vineta svg { filter: brightness(.66) saturate(.95) hue-rotate(10deg) contrast(1.08); }
+.ruta-main.map-B1[data-momento="atardecer"] .mr-vineta svg { filter: sepia(.2) saturate(1.2) hue-rotate(-14deg) brightness(.92); }
+.ruta-main.map-B1[data-momento="noche"] .mr-vineta svg { filter: brightness(.66) saturate(.95) hue-rotate(10deg) contrast(1.08); }
 .mr-vineta .b1-vin-brillo, .mr-vineta .b1-brillo { opacity: .1; }
-.ruta-main:has(.mr-B1[data-momento="atardecer"]) .mr-vineta :is(.b1-vin-brillo, .b1-brillo) { opacity: .75; }
-.ruta-main:has(.mr-B1[data-momento="noche"]) .mr-vineta :is(.b1-vin-brillo, .b1-brillo) { opacity: 1; }
+.ruta-main.map-B1[data-momento="atardecer"] .mr-vineta :is(.b1-vin-brillo, .b1-brillo) { opacity: .75; }
+.ruta-main.map-B1[data-momento="noche"] .mr-vineta :is(.b1-vin-brillo, .b1-brillo) { opacity: 1; }
 .mr-vineta .b1-vin-onda { animation: b1VinOnda 6s var(--v14-vaiven) infinite alternate; }
 @keyframes b1VinOnda { from { transform: translateX(-7px); } to { transform: translateX(7px); } }
 .mr-vineta .b1-vin-banda { transform-box: fill-box; transform-origin: 50% 50%; animation: b1VinBanda 2.8s var(--v14-vaiven) var(--d, 0s) infinite alternate; }

@@ -2,7 +2,7 @@
 
 /* Ruta mágica: 23 unidades de ~600 px con cientos de nodos animados cada una. Fuera de pantalla se saltan por completo
    (salvo la que tiene una ventana abierta, que puede salirse de su caja). */
-.ruta-unit:not(:has(.ruta-node-wrap.abierto)) { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.ruta-unit:not(.ru-con-pop) { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 
 /* Unidades: rejilla de 90 tarjetas con medallón */
 .u18-carta { content-visibility: auto; contain-intrinsic-size: auto 260px; }

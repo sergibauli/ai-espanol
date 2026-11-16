@@ -34,9 +34,15 @@ function forzado(clave) {
   }
 }
 
-export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = false }) {
+// Momento que se pinta (el forzado por URL manda). RutaPage lo copia en .ruta-main[data-momento] para que el CSS
+// no necesite `.ruta-main:has(.mr-XX[data-momento])` (cada :has en un contenedor tan grande recalcula todo el árbol).
+export function momentoRuta(momentoProp) {
   const pedido = forzado("momento");
-  const momento = ["dia", "atardecer", "noche"].includes(pedido) ? pedido : momentoProp || momentoChina();
+  return ["dia", "atardecer", "noche"].includes(pedido) ? pedido : momentoProp || momentoChina();
+}
+
+export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = false }) {
+  const momento = momentoRuta(momentoProp);
   const fiesta = fiestaProp || forzado("fiesta") === "1";
   const { Panorama, Ambiente } = MUNDOS[nivel] || MUNDOS.A1;
   return (

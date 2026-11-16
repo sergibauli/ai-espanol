@@ -1,5 +1,5 @@
 /* ===== v14 · Ruta A1: animación y vida del mundo (src/components/ruta/mundos/A1.jsx) =====
-   Todo cuelga de .mr-A1 (o de .ruta-main:has(.mr-A1) para las viñetas). Solo se animan transform y opacity.
+   Todo cuelga de .mr-A1 (o de .ruta-main.map-A1 para las viñetas). Solo se animan transform y opacity.
    Orden: 1) cielo y encuadre  2) vida del panorama  3) entrada  4) atardecer/noche  5) fiesta  6) viñetas  7) móvil y reduced-motion */
 
 /* ---------- 1 · Cielo de amanecer dorado y lienzo que coincide con el viewBox 800×1000 ---------- */
@@ -128,12 +128,12 @@
 .mr-A1[data-momento="noche"] .a1-copo-lejos { opacity: .9; }
 @keyframes a1Titila { from { opacity: .25; transform: scale(.7); } to { opacity: 1; transform: scale(1.15); } }
 /* las viñetas (fuera de .mr-mundo) acompañan al momento con un filtro fijo, no animado */
-.ruta-main:has(.mr-A1[data-momento="atardecer"]) .mr-vineta svg { filter: sepia(.25) saturate(1.25) hue-rotate(-12deg) brightness(.95); }
-.ruta-main:has(.mr-A1[data-momento="noche"]) .mr-vineta svg { filter: brightness(.6) saturate(.85) hue-rotate(12deg); }
-.ruta-main:has(.mr-A1[data-momento="noche"]) .mr-vineta { --halo: rgba(120,150,220,.3); }
-.ruta-main:has(.mr-A1[data-momento="noche"]) .a1-vin-brillo, .ruta-main:has(.mr-A1[data-momento="atardecer"]) .a1-vin-brillo { opacity: 1; }
-.ruta-main.mr-on:has(.mr-A1[data-momento="noche"]) { --mr-base: #26335f; }
-.ruta-main.mr-on:has(.mr-A1[data-momento="atardecer"]) { --mr-base: #e9b4a4; }
+.ruta-main.map-A1[data-momento="atardecer"] .mr-vineta svg { filter: sepia(.25) saturate(1.25) hue-rotate(-12deg) brightness(.95); }
+.ruta-main.map-A1[data-momento="noche"] .mr-vineta svg { filter: brightness(.6) saturate(.85) hue-rotate(12deg); }
+.ruta-main.map-A1[data-momento="noche"] .mr-vineta { --halo: rgba(120,150,220,.3); }
+.ruta-main.map-A1[data-momento="noche"] .a1-vin-brillo, .ruta-main.map-A1[data-momento="atardecer"] .a1-vin-brillo { opacity: 1; }
+.ruta-main.mr-on.map-A1[data-momento="noche"] { --mr-base: #26335f; }
+.ruta-main.mr-on.map-A1[data-momento="atardecer"] { --mr-base: #e9b4a4; }
 
 /* ---------- 5 · Fiesta (.mr-fiesta al completar una clase): el palacio se enciende ---------- */
 .mr-A1.mr-fiesta .a1-luz { opacity: 1; }
@@ -166,7 +166,7 @@
 .mr-vineta .a1-vin-farol { transform-box: fill-box; transform-origin: 50% 0; animation: a1Mece 4.6s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
 .mr-vineta .a1-vin-brillo { opacity: .35; animation: a1Parpadeo 3.2s ease-in-out infinite; }
 @keyframes a1Parpadeo { 0%, 100% { opacity: .35; } 42% { opacity: .8; } 50% { opacity: .5; } 60% { opacity: .85; } }
-.ruta-main:has(.mr-A1[data-momento="noche"]) .mr-vineta .a1-vin-brillo, .ruta-main:has(.mr-A1[data-momento="atardecer"]) .mr-vineta .a1-vin-brillo { animation-name: a1ParpadeoNoche; }
+.ruta-main.map-A1[data-momento="noche"] .mr-vineta .a1-vin-brillo, .ruta-main.map-A1[data-momento="atardecer"] .mr-vineta .a1-vin-brillo { animation-name: a1ParpadeoNoche; }
 @keyframes a1ParpadeoNoche { 0%, 100% { opacity: .8; } 42% { opacity: 1; } 50% { opacity: .7; } 60% { opacity: 1; } }
 .mr-vineta .a1-vin-humo { transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: a1VinHumo 6s linear var(--d, 0s) infinite; }
 @keyframes a1VinHumo { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 15% { opacity: .85; } 100% { transform: translate(-22px, -60px) scale(3); opacity: 0; } }
@@ -180,7 +180,7 @@
 .mr-vineta .a1-vin-brocheta { animation: a1Brocheta 3.8s var(--v14-vaiven) var(--d, 0s) infinite alternate; }
 @keyframes a1Brocheta { from { translate: 0 0; } to { translate: 0 -1.6px; } }
 /* base de las viñetas A1: halo cálido de nieve al sol */
-.ruta-main:has(.mr-A1) .mr-vineta { --halo: rgba(255,250,240,.85); }
+.ruta-main.map-A1 .mr-vineta { --halo: rgba(255,250,240,.85); }
 
 /* ---------- 7 · Móvil y accesibilidad ---------- */
 @media (max-width: 700px) {
