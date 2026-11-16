@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Navigate } from "react-router";
-import { useClerk } from "@clerk/clerk-react";
+import { Navigate, useNavigate } from "react-router";
 import { useAppAuth } from "../lib/auth.jsx";
 import { Logo } from "../../packages/imperial/src/index.js";
 import { SelectorIdioma } from "../components/ui/SelectorIdioma.jsx";
@@ -27,7 +26,6 @@ import "../styles/v19-portada.css";
 import "../styles/v20-mundos.css";
 import "../styles/movil-portada.css";
 
-const HERE = () => `${location.origin}${location.pathname}#/ruta`;
 
 // Apertura: en pantallas verticales, el Rey Mono llega de espaldas a la puerta celestial (540×960, desde 1,6 s:
 // antes asoman faroles y cintas cortados por el borde);
@@ -88,15 +86,6 @@ const VENTAJAS = [
     detalleZh: "每天边玩边记单词和动词。",
   },
 ];
-
-// Sin ClerkProvider (pruebas locales con VITE_SIN_CLERK) useClerk lanza: la portada se pinta igual
-function useClerkSeguro() {
-  try {
-    return useClerk();
-  } catch {
-    return null;
-  }
-}
 
 // Escribe en la raíz --pc-avance (0 → 1) mientras el panel de acceso sube sobre el vídeo: el vídeo se oscurece y se aleja
 function useAvanceApertura(refRaiz, refApertura) {
@@ -301,7 +290,7 @@ function Cifra({ valor }) {
 // Solo se inicia sesión: las cuentas las da la academia (no hay registro libre).
 export default function WelcomePage() {
   const { isAuthenticated, isLoading } = useAppAuth();
-  const clerk = useClerkSeguro();
+  const navegar = useNavigate();
   const refRaiz = React.useRef(null);
   const refApertura = React.useRef(null);
   const refViaje = React.useRef(null);
@@ -315,7 +304,8 @@ export default function WelcomePage() {
 
   if (redirige) return <Navigate to="/ruta" replace />;
 
-  const signIn = () => clerk?.openSignIn?.({ forceRedirectUrl: HERE(), fallbackRedirectUrl: HERE() });
+  // Formulario propio (#/sign-in) en lugar de la ventana de Clerk
+  const signIn = () => navegar("/sign-in");
   const verAcceso = () => {
     const panel = document.getElementById("pc-acceso");
     const quieto = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;

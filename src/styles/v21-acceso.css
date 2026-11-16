@@ -1,0 +1,48 @@
+/* v21 · Formulario propio de acceso (Clerk por debajo, sin su ventana) */
+.v21-paso { animation: v21Entra 380ms cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes v21Entra { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+
+.v21-paso h2 { text-align: center; }
+.v21-explica { margin: 0; display: grid; gap: 2px; text-align: center; font: 600 13.5px/1.5 var(--im-font-ui); color: #4a2e1c; }
+.v21-explica span { font-family: var(--im-font-zh, inherit); color: #8f0c21; }
+
+.v21-boton { width: 100%; }
+.v21-boton:disabled { cursor: wait; filter: saturate(.7) brightness(.95); transform: none; }
+
+.v21-fila { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 10px; }
+.v21-fila .tp-btn-texto { min-height: 40px; font-size: 13px; }
+.v21-fila .tp-btn-texto:disabled { opacity: .55; cursor: wait; }
+
+/* Contraseña con ojo */
+.v21-clave { position: relative; display: block; }
+.v21-clave input { width: 100%; padding-right: 48px; }
+.v21-clave button { position: absolute; top: 50%; right: 6px; width: 38px; height: 38px; display: grid; place-items: center; transform: translateY(-50%);
+  border: 0; border-radius: 10px; background: none; color: #8a5a1c; cursor: pointer; }
+.v21-clave button:hover { background: rgba(200, 150, 30, .14); }
+.v21-clave button:focus-visible { outline: 3px solid #c8961e; outline-offset: 1px; }
+
+/* Sobre con sello que aparece al pedir el código */
+.v21-sobre { justify-self: center; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%;
+  color: #fff3d6; background: radial-gradient(circle at 35% 30%, #e0384c, #a5112a 60%, #6e0717);
+  box-shadow: 0 0 0 3px #f2c14e, 0 0 0 5px #6e0717, 0 0 28px rgba(242, 193, 78, .55);
+  animation: v21Sello 700ms cubic-bezier(.3, 1.6, .5, 1) both, v21Brilla 2.6s ease-in-out 700ms infinite; }
+@keyframes v21Sello { from { opacity: 0; transform: scale(.3) rotate(-25deg); } to { opacity: 1; transform: none; } }
+@keyframes v21Brilla { 50% { box-shadow: 0 0 0 3px #f2c14e, 0 0 0 5px #6e0717, 0 0 42px rgba(242, 193, 78, .85); } }
+
+/* Seis casillas del código */
+.v21-casillas { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.tp-acceso-form .v21-casillas input { height: 56px; min-width: 0; padding: 0; text-align: center; font: 800 24px var(--im-font-ui); color: #6e0717;
+  border: 2px solid #d9ae4c; border-radius: 12px; background: linear-gradient(#fffdf6, #fbf1d8);
+  box-shadow: inset 0 2px 4px rgba(110, 66, 16, .12); transition: border-color .15s, transform .15s, box-shadow .15s;
+  animation: v21Casilla 420ms cubic-bezier(.3, 1.4, .5, 1) both; animation-delay: calc(var(--i) * 55ms); }
+.tp-acceso-form .v21-casillas input:focus { outline: none; border-color: #a5112a; transform: translateY(-2px); box-shadow: 0 0 0 3px rgba(165, 17, 42, .18), 0 6px 12px rgba(110, 66, 16, .18); }
+.tp-acceso-form .v21-casillas input.llena { border-color: #c8961e; background: linear-gradient(#fff7e0, #f5dfa6); }
+@keyframes v21Casilla { from { opacity: 0; transform: translateY(12px) scale(.8); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 380px) {
+  .v21-casillas { gap: 5px; }
+  .tp-acceso-form .v21-casillas input { height: 48px; font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v21-paso, .v21-sobre, .tp-acceso-form .v21-casillas input { animation: none; }
+}
