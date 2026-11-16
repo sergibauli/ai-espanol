@@ -25,6 +25,7 @@ import CATALOGO from "../../data/modulos/catalog.json";
 import { clasesDe, progresoUnidad } from "../../lib/clases.js";
 import { getGame } from "../../lib/gamification.js";
 import "../../styles/v14-fix-juegos.css";
+import { useModalAccesible } from "../../lib/useModalAccesible.js";
 
 const NIVELES = ["A1", "A2", "B1", "B2"];
 const NIVEL_ZH = { A1: "入门", A2: "初级", B1: "中级", B2: "中高级" };
@@ -95,6 +96,9 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
   const [nivel, setNivel] = React.useState("todos");
   const [busqueda, setBusqueda] = React.useState("");
   const [unidadAbierta, setUnidadAbierta] = React.useState(null);
+  // Hoja «Elegir clase»: foco dentro al abrir, Tab atrapado y Escape la cierra
+  const hoja = React.useRef(null);
+  useModalAccesible(hoja, { activo: Boolean(unidadAbierta), enfocar: true, onEscape: () => setUnidadAbierta(null) });
   const iniciarRef = React.useRef(onIniciar);
   iniciarRef.current = onIniciar;
   const ruta = leerRuta(location.search);
@@ -155,7 +159,7 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
   return (
     <div className="v14j-selector gm-no-adapt" data-juego={juego}>
       <div className="v14j-barra">
-        <Link to="/juegos" className="v14j-volver" aria-label="Volver a juegos · 返回游戏">
+        <Link to="/juegos" className="v14j-volver" aria-label="Juegos · 游戏: volver · 返回">
           <ArrowLeftIcon size={20} aria-hidden="true" />
           <span>Juegos · 游戏</span>
         </Link>
@@ -278,7 +282,7 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
       {unidadAbierta &&
         createPortal(
           <div className="v14j-hoja-fondo gm-no-adapt" onClick={() => setUnidadAbierta(null)}>
-            <div className="v14j-hoja" role="dialog" aria-modal="true" aria-label="Elegir clase · 选择课" onClick={(e) => e.stopPropagation()}>
+            <div className="v14j-hoja" ref={hoja} role="dialog" aria-modal="true" aria-label="Elegir clase · 选择课" onClick={(e) => e.stopPropagation()}>
               <span className="v14j-hoja-asa" aria-hidden="true" />
               <button type="button" className="v14j-hoja-cerrar" onClick={() => setUnidadAbierta(null)} aria-label="Cerrar · 关闭">
                 <XIcon size={20} />

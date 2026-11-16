@@ -26,6 +26,7 @@ import STOPS from "../data/china-stops.json";
 import "../styles/v22-volteo.css";
 import { CabeceraUnidad, MapaClases } from "../components/unidad/CabeceraUnidad.jsx";
 import { FichaTeoria } from "../components/unidad/FichaTeoria.jsx";
+import { useModalAccesible } from "../lib/useModalAccesible.js";
 import { PalabrasUnidad } from "../components/unidad/PalabrasUnidad.jsx";
 import { ESCENAS } from "../components/dele/EscenasNivel.jsx";
 
@@ -174,8 +175,10 @@ function FinDeClase({ numero, estado, siguiente, total, siguienteUnidad, onIrCla
 
 // Aviso a pantalla completa al terminar una clase durante la sesión
 function CelebrarClase({ estado, siguiente, onIrClase, onExamen, onCerrar }) {
+  const raiz = React.useRef(null);
+  useModalAccesible(raiz, { enfocar: true, onEscape: onCerrar });
   return createPortal(
-    <div className="cls-celebra gm-no-adapt" role="dialog" aria-modal="true" aria-label="Clase completada" onClick={onCerrar}>
+    <div className="cls-celebra gm-no-adapt" ref={raiz} role="dialog" aria-modal="true" aria-label="Clase completada" onClick={onCerrar}>
       <div className="cls-celebra-hoja" onClick={(e) => e.stopPropagation()}>
         <span className="cls-celebra-sello" translate="no">
           完成

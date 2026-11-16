@@ -12,6 +12,7 @@ const levelOf = (n) => CATALOG.find((m) => m.numero === Number(n))?.nivel || "A1
 import { Pergamino, FondoCielo } from "./Pergamino.jsx";
 import "../../styles/v28-ejercicios.css";
 import { IconoTipo, IcoBorrar, IcoRacha, TrazoBien, TrazoMal } from "./IconosEjercicio.jsx";
+import { useModalAccesible } from "../../lib/useModalAccesible.js";
 
 const TEACH = new Set(["learn", "tip", "dialog", "speak"]);
 const norm = (s) =>
@@ -282,6 +283,7 @@ function Choice({ step, value, onChange, locked }) {
           <button
             key={i}
             disabled={locked}
+            aria-pressed={value === i}
             style={{ "--i": i }}
             className={`ej-opcion ${estado(locked, value, i, step.answer)}`}
             onClick={() => {
@@ -355,6 +357,7 @@ function Pictures({ step, value, onChange, locked }) {
           <button
             key={i}
             disabled={locked}
+            aria-pressed={value === i}
             style={{ "--i": i }}
             className={`ej-carta ${estado(locked, value, i, step.answer)}`}
             onClick={() => {
@@ -606,6 +609,9 @@ export function LessonPlayer({ lesson, onClose }) {
   const [retried] = React.useState(() => new Set());
   const [startedAt] = React.useState(Date.now());
   const step = lesson.steps[queue[pos]];
+  // Tab no sale de la lección y, al cerrarla, el foco vuelve a donde estaba (sin foco inicial: Intro avanza la lección)
+  const raiz = React.useRef(null);
+  useModalAccesible(raiz);
 
   React.useEffect(() => {
     // Con la página arriba, el menú lateral se ve entero junto a la lección; al cerrar se vuelve donde estaba
@@ -778,7 +784,7 @@ export function LessonPlayer({ lesson, onClose }) {
   );
 
   return createPortal(
-    <div className={`lp-root ${!result && ["dialog", "tip"].includes(step?.type) ? "lp-fondo-pergamino" : "lp-fondo-paisaje"} lp-paso-${result ? "fin" : step?.type} ${cerrando ? "pg-cierra" : ""}`} role="dialog" aria-modal="true" aria-label={lesson.es}>
+    <div className={`lp-root ${!result && ["dialog", "tip"].includes(step?.type) ? "lp-fondo-pergamino" : "lp-fondo-paisaje"} lp-paso-${result ? "fin" : step?.type} ${cerrando ? "pg-cierra" : ""}`} ref={raiz} role="dialog" aria-modal="true" aria-label={lesson.es}>
       {!(!result && ["dialog", "tip"].includes(step?.type)) && <FondoCielo />}
       <header className="lp-top">
         <button className="lp-close" onClick={() => onClose(null)} aria-label="Salir">
@@ -808,7 +814,7 @@ export function LessonPlayer({ lesson, onClose }) {
       <footer className={`lp-foot ${feedback ? (feedback.ok ? "ok" : "bad") : ""}`}>
         <div className="lp-foot-inner">
           {feedback && !result && !outOfHearts && (
-            <div className="lp-feedback">
+            <div className="lp-feedback" role="status">
               <img className="lp-mono" src={`./mono/${feedback.ok ? (pos % 2 ? "guino" : "feliz") : "serio"}.webp`} alt="" />
               <div>
                 <b>{feedback.ok ? (feedback.accent ? "¡Bien! Ojo con la tilde · 注意重音" : "¡Correcto! · 正确！") : "Solución correcta · 正确答案"}</b>
