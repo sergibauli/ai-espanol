@@ -142,6 +142,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
     (to === "/oficial" && /^\/examenes/.test(pathname));
   return (
     <div className={`light-page v18 ${legacy || adapt ? "light-legacy" : ""} ${stage ? "has-stage" : ""} ${juego ? "con-juego" : ""}`}>
+      <span className="v18-fondo-base" aria-hidden="true" />
       <FondoV18 />
       <div className="light-top">
         <Link to="/ruta" className="side-brand" style={{ padding: 0 }} aria-label="AI Español">
