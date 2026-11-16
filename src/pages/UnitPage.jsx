@@ -28,12 +28,21 @@ import { CabeceraUnidad, MapaClases } from "../components/unidad/CabeceraUnidad.
 import { FichaTeoria } from "../components/unidad/FichaTeoria.jsx";
 import { PalabrasUnidad } from "../components/unidad/PalabrasUnidad.jsx";
 import { ESCENAS } from "../components/dele/EscenasNivel.jsx";
+import "../styles/v31-fluidez-unidad.css";
+
+// Rendimiento: la guía y las palabras solo dependen de sus props; así no se vuelven a renderizar al abrir una lección,
+// al ganar XP o al perder una vida (cada cambio de la gamificación re-renderiza la página entera)
+const FichaTeoriaMemo = React.memo(FichaTeoria);
+const PalabrasUnidadMemo = React.memo(PalabrasUnidad);
 
 // Chispas doradas que saltan desde la pestaña pulsada
 function chispas(boton) {
   try {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   } catch {}
+  // Se insertan y se quitan las 12 de una vez (un solo recálculo de estilos en vez de uno por chispa)
+  const grupo = document.createDocumentFragment();
+  const puestas = [];
   for (let i = 0; i < 12; i++) {
     const c = document.createElement("i");
     c.className = "ud-chispa";
@@ -41,9 +50,11 @@ function chispas(boton) {
     const dist = 40 + Math.random() * 40;
     c.style.setProperty("--dx", `${Math.cos(ang) * dist}px`);
     c.style.setProperty("--dy", `${Math.sin(ang) * dist}px`);
-    boton.appendChild(c);
-    setTimeout(() => c.remove(), 800);
+    grupo.appendChild(c);
+    puestas.push(c);
   }
+  boton.appendChild(grupo);
+  setTimeout(() => puestas.forEach((c) => c.remove()), 800);
 }
 
 import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
@@ -231,6 +242,8 @@ export default function UnitPage() {
   const [, refrescar] = React.useReducer((x) => x + 1, 0);
   const game = useGame();
   const [c1, c2] = LEVEL_COLORS[meta?.nivel] || LEVEL_COLORS.A1;
+  // Escenario de fondo (SVG estático): se crea una vez por nivel
+  const fondo = React.useMemo(() => React.createElement(ESCENAS[meta?.nivel] || ESCENAS.A1), [meta?.nivel]);
 
   // Clase abierta: la de la URL (?clase=2) o la última que el alumno tenía abierta en esta unidad
   const clase = claseValida(numero, params.get("clase") ?? ultimaClase(numero));
@@ -320,7 +333,7 @@ export default function UnitPage() {
     <LightShell>
       <div className="unit-page ud" data-nivel={meta.nivel} style={{ "--c": c1, "--d": c2 }}>
         <div className="ud-mundo-fondo" aria-hidden="true">
-          {React.createElement(ESCENAS[meta.nivel] || ESCENAS.A1)}
+          {fondo}
         </div>
         <Link to={`/modulos`} className="ud-volver">
           <ArrowLeftIcon size={16} /> Unidades {meta.nivel} · <span lang="zh">单元</span>
@@ -348,7 +361,7 @@ export default function UnitPage() {
         {pestana === "guia" &&
           (mod ? (
             (mod.teoria || []).length > 0 ? (
-              <FichaTeoria key={`guia-${numero}-${clase}`} teoria={mod.teoria} todas={modCompleto?.teoria || mod.teoria} numero={numero} />
+              <FichaTeoriaMemo key={`guia-${numero}-${clase}`} teoria={mod.teoria} todas={modCompleto?.teoria || mod.teoria} numero={numero} />
             ) : (
               <p className="ud-vacio">Esta clase no tiene teoría nueva · 本课没有新语法</p>
             )
@@ -356,7 +369,7 @@ export default function UnitPage() {
             <p className="ud-vacio">Cargando… · 加载中</p>
           ))}
 
-        {pestana === "palabras" && mod && <PalabrasUnidad vocabulario={mod.vocabulario || []} clase={clase} varias={varias} />}
+        {pestana === "palabras" && mod && <PalabrasUnidadMemo vocabulario={mod.vocabulario || []} clase={clase} varias={varias} />}
 
         {pestana === "lecciones" && (
           <>
