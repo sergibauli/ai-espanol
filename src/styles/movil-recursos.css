@@ -112,8 +112,8 @@
 }
 
 /* ---------- Cabecera roja (Repaso, Examinador, Gramática, Consejos, Ayudas, Vídeos, Audición) ----------
-   Misma cabecera, más compacta en el teléfono para que el contenido asome en la primera pantalla. */
-@media (max-width: 600px) {
+   Misma cabecera, más compacta en el teléfono (también en horizontal) para que el contenido asome en la primera pantalla. */
+@media (max-width: 600px), (max-width: 1023px) and (max-height: 500px) {
   :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap { gap: 8px; margin-bottom: 12px; }
   :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero { padding: 16px 16px 18px; }
   :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero__texto { gap: 4px; }
