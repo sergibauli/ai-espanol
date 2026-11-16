@@ -6,6 +6,7 @@ import { speak } from "../components/lesson/fx.js";
 import { useFavorites } from "../lib/favorites.js";
 import { temaZh, primerHan, ESTILOS_TEMA } from "../lib/temasDiccionario.js";
 import "../styles/diccionario-imperial.css";
+import "../styles/movil-recursos.css";
 
 // Diccionario español–chino: cuatro tomos (uno por nivel, cada uno con su mundo),
 // buscador protagonista y fichas de pergamino/tablilla con sello y audio con la voz del profesor.

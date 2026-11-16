@@ -2,6 +2,7 @@ import { ChevronDownIcon, SearchIcon, LightbulbIcon, FileTextIcon } from "lucide
 import * as React from "react";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import "../styles/v14-fix-recursos.css";
+import "../styles/movil-recursos.css";
 const TIPOS_TEXTO = [
   {
     type: "Texto narrativo",

@@ -6,6 +6,7 @@ import { speak } from "../components/lesson/fx.js";
 import "../styles/v14-fix-recursos.css";
 import { useFavorites } from "../lib/favorites.js";
 import { getSrsStats, getDueSrsCards, getSrsCards, SRS_BOX_LABELS_ES, SRS_BOX_LABELS_ZH, removeSrsCard, reviewSrsCard, importSrsCards } from "../lib/srs.js";
+import "../styles/movil-recursos.css";
 
 // Repaso espaciado (cajas de Leitner: 1, 3, 7, 14 y 30 días) con la estética imperial
 function MemoriaPage() {

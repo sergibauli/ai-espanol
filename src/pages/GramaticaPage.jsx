@@ -3,6 +3,7 @@ import * as React from "react";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import "../styles/v14-fix-recursos.css";
 import { GRAMMAR_TOPICS } from "../data/gramatica.js";
+import "../styles/movil-recursos.css";
 const NIVELES = ["A1", "A2", "B1", "B2"];
 // Nombres de cada nivel (el color lo pone la clase rx-nv-* de v14-fix-recursos.css)
 const INFO_NIVEL = {

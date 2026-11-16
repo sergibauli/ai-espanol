@@ -7,6 +7,7 @@ import { CuotaIA } from "../components/ui/CuotaIA.jsx";
 import { speak, speakIA } from "../components/lesson/fx.js";
 import { deepseekFetch, isAIAvailable, usoConversacion } from "../lib/deepseekClient.js";
 import { u as useCorrection, C as CorrectionCard } from "../components/CorrectionDisplay.jsx";
+import "../styles/movil-recursos.css";
 
 const TASKS = {
   A1: {

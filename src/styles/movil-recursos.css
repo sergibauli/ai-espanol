@@ -1,0 +1,125 @@
+/* ===== móvil · recursos =====
+   TV, Diccionario, Pronunciación, Repaso, Tutor IA, Examinador oral y páginas antiguas
+   (Gramática, Consejos, Ayudas, Vídeos, Audición). Solo media queries móviles: el escritorio
+   (≥1024px) no cambia. Cada regla va acotada a su página porque este CSS se queda cargado
+   al navegar. */
+
+/* ---------- Diccionario: la portada-libro cabe en la primera pantalla ---------- */
+@media (max-width: 700px) {
+  /* el libro mide lo que su contenido (antes 430px fijos con la página centrada y huecos) */
+  .dz .dz-portada { padding: 10px 0 30px; }
+  .dz .dz-libro3d { height: auto; }
+  .dz .dz-libro3d__pagina { position: relative; inset: auto; padding: 18px 14px 18px; }
+  .dz .dz-libro3d__movil { margin-bottom: 12px; }
+  .dz .dz-libro3d__movil .dz-ceja { font-size: 12px; letter-spacing: 1px; }
+  .dz .dz-libro3d__movil .dz-titulo { margin-top: 6px; font-size: 31px; }
+  .dz .dz-titulo__zh { margin-top: 4px; }
+  .dz .dz-sugerencias { gap: 6px; margin-top: 12px; }
+  .dz .dz-sugerencias button { min-height: 40px; padding: 6px 14px; font-size: 14.5px; }
+  .dz .dz-pagina__pista { margin-top: 12px; font-size: 13px; }
+
+  /* la apertura dura menos: el buscador aparece a ~1 s en vez de a 2,3 s */
+  .dz .dz-libro3d { animation-duration: 1.1s; }
+  .dz .dz-libro3d__tapa { animation-duration: 0.8s; animation-delay: 0.2s; }
+  .dz .dz-hoja { animation-duration: 0.6s; animation-delay: calc(0.5s + var(--k) * 0.12s); }
+  .dz .dz-libro3d__pagina > :not(.dz-libro3d__cinta) { animation-duration: 0.4s; animation-delay: 0.9s; }
+  .dz .dz-libro3d__cinta { animation-delay: 1s; }
+  .dz .dz-tomo { animation-delay: calc(0.9s + var(--n, 0) * 0.1s); }
+
+  /* tomos: que la inclinación no se salga por la izquierda */
+  .dz .dz-tomos { padding: 0 4px; }
+  .dz .dz-tomo__nombre small { font-size: 12px; }
+  .dz .dz-tomo__cuenta { font-size: 12px; }
+
+  /* temas, fichas y abecedario: letra legible y dedos */
+  .dz .dz-tema__n { font-size: 12px; }
+  .dz .dz-decreto__ceja, .dz .dz-portadilla__ceja { font-size: 12px; }
+  .dz .dz-ficha__tema, .dz .dz-ficha__tema small { font-size: 12px; }
+  .dz .dz-ficha__fav { right: 3px; bottom: 3px; width: 40px; height: 40px; border: 6px solid transparent; background-clip: padding-box; }
+  .dz .dz-abc { gap: 6px; }
+  .dz .dz-abc button { min-width: 40px; height: 40px; }
+}
+@media (max-width: 1023px) {
+  /* el ventanal de palabras: menos trabajo de pintura con CPU lenta */
+  .dz .dz-chispas { display: none; }
+}
+
+/* ---------- Pronunciación: panorámica más baja y fondo más ligero ---------- */
+@media (max-width: 1023px) {
+  /* Rendimiento: con CPU×4 la portada recalculaba estilos de ~200 animaciones por fotograma.
+     Se quedan las nubes, la bruma, los faroles, la puerta y unas pocas linternas;
+     se paran los rayos giratorios, el titilar (también las ventanas SVG), las partículas
+     de cada templo y el giro de las medallas. */
+  .pv-root .tq-fondo__ventanas rect,
+  .pv-root .tq-fondo__estrellas,
+  .pv-root .tq-fondo__linternas i,
+  .pv-root .ph-rayos,
+  .pv-root .tq-rayos,
+  .pv-root .pv-medalla__aro,
+  .pv-root .pv-medalla__cara::before { animation: none; }
+  .pv-root .tq-fondo__estrellas.is-b,
+  .pv-root .tq-fondo__polvo,
+  .pv-root .tq-particulas,
+  .pv-root .tq-fondo__linternas span:nth-child(n + 5) { display: none; }
+}
+@media (max-width: 600px) {
+  .pv-root .ph-placa { margin-top: 10px; }
+  .pv-root .ph-placa__ceja { font-size: 12px; letter-spacing: 0.1em; }
+  .pv-root .ph-ciudad { height: 168px; }
+  .pv-root .ph-templo.is-campana,
+  .pv-root .ph-templo.is-montana { bottom: 14%; }
+  .pv-root .ph-templo__sello small { font-size: 12px; }
+  .pv-root .ph-pie { gap: 8px 14px; padding: 10px 12px 12px; }
+  .pv-root .ph-continuar { padding-block: 9px; }
+  .pv-root .tq-titulo h2 { font-size: 12.5px; }
+  .pv-root .tq-cuenta { font-size: 12px; }
+  .pv-root .pv-medalla__nombre { font-size: 12px; }
+  /* buscador: zona táctil completa (antes el input medía 21px de alto) */
+  .pv-root .pt-buscar input { min-height: 40px; font-size: 16px; }
+}
+
+/* ---------- Tutor IA ---------- */
+@media (max-width: 1023px) {
+  /* 16px: iOS deja de hacer zoom al tocar el campo */
+  .tp-tutor.tutor .tutor-input .ui-input { font-size: 16px; }
+  .tp-tutor.tutor .tutor-input .ui-input::placeholder { font-size: 14px; }
+  .tp-tutor.tutor .tutor-status { font-size: 12px; }
+  .tp-tutor.tutor .tp-cuota-pie,
+  .tp-tutor.tutor .tp-cuota-tit small,
+  .tp-tutor.tutor .tp-dia span { font-size: 12px; }
+  .tp-tutor.tutor .tp-tutor-rotulo { font-size: 12px; letter-spacing: 0.08em; }
+  .tp-tutor.tutor .tutor-quien { font-size: 11.5px; }
+  .tp-tutor.tutor .tutor-topic small { font-size: 12px !important; }
+  .tp-tutor.tutor .tutor-replay { width: 40px; height: 40px; right: -16px; bottom: -16px; }
+}
+
+/* ---------- Examinador oral: fases algo más grandes sin cortar «Conversación» ---------- */
+@media (max-width: 600px) {
+  .ui-page .tp-eo-pasos { gap: 3px; }
+  .ui-page .tp-eo-pasos li { padding: 6px 0; }
+  .ui-page .tp-eo-pasos li > span { font-size: clamp(9.5px, 2.7vw, 11px); letter-spacing: -0.02em; }
+}
+
+/* ---------- TV ---------- */
+@media (max-width: 1023px) {
+  .tv-pantalla .tv-ia { font-size: 12px; }
+  .tv-frases button { width: 40px; height: 40px; }
+}
+
+/* ---------- Ayudas: sin zoom al buscar ---------- */
+@media (max-width: 1023px) {
+  .rx-page .rx-ay__buscar .rx-input { font-size: 16px; }
+}
+
+/* ---------- Cabecera roja (Repaso, Examinador, Gramática, Consejos, Ayudas, Vídeos, Audición) ----------
+   Misma cabecera, más compacta en el teléfono para que el contenido asome en la primera pantalla. */
+@media (max-width: 600px) {
+  :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap { gap: 8px; margin-bottom: 12px; }
+  :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero { padding: 16px 16px 18px; }
+  :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero__texto { gap: 4px; }
+  :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero__titulo { font-size: 23px; }
+  :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero__zh { font-size: 16px; }
+  :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero__desc { margin-top: 4px; font-size: 14px; line-height: 1.45; }
+  :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero__desc .im-zh { font-size: 12.5px; }
+  :is(.rx-page.gm-no-adapt:not(.rx-enj), .rx-page.jd-au, .ui-page:has(> .tp-eo-pasos)) .sh-wrap .im-hero__acciones { gap: 8px; margin-top: 10px; }
+}
