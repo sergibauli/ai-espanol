@@ -10,6 +10,7 @@ import { Emblema } from "../../components/dele/EmblemasModelo.jsx";
 import { EscenaCarta } from "../../components/dele/EscenaCarta.jsx";
 import { TITULOS, ambitoDe } from "../../data/oficial/titulos.js";
 import "../../styles/dele-nivel-v2.css";
+import "../../styles/movil-dele.css";
 
 // Cada nivel DELE es un mundo distinto del viaje: jardín de bambú (A1), festival de linternas (A2),
 // montañas de tinta (B1) y Ciudad Prohibida (B2). Mismo contenido, escenario, tarjetas y animaciones propias.

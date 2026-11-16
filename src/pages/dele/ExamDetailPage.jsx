@@ -54,6 +54,7 @@ import "../../styles/v14-fix-examenes.css";
 import "../../styles/sala-examen.css";
 import { turnosPractica, clavePractica } from "../../lib/vocesDele.js";
 import { cargarVocesDele, reproducirMp3 } from "../../lib/vocesDeleApp.js";
+import "../../styles/movil-dele.css";
 function BsComponent({ onClose }) {
   return (
     <div
