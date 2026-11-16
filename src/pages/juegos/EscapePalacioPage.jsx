@@ -412,7 +412,7 @@ function JuegoEscape({ contenido }) {
                 <span className="jb-cofre__tapa" />
                 <span className="jb-cofre__caja" />
               </div>
-              <img className="jb-tesoro__mono" src="./mono/trofeo.png" alt="Rey Mono con el trofeo · 美猴王" />
+              <img className="jb-tesoro__mono" src="./mono/trofeo.webp" alt="Rey Mono con el trofeo · 美猴王" />
               <Sello grande className="jb-sello--tongguan">
                 通关
               </Sello>

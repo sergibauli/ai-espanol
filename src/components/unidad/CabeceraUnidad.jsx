@@ -14,7 +14,7 @@ export const MUNDOS = {
   B1: { es: "Montañas de tinta", zh: "水墨山河", sello: "山", mono: "guino" },
   B2: { es: "Ciudad Prohibida", zh: "紫禁之巅", sello: "龙", mono: "poder" },
 };
-const MONO = (pose) => `${import.meta.env.BASE_URL}mono/${pose}.png`;
+const MONO = (pose) => `${import.meta.env.BASE_URL}mono/${pose}.webp`;
 const TEMA = (f) => `${import.meta.env.BASE_URL}theme/${f}`;
 // Esquinas doradas recortadas de las maquetas
 export function Esquinas() {

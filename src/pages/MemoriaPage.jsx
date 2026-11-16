@@ -127,7 +127,7 @@ function MemoriaPage() {
           </>
         ) : (
           <div className="jd-al-dia">
-            <img src={`./mono/${stats.total ? "trofeo" : "saluda"}.png`} alt="" />
+            <img src={`./mono/${stats.total ? "trofeo" : "saluda"}.webp`} alt="" />
             <div>
               <h2>{stats.total ? "¡Todo al día! · 全部复习完成！" : "Tu baúl de palabras está vacío · 还没有单词"}</h2>
               <p>

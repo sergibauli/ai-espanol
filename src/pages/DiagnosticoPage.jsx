@@ -145,7 +145,7 @@ export default function DiagnosticoPage() {
               </div>
               <div className="in-dg-hero__mono" aria-hidden="true">
                 <span className="in-dg-hero__rayos" />
-                <img src="./mono/saluda.png" alt="" />
+                <img src="./mono/saluda.webp" alt="" />
                 <img className="in-dg-hero__nube" src="./theme/nube-oro.png" alt="" />
               </div>
             </header>
@@ -184,7 +184,7 @@ export default function DiagnosticoPage() {
           <section className="in-papel in-dg-resultado" aria-live="polite">
             <div className="in-dg-resultado__escena" aria-hidden="true">
               <span className="in-dg-resultado__rayos" />
-              <img src="./mono/trofeo.png" alt="" />
+              <img src="./mono/trofeo.webp" alt="" />
             </div>
             <p className="in-dg-resultado__ceja">Resultado · 测试结果</p>
             <h1>

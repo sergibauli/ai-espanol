@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { FuegosArtificiales } from "./FuegosArtificiales.jsx";
-const monoTrofeo = "./mono/trofeo.png";
+const monoTrofeo = "./mono/trofeo.webp";
 
 /*
   Celebración al completar una clase (o la unidad entera) en la Ruta.

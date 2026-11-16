@@ -659,7 +659,7 @@ export default function DiccionarioPage() {
               </div>
             </div>
           </div>
-          <img key={pose} className="dz-portada__mono" src={`./mono/${pose}.png`} alt="" aria-hidden="true" width="150" height="150" decoding="async" />
+          <img key={pose} className="dz-portada__mono" src={`./mono/${pose}.webp`} alt="" aria-hidden="true" width="150" height="150" decoding="async" />
         </header>
 
         <nav className="dz-tomos" role="tablist" aria-label="Nivel · 级别">

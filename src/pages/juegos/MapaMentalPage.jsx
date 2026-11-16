@@ -960,7 +960,7 @@ function MapaMental({ contenido, onCambiar }) {
 
           {resultado && !resultado.viejo && (
             <div className={`ja-resultado${resultado.completo ? " is-completo" : ""}`} role="status">
-              <img src={resultado.completo ? "./mono/trofeo.png" : resultado.aciertos ? "./mono/feliz.png" : "./mono/serio.png"} alt="" aria-hidden="true" />
+              <img src={resultado.completo ? "./mono/trofeo.webp" : resultado.aciertos ? "./mono/feliz.webp" : "./mono/serio.webp"} alt="" aria-hidden="true" />
               <div>
                 <div className="ja-estrellas" aria-label={`${resultado.estrellas} estrellas`}>
                   {[0, 1, 2].map((i) => (

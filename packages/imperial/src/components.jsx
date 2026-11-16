@@ -1,10 +1,10 @@
 import * as React from "react";
-import monoSaluda from "./assets/mono-saluda.png";
-import monoGuino from "./assets/mono-guino.png";
-import monoSerio from "./assets/mono-serio.png";
-import monoPoder from "./assets/mono-poder.png";
-import monoFeliz from "./assets/mono-feliz.png";
-import monoTrofeo from "./assets/mono-trofeo.png";
+import monoSaluda from "./assets/mono-saluda.webp";
+import monoGuino from "./assets/mono-guino.webp";
+import monoSerio from "./assets/mono-serio.webp";
+import monoPoder from "./assets/mono-poder.webp";
+import monoFeliz from "./assets/mono-feliz.webp";
+import monoTrofeo from "./assets/mono-trofeo.webp";
 import { ICONOS } from "./iconos.jsx";
 
 const cx = (...a) => a.filter(Boolean).join(" ");

@@ -40,8 +40,8 @@ export function MonoSaluda() {
       <span className="v14a-mono-halo" aria-hidden="true" />
       <span className="v14a-mono-rayos" aria-hidden="true" />
       <span key={brinco} className={`v14a-mono-cuerpo ${brinco ? "brinca" : ""}`} aria-hidden="true">
-        <img className="pose base" src="./mono/saluda.png" alt="" draggable="false" />
-        <img className="pose guino" src="./mono/guino.png" alt="" draggable="false" />
+        <img className="pose base" src="./mono/saluda.webp" alt="" draggable="false" />
+        <img className="pose guino" src="./mono/guino.webp" alt="" draggable="false" />
       </span>
       {brinco > 0 && (
         <span key={`b${brinco}`} className="v14a-mono-hola" translate="no">

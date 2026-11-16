@@ -331,7 +331,7 @@ function Character({ text, speakText }) {
   return (
     <div className="ej-mono">
       <span className="ej-mono__medallon" aria-hidden="true">
-        <img src="./mono/serio.png" alt="" />
+        <img src="./mono/serio.webp" alt="" />
       </span>
       <div className="ej-mono__bocadillo">
         {speakText && (
@@ -708,7 +708,7 @@ export function LessonPlayer({ lesson, onClose }) {
     <div className={`lp-center lp-end ${result.unitDone ? "unit-done" : ""}`}>
       <div className="lp-reward">
         <span className="lp-reward-rays" />
-        <img className="lp-reward-mono" src={`./mono/${result.unitDone || result.perfect ? "trofeo" : "feliz"}.png`} alt="" />
+        <img className="lp-reward-mono" src={`./mono/${result.unitDone || result.perfect ? "trofeo" : "feliz"}.webp`} alt="" />
         <span className="lp-reward-seal">{result.unitDone ? "单元" : result.perfect ? "满分" : "完成"}</span>
         {Array.from({ length: Math.min(6, Math.round(result.xp / 3)) }, (_, i) => (
           <i key={i} className="lp-coin" style={{ "--i": i }} />
@@ -748,7 +748,7 @@ export function LessonPlayer({ lesson, onClose }) {
     </div>
   ) : outOfHearts ? (
     <div className="lp-center">
-      <img className="ej-sin-vidas" src="./mono/serio.png" alt="" />
+      <img className="ej-sin-vidas" src="./mono/serio.webp" alt="" />
       <h2 className="lp-word" style={{ fontSize: 30 }}>Te has quedado sin vidas</h2>
       <div className="lp-zh-big">生命值用完了</div>
       <p className="ui-muted" style={{ textAlign: "center", maxWidth: 420 }}>
@@ -809,7 +809,7 @@ export function LessonPlayer({ lesson, onClose }) {
         <div className="lp-foot-inner">
           {feedback && !result && !outOfHearts && (
             <div className="lp-feedback">
-              <img className="lp-mono" src={`./mono/${feedback.ok ? (pos % 2 ? "guino" : "feliz") : "serio"}.png`} alt="" />
+              <img className="lp-mono" src={`./mono/${feedback.ok ? (pos % 2 ? "guino" : "feliz") : "serio"}.webp`} alt="" />
               <div>
                 <b>{feedback.ok ? (feedback.accent ? "¡Bien! Ojo con la tilde · 注意重音" : "¡Correcto! · 正确！") : "Solución correcta · 正确答案"}</b>
                 {(!feedback.ok || feedback.accent) && (

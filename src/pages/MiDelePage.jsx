@@ -174,7 +174,7 @@ export default function MiDelePage() {
           </div>
           <div className="in-md-hero__medidor">
             <AnilloApto valor={prevision.prob} />
-            <img className="in-md-hero__mono" src={`./mono/${poseMono}.png`} alt="" />
+            <img className="in-md-hero__mono" src={`./mono/${poseMono}.webp`} alt="" />
             <p className="in-md-hero__nota">
               {prevision.prob == null ? (
                 <>
@@ -383,7 +383,7 @@ export default function MiDelePage() {
           </div>
           {!errores.length ? (
             <div className="in-vacio">
-              <img src="./mono/guino.png" alt="" />
+              <img src="./mono/guino.webp" alt="" />
               <div>
                 <b>¡Tu cuaderno está limpio!</b>
                 <p>

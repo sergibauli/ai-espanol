@@ -140,9 +140,9 @@ export function MonoFlotante({ onAbrir }) {
         <span className="mf-aura" aria-hidden="true" />
         <span className="mf-cuerpo" aria-hidden="true">
           <span key={salto} className={`mf-salto ${salto ? "salta" : ""}`}>
-            <img className="mf-mono base" src="./mono/saluda.png" alt="" draggable="false" style={{ opacity: pose === "saluda" ? 1 : 0 }} />
-            <img className="mf-mono guino" src="./mono/guino.png" alt="" draggable="false" />
-            {pose !== "saluda" && <img className="mf-mono pose" src={`./mono/${pose}.png`} alt="" draggable="false" />}
+            <img className="mf-mono base" src="./mono/saluda.webp" alt="" draggable="false" style={{ opacity: pose === "saluda" ? 1 : 0 }} />
+            <img className="mf-mono guino" src="./mono/guino.webp" alt="" draggable="false" />
+            {pose !== "saluda" && <img className="mf-mono pose" src={`./mono/${pose}.webp`} alt="" draggable="false" />}
           </span>
           <svg className="mf-nube" viewBox="-24 0 184 70">
             <defs>

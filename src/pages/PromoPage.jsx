@@ -57,7 +57,7 @@ export default function PromoPage() {
       <span className="tp-acceso-luz" aria-hidden="true" />
       {!empezado ? (
         <div className="tp-promo-escena">
-          <img className="tp-promo-mono" src="./mono/saluda.png" alt="" />
+          <img className="tp-promo-mono" src="./mono/saluda.webp" alt="" />
           <h1>
             AI Español
             <small>智能西班牙语</small>
@@ -88,7 +88,7 @@ export default function PromoPage() {
               </>
             ) : (
               <>
-                <img className="tp-promo-mono" src={`./mono/${actual.mono}.png`} alt="" />
+                <img className="tp-promo-mono" src={`./mono/${actual.mono}.webp`} alt="" />
                 <span className="tp-panel-ceja">{actual.es}</span>
                 <h1>{actual.zh}</h1>
                 <p className="tp-promo-desc">

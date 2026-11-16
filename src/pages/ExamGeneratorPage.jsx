@@ -182,7 +182,7 @@ export default function ExamGeneratorPage() {
             </div>
           </div>
           <div className="xm-gen-hero-art" aria-hidden="true">
-            <img src="./mono/poder.png" alt="" />
+            <img src="./mono/poder.webp" alt="" />
           </div>
         </section>
 
