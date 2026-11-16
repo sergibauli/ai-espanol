@@ -238,12 +238,11 @@ function OficialNivelPage() {
                 </dl>
               </div>
               {filas.length > 0 && (
-                <div className="dx-mapa" role="list" aria-label={t("Mapa de modelos", "模型地图")}>
+                <div className="dx-mapa" role="group" aria-label={t("Mapa de modelos", "模型地图")}>
                   {filas.map(({ m, r }) => (
                     <button
                       key={`${m.codigo}-${m.id}`}
                       type="button"
-                      role="listitem"
                       className={`dx-punto ${r ? "hecho" : ""} ${m.nuevo ? "nuevo" : ""}`}
                       style={r ? { "--n": colorNotaClara(r.total || 0) } : undefined}
                       onClick={() => irA(m.id)}

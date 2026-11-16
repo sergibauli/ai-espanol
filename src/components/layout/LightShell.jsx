@@ -42,7 +42,7 @@ function FichaHoy() {
   const circunferencia = 2 * Math.PI * radio;
   const cumplido = juego.goalPct >= 100;
   return (
-    <Link to="/mi-dele" className={`in-hoy ${cumplido ? "is-cumplido" : ""}`} aria-label={`Hoy: ${juego.dailyXp} de ${juego.goal} XP, racha de ${racha} días`}>
+    <Link to="/mi-dele" className={`in-hoy ${cumplido ? "is-cumplido" : ""}`}>
       <span className="in-hoy__anillo" aria-hidden="true">
         <svg viewBox="0 0 48 48" width="48" height="48">
           <circle cx="24" cy="24" r={radio} className="in-hoy__fondo" />

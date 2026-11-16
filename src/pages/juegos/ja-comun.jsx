@@ -108,7 +108,7 @@ export function SelloJA({ texto, grande = false }) {
 export function CabeceraJA({ titulo, tituloZh, sello, contenido, onCambiar, children }) {
   return (
     <header className="ja-cabecera">
-      <Link to="/juegos" className="ja-volver" aria-label="Volver a juegos · 返回游戏">
+      <Link to="/juegos" className="ja-volver" aria-label="Juegos · 游戏: volver · 返回">
         <ArrowLeftIcon size={20} aria-hidden="true" />
         <span>Juegos · 游戏</span>
       </Link>

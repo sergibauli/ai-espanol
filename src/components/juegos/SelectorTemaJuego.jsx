@@ -159,7 +159,7 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
   return (
     <div className="v14j-selector gm-no-adapt" data-juego={juego}>
       <div className="v14j-barra">
-        <Link to="/juegos" className="v14j-volver" aria-label="Volver a juegos · 返回游戏">
+        <Link to="/juegos" className="v14j-volver" aria-label="Juegos · 游戏: volver · 返回">
           <ArrowLeftIcon size={20} aria-hidden="true" />
           <span>Juegos · 游戏</span>
         </Link>

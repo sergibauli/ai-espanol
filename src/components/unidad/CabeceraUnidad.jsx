@@ -203,7 +203,7 @@ export function MapaClases({ progreso, actual, onElegir, onExamen, info }) {
         {progreso.clases.map((c) => {
           const on = c.n === actual;
           return (
-            <li key={c.n} className={`ud-parada ${on ? "on" : ""} ${c.completada ? "hecha" : ""}`}>
+            <li key={c.n} role="presentation" className={`ud-parada ${on ? "on" : ""} ${c.completada ? "hecha" : ""}`}>
               <button type="button" role="tab" aria-selected={on} onClick={() => onElegir(c.n)}>
                 <span className="ud-parada-sello" translate="no">
                   {c.completada ? <CheckIcon size={26} strokeWidth={3.5} /> : <b>第{c.n}课</b>}
@@ -232,8 +232,8 @@ export function MapaClases({ progreso, actual, onElegir, onExamen, info }) {
             </li>
           );
         })}
-        <li className={`ud-parada final ${examenAbierto ? "abierta" : ""}`}>
-          <button type="button" onClick={onExamen}>
+        <li role="presentation" className={`ud-parada final ${examenAbierto ? "abierta" : ""}`}>
+          <button type="button" role="tab" aria-selected={false} onClick={onExamen}>
             <span className="ud-parada-sello" translate="no">
               {examenAbierto ? <b>考</b> : <LockIcon size={20} />}
             </span>
