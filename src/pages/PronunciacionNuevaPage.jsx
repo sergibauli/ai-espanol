@@ -522,7 +522,7 @@ function Familia({ familia, silaba, voz, reproducir, oidas, dominadas, perfectas
             </span>
           </div>
         </div>
-        <img className="pe-portico__mono" src={`./mono/${nivel > 0 ? "poder" : dom === familia.silabas.length ? "trofeo" : "guino"}.png`} alt="" />
+        <img className="pe-portico__mono" src={`./mono/${nivel > 0 ? "poder" : dom === familia.silabas.length ? "trofeo" : "guino"}.webp`} alt="" />
       </section>
 
       <div className="pv-pergamino">

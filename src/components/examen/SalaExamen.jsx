@@ -91,7 +91,7 @@ export function SalaHero({ prueba, codigo, subtitulo, volverA, modo, onModo, inc
       <img className="sx-nube" src={recurso("theme/nube-oro.png")} alt="" aria-hidden="true" style={{ left: "38%", top: 34 }} />
       <img className="sx-nube" src={recurso("theme/nube-oro.png")} alt="" aria-hidden="true" style={{ left: "56%", bottom: 70, width: 110, animationDelay: "-8s" }} />
       <img className="sx-hero-dragon" src={recurso("theme/dragon-luz.webp")} alt="" aria-hidden="true" />
-      <img className="sx-hero-mono" src={recurso(`mono/${cfg.mono}.png`)} alt="" aria-hidden="true" />
+      <img className="sx-hero-mono" src={recurso(`mono/${cfg.mono}.webp`)} alt="" aria-hidden="true" />
       <div className="sx-bocadillo" aria-hidden="true">
         {cfg.consejo[0]}
         <span className="sx-zh" lang="zh-CN">{cfg.consejo[1]}</span>
@@ -462,7 +462,7 @@ export function PreguntaSX({ id, item, valor, onSelect, revelada, modoExamen, on
               </button>
             )}
           </div>
-          <img className="sx-monito" src={recurso(`mono/${acierto ? "feliz" : "serio"}.png`)} alt="" aria-hidden="true" />
+          <img className="sx-monito" src={recurso(`mono/${acierto ? "feliz" : "serio"}.webp`)} alt="" aria-hidden="true" />
         </div>
       ) : (
         <div className="sx-qpie">

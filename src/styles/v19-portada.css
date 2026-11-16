@@ -53,3 +53,10 @@
   .pc-palabra, .pc-titulo-zh, .pc-sub, .pc-intro-acciones, .pc-panel, .pc-panel::before, .pc-mundo::before { animation: none !important; }
   .pc-mundo > * { opacity: 1; transform: none; }
 }
+
+/* Rendimiento (sin cambio visual): las secciones bajo el pliegue no calculan estilo, pintura ni animaciones
+   mientras están fuera de pantalla. Ambas ya recortan o aíslan su contenido; la altura reservada se recuerda (auto). */
+.pc-mundo { content-visibility: auto; contain-intrinsic-size: auto 745px; }
+.pc-viaje { content-visibility: auto; contain-intrinsic-size: auto 1220px; }
+/* Capas decorativas del fondo: sin prueba de puntero (no tienen nada pulsable) */
+.pc-fondo-caja { pointer-events: none; }

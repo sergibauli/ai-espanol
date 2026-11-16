@@ -243,7 +243,7 @@ export function ExamRunner({ exam, onFinish, onRestart, compact = false }) {
         <section className={`xm-result ${result.apto ? "apto" : "noapto"}`} aria-live="polite">
           <div className="xm-result-inner">
             <div className="xm-result-mono">
-              <img src={`./mono/${verdictInfo.mono}.png`} alt="" />
+              <img src={`./mono/${verdictInfo.mono}.webp`} alt="" />
             </div>
             <div className="xm-result-main">
               <div className="xm-eyebrow">Resultado del examen · 考试成绩</div>

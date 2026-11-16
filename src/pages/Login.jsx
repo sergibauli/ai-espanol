@@ -85,7 +85,7 @@ export default function Login() {
             </button>
           )}
           <div className="tp-acceso-wechat">
-            <img src="./images/qr-wechat.png" alt="Código QR de WeChat · 微信二维码" onError={(e) => (e.currentTarget.style.display = "none")} />
+            <img src="./images/qr-wechat-240.webp" alt="Código QR de WeChat · 微信二维码" width="76" height="76" decoding="async" onError={(e) => (e.currentTarget.style.display = "none")} />
             <p>
               <MessageCircleIcon size={16} aria-hidden="true" />
               <span>
