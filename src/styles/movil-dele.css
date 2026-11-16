@@ -211,3 +211,28 @@
 @media (max-width: 1023px) {
   .exam-experience > a.inline-flex { min-height: 44px; }
 }
+
+/* ---------------------------------------------------------------------------------------------
+   9 · Móvil en horizontal (poca altura): cabeceras compactas para ver el contenido
+   --------------------------------------------------------------------------------------------- */
+@media (max-width: 1023px) and (max-height: 500px) {
+  .sx .sx-hero { min-height: 0; padding-bottom: 66px; }
+  .sx .sx-titular { margin-top: 6px; gap: 12px; }
+  .sx .sx-glifo { font-size: 56px; }
+  .sx .sx-titular h1 { font-size: 22px; }
+  .sx .sx-titular h1 .sx-zh { font-size: 17px; margin-top: 2px; }
+  .sx .sx-chips { display: none; }
+
+  .dx .dx-lema, .dx .dx-mapa { display: none; }
+  .dx .dx-hero { padding-top: 14px; padding-bottom: 14px; }
+
+  .in-md .in-md-hero__medidor { justify-content: flex-start; }
+  .in-md .in-md-anillo { width: 124px; height: 124px; }
+  .in-md .in-md-anillo__centro { inset: 14px; }
+  .in-md .in-md-anillo__centro b { font-size: 26px; }
+  .in-md .in-md-anillo__centro span { margin-top: 2px; padding: 0 6px; line-height: 1.15; }
+  .in-dg .in-dg-hero__mono { height: 128px; }
+  .in-dg .in-dg-hero__mono img:not(.in-dg-hero__nube) { height: 120px; }
+  .in-dg .in-dg-hero__nube { width: 112px; }
+  .xm-gen .xm-gen-hero-art { width: 96px; }
+}
