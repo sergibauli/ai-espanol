@@ -3,6 +3,8 @@
 
 // Todos los ficheros modulos-XX-YY.js (01-20 … 61-80 y los que se añadan: 81-85, 86-90…)
 import { moduloDeClase, plusDeClase } from "./clases.js";
+// Una unidad por fichero (trozos generados al compilar a partir de los mismos modulos-XX-YY.js)
+import { UNIDADES } from "virtual:modulos-indice";
 
 const GLOB_MODULOS = import.meta.glob("../data/modulos/modulos-*-*.js");
 const MODULE_LOADERS = Object.values(GLOB_MODULOS).map(
@@ -14,12 +16,13 @@ const TRAMOS = Object.entries(GLOB_MODULOS).map(([ruta, load]) => {
   return { desde: Number(desde), hasta: Number(hasta), load: () => load().then((m) => Object.values(m).find(Array.isArray) || []) };
 });
 const unidadCache = new Map();
-/** Una sola unidad (solo descarga el fichero de su tramo; si no está, recurre a todas) */
+/** Una sola unidad: descarga solo su trozo (scripts/vite-trozos-datos.mjs); si no está, su tramo o todas */
 export function loadModule(numero) {
   const n = Number(numero);
   if (!unidadCache.has(n)) {
     const tramo = TRAMOS.find((t) => n >= t.desde && n <= t.hasta);
-    const promesa = (tramo ? tramo.load() : loadAllModules())
+    const sola = UNIDADES[n];
+    const promesa = (sola ? sola().then((m) => (m ? [m] : tramo ? tramo.load() : loadAllModules())) : tramo ? tramo.load() : loadAllModules())
       .then((lista) => lista.find((m) => m?.numero === n) || (tramo ? loadAllModules().then((all) => all.find((m) => m.numero === n)) : undefined))
       .catch((error) => {
         unidadCache.delete(n);
