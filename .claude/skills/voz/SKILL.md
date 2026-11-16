@@ -31,3 +31,5 @@ description: Genera con la voz clonada del profesor (Fish Audio) o con la voz fe
   FISH_KEY=... python3 scripts/voces-dele.py /tmp/lista.json /tmp/ref
   ```
   Si el script descarta una voz (no suena del sexo que toca), repite los dos pasos. Borra luego los MP3 de `public/audio/dele` que no estén en `audio-index-dele.json`.
+- Comprobar que no falta ningún audio de las pruebas auditivas: `node scripts/verificar-audios-dele.mjs` (con `--ffprobe` también decodifica cada MP3; tarda ~8 min).
+- Reproducción en la app: siempre con `src/lib/audioExamen.jsx` (un solo `<audio>` desbloqueado en el toque). Nunca `new Audio()` por frase lanzado tras un `await`/`setTimeout`: en iPhone y WeChat solo suena el primero.
