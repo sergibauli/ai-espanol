@@ -4,14 +4,7 @@
    (el service worker lo genera vite-plugin-pwa al compilar: no hay que subir versiones a mano)
    ============================================================ */
 
-/* ---------- 1. DASHBOARD: quitar el tutor IA de abajo, su input,
-       los cuadritos y el grid de 3 stats (solo en la página Dashboard) ---------- */
-body:has(.dashboard-stars) div:has(> .flex.items-center.gap-3.mb-6 .text-green-400),
-body:has(.dashboard-stars) .flex.justify-start,
-body:has(.dashboard-stars) .px-4.py-2\.5.rounded-2xl.rounded-bl-md,
-body:has(.dashboard-stars) .grid.grid-cols-3.gap-3.mb-5 {
-  display: none !important;
-}
+/* ---------- 1. (Quitado: ocultaba piezas del Dashboard antiguo con body:has(.dashboard-stars); esa clase ya no existe) ---------- */
 
 /* ---------- 2. MÓDULOS: pestañas de nivel más bonitas y táctiles ---------- */
 .mx-noscroll {

@@ -132,6 +132,8 @@ export function LightShell({ children, legacy = false, stage = false }) {
   const cerrarMas = React.useCallback(() => setMasAbierto(false), []);
   React.useEffect(() => setMasAbierto(false), [pathname]);
   const adapt = legacy || ADAPT_ROUTES(pathname);
+  // .con-juego en .light-page = «contiene main.game-bg» (sustituye a .light-page:not(:has(main.game-bg)) del CSS)
+  const juego = pathname.startsWith("/juegos/");
   React.useEffect(() => (adapt ? attachLightAdapter(mainRef.current) : undefined), [adapt, pathname]);
   const active = (to) =>
     pathname === to ||
@@ -139,7 +141,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
     (to === "/ruta" && pathname === "/dashboard") ||
     (to === "/oficial" && /^\/examenes/.test(pathname));
   return (
-    <div className={`light-page v18 ${legacy || adapt ? "light-legacy" : ""} ${stage ? "has-stage" : ""}`}>
+    <div className={`light-page v18 ${legacy || adapt ? "light-legacy" : ""} ${stage ? "has-stage" : ""} ${juego ? "con-juego" : ""}`}>
       <FondoV18 />
       <div className="light-top">
         <Link to="/ruta" className="side-brand" style={{ padding: 0 }} aria-label="AI Español">
@@ -175,7 +177,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
             Salir · 退出
           </a>
         </nav>
-        <main key={pathname} ref={mainRef} className={`app-pantalla ${pathname.startsWith("/juegos/") ? "game-bg" : ""}`} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
+        <main key={pathname} ref={mainRef} className={`app-pantalla ${juego ? "game-bg" : ""}`} style={{ minWidth: 0 }}>{stage ? <div className="app-stage">{children}</div> : children}</main>
       </div>
       {createPortal(
         <>

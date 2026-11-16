@@ -260,7 +260,7 @@ html body .bottom-nav.in-barra > .in-barra__mas:focus-visible { outline: 3px sol
 /* Hoja «Más» como pergamino que se despliega desde abajo */
 .in-mas { position: fixed; inset: 0; z-index: 349; display: none; }
 @media (max-width: 1000px) { .in-mas { display: block; } }
-body:has(.lp-root, .pp-overlay) .in-mas { display: none !important; }
+.hay-lp-root > body .in-mas, .hay-pp-overlay > body .in-mas { display: none !important; }
 .in-mas__velo { position: absolute; inset: 0; width: 100%; border: 0; cursor: pointer; background: rgba(10, 6, 20, 0.55); backdrop-filter: blur(3px); animation: inVelo 0.25s ease both; }
 .in-mas__hoja {
   position: absolute;

@@ -10,7 +10,7 @@
 
 /* ---------- Fondo general ---------- */
 html body .light-page.v18,
-html[data-cielo] body .light-page.v18:not(:has(main.game-bg)) {
+html[data-cielo] body .light-page.v18:not(.con-juego) {
   background:
     radial-gradient(1200px 520px at 78% -8%, rgba(255, 170, 110, .22), transparent 62%),
     radial-gradient(900px 700px at 8% 108%, rgba(60, 0, 0, .55), transparent 60%),

@@ -20,9 +20,11 @@ import "./styles/v20-fluidez.css";
 import "./styles/v13-pergamino.css";
 import { iniciarFluidez } from "./lib/fluidez.js";
 import { iniciarAppNativo } from "./lib/appNativo.js";
+import { iniciarClasesRaiz } from "./lib/clasesRaiz.js";
 // En producción define VITE_CLERK_PUBLISHABLE_KEY (pk_live_…); la clave de desarrollo queda como respaldo
 const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_Y29tcG9zZWQta2l0dGVuLTcwLmNsZXJrLmFjY291bnRzLmRldiQ";
 iniciarFluidez();
+iniciarClasesRaiz();
 iniciarAppNativo();
 const ev = document.getElementById("root");
 if (!ev) {
