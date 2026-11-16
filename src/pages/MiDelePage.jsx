@@ -384,7 +384,7 @@ export default function MiDelePage() {
           </div>
           {!errores.length ? (
             <div className="in-vacio">
-              <img src="./mono/guino.png" alt="" />
+              <img src="./mono/guino.webp" alt="" />
               <div>
                 <b>¡Tu cuaderno está limpio!</b>
                 <p>

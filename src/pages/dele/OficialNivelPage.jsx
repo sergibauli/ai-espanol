@@ -328,7 +328,7 @@ function OficialNivelPage() {
                       ) : null}
                       {grande && (
                         <>
-                          <img className="dx-mono" src={`${import.meta.env.BASE_URL}mono/guino.png`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                          <img className="dx-mono" src={`${import.meta.env.BASE_URL}mono/guino.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                           <span className="dx-tetoca">
                             {t("¡Te toca!", "轮到你了！")}
                           </span>

@@ -180,7 +180,7 @@ function CelebrarClase({ estado, siguiente, onIrClase, onExamen, onCerrar }) {
         <span className="cls-celebra-sello" translate="no">
           完成
         </span>
-        <img src={`${import.meta.env.BASE_URL}mono/trofeo.png`} alt="" className="cls-celebra-mono" onError={(e) => (e.currentTarget.style.display = "none")} />
+        <img src={`${import.meta.env.BASE_URL}mono/trofeo.webp`} alt="" className="cls-celebra-mono" onError={(e) => (e.currentTarget.style.display = "none")} />
         <h3>¡Clase {estado.n} completada!</h3>
         <p>{estado.titulo}</p>
         {siguiente ? (
@@ -437,7 +437,7 @@ export default function UnitPage() {
             <section className="v27-sala practica" aria-labelledby="u-ejercicios">
               <span className="v27-sala__glifo" aria-hidden="true" translate="no">练</span>
               <span className="v27-sala__rayos" aria-hidden="true" />
-              <img className="v27-sala__mono" src="./mono/poder.png" alt="" draggable="false" />
+              <img className="v27-sala__mono" src="./mono/poder.webp" alt="" draggable="false" />
               <div className="v27-sala__txt">
                 <small>Sala de entrenamiento · <span lang="zh">练功房</span></small>
                 <h2 id="u-ejercicios">
@@ -536,7 +536,7 @@ export default function UnitPage() {
         <section className="v27-sala examen" aria-labelledby="u-extra">
           <span className="v27-sala__glifo" aria-hidden="true" translate="no">考</span>
           <span className="v27-sala__rayos" aria-hidden="true" />
-          <img className="v27-sala__mono" src="./mono/trofeo.png" alt="" draggable="false" />
+          <img className="v27-sala__mono" src="./mono/trofeo.webp" alt="" draggable="false" />
           <div className="v27-sala__txt">
             <small>Sala del examen imperial · <span lang="zh">科举考场</span></small>
             <h2 id="u-extra">

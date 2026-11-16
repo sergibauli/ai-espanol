@@ -150,7 +150,7 @@ export function SelectorUnidadJA({ titulo, tituloZh, sello, descripcion, onElegi
         <h2>{titulo}</h2>
         <p className="ja-selector-zh">{tituloZh}</p>
         <p className="ja-selector-desc">{descripcion}</p>
-        <img src="./mono/saluda.png" alt="" className="ja-selector-mono" aria-hidden="true" />
+        <img src="./mono/saluda.webp" alt="" className="ja-selector-mono" aria-hidden="true" />
       </div>
       <div className="ja-niveles" role="tablist" aria-label="Nivel · 级别">
         {NIVELES.map((n) => (

@@ -432,7 +432,7 @@ export default function ExaminadorOralPage() {
                 ))}
               </div>
               <div className="tp-eo-ficha">
-                <img src="./mono/serio.png" alt="" className="tp-eo-mono" />
+                <img src="./mono/serio.webp" alt="" className="tp-eo-mono" />
                 <div>
                   <p className="oe-task"><strong>{tareaExterna || task.tarea}</strong> · {task.zh}</p>
                   <ul className="tp-eo-datos">
@@ -506,7 +506,7 @@ export default function ExaminadorOralPage() {
               <h3>Conversación · 对话 ({idxPregunta + 1}/{task.preguntas})</h3>
               {preguntaActual && (
                 <div className="oe-q-row">
-                  <img className="oe-avatar" src="./mono/serio.png" alt="examinador" />
+                  <img className="oe-avatar" src="./mono/serio.webp" alt="examinador" />
                   <div className="oe-q">
                     <span>{preguntaActual}</span>
                     <button className="oe-replay" aria-label="Escuchar la pregunta · 再听一遍" onClick={() => speakIA(preguntaActual)}><Volume2Icon size={14} /></button>
