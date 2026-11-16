@@ -98,28 +98,22 @@ export function iniciarMovilLigero() {
     }, ms);
   };
   // dirección del scroll (en cualquier contenedor)
-  let ultimo = 0;
-  let objetivo = null;
+  const ultimos = new WeakMap();
   const html = document.documentElement;
   const alDesplazar = (e) => {
     programar();
     if (!mq.matches) return;
     const t = e.target === document ? document.scrollingElement : e.target;
     if (!t || typeof t.scrollTop !== "number") return;
-    if (t !== objetivo) {
-      objetivo = t;
-      ultimo = t.scrollTop;
-      return;
-    }
     const y = t.scrollTop;
+    const ultimo = ultimos.get(t) ?? 0;
     if (Math.abs(y - ultimo) < 24) return;
     html.classList.toggle("scroll-bajando", y > ultimo && y > 80);
-    ultimo = y;
+    ultimos.set(t, y);
   };
   document.addEventListener("scroll", alDesplazar, { passive: true, capture: true });
   window.addEventListener("hashchange", () => {
     html.classList.remove("scroll-bajando");
-    objetivo = null;
     programar(900);
   });
   new MutationObserver(() => programar(600)).observe(document.body, { childList: true, subtree: true });
