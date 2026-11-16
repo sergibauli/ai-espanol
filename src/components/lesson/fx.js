@@ -11,6 +11,7 @@ const soundOn = () => {
 
 function tone(freq, start, dur, type = "sine", gain = 0.12) {
   ctx ??= new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === "suspended") ctx.resume?.().catch?.(() => {});
   const o = ctx.createOscillator();
   const g = ctx.createGain();
   o.type = type;
@@ -48,6 +49,33 @@ function fnv(t) {
   return h.toString(16).padStart(8, "0");
 }
 let current = null;
+
+// Un solo <audio> para las frases (MP3): iOS Safari y WeChat solo dejan sonar un elemento cuyo primer
+// play() fue dentro de un toque. Con un `new Audio()` por frase, las que arrancan solas (diálogo
+// automático, «Reproducir todo») se bloqueaban. Se desbloquea en el primer toque de la página.
+const SILENCIO = "data:audio/wav;base64,UklGRmQBAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YUABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+let vozMp3 = null;
+let turnoMp3 = 0;
+const elementoVoz = () => {
+  if (!vozMp3 && typeof Audio !== "undefined") {
+    vozMp3 = new Audio();
+    vozMp3.preload = "auto";
+    vozMp3.setAttribute("playsinline", "");
+  }
+  return vozMp3;
+};
+if (typeof window !== "undefined") {
+  const desbloquear = () => {
+    ["touchend", "click", "keydown"].forEach((tipo) => window.removeEventListener(tipo, desbloquear, true));
+    const a = elementoVoz();
+    if (a && !a.src) {
+      a.src = SILENCIO;
+      a.play()?.catch(() => {});
+    }
+    if (ctx?.state === "suspended") ctx.resume?.().catch?.(() => {});
+  };
+  ["touchend", "click", "keydown"].forEach((tipo) => window.addEventListener(tipo, desbloquear, true));
+}
 
 // voice: "m" (voz del profesor) o "f" (voz femenina para Lucía, Mei y Carmen)
 // Voz de Fish generada al momento a través del Worker (textos nuevos, p. ej. el entrevistador); si no hay Worker, voz normal
@@ -121,14 +149,17 @@ function play(text, rate, voice, onEnd) {
   const key = voice === "f" && AUDIO_F.has(fk) ? fk : fnv(t);
   if (AUDIO.has(key) || AUDIO_F.has(key)) {
     try {
-      current?.pause();
+      if (current && current !== elementoVoz()) current.pause();
       speechSynthesis?.cancel?.();
-      const a = new Audio(`./audio/${key}.mp3`);
+      const a = elementoVoz();
+      const turno = ++turnoMp3;
       current = a;
-      a.playbackRate = rate < 0.7 ? 0.75 : 1;
       a.onended = done;
+      a.src = `./audio/${key}.mp3`;
+      a.defaultPlaybackRate = a.playbackRate = rate < 0.7 ? 0.75 : 1;
       // Si el navegador bloquea el audio (p. ej. iPhone tras usar el micrófono), usa la voz del sistema
-      a.play().catch(() => synth(t, rate, done));
+      // (AbortError = otra frase ha ocupado el reproductor: no es un fallo)
+      a.play().catch((error) => error?.name !== "AbortError" && turno === turnoMp3 && synth(t, rate, done));
       return;
     } catch {}
   }

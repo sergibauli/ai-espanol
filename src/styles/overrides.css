@@ -734,3 +734,9 @@ html, body { overflow-x: clip; }
 .module-experience .flex.items-center.gap-4:has(> .w-14.h-14 + .flex-1) > .shrink-0:last-child { grid-area: tools; justify-self: end; }
 .module-experience .flex.items-center.gap-4:has(> .w-14.h-14 + .flex-1) h2 { font-size: 20px !important; line-height: 1.25 !important; }
 .module-experience .theory-card-preview { color: #b6bbd6 !important; font-size: 14px !important; }
+
+/* ===== Audio de los exámenes: aviso cuando un MP3 no carga o el navegador lo detiene (src/lib/audioExamen.jsx) */
+.aviso-audio-examen { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 10px 0; padding: 10px 14px; border: 1.5px solid #c8102e; border-radius: 12px; background: #fff4e8; color: #3b2416 !important; font-size: 13.5px; line-height: 1.4; }
+.aviso-audio-examen > span { flex: 1 1 220px; }
+.aviso-audio-examen .zh { display: block; font-family: "STKaiti", "KaiTi", serif; color: #8f0c21 !important; }
+.aviso-audio-examen button { min-height: 40px; padding: 8px 16px; border: 0; border-radius: 999px; background: linear-gradient(180deg, #c8102e, #8f0c21); color: #fff !important; font-weight: 800; cursor: pointer; }
