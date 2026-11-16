@@ -43,8 +43,8 @@
         var pide = function (caras) { caras.forEach(function (c) { if (!pedidas[c]) { pedidas[c] = 1; document.fonts.load(c).catch(function () {}); } }); };
         var porRuta = function () {
           var h = location.hash;
-          if (/^#\/(oficial|examenes)/.test(h)) pide(['400 1em "Source Serif 4"', '600 1em "Source Serif 4"', '500 1em "JetBrains Mono"', '700 1em "JetBrains Mono"']);
-          if (/^#\/(ruta|oficial|examenes)/.test(h)) pide(['500 1em Unbounded', '700 1em Unbounded', '900 1em Unbounded']);
+          if (/^#\/(oficial\/[^/]+\/[^/]+|examenes)/.test(h)) pide(['400 1em "Source Serif 4"', '600 1em "Source Serif 4"', '500 1em "JetBrains Mono"', '700 1em "JetBrains Mono"']);
+          if (/^#\/(ruta|oficial)\/?$/.test(h)) pide(['500 1em Unbounded', '700 1em Unbounded', '900 1em Unbounded']);
         };
         pide(['400 1em "Plus Jakarta Sans"', '500 1em "Plus Jakarta Sans"', '600 1em "Plus Jakarta Sans"', '700 1em "Plus Jakarta Sans"', '800 1em "Plus Jakarta Sans"', '600 1em Cinzel', '700 1em Cinzel', '900 1em Cinzel']);
         porRuta();
