@@ -59,7 +59,19 @@ import "../../styles/v14-fix-examenes.css";
 import { turnosDeAudio, anuncioAudio, claveOficial } from "../../lib/vocesDele.js";
 
 // MP3 con voces nativas de España y reparto de voces de cada examen (se cargan al abrir un audio)
-import { cargarVocesDele as cargarIndiceVoces, urlVozDele } from "../../lib/vocesDeleApp.js";
+import { cargarVocesDele as cargarIndiceVoces, urlVozDele, ritmoMp3 } from "../../lib/vocesDeleApp.js";
+import {
+  AvisoAudioExamen,
+  audioExamenVigente,
+  empezarAudioExamen,
+  esperarAudioExamen,
+  pararAudioExamen,
+  pausarAudioExamen,
+  reanudarAudioExamen,
+  terminarAudioExamen,
+  tocarAudioExamen,
+  useAudioExamen,
+} from "../../lib/audioExamen.jsx";
 import { useParams, Link } from "react-router";
 import * as jsxRuntime from "react/jsx-runtime";
 import { u as u_1, C as C_2 } from "../../components/CorrectionDisplay.jsx";
@@ -419,7 +431,8 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
   // Escuchas de cada parte (en el DELE cada audio suena dos veces)
   const [escuchas, setEscuchas] = React.useState({});
   const TRef = React.useRef(0);
-  const audioActualRef = React.useRef(null);
+  const audioExamen = useAudioExamen();
+  const pausado = x && audioExamen.pausado;
   const [vocesNativas, setVocesNativas] = React.useState(null);
   React.useEffect(() => {
     let vivo = true;
@@ -428,10 +441,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
       vivo = false;
     };
   }, []);
-  const pararAudioNativo = () => {
-    audioActualRef.current?.pause();
-    audioActualRef.current = null;
-  };
+  const pararAudioNativo = () => pararAudioExamen();
   const onClick = React.useCallback(() => {
     TRef.current += 1;
     B()?.cancel();
@@ -457,7 +467,8 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
         return;
       }
       A?.cancel();
-      pararAudioNativo();
+      // Reproductor único: se desbloquea aquí, dentro del toque (iOS/WeChat bloquean los play() posteriores si no)
+      const sesion = empezarAudioExamen();
       const z = TRef.current + 1;
       TRef.current = z;
       const E = n.slice(y).filter((S) => k_2(S.texto));
@@ -468,23 +479,15 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
       const R = 3000;
       const P = 5000;
       const M = [];
-      const K = (S) =>
-        new Promise((resolve) => {
-          M.push(window.setTimeout(resolve, S));
-        });
-      // MP3 con voz nativa; si no está generado o falla, la voz del navegador
-      const reproducirNativo = (clave) =>
-        new Promise((resolve) => {
-          const audio = new Audio(urlVozDele(clave));
-          audio.playbackRate = Math.min(1.3, Math.max(0.6, velocidad / 0.9));
-          audio.onended = () => resolve(true);
-          audio.onerror = () => resolve(false);
-          audioActualRef.current = audio;
-          audio.play().catch(() => resolve(false));
-        });
+      // Esperas que se detienen con la pausa
+      const K = (S) => esperarAudioExamen(S);
+      // MP3 con voz nativa (si falla, aviso y «Reintentar»); solo sin MP3 en el índice, la voz del navegador
       const decir = async (turno, contexto) => {
-        if (vocesNativas?.claves.has(turno.clave) && (await reproducirNativo(turno.clave))) return;
-        if (TRef.current === z) await J(turno.texto, contexto);
+        if (vocesNativas?.claves.has(turno.clave)) {
+          await tocarAudioExamen(urlVozDele(turno.clave), { ritmo: ritmoMp3(velocidad) });
+          return;
+        }
+        if (TRef.current === z && audioExamenVigente(sesion)) await J(turno.texto, contexto);
       };
       const reproducirSegmento = async (texto) => {
         const turnos = turnosDeAudio(texto, reparto);
@@ -543,6 +546,7 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
           }
         }
         M.forEach(clearTimeout);
+        terminarAudioExamen(sesion);
         if (TRef.current === z) {
           setX(false);
           setD(null);
@@ -560,17 +564,17 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
   const etiquetaParte = (indice) => Is(n[indice] || {}, indice, t_1);
   return (
     <div className="sx-gong-caja gm-no-adapt">
-      <div className={`sx-gong ${x ? "sonando" : ""}`}>
+      <div className={`sx-gong ${x && !pausado ? "sonando" : ""}`}>
         <OndasCirculares frac={frac} />
         <button
           type="button"
           className="sx-gong-boton"
           disabled={!x && todasAgotadas}
-          onClick={() => (x ? onClick() : V(0))}
-          aria-label={x ? "Parar el audio · 停止" : "Escuchar todo el audio · 播放完整音频"}
-          title={x ? "Parar · 停止" : "Escuchar todo · 播放全部"}
+          onClick={() => (x ? (pausado ? reanudarAudioExamen() : pausarAudioExamen()) : V(0))}
+          aria-label={x ? (pausado ? "Seguir escuchando · 继续播放" : "Pausar el audio · 暂停") : "Escuchar todo el audio · 播放完整音频"}
+          title={x ? (pausado ? "Seguir · 继续" : "Pausa · 暂停") : "Escuchar todo · 播放全部"}
         >
-          {x ? <PauseIcon fill="currentColor" /> : <PlayIcon fill="currentColor" />}
+          {x && !pausado ? <PauseIcon fill="currentColor" /> : <PlayIcon fill="currentColor" />}
         </button>
         <div className="sx-gong-t">
           {total ? `${Math.min(parteVista + 1, total)} / ${total}` : "—"}
@@ -578,13 +582,14 @@ function GeComponent({ guion, velocidad, setVelocidad, items, clips, examenClave
       </div>
       <div className="sx-ainfo">
         <div className="now">
-          {x ? "● Sonando · " : "Audio · "}
-          <span className="sx-zh" lang="zh-CN">{x ? "正在播放" : "音频"}</span>
+          {pausado ? "❚❚ En pausa · " : x ? "● Sonando · " : "Audio · "}
+          <span className="sx-zh" lang="zh-CN">{pausado ? "已暂停" : x ? "正在播放" : "音频"}</span>
         </div>
         <h3>
           {total ? etiquetaParte(parteVista) : t_1("Audio", "音频")}
           <span className="sx-zh" lang="zh-CN">第{Math.min(parteVista + 1, total || 1)}段</span>
         </h3>
+        <AvisoAudioExamen />
         <div className="sx-linternas">
           <Linterna encendida={vecesParte >= 1} />
           <Linterna encendida={vecesParte >= 2} />

@@ -54,6 +54,17 @@ import "../../styles/v14-fix-examenes.css";
 import "../../styles/sala-examen.css";
 import { turnosPractica, clavePractica } from "../../lib/vocesDele.js";
 import { cargarVocesDele, reproducirMp3 } from "../../lib/vocesDeleApp.js";
+import {
+  AvisoAudioExamen,
+  desbloquearAudioExamen,
+  empezarAudioExamen,
+  esperarAudioExamen,
+  pararAudioExamen,
+  pausarAudioExamen,
+  reanudarAudioExamen,
+  terminarAudioExamen,
+  useAudioExamen,
+} from "../../lib/audioExamen.jsx";
 import "../../styles/movil-dele.css";
 function BsComponent({ onClose }) {
   return (
@@ -1061,14 +1072,13 @@ function de() {
   }
   return null;
 }
-// Audio de la comprensión auditiva con voces de España (MP3); ie() lo para igual que la voz del navegador
-let audioPractica = null;
+// Audio de la comprensión auditiva con voces de España (MP3, reproductor único apto para iPhone/WeChat);
+// ie() lo para igual que la voz del navegador
 let turnoAudioPractica = 0;
 function ie() {
   de()?.cancel();
   turnoAudioPractica += 1;
-  audioPractica?.pause();
-  audioPractica = null;
+  pararAudioExamen();
 }
 // Frases con su MP3 si el examen tiene todas sus voces generadas; si no, null (se usa la voz del navegador)
 async function planVozEspana(transcripcion, nivel, id) {
@@ -1081,18 +1091,17 @@ async function planVozEspana(transcripcion, nivel, id) {
 // Reproduce las frases en orden; avisa del avance de cada una. Devuelve false si se interrumpe.
 async function reproducirPlan(turnos, velocidad, alAvanzar) {
   const turno = turnoAudioPractica;
+  const sesion = empezarAudioExamen();
   for (let indice = 0; indice < turnos.length; indice++) {
     if (turno !== turnoAudioPractica) return false;
     alAvanzar(indice, 0);
     if (!turnos[indice].clave) continue;
     await reproducirMp3(turnos[indice].clave, velocidad * 0.9, {
-      alEmpezar: (audio) => {
-        audioPractica = audio;
-      },
       alAvanzar: (avance) => turno === turnoAudioPractica && alAvanzar(indice, avance),
     });
-    if (turno === turnoAudioPractica && indice < turnos.length - 1) await new Promise((fin) => setTimeout(fin, 250));
+    if (turno === turnoAudioPractica && indice < turnos.length - 1) await esperarAudioExamen(250);
   }
+  terminarAudioExamen(sesion);
   return turno === turnoAudioPractica;
 }
 const It = {
@@ -1484,6 +1493,7 @@ function WaComponent() {
   const [r, setR] = React.useState(1);
   // true si la audición de este examen tiene sus voces de España generadas (MP3)
   const [vozEspana, setVozEspana] = React.useState(false);
+  const audioExamen = useAudioExamen();
   const [f, setF] = React.useState(0);
   const [T, setT] = React.useState([]);
   const [X, setX] = React.useState(false);
@@ -1616,6 +1626,12 @@ function WaComponent() {
     if (!n?.listening?.transcription) {
       return;
     }
+    // Con las voces de España el botón pausa y reanuda (desde el toque, como exige iOS)
+    if (_ && audioExamen.sonando) {
+      if (audioExamen.pausado) reanudarAudioExamen();
+      else pausarAudioExamen();
+      return;
+    }
     if (_) {
       ie();
       set_(false);
@@ -1630,6 +1646,7 @@ function WaComponent() {
       return;
     }
     const transcription = n.listening.transcription;
+    desbloquearAudioExamen(); // en el toque, antes de cualquier await
     const plan = await planVozEspana(transcription, level, n.id);
     if (plan) {
       ie();
@@ -1708,6 +1725,7 @@ function WaComponent() {
     window.setTimeout(() => de()?.speak(R), 40);
   };
   const xs = async () => {
+    desbloquearAudioExamen(); // en el toque, antes de cualquier await
     const plan = n?.listening?.transcription ? await planVozEspana(n.listening.transcription, level, n.id) : null;
     if (plan) {
       ie();
@@ -2810,6 +2828,7 @@ function WaComponent() {
                       />
                     </div>
                   </div>
+                  <AvisoAudioExamen className="mb-4" />
                   <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                     <button
                       onClick={ds}
@@ -2819,12 +2838,12 @@ function WaComponent() {
                         boxShadow: "0 0 50px rgba(46,107,63,0.5), 0 0 100px rgba(46,107,63,0.2)",
                       }}
                     >
-                      {_ ? (
+                      {_ && !audioExamen.pausado ? (
                         <PauseIcon size={32} className="text-white" />
                       ) : (
                         <PlayIcon size={32} className="text-white ml-1" />
                       )}
-                      {_ && (
+                      {_ && !audioExamen.pausado && (
                         <>
                           <span
                             className="absolute inset-0 rounded-full animate-ping opacity-20"
