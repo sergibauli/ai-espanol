@@ -480,7 +480,7 @@
   .sx-bnav .sx-btn { flex: 1; min-height: 46px; }
   .sx-bnav .mini { flex: none; width: 50px; padding: 0; }
   /* En el examen, la barra inferior de la app deja sitio a la del examen */
-  body:has(.sx-bnav) .bottom-nav, body:has(.sx-bnav) .in-mas { display: none !important; }
+  .hay-sx-bnav > body .bottom-nav, .hay-sx-bnav > body .in-mas { display: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sx *, .sx *::before, .sx *::after { animation: none !important; transition: none !important; }

@@ -742,9 +742,9 @@ main.game-bg .gm-ruleta-root > canvas:nth-of-type(2) { display: none; }
 @media (prefers-reduced-motion: reduce) { .lp-reward-rays, .lp-coin, .lp-scroll-stats, .lp-reward-seal, .lp-mono { animation: none; } }
 
 /* ===== v7.3 · Cielo según la hora de China (los juegos se quedan de noche) ===== */
-html[data-cielo="amanecer"] .light-page:not(:has(main.game-bg)) { background: linear-gradient(180deg, rgba(255,150,90,.42), rgba(150,70,110,.35) 55%, rgba(14,26,51,.2)), url("../../public/theme/noche-tile.jpg") center top / auto 100vh fixed, #3a2a4a !important; }
-html[data-cielo="dia"] .light-page:not(:has(main.game-bg)) { background: radial-gradient(ellipse at 80% 0%, rgba(255,246,210,.9), transparent 45%), linear-gradient(180deg, rgba(190,220,236,.85), rgba(240,226,194,.92) 70%), url("../../public/theme/papel.jpg") center / cover fixed, #efe2c4 !important; }
-html[data-cielo="dia"] .light-page:not(:has(main.game-bg)) .imp-ribbon b { color: #ffe08a; }
+html[data-cielo="amanecer"] .light-page:not(.con-juego) { background: linear-gradient(180deg, rgba(255,150,90,.42), rgba(150,70,110,.35) 55%, rgba(14,26,51,.2)), url("../../public/theme/noche-tile.jpg") center top / auto 100vh fixed, #3a2a4a !important; }
+html[data-cielo="dia"] .light-page:not(.con-juego) { background: radial-gradient(ellipse at 80% 0%, rgba(255,246,210,.9), transparent 45%), linear-gradient(180deg, rgba(190,220,236,.85), rgba(240,226,194,.92) 70%), url("../../public/theme/papel.jpg") center / cover fixed, #efe2c4 !important; }
+html[data-cielo="dia"] .light-page:not(.con-juego) .imp-ribbon b { color: #ffe08a; }
 
 /* ===== v7.4 · Todos los botones del menú con el mismo formato dorado ===== */
 .light-page .side-link { background: linear-gradient(90deg, rgba(255,236,170,.9), rgba(242,193,78,.75)) !important; border: 1.5px solid #f6dc95 !important; color: #5a0a16 !important; box-shadow: 0 3px 0 #8f5a1e, 0 0 10px rgba(242,193,78,.3) !important; }
@@ -781,7 +781,7 @@ main.game-bg :is(.fixed.bottom-6.right-6, .fixed.bottom-2.right-2, .fixed.bottom
 @media (max-width: 700px) { main.game-bg :is(.fixed.bottom-6.right-6, .fixed.bottom-2.right-2, .fixed.bottom-4.right-4).z-50.pointer-events-none, main.game-bg .gm-mascota { width: 72px; height: 100px; bottom: 84px !important; } }
 
 /* ===== v7.7 · Móvil: nada tapa el botón Continuar; unidades compactas ===== */
-body:has(.lp-root, .pp-overlay) .bottom-nav { display: none !important; }
+.hay-lp-root > body .bottom-nav, .hay-pp-overlay > body .bottom-nav { display: none !important; }
 .lp-foot { padding-bottom: calc(14px + env(safe-area-inset-bottom)) !important; }
 @media (max-width: 700px) {
   .light-page .unidades-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
