@@ -53,7 +53,6 @@ function AuthProvider({ children }) {
       setT(false);
     }
   }, []);
-  const isLoading = !(d === true) || !(t !== null);
   const j = m === true;
   const _ =
     t === true ||
@@ -67,6 +66,9 @@ function AuthProvider({ children }) {
         return false;
       }
     })();
+  // Con una sesión local válida no se espera a Clerk: si su script tarda o no llega (redes de China),
+  // las páginas protegidas se quedaban en «Cargando» para siempre.
+  const isLoading = (!(d === true) && !_) || !(t !== null);
   const isAuthenticated = j || _;
   let w = null;
   if (j && g) {
