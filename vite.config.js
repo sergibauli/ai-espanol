@@ -2,6 +2,7 @@ import { randomBytes } from 'node:crypto';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import trozosDatos from './scripts/vite-trozos-datos.mjs';
 
 // v21 · Service worker con Workbox (vite-plugin-pwa): precarga la interfaz y guarda en caché lo que se va usando
 // (código de cada sección, imágenes, traducciones) para que la app abra al instante y funcione sin red.
@@ -41,7 +42,7 @@ function encodedDeepseekKey() {
 // base relativa: la app se sirve en https://sergibauli.github.io/ai-espanol/ (HashRouter)
 export default defineConfig({
   base: './',
-  plugins: [react(), pwa],
+  plugins: [react(), pwa, trozosDatos()],
   // Con el Worker (VITE_API_URL) la clave de DeepSeek no se incrusta en la web
   define: { __DS_KEY__: JSON.stringify(process.env.VITE_API_URL ? "" : encodedDeepseekKey()) },
   build: { chunkSizeWarningLimit: 4000 },

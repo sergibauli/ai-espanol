@@ -223,9 +223,6 @@ function T(t, e) {
   }
   return y(t, e);
 }
-function D(t, e) {
-  return r(t).map((o) => T(o, e));
-}
 export function c(t, e) {
   return r(t.pruebas).find((o) => o.prueba === e);
 }
@@ -445,14 +442,11 @@ function tt(t) {
   return !!t && (r(t.fases).length > 0 || n(t).length > 0 || !!N(t));
 }
 const R = ["A1", "A2", "B1", "B2"];
-// Modelos oficiales + simulacros nuevos generados con el mismo formato (.claude/skills/generador-examenes-dele)
-const nuevos = (nivel) => import("../data/oficial/nuevos/index.js").then((t) => t.NUEVOS[nivel] || []).catch(() => []);
-const j = {
-  A1: () => Promise.all([import("../data/oficial/oficial-a1.js").then((t) => t.oficiala1), nuevos("A1")]).then(([a, b]) => [...a, ...b]),
-  A2: () => Promise.all([import("../data/oficial/oficial-a2.js").then((t) => t.oficiala2), nuevos("A2")]).then(([a, b]) => [...a, ...b]),
-  B1: () => Promise.all([import("../data/oficial/oficial-b1.js").then((t) => t.oficialb1), nuevos("B1")]).then(([a, b]) => [...a, ...b]),
-  B2: () => Promise.all([import("../data/oficial/oficial-b2.js").then((t) => t.oficialb2), nuevos("B2")]).then(([a, b]) => [...a, ...b]),
-};
+// Modelos oficiales + simulacros nuevos generados con el mismo formato (.claude/skills/generador-examenes-dele).
+// Cada modelo y la lista de cada nivel son trozos aparte (scripts/vite-trozos-datos.mjs): la lista de un nivel solo
+// descarga su resumen y abrir un examen solo descarga ese examen. El índice se importa al usarlo para que este
+// fichero se pueda seguir importando desde Node (scripts/reparto-dele.mjs).
+const indice = () => import("virtual:oficial-indice");
 const et = {
   A1: A.A1,
   A2: A.A2,
@@ -460,30 +454,40 @@ const et = {
   B2: A.B2,
 };
 const _ = new Map();
+const W = new Map();
 function G(t) {
   return R.includes(String(t).toUpperCase());
 }
-function v(t) {
-  const e = String(t).toUpperCase();
-  if (!G(e)) {
-    return Promise.resolve([]);
-  }
-  let o = _.get(e);
+// Recuerda la promesa mientras va bien; si falla (sin red) se olvida para poder reintentar
+function recordar(cache, clave, crear) {
+  let o = cache.get(clave);
   if (!o) {
-    o = j[e]()
-      .then((a) => D(a, e))
-      .catch(() => []);
-    _.set(e, o);
+    o = crear();
+    cache.set(clave, o);
+    o.catch(() => cache.delete(clave));
   }
   return o;
 }
 async function it(t, e) {
-  return (await v(t)).find((a) => a.modelo === e) ?? null;
+  const nivel = String(t).toUpperCase();
+  if (!G(nivel)) {
+    return null;
+  }
+  const bruto = await recordar(W, `${nivel}-${e}`, () => indice().then((m) => m.MODELOS[nivel]?.[e]?.() ?? null));
+  return bruto ? T(bruto, nivel) : null;
 }
 async function nt(t) {
-  return (await v(t)).map(U);
+  const nivel = String(t).toUpperCase();
+  if (!G(nivel)) {
+    return [];
+  }
+  const lista = await recordar(_, nivel, () => indice().then((m) => m.RESUMEN[nivel]()));
+  return lista.slice();
 }
+// Precarga (en reposo) la lista de un nivel
 function at(t) {
-  v(t);
+  nt(t).catch(() => {});
 }
 export { et as T, it as b, J as h, G as i, Z as j, nt as l, tt as m, at as p, K as q, U as r, N as s };
+// Para scripts/vite-trozos-datos.mjs: la misma normalización y el mismo resumen que usa la web
+export { T as normalizarModelo, U as resumenModelo };

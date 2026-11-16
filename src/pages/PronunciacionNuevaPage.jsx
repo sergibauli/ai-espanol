@@ -25,7 +25,7 @@ import { FondoTemplo } from "../components/pron/Escenas.jsx";
 import { EmblemaSala, BocaPerfil, AnillosProgreso } from "../components/pron/Emblemas.jsx";
 import { TemploSala, FondoImperial } from "../components/pron/Templos.jsx";
 import { SALAS, salaDeFamilia, duracionVoz, reducido } from "../components/pron/salas.js";
-import { FAMILIAS, materialDe } from "../components/pron/datos.js";
+import { FAMILIAS, materialDe, cargarSilabas, silabasCargadas } from "../components/pron/datos.js";
 import { useFavorites } from "../lib/favorites.js";
 import "../styles/pronunciacion-v2.css";
 import "../styles/pronunciacion-sonido.css";
@@ -105,6 +105,14 @@ export default function PronunciacionNuevaPage() {
   const voz = useVoz();
   const puertas = usePuertas();
   const raiz = React.useRef(null);
+  // El material completo de las sílabas (palabras, frases y textos extra) se descarga en reposo
+  React.useEffect(() => {
+    if (silabasCargadas()) return undefined;
+    const reposo = window.requestIdleCallback || ((f) => setTimeout(f, 800));
+    const cancelar = window.cancelIdleCallback || clearTimeout;
+    const id = reposo(() => cargarSilabas(), { timeout: 3000 });
+    return () => cancelar(id);
+  }, []);
 
   const reproducir = React.useCallback(
     (texto, velocidad = 0.85) => {
@@ -418,7 +426,16 @@ function Familia({ familia, silaba, voz, reproducir, oidas, dominadas, perfectas
   const temporizadores = React.useRef([]);
   const [pestana, setPestana] = React.useState("palabras");
   const [direccion, setDireccion] = React.useState(1);
-  const material = React.useMemo(() => materialDe(silaba), [silaba]);
+  const [completas, setCompletas] = React.useState(silabasCargadas);
+  React.useEffect(() => {
+    if (completas) return undefined;
+    let vivo = true;
+    cargarSilabas().then((ok) => vivo && ok && setCompletas(true));
+    return () => {
+      vivo = false;
+    };
+  }, [completas]);
+  const material = React.useMemo(() => materialDe(silaba), [silaba, completas]);
   const hechas = familia.silabas.filter((s) => oidas.has(s.s)).length;
   const dom = familia.silabas.filter((s) => dominadas.has(s.s)).length;
   const siguienteSilaba = familia.silabas[familia.silabas.indexOf(silaba) + 1] || null;
