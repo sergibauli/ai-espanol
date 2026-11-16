@@ -34,9 +34,15 @@ function forzado(clave) {
   }
 }
 
-export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = false }) {
+// Momento que se pinta (el forzado por URL manda). RutaPage lo copia en .ruta-main[data-momento] para que el CSS
+// no necesite `.ruta-main:has(.mr-XX[data-momento])` (cada :has en un contenedor tan grande recalcula todo el árbol).
+export function momentoRuta(momentoProp) {
   const pedido = forzado("momento");
-  const momento = ["dia", "atardecer", "noche"].includes(pedido) ? pedido : momentoProp || momentoChina();
+  return ["dia", "atardecer", "noche"].includes(pedido) ? pedido : momentoProp || momentoChina();
+}
+
+export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = false }) {
+  const momento = momentoRuta(momentoProp);
   const fiesta = fiestaProp || forzado("fiesta") === "1";
   const { Panorama, Ambiente } = MUNDOS[nivel] || MUNDOS.A1;
   return (
@@ -51,16 +57,38 @@ export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = fa
   );
 }
 
+// Rendimiento: cada viñeta se marca con data-fuera cuando sale de la pantalla (v20-fluidez.css pausa entonces sus
+// animaciones). Las de su unidad ya se pausan cuando sale la unidad entera, pero una unidad mide ~600 px y sus
+// viñetas (copos, reflejos… animados dentro del SVG, en el hilo principal) seguían en marcha estando fuera de la vista.
+function usePausaVinetas() {
+  const izquierda = React.useRef(null);
+  const derecha = React.useRef(null);
+  React.useEffect(() => {
+    const els = [izquierda.current, derecha.current].filter(Boolean);
+    if (!els.length || typeof IntersectionObserver === "undefined") return undefined;
+    const ojo = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) e.target.toggleAttribute("data-fuera", !e.isIntersecting);
+      },
+      { rootMargin: "200px 0px" },
+    );
+    els.forEach((el) => ojo.observe(el));
+    return () => ojo.disconnect();
+  }, []);
+  return [izquierda, derecha];
+}
+
 export function EscenaTramo({ nivel, idx }) {
   const lista = (MUNDOS[nivel] || MUNDOS.A1).VINETAS;
   const Izquierda = lista[idx % lista.length];
   const Derecha = lista[(idx + 2) % lista.length];
+  const [refIzquierda, refDerecha] = usePausaVinetas();
   return (
     <>
-      <div className={`mr-vineta izq ${idx % 2 ? "baja" : ""}`} aria-hidden="true">
+      <div ref={refIzquierda} className={`mr-vineta izq ${idx % 2 ? "baja" : ""}`} aria-hidden="true">
         <Izquierda />
       </div>
-      <div className={`mr-vineta der ${idx % 2 ? "" : "baja"}`} aria-hidden="true">
+      <div ref={refDerecha} className={`mr-vineta der ${idx % 2 ? "" : "baja"}`} aria-hidden="true">
         <Derecha />
       </div>
     </>

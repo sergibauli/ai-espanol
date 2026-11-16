@@ -5,7 +5,7 @@
    Prefijos: ru- estandarte · rn- niveles · rp- paradas/popover · rv- Rey Mono · rc- camino/celebración · tn- telón · fa- fuegos. */
 .rt14 { --rt-cali: "STKaiti", "KaiTi", "Kaiti SC", "STKaiti SC", "BiauKai", serif; --rt-ui: var(--im-font-ui, system-ui, sans-serif); --rt-tit: var(--im-font-display, Georgia, serif); --rt-zh: var(--im-font-zh, serif); }
 .rt14 .ruta-unit { margin-top: 34px; }
-.rt14 .ruta-unit:has(.ruta-node-wrap.abierto) { z-index: 5; }
+.rt14 .ruta-unit.ru-con-pop { z-index: 5; } /* ru-con-pop = tiene la ventana de una parada abierta (antes :has(.ruta-node-wrap.abierto)) */
 .rt14 :is(.rn-nivel, .ru-guia, .path-node, .rp-cofre, .rp-pop-leccion, .rp-pop-abrir, .rp-pop-cerrar, .rv-toque):focus-visible { outline: 3px solid #f2c14e; outline-offset: 4px; box-shadow: 0 0 0 7px rgba(60,20,0,.35); }
 
 /* ---------- Pestañas de nivel: placas doradas con indicador de laca que se desliza ---------- */

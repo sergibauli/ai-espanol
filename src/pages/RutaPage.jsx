@@ -12,7 +12,7 @@ import { loadModule, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
 import { Moneda, PanelJade } from "../../packages/imperial/src/index.js";
-import { MundoRuta, EscenaTramo } from "../components/ruta/MundoRuta.jsx";
+import { MundoRuta, EscenaTramo, momentoRuta } from "../components/ruta/MundoRuta.jsx";
 
 import { MonoViajero } from "../components/ruta/MonoViajero.jsx";
 import { Celebracion } from "../components/ruta/Celebracion.jsx";
@@ -298,12 +298,14 @@ export default function RutaPage() {
   };
   const nivelMarcado = transicion?.destino || lv.key;
   const tamanoMono = esMovil ? 84 : 118;
+  // El nivel (map-XX) y el momento del día van en .ruta-main: el CSS los lee de ahí en vez de con :has()
+  const momento = momentoRuta();
 
   return (
     <LightShell>
       <div className="ruta-layout rt14 rt16 rt22">
-        <main className={`ruta-main map-${lv.key} mr-on`}>
-          <MundoRuta key={lv.key} nivel={lv.key} fiesta={Boolean(fiesta) && !fiesta.saltada} />
+        <main className={`ruta-main map-${lv.key} mr-on`} data-momento={momento}>
+          <MundoRuta key={lv.key} nivel={lv.key} momento={momento} fiesta={Boolean(fiesta) && !fiesta.saltada} />
           <TransicionNivel destino={transicion?.destino} clave={transicion?.clave} onCubre={irANivel} onFin={() => setTransicion(null)} />
           <CabeceraRuta
             region={REGION[lv.key]}
@@ -347,7 +349,7 @@ export default function RutaPage() {
             // Clase que se desbloquea al terminar la celebración (candado que salta en pedazos)
             const iDesbloquea = fiesta && fiesta.fase === "viaje" && !fiesta.saltada ? (enFiesta ? fiesta.i + 1 : fiesta.unidad && mods[idx - 1]?.numero === fiesta.numero ? 0 : -1) : -1;
             return (
-              <section key={numero} id={`ruta-u${numero}`} className={`ruta-unit pz-${paisaje.tipo} ${unidadGanada ? "ganada" : ""} ${alcanzada ? "" : "lejana"}`} style={{ "--pc": paisaje.c, "--pd": paisaje.d, "--ps": paisaje.suelo, "--pt": paisaje.tinta }}>
+              <section key={numero} id={`ruta-u${numero}`} className={`ruta-unit pz-${paisaje.tipo} ${unidadGanada ? "ganada" : ""} ${alcanzada ? "" : "lejana"} ${abierta?.startsWith(`${numero}-`) ? "ru-con-pop" : ""}`} style={{ "--pc": paisaje.c, "--pd": paisaje.d, "--ps": paisaje.suelo, "--pt": paisaje.tinta }}>
                 <header className="ru-estandarte" style={{ "--c": paisaje.c, "--d": paisaje.d }}>
                   <span className="ru-paisaje" aria-hidden="true">
                     <PaisajeBanda tipo={paisaje.tipo} semilla={numero} />

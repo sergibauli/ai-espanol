@@ -146,10 +146,32 @@ function Dragon({ lado }) {
   );
 }
 
+// Rendimiento: cuando la cabecera o las tablillas salen de la pantalla se marcan con data-fuera (como hace
+// src/lib/fluidez.js con las unidades) y v20-fluidez.css pausa sus animaciones: dragones, perla y las mini-escenas
+// SVG de las tablillas (bambú, linternas…), que se animan en el hilo principal en cada fotograma.
+function usePausaFuera() {
+  const cabecera = React.useRef(null);
+  const tablillas = React.useRef(null);
+  React.useEffect(() => {
+    const els = [cabecera.current, tablillas.current].filter(Boolean);
+    if (!els.length || typeof IntersectionObserver === "undefined") return undefined;
+    const ojo = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) e.target.toggleAttribute("data-fuera", !e.isIntersecting);
+      },
+      { rootMargin: "200px 0px" },
+    );
+    els.forEach((el) => ojo.observe(el));
+    return () => ojo.disconnect();
+  }, []);
+  return [cabecera, tablillas];
+}
+
 export function CabeceraRuta({ region, tema, niveles, marcado, onCambiar }) {
+  const [cabecera, tablillas] = usePausaFuera();
   return (
     <>
-      <header className="rh-cabecera">
+      <header className="rh-cabecera" ref={cabecera}>
         <div className="rh-dintel">
           <Dragon lado="izq" />
           <Dragon lado="der" />
@@ -169,7 +191,7 @@ export function CabeceraRuta({ region, tema, niveles, marcado, onCambiar }) {
           </div>
         </div>
       </header>
-      <nav className="rh-niveles" aria-label="Niveles · 级别">
+      <nav className="rh-niveles" aria-label="Niveles · 级别" ref={tablillas}>
         {niveles.map((nivel) => {
           const mundo = MUNDO_NIVEL[nivel.key];
           const Escena = ESCENAS[nivel.key];
