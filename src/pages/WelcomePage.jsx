@@ -124,6 +124,17 @@ function useAvanceApertura(refRaiz, refApertura) {
   }, [refRaiz, refApertura]);
 }
 
+// Marca <html> mientras se ve la portada (fondo oscuro y sin hueco de barra inferior). Sustituye a html:has(.pc) /
+// body:has(.pc), que obligaban a revalidar todo el documento con cada nodo insertado, también fuera de la portada.
+function useClaseHtmlPortada(activa) {
+  React.useLayoutEffect(() => {
+    if (!activa) return;
+    const html = document.documentElement;
+    html.classList.add("pc-html");
+    return () => html.classList.remove("pc-html");
+  }, [activa]);
+}
+
 function NotaWeChat({ conQr = true }) {
   return (
     <div className="pc-wechat">
@@ -163,16 +174,27 @@ function Carrusel3D() {
   const [paso, setPaso] = React.useState(0);
   const [pausa, setPausa] = React.useState(false);
   const arrastre = React.useRef(null);
+  // Solo gira solo mientras se ve: fuera de pantalla no re-renderiza ni lanza transiciones cada 4,2 s
+  const refAnillo = React.useRef(null);
+  const [enVista, setEnVista] = React.useState(false);
   React.useEffect(() => {
-    if (pausa || prefiereQuietud()) return;
+    const anillo = refAnillo.current;
+    if (!anillo || typeof IntersectionObserver === "undefined") return setEnVista(true);
+    const observador = new IntersectionObserver((entradas) => setEnVista(entradas.some((e) => e.isIntersecting)));
+    observador.observe(anillo);
+    return () => observador.disconnect();
+  }, []);
+  React.useEffect(() => {
+    if (pausa || !enVista || prefiereQuietud()) return;
     const reloj = setInterval(() => setPaso((n) => n + 1), 4200);
     return () => clearInterval(reloj);
-  }, [pausa]);
+  }, [pausa, enVista]);
   const total = MUNDOS.length;
   const activo = ((paso % total) + total) % total;
   const irA = (indice) => setPaso((n) => n + ((((indice - activo) % total) + total + Math.floor(total / 2)) % total) - Math.floor(total / 2));
   return (
     <div
+      ref={refAnillo}
       className="pc-anillo"
       style={{ "--tono": MUNDOS[activo].tono }}
       onPointerEnter={(evento) => evento.pointerType === "mouse" && setPausa(true)}
@@ -287,8 +309,10 @@ export default function WelcomePage() {
   const refMundo = React.useRef(null);
   useEntradaAlVer(refMundo);
   useParallaxPuntero(refRaiz);
+  const redirige = !isLoading && isAuthenticated;
+  useClaseHtmlPortada(!redirige);
 
-  if (!isLoading && isAuthenticated) return <Navigate to="/ruta" replace />;
+  if (redirige) return <Navigate to="/ruta" replace />;
 
   const signIn = () => clerk?.openSignIn?.({ forceRedirectUrl: HERE(), fallbackRedirectUrl: HERE() });
   const verAcceso = () => {
