@@ -15,3 +15,7 @@
   .light-page .rt22 .rh-textos > small { font-size: 12px; line-height: 1.1; }
   .light-page .rt22 .rh-textos > small span { display: none; }
 }
+@media (max-width: 1023px) {
+  /* Meta diaria: fichas de 20/30/50 XP con zona táctil de 40 px */
+  .ruta-side .ui-chip { min-height: 40px; padding-left: 14px; padding-right: 14px; }
+}

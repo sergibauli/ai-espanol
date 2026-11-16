@@ -963,7 +963,8 @@ function JuegoDragon({ contenido }) {
     const redimensionar = () => {
       const r = zona.getBoundingClientRect();
       const s = S.current;
-      const dpr = Math.min(2.5, window.devicePixelRatio || 1);
+      // en móvil/tableta, como mucho 2× (con 3× el lienzo pinta un 36 % más de píxeles sin diferencia visible)
+      const dpr = Math.min(window.innerWidth < 1024 ? 2 : 2.5, window.devicePixelRatio || 1);
       s.w = Math.max(280, r.width);
       s.h = Math.max(320, r.height);
       s.dpr = dpr;
