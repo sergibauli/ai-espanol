@@ -1,0 +1,76 @@
+/* ===== móvil · marco común (barra inferior, Rey Mono flotante, movimiento reducido, modo ligero) ===== */
+
+/* Movimiento reducido (preferencia del sistema): sin animaciones ni transiciones en ninguna pantalla */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  /* partículas decorativas aclaradas por movilLigero.js */
+  [data-ml-oculto] { display: none !important; }
+
+  /* Barra inferior: etiquetas legibles (antes 10.5 / 10 px) */
+  html body .bottom-nav.in-barra > a small,
+  html body .bottom-nav.in-barra > .in-barra__mas small { font-size: 11.5px; }
+  html body .bottom-nav.in-barra small b { font-size: 11px; letter-spacing: 0.04em; }
+
+  /* Rey Mono flotante: se aparta mientras el alumno baja y vuelve al subir; menos capas animadas */
+  .mf { transition: transform 0.28s ease, opacity 0.28s ease; }
+  html.scroll-bajando .mf { transform: translateX(115%); opacity: 0; pointer-events: none; }
+  html.scroll-bajando .mf .mf-boton, html.scroll-bajando .mf .mf-bocadillo { pointer-events: none; }
+  .mf-aura::after, .mf-destellos, .mf-nube__estela { display: none; }
+  .mf .mf-aura { width: 100%; }
+  /* solo flota: sin aura que respira, saludo, guiño ni sello que late (cada una forzaba trabajo por fotograma) */
+  .mf .mf-aura, .mf .mf-mono.base, .mf .mf-sello { animation: none; }
+  .mf .mf-mono.guino { animation: none; opacity: 0; }
+  /* bocadillo de presentación más estrecho: tapa menos la pantalla al entrar */
+  .mf-bocadillo { max-width: min(220px, calc(100vw - 96px)); padding: 9px 12px 8px; }
+  .mf-bocadillo.es-pista p::after { display: none; }
+
+  /* fondo común: los destellos (capa de pantalla entera que cambiaba de opacidad) y las nubes de laca, quietos */
+  .light-page::before { animation: none; opacity: 0.55; }
+  .v18-fondo__baja, .v18-bokeh { animation: none; }
+  .mf-mono { filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.35)); }
+  .mf-nube { filter: drop-shadow(0 0 6px rgba(242, 193, 78, 0.7)); }
+  /* bocadillo: botón «Pregúntame» táctil */
+  .mf-bocadillo__abrir { min-height: 40px; font-size: 13.5px; }
+  .mf-bocadillo.es-pista p::after { font-size: 12.5px; }
+}
+
+@media (max-width: 1023px) {
+  /* Barra superior: logo y marcador con zona táctil de 40 px */
+  html body .light-page .light-top > .side-brand { min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; }
+  html body .light-page .light-top .game-stats { height: 40px; }
+}
+
+@media (max-width: 374px) {
+  html body .bottom-nav.in-barra { left: 4px !important; right: 4px !important; padding-left: 2px !important; padding-right: 2px !important; }
+  html body .bottom-nav.in-barra > a,
+  html body .bottom-nav.in-barra > .in-barra__mas { padding-left: 0; padding-right: 0; }
+  html body .bottom-nav.in-barra > a small,
+  html body .bottom-nav.in-barra > .in-barra__mas small { font-size: 11px; letter-spacing: -0.02em; }
+  html body .bottom-nav.in-barra small b { font-size: 10.5px; letter-spacing: 0; }
+}
+
+/* Horizontal en móvil (poca altura): barra inferior y Rey Mono más compactos */
+@media (max-width: 1023px) and (max-height: 500px) and (orientation: landscape) {
+  .mf { --w: 44px; bottom: calc(76px + env(safe-area-inset-bottom)); right: calc(6px + env(safe-area-inset-right)); }
+  html body .bottom-nav.in-barra { min-height: 50px; padding-top: 3px !important; padding-bottom: 3px !important; left: calc(8px + env(safe-area-inset-left)) !important; right: calc(8px + env(safe-area-inset-right)) !important; }
+  html body .bottom-nav.in-barra > a,
+  html body .bottom-nav.in-barra > .in-barra__mas { min-height: 44px; flex-direction: row; gap: 6px; }
+  html body .bottom-nav.in-barra .in-barra__ic { width: 28px; height: 28px; }
+  html body .bottom-nav.in-barra .nav-ic, html body .bottom-nav.in-barra .in-barra__puntos { width: 26px; height: 26px; }
+  html body .bottom-nav.in-barra > a.on .in-barra__ic, html body .bottom-nav.in-barra > .in-barra__mas.on .in-barra__ic { transform: scale(1.1); }
+  html body .bottom-nav.in-barra > a.on small, html body .bottom-nav.in-barra > .in-barra__mas.on small { margin-top: 0; }
+  html body .bottom-nav.in-barra > a.in-barra__centro .in-barra__ic { width: 40px; height: 40px; margin-top: -10px; }
+  html body .bottom-nav.in-barra > a.in-barra__centro .nav-ic { width: 30px; height: 30px; }
+  html body .bottom-nav.in-barra small { align-items: flex-start !important; }
+  /* barra superior más baja */
+  html body .light-page .light-top { padding-top: 4px; padding-bottom: 4px; padding-left: calc(12px + env(safe-area-inset-left)); padding-right: calc(10px + env(safe-area-inset-right)); }
+}

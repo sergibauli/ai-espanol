@@ -24,6 +24,7 @@ import { P } from "../../components/PostGameNav.jsx";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-ruleta.css";
 import "../../styles/v17-sopa.css";
+import "../../styles/movil-juegos.css";
 import { g as g_1, a as a_1 } from "../../lib/juegos-utils.js";
 const length_1 = 12;
 const n = [

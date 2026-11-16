@@ -25,12 +25,13 @@ import { FondoTemplo } from "../components/pron/Escenas.jsx";
 import { EmblemaSala, BocaPerfil, AnillosProgreso } from "../components/pron/Emblemas.jsx";
 import { TemploSala, FondoImperial } from "../components/pron/Templos.jsx";
 import { SALAS, salaDeFamilia, duracionVoz, reducido } from "../components/pron/salas.js";
-import { FAMILIAS, materialDe } from "../components/pron/datos.js";
+import { FAMILIAS, materialDe, cargarSilabas, silabasCargadas } from "../components/pron/datos.js";
 import { useFavorites } from "../lib/favorites.js";
 import "../styles/pronunciacion-v2.css";
 import "../styles/pronunciacion-sonido.css";
 import "../styles/pronunciacion-hero.css";
 import "../styles/pronunciacion-templos.css";
+import "../styles/movil-recursos.css";
 
 const DIFICILES = FAMILIAS.filter((familia) => familia.dificil).length;
 const TODAS = FAMILIAS.flatMap((familia) => familia.silabas.map((silaba) => ({ familia, silaba })));
@@ -104,6 +105,14 @@ export default function PronunciacionNuevaPage() {
   const voz = useVoz();
   const puertas = usePuertas();
   const raiz = React.useRef(null);
+  // El material completo de las sílabas (palabras, frases y textos extra) se descarga en reposo
+  React.useEffect(() => {
+    if (silabasCargadas()) return undefined;
+    const reposo = window.requestIdleCallback || ((f) => setTimeout(f, 800));
+    const cancelar = window.cancelIdleCallback || clearTimeout;
+    const id = reposo(() => cargarSilabas(), { timeout: 3000 });
+    return () => cancelar(id);
+  }, []);
 
   const reproducir = React.useCallback(
     (texto, velocidad = 0.85) => {
@@ -274,7 +283,7 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
           })}
           <span className="ph-bruma is-a" aria-hidden="true" />
           <span className="ph-bruma is-b" aria-hidden="true" />
-          <img className="ph-mono" src="./mono/saluda.png" alt="" aria-hidden="true" />
+          <img className="ph-mono" src="./mono/saluda.webp" alt="" aria-hidden="true" />
         </div>
 
         <div className="ph-pie">
@@ -336,7 +345,7 @@ function Salas({ puertas, soloDificiles, setSoloDificiles, busqueda, setBusqueda
             })
           ) : (
             <p className="pt-vacio">
-              <img src="./mono/serio.png" alt="" /> No hay ninguna sílaba con «{busqueda}» · 没有找到这个音节
+              <img src="./mono/serio.webp" alt="" /> No hay ninguna sílaba con «{busqueda}» · 没有找到这个音节
             </p>
           )}
         </section>
@@ -417,7 +426,16 @@ function Familia({ familia, silaba, voz, reproducir, oidas, dominadas, perfectas
   const temporizadores = React.useRef([]);
   const [pestana, setPestana] = React.useState("palabras");
   const [direccion, setDireccion] = React.useState(1);
-  const material = React.useMemo(() => materialDe(silaba), [silaba]);
+  const [completas, setCompletas] = React.useState(silabasCargadas);
+  React.useEffect(() => {
+    if (completas) return undefined;
+    let vivo = true;
+    cargarSilabas().then((ok) => vivo && ok && setCompletas(true));
+    return () => {
+      vivo = false;
+    };
+  }, [completas]);
+  const material = React.useMemo(() => materialDe(silaba), [silaba, completas]);
   const hechas = familia.silabas.filter((s) => oidas.has(s.s)).length;
   const dom = familia.silabas.filter((s) => dominadas.has(s.s)).length;
   const siguienteSilaba = familia.silabas[familia.silabas.indexOf(silaba) + 1] || null;

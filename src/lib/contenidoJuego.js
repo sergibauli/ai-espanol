@@ -2,15 +2,9 @@
 import { ALL_MODULES } from "../data/modulos/index.js";
 import { moduloDeClase } from "./clases.js";
 
-// Lee ?m=N&clase=K de la ruta con HashRouter (#/juegos/x?m=8&clase=2)
-export function parametrosJuego() {
-  if (typeof window === "undefined") return { numero: null, clase: null };
-  const consulta = (window.location.hash.split("?")[1] || window.location.search.slice(1) || "").trim();
-  const params = new URLSearchParams(consulta);
-  const numero = Number(params.get("m")) || null;
-  const clase = params.get("clase");
-  return { numero, clase: clase && clase !== "unidad" ? Number(clase) || null : null };
-}
+// ?m=N&clase=K y «todas las palabras» viven en vocabularioJuegos.js (datos ligeros); se reexportan aquí
+import { parametrosJuego } from "./vocabularioJuegos.js";
+export { parametrosJuego, todasLasPalabras } from "./vocabularioJuegos.js";
 
 export const moduloPorNumero = (numero) => ALL_MODULES.find((modulo) => modulo.numero === Number(numero)) || null;
 
@@ -33,7 +27,3 @@ export function contenidoJuego(numero = parametrosJuego().numero, clase = parame
     ejercicios: filtrado.ejercicios || {},
   };
 }
-
-// Todas las palabras de todas las unidades (para juegos sin unidad elegida)
-export const todasLasPalabras = () =>
-  ALL_MODULES.flatMap((modulo) => (modulo.vocabulario || []).map((v) => ({ ...v, numero: modulo.numero }))).filter((v) => v?.espanol && v?.chino);

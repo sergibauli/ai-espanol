@@ -28,6 +28,7 @@ import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Portada } from "./PortadasJuegos.jsx";
 import "../../styles/juegos-hub.css";
+import "../../styles/movil-juegos.css";
 
 // Los juegos de la app (el resto se retiró para quedarnos solo con los mejores).
 // `gradient` e `icon` los usa también la pestaña de juegos de cada unidad (UnitPage).
@@ -405,7 +406,7 @@ function JuegoDelDia({ game }) {
           推荐
         </span>
       </div>
-      <img className="jh-dia__mono" src="./mono/trofeo.png" alt="" aria-hidden="true" />
+      <img className="jh-dia__mono" src="./mono/trofeo.webp" alt="" aria-hidden="true" />
       <div className="jh-dia__cuerpo">
         <span className="jh-dia__ceja">
           <SparklesIcon size={14} aria-hidden="true" /> Juego del día · 今日推荐
@@ -550,7 +551,7 @@ function JuegosHubPage() {
           <div className="jh-hero__escena" aria-hidden="true">
             <span className="jh-hero__halo" />
             <img className="jh-hero__nube" src="./theme/nube-oro.png" alt="" />
-            <img className="jh-hero__mono" src="./mono/poder.png" alt="" />
+            <img className="jh-hero__mono" src="./mono/poder.webp" alt="" />
           </div>
           <div className="jh-seguir">
             <span className="jh-seguir__titulo">
@@ -647,7 +648,7 @@ function JuegosHubPage() {
             </div>
           ) : (
             <div className="jh-vacio">
-              <img src="./mono/serio.png" alt="" />
+              <img src="./mono/serio.webp" alt="" />
               <p>
                 No hay juegos con «{query}». <span>没有找到相关游戏。</span>
               </p>

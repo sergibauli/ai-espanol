@@ -1,0 +1,13 @@
+/* ===== móvil · Portada (acceso) ===== */
+/* Móvil en horizontal (poca altura): título más contenido para que «Iniciar sesión» se vea sin bajar */
+@media (max-width: 1023px) and (max-height: 500px) and (orientation: landscape) {
+  .pc-intro { min-height: 0; padding-top: calc(max(8px, env(safe-area-inset-top)) + 58px); padding-bottom: 18px;
+    padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+  .pc-titulo { margin-top: 6px; gap: 2px; }
+  .pc-titulo-es { font-size: clamp(26px, 8vh, 34px); }
+  .pc-titulo-zh { font-size: 18px; }
+  .pc-sub { margin-top: 8px; font-size: 13.5px; line-height: 1.4; max-width: 46em; }
+  .pc-intro-acciones { flex-direction: row; justify-content: center; gap: 10px; margin-top: 12px; }
+  .pc-intro-acciones .pc-btn { width: auto; min-width: 0; flex: 0 1 auto; padding-left: 22px; padding-right: 22px; white-space: nowrap; }
+  .pc-baja { display: none; }
+}

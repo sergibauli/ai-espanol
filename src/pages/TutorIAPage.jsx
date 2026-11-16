@@ -8,6 +8,7 @@ import { historyWindow } from "../lib/historial.js";
 import { addXp } from "../lib/gamification.js";
 import { CintaTitulo, InsigniaNivel } from "../../packages/imperial/src/index.js";
 import "../styles/v16-maquetas.css";
+import "../styles/movil-recursos.css";
 
 const LEVELS = ["A1", "A2", "B1", "B2"];
 const TOPICS = [

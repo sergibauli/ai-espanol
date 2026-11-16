@@ -1,5 +1,5 @@
 import * as React from "react";
-import monoSaluda from "./assets/mono-saluda.png";
+import monoSaluda from "./assets/mono-saluda.webp";
 import monoGuino from "./assets/mono-guino.png";
 import monoSerio from "./assets/mono-serio.png";
 import monoPoder from "./assets/mono-poder.png";

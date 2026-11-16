@@ -21,7 +21,9 @@ import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/Selec
 import { useSound } from "../../lib/sound.jsx";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-kahoot.css";
-import { contenidoJuego, parametrosJuego } from "../../lib/contenidoJuego.js";
+import "../../styles/movil-juegos.css";
+// Kahoot solo usa el vocabulario de la unidad/clase: datos ligeros
+import { vocabularioJuego as contenidoJuego, parametrosJuego } from "../../lib/vocabularioJuegos.js";
 const Ha = {
   modulos: [
     {

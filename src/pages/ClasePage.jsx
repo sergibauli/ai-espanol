@@ -14,7 +14,7 @@ function ClasePage() {
         <div className="tp-acceso-rollo">
           <span className="tp-rodillo arriba" aria-hidden="true" />
           <main className="tp-acceso-papel">
-            <img className="tp-acceso-mono" src="./mono/serio.png" alt="" />
+            <img className="tp-acceso-mono" src="./mono/serio.webp" alt="" />
             <h1>
               Invitación no válida
               <small>无效邀请</small>

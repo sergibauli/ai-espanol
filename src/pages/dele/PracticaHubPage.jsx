@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Emoji3D } from "../../components/ui/Emoji3D.jsx";
 import { TarjetaExamen } from "../../../packages/imperial/src/index.js";
+import "../../styles/movil-dele.css";
 
 // Portada de "DELE práctica" con estética imperial: cada nivel abre sus exámenes por destrezas
 const LEVELS = [

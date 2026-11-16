@@ -22,6 +22,7 @@ import { useSound } from "../../lib/sound.jsx";
 import { createPortal } from "react-dom";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-uno.css";
+import "../../styles/movil-juegos.css";
 // Colores de las cartas (v14 · paleta imperial): laca, jade, azul porcelana y oro
 const B = {
   red: "#d0213b",

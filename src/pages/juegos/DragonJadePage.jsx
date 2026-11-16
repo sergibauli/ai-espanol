@@ -26,6 +26,7 @@ import {
 } from "./jbComun.jsx";
 import "../../styles/v13-juegos-b.css";
 import "../../styles/v17-dragon-escape.css";
+import "../../styles/movil-juegos.css";
 
 const ACIERTOS_POR_NIVEL = 5;
 const NIVELES_ANTES_DEL_JEFE = 3;
@@ -962,7 +963,8 @@ function JuegoDragon({ contenido }) {
     const redimensionar = () => {
       const r = zona.getBoundingClientRect();
       const s = S.current;
-      const dpr = Math.min(2.5, window.devicePixelRatio || 1);
+      // en móvil/tableta, como mucho 2× (con 3× el lienzo pinta un 36 % más de píxeles sin diferencia visible)
+      const dpr = Math.min(window.innerWidth < 1024 ? 2 : 2.5, window.devicePixelRatio || 1);
       s.w = Math.max(280, r.width);
       s.h = Math.max(320, r.height);
       s.dpr = dpr;
@@ -1437,7 +1439,7 @@ function JuegoDragon({ contenido }) {
         createPortal(
           <div className="jb-modal gm-no-adapt" role="dialog" aria-modal="true" aria-labelledby="jb-fin-titulo">
             <div className="jb-tarjeta jb-pergamino jb-fin">
-              <img className="jb-fin__mono" src={resultado.gana ? "./mono/trofeo.png" : "./mono/serio.png"} alt="Rey Mono · 美猴王" />
+              <img className="jb-fin__mono" src={resultado.gana ? "./mono/trofeo.webp" : "./mono/serio.webp"} alt="Rey Mono · 美猴王" />
               <Sello grande>{resultado.gana ? "通关" : "再来"}</Sello>
               <h2 id="jb-fin-titulo" className="jb-titulo jb-titulo--tinta">
                 {resultado.gana ? "¡Has vencido a la tormenta!" : "El dragón descansa"}

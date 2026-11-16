@@ -65,6 +65,7 @@ import {
   terminarAudioExamen,
   useAudioExamen,
 } from "../../lib/audioExamen.jsx";
+import "../../styles/movil-dele.css";
 function BsComponent({ onClose }) {
   return (
     <div

@@ -8,6 +8,7 @@ import { addXp } from "../../lib/gamification.js";
 import { contenidoJuego } from "../../lib/contenidoJuego.js";
 import { useContenidoJA, CabeceraJA, SelectorUnidadJA, chispasOro, barajar, reducido } from "./ja-comun.jsx";
 import "../../styles/v13-juegos-a.css";
+import "../../styles/movil-juegos.css";
 
 const MODOS = [
   { id: "ordenar", es: "Ordenar el guion", zh: "排列台词", desc: "Arrastra las líneas al orden correcto · 把台词拖到正确顺序" },
@@ -174,7 +175,7 @@ function Teatro({ contenido, onCambiar }) {
       <div className="ja-raiz ja-teatro gm-no-adapt">
         <CabeceraJA titulo="Teatro de diálogos" tituloZh="对话剧场" sello="剧" contenido={contenido} onCambiar={onCambiar} />
         <div className="ja-vacio">
-          <img src="./mono/serio.png" alt="" aria-hidden="true" />
+          <img src="./mono/serio.webp" alt="" aria-hidden="true" />
           <p>Esta unidad no tiene diálogos. · 这个单元没有对话。</p>
           <button type="button" className="ja-boton ja-boton-oro" onClick={onCambiar}>
             Elegir otra unidad · 选择其他单元
@@ -255,7 +256,7 @@ function Teatro({ contenido, onCambiar }) {
 
         {fase === "final" && final && (
           <div className="ja-cartelera ja-final" role="dialog" aria-label="Resultado · 结果">
-            <img src={final.estrellas >= 2 ? "./mono/trofeo.png" : final.estrellas ? "./mono/feliz.png" : "./mono/serio.png"} alt="" aria-hidden="true" className="ja-final-mono" />
+            <img src={final.estrellas >= 2 ? "./mono/trofeo.webp" : final.estrellas ? "./mono/feliz.webp" : "./mono/serio.webp"} alt="" aria-hidden="true" className="ja-final-mono" />
             <h2>{final.estrellas >= 3 ? "¡Ovación! · 满堂喝彩！" : final.estrellas >= 2 ? "¡Bravo! · 太棒了！" : "¡Buen ensayo! · 不错的排练！"}</h2>
             <div className="ja-estrellas ja-estrellas-grandes" aria-label={`${final.estrellas} estrellas · 星`}>
               {[0, 1, 2].map((i) => (

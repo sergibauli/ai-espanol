@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { c as generarConCache, e as extraerJson, a as pedirIA } from "../../lib/ai-generator.js";
 import "../../styles/v14-fix-recursos.css";
+import "../../styles/movil-juegos.css";
 const NIVELES = ["A1", "A2", "B1", "B2"];
 const AGENTES = [
   { key: "planificador", label: "Planificador", labelZh: "规划者", icon: ListChecksIcon, sello: "规" },

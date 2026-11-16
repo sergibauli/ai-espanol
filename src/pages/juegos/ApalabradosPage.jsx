@@ -22,6 +22,7 @@ import { g, a as a_1 } from "../../lib/juegos-utils.js";
 import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
 import "../../styles/v17-apalabrados.css";
+import "../../styles/movil-juegos.css";
 const pe = 15;
 const s = {
   1: {

@@ -331,7 +331,7 @@ function Character({ text, speakText }) {
   return (
     <div className="ej-mono">
       <span className="ej-mono__medallon" aria-hidden="true">
-        <img src="./mono/serio.png" alt="" />
+        <img src="./mono/serio.webp" alt="" />
       </span>
       <div className="ej-mono__bocadillo">
         {speakText && (
@@ -748,7 +748,7 @@ export function LessonPlayer({ lesson, onClose }) {
     </div>
   ) : outOfHearts ? (
     <div className="lp-center">
-      <img className="ej-sin-vidas" src="./mono/serio.png" alt="" />
+      <img className="ej-sin-vidas" src="./mono/serio.webp" alt="" />
       <h2 className="lp-word" style={{ fontSize: 30 }}>Te has quedado sin vidas</h2>
       <div className="lp-zh-big">生命值用完了</div>
       <p className="ui-muted" style={{ textAlign: "center", maxWidth: 420 }}>

@@ -1,0 +1,21 @@
+/* ===== móvil · Inicio (ruta) ===== */
+@media (max-width: 1023px) {
+  /* parallax ligado al scroll del mundo de fondo: en móvil, quieto (el cielo animaba un filtro y repintaba toda la pantalla al bajar) */
+  .mr-lejos, .mr-medio, .mr-cerca, .mr-px2, .mr-px3, .mr-cielo, .mr-vineta { animation: none !important; }
+}
+
+/* letra mínima legible en el móvil */
+@media (max-width: 1023px) {
+  .ruta-unit .ru-lugar { font-size: 12px; }
+  .ruta-unit .ru-num { font-size: 12.5px; }
+  .light-page .rh-titulo .rh-tema { font-size: 12px; }
+}
+/* teléfono: en las pestañas de nivel basta la cifra (0/54), en grande; «clases · 课» no cabía y quedaba en 9,5 px */
+@media (max-width: 600px) {
+  .light-page .rt22 .rh-textos > small { font-size: 12px; line-height: 1.1; }
+  .light-page .rt22 .rh-textos > small span { display: none; }
+}
+@media (max-width: 1023px) {
+  /* Meta diaria: fichas de 20/30/50 XP con zona táctil de 40 px */
+  .ruta-side .ui-chip { min-height: 40px; padding-left: 14px; padding-right: 14px; }
+}

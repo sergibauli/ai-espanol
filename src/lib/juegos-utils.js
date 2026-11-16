@@ -1,5 +1,5 @@
-import { ALL_MODULES } from "../data/modulos/index.js";
-import { contenidoJuego, parametrosJuego } from "./contenidoJuego.js";
+// Solo metadatos + vocabulario de las unidades (no los módulos enteros): ver vocabularioJuegos.js
+import { UNIDADES_VOCABULARIO as ALL_MODULES, vocabularioJuego as contenidoJuego, parametrosJuego } from "./vocabularioJuegos.js";
 export function g() {
   return ALL_MODULES.map((o) => ({
     id: o.id,

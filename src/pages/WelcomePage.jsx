@@ -25,6 +25,7 @@ import {
 import "../styles/v15-portada.css";
 import "../styles/v19-portada.css";
 import "../styles/v20-mundos.css";
+import "../styles/movil-portada.css";
 
 const HERE = () => `${location.origin}${location.pathname}#/ruta`;
 
