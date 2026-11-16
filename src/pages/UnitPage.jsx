@@ -49,6 +49,7 @@ function chispas(boton) {
 import { GAMES, isReadyGame } from "./juegos/JuegosHubPage.jsx";
 import "../styles/v14-fix-juegos.css";
 import { u as useCorrection, C as CorrectionCard } from "../components/CorrectionDisplay.jsx";
+import "../styles/movil-unidades.css";
 const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
 const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
