@@ -3,6 +3,15 @@ import { PlayIcon, SquareIcon, ArrowLeftIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { recordAnswer } from "../lib/progresoDele.js";
+import {
+  AvisoAudioExamen,
+  audioExamenVigente,
+  empezarAudioExamen,
+  esperarAudioExamen,
+  pararAudioExamen,
+  terminarAudioExamen,
+  tocarAudioExamen,
+} from "../lib/audioExamen.jsx";
 import DIALOGOS from "../data/audicion-acentos.json";
 import "../styles/v14-fix-recursos.css";
 import "../styles/movil-recursos.css";
@@ -16,26 +25,27 @@ function Dialogo({ d, onBack }) {
   const [linea, setLinea] = React.useState(-1);
   const [resp, setResp] = React.useState({});
   const [corregido, setCorregido] = React.useState(false);
-  const audio = React.useRef(null);
   const parar = () => {
-    audio.current?.pause();
-    audio.current = null;
+    pararAudioExamen();
     setLinea(-1);
   };
-  React.useEffect(() => parar, []);
-  const tocar = (i = 0) => {
-    if (i >= d.lineas.length) return setLinea(-1);
-    setLinea(i);
-    const a = new Audio(`./${d.lineas[i].audio}`);
-    audio.current = a;
-    a.onended = () => audio.current === a && setTimeout(() => tocar(i + 1), 350);
-    a.play().catch(() => setLinea(-1));
+  React.useEffect(() => () => pararAudioExamen(), []);
+  // Reproductor único de src/lib/audioExamen.jsx: arranca en el toque y encadena las líneas (iPhone/WeChat)
+  const tocar = async (desde = 0) => {
+    const sesion = empezarAudioExamen();
+    for (let i = desde; i < d.lineas.length; i++) {
+      setLinea(i);
+      if ((await tocarAudioExamen(`./${d.lineas[i].audio}`)) !== "fin" || !audioExamenVigente(sesion)) return;
+      if (i < d.lineas.length - 1 && !(await esperarAudioExamen(350))) return;
+    }
+    terminarAudioExamen(sesion);
+    setLinea(-1);
   };
   const escuchar = () => {
     if (linea >= 0) return parar();
     if (vez >= MAX && !corregido) return;
     setVez((v) => v + 1);
-    tocar(0);
+    tocar();
   };
   const corregir = () => {
     setCorregido(true);
@@ -64,6 +74,7 @@ function Dialogo({ d, onBack }) {
         {linea >= 0 ? <SquareIcon size={22} /> : <PlayIcon size={22} fill="currentColor" />}
         {linea >= 0 ? `Escuchando… ${linea + 1}/${d.lineas.length}` : vez >= MAX && !corregido ? "Ya has escuchado 2 veces · 已听两遍" : `Escuchar (${vez}/${MAX}) · 播放`}
       </button>
+      <AvisoAudioExamen />
       <div className="au-qs">
         {d.preguntas.map((q, i) => (
           <div key={i} className="au-q">

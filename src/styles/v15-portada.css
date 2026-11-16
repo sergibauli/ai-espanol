@@ -21,8 +21,9 @@
   -webkit-font-smoothing: antialiased;
 }
 /* El cuerpo deja hueco para la barra inferior de la app: en la portada no hay barra */
-html:has(.pc), body:has(.pc) { background: #0a0d18; }
-body:has(.pc) { padding-bottom: 0 !important; }
+/* .pc-html la pone WelcomePage en <html> (antes html:has(.pc), body:has(.pc): caro en documentos grandes) */
+html.pc-html, html.pc-html body { background: #0a0d18; }
+html.pc-html body { padding-bottom: 0 !important; }
 .pc *,
 .pc *::before,
 .pc *::after { box-sizing: border-box; }

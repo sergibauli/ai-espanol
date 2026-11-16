@@ -88,7 +88,7 @@ export default function PromoPage() {
               </>
             ) : (
               <>
-                <img className="tp-promo-mono" src={`./mono/${actual.mono}.png`} alt="" />
+                <img className="tp-promo-mono" src={`./mono/${actual.mono}.webp`} alt="" />
                 <span className="tp-panel-ceja">{actual.es}</span>
                 <h1>{actual.zh}</h1>
                 <p className="tp-promo-desc">
