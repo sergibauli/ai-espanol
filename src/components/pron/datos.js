@@ -1,6 +1,24 @@
 // Datos unificados de Pronunciación: familias (pronunciacion.json) + material del antiguo Templo de las Sílabas
 import BASE from "../../data/pronunciacion.json";
-import SILABAS from "../../data/silabas-templo.js";
+// Del Templo de las Sílabas (370 KB) solo se incluyen de entrada las sílabas que forman familias; el resto del material
+// (más palabras, frases y textos) llega con cargarSilabas() en cuanto la página está en reposo o se abre una familia.
+import SILABAS_BASE from "virtual:silabas-templo?solo=ge,gi,ha,he,hi,ho,hu";
+
+let SILABAS = SILABAS_BASE;
+let carga = null;
+export const silabasCargadas = () => SILABAS !== SILABAS_BASE;
+export function cargarSilabas() {
+  carga ??= import("../../data/silabas-templo.js")
+    .then((m) => {
+      SILABAS = m.default;
+      return true;
+    })
+    .catch(() => {
+      carga = null;
+      return false;
+    });
+  return carga;
+}
 
 // «bajo/矮» → «矮»
 export const traduccion = (texto) => (texto && texto.includes("/") ? texto.split("/")[1] : texto || "");

@@ -33,12 +33,23 @@ export function sfx(kind) {
   } catch {}
 }
 
-import AUDIO_INDEX from "../../data/audio-index.json";
-import AUDIO_INDEX_F from "../../data/audio-index-f.json";
-
-// Audios pregrabados con la voz del profesor (Fish Audio): mismo hash FNV-1a que scripts de generación
-const AUDIO = new Set(AUDIO_INDEX);
-const AUDIO_F = new Set(AUDIO_INDEX_F);
+// Audios pregrabados con la voz del profesor (Fish Audio): mismo hash FNV-1a que scripts de generación.
+// Los índices (~200 KB) no frenan la primera pantalla: se descargan en reposo o, como tarde, en la primera frase.
+let AUDIO = null;
+let AUDIO_F = null;
+let cargaIndices = null;
+function cargarIndices() {
+  cargaIndices ??= Promise.all([import("../../data/audio-index.json"), import("../../data/audio-index-f.json")])
+    .then(([m, f]) => {
+      AUDIO = new Set(m.default);
+      AUDIO_F = new Set(f.default);
+    })
+    .catch(() => {
+      cargaIndices = null;
+    });
+  return cargaIndices;
+}
+if (typeof window !== "undefined") (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => cargarIndices(), { timeout: 4000 });
 function fnv(t) {
   let h = 0x811c9dc5;
   for (const b of new TextEncoder().encode(t)) {
@@ -103,6 +114,12 @@ function settle() {
 }
 
 function play(text, rate, voice, onEnd) {
+  // Primera frase antes de tener los índices: espera a que lleguen (si fallan, voz del sistema)
+  if (!AUDIO) cargarIndices().then(() => reproducir(text, rate, voice, onEnd));
+  else reproducir(text, rate, voice, onEnd);
+}
+
+function reproducir(text, rate, voice, onEnd) {
   settle();
   let finished = false;
   const done = () => {
@@ -118,8 +135,8 @@ function play(text, rate, voice, onEnd) {
   }
   const t = String(text || "").trim();
   const fk = fnv("F|" + t);
-  const key = voice === "f" && AUDIO_F.has(fk) ? fk : fnv(t);
-  if (AUDIO.has(key) || AUDIO_F.has(key)) {
+  const key = voice === "f" && AUDIO_F?.has(fk) ? fk : fnv(t);
+  if (AUDIO?.has(key) || AUDIO_F?.has(key)) {
     try {
       current?.pause();
       speechSynthesis?.cancel?.();
