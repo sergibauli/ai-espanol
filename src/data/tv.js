@@ -1,4 +1,4 @@
-// Sección TV · 电视: series propias con episodios cortos (30–40 s).
+// Sección TV · 电视: series propias con episodios cortos (15–40 s).
 // Para añadir un episodio: MP4 H.264 + AAC con -movflags +faststart (<100 MB) y su póster JPG 1280×720 en public/tv/<serie>/,
 // con nombre nuevo (s1e05.mp4, s1e05.jpg…: las imágenes se cachean para siempre en el móvil) y una entrada en `episodios`.
 // `estreno` (AAAA-MM-DD, opcional): si es futura, el episodio sale bloqueado con cuenta atrás y se abre solo ese día;
@@ -86,7 +86,26 @@ export const SERIES = [
           { es: "¡Entra rápido! ¡La puerta se ha abierto!", zh: "快进去！门开了！" },
         ],
       },
+      {
+        n: 5,
+        titulo: "El templo de los pergaminos",
+        tituloZh: "卷轴神殿",
+        video: "./tv/rey-mono/s1e05.mp4?v=1",
+        poster: "./tv/rey-mono/s1e05.jpg?v=1",
+        duracion: "0:15",
+        estreno: "2026-11-17",
+        resumen: "Los amigos cruzan la puerta y entran en un templo de jade. En el altar brillan las piedras, vuelan los pergaminos de AI Español… y un guardián de jade les da la bienvenida: ¡el curso empieza aquí!",
+        resumenZh: "朋友们穿过大门，走进一座玉石神殿。祭台上的宝石闪闪发光，AI Español 的卷轴在空中飞舞……一位玉石守护者欢迎他们：课程从这里开始！",
+        frases: [
+          { es: "¡Guau! Este templo es impresionante.", zh: "哇！这座神殿太壮观了。" },
+          { es: "Mira este altar.", zh: "看这个祭台。" },
+          { es: "Aquí se esconde el saber.", zh: "这里藏着知识。" },
+          { es: "¿Estos pergaminos enseñan español?", zh: "这些卷轴会教西班牙语吗？" },
+          { es: "Sí, así es.", zh: "没错。" },
+          { es: "Tu curso empieza aquí.", zh: "你的课程从这里开始。" },
+        ],
+      },
     ],
-    proximamente: { es: "Episodio 5 · Próximamente", zh: "第5集 · 即将推出" },
+    proximamente: { es: "Episodio 6 · Próximamente", zh: "第6集 · 即将推出" },
   },
 ];
