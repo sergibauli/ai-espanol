@@ -100,7 +100,8 @@ function CasillasCodigo({ valor, onCambio, onCompleto, largo = 6, deshabilitado 
   );
 }
 
-export function FormularioAcceso({ alEntrar }) {
+// avisar(evento): «paso:<nombre>», «error», «clave:dentro», «clave:fuera», «entrando» (justo antes de abrir la sesión)
+export function FormularioAcceso({ alEntrar, avisar }) {
   const { isLoaded, signIn, setActive, sinProveedor } = useSignInSeguro();
   // paso: datos | codigo | olvido | nueva
   const [paso, setPaso] = React.useState("datos");
@@ -127,9 +128,14 @@ export function FormularioAcceso({ alEntrar }) {
   const fallo = (err) => {
     setError(typeof err === "string" ? err : mensajeError(err));
     setIntentos((n) => n + 1);
+    avisar?.("error");
   };
+  React.useEffect(() => {
+    avisar?.(`paso:${paso}`);
+  }, [paso]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const terminar = async (resultado) => {
+    avisar?.("entrando");
     await setActive({ session: resultado.createdSessionId });
     alEntrar?.();
   };
@@ -358,7 +364,7 @@ export function FormularioAcceso({ alEntrar }) {
       <label>
         Contraseña · 密码
         <span className="v21-clave">
-          <input type={verClave ? "text" : "password"} value={clave} onChange={(e) => setClave(e.target.value)} autoComplete="current-password" required />
+          <input type={verClave ? "text" : "password"} value={clave} onChange={(e) => setClave(e.target.value)} autoComplete="current-password" required onFocus={() => avisar?.("clave:dentro")} onBlur={() => avisar?.("clave:fuera")} />
           <button type="button" onClick={() => setVerClave((v) => !v)} aria-label={verClave ? "Ocultar contraseña · 隐藏密码" : "Mostrar contraseña · 显示密码"}>
             {verClave ? <EyeOffIcon size={18} aria-hidden="true" /> : <EyeIcon size={18} aria-hidden="true" />}
           </button>
