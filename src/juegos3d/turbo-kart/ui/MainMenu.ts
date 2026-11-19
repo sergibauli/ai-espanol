@@ -54,6 +54,38 @@ const THEME_LABEL: Record<string, string> = {
   volcano: 'VOLCÁN · 火山',
   neon: 'CIUDAD · 龙城',
 };
+/** Selección de circuito: foto real de cada circuito (capturas del juego) y sello del mundo. */
+const CIRCUITO_ARTE: Record<string, { foto: string; sello: string; mundo: string }> = {
+  neon_nexus: { foto: './turbo-kart/circuito-ciudad-dragon.webp', sello: '龙', mundo: 'Ciudad neón · 霓虹城' },
+  sunny_circuit: { foto: './turbo-kart/circuito-valle-bambu.webp', sello: '竹', mundo: 'Mar de nubes · 云海' },
+  dune_drift: { foto: './turbo-kart/circuito-montana-fuego.webp', sello: '火', mundo: 'Volcán · 火山' },
+  frostbite_falls: { foto: './turbo-kart/circuito-templo-jade.webp', sello: '玉', mundo: 'Templo en la nieve · 雪中玉殿' },
+};
+const NIVEL_CIRCUITO = ['NOVATO · 新手', 'PRO · 进阶', 'EXPERTO · 高手'];
+const SVG_NS = 'http://www.w3.org/2000/svg';
+/** Icono SVG pequeño (trazos) para las etiquetas de circuito. */
+function iconoCircuito(tipo: 'vueltas' | 'nivel' | 'estrella', clase: string): SVGSVGElement {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('class', clase);
+  const d: Record<typeof tipo, string> = {
+    // bandera de meta ondeando
+    vueltas: 'M5 21V4m0 0c4-2 6 2 10 0s4-1 4-1v9s-1 1-4 1-6-2-10 0',
+    // escudo con rayo: dificultad
+    nivel: 'M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3zm1 4l-4 6h3l-1 4 4-6h-3l1-4z',
+    // estrella de cinco puntas
+    estrella: 'M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.5l1.3-6.6L2.5 9.3l6.6-.8z',
+  };
+  const path = document.createElementNS(SVG_NS, 'path');
+  path.setAttribute('d', d[tipo]);
+  svg.appendChild(path);
+  return svg;
+}
+function partirNombre(nombre: string): { es: string; zh: string } {
+  const [es, zh] = nombre.split(' · ');
+  return { es: es ?? nombre, zh: zh ?? '' };
+}
 
 export class MainMenu {
   onStart: ((settings: RaceSettings) => void) | null = null;
@@ -73,6 +105,16 @@ export class MainMenu {
 
   // Track select
   private readonly trackCards: HTMLElement[] = [];
+  /** Fotos a pantalla completa (una por circuito) y ficha grande del circuito elegido. */
+  private readonly trackFondos: HTMLElement[] = [];
+  private heroSello!: HTMLElement;
+  private heroZh!: HTMLElement;
+  private heroEs!: HTMLElement;
+  private heroMundo!: HTMLElement;
+  private heroDesc!: HTMLElement;
+  private heroEstrellas!: HTMLElement;
+  private heroMeta!: HTMLElement;
+  private hero!: HTMLElement;
   private trackIndex = 0;
   private readonly diffButtons: HTMLElement[] = [];
   private difficultyIndex = 1;
@@ -163,11 +205,33 @@ export class MainMenu {
     charActions.appendChild(button('SELECCIONAR · 选择 →', 'primary', () => this.goTo('trackSelect', true)));
 
     // ----------------------------------------------------------- track select
-    const tr = el('section', 'panel-select panel-tracks', undefined, this.rootNode);
+    const tr = el('section', 'panel-select panel-tracks wkc', undefined, this.rootNode);
+    // Fondo: la foto del circuito elegido a pantalla completa (tapa el kart del menú).
+    const fondo = el('div', 'wkc-fondo', undefined, tr);
+    fondo.setAttribute('aria-hidden', 'true');
+    tracks.forEach((t) => {
+      const capa = el('div', 'wkc-fondo-foto', undefined, fondo);
+      const arte = CIRCUITO_ARTE[t.id];
+      if (arte) capa.style.backgroundImage = `url("${arte.foto}")`;
+      this.trackFondos.push(capa);
+    });
+    el('div', 'wkc-fondo-velo', undefined, fondo);
     const trHead = el('header', 'select-header', undefined, tr);
     el('div', 'panel-kicker', 'PASO 2 / 2 · 第二步', trHead);
     el('h2', 'panel-title', 'ELIGE CIRCUITO · 选择赛道', trHead);
-    const trackGrid = el('div', 'card-grid track-grid', undefined, tr);
+    // Ficha grande del circuito elegido.
+    this.hero = el('div', 'wkc-hero', undefined, tr);
+    this.heroSello = el('div', 'wkc-hero-sello', '', this.hero);
+    this.heroSello.translate = false;
+    const heroTxt = el('div', 'wkc-hero-txt', undefined, this.hero);
+    this.heroMundo = el('div', 'wkc-hero-mundo', '', heroTxt);
+    this.heroZh = el('div', 'wkc-hero-zh', '', heroTxt);
+    this.heroEs = el('div', 'wkc-hero-es', '', heroTxt);
+    this.heroDesc = el('div', 'wkc-hero-desc', '', heroTxt);
+    const heroPie = el('div', 'wkc-hero-pie', undefined, heroTxt);
+    this.heroEstrellas = el('div', 'wkc-estrellas wkc-estrellas-grandes', undefined, heroPie);
+    this.heroMeta = el('div', 'wkc-meta', undefined, heroPie);
+    const trackGrid = el('div', 'card-grid track-grid wkc-grid', undefined, tr);
     tracks.forEach((t, i) => {
       const card = this.buildTrackCard(t);
       card.addEventListener('pointerenter', () => {
@@ -184,7 +248,7 @@ export class MainMenu {
       trackGrid.appendChild(card);
       this.trackCards.push(card);
     });
-    const trFoot = el('footer', 'select-footer glass', undefined, tr);
+    const trFoot = el('footer', 'select-footer glass wkc-pie', undefined, tr);
     const diffWrap = el('div', 'difficulty', undefined, trFoot);
     el('div', 'difficulty-label', 'RIVALES · 对手', diffWrap);
     const seg = el('div', 'segmented', undefined, diffWrap);
@@ -361,6 +425,7 @@ export class MainMenu {
     const changed = i !== this.trackIndex;
     this.trackIndex = i;
     this.trackCards.forEach((c, k) => c.classList.toggle('selected', k === i));
+    this.pintarCircuito(i, changed);
     this.refreshTrackFocus();
     if (changed && sound) events.emit('ui:move', {});
   }
@@ -436,29 +501,71 @@ export class MainMenu {
     return card;
   }
 
+  /** Estrellas de dificultad (1–3) como iconos SVG dorados. */
+  private pintarEstrellas(caja: HTMLElement, n: number): void {
+    caja.replaceChildren();
+    caja.title = `Dificultad ${n}/3 · 难度`;
+    for (let k = 0; k < 3; k++) caja.appendChild(iconoCircuito('estrella', k < n ? 'wkc-est on' : 'wkc-est'));
+  }
+
+  private pintarMeta(caja: HTMLElement, t: TrackDefinition): void {
+    caja.replaceChildren();
+    const vueltas = el('span', 'wkc-chip', undefined, caja);
+    vueltas.appendChild(iconoCircuito('vueltas', 'wkc-chip-ico'));
+    el('span', '', `${t.laps} VUELTAS · ${t.laps}圈`, vueltas);
+    const nivel = el('span', `wkc-chip wkc-nivel-${t.difficulty}`, undefined, caja);
+    nivel.appendChild(iconoCircuito('nivel', 'wkc-chip-ico'));
+    el('span', '', NIVEL_CIRCUITO[t.difficulty - 1] ?? 'PRO · 进阶', nivel);
+  }
+
+  /** Fondo y ficha grande del circuito elegido. */
+  private pintarCircuito(i: number, animar: boolean): void {
+    const t = this.tracks[i];
+    if (!t || !this.hero) return;
+    this.trackFondos.forEach((f, k) => f.classList.toggle('activa', k === i));
+    const arte = CIRCUITO_ARTE[t.id];
+    const nombre = partirNombre(t.name);
+    this.heroSello.textContent = arte?.sello ?? '赛';
+    this.heroMundo.textContent = arte?.mundo ?? THEME_LABEL[t.theme] ?? '';
+    this.heroZh.textContent = nombre.zh;
+    this.heroEs.textContent = nombre.es;
+    this.heroDesc.textContent = t.description;
+    this.pintarEstrellas(this.heroEstrellas, t.difficulty);
+    this.pintarMeta(this.heroMeta, t);
+    if (animar) {
+      this.hero.classList.remove('wkc-entra');
+      void this.hero.offsetWidth;
+      this.hero.classList.add('wkc-entra');
+    }
+  }
+
   private buildTrackCard(t: TrackDefinition): HTMLElement {
-    const card = el('div', 'card track-card glass');
+    const card = el('div', 'track-card wkc-card');
     card.tabIndex = -1;
-    const env = t.environment;
-    card.style.setProperty('--card-accent', cssHex(env.skyHorizon));
-    card.style.setProperty('--card-glow', cssRgba(env.skyHorizon, 0.5));
-    const art = el('div', 'track-art', undefined, card);
-    art.style.background = `linear-gradient(180deg, ${cssHex(env.skyTop)} 0%, ${cssHex(env.skyHorizon)} 55%, ${cssHex(
-      t.palette.ground,
-    )} 56%, ${cssHex(t.palette.ground)} 100%)`;
-    const road = el('div', 'track-art-road', undefined, art);
-    road.style.background = cssHex(t.palette.road);
-    road.style.borderColor = cssHex(t.palette.curb);
-    el('div', 'track-theme-pill pill', THEME_LABEL[t.theme] ?? t.theme, art);
-    const body = el('div', 'track-body', undefined, card);
-    const nameRow = el('div', 'track-name-row', undefined, body);
-    el('div', 'card-name', t.name, nameRow);
-    const pips = el('div', 'pips', undefined, nameRow);
-    for (let i = 0; i < 3; i++) el('span', i < t.difficulty ? 'pip on' : 'pip', '★', pips);
-    el('div', 'card-tag', t.description, body);
-    const meta = el('div', 'track-meta', undefined, body);
-    el('span', 'pill', `${t.laps} VUELTAS · ${t.laps}圈`, meta);
-    el('span', 'pill', `${['NOVATO · 新手', 'PRO · 进阶', 'EXPERTO · 高手'][t.difficulty - 1] ?? 'PRO'}`, meta);
+    const arte = CIRCUITO_ARTE[t.id];
+    const nombre = partirNombre(t.name);
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', t.name);
+    const foto = el('div', 'wkc-foto', undefined, card);
+    if (arte) {
+      const img = el('img', 'wkc-foto-img', undefined, foto);
+      img.src = arte.foto;
+      img.alt = t.name;
+      img.draggable = false;
+      img.loading = 'eager';
+    } else {
+      foto.style.background = `linear-gradient(180deg, ${cssHex(t.environment.skyTop)}, ${cssHex(t.environment.skyHorizon)})`;
+    }
+    el('div', 'wkc-foto-brillo', undefined, foto);
+    const sello = el('div', 'wkc-sello', arte?.sello ?? '赛', foto);
+    sello.translate = false;
+    this.pintarEstrellas(el('div', 'wkc-estrellas', undefined, foto), t.difficulty);
+    for (const pos of ['tl', 'tr', 'bl', 'br']) el('span', `wkc-esquina wkc-esquina-${pos}`, undefined, card);
+    const placa = el('div', 'wkc-placa', undefined, card);
+    el('div', 'wkc-nombre-zh', nombre.zh, placa);
+    el('div', 'wkc-nombre-es', nombre.es, placa);
+    const meta = el('div', 'wkc-meta wkc-meta-carta', undefined, placa);
+    this.pintarMeta(meta, t);
     return card;
   }
 }
