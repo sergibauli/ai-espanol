@@ -127,12 +127,12 @@ export default function OficialHubPage() {
             <Dragon />
             <div className="dp-cab-txt">
               <span className="dp-eyebrow">
-                <i translate="no">考</i> DELE · 官方真题
+                <i translate="no">考</i> Exámenes · 考试
               </span>
               <h1>
-                <span>Exámenes DELE oficiales</span>
+                <span>Exámenes para practicar mi nivel</span>
               </h1>
-              <p className="dp-zh" translate="no">西班牙语DELE官方真题 · 四个级别</p>
+              <p className="dp-zh" translate="no">按我的级别练习考试 · A1 · A2 · B1 · B2</p>
               <div className="dp-fila">
               <ul className="dp-stats">
                 <li>
@@ -153,7 +153,7 @@ export default function OficialHubPage() {
                 <span className="dp-paso-txt">
                   <small>{paso.nuevo ? "Empieza aquí · 从这里开始" : "Tu siguiente paso · 下一步"}</small>
                   <b>
-                    DELE {paso.nivel} · Modelo {paso.modelo} <span translate="no">· 第{paso.modelo}套</span>
+                    {paso.nivel} · Modelo {paso.modelo} <span translate="no">· 第{paso.modelo}套</span>
                   </b>
                 </span>
                 <ArrowRightIcon size={18} strokeWidth={2.8} />
@@ -167,7 +167,7 @@ export default function OficialHubPage() {
                   <Wand2Icon size={16} strokeWidth={2.4} /> Generador IA · AI出题
                 </Link>
                 <Link to="/mi-dele" className="dp-btn">
-                  <CompassIcon size={16} strokeWidth={2.4} /> Mi DELE · 我的备考
+                  <CompassIcon size={16} strokeWidth={2.4} /> Mi progreso · 我的进度
                 </Link>
               </nav>
             </div>
@@ -224,7 +224,7 @@ export default function OficialHubPage() {
                     <small className="dp-mundo">
                       {l.mundo} · <span translate="no">{l.mundoZh}</span>
                     </small>
-                    <b className="dp-nivel">DELE {l.key}</b>
+                    <b className="dp-nivel">{l.key}</b>
                     <span className="dp-nombre">
                       {l.nombre} · <span translate="no">{l.zh}</span>
                     </span>

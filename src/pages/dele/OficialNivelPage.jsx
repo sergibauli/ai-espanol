@@ -168,7 +168,7 @@ function OficialNivelPage() {
             <div className="dx-placa">
               <div className="dx-placa-top">
                 <Link to="/oficial" className="dx-volver">
-                  <ArrowLeftIcon size={15} strokeWidth={2.6} /> {t("Exámenes DELE", "DELE考试")}
+                  <ArrowLeftIcon size={15} strokeWidth={2.6} /> {t("Exámenes", "考试")}
                 </Link>
                 <span className="dx-mundo">
                   {cfg.mundo} · <span translate="no">{cfg.mundoZh}</span>
@@ -180,7 +180,7 @@ function OficialNivelPage() {
                 </div>
                 <div className="dx-titular-txt">
                   <h1 className="dx-titulo">
-                    DELE <b>{nivel}</b>
+                    <b>{nivel}</b>
                   </h1>
                   <p className="dx-nombre">
                     {cfg.nombre} <span translate="no">· {cfg.zh}</span>

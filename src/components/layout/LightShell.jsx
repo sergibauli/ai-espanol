@@ -23,13 +23,13 @@ const MAIN = [
   { to: "/ruta", icon: "ruta", es: "Aprender", zh: "学习" },
   { to: "/modulos", icon: "unidades", es: "Unidades", zh: "单元" },
   { to: "/oficial", icon: "dele", es: "DELE", zh: "考试" },
-  { to: "/mi-dele", icon: "progreso", es: "Mi DELE", zh: "我的进度" },
+  { to: "/mi-dele", icon: "progreso", es: "Práctica", zh: "练习" },
   { to: "/juegos", icon: "juegos", es: "Juegos", zh: "游戏" },
   { to: "/tv", icon: "tv", es: "TV", zh: "电视" },
   { to: "/diccionarios", icon: "diccionario", es: "Diccionario", zh: "词典" },
   { to: "/pronunciacion", icon: "pronunciacion", es: "Pronunciación", zh: "发音" },
   { to: "/memoria", icon: "repaso", es: "Repaso", zh: "记忆" },
-  { to: "/tutor-voz", icon: "tutor", es: "Tutor IA", zh: "AI导师" },
+  { to: "/tutor-voz", icon: "tutor", es: "Tutor", zh: "导师" },
 ];
 // En móvil la barra inferior lleva las 5 primeras; el resto se abre con «Más»
 const MOVIL_FIJAS = MAIN.slice(0, 5);
