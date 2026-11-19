@@ -163,9 +163,15 @@ export function LightShell({ children, legacy = false, stage = false }) {
           <AdornosBarra />
           <Link to="/ruta" className="side-brand v18-marca" aria-label="Wukong Español · Inicio 首页">
             <Emblema tamano={132} />
+            <span className="v21-nombre" translate="no">
+              <b>Wukong</b>
+              <span className="v21-nombre__cinta">
+                Español <i lang="zh-Hans">悟空西语</i>
+              </span>
+            </span>
           </Link>
-          {MAIN.map((m) => (
-            <Link key={m.to} to={m.to} className={`side-link ${active(m.to) ? "on" : ""}`} aria-current={active(m.to) ? "page" : undefined} onPointerEnter={() => precargar(m.to)} onFocus={() => precargar(m.to)}>
+          {MAIN.map((m, indice) => (
+            <Link key={m.to} to={m.to} style={{ "--i": indice }} className={`side-link ${active(m.to) ? "on" : ""}`} aria-current={active(m.to) ? "page" : undefined} onPointerEnter={() => precargar(m.to)} onFocus={() => precargar(m.to)}>
               <NavIcon name={m.icon} size={38} />
               <span>
                 {m.es}

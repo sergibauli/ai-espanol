@@ -91,9 +91,7 @@ export function Emblema({ tamano = 120 }) {
       <i className="v18-chispa" style={{ left: "4%", top: "10%" }} />
       <i className="v18-chispa" style={{ right: "2%", top: "30%", animationDelay: "-1.4s" }} />
       <i className="v18-chispa" style={{ left: "16%", bottom: "8%", animationDelay: "-2.3s" }} />
-      <span className="v21-emblema-nombre">
-        Wukong <small>Español</small>
-      </span>
+      <span className="v21-aura" />
     </span>
   );
 }

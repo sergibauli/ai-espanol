@@ -3,7 +3,7 @@
   "appName": "AI Español",
   "webDir": "android-web",
   "server": {
-    "url": "https://sergibauli.github.io/ai-espanol/",
+    "url": "https://sergibauli.github.io/wukong-espanol/",
     "androidScheme": "https",
     "allowNavigation": ["sergibauli.github.io", "*.clerk.accounts.dev", "*.clerk.com", "ai-espanol-campus.sergibaulis.workers.dev"]
   },

@@ -5,7 +5,7 @@ description: Mapa del proyecto AI Español (web para que estudiantes chinos apre
 
 # AI Español · contexto del proyecto
 
-Web en React 19 + Vite 7 + HashRouter + Clerk, publicada en GitHub Pages (`sergibauli/ai-espanol`). Público: estudiantes chinos; todo texto visible va en español + chino simplificado.
+Web en React 19 + Vite 7 + HashRouter + Clerk, publicada en GitHub Pages (`sergibauli/wukong-espanol`). Público: estudiantes chinos; todo texto visible va en español + chino simplificado.
 
 ## Dónde está cada cosa
 - Rutas: `src/App.jsx`. Marco (menú lateral, barra inferior móvil, cielo según la hora de China): `src/components/layout/LightShell.jsx`. Iconos del menú: `src/components/ui/NavIcon.jsx` (SVG propios, nada de emojis en el menú).

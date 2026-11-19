@@ -42,7 +42,7 @@ function encodedDeepseekKey() {
   return { s: salt.toString('base64'), k: Buffer.from(data).toString('base64') };
 }
 
-// base relativa: la app se sirve en https://sergibauli.github.io/ai-espanol/ (HashRouter)
+// base relativa: la app se sirve en https://sergibauli.github.io/wukong-espanol/ (HashRouter)
 export default defineConfig({
   base: './',
   plugins: [react(), pwa, trozosDatos(), precargaSecciones()],

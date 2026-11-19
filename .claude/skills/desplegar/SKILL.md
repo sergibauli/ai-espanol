@@ -1,6 +1,6 @@
 ---
 name: desplegar
-description: Compila, publica AI Español en GitHub Pages (push a main de sergibauli/ai-espanol), espera al workflow y pasa una prueba de humo por las rutas principales de la web publicada. Úsala cuando el usuario diga desplegar, publicar, subir o «deploy», o al terminar un bloque de cambios.
+description: Compila, publica Wukong Español en GitHub Pages (push a main de sergibauli/wukong-espanol), espera al workflow y pasa una prueba de humo por las rutas principales de la web publicada. Úsala cuando el usuario diga desplegar, publicar, subir o «deploy», o al terminar un bloque de cambios.
 ---
 
 # Desplegar AI Español

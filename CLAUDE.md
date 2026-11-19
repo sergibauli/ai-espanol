@@ -1,4 +1,4 @@
-# AI Español · contexto para Claude Code
+# Wukong Español (antes AI Español) · contexto para Claude Code
 
 App web (PWA) para que estudiantes chinos aprendan español y preparen el DELE A1–B2. Explicaciones en español + chino simplificado.
 
@@ -6,7 +6,7 @@ App web (PWA) para que estudiantes chinos aprendan español y preparen el DELE A
 - `npm install` · `npm run dev` (Vite, http://localhost:5173) · `npm run build` (sale en `dist/`)
 - Audios de exámenes: voces de España por examen → skill `voz` (sección «Audios de los exámenes»).
 - Clases (sesiones de 50–60 min dentro de cada unidad): `node scripts/build-clases.mjs` regenera `src/data/modulos/clases.json` (reparto determinista de teoría, vocabulario, diálogos, ejercicios y plus). Ejecútalo tras cambiar el contenido de una unidad o añadir unidades.
-- Deploy: cada push a `main` construye y publica en GitHub Pages (`.github/workflows/deploy.yml`). URL: https://sergibauli.github.io/ai-espanol/
+- Deploy: cada push a `main` construye y publica en GitHub Pages (`.github/workflows/deploy.yml`). URL: https://sergibauli.github.io/wukong-espanol/
 
 ## Arquitectura
 - React 19 + React Router 7 (**HashRouter**, rutas `#/...`) + Clerk (login) + lucide-react (iconos `XxxIcon`). Vite 7, `base: './'`.

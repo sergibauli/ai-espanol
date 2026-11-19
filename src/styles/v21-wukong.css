@@ -132,12 +132,88 @@
   .mw, .mw *, .mw-vara::after { animation: none !important; }
 }
 
-/* ===== v21 · Nombre bajo el emblema del menú lateral ===== */
-.v21-emblema-nombre {
-  position: absolute; left: 0; right: 0; bottom: -18px; z-index: 2;
-  display: flex; justify-content: center; align-items: baseline; gap: 5px;
-  font: 900 17px/1 Cinzel, Georgia, serif; letter-spacing: .06em; white-space: nowrap;
-  color: #8f0c21; text-shadow: 0 1px 0 #fff6cf, 0 0 10px rgba(255, 236, 180, .9);
+/* ===== v21 · Menú lateral Wukong: laca imperial, emblema con aura y botones de oro vivos ===== */
+html body .light-page.v18 .light-shell nav.side-nav {
+  background:
+    radial-gradient(120% 22% at 50% 0%, rgba(255, 210, 110, .38), transparent 70%),
+    radial-gradient(120% 26% at 50% 100%, rgba(255, 190, 90, .25), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23f2c14e' stroke-opacity='.13' stroke-width='1.4'%3E%3Cpath d='M8 40c0-8 10-10 14-4 3-8 16-8 17 1 7-4 15 2 11 9H12c-4 0-5-4-4-6Z'/%3E%3Cpath d='M0 12h10v10H0zM54 54h10v10H54z'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(180deg, #8f0c21 0%, #a5112a 18%, #7a0a1c 55%, #4f0612 100%) !important;
+  box-shadow: inset -1.5px 0 0 #fff4c8, inset -4px 0 0 #d9a93f, inset -5.5px 0 0 #6e4210, inset -22px 0 30px rgba(255, 190, 90, .22), 10px 0 34px rgba(30, 0, 0, .55) !important;
 }
-.v21-emblema-nombre small { font-size: 11px; letter-spacing: .2em; color: #8a5a1e; }
-html body .light-page.v18 .side-nav .side-brand.v18-marca { padding-bottom: 26px !important; }
+html body .light-page.v18 .v18-barra-deco__marco { border-color: #f2c14e; box-shadow: inset 0 0 0 3px rgba(110, 7, 23, .6), inset 0 0 0 4px rgba(242, 193, 78, .55), 0 0 14px rgba(255, 200, 90, .45); }
+html body .light-page.v18 .v18-barra-deco { color: #f2c14e; }
+html body .light-page.v18 .v18-barra-deco__nube { opacity: .55; }
+
+/* Cabecera: emblema con rayos de oro girando y nombre en el flujo (sin solaparse) */
+html body .light-page.v18 .side-nav .side-brand.v18-marca { display: flex !important; flex-direction: column; align-items: center; gap: 2px; padding: 4px 0 12px !important; border-radius: 18px; }
+.v18-emblema { isolation: isolate; }
+.v21-aura {
+  position: absolute; left: 50%; top: 38%; z-index: 0; width: 170%; aspect-ratio: 1; translate: -50% -50%; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 226, 140, .5) 0deg 6deg, transparent 6deg 18deg);
+  -webkit-mask: radial-gradient(closest-side, #000 30%, transparent 100%); mask: radial-gradient(closest-side, #000 30%, transparent 100%);
+  animation: v21-gira 24s linear infinite;
+}
+.v18-emblema__disco { filter: drop-shadow(0 6px 12px rgba(30, 0, 0, .55)) drop-shadow(0 0 18px rgba(255, 210, 110, .85)) !important; }
+.v21-nombre { position: relative; z-index: 3; display: grid; justify-items: center; margin-top: 2px; line-height: 1; }
+.v21-nombre b {
+  font: 900 30px/1 Cinzel, Georgia, serif; letter-spacing: .06em;
+  background: linear-gradient(100deg, #c8901e 0%, #f2c14e 30%, #fff6cf 45%, #f2c14e 60%, #c8901e 100%); background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 0 #4f0612) drop-shadow(0 0 10px rgba(255, 200, 90, .45));
+  animation: mw-brillo 6s 1s ease-in-out infinite;
+}
+.v21-nombre__cinta {
+  display: flex; align-items: baseline; gap: 6px; margin-top: 4px; padding: 4px 14px 5px;
+  font: 800 11px/1 Cinzel, Georgia, serif; letter-spacing: .26em; color: #5a0610;
+  background: linear-gradient(180deg, #fff6cf, #f2c14e 55%, #c8901e);
+  clip-path: polygon(0 0, 100% 0, 94% 50%, 100% 100%, 0 100%, 6% 50%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
+}
+.v21-nombre__cinta i { font: 700 11px/1 STKaiti, KaiTi, "Kaiti SC", "Noto Serif SC", serif; font-style: normal; letter-spacing: .1em; color: #8f0c21; }
+
+/* Botones: entrada escalonada, destello al pasar, medallón que gira */
+html body .light-page.v18 .light-shell a.side-link {
+  box-shadow: 0 0 0 1.5px #c0902f, 0 0 0 3px rgba(110, 7, 23, .55), inset 0 -3px 5px rgba(176, 122, 30, .32), inset 0 0 0 1px rgba(255, 255, 255, .55), 0 5px 12px rgba(20, 0, 0, .5) !important;
+  animation: v21-boton .6s calc(.15s + var(--i, 0) * .05s) cubic-bezier(.2, 1.3, .4, 1) backwards;
+}
+html body .light-page.v18 .light-shell a.side-link::after {
+  content: "" !important; display: block !important; position: absolute; inset: 0 auto 0 -40%; width: 35%; z-index: 2; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .85), transparent); transform: skewX(-18deg); opacity: 0;
+}
+html body .light-page.v18 .light-shell a.side-link:hover::after { opacity: 1; animation: v21-destello .7s ease-out; }
+html body .light-page.v18 .light-shell a.side-link:hover { transform: translateX(4px) scale(1.02); filter: brightness(1.08) saturate(1.15); }
+html body .light-page.v18 .light-shell a.side-link .nav-ic { transition: transform .5s cubic-bezier(.3, 1.6, .5, 1); }
+html body .light-page.v18 .light-shell a.side-link:hover .nav-ic { transform: rotate(-12deg) scale(1.12); }
+
+/* Activo: halo de fuego dorado que respira, destello continuo y sello 悟 en lugar del punto */
+html body .light-page.v18 .light-shell a.side-link.on {
+  box-shadow: 0 0 0 2px #fff0b8, 0 0 0 4px #c8102e, 0 0 0 5.5px #f2c14e, 0 0 24px 6px rgba(255, 200, 80, .85), inset 0 -3px 6px rgba(176, 122, 30, .35) !important;
+  animation: v21-boton .6s calc(.15s + var(--i, 0) * .05s) cubic-bezier(.2, 1.3, .4, 1) backwards, v21-respira 2.6s 1s ease-in-out infinite;
+}
+html body .light-page.v18 .light-shell a.side-link.on::after { opacity: 1; animation: v21-destello 3.2s 1.2s ease-in-out infinite; }
+html body .light-page.v18 .light-shell a.side-link.on::before {
+  content: "悟" !important; width: 22px; height: 22px; right: 9px; border-radius: 5px; display: grid !important; place-items: center;
+  font: 900 14px/1 STKaiti, KaiTi, "Kaiti SC", "Noto Serif SC", serif; color: #fff3d6;
+  background: linear-gradient(145deg, #e2394a, #c8102e 55%, #8f0c21) !important;
+  box-shadow: 0 0 0 1.5px #f2c14e, 0 2px 6px rgba(80, 0, 0, .5) !important; transform: translateY(-50%) rotate(8deg);
+}
+
+/* Meta de hoy y selector de idioma sobre la laca: pergamino con filete de oro */
+html body .light-page.v18 .light-shell nav.side-nav .in-hoy,
+html body .light-page.v18 .light-shell nav.side-nav .sel-idioma-btn {
+  background: linear-gradient(180deg, #fffaf0, #f5e6c4) !important; border: 1.5px solid #f2c14e !important;
+  box-shadow: 0 0 0 2px rgba(110, 7, 23, .5), 0 5px 12px rgba(20, 0, 0, .45) !important;
+}
+html body .light-page.v18 .light-shell nav.side-nav .in-hoy b,
+html body .light-page.v18 .light-shell nav.side-nav .sel-idioma-btn * { color: #6e0717 !important; }
+html body .light-page.v18 .light-shell nav.side-nav .in-hoy small { color: #8a5a1e !important; }
+html body .light-page.v18 .light-shell nav.side-nav .side-exit { color: #f6d77e !important; }
+
+@keyframes v21-gira { to { transform: rotate(360deg); } }
+@keyframes v21-boton { from { opacity: 0; transform: translateX(-26px) scale(.94); } }
+@keyframes v21-destello { 0% { left: -40%; } 60%, 100% { left: 130%; } }
+@keyframes v21-respira { 50% { box-shadow: 0 0 0 2px #fff0b8, 0 0 0 4px #c8102e, 0 0 0 5.5px #f2c14e, 0 0 36px 12px rgba(255, 200, 80, .95), inset 0 -3px 6px rgba(176, 122, 30, .35); } }
+@media (prefers-reduced-motion: reduce) {
+  .v21-aura, .v21-nombre b, html body .light-page.v18 .light-shell a.side-link, html body .light-page.v18 .light-shell a.side-link::after { animation: none !important; }
+}

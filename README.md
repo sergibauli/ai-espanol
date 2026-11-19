@@ -1,6 +1,6 @@
 # AI Español · Preparación DELE (v3)
 
-Este es el código fuente de la versión que está publicada en GitHub Pages (`sergibauli/ai-espanol`, rama `main`).
+Este es el código fuente de la versión que está publicada en GitHub Pages (`sergibauli/wukong-espanol`, rama `main`).
 El código original se había perdido y en el repositorio solo quedaba el build compilado. Lo he recuperado
 descompilando ese build (23-10-2026).
 
