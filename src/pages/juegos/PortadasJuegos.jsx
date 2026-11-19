@@ -873,6 +873,75 @@ function EscapePalacio() {
   );
 }
 
+/* ---------- 13 · Brisca del Rey Mono: baraja española sobre tapete de laca ---------- */
+function Brisca() {
+  const g = useG();
+  const carta = (x, y, rot, contenido, key) => (
+    <g key={key} className="jh-p-naipe" transform={`rotate(${rot} ${x + 24} ${y + 72})`} style={{ "--d": `${key * -0.6}s` }}>
+      <rect x={x + 2} y={y + 3} width="48" height="72" rx="6" fill="#000" opacity=".3" />
+      <rect x={x} y={y} width="48" height="72" rx="6" fill={CREMA} stroke={u(g, "oroH")} strokeWidth="1.6" />
+      <rect x={x + 4} y={y + 10} width="40" height="52" rx="2" fill="none" stroke="#c8961e" strokeWidth=".8" />
+      {contenido(x + 24, y + 36)}
+    </g>
+  );
+  const moneda = (cx, cy) => (
+    <g>
+      <circle cx={cx} cy={cy} r="14" fill={u(g, "oro")} stroke="#7a4f12" strokeWidth="1.2" />
+      <rect x={cx - 4.5} y={cy - 4.5} width="9" height="9" fill="#8f0c21" stroke="#7a4f12" />
+    </g>
+  );
+  const copa = (cx, cy) => (
+    <g>
+      <path d={`M${cx - 12} ${cy - 12}h24c-1 11-6 15-12 16-6-1-11-5-12-16z`} fill="#2f8f52" stroke="#164d2c" />
+      <ellipse cx={cx} cy={cy - 12} rx="12" ry="2.5" fill={u(g, "oro")} />
+      <rect x={cx - 2} y={cy + 4} width="4" height="7" fill={u(g, "oro")} />
+      <path d={`M${cx - 8} ${cy + 14}q8-4 16 0z`} fill={u(g, "oro")} />
+    </g>
+  );
+  const espada = (cx, cy) => (
+    <g>
+      <path d={`M${cx} ${cy - 20}l3 5v20h-6v-20z`} fill="#dfe7f5" stroke="#2a3a58" strokeWidth=".8" />
+      <path d={`M${cx - 8} ${cy + 5}q8-3 16 0q-2 3-8 3t-8-3z`} fill={u(g, "oro")} />
+      <rect x={cx - 2} y={cy + 8} width="4" height="8" fill="#8f0c21" />
+      <path d={`M${cx + 1} ${cy + 17}q5 2 5 7`} stroke={ROJO} strokeWidth="1.6" fill="none" />
+    </g>
+  );
+  return (
+    <>
+      <rect width="320" height="180" fill="#5a0814" />
+      <rect x="10" y="10" width="300" height="160" rx="26" fill="#1c5139" stroke={u(g, "oroH")} strokeWidth="3" />
+      <ellipse cx="160" cy="90" rx="130" ry="70" fill="#2f7a55" opacity=".7" />
+      <circle cx="160" cy="96" r="90" fill={u(g, "halo")} opacity=".35" />
+      <g>
+        {[6, 3, 0].map((o) => (
+          <rect key={o} x={36 + o} y={58 + o} width="44" height="66" rx="6" fill={o ? "#6b0918" : u(g, "laca")} stroke={ORO} strokeWidth="1.2" />
+        ))}
+        <circle cx="58" cy="91" r="13" fill="#8f0c21" stroke={u(g, "oroH")} strokeWidth="2" />
+        <text x="58" y="97" textAnchor="middle" fontSize="16" fontWeight="700" fill="#fff4dc" fontFamily="STKaiti, KaiTi, serif">
+          悟
+        </text>
+      </g>
+      {carta(104, 48, -16, moneda, 0)}
+      {carta(140, 40, 0, copa, 1)}
+      {carta(176, 48, 16, espada, 2)}
+      <g className="jh-p-llave" style={{ transformOrigin: "272px 88px" }}>
+        <rect x="267" y="34" width="10" height="110" rx="5" fill={u(g, "laca")} stroke="#5a0814" />
+        <rect x="265" y="34" width="14" height="14" rx="4" fill={u(g, "oro")} />
+        <rect x="265" y="130" width="14" height="14" rx="4" fill={u(g, "oro")} />
+      </g>
+      <Chispas
+        pts={[
+          [300, 26, 0.7],
+          [24, 30, 0.6],
+          [160, 22, 0.8],
+          [236, 150, 0.6],
+        ]}
+      />
+      <Vineta />
+    </>
+  );
+}
+
 const ESCENAS = {
   kahoot: Kahoot,
   ruleta: Ruleta,
@@ -886,6 +955,7 @@ const ESCENAS = {
   teatro: Teatro,
   "dragon-jade": DragonJade,
   "escape-palacio": EscapePalacio,
+  brisca: Brisca,
 };
 
 export function Portada({ id, className = "" }) {

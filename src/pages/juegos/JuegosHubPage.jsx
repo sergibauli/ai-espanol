@@ -45,6 +45,7 @@ export const READY_GAMES = new Set([
   "/juegos/teatro",
   "/juegos/dragon-jade",
   "/juegos/escape-palacio",
+  "/juegos/brisca",
 ]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
@@ -261,6 +262,22 @@ const JUEGOS = [
     minutos: 10,
     jugadores: "1",
     path: "/juegos/escape-palacio",
+  },
+  {
+    id: "brisca",
+    name: "Brisca del Rey Mono",
+    nameCn: "美猴王纸牌",
+    desc: "La baraja española contra el Rey Mono: cada carta trae un reto de tu clase y aprendes oros, copas, espadas y bastos.",
+    descCn: "用西班牙纸牌挑战美猴王：每张牌都有一道本课的题，还能学会金币、杯、剑、棍。",
+    icon: SpadeIcon,
+    sello: "悟",
+    tono: "jade",
+    category: "mesa",
+    habilidad: { es: "Vocabulario y gramática", zh: "词汇与语法" },
+    nivel: 2,
+    minutos: 10,
+    jugadores: "1",
+    path: "/juegos/brisca",
   },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 
