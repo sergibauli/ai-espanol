@@ -1,0 +1,852 @@
+/* Wukong Turbo Rush · 西游极速 — portada y podio animados (PortadaAnimada.ts, PodioAnimado.ts).
+   Solo transform/opacity en bucle (compositor); las animaciones viven en las clases .viva / .intro,
+   que se quitan al salir de la pantalla. */
+
+/* ================================================================== PORTADA */
+.tkr .wk-pa {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: visible;
+}
+.tkr .wk-pa-cam {
+  position: absolute;
+  inset: 0;
+  transform-origin: 52% 46%;
+}
+.tkr .wk-pa-cam > .wk-arte-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: none;
+}
+.tkr .wk-pa-cam > *,
+.tkr .wk-pa > .wk-pa-flash {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+.tkr .wk-pa-cam img {
+  display: block;
+}
+.tkr .wk-pa-hueco,
+.tkr .wk-pa-ala,
+.tkr .wk-pa-kart {
+  object-fit: fill;
+}
+.tkr .wk-pa-fx {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Logo recortado + barrido de oro con su propia silueta como máscara */
+.tkr .wk-pa-logo img {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+}
+.tkr .wk-pa-logo-brillo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 246, 205, 0) 43%,
+    rgba(255, 250, 225, 0.95) 50%,
+    rgba(255, 246, 205, 0) 57%,
+    transparent 62%
+  );
+  background-size: 260% 100%;
+  background-position: 160% 0;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  mix-blend-mode: overlay;
+  opacity: 0.95;
+}
+
+/* Farolillos que titilan */
+.tkr .wk-pa-farol,
+.tkr .wk-po-farol {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.75) 0%, rgba(255, 140, 50, 0.32) 32%, rgba(255, 110, 30, 0) 68%);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+}
+
+/* Alas de jade: laten y se abren un poco */
+.tkr .wk-pa-ala {
+  mix-blend-mode: screen;
+  opacity: 0.3;
+}
+.tkr .wk-pa-ala.izq {
+  transform-origin: 90% 88%;
+}
+.tkr .wk-pa-ala.der {
+  transform-origin: 10% 88%;
+}
+
+/* Núcleo de jade del kart y destello del faro */
+.tkr .wk-pa-nucleo {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 255, 225, 0.95) 0%, rgba(70, 255, 160, 0.6) 26%, rgba(30, 200, 120, 0) 66%);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+.tkr .wk-pa-faro {
+  background:
+    radial-gradient(closest-side, rgba(220, 255, 235, 0.95), rgba(120, 255, 190, 0) 35%),
+    linear-gradient(90deg, transparent 0%, rgba(170, 255, 215, 0.85) 50%, transparent 100%) center / 100% 5% no-repeat,
+    linear-gradient(0deg, transparent 20%, rgba(170, 255, 215, 0.6) 50%, transparent 80%) center / 3% 100% no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+/* Niebla que se desliza */
+.tkr .wk-pa-niebla {
+  background:
+    radial-gradient(28% 40% at 18% 55%, rgba(190, 235, 222, 0.2), transparent 70%),
+    radial-gradient(24% 34% at 52% 62%, rgba(200, 240, 230, 0.15), transparent 70%),
+    radial-gradient(30% 42% at 84% 50%, rgba(190, 235, 222, 0.2), transparent 70%);
+}
+.tkr .wk-pa-niebla.delante {
+  background:
+    radial-gradient(26% 46% at 12% 70%, rgba(170, 215, 205, 0.22), transparent 70%),
+    radial-gradient(30% 40% at 70% 80%, rgba(170, 215, 205, 0.18), transparent 70%);
+}
+
+/* Onda del golpe y destello */
+.tkr .wk-pa-onda {
+  border-radius: 50%;
+  border: 6px solid rgba(255, 226, 140, 0.95);
+  box-shadow: 0 0 40px rgba(255, 200, 90, 0.9), inset 0 0 40px rgba(255, 200, 90, 0.7);
+  opacity: 0;
+}
+.tkr .wk-pa-flash {
+  background: radial-gradient(40% 32% at 50% 24%, rgba(255, 252, 235, 1), rgba(255, 220, 140, 0.55) 45%, rgba(255, 200, 120, 0) 75%);
+  opacity: 0;
+}
+.tkr .wk-pa::after {
+  content: '';
+  position: absolute;
+  inset: -40% -60%;
+  background: #05030a;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- bucles (solo con la portada visible) */
+.tkr .wk-pa.viva .wk-pa-cam {
+  animation: wk-pa-camara 1.5s cubic-bezier(0.2, 0.75, 0.25, 1) both, wk-pa-respira 11s ease-in-out 1.5s infinite;
+}
+.tkr .wk-pa.viva .wk-pa-logo {
+  animation: wk-pa-golpe 0.52s cubic-bezier(0.55, 0, 0.75, 0.3) 0.3s both, wk-pa-flota 6s ease-in-out 0.95s infinite;
+}
+.tkr .wk-pa.viva .wk-pa-logo-brillo {
+  animation: wk-pa-barre 5s ease-in-out 1.1s infinite;
+}
+.tkr .wk-pa.viva .wk-pa-farol,
+.tkr .wk-po.viva .wk-po-farol {
+  animation: wk-titila 2.3s ease-in-out infinite;
+}
+.tkr .wk-pa.viva .wk-pa-farol:nth-child(odd) {
+  animation-duration: 1.7s;
+  animation-delay: -0.8s;
+}
+.tkr .wk-pa.viva .wk-pa-farol:nth-child(3n) {
+  animation-duration: 2.9s;
+  animation-delay: -1.9s;
+}
+.tkr .wk-pa.viva .wk-pa-ala.izq {
+  animation: wk-pa-ala-i 3.4s ease-in-out 0.8s infinite;
+}
+.tkr .wk-pa.viva .wk-pa-ala.der {
+  animation: wk-pa-ala-d 3.4s ease-in-out 0.8s infinite;
+}
+.tkr .wk-pa.viva .wk-pa-kart {
+  animation: wk-pa-motor 0.11s linear infinite alternate;
+}
+.tkr .wk-pa.viva .wk-pa-nucleo {
+  animation: wk-pa-nucleo 1.05s ease-in-out infinite alternate;
+}
+.tkr .wk-pa.viva .wk-pa-faro {
+  animation: wk-pa-faro 4.2s ease-out 1.6s infinite;
+}
+.tkr .wk-pa.viva .wk-pa-niebla.atras {
+  animation: wk-pa-niebla 24s ease-in-out infinite alternate;
+}
+.tkr .wk-pa.viva .wk-pa-niebla.delante {
+  animation: wk-pa-niebla 31s ease-in-out -9s infinite alternate-reverse;
+}
+.tkr .wk-pa.intro .wk-pa-onda {
+  animation: wk-pa-onda 0.8s cubic-bezier(0.1, 0.7, 0.3, 1) 0.8s both;
+}
+.tkr .wk-pa.intro .wk-pa-flash {
+  animation: wk-pa-flash 0.75s ease-out 0.76s both;
+}
+.tkr .wk-pa.intro {
+  animation: wk-pa-sacudida 0.5s linear 0.82s both;
+}
+.tkr .wk-pa.intro::after {
+  animation: wk-pa-velo 1.3s ease-out both;
+}
+
+@keyframes wk-pa-camara {
+  from {
+    transform: scale(1.22) translateY(4%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes wk-pa-respira {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale(1.012) translateY(-0.3%);
+  }
+}
+@keyframes wk-pa-golpe {
+  0% {
+    opacity: 0;
+    transform: scale(2.6) rotate(-5deg);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes wk-pa-flota {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(-1.3%) scale(1.012);
+  }
+}
+@keyframes wk-pa-barre {
+  0% {
+    background-position: 160% 0;
+  }
+  45%,
+  100% {
+    background-position: -60% 0;
+  }
+}
+@keyframes wk-titila {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.94);
+  }
+  30% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+  55% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.95;
+    transform: scale(1.1);
+  }
+}
+@keyframes wk-pa-ala-i {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform: none;
+  }
+  50% {
+    opacity: 0.85;
+    transform: rotate(-3deg) scale(1.02);
+  }
+}
+@keyframes wk-pa-ala-d {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform: none;
+  }
+  50% {
+    opacity: 0.85;
+    transform: rotate(3deg) scale(1.02);
+  }
+}
+@keyframes wk-pa-motor {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(0.06%, 0.22%);
+  }
+}
+@keyframes wk-pa-nucleo {
+  from {
+    opacity: 0.35;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+@keyframes wk-pa-faro {
+  0%,
+  70% {
+    opacity: 0;
+    transform: scale(0.6) rotate(0deg);
+  }
+  78% {
+    opacity: 1;
+    transform: scale(1.35) rotate(8deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) rotate(14deg);
+  }
+}
+@keyframes wk-pa-niebla {
+  from {
+    transform: translateX(-7%);
+  }
+  to {
+    transform: translateX(7%);
+  }
+}
+@keyframes wk-pa-onda {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  6% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+@keyframes wk-pa-flash {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes wk-pa-velo {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes wk-pa-sacudida {
+  0%,
+  100% {
+    transform: none;
+  }
+  12% {
+    transform: translate(-1.1%, 0.9%);
+  }
+  26% {
+    transform: translate(1%, -0.8%);
+  }
+  42% {
+    transform: translate(-0.6%, 0.5%);
+  }
+  60% {
+    transform: translate(0.35%, -0.3%);
+  }
+  80% {
+    transform: translate(-0.15%, 0.1%);
+  }
+}
+
+/* ---- entrada de la interfaz de la portada (tras decodificar las capas) */
+.tkr .wk-pa.espera::after {
+  opacity: 1;
+}
+.tkr .wk-titulo.wk-espera .wk-capa > * {
+  opacity: 0;
+}
+.tkr .wk-titulo.wk-intro .wk-controles {
+  animation: wk-enciende 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 0.95s both;
+}
+.tkr .wk-titulo.wk-intro .wk-control {
+  animation: wk-entra-fila 0.4s ease-out both;
+}
+.tkr .wk-titulo.wk-intro .wk-control:nth-child(2) { animation-delay: 1.35s; }
+.tkr .wk-titulo.wk-intro .wk-control:nth-child(3) { animation-delay: 1.42s; }
+.tkr .wk-titulo.wk-intro .wk-control:nth-child(4) { animation-delay: 1.49s; }
+.tkr .wk-titulo.wk-intro .wk-control:nth-child(5) { animation-delay: 1.56s; }
+.tkr .wk-titulo.wk-intro .wk-control:nth-child(6) { animation-delay: 1.63s; }
+.tkr .wk-titulo.wk-intro .wk-control:nth-child(7) { animation-delay: 1.7s; }
+.tkr .wk-titulo.wk-intro .wk-jade {
+  animation: wk-enciende 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+.tkr .wk-titulo.wk-intro .wk-jade:nth-child(1) { animation-delay: 1.15s; }
+.tkr .wk-titulo.wk-intro .wk-jade:nth-child(2) { animation-delay: 1.27s; }
+.tkr .wk-titulo.wk-intro .wk-jade:nth-child(3) { animation-delay: 1.39s; }
+.tkr .wk-titulo.wk-intro .wk-enter {
+  overflow: hidden;
+  animation: wk-enciende 0.6s cubic-bezier(0.2, 1.6, 0.4, 1) 1.2s both, tkr-wk-latido 1.8s ease-in-out 2s infinite;
+}
+.tkr .wk-titulo.wk-intro .version {
+  animation: wk-aparece 0.8s ease-out 1.8s both;
+}
+.tkr .wk-titulo .wk-pa-barrido {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 240, 200, 0.55) 50%, transparent 65%);
+  background-size: 300% 100%;
+  background-position: 150% 0;
+  mix-blend-mode: screen;
+}
+.tkr .wk-titulo.wk-intro .wk-pa-barrido {
+  animation: wk-pa-barre 3.6s ease-in-out 2.2s infinite;
+}
+/* El panel real aparece encima del pintado en la ilustración: se «enciende» en su sitio. */
+@keyframes wk-enciende {
+  0% {
+    opacity: 0;
+    scale: 0.9;
+    filter: brightness(2.2);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+    filter: none;
+  }
+}
+@keyframes wk-entra-fila {
+  from {
+    opacity: 0;
+    translate: -14px 0;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes wk-aparece {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ================================================================== PODIO */
+.tkr .results {
+  background: #1a0c08;
+  overflow: hidden;
+}
+.tkr .wk-po {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+.tkr .wk-po-cam {
+  position: absolute;
+  inset: 0;
+  transform-origin: 32% 60%;
+}
+.tkr .wk-po-cam > * {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+.tkr .wk-po-cam img {
+  display: block;
+}
+.tkr .wk-po-fondo,
+.tkr .wk-po-nino {
+  object-fit: fill;
+}
+.tkr .wk-po-dragon img {
+  width: 100%;
+  height: 100%;
+}
+.tkr .wk-po-dragon {
+  transform-origin: 20% 40%;
+}
+.tkr .wk-po-nino {
+  transform-origin: 62% 100%;
+}
+.tkr .wk-po-rayos {
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 244, 205, 0.5) 0deg 5deg,
+    rgba(255, 244, 205, 0) 5deg 15deg,
+    rgba(255, 230, 170, 0.32) 15deg 19deg,
+    rgba(255, 244, 205, 0) 19deg 30deg
+  );
+  -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.6) 40%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.6) 40%, transparent 100%);
+  mix-blend-mode: soft-light;
+  opacity: 0.75;
+}
+.tkr .wk-po-trofeo {
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 238, 170, 0.75), rgba(255, 200, 80, 0.25) 45%, rgba(255, 190, 60, 0) 75%);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+.tkr .wk-po-ojos {
+  background:
+    radial-gradient(closest-side, rgba(255, 250, 220, 0.95), rgba(255, 200, 90, 0) 40%),
+    linear-gradient(90deg, transparent 0%, rgba(255, 236, 170, 0.9) 50%, transparent 100%) center / 100% 4% no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.tkr .wk-po-velo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(20, 8, 4, 0) 34%, rgba(20, 8, 4, 0.5) 62%, rgba(20, 8, 4, 0.78) 100%);
+}
+.tkr .wk-po-fx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.tkr .results > .confetti {
+  display: none;
+}
+.tkr .results > .results-panel {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- bucles del podio */
+.tkr .wk-po.viva .wk-po-cam {
+  animation: wk-po-camara 1.6s cubic-bezier(0.2, 0.75, 0.25, 1) both, wk-po-respira 12s ease-in-out 1.6s infinite;
+}
+.tkr .wk-po.viva .wk-po-dragon {
+  animation: wk-po-llega 2s cubic-bezier(0.15, 0.7, 0.3, 1) 0.2s both, wk-po-vuela 5.5s ease-in-out 2.2s infinite;
+}
+.tkr .wk-po.viva .wk-po-dragon img {
+  animation: wk-po-ondula 2.6s ease-in-out infinite;
+}
+.tkr .wk-po.viva .wk-po-nino {
+  animation: wk-po-celebra 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) 0.55s both, wk-po-respira-nino 2.4s ease-in-out 1.3s infinite;
+}
+.tkr .wk-po.viva .wk-po-rayos {
+  animation: wk-po-gira 70s linear infinite;
+}
+.tkr .wk-po.viva .wk-po-trofeo {
+  animation: wk-titila 3.2s ease-in-out infinite;
+}
+.tkr .wk-po.viva .wk-po-ojos {
+  animation: wk-pa-faro 3.8s ease-out 1.2s infinite;
+}
+.tkr .wk-po.triste .wk-po-rayos {
+  opacity: 0.35;
+}
+.tkr .wk-po.intro + .wk-po-velo {
+  animation: wk-po-velo 1.4s ease-out both;
+}
+@keyframes wk-po-camara {
+  from {
+    transform: scale(1.16) translate(2%, 2%);
+    opacity: 0.2;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes wk-po-respira {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale(1.015) translate(-0.4%, -0.3%);
+  }
+}
+@keyframes wk-po-llega {
+  from {
+    opacity: 0;
+    transform: translate(75%, -30%) rotate(-10deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes wk-po-vuela {
+  0%,
+  100% {
+    transform: none;
+  }
+  35% {
+    transform: translate(-2.2%, 4%) rotate(-2deg);
+  }
+  70% {
+    transform: translate(1.2%, -2.5%) rotate(1.2deg);
+  }
+}
+@keyframes wk-po-ondula {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scaleY(1.035) skewY(-1.2deg);
+  }
+}
+@keyframes wk-po-celebra {
+  0% {
+    transform: none;
+  }
+  45% {
+    transform: scale(1.06, 0.95);
+  }
+  70% {
+    transform: scale(0.98, 1.05) translateY(-1.5%);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes wk-po-respira-nino {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale(1.012, 1.018);
+  }
+}
+@keyframes wk-po-gira {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes wk-po-velo {
+  from {
+    background-color: rgba(5, 2, 1, 0.9);
+  }
+  to {
+    background-color: rgba(5, 2, 1, 0);
+  }
+}
+
+/* ---- filas del ranking y medalla del puesto */
+.tkr .results .standing-row {
+  position: relative;
+  overflow: hidden;
+  animation: wk-fila 0.55s cubic-bezier(0.2, 1.25, 0.4, 1) both;
+}
+.tkr .results .standing-row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 236, 170, 0.55) 50%, transparent 70%);
+  background-size: 300% 100%;
+  background-position: 150% 0;
+  animation: wk-pa-barre 0.9s ease-out both;
+  animation-delay: inherit;
+}
+.tkr .results .standing-row.you {
+  animation: wk-fila 0.55s cubic-bezier(0.2, 1.25, 0.4, 1) both, wk-fila-tu 1.8s ease-in-out 2.2s infinite;
+}
+.tkr .results .standing-row.you::after {
+  animation: wk-pa-barre 2.6s ease-in-out infinite;
+  animation-delay: inherit;
+}
+@keyframes wk-fila {
+  from {
+    opacity: 0;
+    transform: translateX(70px) skewX(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes wk-fila-tu {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px rgba(242, 193, 78, 0.6), 0 0 10px rgba(242, 193, 78, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(255, 225, 140, 0.95), 0 0 26px rgba(242, 193, 78, 0.7);
+  }
+}
+
+.tkr .wk-medalla {
+  position: absolute;
+  z-index: 3;
+  width: clamp(78px, 11vh, 112px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  animation: wk-medalla-golpe 0.55s cubic-bezier(0.55, 0, 0.8, 0.4) 0.3s both;
+  --m1: #fff7d6;
+  --m2: #f2c14e;
+  --m3: #8a5a12;
+}
+.tkr .wk-medalla.plata {
+  --m1: #ffffff;
+  --m2: #c9d3de;
+  --m3: #5b6673;
+}
+.tkr .wk-medalla.bronce {
+  --m1: #ffe2c4;
+  --m2: #d0874a;
+  --m3: #6a3a14;
+}
+.tkr .wk-medalla.laca {
+  --m1: #ffd0c0;
+  --m2: #c8102e;
+  --m3: #4a0a12;
+}
+.tkr .wk-medalla-disco {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 30%, var(--m1) 0%, var(--m2) 45%, var(--m3) 100%);
+  box-shadow: 0 0 0 3px var(--m3), 0 0 0 6px var(--m2), 0 10px 24px rgba(0, 0, 0, 0.55), inset 0 -6px 12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.tkr .wk-medalla-disco::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.75) 50%, transparent 65%);
+  background-size: 300% 100%;
+  background-position: 150% 0;
+  animation: wk-pa-barre 3s ease-in-out 1s infinite;
+}
+.tkr .wk-medalla-num {
+  font: 900 clamp(30px, 4.6vh, 46px) / 0.9 var(--display, Georgia), serif;
+  color: #3a1a04;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  letter-spacing: -0.02em;
+}
+.tkr .wk-medalla.laca .wk-medalla-num,
+.tkr .wk-medalla.laca .wk-medalla-zh {
+  color: #fff1d0;
+  text-shadow: 0 2px 0 #4a0a12;
+}
+.tkr .wk-medalla-zh {
+  font: 800 clamp(11px, 1.5vh, 15px) / 1.2 var(--wk-zh, sans-serif);
+  color: #4a2a06;
+}
+.tkr .wk-medalla-rayos {
+  position: absolute;
+  inset: -45%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 226, 140, 0.55) 0deg 6deg, transparent 6deg 18deg);
+  -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
+  animation: wk-po-gira 14s linear infinite;
+}
+.tkr .wk-medalla.laca .wk-medalla-rayos {
+  opacity: 0.35;
+}
+.tkr .wk-medalla-cinta {
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  bottom: -26%;
+  height: 40%;
+  z-index: -1;
+  background: linear-gradient(90deg, #8a0d1d 0 48%, #c8102e 52% 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+}
+@keyframes wk-medalla-golpe {
+  0% {
+    opacity: 0;
+    transform: scale(3.2) rotate(-25deg);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tkr .results-panel.panel-in {
+  animation: tkr-panel-in 0.55s var(--ease-out) both, wk-panel-golpe 0.4s linear 0.85s;
+}
+@keyframes wk-panel-golpe {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  20% {
+    translate: -6px 4px;
+  }
+  45% {
+    translate: 5px -3px;
+  }
+  70% {
+    translate: -2px 1px;
+  }
+}
+
+/* ---- móvil vertical: escena arriba, panel abajo */
+@media (max-aspect-ratio: 9/10) {
+  .tkr .wk-po-velo {
+    background: linear-gradient(180deg, rgba(20, 8, 4, 0) 30%, rgba(26, 12, 8, 0.75) 50%, #1a0c08 62%);
+  }
+  .tkr .wk-medalla {
+    width: 76px;
+  }
+}
+
+/* ---- movimiento reducido: estampa fija, sin bucles */
+@media (prefers-reduced-motion: reduce) {
+  .tkr .wk-pa *,
+  .tkr .wk-pa,
+  .tkr .wk-pa::after,
+  .tkr .wk-po *,
+  .tkr .wk-po-velo,
+  .tkr .wk-medalla,
+  .tkr .wk-medalla *,
+  .tkr .wk-medalla-disco::after,
+  .tkr .wk-titulo.wk-intro .wk-pa-barrido,
+  .tkr .results .standing-row,
+  .tkr .results .standing-row::after {
+    animation: none !important;
+  }
+  .tkr .wk-pa-faro,
+  .tkr .wk-po-ojos {
+    display: none;
+  }
+}
