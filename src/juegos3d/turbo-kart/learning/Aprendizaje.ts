@@ -12,6 +12,7 @@ import * as THREE from 'three';
 import type { IKart, ITrack } from '../core/types';
 import { clamp, trackDelta, wrap01 } from '../core/math';
 import { el } from '../ui/dom';
+import { TECLAS_RETO } from '../kart/EntradaJugador';
 
 export interface Palabra {
   es: string;
@@ -78,6 +79,21 @@ interface RetoActivo {
   feedback: number;
 }
 
+interface UIJugador {
+  cont: HTMLElement;
+  raiz: HTMLElement;
+  tarjeta: HTMLElement;
+  enunciado: HTMLElement;
+  pista: HTMLElement;
+  botones: HTMLButtonElement[];
+  barra: HTMLElement;
+  aviso: HTMLElement;
+  avisoZh: HTMLElement;
+  reto: RetoActivo | null;
+  prevT: number;
+  padPrev: boolean[];
+}
+
 interface Puerta {
   t: number;
   grupo: THREE.Group;
@@ -96,7 +112,7 @@ export class CapaAprendizaje {
   /** La pone Game: escala de tiempo de la simulación (cámara lenta). */
   setTimeScale: (s: number) => void = () => {};
   /** La pone Game: ¿se puede preguntar ahora (carrera en curso)? */
-  puedePreguntar: () => boolean = () => true;
+  puedePreguntar: (jugador: number) => boolean = () => true;
 
   private readonly palabras: Palabra[];
   private readonly banco: Palabra[];
@@ -105,23 +121,14 @@ export class CapaAprendizaje {
   private retosOk = 0;
   private retosKo = 0;
 
-  private readonly raiz: HTMLElement;
-  private readonly tarjeta: HTMLElement;
-  private readonly enunciado: HTMLElement;
-  private readonly pista: HTMLElement;
-  private readonly botones: HTMLButtonElement[] = [];
-  private readonly barra: HTMLElement;
-  private readonly aviso: HTMLElement;
-  private readonly avisoZh: HTMLElement;
-  private reto: RetoActivo | null = null;
+  /** Interfaz de cada jugador (uno en solitario; 2–4 en pantalla partida). */
+  private ui: UIJugador[] = [];
 
   private puertas: Puerta[] = [];
   private escenaPuertas: THREE.Object3D | null = null;
   private readonly geos: THREE.BufferGeometry[] = [];
   private readonly mats: THREE.Material[] = [];
-  private prevT = -1;
   private track: ITrack | null = null;
-  private readonly padPrev: boolean[] = [];
 
   constructor(
     uiRoot: HTMLElement,
@@ -144,37 +151,54 @@ export class CapaAprendizaje {
       this.banco.push({ es, zh: limpiar(p.zh) });
     }
 
-    // ---- tarjeta del reto (DOM)
-    this.raiz = el('div', 'wk-reto oculto', undefined, uiRoot);
-    this.tarjeta = el('div', 'wk-reto-tarjeta', undefined, this.raiz);
-    el('div', 'wk-reto-kicker', '¡CAJA DE OBJETOS! · 道具箱', this.tarjeta);
-    this.enunciado = el('div', 'wk-reto-palabra', '', this.tarjeta);
-    this.pista = el('div', 'wk-reto-pista', '', this.tarjeta);
-    const fila = el('div', 'wk-reto-opciones', undefined, this.tarjeta);
+    this.configurarJugadores([uiRoot]);
+    window.addEventListener('keydown', this.onKey);
+  }
+
+  /** Crea la tarjeta del reto y el aviso de puerta dentro de cada contenedor (uno por jugador). */
+  configurarJugadores(contenedores: HTMLElement[]): void {
+    for (const u of this.ui) {
+      if (u.reto && !u.reto.respondido) u.reto.resolver(false);
+      u.raiz.remove();
+      u.aviso.remove();
+    }
+    this.ui = contenedores.map((cont, idx) => this.crearUI(cont, idx));
+  }
+
+  private crearUI(cont: HTMLElement, idx: number): UIJugador {
+    const raiz = el('div', 'wk-reto oculto', undefined, cont);
+    const tarjeta = el('div', 'wk-reto-tarjeta', undefined, raiz);
+    el('div', 'wk-reto-kicker', '¡CAJA DE OBJETOS! · 道具箱', tarjeta);
+    const enunciado = el('div', 'wk-reto-palabra', '', tarjeta);
+    const pista = el('div', 'wk-reto-pista', '', tarjeta);
+    const fila = el('div', 'wk-reto-opciones', undefined, tarjeta);
+    const botones: HTMLButtonElement[] = [];
     for (let i = 0; i < 3; i++) {
       const b = el('button', 'wk-reto-opcion', '', fila);
       b.type = 'button';
       b.addEventListener('pointerdown', (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
-        this.responder(i);
+        this.responder(idx, i);
       });
-      this.botones.push(b);
+      botones.push(b);
     }
-    const barraBox = el('div', 'wk-reto-tiempo', undefined, this.tarjeta);
-    this.barra = el('div', 'wk-reto-tiempo-barra', undefined, barraBox);
-    this.enunciado.addEventListener('pointerdown', (ev) => {
+    const barraBox = el('div', 'wk-reto-tiempo', undefined, tarjeta);
+    const barra = el('div', 'wk-reto-tiempo-barra', undefined, barraBox);
+    enunciado.addEventListener('pointerdown', (ev) => {
       ev.stopPropagation();
-      if (this.reto?.modo === 'audio') this.opciones.decir?.(this.reto.palabra.es);
+      const r = this.ui[idx]?.reto;
+      if (r?.modo === 'audio') this.opciones.decir?.(r.palabra.es);
     });
+    const aviso = el('div', 'wk-aviso oculto', undefined, cont);
+    el('span', 'wk-aviso-kicker', 'PUERTA DE PALABRAS · 单词门', aviso);
+    const avisoZh = el('span', 'wk-aviso-zh', '', aviso);
+    el('span', 'wk-aviso-hint', 'Pasa por el carril correcto · 从正确的车道通过', aviso);
+    return { cont, raiz, tarjeta, enunciado, pista, botones, barra, aviso, avisoZh, reto: null, prevT: -1, padPrev: [] };
+  }
 
-    // ---- aviso de puerta próxima
-    this.aviso = el('div', 'wk-aviso oculto', undefined, uiRoot);
-    el('span', 'wk-aviso-kicker', 'PUERTA DE PALABRAS · 单词门', this.aviso);
-    this.avisoZh = el('span', 'wk-aviso-zh', '', this.aviso);
-    el('span', 'wk-aviso-hint', 'Pasa por el carril correcto · 从正确的车道通过', this.aviso);
-
-    window.addEventListener('keydown', this.onKey);
+  private get solitario(): boolean {
+    return this.ui.length <= 1;
   }
 
   get hayPalabras(): boolean {
@@ -182,7 +206,7 @@ export class CapaAprendizaje {
   }
 
   get retoActivo(): boolean {
-    return this.reto !== null;
+    return this.ui.some((u) => u.reto !== null);
   }
 
   // ------------------------------------------------------------------ palabras
@@ -221,130 +245,148 @@ export class CapaAprendizaje {
 
   // ------------------------------------------------------------- retos de caja
 
-  /** ItemManager → reto al coger una caja. */
-  readonly preguntarCaja = (resolver: (ok: boolean) => void): void => {
-    if (!this.hayPalabras || !this.puedePreguntar() || this.reto) {
-      resolver(!this.reto); // sin palabras / tras la meta: objeto normal
+  /** ItemManager → reto al coger una caja (kartId = número de jugador en pantalla partida). */
+  readonly preguntarCaja = (resolver: (ok: boolean) => void, kartId = 0): void => {
+    const u = this.ui[kartId];
+    if (!u || !this.hayPalabras || !this.puedePreguntar(kartId) || u.reto) {
+      resolver(!u?.reto); // sin palabras / tras la meta: objeto normal
       return;
     }
     const palabra = this.siguientePalabra();
     const n = Math.random() < 0.5 ? 2 : 3;
     const opciones = barajar([palabra.es, ...this.distractores(palabra, n - 1)]);
-    const conVoz = this.opciones.conVoz?.() ?? false;
+    const conVoz = (this.opciones.conVoz?.() ?? false) && this.solitario;
     const modo: 'zh' | 'audio' = conVoz && this.opciones.decir && Math.random() < 0.4 ? 'audio' : 'zh';
-    this.reto = {
-      palabra,
-      opciones,
-      correcta: opciones.indexOf(palabra.es),
-      restante: TIEMPO_RETO,
-      modo,
-      resolver,
-      respondido: false,
-      feedback: 0,
-    };
+    u.reto = { palabra, opciones, correcta: opciones.indexOf(palabra.es), restante: TIEMPO_RETO, modo, resolver, respondido: false, feedback: 0 };
     if (modo === 'audio') {
-      this.enunciado.textContent = '🔊';
-      this.enunciado.classList.add('audio');
-      this.pista.textContent = 'Escucha y elige · 听一听，选一选';
+      u.enunciado.textContent = '🔊';
+      u.enunciado.classList.add('audio');
+      u.pista.textContent = 'Escucha y elige · 听一听，选一选';
       this.opciones.decir?.(palabra.es);
     } else {
-      this.enunciado.textContent = palabra.zh;
-      this.enunciado.classList.remove('audio');
-      this.pista.textContent = '¿Cómo se dice en español? · 用西班牙语怎么说？';
+      u.enunciado.textContent = palabra.zh;
+      u.enunciado.classList.remove('audio');
+      u.pista.textContent = '¿Cómo se dice en español? · 用西班牙语怎么说？';
     }
-    this.botones.forEach((b, i) => {
+    const teclas = this.solitario ? ['1', '2', '3'] : (TECLAS_RETO[kartId] ?? []).map((c) => c.replace('Digit', ''));
+    u.botones.forEach((b, i) => {
       const txt = opciones[i];
       b.style.display = txt ? '' : 'none';
-      b.textContent = txt ? `${i + 1}  ${txt}` : '';
+      b.textContent = txt ? `${teclas[i] ?? ''}  ${txt}` : '';
       b.classList.remove('ok', 'ko');
       b.disabled = false;
     });
-    this.tarjeta.classList.remove('ok', 'ko');
-    this.raiz.classList.remove('oculto');
-    this.setTimeScale(CAMARA_LENTA);
+    u.tarjeta.classList.remove('ok', 'ko');
+    u.raiz.classList.remove('oculto');
+    // Cámara lenta solo en solitario: en pantalla partida no se frena a los demás.
+    if (this.solitario) this.setTimeScale(CAMARA_LENTA);
   };
 
-  private responder(i: number): void {
-    const r = this.reto;
-    if (!r || r.respondido) return;
+  private responder(idx: number, i: number): void {
+    const u = this.ui[idx];
+    const r = u?.reto;
+    if (!u || !r || r.respondido) return;
     if (i >= r.opciones.length) return; // i = -1: tiempo agotado
     r.respondido = true;
     const ok = i === r.correcta;
     this.anotar(r.palabra, ok);
     if (ok) this.retosOk++;
     else this.retosKo++;
-    this.botones.forEach((b, k) => {
+    u.botones.forEach((b, k) => {
       b.disabled = true;
       if (k === r.correcta) b.classList.add('ok');
       else if (k === i) b.classList.add('ko');
     });
-    this.tarjeta.classList.add(ok ? 'ok' : 'ko');
-    if (r.modo === 'audio') this.enunciado.textContent = r.palabra.zh;
-    this.pista.textContent = ok ? '¡Correcto! Objeto conseguido · 答对了！获得道具' : `${r.palabra.es} = ${r.palabra.zh} · 没有道具`;
-    if (ok) this.opciones.decir?.(r.palabra.es);
+    u.tarjeta.classList.add(ok ? 'ok' : 'ko');
+    if (r.modo === 'audio') u.enunciado.textContent = r.palabra.zh;
+    u.pista.textContent = ok ? '¡Correcto! Objeto conseguido · 答对了！获得道具' : `${r.palabra.es} = ${r.palabra.zh} · 没有道具`;
+    if (ok && this.solitario) this.opciones.decir?.(r.palabra.es);
     r.feedback = TIEMPO_FEEDBACK;
-    this.setTimeScale(1);
+    if (this.solitario) this.setTimeScale(1);
     r.resolver(ok);
   }
 
-  /** Cancela el reto en curso (salir, reiniciar) sin contarlo. */
+  /** Cancela los retos en curso (salir, reiniciar) sin contarlos. */
   cancelarReto(): void {
-    const r = this.reto;
-    if (!r) return;
-    this.reto = null;
-    this.raiz.classList.add('oculto');
+    for (const u of this.ui) {
+      const r = u.reto;
+      if (!r) continue;
+      u.reto = null;
+      u.raiz.classList.add('oculto');
+      if (!r.respondido) r.resolver(false);
+    }
     this.setTimeScale(1);
-    if (!r.respondido) r.resolver(false);
   }
 
   private readonly onKey = (e: KeyboardEvent): void => {
-    if (!this.reto || this.reto.respondido) return;
-    const m = /^(?:Digit|Numpad)([1-3])$/.exec(e.code);
-    if (m) {
-      e.preventDefault();
-      this.responder(Number(m[1]) - 1);
+    if (this.solitario) {
+      const u = this.ui[0];
+      if (!u?.reto || u.reto.respondido) return;
+      const m = /^(?:Digit|Numpad)([1-3])$/.exec(e.code);
+      if (m) {
+        e.preventDefault();
+        this.responder(0, Number(m[1]) - 1);
+      }
+      return;
     }
+    this.ui.forEach((u, idx) => {
+      if (!u.reto || u.reto.respondido) return;
+      const k = (TECLAS_RETO[idx] ?? []).indexOf(e.code);
+      if (k >= 0) {
+        e.preventDefault();
+        this.responder(idx, k);
+      }
+    });
   };
 
-  private leerMando(): void {
+  private leerMando(idx: number): void {
     if (typeof navigator === 'undefined' || typeof navigator.getGamepads !== 'function') return;
+    const u = this.ui[idx];
     let pad: Gamepad | null = null;
     try {
-      for (const p of navigator.getGamepads()) if (p && p.connected) { pad = p; break; }
+      const pads = navigator.getGamepads();
+      if (this.solitario) {
+        for (const p of pads) if (p && p.connected) { pad = p; break; }
+      } else {
+        const p = pads[idx];
+        pad = p && p.connected ? p : null;
+      }
     } catch {
       return;
     }
-    if (!pad) return;
+    if (!pad || !u) return;
     // X → 1, Y → 2, B → 3 (A queda para el derrape)
     const mapa = [2, 3, 1];
-    mapa.forEach((idx, opcion) => {
-      const now = !!pad?.buttons[idx]?.pressed;
-      if (now && !this.padPrev[idx]) this.responder(opcion);
-      this.padPrev[idx] = now;
+    mapa.forEach((b, opcion) => {
+      const now = !!pad?.buttons[b]?.pressed;
+      if (now && !u.padPrev[b]) this.responder(idx, opcion);
+      u.padPrev[b] = now;
     });
   }
 
   /** Cada frame (tiempo real, sin cámara lenta). `pausado` congela el reloj. */
-  update(dtReal: number, pausado: boolean, jugador: IKart | null): void {
-    const r = this.reto;
-    if (r && !pausado) {
-      if (!r.respondido) {
-        this.leerMando();
-        r.restante -= dtReal;
-        this.barra.style.transform = `scaleX(${clamp(r.restante / TIEMPO_RETO, 0, 1).toFixed(3)})`;
-        if (r.restante <= 0) {
-          this.responder(-1); // tiempo agotado cuenta como fallo
-          this.pista.textContent = `¡Tiempo! ${r.palabra.es} = ${r.palabra.zh} · 时间到！`;
-        }
-      } else {
-        r.feedback -= dtReal;
-        if (r.feedback <= 0) {
-          this.reto = null;
-          this.raiz.classList.add('oculto');
+  update(dtReal: number, pausado: boolean, jugadores: readonly (IKart | null)[]): void {
+    this.ui.forEach((u, idx) => {
+      const r = u.reto;
+      if (r && !pausado) {
+        if (!r.respondido) {
+          this.leerMando(idx);
+          r.restante -= dtReal;
+          u.barra.style.transform = `scaleX(${clamp(r.restante / TIEMPO_RETO, 0, 1).toFixed(3)})`;
+          if (r.restante <= 0) {
+            this.responder(idx, -1); // tiempo agotado cuenta como fallo
+            u.pista.textContent = `¡Tiempo! ${r.palabra.es} = ${r.palabra.zh} · 时间到！`;
+          }
+        } else {
+          r.feedback -= dtReal;
+          if (r.feedback <= 0) {
+            u.reto = null;
+            u.raiz.classList.add('oculto');
+          }
         }
       }
-    }
-    this.actualizarAviso(jugador);
+      this.actualizarAviso(idx, jugadores[idx] ?? null);
+    });
     for (const p of this.puertas) {
       if (p.flash > 0) {
         p.flash = Math.max(0, p.flash - dtReal);
@@ -376,7 +418,7 @@ export class CapaAprendizaje {
     for (const t of elegidas) this.puertas.push(this.crearPuerta(track, t, raiz));
     escena.add(raiz);
     this.escenaPuertas = raiz;
-    this.prevT = -1;
+    for (const u of this.ui) u.prevT = -1;
   }
 
   private crearPuerta(track: ITrack, t: number, raiz: THREE.Group): Puerta {
@@ -528,26 +570,27 @@ export class CapaAprendizaje {
   }
 
   /** Paso fijo: detecta el cruce del jugador por una puerta. */
-  revisarPuertas(jugador: IKart): void {
+  revisarPuertas(jugador: IKart, idx = 0): void {
     const track = this.track;
-    if (!track || !this.puertas.length) return;
+    const u = this.ui[idx];
+    if (!track || !u || !this.puertas.length) return;
     const st = jugador.state;
     const t = st.trackT;
-    if (this.prevT < 0 || st.isFrozen) {
-      this.prevT = t;
+    if (u.prevT < 0 || st.isFrozen) {
+      u.prevT = t;
       return;
     }
-    const avance = trackDelta(this.prevT, t);
+    const avance = trackDelta(u.prevT, t);
     if (avance > 0 && avance < 0.05 && !st.finished) {
       for (const p of this.puertas) {
-        const d = trackDelta(this.prevT, p.t);
-        if (d >= 0 && d < avance) this.cruzar(p, jugador, track);
+        const d = trackDelta(u.prevT, p.t);
+        if (d >= 0 && d < avance) this.cruzar(p, jugador, track, idx);
       }
     }
-    this.prevT = t;
+    u.prevT = t;
   }
 
-  private cruzar(p: Puerta, jugador: IKart, track: ITrack): void {
+  private cruzar(p: Puerta, jugador: IKart, track: ITrack, idx: number): void {
     const q = track.query(jugador.state.position, jugador.state.trackT);
     const n = p.carteles.length;
     const hw = q.halfWidth;
@@ -558,11 +601,11 @@ export class CapaAprendizaje {
     if (ok) {
       this.retosOk++;
       jugador.applyBoost(0.5, 1.4, 'pad');
-      this.opciones.decir?.(p.palabra.es);
-      this.flashTexto(`¡${p.palabra.es}! TURBO · 加速`, true);
+      if (this.solitario) this.opciones.decir?.(p.palabra.es);
+      this.flashTexto(idx, `¡${p.palabra.es}! TURBO · 加速`, true);
     } else {
       this.retosKo++;
-      this.flashTexto(`${p.palabra.zh} = ${p.palabra.es}`, false);
+      this.flashTexto(idx, `${p.palabra.zh} = ${p.palabra.es}`, false);
     }
     p.flash = 0.8;
     p.flashOk = ok;
@@ -572,12 +615,16 @@ export class CapaAprendizaje {
     }, 1500);
   }
 
-  private flashTexto(texto: string, ok: boolean): void {
-    const n = el('div', `wk-flash ${ok ? 'ok' : 'ko'}`, texto, this.aviso.parentElement);
+  private flashTexto(idx: number, texto: string, ok: boolean): void {
+    const u = this.ui[idx];
+    if (!u) return;
+    const n = el('div', `wk-flash ${ok ? 'ok' : 'ko'}`, texto, u.cont);
     window.setTimeout(() => n.remove(), 1600);
   }
 
-  private actualizarAviso(jugador: IKart | null): void {
+  private actualizarAviso(idx: number, jugador: IKart | null): void {
+    const u = this.ui[idx];
+    if (!u) return;
     const track = this.track;
     let mostrar: Puerta | null = null;
     if (track && jugador && this.puertas.length && !jugador.state.finished && !jugador.state.isFrozen) {
@@ -592,10 +639,10 @@ export class CapaAprendizaje {
       }
     }
     if (mostrar) {
-      if (this.avisoZh.textContent !== mostrar.palabra.zh) this.avisoZh.textContent = mostrar.palabra.zh;
-      this.aviso.classList.remove('oculto');
+      if (u.avisoZh.textContent !== mostrar.palabra.zh) u.avisoZh.textContent = mostrar.palabra.zh;
+      u.aviso.classList.remove('oculto');
     } else {
-      this.aviso.classList.add('oculto');
+      u.aviso.classList.add('oculto');
     }
   }
 
@@ -612,7 +659,7 @@ export class CapaAprendizaje {
     this.geos.length = 0;
     this.mats.length = 0;
     this.track = null;
-    this.aviso.classList.add('oculto');
+    for (const u of this.ui) u.aviso.classList.add('oculto');
   }
 
   // ------------------------------------------------------------------ resumen
@@ -646,8 +693,11 @@ export class CapaAprendizaje {
     this.cancelarReto();
     this.desmontarPuertas();
     window.removeEventListener('keydown', this.onKey);
-    this.raiz.remove();
-    this.aviso.remove();
+    for (const u of this.ui) {
+      u.raiz.remove();
+      u.aviso.remove();
+    }
+    this.ui = [];
   }
 }
 

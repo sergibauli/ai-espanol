@@ -94,6 +94,8 @@ export class HUD {
   private readonly timed: TimedNode[] = [];
   private readonly boostGlow: HTMLElement;
   private readonly turboFill: HTMLElement;
+  private readonly aguja: HTMLElement;
+  private agujaAng = -120;
   private turboValue = -1;
   private boostGlowApplied = -1;
 
@@ -163,6 +165,7 @@ export class HUD {
     const speedInner = el('div', 'speed-inner', undefined, speedWrap);
     this.speedText = new TextField(el('div', 'speed-value', '0', speedInner));
     el('div', 'speed-unit', 'km/h', speedInner);
+    this.aguja = el('div', 'wk-aguja', undefined, speedWrap);
     const turbo = el('div', 'wk-turbo', undefined, speedWrap);
     el('span', 'wk-turbo-etq', 'TURBO · 加速', turbo);
     this.turboFill = el('div', 'wk-turbo-fill', undefined, el('div', 'wk-turbo-barra', undefined, turbo));
@@ -186,6 +189,13 @@ export class HUD {
 
   setTrack(track: ITrack | null): void {
     this.minimap.setTrack(track);
+  }
+
+  /** Pantalla partida: etiqueta «J1 · 玩家1» con el color del jugador. */
+  setJugador(indice: number, color: string): void {
+    const tag = el('div', 'wk-jugador', `J${indice + 1} · 玩家${indice + 1}`, this.rootNode);
+    tag.style.setProperty('--wk-color', color);
+    this.rootNode.classList.add('wk-split-hud');
   }
 
   show(): void {
@@ -230,6 +240,10 @@ export class HUD {
       this.gaugeValue = g;
       this.gaugeFill.setAttribute('stroke-dasharray', `${(g * GAUGE_ARC).toFixed(1)} 276.5`);
     }
+    // Aguja suave (pantalla partida)
+    const objetivo = -120 + 240 * g;
+    this.agujaAng += (objetivo - this.agujaAng) * Math.min(1, dt * 10);
+    this.aguja.style.transform = `rotate(${this.agujaAng.toFixed(1)}deg)`;
     // Wukong: barra de turbo (carga del derrape o turbo activo).
     const turboV = s.isBoosting
       ? Math.min(1, 0.35 + s.boostTimer / 1.5)

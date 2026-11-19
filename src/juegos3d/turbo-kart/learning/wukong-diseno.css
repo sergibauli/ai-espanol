@@ -712,3 +712,248 @@
 .tkr .speed-value {
   color: #fff4dc;
 }
+
+/* ================================================================ pantalla partida (2–4 jugadores)
+   Rejilla 2 × 2 (J1 arriba-izq., J2 arriba-der., J3 abajo-izq., J4 abajo-der.; con 2 jugadores,
+   arriba/abajo). HUD de cada cuadrante: puesto arriba-izq. (80 × 80), minimapa arriba-der. (120 × 120),
+   velocímetro con aguja y barra de turbo (160 × 40) abajo-der., objeto abajo-izq. (90 × 90). */
+.tkr #ui.tactil .wk-jugadores {
+  display: none;
+}
+.tkr .wk-jugadores .diff-btn,
+.tkr .wk-jugadores button {
+  min-width: 46px;
+}
+.tkr .wk-cuadrante {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 2px #e6b54a, inset 0 0 0 4px rgba(58, 106, 90, 0.85), inset 0 0 26px rgba(0, 0, 0, 0.35);
+}
+.tkr #ui.wk-split-2 .wk-q0 { left: 0; top: 0; width: 100%; height: 50%; }
+.tkr #ui.wk-split-2 .wk-q1 { left: 0; top: 50%; width: 100%; height: 50%; }
+.tkr #ui.wk-split-3 .wk-q0,
+.tkr #ui.wk-split-4 .wk-q0 { left: 0; top: 0; width: 50%; height: 50%; }
+.tkr #ui.wk-split-3 .wk-q1,
+.tkr #ui.wk-split-4 .wk-q1 { left: 50%; top: 0; width: 50%; height: 50%; }
+.tkr #ui.wk-split-3 .wk-q2,
+.tkr #ui.wk-split-4 .wk-q2 { left: 0; top: 50%; width: 50%; height: 50%; }
+.tkr #ui.wk-split-3 .wk-q3,
+.tkr #ui.wk-split-4 .wk-q3 { left: 50%; top: 50%; width: 50%; height: 50%; }
+/* Juntura central dorada con nudo de jade */
+.tkr #ui.wk-split::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: radial-gradient(circle, #6fe0b5 0 28%, #1f6a52 30% 52%, #e6b54a 54%);
+  border: 2px solid #3a220a;
+  box-shadow: 0 0 12px rgba(242, 193, 78, 0.7);
+  pointer-events: none;
+  z-index: 40;
+}
+.tkr #ui.wk-split-2::after {
+  display: none;
+}
+.tkr .wk-vista-titulo {
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  border-radius: 10px;
+  font: 800 13px/1 var(--display), var(--wk-zh, sans-serif);
+  letter-spacing: 0.08em;
+  color: #ffe9a8;
+  background: linear-gradient(180deg, #8a1a1e, #5a0a10);
+  border: 2px solid #e6b54a;
+  white-space: nowrap;
+}
+
+/* --- HUD dentro de cada cuadrante */
+.tkr .wk-cuadrante .hud {
+  --hud-pad: 12px;
+}
+.tkr .wk-cuadrante .hud-center,
+.tkr .wk-cuadrante .hud-boostglow {
+  transform: scale(0.6);
+}
+.tkr .wk-jugador {
+  position: absolute;
+  top: 12px;
+  left: 104px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font: 900 13px/1 var(--display), var(--wk-zh, sans-serif);
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: rgba(16, 6, 8, 0.82);
+  border: 2px solid var(--wk-color, #e6b54a);
+  box-shadow: 0 0 10px var(--wk-color, #e6b54a);
+  text-shadow: 0 1px 0 #000;
+}
+/* Puesto: recuadro 80 × 80 arriba a la izquierda, cifra dorada arcade */
+.tkr .wk-split-hud .hud-place {
+  top: 12px;
+  left: 12px;
+  bottom: auto;
+  width: 80px;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #8a1a1e 0%, #5a0a10 100%);
+  border: 2px solid #e6b54a;
+  box-shadow: 0 0 0 2px #3a6a5a, 0 0 0 4px #c9a24a, 0 8px 18px rgba(0, 0, 0, 0.5);
+  filter: none;
+  transform-origin: center;
+}
+.tkr .wk-split-hud .hud-place .place-num {
+  font-size: 54px;
+  -webkit-text-stroke: 1.5px rgba(74, 10, 18, 0.9);
+}
+.tkr .wk-split-hud .place-suffix {
+  font-size: 18px;
+  color: #ffe2a0;
+  margin-left: 1px;
+}
+/* Vueltas y tiempo: arriba en el centro */
+.tkr .wk-split-hud .hud-topright {
+  top: 12px;
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: row;
+  align-items: center;
+}
+.tkr .wk-split-hud .hud-lap,
+.tkr .wk-split-hud .hud-timer {
+  padding: 5px 10px;
+  font-size: 15px;
+}
+.tkr .wk-split-hud .hud-lap-label {
+  font-size: 10px;
+}
+.tkr .wk-split-hud .hud-lap-value {
+  font-size: 20px;
+}
+/* Minimapa 120 × 120: fondo de jade oscuro con marco rojo y oro */
+.tkr .wk-split-hud .hud-minimap {
+  top: 12px;
+  right: 12px;
+  bottom: auto;
+  padding: 4px;
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 40%, #0f3b30, #06201a 75%);
+  border: 3px solid #b3121e;
+  box-shadow: 0 0 0 2px #e6b54a, 0 0 0 4px #5a0a10, 0 0 14px rgba(242, 193, 78, 0.45);
+}
+.tkr .wk-split-hud .hud-minimap .minimap-canvas {
+  width: 120px !important;
+  height: 120px !important;
+}
+/* Velocímetro con aguja, abajo a la derecha */
+.tkr .wk-split-hud .hud-speed {
+  right: 16px;
+  bottom: 16px;
+  width: 108px;
+}
+.tkr .wk-split-hud .speed-value {
+  font-size: 28px;
+}
+.tkr .wk-split-hud .speed-unit {
+  font-size: 9px;
+}
+.tkr .wk-aguja {
+  display: none;
+}
+.tkr .wk-split-hud .wk-aguja {
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  width: 4px;
+  height: 44%;
+  margin-left: -2px;
+  border-radius: 3px 3px 1px 1px;
+  background: linear-gradient(0deg, #ffd23f, #ff3a4f);
+  box-shadow: 0 0 8px rgba(255, 58, 79, 0.8);
+  transform-origin: 50% 100%;
+  transition: transform 0.12s linear;
+  z-index: 2;
+}
+.tkr .wk-split-hud .wk-aguja::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff3c0 0 25%, #e6b54a 30% 70%, #5a0a10 72%);
+}
+.tkr .wk-split-hud .speed-inner {
+  transform: translateY(34%);
+}
+/* Barra de turbo 160 × 40 de jade, a la izquierda del velocímetro (se llena al derrapar) */
+.tkr .wk-split-hud .wk-turbo {
+  left: auto;
+  right: calc(100% + 12px);
+  bottom: 6px;
+  width: 160px;
+  height: 40px;
+  padding: 4px 8px 6px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(42, 16, 10, 0.9), rgba(20, 8, 6, 0.92));
+  border: 2px solid #e6b54a;
+  box-shadow: 0 0 0 2px #3a6a5a, 0 6px 14px rgba(0, 0, 0, 0.45);
+}
+.tkr .wk-split-hud .wk-turbo-barra {
+  flex: 1;
+  height: auto;
+  border-color: #3a6a5a;
+  background: rgba(4, 24, 18, 0.85);
+}
+.tkr .wk-split-hud .wk-turbo-fill {
+  background: linear-gradient(90deg, #1f8f6a, #4fe0a6, #c8ffe6);
+  box-shadow: 0 0 12px #4fe0a6;
+}
+/* Objeto 90 × 90 abajo a la izquierda: aparece al recogerlo */
+.tkr .wk-split-hud .hud-item {
+  top: auto;
+  bottom: 14px;
+  left: 14px;
+}
+.tkr .wk-split-hud .item-frame {
+  width: 90px;
+  border-radius: 18px;
+  transition: opacity 0.2s, transform 0.25s var(--ease-pop, ease-out);
+}
+.tkr .wk-split-hud .item-frame:not(.has-item):not(.spinning) {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.tkr .wk-split-hud .item-label {
+  display: none;
+}
+/* Reto de vocabulario dentro de cada cuadrante, más compacto */
+.tkr .wk-cuadrante .wk-reto {
+  padding-top: 96px;
+}
+.tkr .wk-cuadrante .wk-reto-tarjeta {
+  transform: scale(0.78);
+  transform-origin: top center;
+}
+.tkr #ui.wk-split-3 .wk-cuadrante .wk-reto,
+.tkr #ui.wk-split-4 .wk-cuadrante .wk-reto {
+  padding-top: 70px;
+}
+.tkr #ui.wk-split-3 .wk-cuadrante .wk-reto-tarjeta,
+.tkr #ui.wk-split-4 .wk-cuadrante .wk-reto-tarjeta {
+  transform: scale(0.62);
+}

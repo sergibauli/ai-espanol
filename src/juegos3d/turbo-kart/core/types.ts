@@ -503,6 +503,8 @@ export interface RaceSettings {
   trackId: string;
   difficulty: Difficulty;
   laps: number;
+  /** Wukong: jugadores humanos en pantalla partida (1–4). */
+  jugadores?: number;
 }
 
 export interface RaceStanding {

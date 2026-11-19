@@ -24,6 +24,12 @@ const STAT_KEYS: readonly { key: keyof CharacterDef['stats']; label: string }[] 
   { key: 'miniTurbo', label: 'Turbo' },
 ];
 const CHAR_COLUMNS = 4;
+const AYUDA_JUGADORES = [
+  'Tú contra 7 rivales · 你对战7个对手',
+  'J1: WASD · Espacio · E  —  J2: flechas · Shift dcho. · Enter (o mandos)',
+  'J1 y J2 con teclado o mando · J3 con mando · 需要手柄',
+  'J1 y J2 con teclado o mando · J3 y J4 con mando · 需要手柄',
+];
 /** Ilustraciones de las maquetas (public/turbo-kart). */
 export const ARTE = {
   portada: './turbo-kart/portada.webp',
@@ -70,6 +76,10 @@ export class MainMenu {
   private trackIndex = 0;
   private readonly diffButtons: HTMLElement[] = [];
   private difficultyIndex = 1;
+  /** Wukong: jugadores en pantalla partida (1–4). */
+  private jugadores = 1;
+  private readonly jugBotones: HTMLElement[] = [];
+  private jugAyuda!: TextField;
   private readonly diffBlurb: TextField;
   private readonly startButton: HTMLElement;
   /** 0 = track cards row, 1 = difficulty row, 2 = start button. */
@@ -193,6 +203,25 @@ export class MainMenu {
       this.diffButtons.push(b);
     });
     this.diffBlurb = new TextField(el('div', 'difficulty-blurb', '', diffWrap));
+    // Pantalla partida (solo con teclado/mandos: se oculta en pantallas táctiles por CSS).
+    const jugWrap = el('div', 'difficulty wk-jugadores', undefined, trFoot);
+    el('div', 'difficulty-label', 'JUGADORES · 玩家', jugWrap);
+    const segJ = el('div', 'segmented', undefined, jugWrap);
+    for (let n = 1; n <= 4; n++) {
+      const b = el('button', 'seg', String(n), segJ);
+      b.type = 'button';
+      b.title = n === 1 ? 'Un jugador · 单人' : `Pantalla partida · ${n}人分屏`;
+      b.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        this.jugadores = n;
+        this.jugBotones.forEach((x, k) => x.classList.toggle('selected', k === n - 1));
+        this.jugAyuda.set(AYUDA_JUGADORES[n - 1]);
+        events.emit('ui:move', {});
+      });
+      if (n === 1) b.classList.add('selected');
+      this.jugBotones.push(b);
+    }
+    this.jugAyuda = new TextField(el('div', 'difficulty-blurb wk-jug-ayuda', AYUDA_JUGADORES[0], jugWrap));
     const trActions = el('div', 'actions', undefined, trFoot);
     trActions.appendChild(button('← ATRÁS · 返回', 'ghost', () => this.goTo('characterSelect', true)));
     this.startButton = button('¡A CORRER! · 开始比赛', 'primary start', () => this.start());
@@ -363,6 +392,7 @@ export class MainMenu {
       trackId: track.id,
       difficulty: DIFFICULTIES[this.difficultyIndex],
       laps: track.laps > 0 ? track.laps : DEFAULT_LAPS,
+      jugadores: this.jugadores,
     });
   }
 

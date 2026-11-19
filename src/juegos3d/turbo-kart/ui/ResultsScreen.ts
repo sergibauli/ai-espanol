@@ -25,6 +25,8 @@ export class ResultsScreen {
   private readonly confetti: HTMLElement;
   private readonly focus: FocusRing;
   private visible = false;
+  /** Wukong: jugadores humanos (pantalla partida). */
+  jugadores = 1;
 
   constructor(root: HTMLElement) {
     this.rootNode = el('div', 'screen results hidden', undefined, root);
@@ -74,7 +76,7 @@ export class ResultsScreen {
       el('span', 'standing-place', ordinal(s.place), row);
       const chip = el('span', 'standing-chip', undefined, row);
       chip.style.background = cssHex(s.color);
-      el('span', 'standing-name', s.name + (s.isPlayer ? '  (TÚ · 你)' : ''), row);
+      el('span', 'standing-name', s.name + (s.isPlayer ? (this.jugadores > 1 ? `  (J${s.kartId + 1} · 玩家${s.kartId + 1})` : '  (TÚ · 你)') : ''), row);
       const t = s.finishTime;
       const label =
         !isFinite(t) || t <= 0

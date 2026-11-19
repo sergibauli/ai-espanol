@@ -70,6 +70,21 @@ export class FollowCamera {
   private readonly surf = makeSurfaceScratch();
   private readonly unsubs: (() => void)[] = [];
 
+  /** Wukong: ajustes por cámara (pantalla partida: offset 0,3,-6 · FOV 60 · inclinación 10°). */
+  private distBase = CHASE_DISTANCE;
+  private altBase = CHASE_HEIGHT;
+  private mirarArriba = LOOK_UP;
+  private fovMin = FOV_MIN;
+  private fovMax = FOV_MAX;
+
+  configurar(o: { distancia?: number; altura?: number; mirarArriba?: number; fovMin?: number; fovMax?: number }): void {
+    if (o.distancia !== undefined) this.distBase = o.distancia;
+    if (o.altura !== undefined) this.altBase = o.altura;
+    if (o.mirarArriba !== undefined) this.mirarArriba = o.mirarArriba;
+    if (o.fovMin !== undefined) this.fovMin = o.fovMin;
+    if (o.fovMax !== undefined) this.fovMax = o.fovMax;
+  }
+
   constructor(camera: THREE.PerspectiveCamera) {
     this.camera = camera;
     this.unsubs.push(
@@ -98,7 +113,7 @@ export class FollowCamera {
     const s = kart.state;
     this.followKartId = s.id;
     this.yaw = s.heading;
-    this.fov = FOV_MIN;
+    this.fov = this.fovMin;
     this.roll = 0;
     this.lookBackBlend = 0;
     this.shakeAmp = 0;
@@ -167,7 +182,7 @@ export class FollowCamera {
       const e = k * k * (3 - 2 * k); // extra ease-in-out for a slow start, crisp landing
       this.pos.lerpVectors(this.cineFrom, this.desired, e);
       this.look.lerpVectors(this.cineLookFrom, this.desiredLook, e);
-      this.fov = lerp(this.cineFovFrom, FOV_MIN, e);
+      this.fov = lerp(this.cineFovFrom, this.fovMin, e);
       this.roll = 0;
       if (this.cineTime >= this.cineDuration) {
         this.cine = false;
@@ -180,7 +195,7 @@ export class FollowCamera {
 
       // --- FOV: speed + boost -----------------------------------------------
       const boostAmount = s.isBoosting ? clamp01(0.5 + s.boostStrength) : 0;
-      const targetFov = lerp(FOV_MIN, FOV_MAX, clamp01(speedNorm * speedNorm * 0.7 + boostAmount * 0.5));
+      const targetFov = lerp(this.fovMin, this.fovMax, clamp01(speedNorm * speedNorm * 0.7 + boostAmount * 0.5));
       this.fov = damp(this.fov, targetFov, 4, dt);
 
       // --- roll with steering -----------------------------------------------
@@ -217,8 +232,8 @@ export class FollowCamera {
   private computeChase(kart: IKart, speedNorm: number, outPos: THREE.Vector3, outLook: THREE.Vector3): void {
     const s = kart.state;
     const yaw = this.yaw;
-    const dist = CHASE_DISTANCE + speedNorm * 0.9 + (s.isBoosting ? 0.45 : 0);
-    const height = CHASE_HEIGHT + speedNorm * 0.2;
+    const dist = this.distBase + speedNorm * 0.9 + (s.isBoosting ? 0.45 : 0);
+    const height = this.altBase + speedNorm * 0.2;
     // Behind direction for a given yaw (kart forward is (-sin h, 0, -cos h)).
     outPos.set(Math.sin(yaw) * dist, height, Math.cos(yaw) * dist).add(s.position);
 
@@ -228,7 +243,7 @@ export class FollowCamera {
     const h = s.heading;
     this.forward.set(-Math.sin(h), 0, -Math.cos(h));
     outLook.copy(s.position).addScaledVector(this.forward, LOOK_AHEAD * (1 - 2 * this.lookBackBlend));
-    outLook.y += LOOK_UP;
+    outLook.y += this.mirarArriba;
   }
 
   private apply(): void {
