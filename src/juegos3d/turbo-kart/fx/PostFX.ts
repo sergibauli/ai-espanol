@@ -14,6 +14,10 @@ import type { IPostFX } from '../core/types';
 import { events } from '../core/events';
 import { clamp01, damp } from '../core/math';
 import { COMPOSITE_FRAGMENT, COMPOSITE_VERTEX } from './shaders';
+import { BOOST_STYLES, boostTier, movimientoReducido } from './boostStyles';
+
+/** Duración del «golpe» de activación del turbo (viñeta, aro, tirón de desenfoque). */
+const BOOST_KICK_TIME = 0.7;
 
 const BLOOM_STRENGTH = 0.35;
 const BLOOM_RADIUS = 0.35;
@@ -56,7 +60,24 @@ export class PostFX implements IPostFX {
   private readonly flashColor = new THREE.Color(1, 1, 1);
   private readonly unsubs: (() => void)[] = [];
 
+  // Turbo: colores del estilo activo, golpe de activación y su intensidad.
+  private readonly boostColorA = new THREE.Color(0x36f0cc);
+  private readonly boostColorB = new THREE.Color(0xff55d6);
+  private kickAge = 1e3;
+  private kickPeak = 0;
+  private kickVignette = 0.6;
+
   constructor() {
+    this.unsubs.push(events.on('kart:boost', (e) => {
+      // PostFX solo se usa con un jugador (kart 0); en pantalla partida no hay postproceso.
+      if (e.kartId !== 0) return;
+      const style = BOOST_STYLES[boostTier(e.source, e.strength, e.duration)];
+      this.boostColorA.setHex(style.a);
+      this.boostColorB.setHex(style.b);
+      this.kickVignette = style.vignette;
+      this.kickPeak = Math.max(0.55, Math.min(1, style.kick / 0.6));
+      this.kickAge = 0;
+    }));
     this.unsubs.push(events.on('item:emp', () => this.flash(0xcfe6ff, 0.5)));
     this.unsubs.push(events.on('item:hit', (e) => {
       if (e.isPlayer) this.hitPulse = 1;
@@ -110,6 +131,12 @@ export class PostFX implements IPostFX {
           uFlash: { value: 0 },
           uFlashColor: { value: new THREE.Color(1, 1, 1) },
           uGrain: { value: GRAIN_REST },
+          uBoostColorA: { value: new THREE.Color(0x36f0cc) },
+          uBoostColorB: { value: new THREE.Color(0xff55d6) },
+          uKick: { value: 0 },
+          uKickAge: { value: 0 },
+          uVignette: { value: 0.6 },
+          uMotion: { value: 1 },
         },
         vertexShader: COMPOSITE_VERTEX,
         fragmentShader: COMPOSITE_FRAGMENT,
@@ -174,6 +201,18 @@ export class PostFX implements IPostFX {
     const f = this.flashLevel;
     u.uFlash.value = this.flashPeak * f * f;
     (u.uFlashColor.value as THREE.Color).copy(this.flashColor);
+    // Turbo: golpe rápido (~60 ms) y caída suave; colores lineales del estilo.
+    this.kickAge += dt;
+    const ka = this.kickAge;
+    const kick = ka < BOOST_KICK_TIME
+      ? this.kickPeak * Math.min(1, ka / 0.06) * Math.pow(1 - ka / BOOST_KICK_TIME, 2)
+      : 0;
+    u.uKick.value = kick;
+    u.uKickAge.value = Math.min(ka, BOOST_KICK_TIME);
+    u.uVignette.value = this.kickVignette;
+    u.uMotion.value = movimientoReducido() ? 0.35 : 1;
+    (u.uBoostColorA.value as THREE.Color).copy(this.boostColorA);
+    (u.uBoostColorB.value as THREE.Color).copy(this.boostColorB);
 
     try {
       this.composer.render(dt);
