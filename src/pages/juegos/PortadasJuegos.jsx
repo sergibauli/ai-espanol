@@ -873,7 +873,55 @@ function EscapePalacio() {
   );
 }
 
-/* ---------- 13 · Brisca del Rey Mono: baraja española sobre tapete de laca ---------- */
+/* ---------- 13 · Fichas del palacio: pirámide de fichas de marfil sobre laca ---------- */
+function FichasPalacio() {
+  const g = useG();
+  const ficha = (x, y, txt, color, key, extra = "") => (
+    <g key={key} className={extra}>
+      <rect x={x + 3} y={y + 4} width="26" height="34" rx="4" fill="#0d2a18" opacity=".55" />
+      <rect x={x + 2.4} y={y + 2.4} width="26" height="34" rx="4" fill={u(g, "jade")} />
+      <rect x={x + 1.2} y={y + 1.2} width="26" height="34" rx="4" fill="#d9c08a" />
+      <rect x={x} y={y} width="26" height="34" rx="4" fill={u(g, "crema")} stroke="#b08a48" strokeWidth=".6" />
+      <rect x={x + 2} y={y + 2} width="22" height="30" rx="3" fill="none" stroke="#e8d3a2" strokeWidth=".8" />
+      <text x={x + 13} y={y + 22} textAnchor="middle" fontSize={txt.length > 2 ? 8 : 14} fontWeight="800" fill={color} fontFamily="STKaiti, KaiTi, serif">
+        {txt}
+      </text>
+    </g>
+  );
+  const capa0 = [
+    [58, 104, "猫", ROJO], [84, 104, "sol", TINTA], [110, 104, "书", ROJO], [136, 104, "yo", "#1d6339"], [162, 104, "水", ROJO], [188, 104, "luna", TINTA], [214, 104, "茶", ROJO], [240, 104, "té", TINTA],
+    [84, 70, "el", "#1d6339"], [110, 70, "月", ROJO], [136, 70, "agua", TINTA], [162, 70, "soy", TINTA], [188, 70, "日", ROJO], [214, 70, "gato", TINTA],
+  ];
+  const capa1 = [[103, 60, "我", ROJO], [129, 60, "libro", TINTA], [155, 60, "家", ROJO], [181, 60, "casa", TINTA]];
+  const capa2 = [[142, 52, "中", ROJO]];
+  return (
+    <>
+      <rect width="320" height="180" fill="#3a0610" />
+      <rect width="320" height="180" fill={u(g, "laca")} opacity=".55" />
+      <circle cx="160" cy="80" r="130" fill={u(g, "halo")} opacity=".35" />
+      <Rayos cx={160} cy={74} n={18} op={0.1} />
+      <rect x="10" y="10" width="300" height="160" rx="12" fill="none" stroke={ORO} strokeWidth="1.4" opacity=".7" />
+      <rect x="14" y="14" width="292" height="152" rx="10" fill="none" stroke={ORO} strokeWidth=".6" opacity=".5" />
+      <ellipse cx="160" cy="150" rx="130" ry="10" fill={u(g, "sombra")} />
+      {capa0.map(([x, y, t, c], i) => ficha(x, y, t, c, `a${i}`))}
+      {capa1.map(([x, y, t, c], i) => ficha(x - 6, y - 6, t, c, `b${i}`))}
+      {capa2.map(([x, y, t, c], i) => ficha(x - 12, y - 14, t, c, `c${i}`, "jh-p-ficha-cima"))}
+      <g className="jh-p-ficha-vuela is-izq">{ficha(18, 40, "sol", TINTA, "v1")}</g>
+      <g className="jh-p-ficha-vuela is-der">{ficha(276, 40, "日", ROJO, "v2")}</g>
+      <circle className="jh-p-destello" cx="160" cy="30" r="16" fill={u(g, "halo")} />
+      <Chispas
+        pts={[
+          [160, 22, 0.9],
+          [40, 150, 0.6],
+          [290, 140, 0.6],
+        ]}
+      />
+      <Vineta />
+    </>
+  );
+}
+
+/* ---------- 14 · Brisca del Rey Mono: baraja española sobre tapete de laca ---------- */
 function Brisca() {
   const g = useG();
   const carta = (x, y, rot, contenido, key) => (
@@ -955,6 +1003,7 @@ const ESCENAS = {
   teatro: Teatro,
   "dragon-jade": DragonJade,
   "escape-palacio": EscapePalacio,
+  "fichas-palacio": FichasPalacio,
   brisca: Brisca,
 };
 

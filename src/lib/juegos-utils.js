@@ -1,5 +1,5 @@
 // Solo metadatos + vocabulario de las unidades (no los módulos enteros): ver vocabularioJuegos.js
-import { UNIDADES_VOCABULARIO as ALL_MODULES, vocabularioJuego as contenidoJuego, parametrosJuego } from "./vocabularioJuegos.js";
+import { UNIDADES_VOCABULARIO as ALL_MODULES } from "./vocabularioJuegos.js";
 export function g() {
   return ALL_MODULES.map((o) => ({
     id: o.id,
@@ -21,10 +21,8 @@ export function b(o) {
   if (!t || !t.vocabulario) {
     return [];
   }
-  // Si el juego se abrió desde una clase (?m=N&clase=K), solo las palabras de esa clase
-  const { numero, clase } = parametrosJuego();
-  const fuente = clase && numero === t.numero ? contenidoJuego(numero, clase)?.vocabulario || t.vocabulario : t.vocabulario;
-  return fuente
+  // Siempre el vocabulario de la unidad completa (aunque se llegue con ?clase=K)
+  return t.vocabulario
     .map((n) => ({
       espanol: n.espanol,
       chino: n.chino,
@@ -51,17 +49,16 @@ function a() {
   return o;
 }
 // Palabras para los juegos de letras: una sola palabra (sin espacios ni guiones) de hasta 20 caracteres.
-// Desde una clase (?m=N&clase=K) con menos de 6 palabras sueltas se admiten también sus expresiones cortas
-// («buenos días»): los juegos quitan espacios y signos, así la partida sigue siendo solo con la clase.
-const MINIMO_CLASE = 6;
+// Si una unidad tiene menos de 6 palabras sueltas se admiten también sus expresiones cortas
+// («buenos días»): los juegos quitan espacios y signos.
+const MINIMO_PALABRAS = 6;
 function palabrasParaJuego(moduloId) {
   const lista = moduloId ? b(moduloId) : a();
   const sueltas = lista.filter((palabra) => {
     const texto = palabra.espanol.trim();
     return texto.length >= 1 && texto.length <= 20 && !texto.includes(" ") && !texto.includes("-");
   });
-  const { clase } = parametrosJuego();
-  if (!moduloId || !clase || sueltas.length >= MINIMO_CLASE) return sueltas;
+  if (!moduloId || sueltas.length >= MINIMO_PALABRAS) return sueltas;
   return lista.filter((palabra) => {
     const texto = palabra.espanol.trim();
     return texto.length >= 1 && texto.replace(/[^\p{L}]/gu, "").length <= 14;

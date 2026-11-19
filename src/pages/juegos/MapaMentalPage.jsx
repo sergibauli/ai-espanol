@@ -1,4 +1,4 @@
-// Mapa mental · 思维导图 — lienzo SVG con zoom, ramas de la clase y fichas de vocabulario que se unen con flechas
+// Mapa mental · 思维导图 — lienzo SVG con zoom, ramas de la unidad y fichas de vocabulario que se unen con flechas
 import * as React from "react";
 import { createPortal } from "react-dom";
 import {
@@ -332,17 +332,16 @@ export default function MapaMentalPage() {
   if (!contenido)
     return (
       <div className="ja-raiz ja-mapa gm-no-adapt">
-        <CabeceraJA titulo="Mapa mental" tituloZh="思维导图" sello="图" />
         <SelectorUnidadJA
           titulo="Mapa mental"
           tituloZh="思维导图"
           sello="图"
-          descripcion="Elige una unidad y una clase: ordena su vocabulario en ramas, une español y chino o crea tu propio mapa. · 选择单元和课：把词汇分到分支、连接中西文，或创作你自己的导图。"
+          descripcion="Elige una unidad: ordena su vocabulario en ramas, une español y chino o crea tu propio mapa. · 选择单元：把词汇分到分支、连接中西文，或创作你自己的导图。"
           onElegir={elegir}
         />
       </div>
     );
-  return <MapaMental key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} onCambiar={quitar} />;
+  return <MapaMental key={contenido.numero} contenido={contenido} onCambiar={quitar} />;
 }
 
 function MapaMental({ contenido, onCambiar }) {
@@ -815,7 +814,7 @@ function MapaMental({ contenido, onCambiar }) {
     titulo.setAttribute("y", 36);
     titulo.setAttribute("fill", "#8f0c21");
     titulo.setAttribute("style", `font: 800 18px ${FUENTE_UI}`);
-    titulo.textContent = `Wukong Español · ${contenido.nivel} · U${contenido.numero}${contenido.clase ? ` · Clase ${contenido.clase}` : ""} · 思维导图`;
+    titulo.textContent = `Wukong Español · ${contenido.nivel} · U${contenido.numero} · 思维导图`;
     copia.insertBefore(titulo, capa);
     const datos = new XMLSerializer().serializeToString(copia);
     const img = new Image();
@@ -834,7 +833,7 @@ function MapaMental({ contenido, onCambiar }) {
       ctx.scale(escala, escala);
       ctx.drawImage(img, 0, 0);
       const enlace = document.createElement("a");
-      enlace.download = `mapa-mental-U${contenido.numero}${contenido.clase ? `-C${contenido.clase}` : ""}.png`;
+      enlace.download = `mapa-mental-U${contenido.numero}.png`;
       enlace.href = lienzo.toDataURL("image/png");
       enlace.click();
       playCorrect?.();

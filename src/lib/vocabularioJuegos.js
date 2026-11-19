@@ -2,30 +2,29 @@
 // Solo trae metadatos + vocabulario de cada unidad (trozo generado por scripts/vite-trozos-datos.mjs), no la teoría,
 // los diálogos ni los ejercicios: el juego descarga ~1/15 de lo que bajaba con ALL_MODULES.
 import UNIDADES from "virtual:modulos-vocabulario";
-import { moduloDeClase } from "./clases.js";
 
 export const UNIDADES_VOCABULARIO = UNIDADES;
 
-// Lee ?m=N&clase=K de la ruta con HashRouter (#/juegos/x?m=8&clase=2)
+// Lee ?m=N de la ruta con HashRouter (#/juegos/x?m=8). Los juegos usan siempre la unidad completa:
+// un ?clase=K que llegue desde una clase de la unidad se acepta en el enlace pero se ignora (clase: null).
 export function parametrosJuego() {
   if (typeof window === "undefined") return { numero: null, clase: null };
   const consulta = (window.location.hash.split("?")[1] || window.location.search.slice(1) || "").trim();
   const params = new URLSearchParams(consulta);
   const numero = Number(params.get("m")) || null;
-  const clase = params.get("clase");
-  return { numero, clase: clase && clase !== "unidad" ? Number(clase) || null : null };
+  return { numero, clase: null };
 }
 
 export const unidadVocabulario = (numero) => UNIDADES.find((u) => u.numero === Number(numero)) || null;
 
 /** Como contenidoJuego (contenidoJuego.js) pero solo con el vocabulario: misma forma, sin teoría/diálogos/ejercicios */
-export function vocabularioJuego(numero = parametrosJuego().numero, clase = parametrosJuego().clase) {
+export function vocabularioJuego(numero = parametrosJuego().numero) {
   const unidad = unidadVocabulario(numero);
   if (!unidad) return null;
-  const filtrado = clase ? moduloDeClase(unidad, clase) : unidad;
+  const filtrado = unidad;
   return {
     numero: unidad.numero,
-    clase: clase || null,
+    clase: null,
     titulo: unidad.titulo,
     tituloChino: unidad.tituloChino,
     nivel: unidad.nivel,

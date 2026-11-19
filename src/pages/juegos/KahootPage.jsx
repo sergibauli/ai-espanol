@@ -22,8 +22,8 @@ import { useSound } from "../../lib/sound.jsx";
 import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
 import "../../styles/v17-kahoot.css";
 import "../../styles/movil-juegos.css";
-// Kahoot solo usa el vocabulario de la unidad/clase: datos ligeros
-import { vocabularioJuego as contenidoJuego, parametrosJuego } from "../../lib/vocabularioJuegos.js";
+// Kahoot solo usa el vocabulario de la unidad: datos ligeros
+import { vocabularioJuego as contenidoJuego } from "../../lib/vocabularioJuegos.js";
 const Ha = {
   modulos: [
     {
@@ -9587,20 +9587,17 @@ function XaComponent({ streak, multiplier }) {
     </div>
   );
 }
-// Preguntas tipo Kahoot (chino → español) con el vocabulario de una unidad o de una de sus clases
-function preguntasDeVocabulario(numero, clase, barajar) {
-  const contenido = contenidoJuego(numero, clase);
+// Preguntas tipo Kahoot (chino → español) con el vocabulario de la unidad completa (20 palabras al azar)
+function preguntasDeVocabulario(numero, barajar) {
+  const contenido = contenidoJuego(numero);
   if (!contenido) return [];
   const palabras = contenido.vocabulario.filter((v) => v.espanol && v.chino);
-  const unidad = clase ? contenidoJuego(numero, null)?.vocabulario || [] : palabras;
   const distintas = (lista) => [...new Set(lista.map((v) => v.espanol))];
   return barajar(palabras)
     .slice(0, 20)
     .map((palabra, indice) => {
-      // Distractores: primero de la misma clase; si no hay bastantes, del resto de la unidad
-      const otrasClase = barajar(distintas(palabras).filter((e) => e !== palabra.espanol));
-      const otrasUnidad = barajar(distintas(unidad).filter((e) => e !== palabra.espanol && !otrasClase.includes(e)));
-      const incorrectas = [...otrasClase, ...otrasUnidad].slice(0, 3);
+      // Distractores: otras palabras de la misma unidad
+      const incorrectas = barajar(distintas(palabras).filter((e) => e !== palabra.espanol)).slice(0, 3);
       return { id: `v${indice}`, tipo: "vocabulario", preguntaChino: palabra.chino, correcta: palabra.espanol, incorrectas };
     })
     .filter((pregunta) => pregunta.incorrectas.length === 3);
@@ -9648,20 +9645,18 @@ function AComponent() {
         }
         return copia;
       };
-      // Preguntas: de la clase abierta (?m=N&clase=K) o de una unidad sin banco → con su vocabulario;
-      // de una unidad con banco → el banco; «Todas las unidades» → 20 preguntas mezcladas de todo el banco.
+      // Preguntas (siempre de la unidad completa, aunque llegue ?clase=K): unidad sin banco → con su vocabulario;
+      // unidad con banco → el banco; «Todas las unidades» → 20 preguntas mezcladas de todo el banco.
       let preguntasElegidas;
       if (i === null) {
         preguntasElegidas = barajar(Z.flatMap((modulo) => modulo.preguntas || [])).slice(0, 20);
       } else {
         const numero = Number(String(i).replace("modulo-", ""));
-        const ruta = parametrosJuego();
-        const deClase = ruta.clase && ruta.numero === numero;
         const banco = Z.find((modulo) => modulo.id === i)?.preguntas || [];
-        preguntasElegidas = deClase || banco.length === 0 ? preguntasDeVocabulario(numero, deClase ? ruta.clase : null, barajar) : banco;
+        preguntasElegidas = banco.length === 0 ? preguntasDeVocabulario(numero, barajar) : banco;
       }
       if (!preguntasElegidas || preguntasElegidas.length === 0) {
-        setCa("Este módulo no tiene preguntas disponibles. Prueba con otro módulo.");
+        setCa("Esta unidad no tiene preguntas disponibles. Prueba con otra unidad. · 这个单元没有题目，请换一个单元。");
         return;
       }
       setCa("");

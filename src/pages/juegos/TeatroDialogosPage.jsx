@@ -1,11 +1,10 @@
-// Teatro de diálogos · 对话剧场 — los diálogos de la clase en un escenario imperial: ordenar, elegir réplica y doblaje
+// Teatro de diálogos · 对话剧场 — los diálogos de la unidad en un escenario imperial: ordenar, elegir réplica y doblaje
 import * as React from "react";
 import { ArrowUpIcon, ArrowDownIcon, CheckIcon, MicIcon, Volume2Icon, PlayIcon, RotateCcwIcon, GripVerticalIcon, RepeatIcon, ListIcon, SkipForwardIcon } from "lucide-react";
 import { useSound } from "../../lib/sound.jsx";
 import { speak } from "../../components/lesson/fx.js";
 import { esMujer } from "../../lib/lessons.js";
 import { addXp } from "../../lib/gamification.js";
-import { contenidoJuego } from "../../lib/contenidoJuego.js";
 import { useContenidoJA, CabeceraJA, SelectorUnidadJA, chispasOro, barajar, reducido } from "./ja-comun.jsx";
 import "../../styles/v13-juegos-a.css";
 import "../../styles/movil-juegos.css";
@@ -90,28 +89,26 @@ export default function TeatroDialogosPage() {
   if (!contenido)
     return (
       <div className="ja-raiz ja-teatro gm-no-adapt">
-        <CabeceraJA titulo="Teatro de diálogos" tituloZh="对话剧场" sello="剧" />
         <SelectorUnidadJA
           titulo="Teatro de diálogos"
           tituloZh="对话剧场"
           sello="剧"
-          descripcion="Sube al escenario con los diálogos de tu clase: ordena el guion, elige la réplica correcta o dobla a un personaje con tu voz. · 用课堂对话登上舞台：排列台词、选择回答，或用你的声音为角色配音。"
+          descripcion="Sube al escenario con los diálogos de la unidad: ordena el guion, elige la réplica correcta o dobla a un personaje con tu voz. · 用单元对话登上舞台：排列台词、选择回答，或用你的声音为角色配音。"
           onElegir={elegir}
         />
       </div>
     );
-  return <Teatro key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} onCambiar={quitar} />;
+  return <Teatro key={contenido.numero} contenido={contenido} onCambiar={quitar} />;
 }
 
 function Teatro({ contenido, onCambiar }) {
   const sonido = useSound();
-  // Diálogos de la clase; si la clase no tiene, los de toda la unidad
-  const unidad = React.useMemo(() => contenidoJuego(contenido.numero, null), [contenido.numero]);
-  const deClase = contenido.dialogos.filter((d) => d?.lineas?.length >= 2);
-  const dialogos = deClase.length ? deClase : (unidad?.dialogos || []).filter((d) => d?.lineas?.length >= 2);
+  // Todos los diálogos de la unidad completa
+  const unidad = contenido;
+  const dialogos = React.useMemo(() => (unidad?.dialogos || []).filter((d) => d?.lineas?.length >= 2), [unidad]);
   const todasLasLineas = React.useMemo(() => (unidad?.dialogos || []).flatMap((d, i) => (d.lineas || []).map((l) => ({ ...l, dialogo: i }))), [unidad]);
 
-  const [indiceDialogo, setIndiceDialogo] = React.useState(0);
+  const [indiceDialogo, setIndiceDialogo] = React.useState(() => Math.floor(Math.random() * Math.max(1, dialogos.length)));
   const [modo, setModo] = React.useState("ordenar");
   const [fase, setFase] = React.useState("menu"); // menu | juego | final
   const [partida, setPartida] = React.useState(0);
