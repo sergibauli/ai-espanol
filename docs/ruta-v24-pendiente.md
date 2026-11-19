@@ -28,3 +28,20 @@ Rama: `claude/ecstatic-cray-jv4rk0` (no publicado en main). Código: `src/pages/
 
 ## Verificación
 Capturas con progreso sembrado (unidad 1 hecha, 2 actual) en 1366×860 y 390×844 de los cuatro niveles; `npm run build` sin errores; `prefers-reduced-motion`.
+
+## v25 · Hecho en esta ronda
+- **Fondos pintados** (A1, A2, B1, B2) con `scripts/fondos-ruta.py` (numpy/PIL, procedural y propio): tres planos raster
+  (`public/theme/ruta/fondo-<N>-{lejos,medio,cerca}.webp`) con luz clave por nivel (A1 sol de invierno a la derecha,
+  A2 atardecer a la izquierda, B1 luna, B2 mañana a la izquierda), caras en sombra, nieve, dunas con cresta, karst,
+  perspectiva aérea, niebla por bandas y reflejos en el agua. `MundoRuta.jsx` los compone con parallax de scroll.
+- **Animación del fondo**: niebla que deriva (`niebla-{blanca,arena,noche}.webp`), rayos de la luz clave, brillo del
+  agua y `ParticulasRuta.jsx` (canvas: nieve en 3 profundidades; polvo, ráfagas y farolillos 孔明灯; lluvia, pétalos,
+  ondas y luciérnagas; aves y hojas). Pausa fuera de pantalla y con la pestaña oculta, 30 fps y menos partículas en
+  móvil, nada con `prefers-reduced-motion`. Se retiran los mundos SVG antiguos y las viñetas laterales.
+- Camino: una sola forma por nivel; terreno bajo el camino con falda y sombra proyectada opuesta a la luz; bruma sobre
+  el tramo pendiente; piezas de primer plano (oclusión); entrada fundida en niebla bajo el estandarte; banda de nubes
+  como transición entre unidades. B1: boceto pálido en lo pendiente y tinta rica con 飞白 y pan de oro en lo recorrido.
+- Medallones con cifra caligráfica (壹贰叁…) en vez de emojis; moneda del estandarte con pictograma propio; bloqueadas
+  al 76 % con bronce apagado y candado chino de latón; «Clase N · 第N课»; Empezar con la clase («Empezar · Clase 1 /
+  开始 第1课»), icono de pincel, ~50 % del ancho y a 10 px de la parada; encuadre inicial con la clase y el examen a la
+  vista; examen con «+1 sello 印章» y estado «Aprobado 通过» con sello 成; estandarte móvil en dos líneas; un solo Rey Mono.

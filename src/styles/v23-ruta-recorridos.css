@@ -231,10 +231,10 @@
 .r24-rio .r25-proyectada { fill: rgba(110,50,30,.2); }
 .r24-escalinata .r25-proyectada { fill: rgba(20,50,30,.28); }
 .r25-bruma { filter: url(#r24-desenfoque); pointer-events: none; }
-.r25-bruma-muralla { fill: rgba(236,240,247,.45); }
+.r25-bruma-muralla { fill: rgba(236,240,247,.32); }
 .r25-bruma-rio { fill: rgba(250,220,175,.55); }
 .r25-bruma-pincel { fill: rgba(236,229,214,.32); }
-.r25-bruma-escalinata { fill: rgba(236,243,236,.6); }
+.r25-bruma-escalinata { fill: rgba(236,243,236,.42); }
 .r25-delante { filter: drop-shadow(0 2px 2px rgba(20,20,30,.25)); }
 @media (max-width: 700px) {
   .r25-proyectada, .r25-bruma { filter: none; }
