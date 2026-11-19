@@ -9,7 +9,8 @@ const PALETAS = {
   hecha: { canto: ["#fff8d6", "#f2c14e", "#b07a1c", "#6e4210"], cara: ["#fffbe6", "#f6d77e", "#d5a332", "#8a5a1e"], filete: "#fff3c4", grabado: "#9a6416", lomo: "#6e4210" },
   actual: { canto: ["#fff8d6", "#f2c14e", "#b07a1c", "#6e4210"], cara: ["#e6fff0", "#5fcf91", "#1f8a52", "#0a3b22"], filete: "#d8ffe6", grabado: "#0a3b22", lomo: "#5a360c" },
   abierta: { canto: ["#fff8d6", "#e9b648", "#a8741e", "#6e4210"], cara: ["#ff9a9a", "#e0283f", "#a5112a", "#560512"], filete: "#f6d77e", grabado: "#560512", lomo: "#5a360c" },
-  cerrada: { canto: ["#a7a08a", "#6f7a66", "#4a4e40", "#262820"], cara: ["#8a9488", "#5f6e64", "#46524a", "#262c28"], filete: "#8fb3a0", grabado: "#1e2420", lomo: "#1a1c16" },
+  // v26 · Bloqueada: el mismo medallón de oro, envejecido (bronce viejo desaturado) — se lee como «aún no», no como roto
+  cerrada: { canto: ["#e6d6b0", "#b49a6a", "#7a6440", "#3e3020"], cara: ["#d8ccb0", "#a8987a", "#7a6c54", "#4a4032"], filete: "#efe2c2", grabado: "#4a3c28", lomo: "#3a2c1a" },
 };
 
 // Marco lobulado de 8 pétalos (海棠): silueta imperial en vez de un canto dentado
@@ -89,7 +90,7 @@ export function Medallon({ estado = "abierta", tamano = 84, children, className 
         {/* Cara rehundida */}
         <circle cx="60" cy="60" r="42.5" fill={p.lomo} />
         <circle cx="60" cy="60.8" r="41" fill={`url(#${uid}c)`} />
-        {cerrada && <circle cx="60" cy="60.8" r="41" fill="url(#r24-grano)" opacity=".7" />}
+        {cerrada && <circle cx="60" cy="60.8" r="41" fill="url(#r24-grano)" opacity=".35" />}
         <circle cx="60" cy="60.8" r="41" fill={`url(#${uid}s)`} />
         <circle cx="60" cy="60" r="42" fill="none" stroke={p.filete} strokeWidth="1.6" strokeOpacity=".95" />
         <circle cx="60" cy="60" r="36" fill="none" stroke={p.grabado} strokeOpacity=".32" strokeWidth=".9" strokeDasharray="2.6 2.2" />
@@ -97,7 +98,7 @@ export function Medallon({ estado = "abierta", tamano = 84, children, className 
           <path key={g} d={RIZO} transform={`rotate(${g + 45} 60 60) translate(60 26)`} fill="none" stroke={p.grabado} strokeOpacity=".32" strokeWidth="1.2" strokeLinecap="round" />
         ))}
         {false && <path d={GRIETAS} fill="none" stroke="#24221e" strokeOpacity=".5" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />}
-        {cerrada && <Candado />}
+        {false && <Candado />}
         {/* Reflejos: casquete brillante arriba y luz de rebote abajo */}
         <path d="M27 50 A34 34 0 0 1 93 50 A40 26 0 0 0 27 50 Z" fill={`url(#${uid}r)`} opacity={cerrada ? 0.25 : 0.7} />
         <path d="M30 78 A34 34 0 0 0 90 78" fill="none" stroke="#fff" strokeOpacity={cerrada ? 0.1 : 0.3} strokeWidth="1.6" strokeLinecap="round" />
@@ -138,23 +139,35 @@ export function GlifoClase({ n = 1, estado = "abierta", tamano = 40 }) {
   const uid = React.useId().replace(/[^a-zA-Z0-9]/g, "");
   const car = CIFRAS[n] || String(n);
   const hecha = estado === "hecha";
+  const cerrada = estado === "cerrada";
   return (
     <svg className={`md-glifo md-glifo-${estado}`} width={tamano} height={tamano} viewBox="0 0 40 40" aria-hidden="true">
       <defs>
         <linearGradient id={`${uid}g`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={hecha ? "#c8102e" : "#fffbe6"} />
-          <stop offset=".45" stopColor={hecha ? "#a5112a" : "#f6d77e"} />
-          <stop offset="1" stopColor={hecha ? "#6e0817" : "#c8961e"} />
+          <stop offset="0" stopColor={hecha ? "#c8102e" : cerrada ? "#8a7a5c" : "#fffbe6"} />
+          <stop offset=".45" stopColor={hecha ? "#a5112a" : cerrada ? "#6e5f44" : "#f6d77e"} />
+          <stop offset="1" stopColor={hecha ? "#6e0817" : cerrada ? "#4a3e2a" : "#c8961e"} />
         </linearGradient>
       </defs>
       {/* Bajo relieve: sombra arriba-izquierda y luz abajo-derecha (grabado en la cara del medallón) */}
-      <text x="20" y="30.5" textAnchor="middle" className="md-glifo-txt" fill={hecha ? "#fff3c4" : "#3a1a06"} opacity=".55" transform="translate(.9 1.1)">
+      <text x="20" y="30.5" textAnchor="middle" className="md-glifo-txt" fill={hecha || cerrada ? "#fff3c4" : "#3a1a06"} opacity={cerrada ? 0.7 : 0.55} transform={cerrada ? "translate(.6 .8)" : "translate(.9 1.1)"}>
         {car}
       </text>
-      <text x="20" y="30.5" textAnchor="middle" className="md-glifo-txt" fill={`url(#${uid}g)`} stroke={hecha ? "#5a0a14" : "#7a4d12"} strokeWidth=".6" paintOrder="stroke">
+      <text x="20" y="30.5" textAnchor="middle" className="md-glifo-txt" fill={`url(#${uid}g)`} stroke={hecha ? "#5a0a14" : cerrada ? "#3a2c1a" : "#7a4d12"} strokeWidth=".6" paintOrder="stroke">
         {car}
       </text>
     </svg>
+  );
+}
+
+/** v26 · Marca discreta de «clase hecha»: insignia de jade con check (el sello 成 grande queda solo para el examen) */
+export function MarcaHecha({ perfecta }) {
+  return (
+    <span className={`md-marca ${perfecta ? "perfecta" : ""}`} aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="100%" height="100%">
+        <path d="M6 12.5l4 4 8-9" fill="none" stroke="#fff" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
   );
 }
 

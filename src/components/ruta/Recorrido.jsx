@@ -37,17 +37,19 @@ function cubos() {
 }
 const desplaza = (m, d) => m.map((q) => ({ ...q, x: q.x + q.nx * d, y: q.y + q.ny * d }));
 
-export function Recorrido({ forma, pts, hechas = 0, alcanzada = false, alto }) {
+export function Recorrido({ forma, pts, hechas = 0, alcanzada = false, alto, soloBruma = false }) {
   const uid = React.useId().replace(/[^a-zA-Z0-9]/g, "");
   const clave = `${forma.tipo}|${forma.espejo}|${pts.map((p) => p.join(",")).join(";")}`;
   const lit = (q) => alcanzada && q.seg <= hechas;
   const dibujo = React.useMemo(() => {
+    if (soloBruma) return null;
     const fn = DIBUJOS[forma.tipo] || DIBUJOS.muralla;
     return fn({ forma, pts, lit, uid });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clave, hechas, alcanzada]);
   const entorno = React.useMemo(() => {
     const o = marca({ forma, pts, lit });
+    if (soloBruma) return { suelo: null, delante: null, bruma: brumaPendiente(o) };
     return { suelo: terreno(o), delante: primerPlano(o), bruma: brumaPendiente(o) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clave, hechas, alcanzada]);
@@ -57,15 +59,15 @@ export function Recorrido({ forma, pts, hechas = 0, alcanzada = false, alto }) {
       {dibujo}
       {entorno.bruma}
       {entorno.delante}
-      {/* El camino nace de la niebla bajo el estandarte */}
-      <ellipse cx="150" cy="4" rx="190" ry="78" style={{ fill: `url(#r25-entrada-${forma.tipo})` }} />
+      {/* El camino nace de la niebla bajo el estandarte (en los tramos pintados ya viene en la imagen) */}
+      {!soloBruma && <ellipse cx="150" cy="4" rx="190" ry="78" style={{ fill: `url(#r25-entrada-${forma.tipo})` }} />}
     </svg>
   );
 }
 
 /* ====================================================================== v25 · Terreno, bruma y primer plano */
 // Color de la niebla de cada nivel (entrada del camino y tramo pendiente)
-const NIEBLA = { muralla: "#eef1f5", rio: "#f6d4a0", pincel: "#2a3358", escalinata: "#eef3ec", nubes: "#fff6e0" };
+const NIEBLA = { muralla: "#eef1f5", rio: "#f6d4a0", pincel: "#2a3358", escalinata: "#eef3ec", nubes: "#fff6e0", sendero: "#f6d4a0", puente: "#22305a", peldanos: "#eef3ec" };
 // Lado de la luz clave: +1 el sol viene de la derecha (A1, B1), −1 de la izquierda (A2, B2)
 const LUZ_LADO = { muralla: 1, rio: -1, pincel: 1, escalinata: -1, nubes: 1 };
 const SUELO = {
@@ -107,7 +109,7 @@ function terreno({ M, forma }) {
 function brumaPendiente({ M, forma }) {
   const m = M(5).filter((q) => !q._lit);
   if (m.length < 3) return null;
-  const w = forma.tipo === "escalinata" ? 110 : forma.tipo === "rio" ? 150 : 96;
+  const w = { escalinata: 110, rio: 150, sendero: 70, puente: 64, peldanos: 70, muralla: 76 }[forma.tipo] || 80;
   return <path className={`r25-bruma r25-bruma-${forma.tipo}`} d={cinta(m, w)} />;
 }
 

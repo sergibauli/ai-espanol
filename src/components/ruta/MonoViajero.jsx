@@ -29,7 +29,7 @@ const igual = (a, b) => a && b && a[0] === b[0] && a[1] === b[1];
 const suave = (k) => (k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2);
 const sinMovimiento = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salida = false, retraso = 0, seguir = false, onLlegada, forma }) {
+export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salida = false, retraso = 0, seguir = false, onLlegada, forma, reposoEn = null }) {
   const refMedida = React.useRef(null);
   const refMover = React.useRef(null);
   const refInclina = React.useRef(null);
@@ -47,7 +47,8 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
   // Lado en el que descansa respecto a la parada (hacia el centro del carril) y separación
   const separacion = tamano * 0.85;
   const ladoDe = (p) => (p[0] > ANCHO_CARRIL / 2 ? -1 : 1);
-  const reposo = (p) => [p[0] + ladoDe(p) * separacion, p[1] + tamano * 0.3]; // v24: más abajo, para no tapar el cartel «Empezar»
+  // v26 · En reposo pisa el camino justo después de la parada, hacia la siguiente (lado según la siguiente curva)
+  const reposo = (p) => (reposoEn && p === hasta ? [reposoEn[0] + (reposoEn[0] >= p[0] ? 1 : -1) * tamano * 0.3, reposoEn[1] - tamano * 0.1] : [p[0] + ladoDe(p) * separacion, p[1] + tamano * 0.3]);
 
   React.useEffect(() => {
     const mover = refMover.current;

@@ -11,50 +11,42 @@ export const ANCHO_CARRIL = 300;
 export let FILA = 150;
 /** v25 · En móvil las paradas van algo más juntas para que la clase actual y el examen quepan sin hacer scroll */
 export function ajustarFila(movil) {
-  FILA = movil ? 128 : 150;
+  FILA = movil ? 120 : 150;
 }
 export const ARRIBA = 150;
 const CENTRO = ANCHO_CARRIL / 2;
 
-// v25 · Una sola gramática de camino por nivel (las nubes quedan solo como transición entre unidades)
-const FORMAS_NIVEL = {
-  A1: ["muralla"],
-  A2: ["rio"],
-  B1: ["pincel"],
-  B2: ["escalinata"],
-};
-// Desplazamiento horizontal de cada parada según la forma (se repite en ciclo)
+// v26 · Una sola gramática de camino por nivel, sacada del propio paisaje, y 3 variantes de composición (idx % 3):
+//   muralla → la Gran Muralla sobre la cresta nevada (A1) · sendero → senda entre dunas (A2)
+//   puente  → puente de piedra en zigzag 九曲桥 sobre el agua (B1) · peldanos → escalones tallados en el karst (B2)
+// El camino y su terreno se PINTAN en raster (scripts/tramos-ruta.py) con el mismo pintor que el fondo, a partir de
+// estas mismas curvas (scripts/geometria-tramos.mjs las exporta): no cambies pasos ni curvas sin regenerar los tramos.
+const FORMAS_NIVEL = { A1: "muralla", A2: "sendero", B1: "puente", B2: "peldanos" };
 const PASOS = {
-  zigzag: [0, 48, 70, 48, 0, -48, -70, -48],
-  muralla: [-78, 78, -50, 80, -78, 56],
-  rio: [-80, 80, -80, 80],
-  pincel: [-50, 50, -46, 54],
-  escalinata: [0, 0, 0, 0],
-  nubes: [-62, 70, -44, 76, -70, 52],
+  zigzag: [[0, 48, 70, 48, 0, -48, -70, -48]],
+  muralla: [[-78, 78, -50, 80], [78, -78, 50, -80], [70, -62, 76, -70]],
+  sendero: [[-72, 70, -60, 72], [72, -70, 60, -72], [-34, 80, -78, 36]],
+  puente: [[-64, 62, -60, 64], [64, -62, 60, -64], [-78, 18, -58, 72]],
+  peldanos: [[-46, 48, -42, 50], [46, -48, 42, -50], [34, -62, 56, -30]],
 };
-// Cómo se une una parada con la siguiente
-const CURVA = { zigzag: "S", muralla: "recta", rio: "meandro", pincel: "rizo", escalinata: "recta", nubes: "salto" };
+const CURVA = { zigzag: "S", muralla: "recta", sendero: "S", puente: "recta", peldanos: "S" };
 
-/** Forma del recorrido de la unidad `idx` (posición dentro del nivel) */
+/** Forma del recorrido de la unidad `idx` (posición dentro del nivel): { tipo, variante, espejo, curva } */
 export function formaDe(nivel, idx = 0) {
-  const lista = FORMAS_NIVEL[nivel];
-  if (!lista) return { tipo: "zigzag", espejo: 1, curva: "S" };
-  const tipo = lista[idx % lista.length];
-  // Cada dos tramos el dibujo se refleja para que dos unidades seguidas no se parezcan
-  const espejo = Math.floor(idx / lista.length) % 2 ? -1 : 1; // con una sola forma: una unidad sí y otra no
-  return { tipo, espejo, curva: CURVA[tipo] };
+  const tipo = FORMAS_NIVEL[nivel];
+  if (!tipo) return { tipo: "zigzag", variante: 0, espejo: 1, curva: "S" };
+  const variante = idx % 3;
+  return { tipo, variante, espejo: variante === 1 ? -1 : 1, curva: CURVA[tipo] };
 }
-const normal = (forma) => (typeof forma === "string" ? { tipo: forma, espejo: 1, curva: CURVA[forma] || "S" } : forma || { tipo: "zigzag", espejo: 1, curva: "S" });
+const normal = (forma) => (typeof forma === "string" ? { tipo: forma, variante: 0, espejo: 1, curva: CURVA[forma] || "S" } : forma || { tipo: "zigzag", variante: 0, espejo: 1, curva: "S" });
 
 /** Puntos [x, y] de las paradas de la unidad `idx` (la última es el cofre del examen) */
 export function puntosCamino(idx, paradas, forma) {
   const f = normal(forma);
-  if (f.tipo === "zigzag") return Array.from({ length: paradas + 1 }, (_, i) => [CENTRO + PASOS.zigzag[(idx * 3 + i) % 8], ARRIBA + i * FILA]);
-  const pasos = PASOS[f.tipo] || PASOS.zigzag;
+  const pasos = (PASOS[f.tipo] || PASOS.zigzag)[f.variante || 0] || PASOS.zigzag[0];
   return Array.from({ length: paradas + 1 }, (_, i) => {
-    const ultima = i === paradas;
-    // El cofre de la escalinata y de la muralla queda en el eje (puerta / torre final)
-    const dx = ultima && (f.tipo === "escalinata" || f.tipo === "muralla") ? 0 : pasos[i % pasos.length] * f.espejo;
+    // El examen (última) siempre en el eje: es la meta de la unidad
+    const dx = i === paradas ? 0 : pasos[i % pasos.length];
     return [CENTRO + dx, ARRIBA + i * FILA];
   });
 }

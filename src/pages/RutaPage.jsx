@@ -8,6 +8,7 @@ import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { useGame, BADGES, setDailyGoal } from "../lib/gamification.js";
 import { buildLesson, lessonId, LESSON_META, LESSONS_PER_MODULE } from "../lib/lessons.js";
 import { progresoUnidad, moduloDeClase, plusDeClase } from "../lib/clases.js";
+import { getModuleProgress } from "../lib/progress.js";
 import { loadModule, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
@@ -21,7 +22,7 @@ import { CabeceraRuta } from "../components/ruta/CabeceraRuta.jsx";
 import { SelloPasaporte, FiltroTinta, fechaSello } from "../components/ruta/SelloPasaporte.jsx";
 import { Pictograma, PaisajeBanda, paisajeDe } from "../components/ruta/paisajes.jsx";
 import { ANCHO_CARRIL, FILA, ajustarFila, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva, formaDe } from "../components/ruta/geometria.js";
-import { Medallon, SelloHecha, CofreImperial, GlifoClase } from "../components/ruta/Medallon.jsx";
+import { Medallon, MarcaHecha, CofreImperial, GlifoClase } from "../components/ruta/Medallon.jsx";
 import { Recorrido, RecorridoDefs } from "../components/ruta/Recorrido.jsx";
 import "../styles/v13-ruta-mundos.css";
 import "../styles/v14-ruta.css";
@@ -29,7 +30,9 @@ import "../styles/v22-ruta.css";
 import "../styles/movil-ruta.css";
 import "../styles/v23-ruta-recorridos.css";
 import "../styles/v25-ruta.css";
+import "../styles/v26-ruta.css";
 
+const BASE_URL = import.meta.env.BASE_URL || "./";
 const STOP = Object.fromEntries(STOPS.map((parada) => [parada.n, parada]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
 
@@ -241,12 +244,16 @@ export default function RutaPage() {
       const nodo = currentRef.current;
       if (!nodo) return;
       const movil = window.innerWidth <= 700;
-      const arriba = movil ? 136 : 24; // barra superior + pestañas de nivel (móvil)
-      const abajo = window.innerHeight - (window.innerWidth <= 1000 ? 100 : 16); // barra inferior del móvil
+      // Arriba: pestañas de nivel + estandarte fijo de la unidad (móvil); abajo: barra inferior + 24 px
+      const tiras = movil ? document.querySelector(".rh-niveles") : null;
+      const pestanas = tiras ? (parseFloat(getComputedStyle(tiras).top) || 56) + tiras.offsetHeight : 0; // posición ya fijada
+      const estandarte = movil ? nodo.closest(".ruta-unit")?.querySelector(".ru-estandarte")?.offsetHeight || 80 : 0;
+      const arriba = movil ? pestanas + estandarte + 6 : 24;
+      const abajo = window.innerHeight - (window.innerWidth <= 1000 ? 96 + 24 : 16);
       const rNodo = nodo.getBoundingClientRect();
       const cofre = nodo.closest(".ruta-unit")?.querySelector(".rp-cofre");
       const rCofre = cofre?.getBoundingClientRect();
-      const bloqueArriba = rNodo.top - (movil ? 72 : 96); // incluye el botón Empezar
+      const bloqueArriba = rNodo.top - (movil ? 66 : 96); // incluye el botón Empezar
       const bloqueAbajo = rCofre ? rCofre.bottom + (movil ? 44 : 56) : rNodo.bottom + 60; // cartel «Examen» y premio
       const libre = abajo - arriba - (bloqueAbajo - bloqueArriba);
       const delta = libre >= 0 ? bloqueArriba - arriba - libre * 0.45 : bloqueArriba - arriba;
@@ -330,9 +337,10 @@ export default function RutaPage() {
     return { hechas: unidades.reduce((suma, progreso) => suma + progreso.completadas, 0), total: unidades.reduce((suma, progreso) => suma + progreso.total, 0) };
   };
   const nivelMarcado = transicion?.destino || lv.key;
-  const tamanoMono = esMovil ? 84 : 118;
+  const tamanoMono = esMovil ? 100 : 140;
   // El nivel (map-XX) y el momento del día van en .ruta-main: el CSS los lee de ahí en vez de con :has()
   const momento = momentoRuta();
+  const progresoModulos = getModuleProgress();
 
   return (
     <LightShell>
@@ -365,6 +373,9 @@ export default function RutaPage() {
             const iActual = prog.clases.findIndex((clase) => current === `${numero}-${clase.n}`);
             const oroHasta = Math.min(retenida ? fiesta.i : prog.completadas, paradas);
             const unidadGanada = prog.completa && !retenida;
+            // v26 · Examen: bloqueado (faltan clases) · abierto (todas hechas) · aprobado (examen de la unidad superado)
+            const examenAprobado = Boolean(progresoModulos[`modulo-${numero}`]?.completed) && !retenida;
+            const estadoExamen = examenAprobado ? "aprobado" : prog.completadas >= paradas && !retenida ? "abierto" : "bloqueado";
             // Dónde está el Rey Mono en esta unidad (−1 = no está aquí)
             let iMono = iActual;
             let monoSeVa = false;
@@ -394,7 +405,7 @@ export default function RutaPage() {
                       <Pictograma tipo={paisaje.tipo} tamano={esMovil ? 26 : 38} className="ru-pictograma" />
                     </Moneda>
                     <b className="ru-num" translate="no">
-                      {numero}
+                      U{numero}
                     </b>
                   </span>
                   <div className="ru-textos">
@@ -409,13 +420,14 @@ export default function RutaPage() {
                     </h2>
                   </div>
                   <span className="ru-clases" title={`${prog.completadas}/${prog.total} clases · 课`}>
-                    <span className="ru-pips" aria-hidden="true">
+                    <span className="ru-segmentos" aria-hidden="true">
                       {prog.clases.map((clase) => (
                         <i key={clase.n} className={clase.completada && !(retenida && clase.n === fiesta.n) ? "hecha" : ""} />
                       ))}
+                      <i className={`examen ${estadoExamen === "aprobado" ? "hecha" : ""}`} />
                     </span>
                     <b>
-                      {retenida ? Math.max(0, prog.completadas - 1) : prog.completadas}/{prog.total} <span>clases · 课</span>
+                      {retenida ? Math.max(0, prog.completadas - 1) : prog.completadas}/{prog.total} clases <span translate="no">课</span>
                     </b>
                   </span>
                   <span className="ru-sello" translate="no" aria-hidden="true">
@@ -434,8 +446,10 @@ export default function RutaPage() {
                     <b translate="no">{parada?.lugarZh}</b>
                   </span>
                   <div className={`ruta-camino rf-${forma.tipo}`} data-forma={forma.tipo} style={{ width: ANCHO_CARRIL, height: alto }}>
+                    {/* v26 · Camino y terreno PINTADOS con el mismo pintor que el fondo (scripts/tramos-ruta.py) */}
+                    <img className="ru-tramo" src={`${BASE_URL}theme/ruta/tramos/${lv.key}-v${forma.variante}-p${Math.min(3, Math.max(2, paradas))}-f${FILA}.webp`} alt="" aria-hidden="true" decoding="async" style={{ height: alto + 220 }} />
                     {/* Cuerpo ilustrado del recorrido: muralla, río con puente, tinta, escalinata o nubes (v24) */}
-                    <Recorrido forma={forma} pts={pts} hechas={oroHasta} alcanzada={alcanzada} alto={alto} />
+                    <Recorrido forma={forma} pts={pts} hechas={oroHasta} alcanzada={alcanzada} alto={alto} soloBruma />
                     <svg className="ruta-carretera" width={ANCHO_CARRIL} height={alto} aria-hidden="true">
                       {alcanzada && (
                         <>
@@ -486,16 +500,14 @@ export default function RutaPage() {
                               <span className="rp-emp-ala izq" />
                               <span className="rp-emp-ala der" />
                               <span className="rp-emp-luz" />
-                              <span className="rp-emp-play">
-                                <PincelIcono />
-                              </span>
+                              <span className="rp-emp-play" />
                               <span className="rp-emp-textos">
-                                <b>{clase.hechas ? "Seguir" : "Empezar"}</b>
-                                <small>Clase {clase.n}</small>
-                              </span>
-                              <span className="rp-emp-zh" translate="no">
-                                {clase.hechas ? "继续" : "开始"}
-                                <small>第{clase.n}课</small>
+                                <b>
+                                  {clase.hechas ? "Seguir" : "Empezar"} <span className="rp-emp-zh" translate="no">{clase.hechas ? "继续" : "开始"}</span>
+                                </b>
+                                <small>
+                                  {clase.hechas ? `${clase.hechas}/${LESSONS_PER_MODULE} lecciones` : `${LESSONS_PER_MODULE} lecciones`} · ~{clase.minutos || 50} min <i translate="no">{LESSONS_PER_MODULE}个小练习</i>
+                                </small>
                               </span>
                             </button>
                           )}
@@ -537,9 +549,14 @@ export default function RutaPage() {
                             {isOpen && !isDone && <span className="ruta-clase-anillo" style={{ "--p": Math.round((clase.hechas / LESSONS_PER_MODULE) * 100) }} aria-hidden="true" />}
                             <span className="rp-moneda">
                               <Medallon tamano={tamanoMoneda} estado={isDone ? "hecha" : isCurrent ? "actual" : isOpen ? "abierta" : "cerrada"}>
-                                {isOpen || isDone ? <GlifoClase n={clase.n} estado={isDone ? "hecha" : isCurrent ? "actual" : "abierta"} tamano={isCurrent ? (esMovil ? 44 : 52) : esMovil ? 34 : 40} /> : null}
+                                <GlifoClase n={clase.n} estado={isDone ? "hecha" : isCurrent ? "actual" : isOpen ? "abierta" : "cerrada"} tamano={isCurrent ? (esMovil ? 44 : 52) : isOpen || isDone ? (esMovil ? 34 : 40) : esMovil ? 26 : 30} />
                               </Medallon>
-                              {isDone && <SelloHecha perfecta={clase.nota === 100} />}
+                              {isDone && <MarcaHecha perfecta={clase.nota === 100} />}
+                              {estado === "locked" && (
+                                <span className="md-candado" aria-hidden="true">
+                                  <LockIcon size={esMovil ? 11 : 13} strokeWidth={3} />
+                                </span>
+                              )}
                             </span>
                             <span className="ruta-clase-sello">
                               Clase {clase.n} <i translate="no">第{clase.n}课</i>
@@ -595,31 +612,43 @@ export default function RutaPage() {
                     })}
                     <Link
                       to={`/modulos/modulo-${numero}?tab=examen&examen=unidad&clase=${paradas}`}
-                      className={`ruta-chest rp-cofre ${unidadGanada ? "ganado" : ""}`}
+                      className={`ruta-chest rp-cofre ex-${estadoExamen} ${unidadGanada ? "ganado" : ""}`}
                       style={{ left: pts[paradas][0], top: pts[paradas][1], "--orden": idx % 4 }}
                       title="Examen de la unidad · 单元考试"
-                      aria-label={`Examen de la unidad ${numero} · 单元考试`}
+                      aria-label={`Examen de la unidad ${numero}${estadoExamen === "bloqueado" ? ", bloqueado" : estadoExamen === "aprobado" ? ", aprobado" : ""} · 单元考试`}
                     >
-                      <span className="rp-peana" aria-hidden="true" />
-                      {unidadGanada && <span className="rp-rayos" aria-hidden="true" />}
+                      {estadoExamen === "abierto" && <span className="rp-rayos" aria-hidden="true" />}
                       <span className="rp-moneda">
                         <span className={`rp-templo t-${lv.key}`} aria-hidden="true" />
                         <span className="rp-templo-cofre">
-                          <CofreImperial abierto={unidadGanada} tamano={esMovil ? 50 : 58} />
+                          <CofreImperial abierto={estadoExamen !== "bloqueado"} tamano={esMovil ? 50 : 58} />
                         </span>
+                        {estadoExamen === "bloqueado" && (
+                          <span className="rp-cofre-candado" aria-hidden="true">
+                            <LockIcon size={esMovil ? 16 : 18} strokeWidth={2.6} />
+                          </span>
+                        )}
+                        {estadoExamen === "aprobado" && (
+                          <span className="rp-cofre-sello" aria-hidden="true" translate="no">
+                            成
+                          </span>
+                        )}
                       </span>
                       <span className="ruta-clase-sello rp-cofre-cartel">
-                        {unidadGanada ? "Aprobado" : "Examen"} <span translate="no">{unidadGanada ? "通过" : "考试"}</span>
+                        {estadoExamen === "aprobado" ? "Aprobado" : "Examen"} <span translate="no">{estadoExamen === "aprobado" ? "通过" : "考试"}</span>
                       </span>
-                      {unidadGanada ? (
-                        <span className="rp-cofre-sello" aria-hidden="true" translate="no">
-                          成
+                      {estadoExamen === "bloqueado" ? (
+                        <span className="rp-cofre-premio bloqueado">
+                          Completa las clases · {Math.min(prog.completadas, paradas)}/{paradas} <i translate="no">先完成本单元的课</i>
                         </span>
-                      ) : (
+                      ) : estadoExamen === "abierto" ? (
                         <span className="rp-cofre-premio" title="Al aprobar: sello del pasaporte · 通过后获得护照印章">
-                          +1 sello <i translate="no">印章</i>
+                          <span className="rp-premio-sello" aria-hidden="true">
+                            <Pictograma tipo={paisaje.tipo} tamano={16} />
+                          </span>
+                          Gana el sello de {parada?.ciudad} <i translate="no">赢得印章</i>
                         </span>
-                      )}
+                      ) : null}
                     </Link>
                     {iMono >= 0 && (
                       <MonoViajero
@@ -631,6 +660,7 @@ export default function RutaPage() {
                         retraso={fiesta ? 0 : 700}
                         seguir={Boolean(fiesta)}
                         forma={forma}
+                        reposoEn={!monoSeVa && iMono < paradas ? puntoCurva(pts[iMono], pts[iMono + 1], 0.52, forma) : null}
                         onLlegada={monoSeVa ? () => setFiesta((actual) => (actual ? { ...actual, monoSalio: true } : actual)) : undefined}
                       />
                     )}
