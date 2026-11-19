@@ -2,7 +2,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router";
-import { ArrowLeftIcon, HelpCircleIcon, Volume2Icon, VolumeXIcon, LayersIcon, PlayIcon, RotateCcwIcon, XIcon, CheckIcon, UsersIcon, BotIcon, LoaderCircleIcon, ShieldIcon } from "lucide-react";
+import { ArrowLeftIcon, HelpCircleIcon, Volume2Icon, VolumeXIcon, LayersIcon, PlayIcon, RotateCcwIcon, XIcon, CheckIcon, UsersIcon, BotIcon, LoaderCircleIcon, ShieldIcon, Dice5Icon } from "lucide-react";
 import { useSound } from "../../lib/sound.jsx";
 import { speak } from "../../components/lesson/fx.js";
 import { addXp } from "../../lib/gamification.js";
@@ -13,7 +13,7 @@ import { ElegirUnidadJuego } from "../../components/juegos/ElegirUnidadJuego.jsx
 import { chispasOro } from "./ja-comun.jsx";
 import { sinAcentos, usePrefiereMenosMovimiento, leerNumero, guardarNumero } from "./jbComun.jsx";
 import { META, ESPECIALES, NUBES, REGLAS_CASILLAS, ETIQUETA, centroDe, crearPreguntas, crearMazoPreguntas, esSegura, recorrido } from "./viajeLogica.js";
-import { TableroViaje, Dado, GIRO_CARA } from "./ViajeMonoTablero.jsx";
+import { TableroViaje, CuboDado, GIRO_CARA } from "./ViajeMonoTablero.jsx";
 import "../../styles/v25-viaje-mono.css";
 
 const BASE = import.meta.env.BASE_URL || "./";
@@ -166,34 +166,119 @@ function JuegoViaje({ contenido }) {
   };
 
   // ----- Dado -----
+  // Refs del dado lanzado sobre el tablero (las animaciones se hacen con Web Animations)
+  const tiroRef = React.useRef(null);
+  const altoRef = React.useRef(null);
+  const sombraRef = React.useRef(null);
+  const cuboRef = React.useRef(null);
+  const animaciones = React.useRef([]);
+
+  const pararAnimaciones = () => {
+    animaciones.current.forEach((a) => a.cancel());
+    animaciones.current = [];
+  };
+
+  /** Lanza el dado desde el centro del tablero: sube hacia la cámara, rebota tres veces y rueda hasta la cara `valor` */
+  const animarTirada = async (id, valor, fuerza) => {
+    const s = st.current;
+    const [fx, fy] = GIRO_CARA[valor];
+    const g = s.dado.giro;
+    const vueltas = 2 + Math.round(fuerza * 2);
+    const meta = [fx + 360 * (Math.floor(g[0] / 360) + vueltas + 1), fy + 360 * (Math.floor(g[1] / 360) + vueltas), 360 * (Math.floor((g[2] || 0) / 360) + 1 + (Math.random() < 0.5 ? 1 : 0))];
+    const rot = (r) => `rotateX(${r[0]}deg) rotateY(${r[1]}deg) rotateZ(${r[2] || 0}deg)`;
+    const tablero = tableroRef.current;
+    if (reducidoRef.current || !tablero || !cuboRef.current?.animate) {
+      s.dado.giro = meta;
+      pintar();
+      await esperar(250, id);
+      return;
+    }
+    const B = tablero.getBoundingClientRect().width;
+    const angulo = Math.random() * Math.PI * 2;
+    const dist = B * (0.08 + 0.1 * Math.random());
+    const dx = Math.cos(angulo) * dist;
+    const dy = Math.sin(angulo) * dist * 0.8;
+    const h = B * (0.22 + 0.12 * fuerza);
+    const D = 1350 + 550 * fuerza;
+    pararAnimaciones();
+    const subir = "cubic-bezier(.2,.75,.45,1)";
+    const caer = "cubic-bezier(.55,0,.9,.45)";
+    const opciones = { duration: D, fill: "forwards" };
+    animaciones.current = [
+      tiroRef.current.animate([{ transform: "translate(-50%, -50%) translate(0px, 0px)" }, { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px)` }], { ...opciones, easing: "cubic-bezier(.25,.6,.35,1)" }),
+      altoRef.current.animate(
+        [
+          { transform: "translateY(0) scale(1)", easing: subir },
+          { offset: 0.24, transform: `translateY(${-h}px) scale(1.6)`, easing: caer },
+          { offset: 0.46, transform: "translateY(0) scale(1, .9)", easing: subir },
+          { offset: 0.6, transform: `translateY(${-h * 0.3}px) scale(1.16)`, easing: caer },
+          { offset: 0.73, transform: "translateY(0) scale(1, .95)", easing: subir },
+          { offset: 0.83, transform: `translateY(${-h * 0.09}px) scale(1.05)`, easing: caer },
+          { offset: 0.91, transform: "translateY(0) scale(1)" },
+          { offset: 1, transform: "translateY(0) scale(1)" },
+        ],
+        opciones,
+      ),
+      sombraRef.current.animate(
+        [
+          { transform: "scale(1)", opacity: 0.55 },
+          { offset: 0.24, transform: "scale(1.9)", opacity: 0.12 },
+          { offset: 0.46, transform: "scale(1)", opacity: 0.55 },
+          { offset: 0.6, transform: "scale(1.25)", opacity: 0.35 },
+          { offset: 0.73, transform: "scale(1)", opacity: 0.55 },
+          { offset: 1, transform: "scale(1)", opacity: 0.55 },
+        ],
+        opciones,
+      ),
+      cuboRef.current.animate([{ transform: rot(g) }, { transform: rot(meta) }], { duration: D * 0.93, fill: "forwards", easing: "cubic-bezier(.12,.6,.22,1)" }),
+    ];
+    // Golpes contra el tablero
+    [0.46, 0.73, 0.91].forEach((o, i) =>
+      setTimeout(() => {
+        if (id !== partida.current) return;
+        sonido.current.playClick?.();
+        if (i === 0) navigator.vibrate?.(18);
+      }, D * o),
+    );
+    s.dado.giro = meta;
+    await Promise.all(animaciones.current.map((a) => a.finished.catch(() => null)));
+    if (id !== partida.current) throw new Error("fin");
+  };
+
   const tirarDado = async (id, j) => {
     const s = st.current;
+    pararAnimaciones();
+    s.dado.fase = "espera";
+    s.dado.cpu = j.cpu;
+    s.dado.valor = null;
+    s.mensaje = j.cpu ? { es: "El Rey Mono lanza el dado…", zh: "美猴王掷骰子……" } : { es: `${j.nombre}: toca el dado, o mantenlo pulsado para agitarlo y suelta`, zh: "点击骰子，或按住摇一摇再松开！" };
+    pintar();
+    let fuerza = 0.5;
     if (!j.cpu) {
-      s.dado.activo = true;
-      s.mensaje = { es: `${j.nombre}: ¡toca el dado para tirar!`, zh: "点击骰子掷骰！" };
-      pintar();
-      await new Promise((ok) => {
+      fuerza = await new Promise((ok) => {
         clicDado.current = ok;
       });
       clicDado.current = null;
       if (id !== partida.current) throw new Error("fin");
     } else {
-      await esperar(350, id);
+      await esperar(750, id);
+      fuerza = 0.4 + Math.random() * 0.4;
     }
     const valor = 1 + Math.floor(Math.random() * 6);
-    s.dado.activo = false;
-    s.dado.vueltas += 2;
-    const [x, y] = GIRO_CARA[valor];
-    s.dado.giro = [s.dado.vueltas * 360 + x, s.dado.vueltas * 360 + y];
-    s.dado.girando = true;
-    s.dado.valor = null;
+    s.dado.fase = "rodando";
+    pintar();
+    await animarTirada(id, valor, fuerza);
+    s.dado.fase = "resultado";
+    s.dado.valor = valor;
+    s.mensaje = { es: `${j.nombre} saca un ${valor}`, zh: `掷出${valor}点！` };
     sonido.current.playSpell?.();
     pintar();
-    await esperar(1150, id);
-    s.dado.girando = false;
-    s.dado.valor = valor;
+    const cubo = cuboRef.current?.getBoundingClientRect();
+    if (cubo) chispasOro(cubo.left + cubo.width / 2, cubo.top + cubo.height / 2, 22 + valor * 3);
+    await esperar(1050, id);
+    s.dado.fase = "oculto";
     pintar();
-    await esperar(300, id);
+    await esperar(200, id);
     return valor;
   };
 
@@ -345,7 +430,11 @@ function JuegoViaje({ contenido }) {
       const valor = await tirarDado(id, j);
       registrar(j, `${j.nombre} saca un ${valor}`, `掷出${valor}点`);
       const antes = j.pos;
-      await caminar(id, j, recorrido(j.pos, valor));
+      const camino = recorrido(j.pos, valor);
+      s.objetivo = camino[camino.length - 1];
+      pintar();
+      await caminar(id, j, camino);
+      s.objetivo = null;
       if (antes + valor > META) await avisar(id, { sello: "回", tipo: "rebote", es: "Rebotas: hay que llegar justo a la meta", zh: "超过终点要反弹：必须正好走到终点" }, 1100);
       if (j.pos === META) {
         s.ganador = j;
@@ -431,7 +520,8 @@ function JuegoViaje({ contenido }) {
       jugadores: jugadores.map((j) => ({ ...j, pos: 0, escudo: false, pozo: false, aciertos: 0, fallos: 0, salto: 0 })),
       turno: 0,
       mazo: crearMazoPreguntas(grupos),
-      dado: { giro: [-14, 18], vueltas: 0, activo: false, girando: false, valor: null },
+      dado: { giro: [-22, 28, 0], fase: "oculto", cpu: false, valor: null },
+      objetivo: null,
       pregunta: null,
       aviso: null,
       registro: [],
@@ -496,9 +586,11 @@ function JuegoViaje({ contenido }) {
       {pantalla !== "intro" && s && (
         <div className="vm-mesa">
           <div className={`vm-marco ${s.aviso?.tipo === "dragon" && !reducido ? "is-temblor" : ""}`}>
-            <div className="vm-tablero" ref={tableroRef}>
-              <TableroViaje luces={s.luces} destino={s.destino} />
+            <div className={`vm-tablero ${s.dado.fase !== "oculto" ? "is-tirando" : ""}`} ref={tableroRef}>
+              <TableroViaje luces={s.luces} destino={s.destino} objetivo={s.objetivo} />
               <Fichas jugadores={s.jugadores} turno={s.turno} />
+              <span className="vm-velo" aria-hidden="true" />
+              <Lanzador dado={s.dado} refs={{ tiroRef, altoRef, sombraRef, cuboRef }} onLanzar={(f) => clicDado.current?.(f)} />
               {s.aviso && <Aviso aviso={s.aviso} />}
             </div>
           </div>
@@ -538,19 +630,18 @@ function JuegoViaje({ contenido }) {
             </ol>
 
             <div className="vm-control">
-              <Dado
-                giro={s.dado.giro}
-                activo={s.dado.activo}
-                girando={s.dado.girando && !reducido}
-                onTirar={() => clicDado.current?.()}
-                etiqueta={s.dado.activo ? "Tirar el dado · 掷骰子" : s.dado.valor ? `Dado: ${s.dado.valor} · 骰子：${s.dado.valor}` : "Dado · 骰子"}
-              />
+              <button type="button" className={`vm-boton-tirar ${s.dado.fase === "espera" && !s.dado.cpu ? "is-activo" : ""}`} disabled={s.dado.fase !== "espera" || s.dado.cpu} onClick={() => clicDado.current?.(0.5)}>
+                <Dice5Icon size={26} aria-hidden="true" />
+                <span>
+                  Tirar <small>掷骰子</small>
+                </span>
+              </button>
               <div className="vm-mensaje" role="status" aria-live="polite">
                 {s.pensando ? (
                   <MonoPiensa pensando={s.pensando} />
                 ) : (
                   <>
-                    {s.dado.valor && !s.dado.activo && (
+                    {s.dado.valor && s.dado.fase !== "espera" && (
                       <span className="vm-valor" translate="no">
                         {s.dado.valor}
                       </span>
@@ -625,6 +716,65 @@ function Fichas({ jugadores, turno }) {
       </div>
     );
   });
+}
+
+// ---------- Dado que se lanza sobre el tablero ----------
+function Lanzador({ dado, refs, onLanzar }) {
+  const [agita, setAgita] = React.useState(false);
+  const inicio = React.useRef(0);
+  const puede = dado.fase === "espera" && !dado.cpu;
+  React.useEffect(() => {
+    if (!puede) setAgita(false);
+  }, [puede]);
+  const soltar = () => {
+    if (!puede) return;
+    const fuerza = inicio.current ? Math.min(1, (performance.now() - inicio.current) / 1200) : 0.5;
+    inicio.current = 0;
+    setAgita(false);
+    onLanzar(Math.max(0.25, fuerza));
+  };
+  return (
+    <div className={`vm-tiro is-${dado.fase} ${agita ? "is-agita" : ""}`} ref={refs.tiroRef}>
+      <span className="vm-tiro-sombra" ref={refs.sombraRef} aria-hidden="true" />
+      <span className="vm-tiro-alto" ref={refs.altoRef}>
+        <button
+          type="button"
+          className="vm-tiro-boton"
+          disabled={!puede}
+          tabIndex={puede ? 0 : -1}
+          aria-label="Tirar el dado · 掷骰子"
+          onPointerDown={(e) => {
+            if (!puede) return;
+            e.currentTarget.setPointerCapture?.(e.pointerId);
+            inicio.current = performance.now();
+            setAgita(true);
+          }}
+          onPointerUp={soltar}
+          onPointerCancel={() => setAgita(false)}
+          onKeyDown={(e) => {
+            if (puede && (e.key === "Enter" || e.key === " ")) {
+              e.preventDefault();
+              onLanzar(0.5);
+            }
+          }}
+        >
+          <span className="vm-tiro-aura" aria-hidden="true" />
+          <CuboDado ref={refs.cuboRef} giro={dado.giro} />
+        </button>
+      </span>
+      {puede && (
+        <span className="vm-tiro-pista" aria-hidden="true">
+          {agita ? "¡Suelta! · 松开！" : "Toca o mantén pulsado · 点击或长按"}
+        </span>
+      )}
+      {dado.fase === "resultado" && (
+        <span className="vm-tiro-resultado" translate="no" role="status">
+          <b>{dado.valor}</b>
+          <small>点</small>
+        </span>
+      )}
+    </div>
+  );
 }
 
 function Aviso({ aviso }) {

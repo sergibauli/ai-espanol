@@ -1011,10 +1011,15 @@ function ViajeMono() {
       <rect width="320" height="180" fill="#5a0814" />
       <circle cx="160" cy="90" r="120" fill={u(g, "halo")} opacity=".4" />
       <rect x={x0 - 8} y={y0 - 8} width={7 * T + 16} height={7 * T + 16} rx="12" fill={u(g, "laca")} stroke={u(g, "oroH")} strokeWidth="2.5" />
-      <rect x={x0 - 2} y={y0 - 2} width={7 * T + 4} height={7 * T + 4} rx="6" fill="#f3e2bb" />
-      <polyline points={celdas.map(([c, f]) => `${x0 + c * T + T / 2},${y0 + f * T + T / 2}`).join(" ")} fill="none" stroke={ORO} strokeWidth="4" strokeLinejoin="round" />
+      <rect x={x0 - 2} y={y0 - 2} width={7 * T + 4} height={7 * T + 4} rx="6" fill="#e3cf9e" />
+      <path d={`M${x0 + 4} ${y0 + 120} q20 -30 40 -10 t40 -6 M${x0 + 90} ${y0 + 20} q16 -14 30 -4`} stroke="#3b2416" strokeWidth="1" fill="none" opacity=".35" />
+      <polyline points={celdas.map(([c, f]) => `${x0 + c * T + T / 2},${y0 + f * T + T / 2}`).join(" ")} fill="none" stroke="#8a5a1e" strokeWidth="11" strokeLinejoin="round" />
+      <polyline points={celdas.map(([c, f]) => `${x0 + c * T + T / 2},${y0 + f * T + T / 2}`).join(" ")} fill="none" stroke="#e8cf95" strokeWidth="8" strokeLinejoin="round" />
       {celdas.map(([c, f], i) => (
-        <rect key={i} x={x0 + c * T + 2} y={y0 + f * T + 2} width={T - 4} height={T - 4} rx="4" fill={especiales[i] || (i % 2 ? CREMA : "#ecd8ad")} stroke="#c8961e" strokeWidth=".8" />
+        <g key={i}>
+          <circle cx={x0 + c * T + T / 2} cy={y0 + f * T + T / 2 + 1.6} r={T / 2 - 2} fill="#8a5a1e" />
+          <circle cx={x0 + c * T + T / 2} cy={y0 + f * T + T / 2} r={T / 2 - 2} fill={especiales[i] || CREMA} stroke={ORO} strokeWidth="1.2" />
+        </g>
       ))}
       <rect x={x0 + 2 * T + 2} y={y0 + 2 * T + 2} width={3 * T - 4} height={3 * T - 4} rx="8" fill={u(g, "azul")} stroke={u(g, "oroH")} strokeWidth="1.6" />
       <circle cx={x0 + 3.5 * T} cy={y0 + 3.4 * T} r="24" fill={u(g, "halo")} opacity=".9" />
