@@ -214,11 +214,17 @@ void main() {
   vec3 v = normalize(vViewDir);
   float ndv = abs(dot(n, v));
   float fres = pow(1.0 - ndv, 2.2);
-  float hue = fract(ndv * 0.9 + uTime * 0.15 + (vWorldPos.x + vWorldPos.z) * 0.35 + vWorldPos.y * 0.5 + n.y * 0.2);
-  vec3 col = hsv2rgb(vec3(hue, 1.0, 1.0));
-  col = mix(col, vec3(1.0), fres * 0.35);
-  float alpha = 0.6 + fres * 0.35;
-  gl_FragColor = vec4(col * 1.15, alpha);
+  // Wukong: farolillo de laca roja con nervios dorados que late (no un cubo arcoíris).
+  float ang = atan(n.z, n.x);
+  float nervio = smoothstep(0.86, 0.98, abs(cos(ang * 4.0)));
+  float banda = smoothstep(0.78, 0.9, abs(n.y));
+  float pulso = 0.85 + 0.15 * sin(uTime * 4.0 + vWorldPos.x + vWorldPos.z);
+  vec3 rojo = vec3(1.0, 0.1, 0.06) * pulso;
+  vec3 oro = vec3(1.0, 0.78, 0.3);
+  vec3 col = mix(rojo, oro, max(nervio, banda));
+  col = mix(col, vec3(1.0, 0.85, 0.5), fres * 0.45);
+  float alpha = 0.82 + fres * 0.15;
+  gl_FragColor = vec4(col * 1.1, alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }
@@ -369,7 +375,8 @@ export class ItemManager implements IItemManager {
     }
 
     const n = this.boxes.length;
-    this.boxGeometry = new THREE.BoxGeometry(BOX_SIZE, BOX_SIZE, BOX_SIZE);
+    this.boxGeometry = new THREE.SphereGeometry(BOX_SIZE * 0.6, 20, 14);
+    this.boxGeometry.scale(1, 0.88, 1);
     this.boxMaterial = new THREE.ShaderMaterial({
       vertexShader: BOX_VERT,
       fragmentShader: BOX_FRAG,
@@ -385,9 +392,10 @@ export class ItemManager implements IItemManager {
     this.object.add(this.boxMesh);
 
     this.questionTexture = this.makeQuestionTexture();
-    this.innerGeometry = new THREE.BoxGeometry(0.46, 0.46, 0.46);
+    this.innerGeometry = new THREE.CylinderGeometry(0.42, 0.42, 0.5, 4, 1, true);
     this.innerMaterial = new THREE.MeshBasicMaterial({
       map: this.questionTexture,
+      side: THREE.DoubleSide,
       transparent: true,
       depthWrite: false,
       toneMapped: false,
@@ -400,7 +408,7 @@ export class ItemManager implements IItemManager {
 
     this.ringGeometry = new THREE.RingGeometry(0.55, 1.0, 24);
     this.ringMaterial = new THREE.MeshBasicMaterial({
-      color: 0x9fe0ff,
+      color: 0xffc531,
       transparent: true,
       opacity: 0.4,
       blending: THREE.AdditiveBlending,
@@ -423,15 +431,15 @@ export class ItemManager implements IItemManager {
     const ctx = canvas.getContext('2d');
     if (ctx) {
       ctx.clearRect(0, 0, 128, 128);
-      ctx.font = 'bold 100px "Arial Black", Impact, Arial, sans-serif';
+      ctx.font = '900 92px "PingFang SC","Noto Sans CJK SC","Microsoft YaHei",serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.lineWidth = 12;
+      ctx.lineWidth = 10;
       ctx.lineJoin = 'round';
-      ctx.strokeStyle = '#8a4b00';
-      ctx.strokeText('?', 64, 70);
-      ctx.fillStyle = '#fff4b8';
-      ctx.fillText('?', 64, 70);
+      ctx.strokeStyle = '#5a0610';
+      ctx.strokeText('字', 64, 68);
+      ctx.fillStyle = '#ffe9a8';
+      ctx.fillText('字', 64, 68);
     }
     const t = new THREE.CanvasTexture(canvas);
     t.colorSpace = THREE.SRGBColorSpace;
@@ -521,7 +529,7 @@ export class ItemManager implements IItemManager {
     for (let i = 0; i < this.boxes.length; i++) {
       const b = this.boxes[i];
       const sc = b.active ? easeOutBack(b.scale) : 0;
-      _e.set(this.time * 0.8 + b.phase, this.time * 1.3 + b.phase * 2, 0);
+      _e.set(0, this.time * 1.3 + b.phase * 2, Math.sin(this.time * 2 + b.phase) * 0.12);
       _q.setFromEuler(_e);
       _scale.setScalar(sc);
       _m.compose(b.world, _q, _scale);

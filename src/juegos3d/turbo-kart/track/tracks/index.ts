@@ -8,7 +8,7 @@ import { validateAllTracks } from './validate';
 export { sunnyCircuit, duneDrift, frostbiteFalls, neonNexus };
 
 /** The four race tracks, in menu order (easy -> hard). */
-export const TRACKS: TrackDefinition[] = [sunnyCircuit, duneDrift, frostbiteFalls, neonNexus];
+export const TRACKS: TrackDefinition[] = [neonNexus, sunnyCircuit, duneDrift, frostbiteFalls];
 
 /** Look up a track by id; falls back to the first track for unknown ids. */
 export function getTrackDef(id: string): TrackDefinition {

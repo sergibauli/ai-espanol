@@ -8,10 +8,10 @@ import type { TrackDefinition } from '../../core/types';
  */
 export const neonNexus: TrackDefinition = {
   id: 'neon_nexus',
-  name: 'Nexo Neón · 霓虹之城',
+  name: 'Ciudad del Dragón · 龙城',
   theme: 'neon',
   laps: 3,
-  description: 'Tres horquillas, un salto entre azoteas y una recta de neón · 三个急弯、屋顶飞跃和霓虹直道。',
+  description: 'Carretera de jade entre rascacielos, pagodas y un dragón gigante, bajo los fuegos artificiales · 霓虹龙城：玉石赛道、宝塔与巨龙，烟花漫天。',
   difficulty: 3,
   controlPoints: [
     { x: 0, y: 0, z: 0 }, // 0 finish line

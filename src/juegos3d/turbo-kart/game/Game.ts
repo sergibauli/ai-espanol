@@ -51,6 +51,7 @@ import { el } from '../ui/dom';
 import { disposeToasts, showToast } from '../ui/toast';
 import { TouchControls } from '../ui/TouchControls';
 import { CapaAprendizaje, type OpcionesAprendizaje } from '../learning/Aprendizaje';
+import { CiudadDragon } from '../wukong/CiudadDragon';
 
 const MIN_LOADING_SECONDS = 0.8;
 /** Give up waiting for async shader compilation after this long and just go. */
@@ -92,6 +93,8 @@ interface RaceContext {
   background: THREE.Color;
   unsubs: (() => void)[];
   resultsTimer: number;
+  /** Wukong: capa visual de la Ciudad del Dragón. */
+  ciudad: CiudadDragon | null;
 }
 
 export class Game {
@@ -501,6 +504,7 @@ export class Game {
     const player = r.karts[0];
     for (let i = 0; i < r.karts.length; i++) r.karts[i].updateVisuals(dt);
     r.track.update(dt, this.elapsed);
+    if (r.ciudad) this.safe(() => r.ciudad?.update(dt, player.state.position, this.camera));
     r.followCamera.update(dt, player, lookBack);
     this.updateSun(r, player);
     this.particles.update(dt, r.karts, this.camera);
@@ -752,7 +756,14 @@ export class Game {
       background,
       unsubs: [],
       resultsTimer: 0,
+      ciudad: null,
     };
+    try {
+      r.ciudad = new CiudadDragon(track, karts);
+      this.scene.add(r.ciudad.object);
+    } catch (err) {
+      console.error('[Game] Ciudad del Dragón', err);
+    }
     this.race = r;
     this.accumulator = 0;
     this.pendingUseItem = false;
@@ -915,6 +926,7 @@ export class Game {
     r.fill.dispose();
     this.scene.fog = null;
 
+    if (r.ciudad) this.safe(() => r.ciudad?.dispose());
     this.safe(() => r.items.dispose());
     for (const k of r.karts) this.safe(() => k.dispose());
     this.safe(() => r.track.dispose());
