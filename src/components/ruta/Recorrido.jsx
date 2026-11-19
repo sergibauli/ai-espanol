@@ -313,10 +313,10 @@ function pincel({ M, forma, pts }) {
   const sParadas = pts.map((p) => m.reduce((mejor, q) => (Math.hypot(q.x - p[0], q.y - p[1]) < Math.hypot(mejor.x - p[0], mejor.y - p[1]) ? q : mejor), m[0]).s);
   const fin = m[m.length - 1].s;
   const ancho = (q) => {
-    const presion = sParadas.reduce((acc, s) => acc + 12 * Math.exp(-((q.s - s) ** 2) / (2 * 34 ** 2)), 0);
+    const presion = sParadas.reduce((acc, s) => acc + 6 * Math.exp(-((q.s - s) ** 2) / (2 * 30 ** 2)), 0);
     const entrada = Math.min(1, 0.25 + q.s / 60);
     const salida = Math.min(1, 0.35 + (fin - q.s) / 50);
-    return (24 + 7 * Math.sin(q.s / 47 + 1) + 3 * Math.sin(q.s / 13)) * entrada * salida + presion;
+    return (19 + 6 * Math.sin(q.s / 47 + 1) + 2.5 * Math.sin(q.s / 13)) * entrada * salida + presion;
   };
   const secos = [-0.36, -0.22, -0.08, 0.12, 0.27, 0.4].map((f, k) => ({ f, k }));
   const gotas = [];
@@ -616,6 +616,11 @@ export function RecorridoDefs() {
           <stop offset=".45" stopColor="#4a4845" />
           <stop offset="1" stopColor="#232220" />
         </radialGradient>
+        <linearGradient id="r24-tinta-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#120f0d" stopOpacity=".95" />
+          <stop offset=".45" stopColor="#2a2420" stopOpacity=".88" />
+          <stop offset="1" stopColor="#3d3530" stopOpacity=".8" />
+        </linearGradient>
         <linearGradient id="r24-duan" x1="0" y1="0" x2=".6" y2="1">
           <stop offset="0" stopColor="#8a7884" />
           <stop offset=".5" stopColor="#5d4d57" />

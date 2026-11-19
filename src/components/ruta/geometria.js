@@ -72,7 +72,7 @@ function controles([fx, fy], [tx, ty], forma) {
     case "rizo": {
       // Bucle de pincel: los controles se cruzan y la curva da una vuelta hacia el lado al que va
       const lado = dx >= 0 ? 1 : -1;
-      return [[fx + lado * 140, fy + dy * 1.25], [tx + lado * 140, ty - dy * 1.25]];
+      return [[fx + lado * 95, fy + dy * 0.95], [tx + lado * 95, ty - dy * 0.95]];
     }
     case "salto": // arco de vuelo: sube un poco al despegar y cae en picado sobre la nube
       return [[fx + dx * 0.9, fy - dy * 0.32], [tx + dx * 0.15, ty - dy * 0.95]];

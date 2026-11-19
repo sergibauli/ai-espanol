@@ -160,8 +160,8 @@
 /* Tinta */
 .r24-aguada { fill: rgba(35,30,28,.10); filter: url(#r24-desenfoque); }
 .r24-tinta-borde { fill: rgba(30,26,24,.32); filter: url(#r24-sangrado); }
-.r24-tinta { fill: #1c1816; filter: url(#r24-sangrado); }
-.r24-seco { fill: none; stroke: #ece5d6; stroke-opacity: .55; stroke-linecap: round; }
+.r24-tinta { fill: url(#r24-tinta-grad); filter: url(#r24-sangrado); }
+.r24-seco { fill: none; stroke: #ece5d6; stroke-opacity: .7; stroke-linecap: round; }
 .r24-tinta-brillo { fill: none; stroke: rgba(255,255,255,.16); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 60 30 120 40; }
 .r24-gota { fill: #1c1816; opacity: .75; }
 /* Escalinata */
@@ -204,3 +204,11 @@
   .rp-emp-ala { width: 18px; height: 32px; margin-top: -16px; } .rp-emp-ala.izq { left: -19px; } .rp-emp-ala.der { right: -19px; }
   .rp-emp-play { width: 28px; height: 28px; }
 }
+
+/* ===== v24 · Clase actual: aura sin velo (deja ver la plataforma), cartel siempre por encima del Rey Mono ===== */
+.rt22 .ruta-camino .rp-parada.actual { z-index: 7; }
+.rt22 .rp-parada.actual .rp-energia::before { opacity: .35; inset: -6px; }
+.md-aura::after { inset: 70px; opacity: .55; }
+.md-aura::before { -webkit-mask-image: radial-gradient(closest-side, transparent 40%, #000 52%, transparent 92%); mask-image: radial-gradient(closest-side, transparent 40%, #000 52%, transparent 92%); opacity: .7; }
+.md-haz { height: 300px; bottom: 50%; opacity: .55; }
+@keyframes mdHaz { 0%, 100% { opacity: .38; } 50% { opacity: .6; } }
