@@ -202,7 +202,7 @@ export const TableroViaje = React.memo(function TableroViaje({ luces, destino, o
           ].map(([x, y, s], i) => (
             <image key={i} className="vm-meta-nube" style={{ animationDelay: `${i * -1.7}s` }} href={img("theme/nube-oro.png")} x={x - 40 * s} y={y - 14 * s} width={80 * s} height={28 * s} opacity=".9" />
           ))}
-          <image href={img("theme/templos/montana.webp")} x="222" y="224" width="256" height="196" preserveAspectRatio="xMidYMid meet" />
+          <ellipse cx="350" cy="372" rx="120" ry="38" fill="#fff6d0" opacity=".35" />
         </g>
         <rect x={2 * T + 10} y={2 * T + 10} width={3 * T - 20} height={3 * T - 20} rx="40" fill="none" stroke={`url(#${id}oro)`} strokeWidth="5" />
         <rect x={2 * T + 17} y={2 * T + 17} width={3 * T - 34} height={3 * T - 34} rx="34" fill="none" stroke="#ffe9a6" strokeWidth="1" opacity=".6" />

@@ -207,7 +207,7 @@ function JuegoViaje({ contenido }) {
   };
 
   /** Lanza el dado desde el centro del tablero: sube hacia la cámara, rebota tres veces y rueda hasta la cara `valor` */
-  const animarTirada = async (id, valor, fuerza) => {
+  const animarTirada = async (id, valor, fuerza, desdeMono = false) => {
     const s = st.current;
     const [fx, fy] = GIRO_CARA[valor];
     const g = s.dado.giro;
@@ -234,10 +234,10 @@ function JuegoViaje({ contenido }) {
     const caer = "cubic-bezier(.55,0,.9,.45)";
     const opciones = { duration: D, fill: "forwards" };
     animaciones.current = [
-      tiroRef.current.animate([{ transform: "translate(-50%, -50%) translate(0px, 0px)" }, { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px)` }], { ...opciones, easing: "cubic-bezier(.25,.6,.35,1)" }),
+      tiroRef.current.animate([{ transform: desdeMono ? `translate(-50%, -50%) translate(${B * 0.62}px, ${-B * 0.18}px)` : "translate(-50%, -50%) translate(0px, 0px)" }, { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px)` }], { ...opciones, easing: "cubic-bezier(.25,.6,.35,1)" }),
       altoRef.current.animate(
         [
-          { transform: `translateZ(${t2 * 1.6}px)`, easing: subir },
+          { transform: `translateZ(${desdeMono ? t2 + h * 0.9 : t2 * 1.6}px)`, easing: subir },
           { offset: 0.24, transform: `translateZ(${t2 + h}px)`, easing: caer },
           { offset: 0.46, transform: `translateZ(${t2}px)`, easing: subir },
           { offset: 0.6, transform: `translateZ(${t2 + h * 0.3}px)`, easing: caer },
@@ -277,7 +277,7 @@ function JuegoViaje({ contenido }) {
   const tirarDado = async (id, j) => {
     const s = st.current;
     pararAnimaciones();
-    s.dado.fase = "espera";
+    s.dado.fase = j.cpu ? "mono" : "espera";
     s.dado.cpu = j.cpu;
     s.dado.valor = null;
     s.mensaje = j.cpu ? { es: "El Rey Mono lanza el dado…", zh: "美猴王掷骰子……" } : { es: `${j.nombre}: toca el dado, o mantenlo pulsado para agitarlo y suelta`, zh: "点击骰子，或按住摇一摇再松开！" };
@@ -290,13 +290,17 @@ function JuegoViaje({ contenido }) {
       clicDado.current = null;
       if (id !== partida.current) throw new Error("fin");
     } else {
-      await esperar(750, id);
-      fuerza = 0.4 + Math.random() * 0.4;
+      s.monoLanza = Date.now();
+      pintar();
+      sonido.current.playSpell?.();
+      await esperar(1050, id);
+      fuerza = 0.5 + Math.random() * 0.4;
     }
     const valor = 1 + Math.floor(Math.random() * 6);
     s.dado.fase = "rodando";
     pintar();
-    await animarTirada(id, valor, fuerza);
+    await animarTirada(id, valor, fuerza, j.cpu);
+    s.monoLanza = null;
     s.dado.fase = "resultado";
     s.dado.valor = valor;
     s.mensaje = { es: `${j.nombre} saca un ${valor}`, zh: `掷出${valor}点！` };
@@ -539,6 +543,11 @@ function JuegoViaje({ contenido }) {
       const s = st.current;
       while (!s.ganador) {
         const j = s.jugadores[s.turno];
+        s.banner = { k: Date.now(), nombre: j.nombre, color: j.color, cpu: j.cpu };
+        pintar();
+        await esperar(1150, id);
+        s.banner = null;
+        pintar();
         const otra = await jugarTurno(id, j);
         if (s.ganador) break;
         if (otra) {
@@ -674,10 +683,28 @@ function JuegoViaje({ contenido }) {
       {pantalla !== "intro" && s && (
         <div className="vm-mesa">
           <div className={`vm-escena ${(s.aviso?.tipo === "dragon" || s.cine?.tipo === "dragon") && !reducido ? "is-temblor" : ""}`}>
+            <Decorado />
             <div className="vm-camara" style={{ "--cx": `${50 - s.camara.x}%`, "--cy": `${50 - s.camara.y}%`, "--zoom": s.camara.zoom }}>
               <div className="vm-marco">
                 <div className={`vm-tablero ${s.dado.fase !== "oculto" ? "is-tirando" : ""}`} ref={tableroRef}>
                   <TableroViaje luces={s.luces} destino={s.destino} objetivo={s.objetivo} />
+                  <div className="vm-props" aria-hidden="true">
+                    <span className="vm-bb vm-prop-templo">
+                      <img src={`${BASE}theme/templos/montana.webp`} alt="" />
+                    </span>
+                    <span className="vm-bb vm-prop-dragon is-izq">
+                      <img src={`${BASE}theme/dragon-enroscado.webp`} alt="" />
+                    </span>
+                    <span className="vm-bb vm-prop-dragon is-der">
+                      <img src={`${BASE}theme/dragon-enroscado.webp`} alt="" />
+                    </span>
+                    <span className="vm-bb vm-prop-farol is-izq">
+                      <i />
+                    </span>
+                    <span className="vm-bb vm-prop-farol is-der">
+                      <i />
+                    </span>
+                  </div>
                   <div className="vm-fx-capa" aria-hidden="true">
                     {s.fx.map((e) => (
                       <Efecto key={e.k} e={e} />
@@ -690,6 +717,15 @@ function JuegoViaje({ contenido }) {
               </div>
             </div>
             {s.aviso && <Aviso aviso={s.aviso} />}
+            {s.banner && <Estandarte b={s.banner} />}
+            {s.monoLanza && (
+              <div className="vm-mono-lanza" key={s.monoLanza} aria-hidden="true">
+                <img src={`${BASE}mono/poder.webp`} alt="" />
+                <span className="vm-bocadillo">
+                  ¡Me toca! <small>看我的！</small>
+                </span>
+              </div>
+            )}
           </div>
           {s.cine && !reducido && createPortal(<Cinematica cine={s.cine} />, document.body)}
           <aside className="vm-lado">
@@ -1059,6 +1095,35 @@ function Lanzador({ dado, refs, onLanzar }) {
           <small>点</small>
         </span>
       )}
+    </div>
+  );
+}
+
+// ---------- Decorado nocturno de la sala ----------
+function Decorado() {
+  return (
+    <div className="vm-decorado" aria-hidden="true">
+      <span className="vm-luna" />
+      <img className="vm-montes is-izq" src={`${BASE}theme/montes-tinta.webp`} alt="" />
+      <img className="vm-montes is-der" src={`${BASE}theme/montes-tinta.webp`} alt="" />
+      {[8, 22, 70, 84, 93].map((x, i) => (
+        <i key={i} className="vm-farolillo" style={{ left: `${x}%`, animationDelay: `${i * -2.3}s`, animationDuration: `${11 + (i % 3) * 3}s` }} />
+      ))}
+      <img className="vm-nube-fondo is-1" src={`${BASE}theme/nube-oro.png`} alt="" />
+      <img className="vm-nube-fondo is-2" src={`${BASE}theme/nube-oro.png`} alt="" />
+    </div>
+  );
+}
+
+/** Estandarte que anuncia de quién es el turno */
+function Estandarte({ b }) {
+  return (
+    <div className={`vm-estandarte is-${b.color}`} key={b.k} role="status">
+      <span className="vm-estandarte-retrato">{b.cpu ? <img src={`${BASE}mono/guino.webp`} alt="" /> : <span className={`vm-ficha-mini is-${b.color}`} />}</span>
+      <p>
+        {b.cpu ? "Turno del Rey Mono" : b.nombre === "Tú" ? "¡Tu turno!" : `Turno de ${b.nombre}`}
+        <small>{b.cpu ? "轮到美猴王" : `轮到${b.nombre === "Tú" ? "你" : b.nombre}`}</small>
+      </p>
     </div>
   );
 }
