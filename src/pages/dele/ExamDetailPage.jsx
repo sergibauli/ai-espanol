@@ -44,6 +44,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useParams, Link } from "react-router";
+import { BotonImprimir } from "../../components/impresion/BotonImprimir.jsx";
 import { u, C as C_1 } from "../../components/CorrectionDisplay.jsx";
 import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
 import { GRAMMAR_TOPICS } from "../../data/gramatica.js";
@@ -2164,6 +2165,9 @@ function WaComponent() {
                   >
                     {n.theme}
                   </h1>
+                  <div className="ip-boton-fila">
+                    <BotonImprimir fuente={{ tipo: "practica", examen: n }} />
+                  </div>
                 </div>
               </div>
             </div>

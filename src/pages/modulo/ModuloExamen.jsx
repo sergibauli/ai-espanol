@@ -5,6 +5,7 @@ import { ExamRunner } from "../../components/exam/ExamRunner.jsx";
 import { generateExam, saveExamResult } from "../../lib/examGenerator.js";
 import { recordModuleScore, completeModule, recordClassScore, completeClass } from "../../lib/progress.js";
 import { clasesDe } from "../../lib/clases.js";
+import { BotonImprimir } from "../../components/impresion/BotonImprimir.jsx";
 
 // Opciones de examen: el corto de una clase (solo su contenido) o el de la unidad entera (todas las clases)
 const MODOS = {
@@ -41,10 +42,9 @@ export default function ModuloExamen({ numero, moduloId, clase = null, modoInici
     setPreguntas(MODOS[m].porDefecto);
   };
 
-  const empezar = async () => {
-    setCargando(true);
+  const generar = () => {
     const deClase = modo === "clase" && info;
-    const examen = await generateExam({
+    return generateExam({
       modulos: [numero],
       clase: deClase ? info.n : undefined,
       total: preguntas,
@@ -53,8 +53,24 @@ export default function ModuloExamen({ numero, moduloId, clase = null, modoInici
       conLectura: !deClase,
       seed: Math.floor(Math.random() * 1e9),
     });
-    setExam(examen);
+  };
+  const empezar = async () => {
+    setCargando(true);
+    setExam(await generar());
     setCargando(false);
+  };
+  // Datos de la portada impresa
+  const impresionDe = (deClase) => ({
+    tipo: deClase ? `Examen de la clase ${deClase}` : "Examen de la unidad",
+    tipoZh: deClase ? `第${deClase}课小测验` : "单元考试",
+    sello: deClase ? "课" : "单",
+    codigo: `Unidad ${numero}${deClase ? ` · Clase ${deClase}` : ""}`,
+  });
+  const fuenteImpresion = async () => {
+    const examen = await generar();
+    const deClase = examen.config?.clase;
+    const extra = impresionDe(deClase);
+    return { tipo: "generado", examen, extra: { ...extra, titulo: deClase && info ? info.titulo : undefined } };
   };
 
   if (exam) {
@@ -65,6 +81,7 @@ export default function ModuloExamen({ numero, moduloId, clase = null, modoInici
           key={exam.id}
           exam={exam}
           compact
+          impresion={impresionDe(exam.config?.clase)}
           onRestart={empezar}
           onFinish={(r) => {
             if (deClase) {
@@ -155,6 +172,7 @@ export default function ModuloExamen({ numero, moduloId, clase = null, modoInici
           <button className="cls-btn-laca" onClick={empezar} disabled={cargando}>
             <SparklesIcon size={18} /> {cargando ? "Generando… · 生成中…" : "Empezar examen · 开始考试"}
           </button>
+          <BotonImprimir fuente={fuenteImpresion} title="Genera un examen nuevo para imprimir · 生成新试卷并打印" />
           <Link className="cls-btn-papel" to="/examenes/generador">
             <Wand2Icon size={17} /> Varios módulos · 多单元
           </Link>

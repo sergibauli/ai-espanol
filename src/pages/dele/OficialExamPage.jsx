@@ -35,6 +35,7 @@ import { createPortal } from "react-dom";
 import { FileDownIcon } from "lucide-react";
 import { CuotaIA } from "../../components/ui/CuotaIA.jsx";
 import ImpresionExamen from "../../components/examen/ImpresionExamen.jsx";
+import { CapaImpresion } from "../../components/impresion/BotonImprimir.jsx";
 import {
   PRUEBAS_SX,
   SalaHero,
@@ -1141,6 +1142,9 @@ function IaComponent() {
   const [habla, setHabla] = React.useState({});
   const [zoom, setZoom] = React.useState(1);
   const [imprimir, setImprimir] = React.useState(null);
+  // Vista previa del examen completo para imprimir (portada, pruebas, hoja de respuestas, solucionario)
+  const [vistaImpresion, setVistaImpresion] = React.useState(null);
+  const cerrarVistaImpresion = React.useCallback(() => setVistaImpresion(null), []);
   const hojaRef = React.useRef(null);
   const salaRef = React.useRef(null);
   const borradorListo = React.useRef(false);
@@ -1185,11 +1189,11 @@ function IaComponent() {
   // Temporizador de la prueba activa (varilla de incienso)
   const quedaTiempo = (tiempos[b] || 0) > 0;
   React.useEffect(() => {
-    if (!examen || !relojEnMarcha || imprimir || !quedaTiempo) return;
+    if (!examen || !relojEnMarcha || imprimir || vistaImpresion || !quedaTiempo) return;
     const clave = b;
     const intervalo = window.setInterval(() => setTiempos((t) => ({ ...t, [clave]: Math.max(0, (t[clave] || 0) - 1) })), 1000);
     return () => window.clearInterval(intervalo);
-  }, [examen, b, relojEnMarcha, imprimir, quedaTiempo]);
+  }, [examen, b, relojEnMarcha, imprimir, vistaImpresion, quedaTiempo]);
   // En modo examen, al acabarse el tiempo se entrega la prueba
   React.useEffect(() => {
     if (modo !== "examen") return;
@@ -1628,7 +1632,7 @@ function IaComponent() {
             setModo(m);
           }}
           incienso={incienso}
-          onPdf={() => setImprimir(N || O || mediaEsc !== null || mediaOral !== null ? "corregido" : "blanco")}
+          onPdf={() => setVistaImpresion({ tipo: "oficial", examen, nivel })}
           chips={chips}
         />
         <Medallones
@@ -2072,8 +2076,8 @@ function IaComponent() {
                     <button type="button" className="sx-btn sx-btn-laca" onClick={() => setImprimir("corregido")}>
                       <FileDownIcon size={17} /> PDF corregido · <span className="sx-zh" lang="zh-CN">下载批改版</span>
                     </button>
-                    <button type="button" className="sx-btn sx-btn-oro" onClick={() => setImprimir("blanco")}>
-                      <FileDownIcon size={17} /> Examen en blanco · <span className="sx-zh" lang="zh-CN">空白试卷</span>
+                    <button type="button" className="sx-btn sx-btn-oro" onClick={() => setVistaImpresion({ tipo: "oficial", examen, nivel })}>
+                      <FileDownIcon size={17} /> Imprimir / PDF · <span className="sx-zh" lang="zh-CN">打印 / PDF</span>
                     </button>
                     {(N || O) && (
                       <button type="button" className="sx-btn sx-btn-papel" onClick={repetirFallos}>
@@ -2099,6 +2103,7 @@ function IaComponent() {
         </div>
         {numPrueba !== "claves" && barraMovil()}
       </div>
+      {vistaImpresion && <CapaImpresion fuente={vistaImpresion} onCerrar={cerrarVistaImpresion} />}
       {imprimir &&
         createPortal(
           <ImpresionExamen examen={examen} nivel={nivel} variante={imprimir} respuestas={j} textos={E} correccionesEsc={P} correccionesOral={K} temaOral={temaOral} puntuacion={puntuacion} />,
