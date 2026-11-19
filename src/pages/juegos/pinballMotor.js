@@ -190,60 +190,88 @@ function rutaRedondeada(ctx, x, y, w, h, r) {
 }
 
 function spriteLinterna(r, encendida, k) {
-  const pad = 18;
+  const pad = 30;
   const c = lienzo((r * 2 + pad * 2) * k, (r * 2 + pad * 2) * k);
   const g = c.getContext("2d");
   g.scale(k, k);
   const cx = r + pad;
   const cy = r + pad;
-  if (encendida) {
-    const halo = g.createRadialGradient(cx, cy, r * 0.4, cx, cy, r + pad);
-    halo.addColorStop(0, "rgba(255,210,110,0.85)");
-    halo.addColorStop(1, "rgba(255,120,40,0)");
-    g.fillStyle = halo;
-    g.fillRect(0, 0, c.width, c.height);
-  }
-  // sombra
-  g.fillStyle = "rgba(40,0,6,0.45)";
+  // halo (siempre un poco; mucho al encenderse)
+  const halo = g.createRadialGradient(cx, cy, r * 0.5, cx, cy, r + pad);
+  halo.addColorStop(0, encendida ? "rgba(255,214,120,0.95)" : "rgba(255,150,60,0.35)");
+  halo.addColorStop(0.55, encendida ? "rgba(255,150,50,0.35)" : "rgba(255,110,40,0.08)");
+  halo.addColorStop(1, "rgba(255,120,40,0)");
+  g.fillStyle = halo;
+  g.fillRect(0, 0, c.width, c.height);
+  // cordón y borla
+  g.strokeStyle = "#c8961e";
+  g.lineWidth = 1.5;
   g.beginPath();
-  g.ellipse(cx + 3, cy + 5, r, r * 0.92, 0, 0, Math.PI * 2);
+  g.moveTo(cx, cy - r - 8);
+  g.lineTo(cx, cy - r * 0.95);
+  g.moveTo(cx, cy + r * 0.95);
+  g.lineTo(cx, cy + r + 6);
+  g.stroke();
+  g.fillStyle = "#ffe08a";
+  g.beginPath();
+  g.arc(cx, cy + r + 7, 2.6, 0, Math.PI * 2);
   g.fill();
-  // cuerpo de la linterna
-  const cuerpo = g.createRadialGradient(cx - r * 0.3, cy - r * 0.35, r * 0.1, cx, cy, r);
+  g.strokeStyle = encendida ? "#ff5a3c" : "#c8102e";
+  g.lineWidth = 1.2;
+  for (let i = -3; i <= 3; i++) {
+    g.beginPath();
+    g.moveTo(cx + i * 0.8, cy + r + 9);
+    g.lineTo(cx + i * 1.6, cy + r + 20);
+    g.stroke();
+  }
+  // sombra sobre la mesa
+  g.fillStyle = "rgba(30,0,4,0.5)";
+  g.beginPath();
+  g.ellipse(cx + 4, cy + 6, r, r * 0.88, 0, 0, Math.PI * 2);
+  g.fill();
+  // cuerpo
+  const cuerpo = g.createRadialGradient(cx - r * 0.35, cy - r * 0.35, r * 0.05, cx, cy, r * 1.05);
   if (encendida) {
-    cuerpo.addColorStop(0, "#fff6c8");
-    cuerpo.addColorStop(0.35, "#ffb347");
-    cuerpo.addColorStop(1, "#d8261c");
+    cuerpo.addColorStop(0, "#fffbe0");
+    cuerpo.addColorStop(0.3, "#ffd27a");
+    cuerpo.addColorStop(0.7, "#ff7a2a");
+    cuerpo.addColorStop(1, "#b81a1a");
   } else {
-    cuerpo.addColorStop(0, "#ff7a6a");
-    cuerpo.addColorStop(0.5, "#c8102e");
-    cuerpo.addColorStop(1, "#6b0918");
+    cuerpo.addColorStop(0, "#ff9a7a");
+    cuerpo.addColorStop(0.35, "#e0283c");
+    cuerpo.addColorStop(0.8, "#a00c22");
+    cuerpo.addColorStop(1, "#5a0712");
   }
   g.fillStyle = cuerpo;
   g.beginPath();
   g.ellipse(cx, cy, r, r * 0.9, 0, 0, Math.PI * 2);
   g.fill();
-  // costillas
-  g.strokeStyle = encendida ? "rgba(160,40,10,0.45)" : "rgba(60,0,10,0.5)";
-  g.lineWidth = 1.2;
-  for (const f of [-0.55, 0, 0.55]) {
+  // costillas doradas
+  g.strokeStyle = encendida ? "rgba(170,60,10,0.5)" : "rgba(242,193,78,0.35)";
+  g.lineWidth = 1;
+  for (const f of [0.35, 0.7]) {
     g.beginPath();
-    g.ellipse(cx, cy, Math.abs(r * f) || 0.5, r * 0.9, 0, 0, Math.PI * 2);
+    g.ellipse(cx, cy, r * f, r * 0.9, 0, 0, Math.PI * 2);
     g.stroke();
   }
-  // tapas doradas
-  const tapa = g.createLinearGradient(cx - r * 0.5, 0, cx + r * 0.5, 0);
-  tapa.addColorStop(0, "#8a5a0a");
-  tapa.addColorStop(0.5, "#ffe08a");
-  tapa.addColorStop(1, "#8a5a0a");
-  g.fillStyle = tapa;
-  rutaRedondeada(g, cx - r * 0.5, cy - r * 0.98, r, r * 0.26, 3);
+  // brillo
+  g.fillStyle = "rgba(255,255,255,0.35)";
+  g.beginPath();
+  g.ellipse(cx - r * 0.38, cy - r * 0.4, r * 0.22, r * 0.12, -0.6, 0, Math.PI * 2);
   g.fill();
-  rutaRedondeada(g, cx - r * 0.5, cy + r * 0.72, r, r * 0.26, 3);
+  // tapas doradas
+  const tapa = g.createLinearGradient(cx - r * 0.55, 0, cx + r * 0.55, 0);
+  tapa.addColorStop(0, "#7a4f12");
+  tapa.addColorStop(0.45, "#fff2b0");
+  tapa.addColorStop(1, "#7a4f12");
+  g.fillStyle = tapa;
+  rutaRedondeada(g, cx - r * 0.55, cy - r * 1.0, r * 1.1, r * 0.28, 3);
+  g.fill();
+  rutaRedondeada(g, cx - r * 0.55, cy + r * 0.72, r * 1.1, r * 0.28, 3);
   g.fill();
   // carácter
   g.fillStyle = encendida ? "#8f0c21" : "#ffe08a";
-  g.font = `700 ${Math.round(r * 0.8)}px STKaiti, KaiTi, "Songti SC", serif`;
+  g.font = `700 ${Math.round(r * 0.85)}px STKaiti, KaiTi, "Songti SC", serif`;
   g.textAlign = "center";
   g.textBaseline = "middle";
   g.fillText("福", cx, cy + 1);
@@ -251,25 +279,40 @@ function spriteLinterna(r, encendida, k) {
 }
 
 function spriteBola(k) {
-  const pad = 6;
+  const pad = 8;
   const tam = (RADIO + pad) * 2;
   const c = lienzo(tam * k, tam * k);
   const g = c.getContext("2d");
   g.scale(k, k);
   const cx = RADIO + pad;
-  const halo = g.createRadialGradient(cx, cx, RADIO * 0.6, cx, cx, RADIO + pad);
-  halo.addColorStop(0, "rgba(255,230,140,0.55)");
+  const halo = g.createRadialGradient(cx, cx, RADIO * 0.7, cx, cx, RADIO + pad);
+  halo.addColorStop(0, "rgba(255,230,140,0.6)");
   halo.addColorStop(1, "rgba(255,200,80,0)");
   g.fillStyle = halo;
   g.fillRect(0, 0, tam, tam);
-  const cuerpo = g.createRadialGradient(cx - 3, cx - 3.5, 0.5, cx, cx, RADIO);
-  cuerpo.addColorStop(0, "#fffbe6");
-  cuerpo.addColorStop(0.3, "#ffe08a");
-  cuerpo.addColorStop(0.75, "#e0a92a");
-  cuerpo.addColorStop(1, "#8a5a0a");
+  // cuerpo de oro pulido
+  const cuerpo = g.createRadialGradient(cx - 3, cx - 3.5, 0.3, cx + 1, cx + 1, RADIO * 1.05);
+  cuerpo.addColorStop(0, "#ffffff");
+  cuerpo.addColorStop(0.18, "#fff3c0");
+  cuerpo.addColorStop(0.5, "#f2c14e");
+  cuerpo.addColorStop(0.82, "#a8741a");
+  cuerpo.addColorStop(1, "#5a3a0a");
   g.fillStyle = cuerpo;
   g.beginPath();
   g.arc(cx, cx, RADIO, 0, Math.PI * 2);
+  g.fill();
+  // reflejo rojo de la mesa
+  const reflejo = g.createLinearGradient(0, cx, 0, cx + RADIO);
+  reflejo.addColorStop(0, "rgba(200,16,46,0)");
+  reflejo.addColorStop(1, "rgba(200,16,46,0.45)");
+  g.fillStyle = reflejo;
+  g.beginPath();
+  g.arc(cx, cx, RADIO, 0, Math.PI * 2);
+  g.fill();
+  // destello
+  g.fillStyle = "rgba(255,255,255,0.95)";
+  g.beginPath();
+  g.ellipse(cx - 3, cx - 3.6, 2.6, 1.6, -0.7, 0, Math.PI * 2);
   g.fill();
   return { c, pad };
 }
@@ -281,84 +324,150 @@ function medirTexto(texto, tamano) {
 }
 
 /** Placa de laca con la palabra; estado: normal | bien | mal */
-function spritePlaca(texto, k) {
+function spritePlaca(texto, k, maxAncho = 150) {
   let tamano = 17;
   let w = medirTexto(texto, tamano);
-  while (w > 124 && tamano > 11) {
+  while (w > Math.min(124, maxAncho - 30) && tamano > 10) {
     tamano -= 1;
     w = medirTexto(texto, tamano);
   }
   const alto = 36;
-  const ancho = Math.max(56, Math.min(146, w + 26));
-  const pad = 10;
+  const ancho = Math.max(60, Math.min(maxAncho, w + 30));
+  const pad = 14;
   const crear = (estado) => {
     const c = lienzo((ancho + pad * 2) * k, (alto + pad * 2) * k);
     const g = c.getContext("2d");
     g.scale(k, k);
-    g.fillStyle = "rgba(30,0,4,0.5)";
-    rutaRedondeada(g, pad + 2, pad + 4, ancho, alto, alto / 2);
+    const x = pad;
+    const y = pad;
+    const corte = 7;
+    const forma = (dx, dy, w, h, cc) => {
+      g.beginPath();
+      g.moveTo(dx + cc, dy);
+      g.lineTo(dx + w - cc, dy);
+      g.lineTo(dx + w, dy + cc);
+      g.lineTo(dx + w, dy + h - cc);
+      g.lineTo(dx + w - cc, dy + h);
+      g.lineTo(dx + cc, dy + h);
+      g.lineTo(dx, dy + h - cc);
+      g.lineTo(dx, dy + cc);
+      g.closePath();
+    };
+    // brillo de la luz de la diana
+    const luz = g.createRadialGradient(x + ancho / 2, y + alto / 2, 4, x + ancho / 2, y + alto / 2, ancho / 2 + pad);
+    const tono = estado === "bien" ? "120,240,170" : estado === "mal" ? "255,90,70" : "255,200,90";
+    luz.addColorStop(0, `rgba(${tono},${estado === "normal" ? 0.28 : 0.7})`);
+    luz.addColorStop(1, `rgba(${tono},0)`);
+    g.fillStyle = luz;
+    g.fillRect(0, 0, ancho + pad * 2, alto + pad * 2);
+    // sombra
+    g.fillStyle = "rgba(20,0,4,0.6)";
+    forma(x + 2, y + 4, ancho, alto, corte);
     g.fill();
-    const fondo = g.createLinearGradient(0, pad, 0, pad + alto);
+    // marco de oro
+    const oro = g.createLinearGradient(0, y, 0, y + alto);
+    oro.addColorStop(0, "#fff2b0");
+    oro.addColorStop(0.5, "#c8961e");
+    oro.addColorStop(1, "#7a4f12");
+    g.fillStyle = oro;
+    forma(x, y, ancho, alto, corte);
+    g.fill();
+    // tablilla de laca
+    const fondo = g.createLinearGradient(0, y + 3, 0, y + alto - 3);
     if (estado === "bien") {
-      fondo.addColorStop(0, "#9ff0c0");
-      fondo.addColorStop(1, "#2f8f52");
+      fondo.addColorStop(0, "#5fd08e");
+      fondo.addColorStop(1, "#14502d");
     } else if (estado === "mal") {
-      fondo.addColorStop(0, "#ffb0a8");
-      fondo.addColorStop(1, "#8f0c21");
+      fondo.addColorStop(0, "#ff6a5a");
+      fondo.addColorStop(1, "#6d0a18");
     } else {
-      fondo.addColorStop(0, "#fff7df");
-      fondo.addColorStop(1, "#f0d9a4");
+      fondo.addColorStop(0, "#3a1418");
+      fondo.addColorStop(0.5, "#1c0709");
+      fondo.addColorStop(1, "#0c0304");
     }
     g.fillStyle = fondo;
-    rutaRedondeada(g, pad, pad, ancho, alto, alto / 2);
+    forma(x + 3, y + 3, ancho - 6, alto - 6, corte - 2);
     g.fill();
-    g.lineWidth = 2.5;
-    g.strokeStyle = ORO_OSCURO;
-    g.stroke();
+    // filete rojo interior y brillo de laca
+    g.strokeStyle = estado === "normal" ? "rgba(200,16,46,0.9)" : "rgba(255,255,255,0.6)";
     g.lineWidth = 1;
-    g.strokeStyle = "rgba(143,12,33,0.55)";
-    rutaRedondeada(g, pad + 3.5, pad + 3.5, ancho - 7, alto - 7, (alto - 7) / 2);
+    forma(x + 5.5, y + 5.5, ancho - 11, alto - 11, corte - 3);
     g.stroke();
-    // remaches
-    g.fillStyle = estado === "normal" ? LACA : "#fff";
-    for (const x of [pad + 9, pad + ancho - 9]) {
-      g.beginPath();
-      g.arc(x, pad + alto / 2, 2.4, 0, Math.PI * 2);
-      g.fill();
-    }
-    g.fillStyle = estado === "normal" ? "#3b2416" : "#fff";
+    g.fillStyle = "rgba(255,255,255,0.08)";
+    g.fillRect(x + 6, y + 5, ancho - 12, (alto - 10) / 2);
+    // texto dorado
     g.font = `700 ${tamano}px "Noto Serif", Georgia, serif`;
     g.textAlign = "center";
     g.textBaseline = "middle";
-    g.fillText(texto, pad + ancho / 2, pad + alto / 2 + 1);
+    if (estado === "normal") {
+      const txt = g.createLinearGradient(0, y + 8, 0, y + alto - 8);
+      txt.addColorStop(0, "#fff6cf");
+      txt.addColorStop(1, "#f2c14e");
+      g.fillStyle = txt;
+    } else g.fillStyle = "#fff";
+    g.fillText(texto, x + ancho / 2, y + alto / 2 + 1);
     return c;
   };
   return { ancho, alto, pad, normal: crear("normal"), bien: crear("bien"), mal: crear("mal") };
 }
 
 // ---------- Fondo estático ----------
-function dibujarFondo(k, imgs) {
-  const c = lienzo(ANCHO * k, ALTO * k);
-  const g = c.getContext("2d");
-  g.scale(k, k);
-  // laca roja
-  const laca = g.createRadialGradient(190, 330, 40, 190, 360, 470);
-  laca.addColorStop(0, "#d42a3c");
-  laca.addColorStop(0.55, "#a90f26");
-  laca.addColorStop(1, "#4f0611");
-  g.fillStyle = laca;
-  g.fillRect(0, 0, ANCHO, ALTO);
-  // forma de la mesa (recorte)
-  g.save();
+function contornoMesa(g) {
   g.beginPath();
   g.moveTo(12, 716);
   g.lineTo(12, ARCO.y);
   g.arc(ARCO.x, ARCO.y, ARCO.r, Math.PI, 0);
   g.lineTo(395, 716);
   g.closePath();
+}
+
+/** Greca 回纹 en una franja horizontal (x, y, ancho, alto) */
+function greca(g, x, y, w, h) {
+  const paso = h * 1.6;
+  g.beginPath();
+  for (let px = x; px + paso <= x + w + 0.1; px += paso) {
+    const a = h * 0.2;
+    g.moveTo(px, y + h - a);
+    g.lineTo(px, y + a);
+    g.lineTo(px + paso - a * 2, y + a);
+    g.lineTo(px + paso - a * 2, y + h - a * 2.4);
+    g.lineTo(px + a * 2, y + h - a * 2.4);
+    g.lineTo(px + a * 2, y + a * 2.4);
+  }
+  g.stroke();
+}
+
+function dibujarFondo(k, imgs) {
+  const c = lienzo(ANCHO * k, ALTO * k);
+  const g = c.getContext("2d");
+  g.scale(k, k);
+  // marco exterior (madera lacada oscura)
+  g.fillStyle = "#1c0408";
+  g.fillRect(0, 0, ANCHO, ALTO);
+  g.save();
+  contornoMesa(g);
   g.clip();
-  // nubes xiangyun en trazo dorado tenue
-  g.strokeStyle = "rgba(242,193,78,0.13)";
+  // laca roja profunda con foco central
+  const laca = g.createRadialGradient(187, 360, 30, 187, 380, 480);
+  laca.addColorStop(0, "#e2303f");
+  laca.addColorStop(0.35, "#c3122c");
+  laca.addColorStop(0.75, "#8a0a1f");
+  laca.addColorStop(1, "#3d040c");
+  g.fillStyle = laca;
+  g.fillRect(0, 0, ANCHO, ALTO);
+  // trama de rombos muy tenue (laca tallada)
+  g.strokeStyle = "rgba(60,0,10,0.18)";
+  g.lineWidth = 1;
+  g.beginPath();
+  for (let i = -ALTO; i < ANCHO + ALTO; i += 18) {
+    g.moveTo(i, 0);
+    g.lineTo(i + ALTO, ALTO);
+    g.moveTo(i, ALTO);
+    g.lineTo(i + ALTO, 0);
+  }
+  g.stroke();
+  // nubes xiangyun doradas
+  g.strokeStyle = "rgba(242,193,78,0.16)";
   g.lineWidth = 2;
   const nube = (x, y, s) => {
     g.beginPath();
@@ -367,42 +476,121 @@ function dibujarFondo(k, imgs) {
     g.arc(x + 30 * s, y + 6 * s, 6 * s, Math.PI * 1.2, Math.PI * 2.4);
     g.stroke();
   };
-  for (let i = 0; i < 26; i++) nube(20 + ((i * 97) % 340), 120 + ((i * 151) % 560), 0.8 + (i % 3) * 0.35);
-  // dragón dorado enroscado
+  for (let i = 0; i < 18; i++) nube(24 + ((i * 97) % 320), 130 + ((i * 151) % 520), 0.8 + (i % 3) * 0.35);
+  // medallón central (perla del dragón)
+  const mx = 187;
+  const my = 384;
+  const brillo = g.createRadialGradient(mx, my, 10, mx, my, 150);
+  brillo.addColorStop(0, "rgba(255,214,120,0.35)");
+  brillo.addColorStop(1, "rgba(255,214,120,0)");
+  g.fillStyle = brillo;
+  g.fillRect(mx - 150, my - 150, 300, 300);
+  g.strokeStyle = "rgba(242,193,78,0.45)";
+  g.lineWidth = 2;
+  for (const r of [118, 96]) {
+    g.beginPath();
+    g.arc(mx, my, r, 0, Math.PI * 2);
+    g.stroke();
+  }
+  g.setLineDash([2, 6]);
+  g.lineWidth = 3;
+  g.beginPath();
+  g.arc(mx, my, 107, 0, Math.PI * 2);
+  g.stroke();
+  g.setLineDash([]);
+  // dragón dorado enroscado: silueta de oro + detalle del original
   if (imgs.dragon?.complete && imgs.dragon.naturalWidth) {
-    g.globalAlpha = 0.34;
-    g.drawImage(imgs.dragon, 40, 150, 300, 442);
-    g.globalAlpha = 1;
+    const dw = 270;
+    const dh = 398;
+    const dx = mx - dw / 2;
+    const dy = 186;
+    const oro = lienzo(dw * k, dh * k);
+    const og = oro.getContext("2d");
+    og.drawImage(imgs.dragon, 0, 0, oro.width, oro.height);
+    og.globalCompositeOperation = "source-in";
+    const gr = og.createLinearGradient(0, 0, oro.width, oro.height);
+    gr.addColorStop(0, "#fff2b0");
+    gr.addColorStop(0.4, "#f2c14e");
+    gr.addColorStop(0.75, "#c8961e");
+    gr.addColorStop(1, "#7a4f12");
+    og.fillStyle = gr;
+    og.fillRect(0, 0, oro.width, oro.height);
+    og.globalCompositeOperation = "multiply";
+    og.globalAlpha = 0.28;
+    og.drawImage(imgs.dragon, 0, 0, oro.width, oro.height);
+    og.globalCompositeOperation = "destination-in";
+    og.globalAlpha = 1;
+    og.drawImage(imgs.dragon, 0, 0, oro.width, oro.height);
+    g.save();
+    g.shadowColor = "rgba(20,0,4,0.7)";
+    g.shadowBlur = 10;
+    g.shadowOffsetY = 4;
+    g.globalAlpha = 0.8;
+    g.drawImage(oro, dx, dy, dw, dh);
+    g.restore();
   }
-  // gran carácter central
-  g.fillStyle = "rgba(255,224,138,0.07)";
-  g.font = `700 150px STKaiti, KaiTi, "Songti SC", serif`;
-  g.textAlign = "center";
-  g.textBaseline = "middle";
-  g.fillText("龍", 187, 520);
+  // nubes de oro (imagen)
   if (imgs.nube?.complete && imgs.nube.naturalWidth) {
-    g.globalAlpha = 0.5;
-    g.drawImage(imgs.nube, 40, 128, 110, 38);
-    g.drawImage(imgs.nube, 240, 262, 100, 35);
-    g.drawImage(imgs.nube, 60, 470, 90, 32);
+    g.globalAlpha = 0.75;
+    g.drawImage(imgs.nube, 36, 126, 112, 39);
+    g.drawImage(imgs.nube, 250, 258, 96, 34);
+    g.drawImage(imgs.nube, 62, 452, 88, 31);
     g.globalAlpha = 1;
   }
-  // carril de lanzamiento más oscuro
-  g.fillStyle = "rgba(30,0,6,0.45)";
+  // carril de lanzamiento: canal oscuro con greca
+  const canal = g.createLinearGradient(362, 0, 395, 0);
+  canal.addColorStop(0, "#1a0306");
+  canal.addColorStop(0.5, "#3a0810");
+  canal.addColorStop(1, "#1a0306");
+  g.fillStyle = canal;
   g.fillRect(362, 228, 33, 490);
-  // zona de flippers: abanico oscuro
-  const sombra = g.createLinearGradient(0, 560, 0, 720);
+  // faldones laterales junto a los flippers (laca negra con greca de oro)
+  const faldon = (pts, texto, tx, ty) => {
+    g.beginPath();
+    g.moveTo(pts[0][0], pts[0][1]);
+    for (const p of pts.slice(1)) g.lineTo(p[0], p[1]);
+    g.closePath();
+    const f = g.createLinearGradient(0, 540, 0, 720);
+    f.addColorStop(0, "#2a080c");
+    f.addColorStop(1, "#0c0204");
+    g.fillStyle = f;
+    g.fill();
+    g.save();
+    g.clip();
+    g.strokeStyle = "rgba(242,193,78,0.38)";
+    g.lineWidth = 1;
+    for (const y of [650, 700]) greca(g, 0, y, 400, 9);
+    g.restore();
+    g.fillStyle = "rgba(255,224,138,0.85)";
+    g.font = `700 22px STKaiti, KaiTi, "Songti SC", serif`;
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    g.fillText(texto, tx, ty);
+  };
+  faldon([[12, 540], [104, 628], [104, 720], [12, 720]], "龙", 50, 672);
+  faldon([[362, 540], [270, 628], [270, 720], [362, 720]], "珠", 324, 672);
+  // desagüe: zona oscura con texto
+  const sombra = g.createLinearGradient(0, 600, 0, 720);
   sombra.addColorStop(0, "rgba(20,0,4,0)");
-  sombra.addColorStop(1, "rgba(20,0,4,0.65)");
+  sombra.addColorStop(1, "rgba(20,0,4,0.75)");
   g.fillStyle = sombra;
-  g.fillRect(0, 560, 362, 160);
-  // flechas del desagüe y texto
-  g.fillStyle = "rgba(255,224,138,0.5)";
-  g.font = `600 10px "Noto Serif", Georgia, serif`;
-  g.fillText("龙之弹球 · Pinball del dragón", 187, 708);
-  // carriles 福禄寿 (guías)
-  g.fillStyle = "rgba(20,0,4,0.35)";
-  g.fillRect(127, 56, 120, 50);
+  g.fillRect(104, 600, 166, 120);
+  g.fillStyle = "rgba(255,224,138,0.55)";
+  g.font = `600 9px "Noto Serif", Georgia, serif`;
+  g.textAlign = "center";
+  g.fillText("龙之弹球 · Pinball del dragón", 187, 709);
+  // carriles 福禄寿: placa oscura
+  g.fillStyle = "rgba(20,0,4,0.45)";
+  rutaRedondeada(g, 125, 54, 124, 52, 10);
+  g.fill();
+  // profundidad: borde interior en sombra
+  contornoMesa(g);
+  g.strokeStyle = "rgba(20,0,4,0.5)";
+  g.lineWidth = 36;
+  g.stroke();
+  g.strokeStyle = "rgba(20,0,4,0.35)";
+  g.lineWidth = 18;
+  g.stroke();
   g.restore();
 
   // filete doble dorado por dentro del borde
@@ -413,11 +601,35 @@ function dibujarFondo(k, imgs) {
     g.moveTo(12 + desp, 532);
     g.lineTo(12 + desp, ARCO.y);
     g.arc(ARCO.x, ARCO.y, ARCO.r - desp, Math.PI, 0);
-    g.lineTo(395 - desp, 716);
+    g.lineTo(362 - 4, ARCO.y + 60);
     g.stroke();
   };
-  filete(7, 1, "rgba(242,193,78,0.55)");
-  filete(10, 0.6, "rgba(242,193,78,0.35)");
+  filete(8, 1.2, "rgba(242,193,78,0.6)");
+  filete(11, 0.6, "rgba(242,193,78,0.4)");
+  return c;
+}
+
+/** Reflejo del cristal sobre la mesa (se dibuja encima de todo) */
+function dibujarCristal(k) {
+  const c = lienzo(ANCHO * k, ALTO * k);
+  const g = c.getContext("2d");
+  g.scale(k, k);
+  contornoMesa(g);
+  g.clip();
+  const banda = g.createLinearGradient(0, 80, 300, 380);
+  banda.addColorStop(0, "rgba(255,255,255,0)");
+  banda.addColorStop(0.42, "rgba(255,255,255,0)");
+  banda.addColorStop(0.5, "rgba(255,255,255,0.07)");
+  banda.addColorStop(0.56, "rgba(255,255,255,0)");
+  banda.addColorStop(0.7, "rgba(255,255,255,0.035)");
+  banda.addColorStop(0.74, "rgba(255,255,255,0)");
+  g.fillStyle = banda;
+  g.fillRect(0, 0, ANCHO, ALTO);
+  const arriba = g.createLinearGradient(0, 0, 0, 120);
+  arriba.addColorStop(0, "rgba(255,240,200,0.12)");
+  arriba.addColorStop(1, "rgba(255,240,200,0)");
+  g.fillStyle = arriba;
+  g.fillRect(0, 0, ANCHO, 120);
   return c;
 }
 
@@ -443,6 +655,16 @@ function trazarParedes(g, paredes) {
     g.beginPath();
     g.moveTo(p.ax, p.ay);
     g.lineTo(p.bx, p.by);
+    g.stroke();
+  }
+  // brillo superior de los raíles
+  g.strokeStyle = "rgba(255,250,220,0.75)";
+  g.lineWidth = 0.9;
+  for (const p of paredes) {
+    if (p.sling) continue;
+    g.beginPath();
+    g.moveTo(p.ax - 0.6, p.ay - 0.8);
+    g.lineTo(p.bx - 0.6, p.by - 0.8);
     g.stroke();
   }
 }
@@ -534,7 +756,8 @@ export class MotorPinball {
       const tramo = (f.max - f.min) / n;
       const fase = Math.random() * Math.PI * 2;
       f.items.forEach((d, idx) => {
-        const sprite = spritePlaca(d.texto, k);
+        const maxAncho = Math.min(150, tramo - 10);
+        const sprite = spritePlaca(d.texto, k, maxAncho);
         const hw = sprite.ancho / 2;
         const lo = f.min + tramo * idx + hw;
         const hi = f.min + tramo * (idx + 1) - hw;
@@ -545,6 +768,7 @@ export class MotorPinball {
         this.dianas.push({
           ...d,
           sprite,
+          maxAncho,
           y: f.y,
           base,
           x: base,
@@ -623,7 +847,7 @@ export class MotorPinball {
     this.canvas.style.height = `${altoCss}px`;
     this.prepararSprites();
     for (const d of this.dianas) {
-      const s = spritePlaca(d.texto, this.k);
+      const s = spritePlaca(d.texto, this.k, d.maxAncho);
       d.sprite = s;
     }
   }
@@ -640,6 +864,7 @@ export class MotorPinball {
     this.sprLinterna = spriteLinterna(22, false, k);
     this.sprLinternaOn = spriteLinterna(22, true, k);
     this.sprBola = spriteBola(k);
+    this.cristal = dibujarCristal(k);
   }
 
   avanzar(dt) {
@@ -1039,6 +1264,31 @@ export class MotorPinball {
     this.dibujarBocaRampa(g, t);
     this.dibujarCabeza(g);
 
+    // luces del medallón: se encienden con el combo (12 insertos)
+    {
+      const enc = Math.min(12, this.combo * 2 + (this.mult - 1));
+      const fiestaOro = !this.reducido && this.destello && this.destello.color === "oro";
+      for (let i = 0; i < 12; i++) {
+        const a = (Math.PI * 2 * i) / 12 - Math.PI / 2;
+        const on = i < enc || fiestaOro;
+        const pulso = on && !this.reducido ? 0.75 + 0.25 * Math.sin(t * 6 + i) : 1;
+        g.save();
+        g.translate(187 + Math.cos(a) * 107, 384 + Math.sin(a) * 107);
+        g.rotate(a + Math.PI / 2);
+        g.beginPath();
+        g.moveTo(0, -6);
+        g.lineTo(5, 4);
+        g.lineTo(-5, 4);
+        g.closePath();
+        g.fillStyle = on ? `rgba(255,226,140,${pulso})` : "rgba(70,0,12,0.75)";
+        g.fill();
+        g.strokeStyle = on ? "#fff" : "rgba(242,193,78,0.55)";
+        g.lineWidth = 1;
+        g.stroke();
+        g.restore();
+      }
+    }
+
     // linternas
     for (const l of this.linternas) {
       const s = l.luz > 0 ? this.sprLinternaOn : this.sprLinterna;
@@ -1138,6 +1388,13 @@ export class MotorPinball {
       g.fillStyle = on ? "rgba(159,240,192,0.95)" : "rgba(159,240,192,0.35)";
       g.font = `700 10px "Noto Serif", Georgia, serif`;
       g.fillText("SALVABOLA · 保球", 187, 690);
+    }
+
+    // reflejo del cristal
+    if (this.cristal) {
+      g.setTransform(1, 0, 0, 1, sx, sy);
+      g.drawImage(this.cristal, 0, 0);
+      g.setTransform(k, 0, 0, k, sx, sy);
     }
 
     // destello
@@ -1260,7 +1517,7 @@ export class MotorPinball {
     g.closePath();
     g.fill();
     g.strokeStyle = f.activo ? "#fff4c8" : ORO;
-    g.lineWidth = 2;
+    g.lineWidth = 2.6;
     g.stroke();
     // veta del jade
     g.strokeStyle = "rgba(255,255,255,0.35)";

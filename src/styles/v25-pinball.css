@@ -591,6 +591,118 @@ main.game-bg .pb-raiz .pb-tactil button.pb-boton-lanzar { font-size: 14px; line-
 
 .pb-solo-movil { display: none; }
 
+/* ---- Cabina: marquesina + pantalla de puntos (DMD) encima de la mesa ---- */
+.pb-zona { align-items: center; }
+.pb-zona .pb-tactil { align-self: stretch; }
+@media (min-width: 861px) {
+  .pb-juego { grid-template-columns: minmax(250px, 330px) auto; justify-content: center; gap: 28px; }
+  .pb-pantalla { align-self: center; }
+  .pb-backbox { min-width: 400px; }
+  .pb-dmd .pb-busca small { width: auto; }
+  .pb-dmd .pb-busca__zh { font-size: 28px; }
+  main.game-bg .pb-raiz .pb-dmd button.pb-oir { padding: 3px 12px; font-size: 13px !important; }
+  .pb-marquesina { height: 26px; font-size: 20px; }
+}
+.pb-titulo:empty { flex: 1; }
+.pb-backbox {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  margin-bottom: 8px;
+  padding: 4px 8px 8px;
+  border-radius: 20px 20px 8px 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 30%),
+    linear-gradient(160deg, #6d0a18, #2a040a 70%);
+  box-shadow:
+    0 0 0 3px var(--pb-oro-osc),
+    0 0 0 6px #5a3a0a,
+    0 0 0 8px rgba(242, 193, 78, 0.45),
+    0 12px 22px rgba(0, 0, 0, 0.45);
+}
+.pb-marquesina {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 30px;
+  font-family: STKaiti, KaiTi, "Songti SC", serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+.pb-marquesina span {
+  background: linear-gradient(180deg, #fff6cf, #f2c14e 55%, #c8961e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 #4f0611) drop-shadow(0 0 8px rgba(242, 193, 78, 0.45));
+}
+.pb-marquesina small {
+  font-family: "Noto Serif", Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.pb-marquesina img { height: 18px; width: auto; opacity: 0.9; }
+.pb-marquesina img.is-espejo { transform: scaleX(-1); }
+.pb-pantalla__marco.pb-dmd {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 2px solid #c8961e;
+  background:
+    radial-gradient(circle, rgba(255, 150, 50, 0.16) 0 0.9px, transparent 1.3px) 0 0 / 4px 4px,
+    radial-gradient(130% 120% at 50% 0%, #2c0b06, #0a0203 70%);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.9), inset 0 0 0 1px #5a3a0a;
+  color: #ffb347;
+}
+.pb-dmd .pb-busca {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0 12px;
+  padding: 0 0 4px;
+  border-bottom: 1px dashed rgba(255, 179, 71, 0.35);
+  border-right: 0;
+}
+.pb-dmd .pb-busca small { width: 100%; color: #e08a3a; font-size: 10.5px; }
+.pb-dmd .pb-busca__zh {
+  font-size: 32px;
+  color: #ffd27a;
+  text-shadow: 0 0 6px #ff8a2a, 0 0 18px rgba(255, 110, 30, 0.7);
+}
+.pb-dmd .pb-marcador {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 0;
+}
+.pb-dmd .pb-dato {
+  padding: 0;
+  background: none;
+  border: 0;
+  align-items: flex-end;
+}
+.pb-dmd .pb-dato small { font-size: 9.5px; color: #c9772e; white-space: nowrap; }
+.pb-dmd .pb-dato b {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 18px;
+  color: #ffb347;
+  text-shadow: 0 0 6px #ff7a1a;
+}
+.pb-dmd .pb-dato { align-items: center; justify-content: space-between; align-self: stretch; }
+.pb-dmd .pb-dato--puntos b { font-size: 22px; letter-spacing: 0.06em; }
+.pb-dmd .pb-dato--combo.is-on b { color: #9ff0c0; text-shadow: 0 0 8px #2fbf6a; }
+.pb-dmd .pb-bolas { min-height: 22px; }
+.pb-dmd .pb-bolas i { width: 11px; height: 11px; }
+
 /* ---- Táctil y móvil ---- */
 @media (pointer: coarse) {
   .pb-tactil { display: grid; }
@@ -609,13 +721,15 @@ main.game-bg .pb-raiz .pb-tactil button.pb-boton-lanzar { font-size: 14px; line-
   .pb-juego { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 6px; }
   .pb-pantalla { overflow: visible; }
   .pb-reglas, .pb-teclas { display: none; }
-  .pb-pantalla__marco {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 7px 10px;
-    border-radius: 14px;
-  }
+  .pb-backbox { margin-bottom: 6px; padding: 2px 5px 5px; border-radius: 14px 14px 6px 6px; }
+  .pb-marquesina { height: 24px; font-size: 18px; }
+  .pb-marquesina small { display: none; }
+  .pb-pantalla__marco.pb-dmd { gap: 6px; padding: 5px 8px; }
+  .pb-dmd .pb-busca { gap: 0 8px; padding-bottom: 3px; }
+  .pb-dmd .pb-busca small { display: none; }
+  .pb-dmd .pb-busca__zh { font-size: 22px; }
+  .pb-dmd .pb-dato b { font-size: 13px; }
+  .pb-dmd .pb-dato--puntos b { font-size: 17px; }
   .pb-busca { flex-direction: row; justify-content: center; flex-wrap: wrap; border-bottom: 1px dashed rgba(242, 193, 78, 0.4); padding: 0 0 6px; gap: 4px 10px; }
   .pb-busca small { width: 100%; font-size: 10px; }
   .pb-busca__zh { font-size: 26px; }

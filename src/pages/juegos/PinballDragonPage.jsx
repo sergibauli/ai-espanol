@@ -158,6 +158,7 @@ function JuegoPinball({ contenido }) {
   const [mono, setMono] = React.useState(null);
   const [resultado, setResultado] = React.useState(null);
   const [vozAuto, setVozAuto] = React.useState(true);
+  const [anchoCabina, setAnchoCabina] = React.useState(0);
   const [tactil, setTactil] = React.useState({ izq: false, der: false, lanzar: false });
 
   // Estado de juego que no necesita re-render
@@ -343,9 +344,11 @@ function JuegoPinball({ contenido }) {
     const ajustar = () => {
       const caja = mesaRef.current?.getBoundingClientRect();
       if (!caja) return;
-      const marco = 20; // relleno de la cabina (10 px por lado)
+      const cabina = mesaRef.current.querySelector(".pb-cabina");
+      const marco = cabina ? parseFloat(getComputedStyle(cabina).paddingLeft || "10") * 2 : 20; // relleno de la cabina
       const ancho = Math.max(180, Math.min(caja.width - marco, ((caja.height - marco) * ANCHO) / ALTO));
       motor.redimensionar(Math.floor(ancho), Math.floor((ancho * ALTO) / ANCHO), Math.min(2, window.devicePixelRatio || 1));
+      setAnchoCabina(Math.floor(ancho) + marco);
     };
     let cargadas = 0;
     const alCargar = () => {
@@ -499,9 +502,7 @@ function JuegoPinball({ contenido }) {
     <div className={`pb-raiz gm-no-adapt ${reducido ? "is-reducido" : ""}`}>
       <div className="pb-barra">
         <Volver />
-        <span className="pb-titulo" translate="no">
-          龙之弹球 <small>Pinball del dragón</small>
-        </span>
+        <span className="pb-titulo" aria-hidden="true" />
         <span className="pb-unidad">{etiqueta}</span>
         <div className="pb-herramientas">
           <button type="button" className="pb-icono" onClick={toggleSound} aria-label={soundEnabled ? "Silenciar · 静音" : "Activar sonido · 打开声音"} aria-pressed={!soundEnabled}>
@@ -520,45 +521,7 @@ function JuegoPinball({ contenido }) {
 
       <div className="pb-juego">
         {/* Pantalla imperial */}
-        <aside className="pb-pantalla" aria-live="polite">
-          <div className="pb-pantalla__marco">
-            <div className="pb-busca">
-              <small>Busca · 找到这个词</small>
-              <strong className="pb-busca__zh" lang="zh">{pregunta ? pregunta.zh : "—"}</strong>
-              <button type="button" className="pb-oir" onClick={() => pregunta && decir(pregunta.es)} disabled={!pregunta} aria-label="Oír la palabra en español · 听西语发音">
-                <MegaphoneIcon size={18} aria-hidden="true" />
-                <span>Oír · 听</span>
-              </button>
-            </div>
-            <div className="pb-marcador">
-              <div className="pb-dato pb-dato--puntos">
-                <small>Puntos · 分数</small>
-                <b translate="no">{hud.puntos.toLocaleString("es-ES")}</b>
-              </div>
-              <div className="pb-dato">
-                <small>Bolas · 球</small>
-                <span className="pb-bolas" aria-label={`${bolasVisibles} bolas`}>
-                  {Array.from({ length: Math.max(3, bolasVisibles) }, (_, i) => (
-                    <i key={i} className={i < bolasVisibles ? "is-llena" : ""} />
-                  ))}
-                </span>
-              </div>
-              <div className="pb-dato">
-                <small>Mult. · 倍数</small>
-                <b translate="no">×{hud.mult}</b>
-              </div>
-              <div className="pb-dato">
-                <small>Nivel · 关</small>
-                <b translate="no">{nivel}</b>
-              </div>
-              <div className={`pb-dato pb-dato--combo ${hud.combo > 1 ? "is-on" : ""}`}>
-                <small>Combo · 连击</small>
-                <b translate="no">
-                  <ZapIcon size={14} aria-hidden="true" />×{hud.combo}
-                </b>
-              </div>
-            </div>
-          </div>
+        <aside className="pb-pantalla">
           <ul className="pb-reglas">
             <li>
               <span className="pb-ico pb-ico--oro" aria-hidden="true">✓</span>
@@ -589,6 +552,53 @@ function JuegoPinball({ contenido }) {
 
         {/* Mesa */}
         <div className="pb-zona">
+          <div className="pb-backbox" style={anchoCabina ? { width: anchoCabina } : undefined}>
+            <div className="pb-marquesina" translate="no">
+              <img src="./theme/nube-oro.png" alt="" aria-hidden="true" />
+              <span>
+                龙之弹球 <small>Pinball del dragón</small>
+              </span>
+              <img src="./theme/nube-oro.png" alt="" aria-hidden="true" className="is-espejo" />
+            </div>
+            <div className="pb-pantalla__marco pb-dmd" aria-live="polite">
+              <div className="pb-busca">
+                <small>Busca · 找到这个词</small>
+                <strong className="pb-busca__zh" lang="zh">{pregunta ? pregunta.zh : "—"}</strong>
+                <button type="button" className="pb-oir" onClick={() => pregunta && decir(pregunta.es)} disabled={!pregunta} aria-label="Oír la palabra en español · 听西语发音">
+                  <MegaphoneIcon size={18} aria-hidden="true" />
+                  <span>Oír · 听</span>
+                </button>
+              </div>
+              <div className="pb-marcador">
+                <div className="pb-dato pb-dato--puntos">
+                  <small>Puntos · 分数</small>
+                  <b translate="no">{hud.puntos.toLocaleString("es-ES")}</b>
+                </div>
+                <div className="pb-dato">
+                  <small>Bolas · 球</small>
+                  <span className="pb-bolas" aria-label={`${bolasVisibles} bolas`}>
+                    {Array.from({ length: Math.max(3, bolasVisibles) }, (_, i) => (
+                      <i key={i} className={i < bolasVisibles ? "is-llena" : ""} />
+                    ))}
+                  </span>
+                </div>
+                <div className="pb-dato">
+                  <small>Mult. · 倍数</small>
+                  <b translate="no">×{hud.mult}</b>
+                </div>
+                <div className="pb-dato">
+                  <small>Nivel · 关</small>
+                  <b translate="no">{nivel}</b>
+                </div>
+                <div className={`pb-dato pb-dato--combo ${hud.combo > 1 ? "is-on" : ""}`}>
+                  <small>Combo · 连击</small>
+                  <b translate="no">
+                    <ZapIcon size={14} aria-hidden="true" />×{hud.combo}
+                  </b>
+                </div>
+              </div>
+            </div>
+          </div>
           <div ref={mesaRef} className="pb-mesa">
             <div className="pb-cabina">
               <canvas
