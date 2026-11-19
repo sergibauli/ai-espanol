@@ -25,3 +25,6 @@
   .xm-bar-acciones .xm-submit { flex: 1; }
 }
 .ip-boton-fila { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.ip-boton.secundario { background: linear-gradient(180deg, #fffaf0, #f3e3bf); border-color: #c8961e; box-shadow: inset 0 1px 0 #fff, 0 3px 0 #a07a2a, 0 6px 14px rgba(0, 0, 0, .18); }
+.v27-sala__txt .ip-boton-fila { position: relative; z-index: 2; display: flex !important; flex-flow: row wrap; }
+.v27-sala__txt .ip-boton-fila > .ip-boton { width: auto; }
