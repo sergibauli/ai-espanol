@@ -120,6 +120,8 @@ function MascotProvider({ children }) {
   const uRef = React.useRef(null);
   React.useEffect(() => {
     const s = (d) => {
+      // Los juegos con la base común (JuegoFx) ya tienen su propio Rey Mono y cartel: no se duplica el aviso
+      if (document.querySelector(".jfx-capa")) return;
       const d_detail = d.detail;
       if (uRef.current) {
         clearTimeout(uRef.current);

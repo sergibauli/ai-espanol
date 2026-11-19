@@ -1,0 +1,278 @@
+/* ===== v32 · Mapa mental: el mapa se pinta sobre un pergamino lacado dentro del mundo del nivel ===== */
+.ja-raiz.mm2 {
+  margin-top: 8px;
+  border-radius: 24px;
+  box-shadow:
+    0 0 0 2px #c8961e,
+    0 0 0 5px #5e0614,
+    0 0 0 7px #f2c14e,
+    0 24px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  isolation: isolate;
+}
+.mm2 > :not(.jfx-mundo) {
+  position: relative;
+  z-index: 1;
+}
+.mm2 .jfx-mundo__velo {
+  background:
+    linear-gradient(180deg, rgba(14, 4, 8, 0.55), rgba(14, 4, 8, 0.25) 30%, rgba(14, 4, 8, 0.35) 70%, rgba(14, 4, 8, 0.7)),
+    radial-gradient(70% 60% at 50% 55%, transparent, rgba(14, 4, 8, 0.4));
+}
+
+/* Cabecera y modos: tablillas lacadas */
+.mm2 .ja-cabecera {
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+.mm2 .ja-modos {
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.mm2 .ja-modo {
+  position: relative;
+  min-height: 56px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #b30d28, #6e0919);
+  box-shadow:
+    inset 0 0 0 2px rgba(242, 193, 78, 0.75),
+    inset 0 0 0 4px rgba(94, 6, 20, 0.9),
+    inset 0 0 0 5px rgba(242, 193, 78, 0.35),
+    0 5px 0 #3d040d,
+    0 10px 18px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s cubic-bezier(0.3, 1.5, 0.5, 1), box-shadow 0.15s;
+}
+.mm2 .ja-modo:hover:not(.is-on) {
+  transform: translateY(-2px);
+}
+.mm2 .ja-modo.is-on {
+  transform: translateY(2px);
+  background: radial-gradient(120% 120% at 50% 0%, #fff3c4, #f2c14e 55%, #c8961e);
+  box-shadow:
+    inset 0 0 0 2px #fff4c8,
+    inset 0 0 0 4px rgba(143, 12, 33, 0.6),
+    0 3px 0 #7a5413,
+    0 0 26px rgba(242, 193, 78, 0.55);
+}
+.mm2 .ja-modo.is-on::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  border: 7px solid transparent;
+  border-top-color: #c8961e;
+  translate: -50% 0;
+}
+.mm2 .ja-instruccion {
+  justify-content: center;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff3c4;
+  background: rgba(20, 6, 8, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.45);
+}
+
+/* Lienzo: pergamino dentro de un marco de laca con filete dorado */
+.mm2 .ja-mesa {
+  gap: 16px;
+}
+.mm2 .ja-lienzo {
+  border: 0;
+  border-radius: 20px;
+  background:
+    radial-gradient(90% 80% at 50% 45%, rgba(255, 255, 255, 0.55), transparent 70%),
+    url("../../public/theme/papel.jpg") center / 520px,
+    #f6ead0;
+  box-shadow:
+    inset 0 0 0 3px #c8961e,
+    inset 0 0 0 7px #fff1c4,
+    inset 0 0 0 8px rgba(200, 150, 30, 0.7),
+    0 0 0 5px #8f0c21,
+    0 0 0 7px #f2c14e,
+    0 22px 44px rgba(0, 0, 0, 0.55);
+}
+.mm2 .ja-lienzo::after {
+  border-radius: 20px;
+  box-shadow: inset 0 0 70px rgba(139, 90, 43, 0.35);
+}
+/* esquinas de oro */
+.mm2 .ja-lienzo::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(#c8961e, #c8961e) top left / 34px 3px no-repeat,
+    linear-gradient(#c8961e, #c8961e) top left / 3px 34px no-repeat,
+    linear-gradient(#c8961e, #c8961e) top right / 34px 3px no-repeat,
+    linear-gradient(#c8961e, #c8961e) top right / 3px 34px no-repeat,
+    linear-gradient(#c8961e, #c8961e) bottom left / 34px 3px no-repeat,
+    linear-gradient(#c8961e, #c8961e) bottom left / 3px 34px no-repeat,
+    linear-gradient(#c8961e, #c8961e) bottom right / 34px 3px no-repeat,
+    linear-gradient(#c8961e, #c8961e) bottom right / 3px 34px no-repeat;
+}
+.mm2 .mm2-fondo-svg {
+  fill: transparent;
+}
+.mm2-marca {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  font: 400 min(46vh, 340px) / 1 STKaiti, KaiTi, "Noto Serif SC", serif;
+  color: rgba(143, 12, 33, 0.055);
+  pointer-events: none;
+  user-select: none;
+}
+.mm2 .ja-svg {
+  position: relative;
+}
+.mm2 .ja-nodo-cuerpo {
+  filter: drop-shadow(0 6px 6px rgba(59, 36, 22, 0.22));
+}
+.mm2 .ja-nodo-cuerpo.is-ok {
+  filter: drop-shadow(0 0 10px rgba(242, 193, 78, 0.9));
+}
+.mm2 .ja-zoom button {
+  background: linear-gradient(180deg, #b30d28, #6e0919);
+  border: 0;
+  color: #ffe08a !important;
+  box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.8), 0 4px 0 #3d040d;
+}
+.mm2 .ja-resultado {
+  background: linear-gradient(180deg, #5e0614, #3d040d);
+  box-shadow: 0 0 0 2px #f2c14e, 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Paleta: cajón de fichas de marfil con canto de jade */
+.mm2 .ja-paleta {
+  border: 0;
+  border-radius: 20px;
+  box-shadow:
+    inset 0 0 0 3px #c8961e,
+    inset 0 0 0 6px #fff1c4,
+    0 0 0 5px #8f0c21,
+    0 0 0 7px #f2c14e,
+    0 22px 44px rgba(0, 0, 0, 0.55);
+}
+.mm2 .ja-paleta-asa {
+  min-height: 48px;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  background:
+    radial-gradient(100% 140% at 50% 0%, rgba(255, 255, 255, 0.18), transparent 60%),
+    linear-gradient(180deg, #c8102e, #8f0c21);
+  box-shadow: inset 0 -2px 0 #f2c14e;
+}
+.mm2 .ja-fichas {
+  gap: 10px;
+  padding: 12px;
+}
+.mm2 .ja-ficha {
+  border: 0;
+  border-radius: 12px;
+  background:
+    radial-gradient(120% 90% at 30% 10%, rgba(255, 255, 255, 0.95), transparent 55%),
+    linear-gradient(170deg, #fffaf0, #efe3c6);
+  box-shadow:
+    inset 0 0 0 2px rgba(200, 150, 30, 0.75),
+    inset 0 0 0 4px rgba(255, 250, 235, 0.9),
+    0 4px 0 #1f7a4e,
+    0 7px 0 #0f4a2e,
+    0 12px 14px rgba(59, 36, 22, 0.28);
+}
+.mm2 .ja-ficha:hover {
+  transform: translateY(-4px) rotate(-1.5deg);
+  box-shadow:
+    inset 0 0 0 2px rgba(200, 150, 30, 0.9),
+    inset 0 0 0 4px rgba(255, 250, 235, 0.9),
+    0 4px 0 #1f7a4e,
+    0 7px 0 #0f4a2e,
+    0 0 20px rgba(242, 193, 78, 0.7),
+    0 16px 18px rgba(59, 36, 22, 0.3);
+}
+.mm2 .ja-ficha b {
+  font-size: 16px;
+  font-weight: 800;
+}
+.mm2 .ja-ficha-zh {
+  background:
+    radial-gradient(120% 90% at 30% 10%, rgba(255, 255, 255, 0.9), transparent 55%),
+    linear-gradient(170deg, #f1fbf5, #d7efe2);
+  box-shadow:
+    inset 0 0 0 2px rgba(31, 111, 92, 0.7),
+    inset 0 0 0 4px rgba(241, 251, 245, 0.9),
+    0 4px 0 #b30d28,
+    0 7px 0 #6e0919,
+    0 12px 14px rgba(59, 36, 22, 0.28);
+}
+.mm2 .ja-ficha-zh b {
+  font-size: 21px;
+}
+.mm2 .ja-fantasma {
+  border: 0;
+  background: linear-gradient(170deg, #fffaf0, #efe3c6);
+  box-shadow: inset 0 0 0 2px #c8961e, 0 4px 0 #1f7a4e, 0 16px 28px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 900px) {
+  .ja-raiz.mm2 {
+    margin-top: 0;
+    border-radius: 18px;
+  }
+  .mm2 .ja-modo {
+    min-height: 50px;
+  }
+  .mm2 .ja-instruccion {
+    border-radius: 14px;
+    font-size: 12.5px;
+  }
+  .mm2 .ja-mesa {
+    gap: 0;
+  }
+  .mm2 .ja-lienzo {
+    border-radius: 18px 18px 0 0;
+  }
+  .mm2 .ja-paleta {
+    border-radius: 0 0 18px 18px;
+  }
+  .mm2-marca {
+    font-size: 220px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm2 .ja-modo,
+  .mm2 .ja-ficha {
+    transition: none;
+  }
+}
+
+/* Rey Mono dentro del pergamino (esquina inferior derecha) */
+.mm2-mono {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 2;
+  pointer-events: none;
+}
+.mm2-mono .jfx-mono {
+  position: static;
+}
+.mm2-mono .jfx-mono__img {
+  width: clamp(70px, 7vw, 104px);
+}
+@media (max-width: 900px) {
+  .mm2-mono {
+    right: 8px;
+    bottom: 8px;
+  }
+  .mm2-mono .jfx-mono__img {
+    width: 58px;
+  }
+  .mm2-mono .jfx-mono {
+    transform: none;
+  }
+}
