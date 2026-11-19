@@ -104,6 +104,34 @@ function JuegoViaje({ contenido }) {
     s.registro = [{ k: Date.now() + Math.random(), color: j?.color, es, zh }, ...s.registro].slice(0, 6);
   };
 
+  // ----- Cámara y efectos -----
+  const enfocar = (pos, zoom = 1.5) => {
+    const c = centroDe(pos);
+    const lim = (v) => Math.min(76, Math.max(24, v));
+    st.current.camara = { x: lim(c.x), y: lim(c.y), zoom };
+  };
+  const vistaGeneral = () => {
+    st.current.camara = { x: 50, y: 50, zoom: 1 };
+  };
+  const lanzarFx = (fx, ms = 1200) => {
+    const s = st.current;
+    const e = { ...fx, k: Math.random() };
+    s.fx = [...s.fx, e];
+    pintar();
+    setTimeout(() => {
+      if (st.current !== s) return;
+      s.fx = s.fx.filter((x) => x !== e);
+      pintar();
+    }, ms);
+  };
+  const cinematica = async (id, tipo, ms) => {
+    st.current.cine = { tipo, k: Date.now() };
+    pintar();
+    await esperar(ms, id);
+    st.current.cine = null;
+    pintar();
+  };
+
   const avisar = async (id, aviso, ms = 1500) => {
     st.current.aviso = { ...aviso, k: Date.now() };
     pintar();
@@ -198,7 +226,8 @@ function JuegoViaje({ contenido }) {
     const dist = B * (0.08 + 0.1 * Math.random());
     const dx = Math.cos(angulo) * dist;
     const dy = Math.sin(angulo) * dist * 0.8;
-    const h = B * (0.22 + 0.12 * fuerza);
+    const h = B * (0.3 + 0.16 * fuerza);
+    const t2 = (cuboRef.current.offsetWidth || 60) / 2;
     const D = 1350 + 550 * fuerza;
     pararAnimaciones();
     const subir = "cubic-bezier(.2,.75,.45,1)";
@@ -208,14 +237,14 @@ function JuegoViaje({ contenido }) {
       tiroRef.current.animate([{ transform: "translate(-50%, -50%) translate(0px, 0px)" }, { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px)` }], { ...opciones, easing: "cubic-bezier(.25,.6,.35,1)" }),
       altoRef.current.animate(
         [
-          { transform: "translateY(0) scale(1)", easing: subir },
-          { offset: 0.24, transform: `translateY(${-h}px) scale(1.6)`, easing: caer },
-          { offset: 0.46, transform: "translateY(0) scale(1, .9)", easing: subir },
-          { offset: 0.6, transform: `translateY(${-h * 0.3}px) scale(1.16)`, easing: caer },
-          { offset: 0.73, transform: "translateY(0) scale(1, .95)", easing: subir },
-          { offset: 0.83, transform: `translateY(${-h * 0.09}px) scale(1.05)`, easing: caer },
-          { offset: 0.91, transform: "translateY(0) scale(1)" },
-          { offset: 1, transform: "translateY(0) scale(1)" },
+          { transform: `translateZ(${t2 * 1.6}px)`, easing: subir },
+          { offset: 0.24, transform: `translateZ(${t2 + h}px)`, easing: caer },
+          { offset: 0.46, transform: `translateZ(${t2}px)`, easing: subir },
+          { offset: 0.6, transform: `translateZ(${t2 + h * 0.3}px)`, easing: caer },
+          { offset: 0.73, transform: `translateZ(${t2}px)`, easing: subir },
+          { offset: 0.83, transform: `translateZ(${t2 + h * 0.09}px)`, easing: caer },
+          { offset: 0.91, transform: `translateZ(${t2}px)` },
+          { offset: 1, transform: `translateZ(${t2}px)` },
         ],
         opciones,
       ),
@@ -283,33 +312,50 @@ function JuegoViaje({ contenido }) {
   };
 
   // ----- Movimiento -----
-  const caminar = async (id, j, camino, ms = 290) => {
+  const caminar = async (id, j, camino, ms = 330) => {
     const s = st.current;
     for (const p of camino) {
       j.pos = p;
       j.salto = (j.salto || 0) + 1;
       s.luces = [...s.luces.slice(-5), p];
+      enfocar(p);
       sonido.current.playClick?.();
       pintar();
+      // Polvo dorado al posarse (la ficha aterriza a mitad del salto)
+      setTimeout(() => lanzarFx({ tipo: "onda", pos: p }, 650), ms * 0.55);
       await esperar(ms, id);
     }
   };
 
-  const volar = async (id, j, destino) => {
+  /** Vuelo por el aire (nube o puente) con estela y cámara que acompaña */
+  const volar = async (id, j, destino, tipo = "nube") => {
+    const desde = j.pos;
+    const a = centroDe(desde);
+    const b = centroDe(destino);
+    st.current.camara = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, zoom: 1.15 };
+    lanzarFx({ tipo: tipo === "puente" ? "puente" : "vuelo", desde, hasta: destino }, 1900);
+    pintar();
+    await esperar(450, id);
     j.vuelo = true;
     j.pos = destino;
     j.salto = (j.salto || 0) + 1;
     st.current.luces = [destino];
     pintar();
-    await esperar(850, id);
+    await esperar(1150, id);
     j.vuelo = false;
+    enfocar(destino);
+    lanzarFx({ tipo: "onda", pos: destino, grande: true }, 800);
     pintar();
+    await esperar(300, id);
   };
 
-  const retroceder = async (id, j, destino) => {
+  const retroceder = async (id, j, destino, golpe = false) => {
     const camino = [];
     for (let p = j.pos - 1; p >= destino; p--) camino.push(p);
-    await caminar(id, j, camino, 170);
+    j.golpe = golpe;
+    await caminar(id, j, camino, golpe ? 150 : 190);
+    j.golpe = false;
+    pintar();
   };
 
   /** Efecto de la casilla donde cae `j`. Devuelve true si vuelve a jugar. */
@@ -322,21 +368,27 @@ function JuegoViaje({ contenido }) {
         if (otro === j || otro.pos !== j.pos) continue;
         const atras = Math.max(0, otro.pos - 4);
         registrar(j, `${j.nombre} adelanta a ${otro.nombre}: retrocede a la ${atras}`, `超过对手，对手退到${atras}号`);
+        lanzarFx({ tipo: "choque", pos: j.pos }, 1100);
+        sonido.current.playWrong?.();
         await avisar(id, { sello: "超", tipo: "captura", es: `¡Adelantas a ${otro.nombre}! Retrocede 4 casillas`, zh: "超过对手！对手后退4格" }, 1300);
-        await retroceder(id, otro, atras);
+        await retroceder(id, otro, atras, true);
       }
     }
     const esp = ESPECIALES[j.pos];
     if (!esp) return false;
     s.destino = j.pos;
+    enfocar(j.pos, 1.6);
+    const COLOR_FX = { nube: "#9fc4ff", puente: "#7fe0a6", linterna: "#ff8a5c", pozo: "#6e95e0", laberinto: "#ffd766", dragon: "#ff4d4d", melocoton: "#ffb3c1", pagoda: "#7fe0a6" };
+    lanzarFx({ tipo: "pilar", pos: j.pos, mini: true, color: COLOR_FX[esp.tipo] }, 1700);
     pintar();
     switch (esp.tipo) {
       case "nube": {
         const siguiente = NUBES.find((n) => n > j.pos);
         sonido.current.playSpell?.();
+        lanzarFx({ tipo: "nubes", pos: j.pos }, 1600);
         if (siguiente) {
           await avisar(id, { sello: "云", tipo: "nube", es: "¡De nube en nube! Vuela y vuelve a jugar", zh: "筋斗云！飞到下一朵云，再玩一次", chispas: true }, 1300);
-          await volar(id, j, siguiente);
+          await volar(id, j, siguiente, "nube");
           registrar(j, `${j.nombre} vuela en la nube a la ${siguiente}`, `乘筋斗云飞到${siguiente}号`);
         } else {
           await avisar(id, { sello: "云", tipo: "nube", es: "Nube voladora: ¡vuelve a jugar!", zh: "筋斗云：再玩一次！", chispas: true }, 1300);
@@ -346,15 +398,19 @@ function JuegoViaje({ contenido }) {
       case "puente":
         if (esp.fin) return false;
         sonido.current.playSpell?.();
+        lanzarFx({ tipo: "destello", pos: j.pos }, 1200);
         await avisar(id, { sello: "桥", tipo: "puente", es: "¡De puente a puente! Cruzas al 12 y vuelves a jugar", zh: "过仙桥！到12号，再玩一次", chispas: true }, 1400);
-        await volar(id, j, esp.destino);
+        await volar(id, j, esp.destino, "puente");
         registrar(j, `${j.nombre} cruza el puente`, "过桥");
         return true;
       case "linterna": {
-        await avisar(id, { sello: "灯", tipo: "linterna", es: "¡Linterna! Acierta otra pregunta y tiras otra vez", zh: "灯笼！再答对一题就再掷一次" }, 1300);
+        lanzarFx({ tipo: "linternas", pos: j.pos }, 3200);
+        sonido.current.playSpell?.();
+        await avisar(id, { sello: "灯", tipo: "linterna", es: "¡Linterna! Acierta otra pregunta y tiras otra vez", zh: "灯笼！再答对一题就再掷一次" }, 2300);
         const ok = await preguntar(id, j, "linterna");
         if (ok) {
-          await avisar(id, { sello: "灯", tipo: "linterna", es: "¡Doble acierto! Vuelves a tirar", zh: "连对两题！再掷一次", chispas: true }, 1100);
+          lanzarFx({ tipo: "linternas", pos: j.pos }, 3200);
+          await avisar(id, { sello: "灯", tipo: "linterna", es: "¡Doble acierto! Vuelves a tirar", zh: "连对两题！再掷一次", chispas: true }, 1300);
           registrar(j, `${j.nombre}: doble acierto en la linterna`, "灯笼连对");
           return "dado";
         }
@@ -362,18 +418,24 @@ function JuegoViaje({ contenido }) {
         return false;
       }
       case "pozo":
+        lanzarFx({ tipo: "remolino", pos: j.pos }, 2400);
+        await esperar(500, id);
         j.pozo = true;
         sonido.current.playLose?.();
         await avisar(id, { sello: "井", tipo: "pozo", es: "¡Al pozo! Necesitarás una pregunta extra para salir", zh: "掉进井里！下回合要多答一题才能出来" }, 1600);
         registrar(j, `${j.nombre} cae en el pozo`, "掉进井里");
         return false;
       case "laberinto": {
-        await avisar(id, { sello: "迷", tipo: "laberinto", es: "¡Laberinto! Acierta para encontrar la salida", zh: "迷宫！答对才能找到出口" }, 1300);
+        lanzarFx({ tipo: "laberinto", pos: j.pos }, 2200);
+        j.gira = (j.gira || 0) + 1;
+        await avisar(id, { sello: "迷", tipo: "laberinto", es: "¡Laberinto! Acierta para encontrar la salida", zh: "迷宫！答对才能找到出口" }, 1600);
         const ok = await preguntar(id, j, "laberinto");
         if (ok) {
           registrar(j, `${j.nombre} sale del laberinto`, "走出迷宫");
           return false;
         }
+        lanzarFx({ tipo: "laberinto", pos: j.pos }, 2200);
+        j.gira = (j.gira || 0) + 1;
         await avisar(id, { sello: "迷", tipo: "laberinto", es: `Te pierdes… vuelves a la ${esp.destino}`, zh: `迷路了……退回${esp.destino}号` }, 1200);
         await retroceder(id, j, esp.destino);
         registrar(j, `${j.nombre} se pierde en el laberinto`, "在迷宫迷路");
@@ -382,22 +444,31 @@ function JuegoViaje({ contenido }) {
       case "dragon":
         if (j.escudo) {
           j.escudo = false;
+          lanzarFx({ tipo: "petalos", pos: j.pos }, 1800);
+          lanzarFx({ tipo: "cupula", pos: j.pos }, 1800);
+          await cinematica(id, "dragon-huye", 1500);
           await avisar(id, { sello: "桃", tipo: "melocoton", es: "¡El melocotón de la inmortalidad te protege del dragón!", zh: "蟠桃保护了你，恶龙伤不到你！", chispas: true }, 1600);
           registrar(j, `${j.nombre} se salva del dragón`, "蟠桃护身");
           return false;
         }
         sonido.current.playWrong?.();
-        await avisar(id, { sello: "龙", tipo: "dragon", es: `¡El dragón te sopla hacia atrás! Vuelves a la ${esp.destino}`, zh: `恶龙把你吹回${esp.destino}号！` }, 1500);
-        await retroceder(id, j, esp.destino);
+        vistaGeneral();
+        await cinematica(id, "dragon", 1900);
+        lanzarFx({ tipo: "fuego", pos: j.pos }, 1600);
+        await avisar(id, { sello: "龙", tipo: "dragon", es: `¡El dragón te sopla hacia atrás! Vuelves a la ${esp.destino}`, zh: `恶龙把你吹回${esp.destino}号！` }, 1300);
+        await retroceder(id, j, esp.destino, true);
         registrar(j, `${j.nombre}: el dragón lo devuelve a la ${esp.destino}`, `被恶龙吹回${esp.destino}号`);
         return false;
       case "melocoton":
         j.escudo = true;
+        lanzarFx({ tipo: "petalos", pos: j.pos }, 2000);
+        lanzarFx({ tipo: "cupula", pos: j.pos }, 2000);
         sonido.current.playCorrect?.();
         await avisar(id, { sello: "桃", tipo: "melocoton", es: "¡Melocotón de la inmortalidad! Te protege del próximo dragón", zh: "蟠桃！能保护你躲过下一条恶龙", chispas: true }, 1500);
         registrar(j, `${j.nombre} coge un melocotón`, "得到蟠桃");
         return false;
       case "pagoda":
+        lanzarFx({ tipo: "cupula", pos: j.pos, oro: true }, 1600);
         await avisar(id, { sello: "塔", tipo: "pagoda", es: "Pagoda: casilla segura", zh: "宝塔：安全格" }, 900);
         return false;
       default:
@@ -408,6 +479,7 @@ function JuegoViaje({ contenido }) {
   /** Un turno completo; devuelve true si el jugador vuelve a jugar */
   const jugarTurno = async (id, j) => {
     const s = st.current;
+    vistaGeneral();
     s.mensaje = { es: j.cpu ? "El Rey Mono piensa su respuesta…" : `Turno de ${j.nombre}: responde la pregunta`, zh: j.cpu ? "美猴王正在思考……" : "轮到你：先回答问题" };
     pintar();
     if (j.pozo) {
@@ -418,7 +490,12 @@ function JuegoViaje({ contenido }) {
         return false;
       }
       j.pozo = false;
+      enfocar(j.pos, 1.6);
+      j.salto = (j.salto || 0) + 1;
+      lanzarFx({ tipo: "onda", pos: j.pos, grande: true }, 900);
+      lanzarFx({ tipo: "destello", pos: j.pos }, 1200);
       await avisar(id, { sello: "井", tipo: "pozo", es: `¡${j.nombre} sale del pozo!`, zh: "出井了！", chispas: true }, 1100);
+      vistaGeneral();
     }
     let ok = await preguntar(id, j, "tirar");
     while (true) {
@@ -427,6 +504,7 @@ function JuegoViaje({ contenido }) {
         if (j.cpu) await avisar(id, { sello: "错", tipo: "fallo", es: "El Rey Mono falla: pierde el turno", zh: "美猴王答错了，失去这一回合" }, 1100);
         return false;
       }
+      vistaGeneral();
       const valor = await tirarDado(id, j);
       registrar(j, `${j.nombre} saca un ${valor}`, `掷出${valor}点`);
       const antes = j.pos;
@@ -438,6 +516,12 @@ function JuegoViaje({ contenido }) {
       if (antes + valor > META) await avisar(id, { sello: "回", tipo: "rebote", es: "Rebotas: hay que llegar justo a la meta", zh: "超过终点要反弹：必须正好走到终点" }, 1100);
       if (j.pos === META) {
         s.ganador = j;
+        st.current.camara = { x: 50, y: 50, zoom: 1.3 };
+        lanzarFx({ tipo: "pilar", pos: META }, 3000);
+        pintar();
+        const r = tableroRef.current?.getBoundingClientRect();
+        if (r) [0, 300, 600, 900].forEach((t, i) => setTimeout(() => chispasOro(r.left + r.width * (0.3 + 0.13 * i), r.top + r.height * (0.25 + (i % 2) * 0.2), 50), t));
+        await esperar(1600, id);
         return false;
       }
       const extra = await resolverCasilla(id, j);
@@ -463,6 +547,7 @@ function JuegoViaje({ contenido }) {
           s.turno = (s.turno + 1) % s.jugadores.length;
         }
         s.luces = [];
+        vistaGeneral();
         pintar();
         await esperar(450, id);
       }
@@ -522,6 +607,9 @@ function JuegoViaje({ contenido }) {
       mazo: crearMazoPreguntas(grupos),
       dado: { giro: [-22, 28, 0], fase: "oculto", cpu: false, valor: null },
       objetivo: null,
+      camara: { x: 50, y: 50, zoom: 1 },
+      fx: [],
+      cine: null,
       pregunta: null,
       aviso: null,
       registro: [],
@@ -585,15 +673,25 @@ function JuegoViaje({ contenido }) {
 
       {pantalla !== "intro" && s && (
         <div className="vm-mesa">
-          <div className={`vm-marco ${s.aviso?.tipo === "dragon" && !reducido ? "is-temblor" : ""}`}>
-            <div className={`vm-tablero ${s.dado.fase !== "oculto" ? "is-tirando" : ""}`} ref={tableroRef}>
-              <TableroViaje luces={s.luces} destino={s.destino} objetivo={s.objetivo} />
-              <Fichas jugadores={s.jugadores} turno={s.turno} />
-              <span className="vm-velo" aria-hidden="true" />
-              <Lanzador dado={s.dado} refs={{ tiroRef, altoRef, sombraRef, cuboRef }} onLanzar={(f) => clicDado.current?.(f)} />
-              {s.aviso && <Aviso aviso={s.aviso} />}
+          <div className={`vm-escena ${(s.aviso?.tipo === "dragon" || s.cine?.tipo === "dragon") && !reducido ? "is-temblor" : ""}`}>
+            <div className="vm-camara" style={{ "--cx": `${50 - s.camara.x}%`, "--cy": `${50 - s.camara.y}%`, "--zoom": s.camara.zoom }}>
+              <div className="vm-marco">
+                <div className={`vm-tablero ${s.dado.fase !== "oculto" ? "is-tirando" : ""}`} ref={tableroRef}>
+                  <TableroViaje luces={s.luces} destino={s.destino} objetivo={s.objetivo} />
+                  <div className="vm-fx-capa" aria-hidden="true">
+                    {s.fx.map((e) => (
+                      <Efecto key={e.k} e={e} />
+                    ))}
+                  </div>
+                  <Fichas jugadores={s.jugadores} turno={s.turno} />
+                  <span className="vm-velo" aria-hidden="true" />
+                  <Lanzador dado={s.dado} refs={{ tiroRef, altoRef, sombraRef, cuboRef }} onLanzar={(f) => clicDado.current?.(f)} />
+                </div>
+              </div>
             </div>
+            {s.aviso && <Aviso aviso={s.aviso} />}
           </div>
+          {s.cine && !reducido && createPortal(<Cinematica cine={s.cine} />, document.body)}
           <aside className="vm-lado">
             <ol className="vm-jugadores" aria-label="Jugadores · 玩家">
               {s.jugadores.map((j, i) => (
@@ -696,26 +794,214 @@ function Fichas({ jugadores, turno }) {
     const { x, y } = centroDe(j.pos);
     const d = juntos.length > 1 ? DESVIO[k] : [0, 0];
     const meta = j.pos >= META;
-    const dx = d[0] * (meta ? 6 : 3.2);
-    const dy = d[1] * (meta ? 4 : 3.2) + (meta ? 6 : 0);
+    const dx = d[0] * (meta ? 6 : 3);
+    const dy = d[1] * (meta ? 4 : 2.6) + (meta ? 4 : 0);
+    const clases = ["vm-ficha", `is-${j.color}`, i === turno ? "is-turno" : "", j.vuelo ? "is-vuelo" : "", j.pozo ? "is-hundida" : "", j.escudo ? "is-escudo" : "", j.golpe ? "is-golpe" : ""].join(" ");
     return (
-      <div
-        key={j.id}
-        className={`vm-ficha is-${j.color} ${i === turno ? "is-turno" : ""} ${j.vuelo ? "is-vuelo" : ""}`}
-        style={{ left: `${x + dx}%`, top: `${y + dy}%`, zIndex: 10 + Math.round(y) }}
-        aria-label={`${j.nombre}: ${j.pos === 0 ? "salida" : `casilla ${j.pos}`}`}
-      >
-        <span className="vm-ficha-salto" key={j.salto}>
-          <span className="vm-ficha-cuerpo">
-            <span className="vm-ficha-base" />
-            <span className="vm-ficha-cuello" />
-            <span className="vm-ficha-cabeza">{j.cpu ? <img src={`${BASE}mono/feliz.webp`} alt="" /> : <b translate="no">{FICHAS.find((f) => f.color === j.color)?.zh}</b>}</span>
+      <div key={j.id} className={clases} style={{ left: `${x + dx}%`, top: `${y + dy}%` }} aria-label={`${j.nombre}: ${j.pos === 0 ? "salida" : `casilla ${j.pos}`}`}>
+        <span className="vm-ficha-sombra" />
+        {i === turno && <span className="vm-ficha-anillo" />}
+        {j.pozo && <span className="vm-ficha-agua" />}
+        <span className="vm-ficha-pie">
+          <span className={`vm-ficha-gira ${j.gira ? "is-gira" : ""}`} key={`g${j.gira || 0}`}>
+            <span className="vm-ficha-salto" key={j.salto}>
+              <span className="vm-ficha-cuerpo">
+                <span className="vm-ficha-base" />
+                <span className="vm-ficha-cuello" />
+                <span className="vm-ficha-cabeza">{j.cpu ? <img src={`${BASE}mono/feliz.webp`} alt="" /> : <b translate="no">{FICHAS.find((f) => f.color === j.color)?.zh}</b>}</span>
+              </span>
+              {j.escudo && <span className="vm-ficha-escudo" />}
+            </span>
           </span>
         </span>
-        <span className="vm-ficha-sombra" />
       </div>
     );
   });
+}
+
+// ---------- Efectos sobre el tablero (en el plano 3D) ----------
+const azar = (a, b) => a + Math.random() * (b - a);
+function Efecto({ e }) {
+  const c = centroDe(e.pos ?? 0);
+  const sitio = { left: `${c.x}%`, top: `${c.y}%` };
+  const datos = React.useMemo(
+    () => ({
+      petalos: Array.from({ length: 18 }, (_, i) => ({ a: (i / 18) * 360 + azar(-8, 8), r: azar(9, 19), d: azar(0, 180), g: azar(-260, 260) })),
+      linternas: Array.from({ length: 11 }, (_, i) => ({ x: azar(-6, 6), d: i * 110 + azar(0, 90), h: azar(28, 46), s: azar(0.75, 1.2), o: azar(-12, 12) })),
+      brasas: Array.from({ length: 18 }, () => ({ x: azar(-12, 12), d: azar(0, 500), h: azar(12, 30), s: azar(0.6, 1.4) })),
+      nubes: Array.from({ length: 7 }, (_, i) => ({ a: (i / 7) * Math.PI * 2, d: i * 40 })),
+    }),
+    [],
+  );
+  const ref = React.useRef(null);
+  // Nube que transporta la ficha
+  React.useEffect(() => {
+    if (e.tipo !== "vuelo" || !ref.current?.animate) return;
+    const a = centroDe(e.desde);
+    const b = centroDe(e.hasta);
+    ref.current.animate(
+      [
+        { left: `${a.x}%`, top: `${a.y}%`, opacity: 0 },
+        { offset: 0.2, left: `${a.x}%`, top: `${a.y}%`, opacity: 1 },
+        { offset: 0.85, left: `${b.x}%`, top: `${b.y}%`, opacity: 1 },
+        { left: `${b.x}%`, top: `${b.y}%`, opacity: 0 },
+      ],
+      { duration: 1800, easing: "cubic-bezier(.45,0,.3,1)", fill: "forwards" },
+    );
+  }, [e]);
+  switch (e.tipo) {
+    case "onda":
+      return (
+        <span className={`vm-fx vm-fx-onda ${e.grande ? "is-grande" : ""}`} style={sitio}>
+          <i />
+          <i />
+        </span>
+      );
+    case "destello":
+    case "choque":
+      return (
+        <span className={`vm-fx vm-fx-destello ${e.tipo === "choque" ? "is-choque" : ""}`} style={sitio}>
+          {Array.from({ length: 14 }, (_, i) => (
+            <i key={i} style={{ transform: `rotate(${i * (360 / 14)}deg)` }} />
+          ))}
+          <b />
+        </span>
+      );
+    case "nubes":
+      return (
+        <span className="vm-fx vm-fx-nubes" style={sitio}>
+          {datos.nubes.map((n, i) => (
+            <span key={i} className="vm-bb" style={{ "--dx": `${Math.cos(n.a) * 140}%`, "--dy": `${Math.sin(n.a) * 90}%`, animationDelay: `${n.d}ms` }}>
+              <img src={`${BASE}theme/nube-oro.png`} alt="" style={{ animationDelay: `${n.d}ms` }} />
+            </span>
+          ))}
+        </span>
+      );
+    case "vuelo": {
+      const a = centroDe(e.desde);
+      const b = centroDe(e.hasta);
+      return (
+        <>
+          {Array.from({ length: 16 }, (_, i) => {
+            const t = i / 15;
+            return <span key={i} className="vm-fx vm-fx-estela" style={{ left: `${a.x + (b.x - a.x) * t}%`, top: `${a.y + (b.y - a.y) * t}%`, animationDelay: `${450 + t * 1050}ms` }} />;
+          })}
+          <span ref={ref} className="vm-fx vm-fx-nubevuela" style={{ left: `${a.x}%`, top: `${a.y}%` }}>
+            <span className="vm-bb">
+              <img src={`${BASE}theme/nube-oro.png`} alt="" />
+            </span>
+          </span>
+        </>
+      );
+    }
+    case "puente": {
+      const a = centroDe(e.desde);
+      const b = centroDe(e.hasta);
+      const mx = (a.x + b.x) / 2;
+      const my = (a.y + b.y) / 2;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const L = Math.hypot(dx, dy) || 1;
+      const cx = mx - (dy / L) * 9;
+      const cy = my + (dx / L) * 9;
+      const d = `M${a.x} ${a.y} Q${cx} ${cy} ${b.x} ${b.y}`;
+      return (
+        <svg className="vm-fx-arco" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d={d} pathLength="100" className="is-aura" />
+          <path d={d} pathLength="100" className="is-rojo" />
+          <path d={d} pathLength="100" className="is-oro" />
+          <path d={d} pathLength="100" className="is-luz" />
+        </svg>
+      );
+    }
+    case "linternas":
+      return (
+        <span className="vm-fx vm-fx-linternas" style={sitio}>
+          {datos.linternas.map((l, i) => (
+            <span key={i} className="vm-bb" style={{ "--x": `${l.x * 10}%`, "--h": `${l.h}vh`, "--o": `${l.o}px`, "--s": l.s, animationDelay: `${l.d}ms` }}>
+              <i className="vm-farol" style={{ animationDelay: `${l.d}ms` }} />
+            </span>
+          ))}
+        </span>
+      );
+    case "remolino":
+      return (
+        <span className="vm-fx vm-fx-remolino" style={sitio}>
+          <b />
+          <i />
+          <i />
+          <i />
+        </span>
+      );
+    case "laberinto":
+      return (
+        <span className="vm-fx vm-fx-laberinto" style={sitio}>
+          <svg viewBox="-50 -50 100 100">
+            <path d="M-44 -44 H44 V44 H-36 V-36 H36 V36 H-28 V-28 H28 V28 H-20 V-20 H20 V20 H-12 V-12 H12 V12 H-4 V-4" />
+          </svg>
+        </span>
+      );
+    case "petalos":
+      return (
+        <span className="vm-fx vm-fx-petalos" style={sitio}>
+          {datos.petalos.map((p, i) => (
+            <i key={i} style={{ "--a": `${p.a}deg`, "--r": `${p.r * 10}%`, "--g": `${p.g}deg`, animationDelay: `${p.d}ms` }} />
+          ))}
+        </span>
+      );
+    case "cupula":
+      return (
+        <span className={`vm-fx vm-fx-cupula ${e.oro ? "is-oro" : ""}`} style={sitio}>
+          <span className="vm-bb">
+            <i />
+          </span>
+        </span>
+      );
+    case "fuego":
+      return (
+        <span className="vm-fx vm-fx-fuego" style={sitio}>
+          <b />
+          {datos.brasas.map((p, i) => (
+            <span key={i} className="vm-bb" style={{ "--x": `${p.x * 10}%`, "--h": `${p.h}vh`, "--s": p.s, animationDelay: `${p.d}ms` }}>
+              <i style={{ animationDelay: `${p.d}ms` }} />
+            </span>
+          ))}
+        </span>
+      );
+    case "pilar":
+      return (
+        <span className={`vm-fx vm-fx-pilar ${e.mini ? "is-mini" : ""}`} style={{ ...sitio, "--c": e.color || "#ffe08a" }}>
+          <span className="vm-bb">
+            <i />
+            <b />
+          </span>
+        </span>
+      );
+    default:
+      return null;
+  }
+}
+
+// ---------- Cinemáticas a pantalla completa (dragón) ----------
+function Cinematica({ cine }) {
+  const vientos = React.useMemo(() => Array.from({ length: 14 }, () => ({ y: azar(8, 92), d: azar(250, 1100), w: azar(18, 40) })), []);
+  const brasas = React.useMemo(() => Array.from({ length: 26 }, () => ({ y: azar(20, 80), d: azar(300, 1200), s: azar(4, 11) })), []);
+  return (
+    <div className={`vm-cine is-${cine.tipo}`} aria-hidden="true" key={cine.k}>
+      <span className="vm-cine-fondo" />
+      <span className="vm-cine-sello" translate="no">
+        龙
+      </span>
+      {vientos.map((v, i) => (
+        <i key={`v${i}`} className="vm-cine-viento" style={{ top: `${v.y}%`, width: `${v.w}vw`, animationDelay: `${v.d}ms` }} />
+      ))}
+      {brasas.map((b, i) => (
+        <i key={`b${i}`} className="vm-cine-brasa" style={{ top: `${b.y}%`, width: b.s, height: b.s, animationDelay: `${b.d}ms` }} />
+      ))}
+      <img className="vm-cine-dragon" src={`${BASE}theme/dragon.webp`} alt="" />
+      {cine.tipo === "dragon-huye" && <span className="vm-cine-escudo" />}
+    </div>
+  );
 }
 
 // ---------- Dado que se lanza sobre el tablero ----------
