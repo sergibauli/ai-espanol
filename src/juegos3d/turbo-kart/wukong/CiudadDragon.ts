@@ -10,6 +10,8 @@ import type { IKart, ITrack, TrackDefinition, TrackSample } from '../core/types'
 import { wrap01 } from '../core/math';
 import { esVacio, rnd, texturaCanvas } from './util';
 import { CiudadElevada } from './CiudadElevada';
+import { DragonesJade } from './DragonJade';
+import { texturaEscamas, texturaXiangyun } from './TexturasCiudad';
 
 interface Estilo {
   /** Color base de la carretera y su opacidad sobre el asfalto. */
@@ -26,7 +28,7 @@ interface Estilo {
 }
 
 const ESTILOS: Record<string, Estilo> = {
-  neon_nexus: { carretera: 0x14907f, alfa: 0.93, venas: 0x7ffff0, bordeA: 0xff3fa0, bordeB: 0x3ff0ff, noche: true, ciudad: true, fuegos: true, dragon: 0x1f8a7a, nubes: 0x8a90b0 },
+  neon_nexus: { carretera: 0x1fb3a2, alfa: 1, venas: 0x7ffff0, bordeA: 0xff3fa0, bordeB: 0x3ff0ff, noche: true, ciudad: true, fuegos: true, dragon: 0x1f8a7a, nubes: 0x8a90b0 },
   sunny_circuit: { carretera: 0x1f6b5a, alfa: 0.5, venas: 0x9ffff0, bordeA: 0xffc531, bordeB: 0x5fffd0, noche: false, ciudad: false, fuegos: false, dragon: 0xc8102e, nubes: 0xffffff },
   dune_drift: { carretera: 0x6a1a08, alfa: 0.45, venas: 0xffb347, bordeA: 0xff5a1f, bordeB: 0xffd23f, noche: false, ciudad: false, fuegos: true, dragon: 0xc8102e, nubes: 0xffe2c0 },
   frostbite_falls: { carretera: 0x2a8a82, alfa: 0.5, venas: 0xe0fffb, bordeA: 0x5fd3ff, bordeB: 0xffffff, noche: false, ciudad: false, fuegos: false, dragon: 0x1f7a66, nubes: 0xffffff },
@@ -36,10 +38,13 @@ const VERT_CARRETERA = /* glsl */ `
 attribute float aBorde;
 varying vec2 vUv;
 varying float vBorde;
+varying vec3 vW;
 void main() {
   vUv = uv;
   vBorde = aBorde;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  vec4 w = modelMatrix * vec4(position, 1.0);
+  vW = w.xyz;
+  gl_Position = projectionMatrix * viewMatrix * w;
 }`;
 
 // Jade translúcido + relámpagos animados + bordes neón rosa y blanco + línea central discontinua.
@@ -51,8 +56,11 @@ uniform vec3 uVenas;
 uniform vec3 uBordeA;
 uniform vec3 uBordeB;
 uniform float uAlfa;
+uniform float uModo;
+uniform sampler2D uNubes;
 varying vec2 vUv;
 varying float vBorde;
+varying vec3 vW;
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p) {
   vec2 i = floor(p); vec2 f = fract(p);
@@ -66,20 +74,55 @@ void main() {
   float xc = abs(x - 0.5) * 2.0;
   float e = vBorde;
   vec2 p = vec2(x * 3.2, y * 0.9);
-  // relámpagos: líneas finas de ruido con un segundo nivel de ramas
-  float n = fbm(p + vec2(0.0, -uTime * 0.22));
-  float vena = 1.0 - smoothstep(0.0, 0.018, abs(n - 0.5));
-  float n2 = fbm(p * 2.3 + vec2(3.1, uTime * 0.15));
-  vena += 0.55 * (1.0 - smoothstep(0.0, 0.012, abs(n2 - 0.52)));
-  float halo = 1.0 - smoothstep(0.0, 0.09, abs(n - 0.5));
-  float pulso = 0.65 + 0.35 * sin(uTime * 4.0 + y * 1.7 + n * 6.0);
-  float fondo = fbm(p * 0.5 + 7.0);
-  vec3 col = uBase * (0.12 + 0.3 * fondo);
-  col += uBase * 0.3 * halo;
-  col += uVenas * vena * pulso * 1.25;
-  // destellos sueltos
-  float chispa = step(0.996, hash(floor(vec2(x * 90.0, y * 14.0)))) * (0.5 + 0.5 * sin(uTime * 8.0 + y));
-  col += uVenas * chispa * 0.8;
+  vec3 col;
+  float vena = 0.0;
+  if (uModo > 0.5) {
+    // Jade turquesa vidriado con vetas lechosas.
+    float fondo = fbm(p * 0.6 + 7.0);
+    float vetas = fbm(vec2(x * 7.0, y * 0.45) + fondo * 2.5);
+    col = uBase * (0.26 + 0.2 * fondo) + vec3(0.3, 0.75, 0.7) * 0.1 * smoothstep(0.5, 0.85, vetas);
+    // Nubes chinas (xiangyun) grabadas en luz blanca + una segunda capa en lo hondo del jade.
+    vec2 q = vec2(x * 1.45, y * 0.36);
+    float n1 = texture2D(uNubes, q).r;
+    float n2 = texture2D(uNubes, vec2(1.0 - x, y * 0.5) * 0.62 + vec2(0.37, uTime * 0.01)).r;
+    float flujo = 0.55 + 0.45 * sin(y * 0.8 - uTime * 2.4 + x * 5.0);
+    float trazo = smoothstep(0.42, 0.92, n1);
+    float halo = smoothstep(0.06, 0.55, n1);
+    col += uVenas * halo * (0.05 + 0.08 * flujo);
+    col += vec3(0.95, 1.0, 0.98) * trazo * (0.38 + 0.42 * flujo);
+    col += uVenas * smoothstep(0.35, 0.9, n2) * 0.06;
+    vena = trazo;
+    // Reflejos de las luces de la ciudad: franjas a lo largo, rotas por el vidriado.
+    float rompe = smoothstep(0.35, 0.7, fbm(vec2(x * 2.0, y * 0.3 - uTime * 0.04)));
+    vec3 refl = uBordeA * exp(-pow((xc - (e - 0.22)) * 11.0, 2.0)) * 0.36
+              + vec3(1.0, 0.72, 0.4) * exp(-pow((xc - 0.34) * 15.0, 2.0)) * 0.2
+              + vec3(0.75, 0.9, 1.0) * exp(-pow((xc - 0.12) * 18.0, 2.0)) * 0.12;
+    col += refl * rompe;
+    // brillo vidriado ondulante (la superficie parece agua quieta bajo la laca)
+    float brillo = fbm(vec2(x * 5.0 + uTime * 0.05, y * 0.8));
+    col += vec3(0.35, 0.7, 0.68) * smoothstep(0.62, 0.8, brillo) * 0.12;
+    // Fresnel: hacia el horizonte el vidriado refleja el cielo morado.
+    vec3 V = normalize(cameraPosition - vW);
+    float fres = pow(1.0 - clamp(V.y, 0.0, 1.0), 5.0);
+    col = mix(col, vec3(0.32, 0.26, 0.6), fres * 0.3);
+    float chispa = step(0.997, hash(floor(vec2(x * 90.0, y * 14.0)))) * (0.5 + 0.5 * sin(uTime * 6.0 + y));
+    col += vec3(1.0) * chispa * 0.5;
+  } else {
+    // relámpagos: líneas finas de ruido con un segundo nivel de ramas
+    float n = fbm(p + vec2(0.0, -uTime * 0.22));
+    vena = 1.0 - smoothstep(0.0, 0.018, abs(n - 0.5));
+    float n2 = fbm(p * 2.3 + vec2(3.1, uTime * 0.15));
+    vena += 0.55 * (1.0 - smoothstep(0.0, 0.012, abs(n2 - 0.52)));
+    float halo = 1.0 - smoothstep(0.0, 0.09, abs(n - 0.5));
+    float pulso = 0.65 + 0.35 * sin(uTime * 4.0 + y * 1.7 + n * 6.0);
+    float fondo = fbm(p * 0.5 + 7.0);
+    col = uBase * (0.12 + 0.3 * fondo);
+    col += uBase * 0.3 * halo;
+    col += uVenas * vena * pulso * 1.25;
+    // destellos sueltos
+    float chispa = step(0.996, hash(floor(vec2(x * 90.0, y * 14.0)))) * (0.5 + 0.5 * sin(uTime * 8.0 + y));
+    col += uVenas * chispa * 0.8;
+  }
   // arcén: jade más oscuro
   float fuera = smoothstep(e - 0.004, e + 0.004, xc);
   col = mix(col, uBase * 0.12 + uVenas * vena * 0.25, fuera);
@@ -144,6 +187,9 @@ export class CiudadDragon {
   private elevada: CiudadElevada | null = null;
   /** Tramo en el que el cuerpo del dragón sustituye a la barandilla izquierda. */
   private readonly tramoDragon: [number, number] = [0.03, 0.1];
+  /** Tiempo compartido por los materiales que se mecen (farolillos). */
+  private readonly uTiempo = { value: 0 };
+  private dragones: DragonesJade | null = null;
 
   constructor(
     private readonly track: ITrack,
@@ -187,9 +233,16 @@ export class CiudadDragon {
         uBordeA: { value: new THREE.Color(e.bordeA) },
         uBordeB: { value: new THREE.Color(e.bordeB) },
         uAlfa: { value: e.alfa },
+        uModo: { value: e.ciudad ? 1 : 0 },
+        uNubes: { value: null },
       },
     });
     this.mats.push(this.matCarretera);
+    if (e.ciudad) {
+      const nubes = texturaXiangyun();
+      this.texs.push(nubes);
+      this.matCarretera.uniforms.uNubes.value = nubes;
+    }
 
     if (e.ciudad) {
       this.elevada = new CiudadElevada(track);
@@ -273,46 +326,24 @@ export class CiudadDragon {
   // ------------------------------------------------------------------ barandillas de escamas
   private crearBarandillas(): void {
     const def = this.track.def;
-    const tex = texturaCanvas(256, 128, (c) => {
-      const grad = c.createLinearGradient(0, 0, 0, 128);
-      grad.addColorStop(0, '#ff6a3a');
-      grad.addColorStop(0.5, '#d8142e');
-      grad.addColorStop(1, '#7a0a14');
-      c.fillStyle = grad;
-      c.fillRect(0, 0, 256, 128);
-      c.strokeStyle = '#ffd36a';
-      c.lineWidth = 3;
-      for (let row = 0; row < 6; row++) {
-        for (let col = -1; col < 10; col++) {
-          const x = col * 28 + (row % 2) * 14;
-          const y = row * 22 + 10;
-          c.beginPath();
-          c.arc(x, y, 14, 0.15 * Math.PI, 0.85 * Math.PI);
-          c.stroke();
-        }
-      }
-      c.fillStyle = '#ffd36a';
-      c.fillRect(0, 0, 256, 8);
-      c.fillRect(0, 34, 256, 12);
-      c.fillRect(0, 120, 256, 8);
-    });
+    const tex = texturaEscamas();
     tex.repeat.set(1, 1);
     this.texs.push(tex);
     const mat = this.m(
-      new THREE.MeshStandardMaterial({ map: tex, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.5, roughness: 0.35, metalness: 0.3, side: THREE.DoubleSide }),
+      new THREE.MeshStandardMaterial({ map: tex, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.72, roughness: 0.28, metalness: 0.3, side: THREE.DoubleSide }),
     );
     const L = this.track.length;
     const paso = 2;
     const n = Math.round(L / paso);
-    const alto = 1.15;
+    const alto = 1.4;
     // Perfil redondeado (lomo de escamas): [hacia fuera, altura, v de textura].
     const perfil: [number, number, number][] = [
       [-0.1, -0.3, 0],
-      [-0.32, 0.3, 0.25],
-      [-0.22, 0.85, 0.5],
-      [0.12, 1.15, 0.7],
-      [0.48, 0.9, 0.85],
-      [0.6, 0.1, 1],
+      [-0.34, 0.35, 0.25],
+      [-0.24, 1.05, 0.5],
+      [0.12, 1.4, 0.7],
+      [0.5, 1.1, 0.85],
+      [0.62, 0.1, 1],
     ];
     const K = perfil.length;
     const pos: number[] = [];
@@ -322,8 +353,6 @@ export class CiudadDragon {
     const neonPos: number[] = [];
     const neonIdx: number[] = [];
     const s = this.muestra(0);
-    const q = new THREE.Quaternion();
-    const up = new THREE.Vector3(0, 1, 0);
     const [d0, d1] = this.tramoDragon;
     for (const lado of [-1, 1]) {
       let abierto = false;
@@ -340,14 +369,14 @@ export class CiudadDragon {
         for (const [o, h, v] of perfil) {
           const dd = d + o;
           pos.push(s.position.x + s.binormal.x * dd * lado, y + h, s.position.z + s.binormal.z * dd * lado);
-          uv.push((t * L) / 4, v);
+          uv.push((t * L) / 6.5, v);
         }
         // Línea neón blanca y rosa al pie de la barandilla, del lado de la pista.
         const nb = neonPos.length / 3;
         const dn = d - 0.12;
         neonPos.push(
           s.position.x + s.binormal.x * dn * lado, y + 0.02, s.position.z + s.binormal.z * dn * lado,
-          s.position.x + s.binormal.x * dn * lado, y + 0.3, s.position.z + s.binormal.z * dn * lado,
+          s.position.x + s.binormal.x * dn * lado, y + 0.24, s.position.z + s.binormal.z * dn * lado,
         );
         if (abierto) {
           for (let k = 0; k < K - 1; k++) {
@@ -358,10 +387,18 @@ export class CiudadDragon {
           neonIdx.push(nb - 2, nb, nb - 1, nb - 1, nb, nb + 1);
         }
         abierto = true;
-        if (i % 2 === 0) {
-          q.setFromUnitVectors(up, new THREE.Vector3(s.binormal.x * lado * 0.35, 1, s.binormal.z * lado * 0.35).normalize());
+        {
+          // Aleta dorsal dorada: x = a lo largo (punta hacia atrás), y = arriba (algo hacia fuera), z = de lado.
+          const arriba = new THREE.Vector3(s.binormal.x * lado * 0.25, 1, s.binormal.z * lado * 0.25).normalize();
+          const largo = new THREE.Vector3(s.tangent.x, 0, s.tangent.z).normalize();
+          const ancho = new THREE.Vector3().crossVectors(largo, arriba).normalize();
           const dt = d + 0.12;
-          puntas.push(new THREE.Matrix4().compose(new THREE.Vector3(s.position.x + s.binormal.x * dt * lado, y + alto + 0.4, s.position.z + s.binormal.z * dt * lado), q, new THREE.Vector3(1, 1, 1)));
+          const esc = i % 2 === 0 ? 1 : 0.78;
+          puntas.push(
+            new THREE.Matrix4()
+              .makeBasis(largo.multiplyScalar(esc), arriba.multiplyScalar(esc), ancho)
+              .setPosition(s.position.x + s.binormal.x * dt * lado, y + alto - 0.12, s.position.z + s.binormal.z * dt * lado),
+          );
         }
       }
     }
@@ -377,14 +414,22 @@ export class CiudadDragon {
     const gn = this.g(new THREE.BufferGeometry());
     gn.setAttribute('position', new THREE.Float32BufferAttribute(neonPos, 3));
     gn.setIndex(neonIdx);
-    const linea = new THREE.Mesh(gn, this.m(new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffc0e8).multiplyScalar(2), toneMapped: false, side: THREE.DoubleSide })));
+    // Franja de luz cálida en la base (como en la maqueta).
+    const linea = new THREE.Mesh(gn, this.m(new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffb35a).multiplyScalar(2.1), toneMapped: false, side: THREE.DoubleSide })));
     linea.frustumCulled = false;
     this.object.add(linea);
 
-    // Remate dorado brillante encima del muro (línea neón)
+    // Aletas doradas curvas (como la aleta dorsal de un dragón) encima del muro.
+    const forma = new THREE.Shape();
+    forma.moveTo(0.55, 0);
+    forma.quadraticCurveTo(0.42, 0.72, -0.8, 1.2);
+    forma.quadraticCurveTo(-0.22, 0.62, -0.55, 0);
+    forma.lineTo(0.55, 0);
+    const geoAleta = new THREE.ExtrudeGeometry(forma, { depth: 0.08, bevelEnabled: true, bevelThickness: 0.035, bevelSize: 0.035, bevelSegments: 1, curveSegments: 8 });
+    geoAleta.translate(0, 0, -0.04);
     const remate = new THREE.InstancedMesh(
-      this.g(new THREE.ConeGeometry(0.26, 0.95, 5)),
-      this.m(new THREE.MeshStandardMaterial({ color: 0xffd36a, emissive: 0xc98a1a, emissiveIntensity: 0.8, metalness: 0.9, roughness: 0.25 })),
+      this.g(geoAleta),
+      this.m(new THREE.MeshStandardMaterial({ color: 0xffd36a, emissive: 0xd9961f, emissiveIntensity: 0.75, metalness: 0.85, roughness: 0.22 })),
       puntas.length,
     );
     puntas.forEach((mt, i) => remate.setMatrixAt(i, mt));
@@ -621,20 +666,25 @@ export class CiudadDragon {
         postes.push(new THREE.Matrix4().makeTranslation(pos.x, pos.y + 3, pos.z));
         faroles.push(new THREE.Matrix4().compose(new THREE.Vector3(pos.x, pos.y + 6.3, pos.z), new THREE.Quaternion(), new THREE.Vector3(1, 1.25, 1)));
       }
-      // Cinta roja que cruza la pista cada 4 tramos, con farolillos colgando
-      if (i % 4 === 2) {
-        izq.set(s.position.x - s.binormal.x * d, s.position.y + 7.5, s.position.z - s.binormal.z * d);
-        der.set(s.position.x + s.binormal.x * d, s.position.y + 7.5, s.position.z + s.binormal.z * d);
+      // Cadena de farolillos que cruza la pista (más tupida y alta en la ciudad)
+      const ciudad = this.estilo.ciudad;
+      if (ciudad ? i % 3 === 1 : i % 4 === 2) {
+        const hC = ciudad ? 9.5 : 7.5;
+        izq.set(s.position.x - s.binormal.x * d, s.position.y + hC, s.position.z - s.binormal.z * d);
+        der.set(s.position.x + s.binormal.x * d, s.position.y + hC, s.position.z + s.binormal.z * d);
         const medio = izq.clone().add(der).multiplyScalar(0.5);
-        medio.y -= 1.6;
+        medio.y -= ciudad ? 2.4 : 1.6;
         const curva = new THREE.QuadraticBezierCurve3(izq.clone(), medio, der.clone());
-        cintas.push(new THREE.TubeGeometry(curva, 24, 0.16, 5));
-        for (let k = 1; k < 4; k++) {
-          const p = curva.getPoint(k / 4);
+        cintas.push(new THREE.TubeGeometry(curva, 24, ciudad ? 0.07 : 0.16, 5));
+        const nF = ciudad ? 7 : 4;
+        for (let k = 1; k < nF; k++) {
+          const p = curva.getPoint(k / nF);
           faroles.push(new THREE.Matrix4().compose(new THREE.Vector3(p.x, p.y - 0.9, p.z), new THREE.Quaternion(), new THREE.Vector3(0.8, 1, 0.8)));
         }
       }
     }
+    // Farolillos de las calles chinas de la ciudad elevada.
+    if (this.elevada) faroles.push(...this.elevada.farolillos);
     const poste = new THREE.InstancedMesh(
       this.g(new THREE.CylinderGeometry(0.12, 0.16, 6, 6)),
       this.m(new THREE.MeshStandardMaterial({ color: 0x3a1a10, roughness: 0.6, metalness: 0.4 })),
@@ -643,22 +693,49 @@ export class CiudadDragon {
     postes.forEach((mt, i) => poste.setMatrixAt(i, mt));
     poste.frustumCulled = false;
     this.object.add(poste);
-    const farol = new THREE.InstancedMesh(
-      this.g(new THREE.SphereGeometry(0.55, 10, 8)),
-      this.m(new THREE.MeshStandardMaterial({ color: 0xd8141e, emissive: 0xff1a08, emissiveIntensity: 1.1, roughness: 0.5 })),
-      faroles.length,
-    );
+    const matFarol = this.m(new THREE.MeshStandardMaterial({ color: 0xd8141e, emissive: 0xff2a0a, emissiveIntensity: 1.25, roughness: 0.5 }));
+    const matTapa = this.m(new THREE.MeshStandardMaterial({ color: 0xf2c14e, metalness: 0.8, roughness: 0.3, emissive: 0x6a4008, emissiveIntensity: 0.6 }));
+    this.mecer(matFarol);
+    this.mecer(matTapa);
+    const farol = new THREE.InstancedMesh(this.g(new THREE.SphereGeometry(0.55, 12, 10).scale(1, 0.84, 1)), matFarol, faroles.length);
     faroles.forEach((mt, i) => farol.setMatrixAt(i, mt));
     farol.frustumCulled = false;
     this.object.add(farol);
-    const tapas = new THREE.InstancedMesh(
-      this.g(new THREE.CylinderGeometry(0.3, 0.3, 1.5, 8)),
-      this.m(new THREE.MeshStandardMaterial({ color: 0xf2c14e, metalness: 0.8, roughness: 0.3 })),
-      faroles.length,
-    );
+    const tapas = new THREE.InstancedMesh(this.g(new THREE.CylinderGeometry(0.3, 0.3, 1.5, 8)), matTapa, faroles.length);
     faroles.forEach((mt, i) => tapas.setMatrixAt(i, mt.clone().scale(new THREE.Vector3(1, 0.62, 1))));
     tapas.frustumCulled = false;
     this.object.add(tapas);
+    // Halo cálido de cada farolillo (una sola draw call de puntos aditivos).
+    if (this.estilo.noche) {
+      const hp = new Float32Array(faroles.length * 3);
+      const pv = new THREE.Vector3();
+      faroles.forEach((mt, i) => {
+        pv.setFromMatrixPosition(mt);
+        hp.set([pv.x, pv.y, pv.z], i * 3);
+      });
+      const gh = this.g(new THREE.BufferGeometry());
+      gh.setAttribute('position', new THREE.BufferAttribute(hp, 3));
+      const texHalo = texturaCanvas(
+        64,
+        64,
+        (c) => {
+          const g = c.createRadialGradient(32, 32, 0, 32, 32, 32);
+          g.addColorStop(0, 'rgba(255,200,140,0.9)');
+          g.addColorStop(0.25, 'rgba(255,110,50,0.45)');
+          g.addColorStop(1, 'rgba(255,60,20,0)');
+          c.fillStyle = g;
+          c.fillRect(0, 0, 64, 64);
+        },
+        false,
+      );
+      this.texs.push(texHalo);
+      const halos = new THREE.Points(
+        gh,
+        this.m(new THREE.PointsMaterial({ size: 3.4, map: texHalo, color: 0xffffff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true, opacity: 0.8 })),
+      );
+      halos.frustumCulled = false;
+      this.object.add(halos);
+    }
     if (cintas.length) {
       const geo = this.g(mergeGeometries(cintas) as THREE.BufferGeometry);
       for (const c of cintas) c.dispose();
@@ -668,6 +745,25 @@ export class CiudadDragon {
     }
   }
 
+  /** Los farolillos se mecen con la brisa (en el vertex shader; el pivote está encima). */
+  private mecer(mat: THREE.Material): void {
+    mat.onBeforeCompile = (sh) => {
+      sh.uniforms.uTiempo = this.uTiempo;
+      sh.vertexShader =
+        'uniform float uTiempo;\n' +
+        sh.vertexShader.replace(
+          '#include <begin_vertex>',
+          `#include <begin_vertex>
+          #ifdef USE_INSTANCING
+            float faseF = instanceMatrix[3].x * 0.37 + instanceMatrix[3].z * 0.23;
+            float brazo = 0.75 - position.y;
+            transformed.x += sin(uTiempo * 1.7 + faseF) * 0.16 * brazo;
+            transformed.z += cos(uTiempo * 1.3 + faseF * 1.7) * 0.1 * brazo;
+          #endif`,
+        );
+    };
+  }
+
   // ------------------------------------------------------------------ dragón gigante junto a la pista
   /**
    * Cabeza alzada junto a la salida mirando a los karts; el cuerpo corre pegado al borde izquierdo
@@ -675,6 +771,10 @@ export class CiudadDragon {
    * hunde entre las nubes por debajo del viaducto.
    */
   private crearDragon(): void {
+    if (this.estilo.ciudad) {
+      this.crearDragonesJade();
+      return;
+    }
     const color = this.estilo.dragon;
     const tex = texturaCanvas(256, 256, (c) => {
       const base = new THREE.Color(color);
@@ -896,6 +996,79 @@ export class CiudadDragon {
     perla.position.set(0, -0.2, 5.4);
     cabeza.add(perla);
     this.object.add(cabeza);
+  }
+
+  /**
+   * Ciudad del Dragón: dragones de jade blanco translúcido. El primero hace de barandilla izquierda
+   * en `tramoDragon` (cabeza en la salida, cuerpo arqueado sobre la pista, cola entre las nubes);
+   * otros tres se alzan sobre la ciudad y ondulan despacio.
+   */
+  private crearDragonesJade(): void {
+    const fab = new DragonesJade();
+    const s = this.muestra(0);
+    const [d0, d1] = this.tramoDragon;
+    const ruta: [number, number, number, number][] = [
+      [0.006, -1, 4.2, 7.5],
+      [0.014, -1, 2.6, 4.2],
+      [0.022, -1, 1.0, 2.0],
+    ];
+    for (let t = d0; t <= d1 + 1e-6; t += 0.006) ruta.push([t, -1, 0.85, 1.25 + 0.25 * Math.sin(t * 400)]);
+    ruta.push(
+      [d1 + 0.007, -1, 1.6, 4.0],
+      [d1 + 0.014, -0.45, 0, 10.5],
+      [d1 + 0.02, 0.4, 0, 12.0],
+      [d1 + 0.027, 1, 3.5, 8.5],
+      [d1 + 0.035, 1, 13, 0],
+      [d1 + 0.045, 1, 24, -12],
+      [d1 + 0.056, 1, 34, -24],
+    );
+    const pts = ruta.map(([t, f, extra, h]) => {
+      this.muestra(t, s);
+      const lat = f * s.wallHalfWidth + Math.sign(f) * extra;
+      return new THREE.Vector3(s.position.x + s.binormal.x * lat, s.position.y + h, s.position.z + s.binormal.z * lat);
+    });
+    const mirar = pts[0].clone().sub(pts[1]).normalize();
+    mirar.y = mirar.y * 0.3 - 0.22;
+    fab.agregar({
+      puntos: pts,
+      radio: 1.2,
+      onda: (u) => 1.6 * THREE.MathUtils.smoothstep(u, 0.68, 0.86),
+      escalaCabeza: 1.75,
+      mirar,
+      patas: [0.12, 0.2, 0.34, 0.42],
+      perla: true,
+      segs: 320,
+    });
+    // Dragones que se alzan a lo lejos (fuera de la pista; solo decoración).
+    const v = (x: number, y: number, z: number): THREE.Vector3 => new THREE.Vector3(x, y, z);
+    const ondaLejos = (a: number) => (u: number) => a * THREE.MathUtils.smoothstep(u, 0.06, 0.45);
+    // A: a la izquierda de la recta de salida, cuello en S y cabeza mirando a los karts.
+    fab.agregar({
+      puntos: [v(-40, 31, -92), v(-45, 28, -99), v(-53, 21, -104), v(-58, 11, -99), v(-53, 2, -90), v(-44, -6, -95), v(-45, -14, -110), v(-55, -20, -119), v(-67, -26, -113), v(-74, -34, -100), v(-72, -44, -86)],
+      radio: 2.5,
+      onda: ondaLejos(2.2),
+      escalaCabeza: 1.9,
+      mirar: v(0.55, -0.28, 1),
+      patas: [0.2, 0.5],
+    });
+    // B: en el centro del circuito, enroscado hacia arriba.
+    const espiral: THREE.Vector3[] = [v(96, 47, -96)];
+    for (let k = 0; k <= 12; k++) {
+      const a = 1.2 + k * 0.62;
+      espiral.push(v(102 + Math.cos(a) * 15, 43 - k * 6.4, -114 + Math.sin(a) * 15));
+    }
+    fab.agregar({ puntos: espiral, radio: 2.3, onda: ondaLejos(1.8), escalaCabeza: 1.9, mirar: v(-1, -0.15, 0.55), patas: [0.18, 0.45] });
+    // C: vuela sobre los rascacielos junto a la recta larga.
+    fab.agregar({
+      puntos: [v(326, 50, 28), v(331, 48, 37), v(342, 44, 46), v(351, 39, 35), v(347, 33, 18), v(339, 29, 2), v(345, 25, -14), v(356, 19, -28), v(352, 11, -44), v(342, 1, -58), v(338, -11, -74), v(345, -25, -92)],
+      radio: 2.2,
+      onda: ondaLejos(2.4),
+      escalaCabeza: 1.9,
+      mirar: v(-0.45, -0.22, -1),
+      patas: [0.2, 0.48],
+    });
+    this.object.add(fab.construir());
+    this.dragones = fab;
   }
 
   // ------------------------------------------------------------------ pagodas (y torres neón en la ciudad)
@@ -1202,6 +1375,9 @@ export class CiudadDragon {
   update(dt: number, foco: THREE.Vector3 | null, camara?: THREE.Camera): void {
     this.tiempo += dt;
     this.matCarretera.uniforms.uTime.value = this.tiempo;
+    this.uTiempo.value = this.tiempo;
+    this.dragones?.update(this.tiempo);
+    this.elevada?.update(this.tiempo);
     this.actualizarEstelas(camara);
     if (this.puntos) {
       this.siguienteFuego -= dt;
@@ -1248,6 +1424,8 @@ export class CiudadDragon {
   dispose(): void {
     this.elevada?.dispose();
     this.elevada = null;
+    this.dragones?.dispose();
+    this.dragones = null;
     this.object.removeFromParent();
     for (const o of this.ocultos) o.visible = true;
     for (const g of this.geos) g.dispose();
