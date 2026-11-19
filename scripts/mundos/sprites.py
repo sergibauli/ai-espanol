@@ -435,3 +435,64 @@ def haz(ruta, w=400, h=600, c="#fff4d0", luz=-1, seed=0):
         a += np.exp(-((u - cx) / rng.uniform(6, 22)) ** 2) * rng.uniform(0.3, 0.8)
     a = np.clip(a * suave(0, h * 0.2, Y) * suave(h, h * 0.4, Y), 0, 1) * 0.6
     guarda_png_rgba(np.broadcast_to(col(c), a.shape + (3,)), a, ruta)
+
+
+def figura(ruta, tipo, fase, alto=40, luz=1, rim="#fff0d0"):
+    """Figurita a pequeña escala (de perfil, caminando hacia la derecha): monje, mercader con pértiga y cestos,
+    viajero con fardo y bastón, pescador con sombrero cónico, campesina. fase 0/1 = paso."""
+    w = int(alto * 1.1)
+    Lz = Lienzo(w, alto + 2)
+    C = Capa(Lz)
+    cx, yb = w * 0.45, alto
+    ropa = {"monje": ("#8a3a10", "#e8902a"), "mercader": ("#1e2a4a", "#4a6aa8"), "viajero": ("#3a2a1e", "#8a6a4a"),
+            "pescador": ("#1e2a2a", "#4a5a5a"), "campesina": ("#2a3a5a", "#5a7ab8")}[tipo]
+    pa = alto * 0.12 * (1 if fase == 0 else -1)
+
+    def cuerpo(P):
+        P.linea([(cx, yb - alto * 0.38), (cx + pa, yb)], alto * 0.07)
+        P.linea([(cx, yb - alto * 0.38), (cx - pa, yb)], alto * 0.07)
+        P.poly([(cx - alto * 0.12, yb - alto * 0.32), (cx + alto * 0.12, yb - alto * 0.32), (cx + alto * 0.08, yb - alto * 0.72), (cx - alto * 0.08, yb - alto * 0.72)])
+        P.elip(cx + alto * 0.02, yb - alto * 0.8, alto * 0.075, alto * 0.08)
+        if tipo in ("pescador", "campesina", "mercader"):
+            P.poly([(cx - alto * 0.2, yb - alto * 0.84), (cx + alto * 0.22, yb - alto * 0.84), (cx + alto * 0.01, yb - alto * 0.98)])
+
+    m = Lz.mascara(cuerpo)
+    c = mezcla(np.broadcast_to(col(ropa[0]), m.shape + (3,)), col(ropa[1]), volumen(m, 2, -luz, -0.5, 1.2)[..., None])
+    C.pon(c, m)
+    C.pon("#e8c8a0", Lz.mascara(lambda P: P.elip(cx + alto * 0.04, yb - alto * 0.8, alto * 0.05, alto * 0.06)) * (0 if tipo in ("pescador", "campesina", "mercader") else 1))
+    if tipo in ("pescador", "campesina", "mercader"):
+        C.pon("#d8c088", Lz.mascara(lambda P: P.poly([(cx - alto * 0.2, yb - alto * 0.84), (cx + alto * 0.22, yb - alto * 0.84), (cx + alto * 0.01, yb - alto * 0.98)])))
+    extra = Lz.mascara(lambda P: (
+        (P.linea([(cx - alto * 0.42, yb - alto * 0.66), (cx + alto * 0.46, yb - alto * 0.7)], alto * 0.03), P.elip(cx - alto * 0.38, yb - alto * 0.5, alto * 0.08, alto * 0.1), P.elip(cx + alto * 0.42, yb - alto * 0.54, alto * 0.08, alto * 0.1)) if tipo == "mercader" else
+        (P.linea([(cx + alto * 0.16, yb - alto * 0.74), (cx + alto * 0.24, yb)], alto * 0.025), P.elip(cx - alto * 0.12, yb - alto * 0.6, alto * 0.09, alto * 0.13)) if tipo == "viajero" else
+        (P.linea([(cx + alto * 0.1, yb - alto * 0.6), (cx + alto * 0.5, yb - alto * 1.0)], alto * 0.02),) if tipo == "pescador" else
+        (P.linea([(cx + alto * 0.14, yb - alto * 0.85), (cx + alto * 0.18, yb)], alto * 0.025),) if tipo == "monje" else
+        (P.elip(cx - alto * 0.14, yb - alto * 0.62, alto * 0.08, alto * 0.11),)))
+    C.pon("#3a2a1a", extra)
+    C.pon(rim, borde(np.clip(m + extra, 0, 1), luz, -1) * 0.6)
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return w, alto + 2
+
+
+def sombra_nube(ruta, w=480, h=160, c="#1a2440", f=0.28, seed=0):
+    """Sombra de una nube que pasa por el terreno (mancha blanda y oscura, aplastada por la perspectiva)."""
+    Lz = Lienzo(w, h)
+    n = Lz.ruido(2.2, seed)
+    d = np.sqrt(((Lz.X - w / 2) / (w * 0.45)) ** 2 + ((Lz.Y - h / 2) / (h * 0.42)) ** 2)
+    a = np.clip((1 - d) * 1.6 * (0.6 + 0.6 * n), 0, 1)
+    a = desenfoca(a, 10) * f
+    guarda_png_rgba(np.broadcast_to(col(c), a.shape + (3,)), a, ruta)
+
+
+def gente(M, capa, tipo, x, y, alto, dx, dur, retraso=0.0, luz=1, movil=True, dy=0.0):
+    """Coloca una figurita que camina (dos poses que se alternan) desde (x, y_pies) recorriendo dx (centésimas del lienzo)."""
+    import os
+    base = f"fig-{tipo}"
+    if not os.path.exists(M.ruta(f"{base}-a.webp")):
+        figura(M.ruta(f"{base}-a.webp"), tipo, 0, 48, luz)
+        figura(M.ruta(f"{base}-b.webp"), tipo, 1, 48, luz)
+    w = alto * 1.1
+    kw = dict(dur=dur, retraso=retraso, dx=dx, dy=dy, aleteo=0.62, src2=f"{M.nivel}/{base}-b.webp", movil=movil)
+    if dx < 0:
+        kw["clase"] = "ma-izq"
+    M.actor(capa, f"{base}-a.webp", x - w * 0.45, y - alto, w, alto + 2, "camina", **kw)

@@ -6,7 +6,7 @@ import numpy as np
 
 import arquitectura as ar
 import sprites as sp
-from pincel import (H, W, sombra_de, nube_suelta, Capa, Lienzo, Mundo, borde, bz, cirros, col, cielo, desenfoca, desplaza, mezcla, niebla, nube, oclusion,
+from pincel import (H, W, sombra_de, nube_suelta, marco_hojas, Capa, Lienzo, Mundo, borde, bz, cirros, col, cielo, desenfoca, desplaza, mezcla, niebla, nube, oclusion,
                     perfil_picos, ruido1, sierra, sombra_elipse, spline, suave, volumen)
 
 LUZ = 1
@@ -100,10 +100,10 @@ def pinta(M):
     # ------------------------------------------------------------ 1 · cumbres lejanas
     C = Capa(L)
     pf = perfil_picos(L, [(-10, 540, 190), (120, 500, 120), (250, 455, 230), (400, 520, 110), (560, 500, 200), (700, 545, 120), (830, 430, 250), (960, 505, 130), (1110, 480, 200)],
-                      rug=34, seed=3, base=770)
+                      forma="cordal", rug=34, seed=3, base=770)
     sierra(C, pf, 770, luz=LUZ, lit="#f6dcbc", sombra="#4b5d90", nieve=("#fff6e8", "#8296c2", 0.55), aire="#c9d4e6", aire_f=0.2, filo=1.0, filo_c="#fff0d0",
            niebla_pie=("#eef1f5", 170, 0.95), seed=3, estrias=1.6)
-    pf2 = perfil_picos(L, [(90, 600, 160), (300, 585, 190), (500, 625, 150), (720, 575, 200), (930, 615, 170), (1100, 590, 160)], rug=24, seed=5, base=820)
+    pf2 = perfil_picos(L, [(90, 600, 160), (300, 585, 190), (500, 625, 150), (720, 575, 200), (930, 615, 170), (1100, 590, 160)], forma="cordal", rug=22, seed=5, base=820)
     sierra(C, pf2, 820, luz=LUZ, lit="#ecd0ae", sombra="#46588a", nieve=("#fff8ee", "#7c90bc", 0.5), aire="#d5dde9", aire_f=0.16, filo=0.9,
            niebla_pie=("#f0f2f5", 130, 0.95), seed=5, estrias=1.6)
     C.tiñe("#ffe2bc", np.exp(-(((X - sx) / 420) ** 2 + ((Y - sy - 120) / 300) ** 2)) * 0.45)
@@ -224,6 +224,11 @@ def pinta(M):
     ar.pinos(C, [(1090, 1570, 460), (980, 1600, 280)], luz=LUZ, verde=("#081a18", "#2f5444"), carga=0.9, seed=83)
     M.capa("frente", C, 1.05)
 
+    # ------------------------------------------------------------ 6 · marco: agujas de pino nevadas, desenfocadas, en los bordes
+    C = Capa(L)
+    marco_hojas(C, [(20, 1330, 50, 60, 80, -0.2), (60, 1500, 90, 100, 100, -0.4), (1090, 1350, 50, 60, 80, -2.9), (1050, 1500, 90, 100, 100, -2.7)], "#081a18", "#3f6a52", luz=LUZ, punta="#f4f8ff", desenfoque=7, seed=91)
+    M.capa("marco", C, 1.3)
+
     # ------------------------------------------------------------ piezas animadas
     sp.humo(M.ruta("humo.webp"), 96, ("#c4cbd8", "#ffffff"), seed=1)
     for i, (hx, hy) in enumerate(chimeneas[:4]):
@@ -263,6 +268,15 @@ def pinta(M):
         M.actor("cordillera", "grulla-a.webp", 1120 + dx, 360 + dy, 60 * s, 35 * s, "vuelo", dur=46, retraso=-8 - i * 0.15, dx=-150, aleteo=0.9 + i * 0.07,
                 src2=f"{M.nivel}/grulla-b.webp", movil=i < 3)
 
+    # gente: monjes, viajero y mercader cruzando la llanura nevada
+    sp.gente(M, "ciudad", "monje", 380, 1012, 15, 14, 70, retraso=-10, luz=LUZ)
+    sp.gente(M, "ciudad", "monje", 360, 1016, 15, 14, 70, retraso=-14, luz=LUZ, movil=False)
+    sp.gente(M, "ciudad", "mercader", 760, 1020, 16, -16, 80, retraso=-30, luz=LUZ)
+    sp.gente(M, "cerca", "viajero", 520, 1250, 24, 18, 60, retraso=-5, luz=LUZ, movil=False)
+    # sombras de nubes que pasan por la llanura
+    sp.sombra_nube(M.ruta("sombra-nube.webp"), 480, 160, "#2a3a6a", 0.3, seed=3)
+    M.actor("ciudad", "sombra-nube.webp", -200, 1060, 520, 170, "deriva", dur=60, dx=40)
+    M.actor("ciudad", "sombra-nube.webp", 500, 1180, 420, 140, "deriva", dur=80, retraso=-30, dx=-35, movil=False)
     # nubes sueltas que derivan delante del cielo pintado, a distintas velocidades
     for i, (x, y, w, h, dur, dx) in enumerate(((60, 120, 300, 90, 140, 30), (640, 40, 360, 110, 190, -24), (300, 520, 260, 60, 110, 22))):
         nw, nh = nube_suelta(M, f"nube{i}.webp", w, h, 300 + i, 500 - x, 380 - y, "#fff0dc", "#8a9ac0", "#ffe2b0", base_c="#b4a8c0", op=0.92)

@@ -182,7 +182,7 @@ def terraza(Lz, C, cx, ybase, anchos, alto, *, luz=1, marmol=("#9aa8c0", "#f4f2e
 
 
 def salon(ancho, *, alto_muro=None, alto_tejado=None, aleros=1, luz=1, teja=("#7a4a10", "#f2c14e", "#fff1b0"), nieve=0.0,
-          terrazas=2, marmol=("#9aa8c0", "#f4f2ee"), rojo=("#5a1218", "#b8282e"), seed=0, ncol=8):
+          terrazas=2, marmol=("#9aa8c0", "#f4f2ee"), rojo=("#5a1218", "#b8282e"), seed=0, ncol=8, escorzo=1.0):
     """Salón imperial completo en un parche. Devuelve (capa, (x_base_centro, y_base))."""
     am = alto_muro or ancho * 0.22
     at = alto_tejado or ancho * 0.2
@@ -200,13 +200,35 @@ def salon(ancho, *, alto_muro=None, alto_tejado=None, aleros=1, luz=1, teja=("#7
     wb = ancho * 0.86
     yb_cuerpo = y
     y_te = y - am
+    d3 = ancho * 0.07 * escorzo
+    lado = -luz
+    if escorzo:
+        xe = cx + lado * wb / 2
+        lat = Lz.mascara(lambda P: P.poly([(xe, y_te), (xe + lado * d3, y_te - d3 * 0.45), (xe + lado * d3, y - d3 * 0.45), (xe, y)]))
+        lc = mezcla(np.broadcast_to(col(rojo[0]), lat.shape + (3,)), col(rojo[1]), 0.18)
+        lc = mezcla(lc, col("#1a0408"), ((np.abs(Lz.X - xe - lado * d3 * 0.5) < 1.2) * 0.6)[..., None])
+        C.pon(lc, lat)
     cuerpo_salon(Lz, C, cx, y_te, y, wb, luz=luz, rojo=rojo, ncol=ncol)
     # tejado(s)
     ye = y_te + am * 0.08
     wt = ancho * 1.18
     C.info = {"aleros": [], "cuerpo": (cx - wb / 2, y_te, cx + wb / 2, yb_cuerpo)}
+    def faldon(ye_, wt_, at_, lift_, rw_):
+        if not escorzo:
+            return
+        g = tejado_geo(cx, ye_, wt_, at_, lift_, rw_)
+        tip = (cx + lado * wt_ / 2, ye_ - lift_)
+        cum = (cx + lado * rw_ / 2, g["yr"])
+        pts = [cum, (cum[0] + lado * d3 * 0.9, cum[1] - d3 * 0.45), (tip[0] + lado * d3 * 0.8, tip[1] - d3 * 0.5), tip]
+        fm = Lz.mascara(lambda P: P.poly(pts + [(cx + lado * wt_ * 0.3, ye_)]))
+        canal = (np.sin(Lz.Y * 1.6 + Lz.X * 0.5) + 1) / 2
+        fc = mezcla(np.broadcast_to(col(teja[0]), fm.shape + (3,)), col(teja[1]), (0.12 + 0.15 * canal)[..., None])
+        if nieve:
+            fc = mezcla(fc, col("#7a8ab0"), nieve * 0.35)
+        C.pon(fc, fm)
     for k in range(aleros):
         C.info["aleros"].append((ye, wt))
+        faldon(ye, wt * (1 if k == aleros - 1 else 1), at if k == aleros - 1 else at * 0.62, (at * 0.42) if k == aleros - 1 else at * 0.3, wt * (0.5 if k == aleros - 1 else 0.78))
         if k < aleros - 1:
             # alero inferior (faldón) y cuerpo superior más estrecho
             pinta_tejado(Lz, C, cx, ye, wt, at * 0.62, luz=luz, teja=teja, rw=wt * 0.78, lift=at * 0.3, nieve=nieve, seed=seed + k, cumbrera_c="no")

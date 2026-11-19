@@ -481,8 +481,10 @@ def tramo(t):
     col_n = niebla if t["nivel"] != "B1" else "#22305a"
     n = ruido2(alto_img, ANCHO, 2.4, 88 + t["variante"], aniso=(5.0, 1.0))
     lados = suave(0, 120, X) * suave(ANCHO, ANCHO - 120, X)
-    p.pon(hexa(col_n), suave(ARRIBA_IMG + 46, 4, Y) * (0.55 + 0.45 * n) * lados)
-    p.pon(hexa(col_n), suave(y_fin - 10, alto_img - 30, Y) * (0.6 + 0.4 * n) * lados)
+    # v30: la bruma de entrada y salida es solo un velo deshilachado; entre unidades se abre la vista del paisaje
+    p.pon(hexa(col_n), suave(ARRIBA_IMG + 46, 4, Y) * (0.55 + 0.45 * n) * lados * 0.22)
+    p.pon(hexa(col_n), suave(y_fin - 10, alto_img - 30, Y) * (0.6 + 0.4 * n) * lados * 0.22)
+    p.a = p.a * np.clip(suave(4, ARRIBA_IMG + 40, Y) * suave(alto_img - 10, y_fin - 30, Y) + 0.0, 0, 1)
     p.a = p.a * suave(alto_img - 2, alto_img - 26, Y) * suave(0, 10, Y)
     nombre = f"{t['nivel']}-v{t['variante']}-p{t['paradas']}-f{t['fila']}.webp"
     os.makedirs(OUT, exist_ok=True)

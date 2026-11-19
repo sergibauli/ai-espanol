@@ -157,8 +157,17 @@ class Capa:
             f = f * m
         self.rgb = mezcla(self.rgb, col(c), f)
 
-    def guarda(self, ruta, q=82, recorte=True, grano=0.02, alpha_q=80):
+    def guarda(self, ruta, q=82, recorte=True, grano=0.02, alpha_q=80, pincel=True):
         rgb = self.rgb
+        if pincel:
+            # pinceladas (ruido alargado en diagonal) y variación de color dentro de cada masa (cálido/frío)
+            h_, w_ = self.L.h, self.L.w
+            pin = ruido2(h_, w_, 1.25, 993, aniso=(3.5, 1.0)) - 0.5
+            pin2 = ruido2(h_, w_, 1.6, 994, aniso=(1.0, 3.0)) - 0.5
+            var = ruido2(h_, w_, 2.6, 995) - 0.5
+            lum = 1 + (pin * 0.07 + pin2 * 0.04)
+            rgb = rgb * lum[..., None]
+            rgb = rgb + np.stack([var * 0.05, var * 0.01, -var * 0.05], -1)
         if grano:
             g = ruido2(self.L.h, self.L.w, 0.3, 991) - 0.5
             rgb = rgb + g[..., None] * grano
@@ -321,6 +330,14 @@ def perfil_picos(L, picos, forma="pico", rug=10, seed=1, base=None):
     for j, (cx, top, hw) in enumerate(picos):
         asim = 0.75 + 0.5 * ((j * 0.618 + seed * 0.13) % 1)
         d = np.where(x < cx, np.abs(x - cx) / (hw * asim), np.abs(x - cx) / (hw / asim))
+        if forma == "cordal":
+            env = top + (base - top) * np.clip(d, 0, 2.5) ** 1.15 * 0.55
+            r = np.zeros(L.w, F32)
+            for k_, (amp, be) in enumerate(((1.0, 2.6), (0.5, 2.2), (0.22, 1.8), (0.08, 1.5))):
+                r += (1 - np.abs(ruido1(L.w, be, seed + j * 17 + k_ * 3))) ** 2 * amp
+            pr = env + (1.6 - r) * rug * 1.4
+            total = np.minimum(total, pr)
+            continue
         if forma == "karst":
             dd = np.clip(d, 0, 1.0)
             ex = 1.6 + 1.6 * ((j * 0.731 + seed * 0.37) % 1)  # cúpula, pan de azúcar o torre de paredes rectas
@@ -562,3 +579,29 @@ def nube_suelta(M, nombre, w, h, seed, sol_dx, sol_dy, luz_c, sombra_c, borde_c,
     nube(C, cx, cy, w, h, seed, (cx + sol_dx, cy + sol_dy), luz_c, sombra_c, borde_c, base_c=base_c, op=op, plana=False)
     guarda_png_rgba(C.rgb, C.a, M.ruta(nombre))
     return Lz.w, Lz.h
+
+
+def marco_hojas(C, grupos, c_osc, c_luz, luz=1, desenfoque=7, punta=None, seed=0):
+    """Primer plano desenfocado en los bordes: racimos de hojas/agujas muy cerca de la cámara.
+    grupos: [(x, y, radio, n, largo, angulo_medio)]."""
+    L = C.L
+    rng = np.random.default_rng(seed)
+
+    def dib(P):
+        for x, y, r, n, largo, a0 in grupos:
+            for _ in range(n):
+                px, py = x + rng.uniform(-r, r), y + rng.uniform(-r, r) * 0.6
+                a = a0 + rng.uniform(-0.9, 0.9)
+                l = largo * rng.uniform(0.6, 1.2)
+                ex, ey = px + np.cos(a) * l, py + np.sin(a) * l
+                nx, ny = -np.sin(a) * l * 0.12, np.cos(a) * l * 0.12
+                P.poly([(px, py), ((px + ex) / 2 + nx, (py + ey) / 2 + ny), (ex, ey), ((px + ex) / 2 - nx, (py + ey) / 2 - ny)])
+
+    m = L.mascara(dib, aa=2)
+    v = volumen(m, 6, -luz, 0.6)
+    rgb = mezcla(np.broadcast_to(col(c_osc), m.shape + (3,)), col(c_luz), v[..., None])
+    if punta:
+        rgb = mezcla(rgb, col(punta), (borde(m, 0, -3, 1.5) * 0.9)[..., None])
+    a = desenfoca(m, desenfoque)
+    rgb = desenfoca(rgb * m[..., None], desenfoque) / np.maximum(a, 1e-3)[..., None]
+    C.pon(np.clip(rgb, 0, 1), np.clip(a * 1.1, 0, 1))

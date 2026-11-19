@@ -61,7 +61,7 @@ function Actor({ a }) {
   if (a.aleteo != null) estilo["--aleteo"] = `${a.aleteo}s`;
   if (a.op != null) estilo["--op"] = a.op;
   return (
-    <span className={`ma ma-${a.anim}`} style={estilo} data-movil={a.movil === false ? "no" : undefined}>
+    <span className={`ma ma-${a.anim}${a.clase ? ` ${a.clase}` : ""}`} style={estilo} data-movil={a.movil === false ? "no" : undefined}>
       <img src={recurso(a.src)} alt="" decoding="async" loading="lazy" draggable="false" />
       {a.src2 && <img className="ma-b" src={recurso(a.src2)} alt="" decoding="async" loading="lazy" draggable="false" />}
     </span>

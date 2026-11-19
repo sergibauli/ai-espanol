@@ -160,3 +160,15 @@
 @media (max-width: 700px) {
   .mr28 .mr-lienzo { width: 124%; }
 }
+
+/* ===== v30 · Figuras que caminan, viñeteado y gradación por nivel ===== */
+.mr28 .ma-camina { animation-name: maAvanza; animation-timing-function: linear; }
+.mr28 .ma-camina > img { animation-name: maAla; animation-duration: var(--aleteo, .7s); animation-delay: 0s; animation-timing-function: steps(1, end); }
+.mr28 .ma-camina > img.ma-b { animation-name: maAlaB; }
+.mr28 .ma-camina.ma-izq > img { transform: scaleX(-1); }
+/* Viñeteado y gradación de color del nivel (estático, sin blend: un velo de color en los bordes) */
+.mr28 .mr-fijo::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: radial-gradient(ellipse 78% 70% at 50% 46%, transparent 55%, var(--mr-vin, rgba(20,24,48,.38)) 100%); }
+.mr28.mr-A1 { --mr-vin: rgba(40,56,96,.34); } .mr28.mr-A2 { --mr-vin: rgba(70,16,40,.42); }
+.mr28.mr-B1 { --mr-vin: rgba(2,4,18,.55); } .mr28.mr-B2 { --mr-vin: rgba(24,52,46,.32); }
+@media (prefers-reduced-motion: reduce) { .mr28 .ma-camina { display: none; } }
