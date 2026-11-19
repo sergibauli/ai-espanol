@@ -52,7 +52,7 @@ Consejo: ${c.tipCn}`;
   i.push({
     title: "Sobre la app",
     keywords: "app aplicación qué es ayuda sobre app es la aplicación 应用 是什么".toLowerCase(),
-    content: `【AI Español / AI 西班牙语】${SITE_INFO.descriptionCn}。Niveles: A1 (42 exámenes), A2 (30), B1 (30), B2 (30). ${SITE_INFO.examSections.zh}`,
+    content: `【Wukong Español / 悟空西语】${SITE_INFO.descriptionCn}。Niveles: A1 (42 exámenes), A2 (30), B1 (30), B2 (30). ${SITE_INFO.examSections.zh}`,
   });
   return i;
 }

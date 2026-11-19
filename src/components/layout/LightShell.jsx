@@ -16,6 +16,7 @@ import { FondoV18, AdornosBarra, Emblema } from "./DecoV18.jsx";
 import { precargar, precargarSecciones } from "../../lib/precarga.js";
 import { TarjetaInstalar } from "./AvisosApp.jsx";
 import "../../styles/v21-app.css";
+import "../../styles/v21-wukong.css";
 
 // Navegación de la experiencia de aprendizaje (tema claro, estilo app)
 const MAIN = [
@@ -145,7 +146,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
       <span className="v18-fondo-base" aria-hidden="true" />
       <FondoV18 />
       <div className="light-top">
-        <Link to="/ruta" className="side-brand" style={{ padding: 0 }} aria-label="AI Español">
+        <Link to="/ruta" className="side-brand" style={{ padding: 0 }} aria-label="Wukong Español">
           <Logo tamano={36} subtitulo={false} />
         </Link>
         <div className="light-top-der">
@@ -160,7 +161,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
       <div className="light-shell">
         <nav className="side-nav" aria-label="Navegación principal">
           <AdornosBarra />
-          <Link to="/ruta" className="side-brand v18-marca" aria-label="AI Español · Inicio 首页">
+          <Link to="/ruta" className="side-brand v18-marca" aria-label="Wukong Español · Inicio 首页">
             <Emblema tamano={132} />
           </Link>
           {MAIN.map((m) => (

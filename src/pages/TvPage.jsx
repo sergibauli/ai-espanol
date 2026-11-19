@@ -172,7 +172,7 @@ export default function TvPage() {
   return (
     <div className="tv">
       {/* ===== Escenario 3D: marquesina, televisor y suelo ===== */}
-      <section ref={refEscena} className={`tv-escena fase-${fase}`} onPointerMove={alMoverPuntero} onPointerLeave={alSalirPuntero} aria-label={`AI Español TV · ${serie.titulo}`}>
+      <section ref={refEscena} className={`tv-escena fase-${fase}`} onPointerMove={alMoverPuntero} onPointerLeave={alSalirPuntero} aria-label={`Wukong TV · ${serie.titulo}`}>
         <div className="tv-escena-fondo" style={{ backgroundImage: `url(${actual.poster})` }} aria-hidden="true" />
         <div className="tv-haces" aria-hidden="true">
           <span />
@@ -197,7 +197,7 @@ export default function TvPage() {
             <span className="tv-punto" aria-hidden="true" /> En emisión · <span lang="zh-Hans">热播中</span>
           </p>
           <p className="tv-ceja">
-            <TvIcon size={14} strokeWidth={2.6} aria-hidden="true" /> AI Español TV · <span lang="zh-Hans">电视</span> · Serie original · Temporada 1
+            <TvIcon size={14} strokeWidth={2.6} aria-hidden="true" /> Wukong TV · <span lang="zh-Hans">电视</span> · Serie original · Temporada 1
           </p>
           <h1 className="tv-titulo">
             <span className="tv-titulo-es">{serie.titulo}</span>
@@ -320,7 +320,7 @@ export default function TvPage() {
                   )}
                 </div>
                 <span className="tv-placa" translate="no" aria-hidden="true">
-                  <span className="tv-led" /> AI Español TV · 电视
+                  <span className="tv-led" /> Wukong TV · 电视
                 </span>
               </div>
               <span className="tv-peana" aria-hidden="true" />

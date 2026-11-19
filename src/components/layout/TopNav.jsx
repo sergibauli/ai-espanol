@@ -54,7 +54,7 @@ function TopNav() {
             <Link
               to="/dashboard"
               className="brand-orbit flex items-center gap-2.5 shrink-0"
-              aria-label="AI Español"
+              aria-label="Wukong Español"
             >
               <span className="brand-mark">AI</span>
               <span className="hidden sm:flex flex-col leading-none">

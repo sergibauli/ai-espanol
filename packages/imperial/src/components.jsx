@@ -256,10 +256,10 @@ export function MenuLacado({ items = [], activo, onSelect, pie, className }) {
   return (
     <nav className={cx("im-root im-menu", className)}>
       <div className="im-menu__marca">
-        <span className="im-menu__logo">AI</span>
+        <span className="im-menu__logo">悟</span>
         <span className="im-menu__nombre">
-          Español
-          <small>西班牙语</small>
+          Wukong
+          <small>悟空西语</small>
         </span>
       </div>
       {items.map((it) => (
@@ -306,11 +306,11 @@ export function PanelCorreccion({ puntuacion = 0, apto, nivel, criterios = [], c
 let uid = 0;
 const useUid = (p) => React.useMemo(() => `${p}${++uid}`, [p]);
 
-/** Sello del logo: laca con marco de oro, Ñ tallada con tilde de nube (祥云) y moneda «AI». */
+/** Sello del logo de Wukong Español: laca con marco de oro, diadema dorada (紧箍) con gema, 悟 caligráfico y moneda «Ñ». */
 export function SelloLogo({ tamano = 48, className }) {
   const id = useUid("im-lg");
   return (
-    <svg className={cx("im-sello-logo", className)} viewBox="0 0 74 74" width={tamano} height={tamano} role="img" aria-label="AI Español">
+    <svg className={cx("im-sello-logo", className)} viewBox="0 0 74 74" width={tamano} height={tamano} role="img" aria-label="Wukong Español">
       <defs>
         <linearGradient id={`${id}l`} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#d6293d" />
@@ -326,28 +326,30 @@ export function SelloLogo({ tamano = 48, className }) {
       <rect x="3" y="8" width="62" height="62" rx="13" fill={`url(#${id}l)`} stroke={`url(#${id}o)`} strokeWidth="2.6" />
       <rect x="8.5" y="13.5" width="51" height="51" rx="8.5" fill="none" stroke="#f6d77e" strokeOpacity=".65" strokeWidth="1" />
       <path d="M12.5 25v-7.5H20M55.5 25v-7.5H48M12.5 53v7.5H20M55.5 53v7.5H48" fill="none" stroke="#f6d77e" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M22 59V35.5h6.6l12.4 15.6V35.5h6.4V59h-6.4L28.4 43.4V59Z" fill="#fff3d6" />
-      <path d="M22.5 30.5c2.6-5.4 8.6-6 11.6-2.2s8.6 3.6 11.4-2" fill="none" stroke={`url(#${id}o)`} strokeWidth="3.4" strokeLinecap="round" />
-      <circle cx="21.6" cy="27.6" r="2.3" fill="none" stroke="#f2c14e" strokeWidth="1.6" />
-      <circle cx="46.6" cy="23.6" r="2.3" fill="none" stroke="#f2c14e" strokeWidth="1.6" />
+      {/* Diadema dorada 紧箍 con remates en espiral */}
+      <path d="M15.5 33.5Q34 19 52.5 33.5" fill="none" stroke="#5a0610" strokeWidth="6.4" strokeLinecap="round" opacity=".45" />
+      <path d="M15.5 32.5Q34 18 52.5 32.5" fill="none" stroke={`url(#${id}o)`} strokeWidth="4.6" strokeLinecap="round" />
+      <path d="M15.5 32.5c-3.2 1.6-2.6 6 .6 5.6 2.2-.3 2-3-.1-2.8M52.5 32.5c3.2 1.6 2.6 6-.6 5.6-2.2-.3-2-3 .1-2.8" fill="none" stroke="#f2c14e" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M34 20.5l3.2 3.6-3.2 3.6-3.2-3.6Z" fill="#c8102e" stroke="#fff0b8" strokeWidth="1.1" />
+      <text x="34" y="60.5" textAnchor="middle" fontFamily="STKaiti, KaiTi, 'Kaiti SC', 'Noto Serif SC', serif" fontWeight="900" fontSize="25" fill="#fff3d6">悟</text>
       <circle cx="61" cy="13" r="11" fill={`url(#${id}o)`} stroke="#8a5a1e" strokeWidth="1.3" />
       <circle cx="61" cy="13" r="8.2" fill="none" stroke="#a5112a" strokeOpacity=".55" strokeWidth=".9" />
-      <text x="61" y="16.6" textAnchor="middle" fontFamily="Cinzel, Georgia, serif" fontWeight="900" fontSize="10" fill="#8f0c21">AI</text>
+      <text x="61" y="17.4" textAnchor="middle" fontFamily="Cinzel, Georgia, serif" fontWeight="900" fontSize="12" fill="#8f0c21">Ñ</text>
     </svg>
   );
 }
 
-/** Logo de AI Español: sello imperial y nombre en Cinzel; tono oscuro (sobre laca o noche) o claro (sobre papel). */
+/** Logo de Wukong Español: sello imperial y nombre en Cinzel; tono oscuro (sobre laca o noche) o claro (sobre papel). */
 export function Logo({ variante = "completo", tono = "oscuro", tamano = 48, subtitulo = true, className }) {
   return (
-    <span className={cx("im-root im-logo", `im-logo--${tono}`, className)} style={{ "--im-lg": `${tamano}px` }}>
+    <span className={cx("im-root im-logo", `im-logo--${tono}`, className)} style={{ "--im-lg": `${tamano}px` }} translate="no">
       <SelloLogo tamano={tamano} />
       {variante === "completo" && (
         <span className="im-logo__texto">
           <b>
-            <i>AI</i> Español
+            Wukong <i>Español</i>
           </b>
-          {subtitulo && <small>西班牙语 · DELE</small>}
+          {subtitulo && <small>悟空西语 · DELE</small>}
         </span>
       )}
     </span>

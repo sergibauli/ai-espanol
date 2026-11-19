@@ -94,8 +94,8 @@ export const SERIES = [
         poster: "./tv/rey-mono/s1e05.jpg?v=1",
         duracion: "0:15",
         estreno: "2026-11-17",
-        resumen: "Los amigos cruzan la puerta y entran en un templo de jade. En el altar brillan las piedras, vuelan los pergaminos de AI Español… y un guardián de jade les da la bienvenida: ¡el curso empieza aquí!",
-        resumenZh: "朋友们穿过大门，走进一座玉石神殿。祭台上的宝石闪闪发光，AI Español 的卷轴在空中飞舞……一位玉石守护者欢迎他们：课程从这里开始！",
+        resumen: "Los amigos cruzan la puerta y entran en un templo de jade. En el altar brillan las piedras, vuelan los pergaminos de Wukong Español… y un guardián de jade les da la bienvenida: ¡el curso empieza aquí!",
+        resumenZh: "朋友们穿过大门，走进一座玉石神殿。祭台上的宝石闪闪发光，悟空西语的卷轴在空中飞舞……一位玉石守护者欢迎他们：课程从这里开始！",
         frases: [
           { es: "¡Guau! Este templo es impresionante.", zh: "哇！这座神殿太壮观了。" },
           { es: "Mira este altar.", zh: "看这个祭台。" },

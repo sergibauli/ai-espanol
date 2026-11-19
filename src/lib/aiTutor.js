@@ -56,7 +56,7 @@ ${buildStudentProfile()}`,
 function buildTutorUserMessage(content) {
   const t = getKnowledgeContext(content);
   if (!t) return content;
-  return `CONTEXTO DE LA APLICACIÓN (datos reales de AI Español — úsalos para responder con precisión, en español y chino):
+  return `CONTEXTO DE LA APLICACIÓN (datos reales de Wukong Español — úsalos para responder con precisión, en español y chino):
 ${t}
 
 PREGUNTA DEL ALUMNO:

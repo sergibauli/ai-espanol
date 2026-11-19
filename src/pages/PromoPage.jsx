@@ -3,7 +3,7 @@ import * as React from "react";
 
 // Diapositivas del vídeo promocional (cifras reales de la app)
 const ESCENAS = [
-  { mono: "saluda", es: "AI Español", zh: "AI 西班牙语", desc: "Tu camino al DELE A1–B2, hecho para estudiantes chinos", descZh: "为中文学生打造的 DELE A1–B2 备考平台" },
+  { mono: "saluda", es: "Wukong Español", zh: "悟空西语", desc: "Tu camino al DELE A1–B2, hecho para estudiantes chinos", descZh: "为中文学生打造的 DELE A1–B2 备考平台" },
   { mono: "feliz", es: "90 unidades", zh: "90 个单元", desc: "Un viaje por China: vocabulario, diálogos, teoría y ejercicios", descZh: "游历中国：词汇、对话、语法和练习" },
   { mono: "serio", es: "80 modelos DELE", zh: "80 套 DELE 模拟题", desc: "Lectura, audición, escritura y prueba oral, como el día del examen", descZh: "阅读、听力、写作和口语，和考试一样" },
   { mono: "guino", es: "Tutor IA y examinador oral", zh: "AI 导师和口语考官", desc: "Habla con el Rey Mono y practica la prueba oral con corrección", descZh: "和美猴王对话，练习口语并获得批改" },
@@ -59,8 +59,8 @@ export default function PromoPage() {
         <div className="tp-promo-escena">
           <img className="tp-promo-mono" src="./mono/saluda.webp" alt="" />
           <h1>
-            AI Español
-            <small>智能西班牙语</small>
+            Wukong Español
+            <small>悟空西语</small>
           </h1>
           <p className="tp-promo-desc">Vídeo promocional · 宣传片</p>
           <button type="button" className="tp-btn-laca" onClick={() => setEmpezado(true)}>

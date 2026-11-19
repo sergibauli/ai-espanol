@@ -342,7 +342,7 @@ export default function ImpresionExamen({ examen, nivel, variante, respuestas, t
           )}
         </section>
       )}
-      <footer className="ix-pie">AI Español · 西语AI — {titulo}</footer>
+      <footer className="ix-pie">Wukong Español · 悟空西语 — {titulo}</footer>
     </div>
   );
 }

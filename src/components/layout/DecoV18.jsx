@@ -55,7 +55,7 @@ export function Nube({ className = "", tono = "crema", style }) {
   );
 }
 
-// Emblema de la barra: medallón de laca roja con nudo dorado sobre nubes de oro
+// Emblema de la barra: medallón de laca roja con la diadema de Wukong y 悟 sobre nubes de oro
 export function Emblema({ tamano = 120 }) {
   const id = React.useId().replace(/:/g, "");
   return (
@@ -80,19 +80,20 @@ export function Emblema({ tamano = 120 }) {
         <circle cx="60" cy="60" r="50.5" fill={`url(#o${id})`} />
         <circle cx="60" cy="60" r="46" fill={`url(#l${id})`} />
         <circle cx="60" cy="60" r="41" fill="none" stroke={`url(#o${id})`} strokeWidth="1.2" strokeDasharray="1.5 4" strokeLinecap="round" />
-        {/* Nudo chino (盘长结): rombo trenzado */}
-        <g fill="none" stroke={`url(#o${id})`} strokeWidth="4.2" strokeLinejoin="round" strokeLinecap="round">
-          <path d="M60 30 90 60 60 90 30 60Z" />
-          <path d="M60 42 78 60 60 78 42 60Z" />
-          <path d="M45 45l30 30M75 45 45 75" strokeWidth="3.4" />
-          <path d="M60 30c-6-9 6-13 6-6M60 90c6 9-6 13-6 6M30 60c-9 6-13-6-6-6M90 60c9-6 13 6 6 6" strokeWidth="2.6" />
-        </g>
-        <circle cx="60" cy="60" r="5.2" fill={`url(#o${id})`} />
+        {/* Diadema dorada de Wukong (紧箍) con gema y 悟 caligráfico */}
+        <path d="M27 50Q60 20 93 50" fill="none" stroke="#4a050c" strokeWidth="9" strokeLinecap="round" opacity=".45" />
+        <path d="M27 48Q60 18 93 48" fill="none" stroke={`url(#o${id})`} strokeWidth="6.5" strokeLinecap="round" />
+        <path d="M27 48c-6 3-5 11 1 10 4-.6 3.6-5.4-.2-5M93 48c6 3 5 11-1 10-4-.6-3.6-5.4.2-5" fill="none" stroke={`url(#o${id})`} strokeWidth="3" strokeLinecap="round" />
+        <path d="M60 25l5.5 6.5-5.5 6.5-5.5-6.5Z" fill="#e2394a" stroke="#fff6cf" strokeWidth="1.8" />
+        <text x="60" y="94" textAnchor="middle" fontFamily="STKaiti, KaiTi, 'Kaiti SC', 'Noto Serif SC', serif" fontWeight="900" fontSize="44" fill={`url(#o${id})`} stroke="#5a0610" strokeWidth=".8" paintOrder="stroke">悟</text>
         <ellipse cx="44" cy="34" rx="20" ry="9" fill="#fff" opacity=".22" transform="rotate(-28 44 34)" />
       </svg>
       <i className="v18-chispa" style={{ left: "4%", top: "10%" }} />
       <i className="v18-chispa" style={{ right: "2%", top: "30%", animationDelay: "-1.4s" }} />
       <i className="v18-chispa" style={{ left: "16%", bottom: "8%", animationDelay: "-2.3s" }} />
+      <span className="v21-emblema-nombre">
+        Wukong <small>Español</small>
+      </span>
     </span>
   );
 }

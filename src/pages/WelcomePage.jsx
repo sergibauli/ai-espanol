@@ -25,6 +25,7 @@ import "../styles/v15-portada.css";
 import "../styles/v19-portada.css";
 import "../styles/v20-mundos.css";
 import "../styles/movil-portada.css";
+import "../styles/v21-wukong.css";
 
 
 // Apertura: en pantallas verticales, el Rey Mono llega de espaldas a la puerta celestial (540×960, desde 1,6 s:
@@ -288,6 +289,37 @@ function Cifra({ valor }) {
 
 // Portada pública: el Rey Mono cruza la puerta celestial (vídeo a pantalla completa) y el panel de acceso sube sobre la escena.
 // Solo se inicia sesión: las cuentas las da la academia (no hay registro libre).
+// Marca grande de la portada: «Wukong» en oro con destello, bastón dorado (金箍棒) que se despliega y sello 悟空.
+function MarcaWukong() {
+  return (
+    <div className="mw" translate="no" role="img" aria-label="Wukong Español · 悟空西语">
+      <span className="mw-halo" aria-hidden="true" />
+      <span className="mw-sello" aria-hidden="true">
+        <span>悟</span>
+        <span>空</span>
+      </span>
+      <span className="mw-palabra" aria-hidden="true">
+        {"WUKONG".split("").map((letra, indice) => (
+          <span key={indice} className="mw-letra" style={{ "--i": indice }} data-l={letra}>
+            {letra}
+          </span>
+        ))}
+      </span>
+      <span className="mw-baston" aria-hidden="true">
+        <i className="mw-tope" />
+        <i className="mw-vara" />
+        <i className="mw-tope" />
+      </span>
+      <span className="mw-es" aria-hidden="true">
+        <i />
+        Español
+        <b lang="zh-Hans">悟空西语</b>
+        <i />
+      </span>
+    </div>
+  );
+}
+
 export default function WelcomePage() {
   const { isAuthenticated, isLoading } = useAppAuth();
   const navegar = useNavigate();
@@ -342,6 +374,7 @@ export default function WelcomePage() {
         </header>
 
         <div className="pc-intro">
+          <MarcaWukong />
           <p className="pc-ceja">
             <i aria-hidden="true" />
             <span>DELE A1 – B2</span>
@@ -471,7 +504,7 @@ export default function WelcomePage() {
           <NotaWeChat conQr={false} />
         </div>
         <p className="pc-pie">
-          AI Español · <span lang="zh-Hans">西班牙语学习与DELE备考</span>
+          Wukong Español · <span lang="zh-Hans">西班牙语学习与DELE备考</span>
         </p>
       </section>
     </div>

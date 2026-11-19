@@ -815,7 +815,7 @@ function MapaMental({ contenido, onCambiar }) {
     titulo.setAttribute("y", 36);
     titulo.setAttribute("fill", "#8f0c21");
     titulo.setAttribute("style", `font: 800 18px ${FUENTE_UI}`);
-    titulo.textContent = `AI Español · ${contenido.nivel} · U${contenido.numero}${contenido.clase ? ` · Clase ${contenido.clase}` : ""} · 思维导图`;
+    titulo.textContent = `Wukong Español · ${contenido.nivel} · U${contenido.numero}${contenido.clase ? ` · Clase ${contenido.clase}` : ""} · 思维导图`;
     copia.insertBefore(titulo, capa);
     const datos = new XMLSerializer().serializeToString(copia);
     const img = new Image();
