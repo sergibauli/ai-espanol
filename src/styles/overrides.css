@@ -733,3 +733,12 @@ html, body { overflow-x: clip; }
 .aviso-audio-examen > span { flex: 1 1 180px; min-width: 0; }
 .aviso-audio-examen .zh { display: block; font-family: "STKaiti", "KaiTi", serif; color: #8f0c21 !important; }
 .aviso-audio-examen button { min-height: 40px; padding: 8px 16px; border: 0; border-radius: 999px; background: linear-gradient(180deg, #c8102e, #8f0c21); color: #fff !important; font-weight: 800; cursor: pointer; }
+
+/* Indicador «Progreso guardado en tu cuenta» (components/ui/EstadoGuardado.jsx) */
+.estado-guardado { display: flex; align-items: center; gap: 6px; margin: 6px 0 0; font-size: 11.5px; line-height: 1.3; opacity: .78; color: inherit; }
+.estado-guardado svg { flex: none; }
+.estado-guardado.is-pendiente { opacity: 1; font-weight: 600; }
+.estado-guardado.is-sincronizando svg, .estado-guardado.is-pendiente-breve svg { animation: estado-guardado-gira 1.2s linear infinite; }
+@keyframes estado-guardado-gira { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .estado-guardado svg { animation: none !important; } }
+.side-nav .estado-guardado { padding: 0 14px; }

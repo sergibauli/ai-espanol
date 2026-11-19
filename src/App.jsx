@@ -6,6 +6,7 @@ import { MascotProvider } from "./components/Mascot.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
 import { CampusProvider } from "./lib/campus.jsx";
+import { iniciarSesionSync, primeraSincronizacion } from "./lib/syncProgreso.js";
 import { LIGHT_ROUTES, LEGACY_LIGHT, STAGE_ROUTES, LightShell } from "./components/layout/LightShell.jsx";
 import WelcomePage from "./pages/WelcomePage.jsx";
 import { SECCIONES } from "./lib/precarga.js";
@@ -577,13 +578,38 @@ function AppRoutes() {
     </>
   );
 }
+// Progreso con la cuenta: al entrar (o cambiar de alumno) descarga y fusiona; si llegan datos o cambia
+// el alumno, vuelve a montar las páginas para que lean el progreso ya fusionado (solo pasa al entrar).
+function SincronizadorProgreso({ children }) {
+  const { user, isAdminLogin, getToken, isLoading } = useAppAuth();
+  const [version, setVersion] = React.useState(0);
+  const tokenRef = React.useRef(getToken);
+  tokenRef.current = getToken;
+  const userId = user?.id || null;
+  React.useEffect(() => {
+    if (isLoading) return undefined;
+    const esClerk = Boolean(userId && !isAdminLogin);
+    const cambio = iniciarSesionSync({ userId, esClerk, getToken: tokenRef.current ? () => tokenRef.current() : null });
+    if (cambio) setVersion((v) => v + 1);
+    let vigente = true;
+    primeraSincronizacion().then((llegaron) => {
+      if (vigente && llegaron) setVersion((v) => v + 1);
+    });
+    return () => {
+      vigente = false;
+    };
+  }, [userId, isAdminLogin, isLoading]);
+  return <React.Fragment key={version}>{children}</React.Fragment>;
+}
 function App() {
   return (
     <HashRouter>
       <AuthProvider>
         <LanguageProvider>
           <CampusProvider>
-            <AppRoutes />
+            <SincronizadorProgreso>
+              <AppRoutes />
+            </SincronizadorProgreso>
           </CampusProvider>
         </LanguageProvider>
       </AuthProvider>

@@ -6,6 +6,8 @@
 // - Proxy de IA (/ai/chat): la clave de DeepSeek vive aquí como secreto y nunca llega al navegador.
 // Secretos: CLERK_SECRET_KEY, ADMIN_EMAILS, DEEPSEEK_API_KEY. Variables: ver wrangler.toml.
 
+import { validarParche, MAX_DOC, VERSION_DOC } from "../../src/lib/syncReglas.js";
+
 const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json" } });
 const fail = (status, error) => json({ error }, status);
 
@@ -50,6 +52,8 @@ async function route(req, env, url) {
 
   const token = await authenticate(req, env);
   if (!token) return fail(401, "Inicia sesión para continuar.");
+  // Progreso del alumno (sincronización entre dispositivos): solo necesita el id de Clerk (token.sub)
+  if (path === "/progress") return progress(req, env, token.sub);
   const db = await loadDb(env);
   const me = await identify(env, db, token);
 
@@ -425,7 +429,7 @@ function corsHeaders(req, env) {
   return {
     "access-control-allow-origin": allowed.includes(origin) ? origin : allowed[0] || "",
     "access-control-allow-headers": "authorization, content-type",
-    "access-control-allow-methods": "GET, POST, OPTIONS",
+    "access-control-allow-methods": "GET, POST, PUT, OPTIONS",
     vary: "origin",
   };
 }
@@ -452,4 +456,36 @@ async function aiTts(req, env) {
   });
   if (!r.ok) return fail(502, "La voz no está disponible ahora");
   return new Response(r.body, { headers: { "content-type": "audio/mpeg", "cache-control": "public, max-age=86400" } });
+}
+
+// ---------- Progreso del alumno ----------
+// KV «progress:<userId>» = { v, rev, updatedAt, claves: { clave: { v: cadena|null, u: fecha, del? } } }.
+// El cliente fusiona (src/lib/syncReglas.js) y sube solo las claves que cambian, con la revisión que descargó;
+// si otro dispositivo subió entre medias se responde 409 y el cliente vuelve a descargar y fusionar.
+async function progress(req, env, userId) {
+  if (!userId || !/^[\w-]{1,80}$/.test(userId)) return fail(400, "Usuario no válido");
+  const kvKey = `progress:${userId}`;
+  const doc = (await env.CAMPUS.get(kvKey, "json")) || { v: VERSION_DOC, rev: 0, updatedAt: 0, claves: {} };
+  if (req.method === "GET") return json({ rev: doc.rev, updatedAt: doc.updatedAt, claves: doc.claves });
+  if (req.method !== "PUT") return fail(405, "Método no permitido");
+  const texto = await req.text();
+  if (texto.length > MAX_DOC) return fail(413, "Demasiados datos");
+  let body;
+  try {
+    body = JSON.parse(texto);
+  } catch {
+    return fail(400, "JSON no válido");
+  }
+  const error = validarParche(body?.claves);
+  if (error) return fail(400, error);
+  if (!Number.isInteger(body.rev)) return fail(400, "Falta la revisión");
+  if (body.rev !== doc.rev) return json({ error: "Hay cambios más nuevos en tu cuenta", rev: doc.rev }, 409);
+  for (const [k, e] of Object.entries(body.claves)) doc.claves[k] = { v: e.v, u: e.u, ...(e.del ? { del: e.del } : {}) };
+  doc.rev += 1;
+  doc.updatedAt = Date.now();
+  doc.v = VERSION_DOC;
+  const salida = JSON.stringify(doc);
+  if (salida.length > MAX_DOC) return fail(413, "El progreso guardado supera el tamaño máximo");
+  await env.CAMPUS.put(kvKey, salida);
+  return json({ ok: true, rev: doc.rev, updatedAt: doc.updatedAt });
 }
