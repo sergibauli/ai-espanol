@@ -71,6 +71,23 @@ export function transformCartel(cam, x, y, ancla = "centro", alza = 0) {
   return `translate3d(${p.x.toFixed(1)}px, ${(p.y - alza * p.s).toFixed(1)}px, 0) translate(-50%, -50%) scale(${p.s.toFixed(4)})`;
 }
 
+/**
+ * Escribe un transform sin recalcular el estilo de todo el subárbol: medido en móvil, cambiar style.transform de un
+ * medallón (con sus SVG y animaciones dentro) cuesta ~4 veces más que actualizar los fotogramas clave de una animación
+ * WAAPI quieta (dos claves iguales, sin fin). Solo escribe si el valor cambia.
+ */
+export function ponerTransform(nodo, valor) {
+  if (!nodo || nodo.__tr === valor) return;
+  nodo.__tr = valor;
+  if (typeof nodo.animate !== "function") {
+    nodo.style.transform = valor;
+    return;
+  }
+  const claves = [{ transform: valor }, { transform: valor }];
+  if (nodo.__an && nodo.__an.playState !== "idle" && nodo.__an.effect) nodo.__an.effect.setKeyframes(claves);
+  else nodo.__an = nodo.animate(claves, { duration: 1e9, fill: "both" });
+}
+
 /** Coloca un cartel (lo usa el Rey Mono en cada fotograma de su viaje) con la cámara actual de su tablero */
 export function colocarEn(el, x, y, ancla = "libre") {
   if (!el) return;
@@ -79,7 +96,7 @@ export function colocarEn(el, x, y, ancla = "libre") {
   el.dataset.ancla = ancla;
   const tablero = el.closest?.(".r3-tablero");
   const cam = tablero?.__cam || camaraBase(Number(tablero?.dataset.alto) || 500);
-  el.style.transform = transformCartel(cam, x, y, ancla, Number(el.dataset.alza) || 0);
+  ponerTransform(el, transformCartel(cam, x, y, ancla, Number(el.dataset.alza) || 0));
 }
 
 /** Proyección de un punto con la cámara actual del tablero que contiene a `el` */
@@ -105,6 +122,9 @@ export function crearDirector(raiz) {
   let dormida = true;
   let activa = !sinMovimiento();
   let pausada = false;
+  let desplazado = 0; // scroll acumulado (px) desde que se midieron las cajas
+  let medidaGlobal = 0; // se incrementa para volver a medir (resize, cambios del DOM)
+  const ultimoScroll = new WeakMap();
 
   const estado = (el) => {
     let e = tableros.get(el);
@@ -116,12 +136,13 @@ export function crearDirector(raiz) {
     return e;
   };
 
+  const escribir = ponerTransform;
   const aplicar = (el, cam) => {
     el.__cam = cam;
     const suelo = el.querySelector(":scope > .r3-suelo");
-    if (suelo) suelo.style.transform = transformSuelo(cam);
+    if (suelo) escribir(suelo, transformSuelo(cam));
     for (const cartel of el.querySelectorAll(":scope > [data-gx]")) {
-      cartel.style.transform = transformCartel(cam, Number(cartel.dataset.gx), Number(cartel.dataset.gy), cartel.dataset.ancla || "centro", Number(cartel.dataset.alza) || 0);
+      escribir(cartel, transformCartel(cam, Number(cartel.dataset.gx), Number(cartel.dataset.gy), cartel.dataset.ancla || "centro", Number(cartel.dataset.alza) || 0));
     }
   };
 
@@ -129,10 +150,17 @@ export function crearDirector(raiz) {
     const alto = Number(el.dataset.alto) || 500;
     const base = camaraBase(alto);
     if (!activa) return { cam: base, quieta: true };
-    const caja = el.getBoundingClientRect();
     const vh = window.innerHeight || 800;
+    // Posición del tablero en pantalla sin forzar layout: la caja medida una vez y el desplazamiento acumulado
+    const e0 = tableros.get(el);
+    if (!e0.caja || e0.medida !== medidaGlobal) {
+      const r = el.getBoundingClientRect();
+      e0.caja = { top: r.top + desplazado, height: r.height };
+      e0.medida = medidaGlobal;
+    }
+    const centro = e0.caja.top - desplazado + e0.caja.height / 2;
     // −1 (tablero arriba de la pantalla) … 1 (abajo): la cámara está a media altura y lo ve desde otro ángulo
-    const d = Math.max(-1.2, Math.min(1.2, (caja.top + caja.height / 2 - vh / 2) / vh));
+    const d = Math.max(-1.2, Math.min(1.2, (centro - vh / 2) / vh));
     const entrada = inclinacion || punteroSuave;
     const cam = { ...base, th: base.th + d * 7 + entrada.y * 4, ph: entrada.x * (inclinacion ? 7 : 5) };
     const e = tableros.get(el);
@@ -183,6 +211,8 @@ export function crearDirector(raiz) {
         }
       }
       delete nueva.directo;
+      nueva.th = Math.round(nueva.th * 20) / 20;
+      nueva.ph = Math.round(nueva.ph * 20) / 20;
       e.cam = nueva;
       aplicar(el, nueva);
       if (!quieta || mov > 0.01) seguir = true;
@@ -229,8 +259,24 @@ export function crearDirector(raiz) {
     activa = !reducir.matches;
     despertar();
   };
-  window.addEventListener("scroll", despertar, { passive: true, capture: true });
-  window.addEventListener("resize", despertar, { passive: true });
+  const alScroll = (ev) => {
+    const t = ev.target === document || ev.target === document.documentElement ? null : ev.target;
+    const ahora = t ? t.scrollTop : window.scrollY;
+    const clave = t || window;
+    const antes = ultimoScroll.get(clave);
+    ultimoScroll.set(clave, ahora);
+    if (antes != null) desplazado += ahora - antes;
+    despertar();
+  };
+  const alRedimensionar = () => {
+    medidaGlobal++;
+    despertar();
+  };
+  const remedir = setInterval(() => {
+    if (!dormida) medidaGlobal++;
+  }, 1200);
+  window.addEventListener("scroll", alScroll, { passive: true, capture: true });
+  window.addEventListener("resize", alRedimensionar, { passive: true });
   if (activa && window.matchMedia?.("(hover: hover) and (pointer: fine)").matches) window.addEventListener("pointermove", alMover, { passive: true });
   document.addEventListener("visibilitychange", alVisibilidad);
   reducir?.addEventListener?.("change", alReducir);
@@ -239,6 +285,7 @@ export function crearDirector(raiz) {
     /** Registra los tableros nuevos (se llama tras cada render) */
     sincronizar() {
       if (!raiz) return;
+      medidaGlobal++;
       for (const el of raiz.querySelectorAll(".r3-tablero")) {
         if (el.__dirigido) continue;
         el.__dirigido = true;
@@ -316,8 +363,9 @@ export function crearDirector(raiz) {
     destruir() {
       cancelAnimationFrame(raf);
       ojo?.disconnect();
-      window.removeEventListener("scroll", despertar, { capture: true });
-      window.removeEventListener("resize", despertar);
+      clearInterval(remedir);
+      window.removeEventListener("scroll", alScroll, { capture: true });
+      window.removeEventListener("resize", alRedimensionar);
       window.removeEventListener("pointermove", alMover);
       window.removeEventListener("deviceorientation", alOrientar);
       document.removeEventListener("visibilitychange", alVisibilidad);

@@ -29,19 +29,25 @@
 .r3-on .ruta-camino-wrap::before { opacity: .35; }
 
 /* ---------- Paisaje: parallax por puntero / inclinación y profundidad de campo ---------- */
-.r3-on .mr25 .mr-lienzo > img.mr-lejos { transform: translate3d(calc(var(--cam-x, 0) * -8px), calc(var(--cam-y, 0) * -5px), 0) scale(1.03); }
-.r3-on .mr25 .mr-lienzo > img.mr-medio { transform: translate3d(calc(var(--cam-x, 0) * -18px), calc(var(--cam-y, 0) * -10px), 0) scale(1.04); }
-.r3-on .mr25 .mr-lienzo > img.mr-cerca { transform: translate3d(calc(var(--cam-x, 0) * -32px), calc(var(--cam-y, 0) * -16px), 0) scale(1.06); }
+/* Solo translate (capas compuestas del mismo tamaño); blur solo en el plano más lejano y solo en escritorio:
+   medido, el blur en tres planos y el scale costaban ~25 % de los fotogramas */
+.r3-on .mr25 .mr-lienzo > img.mr-lejos { transform: translate3d(calc(var(--cam-x, 0) * -8px), calc(var(--cam-y, 0) * -5px), 0); }
+.r3-on .mr25 .mr-lienzo > img.mr-medio { transform: translate3d(calc(var(--cam-x, 0) * -18px), calc(var(--cam-y, 0) * -10px), 0); }
+.r3-on .mr25 .mr-lienzo > img.mr-cerca { transform: translate3d(calc(var(--cam-x, 0) * -32px), calc(var(--cam-y, 0) * -16px), 0); }
 .r3-on .mr25 .mr-particulas-canvas { transform: translate3d(calc(var(--cam-x, 0) * -22px), calc(var(--cam-y, 0) * -12px), 0); }
-@media (min-width: 701px) and (hover: hover) {
-  .r3-on .mr25 .mr-lienzo > img.mr-lejos { filter: blur(2px) saturate(.92); }
-  .r3-on .mr25 .mr-lienzo > img.mr-medio { filter: blur(.8px); }
-  .r3-on .mr25 .mr-tira.t1 { filter: blur(1.5px); }
+@media (min-width: 701px) and (hover: hover) and (pointer: fine) {
+  .r3-on .mr25 .mr-lienzo > img.mr-lejos { filter: blur(1.5px); }
 }
 
 /* ---------- Medallón = moneda 3D con canto ---------- */
 .md3 { transform-style: preserve-3d; transform: perspective(560px) rotateX(calc(12deg + var(--rx, 0deg))) rotateY(var(--ry, 0deg)); transition: transform 520ms cubic-bezier(.2,.9,.3,1.2); }
 .md3.md3-mira { transition-duration: 90ms; }
+/* Rendimiento: en reposo la moneda es plana (el canto no se ve de frente) y no crea ~10 capas 3D; solo la clase
+   actual (que se bambolea), la que mira al puntero y la que gira mantienen el 3D */
+.md3:not(.md3-mira):not(.md3-gira) { transform-style: flat; }
+.rp-parada.actual .md3, .rp-gira .md3 { transform-style: preserve-3d; }
+.md3:not(.md3-mira):not(.md3-gira) > :is(.md3-capa, .md3-dorso) { visibility: hidden; }
+.rp-parada.actual .md3 > :is(.md3-capa, .md3-dorso), .rp-gira .md3 > :is(.md3-capa, .md3-dorso) { visibility: visible; }
 .md3 > .md3-capa { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: translateZ(calc(var(--md) * -.0135 * var(--i))); pointer-events: none; }
 .md3 > .md3-dorso { position: absolute; inset: 0; width: 100%; height: 100%; transform: translateZ(calc(var(--md) * -.115)) rotateY(180deg); backface-visibility: hidden; }
 .md3 > svg.md3-cara { transform: translateZ(.5px); backface-visibility: hidden; }
@@ -93,11 +99,7 @@
 
 /* ---------- Estandarte de la unidad: placa de laca con grosor, que se descuelga al entrar ---------- */
 .r3-on .ruta-unit .ru-estandarte { box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -10px 18px rgba(0,0,0,.28), 0 0 0 1.5px #6e4210, 0 7px 0 -1px #3b2416, 0 9px 0 -1px #c8961e, 0 22px 30px rgba(20,8,0,.45) !important; }
-.r3-on .ruta-unit .ru-estandarte::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(115deg, transparent 30%, rgba(255,250,225,.2) 45%, transparent 58%) -150% 0 / 220% 100% no-repeat; }
-@media (prefers-reduced-motion: no-preference) {
-  .r3-on .ruta-unit:not(.lejana) .ru-estandarte::after { animation: r3Barrido 7s ease-in-out infinite; }
-}
-@keyframes r3Barrido { 0%, 70% { background-position: -150% 0; } 100% { background-position: 250% 0; } }
+.r3-on .ruta-unit .ru-estandarte::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, rgba(255,250,225,.16), transparent 40%, transparent 70%, rgba(0,0,0,.12)); }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) and (min-width: 701px) {
     .r3-on .ruta-unit .ru-estandarte { transform-origin: 50% 0; animation: r3Descuelga linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
@@ -208,3 +210,6 @@
   .rp-ficha, .rp-ficha.hoja, .rf-lecciones li, .rf-cta, .rf-velo, .rf-candado, .rp-cofre.ex-abierto .rp-cofre-cartel, .r3-on .ruta-unit .ru-estandarte, .r3-on .ruta-unit .ru-estandarte::after { animation: none !important; }
   .r3-on .mr25 .mr-lienzo > img, .r3-on .mr25 .mr-particulas-canvas { transform: none !important; }
 }
+
+/* El chino del cartel del examen abierto, legible sobre la laca roja */
+.rp-cofre.ex-abierto .rp-cofre-cartel span, .rp-cofre.ex-aprobado .rp-cofre-cartel span { color: #ffe29a !important; }
