@@ -172,7 +172,7 @@ def pinta(M):
     for k, (picos, base, tinta, f) in enumerate([
         ([(60, 560, 150), (240, 520, 130), (420, 585, 160), (900, 540, 150), (1080, 575, 140)], 720, "#3a3f72", 0.45),
         ([(150, 620, 170), (360, 600, 140), (820, 615, 160), (1000, 600, 170)], 740, "#262c5c", 0.3)]):
-        pf = perfil_picos(L, picos, rug=14, seed=18 + k, base=base)
+        pf = perfil_picos(L, picos, rug=26, seed=18 + k, base=base)
         sierra(C, pf, base, luz=LUZ, lit="#6a6fa6", sombra=tinta, aire="#4a4a80", aire_f=f, filo=0.6, filo_c="#b8c4ff", niebla_pie=("#4a4472", 110, 0.95), seed=18 + k, estrias=0.8)
     M.capa("lejos", C, 0.14)
 
@@ -216,16 +216,30 @@ def pinta(M):
         ox, oy = cx - P.L.w / 2, base - ybp
         C.pega(P, ox, oy)
         ventanas += [(vx + ox, vy + oy, vw, vh) for vx, vy, vw, vh in ven]
-    # puente de arco de piedra (拱桥) con escalones y barandilla
-    pu = L.mascara(lambda P: P.poly(spline([(400, y_agua), (470, 852), (555, 832), (640, 852), (710, y_agua)], 10) + [(710, y_agua + 2), (400, y_agua + 2)]))
-    arco = L.mascara(lambda P: P.elip(555, y_agua + 4, 50, 44))
+    # puente de arco de piedra (拱桥): sillares, dovelas en abanico alrededor del arco, escalones, balaustrada con
+    # pilares y farolillos; su reflejo cierra el círculo (lo pinta reflejo_capa más abajo)
+    cxp, ra, rb = 555, 54, 47
+    pu = L.mascara(lambda P: P.poly(spline([(380, y_agua), (450, 862), (555, 826), (660, 862), (730, y_agua)], 12) + [(730, y_agua + 2), (380, y_agua + 2)]))
+    arco = L.mascara(lambda P: P.elip(cxp, y_agua + 4, ra, rb))
     pm = np.clip(pu - arco, 0, 1)
-    pc_ = mezcla(np.broadcast_to(col("#3a4270"), (H, W, 3)), col("#a8b0d8"), suave(470, 700, X)[..., None] * 0.8)
-    pc_ = mezcla(pc_, col("#141a38"), (suave(830, 905, Y) * 0.4)[..., None])
-    pc_ = mezcla(pc_, col("#0c1024"), (((X + (np.floor(Y / 6) % 2) * 6) % 12 < 1) | ((Y % 6) < 0.8))[..., None] * 0.35)
+    ang = np.arctan2(Y - (y_agua + 4), X - cxp)
+    dist = np.sqrt(((X - cxp) / ra) ** 2 + ((Y - y_agua - 4) / rb) ** 2)
+    anillo = (dist > 1) & (dist < 1.22)
+    pc_ = mezcla(np.broadcast_to(col("#2e3664"), (H, W, 3)), col("#aab2dc"), suave(450, 720, X)[..., None] * 0.8)
+    pc_ = mezcla(pc_, col("#141a38"), (suave(840, 905, Y) * 0.45)[..., None])
+    sillar = (((X + (np.floor(Y / 7) % 2) * 7) % 14 < 1.1) | ((Y % 7) < 0.9))
+    dovela = anillo & ((np.mod(ang * 18 / np.pi, 1.0) < 0.12) | (np.abs(dist - 1.22) < 0.03))
+    pc_ = mezcla(pc_, col("#0c1024"), np.where(anillo, dovela, sillar)[..., None] * 0.45)
+    pc_ = mezcla(pc_, col("#c8d0f0"), (anillo * 0.18)[..., None])
+    musgo = suave(0.6, 0.75, L.ruido(1.5, 77)) * suave(870, 905, Y)
+    pc_ = mezcla(pc_, col("#2a4a3a"), musgo[..., None] * 0.5)
     C.pon(pc_, pm)
-    C.pon("#c8d0ff", borde(pm, 0, -1.5) * 0.6)
-    bar = L.mascara(lambda P: P.linea(spline([(410, y_agua - 30), (470, 842), (555, 822), (640, 842), (700, y_agua - 30)], 10), 2.2))
+    C.pon("#d8e0ff", borde(pm, LUZ * 1.2, -1.5) * 0.55)
+    C.pon("#060818", borde(arco, 0, -3, 1.5) * pm * 0.6)
+    cur = spline([(392, y_agua - 24), (452, 848), (555, 812), (658, 848), (718, y_agua - 24)], 14)
+    bar = L.mascara(lambda P: (P.linea(cur, 2.4), [P.rect(x - 1.6, y, x + 1.6, y + 14) for x, y in cur[::3]]))
+    C.pon(mezcla(np.broadcast_to(col("#3a4270"), (H, W, 3)), col("#b8c0e8"), suave(450, 720, X)[..., None] * 0.8), bar)
+    C.pon("#e8ecff", borde(bar, 0, -1) * 0.5)
     C.pon("#5a6290", bar)
     # agua del canal: refleja casas, puente y luces (el arco y su reflejo forman un círculo)
     agua = agua_noche(L, y_agua, 1250, "#16224a", "#070d20", glow=(555, y_agua + 30, 300, "#3a3a6a", 0.4))
@@ -267,8 +281,9 @@ def pinta(M):
     sp.halo(M.ruta("halo-luna.webp"), 220, "#c8d8ff", 0.75)
     M.actor("cielo", "halo-luna.webp", lx - 150, ly - 150, 300, 300, "respira", dur=7, op=0.9)
     bw, bh = sp.barca(M.ruta("barca.webp"), 150)
+    sp.barca(M.ruta("barca-p.webp"), 150, pasajera=True)
     M.actor("canal", "barca.webp", 330, 1205, bw * 0.9, bh * 0.9, "desliza", dur=34, retraso=-6, dx=22, dy=0.6)
-    M.actor("canal", "barca.webp", 690, 1290, bw * 1.15, bh * 1.15, "desliza", dur=42, retraso=-25, dx=-24, dy=-0.4, movil=False)
+    M.actor("canal", "barca-p.webp", 690, 1290, bw * 1.15, bh * 1.15, "desliza", dur=42, retraso=-25, dx=-24, dy=-0.4, movil=False)
     M.actor("pueblo", "barca.webp", 470, 930, bw * 0.45, bh * 0.45, "desliza", dur=28, retraso=-4, dx=8)
     fw, fh, fcx, _ = sp.farol(M.ruta("farol.webp"), 30, 46)
     for i, (x, y, s) in enumerate([(150, 1012, 0.6), (330, 1078, 0.55), (810, 1006, 0.6), (980, 990, 0.62), (470, 820, 0.36), (640, 820, 0.36), (560, 803, 0.32)]):
@@ -280,6 +295,10 @@ def pinta(M):
     for i, (vx, vy, vw, vh) in enumerate(ventanas_pueblo[::2] + ventanas[::2]):
         s = vw * 2.6
         M.actor("pueblo" if i < len(ventanas_pueblo[::2]) else "canal", "ventana.webp", vx - s / 2, vy - s / 2, s, s, "parpadea", dur=round(5 + (i * 1.7) % 6, 2), retraso=-i * 0.9, movil=i % 2 == 0)
+    rw_, rh_ = sp.ropa(M.ruta("ropa.webp"), 160, 50, seed=2)
+    for i, (x, y, s) in enumerate(((112, 1000, 0.7), (900, 992, 0.75), (250, 846, 0.45), (850, 850, 0.42))):
+        M.actor("canal" if i < 2 else "pueblo", "ropa.webp", x, y, rw_ * s, rh_ * s, "cuelga", dur=4 + i * 0.5, retraso=-i, amp=1.5, movil=i < 2)
+    M.actor("pueblo", "barca-p.webp", 610, 960, bw * 0.38, bh * 0.38, "desliza", dur=36, retraso=-14, dx=-9, movil=False)
     sw_, sh_ = sp.sauce(M.ruta("sauce.webp"), 320, 460, seed=4)
     M.actor("frente", "sauce.webp", -40, 200, sw_, sh_, "cuelga", dur=7, amp=1.6)
     M.actor("frente", "sauce.webp", 860, 230, sw_ * 0.9, sh_ * 0.9, "cuelga", dur=8.2, retraso=-3, amp=1.4, movil=False)

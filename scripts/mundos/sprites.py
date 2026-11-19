@@ -219,7 +219,7 @@ def franja(ruta, w=600, h=40, c="#ffd9a0", f=0.6, seed=0, aniso=(6.0, 1.0)):
     guarda_png_rgba(np.broadcast_to(col(c), a.shape + (3,)), a, ruta)
 
 
-def barca(ruta, w=150, luz=1, farol_c="#ffb04a"):
+def barca(ruta, w=150, luz=1, farol_c="#ffb04a", pasajera=False):
     """Barca de toldo (乌篷船) con barquero y farol encendido, con su reflejo cálido (el sprite incluye el agua)."""
     h = int(w * 0.62)
     Lz = Lienzo(w, h)
@@ -235,6 +235,13 @@ def barca(ruta, w=150, luz=1, farol_c="#ffb04a"):
                                P.poly([(w * 0.76, yl - h * 0.45), (w * 0.84, yl - h * 0.45), (w * 0.8, yl - h * 0.52)]), P.linea([(w * 0.84, yl - h * 0.36), (w * 0.98, yl + h * 0.15)], 1.4)))
     C.pon("#0a0a12", bq)
     C.pon("#c8b0a0", borde(bq, luz * 1.2, -1) * 0.5)
+    if pasajera:  # pasajera sentada bajo un paraguas de papel encerado rojo
+        pj = Lz.mascara(lambda P: (P.elip(w * 0.55, yl - h * 0.22, w * 0.04, h * 0.1), P.elip(w * 0.55, yl - h * 0.36, w * 0.022, w * 0.022)))
+        C.pon("#2a1a2a", pj)
+        par = Lz.mascara(lambda P: (P.poly(spline([(w * 0.42, yl - h * 0.46), (w * 0.5, yl - h * 0.6), (w * 0.62, yl - h * 0.62), (w * 0.7, yl - h * 0.5)], 6) + [(w * 0.56, yl - h * 0.5)]),
+                                    P.linea([(w * 0.56, yl - h * 0.58), (w * 0.57, yl - h * 0.3)], 1.0)))
+        C.pon(mezcla(np.broadcast_to(col("#5a0c18"), par.shape + (3,)), col("#e04a3a"), volumen(par, 3, -luz, 1)[..., None]), par)
+        C.pon("#ffb080", borde(par, luz, -1) * 0.5)
     # farol en la proa con halo y su reflejo
     fx, fy = w * 0.2, yl - h * 0.3
     C.pon("#3a2a20", Lz.mascara(lambda P: P.linea([(w * 0.26, yl - h * 0.1), (w * 0.2, yl - h * 0.4)], 1.2)))
@@ -274,30 +281,61 @@ def halo(ruta, tam=200, c="#c8d8ff", f=0.8, p=1.6):
 
 
 def sauce(ruta, w=320, h=420, luz=1, seed=0, hoja=("#0a1a1c", "#3a6a5a"), rim="#9ab8d8"):
-    """Ramas colgantes de sauce llorón (cuelga desde arriba; se mece desde el borde superior)."""
+    """Sauce llorón: copa oscura arriba y cientos de hebras colgantes en dos profundidades (las de detrás más
+    oscuras y finas), con hojitas lanceoladas y luz de luna en el borde (se mece desde el borde superior)."""
     rng = np.random.default_rng(seed)
     Lz = Lienzo(w, h)
     C = Capa(Lz)
-    ramas = []
-    for _ in range(110):
-        x0 = rng.uniform(0, w * 0.95)
-        largo = rng.uniform(h * 0.4, h * 0.98)
-        curv = rng.uniform(-w * 0.05, w * 0.05)
-        ramas.append([(x0 + curv * np.sin(t * 2.4) + t * rng.uniform(-6, 10), t * largo) for t in np.linspace(0, 1, 18)])
 
-    def dib(P):
-        for r in ramas:
-            P.linea(r, 1.1)
-            for i in range(2, len(r)):
-                x, y = r[i]
-                for s in (-1, 1):
-                    P.trazo([(x, y), (x + s * 3.2, y + 5.5)], 2.0, 0.6)
+    def hebras(n, grosor, hojita, largo_min):
+        out = []
+        for _ in range(n):
+            x0 = w * (0.04 + 0.92 * rng.beta(1.6, 1.6))
+            env = np.sin(np.pi * x0 / w) ** 0.8  # copa redondeada: hebras largas en el centro, cortas en los lados
+            y0 = h * 0.1 * (1 - env) + rng.uniform(0, h * 0.06)
+            largo = rng.uniform(h * largo_min, h * 0.98) * (0.3 + 0.7 * env)
+            curv = rng.uniform(-w * 0.04, w * 0.04)
+            out.append([(x0 + curv * np.sin(t * 2.4) + t * t * rng.uniform(-4, 12), y0 + t * largo) for t in np.linspace(0, 1, 22)])
 
-    m = Lz.mascara(dib)
-    m = m * suave(0, h * 0.18, Lz.Y)  # nacen de la oscuridad de arriba (copa fuera de cuadro)
-    v = volumen(m, 4, -luz, 0.5)
-    C.pon(mezcla(np.broadcast_to(col(hoja[0]), m.shape + (3,)), col(hoja[1]), v[..., None]), m)
-    C.pon(rim, borde(m, luz * 1.2, -1) * 0.35)
+        def dib(P):
+            for r in out:
+                P.linea(r, grosor)
+                for k in range(3, len(r)):
+                    x, y = r[k]
+                    for s_ in (-1, 1):
+                        P.trazo([(x, y), (x + s_ * hojita * 0.55, y + hojita)], hojita * 0.32, 0.4)
+        return Lz.mascara(dib)
+
+    copa = desenfoca(Lz.mascara(lambda P: [P.elip(w * rng.uniform(0.15, 0.85), rng.uniform(-h * 0.04, h * 0.06), rng.uniform(w * 0.08, w * 0.16), rng.uniform(h * 0.03, h * 0.06)) for _ in range(10)]), 3) * 0.8
+    atras = hebras(140, 0.8, 4.5, 0.3)
+    delante = hebras(110, 1.1, 6.0, 0.45)
+    C.pon(mezcla(np.broadcast_to(col("#040a10"), atras.shape + (3,)), col("#1e3a3a"), volumen(atras, 5, -luz, 0.5)[..., None]), atras * 0.75)
+    C.pon(mezcla(np.broadcast_to(col("#030608"), atras.shape + (3,)), col("#14282a"), volumen(copa, 8, -luz, 0.8)[..., None]), copa)
+    v = volumen(delante, 4, -luz, 0.5)
+    C.pon(mezcla(np.broadcast_to(col(hoja[0]), delante.shape + (3,)), col(hoja[1]), v[..., None]), delante)
+    C.pon(rim, borde(delante, luz * 1.2, -1) * 0.4)
+    C.a = C.a * suave(-h * 0.02, h * 0.1, Lz.Y) * suave(0, w * 0.06, Lz.X) * suave(w, w * 0.94, Lz.X)
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return w, h
+
+
+def ropa(ruta, w=160, h=50, seed=0):
+    """Cuerda de ropa tendida entre dos casas (prendas de colores que cuelgan)."""
+    rng = np.random.default_rng(seed)
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    cuerda = [(x, 4 + 10 * np.sin(np.pi * x / w)) for x in np.linspace(0, w, 20)]
+    C.pon("#1a1a24", Lz.mascara(lambda P: P.linea(cuerda, 1.0)))
+    colores = ["#c8303a", "#3a5aa8", "#e8e0d0", "#d8a040", "#4a8a6a", "#a83a7a"]
+    x = 10
+    while x < w - 18:
+        pw = rng.uniform(10, 20)
+        ph = rng.uniform(14, 30)
+        y0 = 4 + 10 * np.sin(np.pi * (x + pw / 2) / w)
+        m = Lz.mascara(lambda P: P.poly([(x, y0), (x + pw, y0 + 1), (x + pw * 0.92, y0 + ph), (x + pw * 0.08, y0 + ph * 0.96)]))
+        c0 = col(colores[int(rng.integers(len(colores)))])
+        C.pon(mezcla(np.broadcast_to(c0 * 0.35, m.shape + (3,)), c0 * 0.85, volumen(m, 2, -1, 0, 1)[..., None]), m)
+        x += pw + rng.uniform(3, 9)
     guarda_png_rgba(C.rgb, C.a, ruta)
     return w, h
 

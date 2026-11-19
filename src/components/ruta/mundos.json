@@ -987,7 +987,7 @@
     "h": 6.945,
     "movil": false,
     "retraso": -25,
-    "src": "B1/barca.webp",
+    "src": "B1/barca-p.webp",
     "w": 15.682,
     "x": 62.727,
     "y": 83.766
@@ -1342,6 +1342,69 @@
     "y": 71.774
    },
    {
+    "amp": 1.5,
+    "anim": "cuelga",
+    "capa": "canal",
+    "dur": 4.0,
+    "h": 2.273,
+    "retraso": 0,
+    "src": "B1/ropa.webp",
+    "w": 10.182,
+    "x": 10.182,
+    "y": 64.935
+   },
+   {
+    "amp": 1.5,
+    "anim": "cuelga",
+    "capa": "canal",
+    "dur": 4.5,
+    "h": 2.435,
+    "retraso": -1,
+    "src": "B1/ropa.webp",
+    "w": 10.909,
+    "x": 81.818,
+    "y": 64.416
+   },
+   {
+    "amp": 1.5,
+    "anim": "cuelga",
+    "capa": "pueblo",
+    "dur": 5.0,
+    "h": 1.461,
+    "movil": false,
+    "retraso": -2,
+    "src": "B1/ropa.webp",
+    "w": 6.545,
+    "x": 22.727,
+    "y": 54.935
+   },
+   {
+    "amp": 1.5,
+    "anim": "cuelga",
+    "capa": "pueblo",
+    "dur": 5.5,
+    "h": 1.364,
+    "movil": false,
+    "retraso": -3,
+    "src": "B1/ropa.webp",
+    "w": 6.109,
+    "x": 77.273,
+    "y": 55.195
+   },
+   {
+    "anim": "desliza",
+    "capa": "pueblo",
+    "dur": 36,
+    "dx": -9,
+    "h": 2.295,
+    "movil": false,
+    "retraso": -14,
+    "src": "B1/barca-p.webp",
+    "w": 5.182,
+    "x": 55.455,
+    "y": 62.338
+   },
+   {
     "amp": 1.6,
     "anim": "cuelga",
     "capa": "frente",
@@ -1400,12 +1463,12 @@
     "z": 0.06
    },
    {
-    "h": 16.688,
+    "h": 16.234,
     "id": "lejos",
     "src": "B1/lejos.webp",
     "w": 100.0,
     "x": 0.0,
-    "y": 34.026,
+    "y": 34.481,
     "z": 0.14
    },
    {
@@ -1493,7 +1556,7 @@
     "src": "B2/cascada.webp",
     "w": 1.636,
     "x": 78.091,
-    "y": 42.611
+    "y": 42.868
    },
    {
     "anim": "respira",
@@ -1504,7 +1567,7 @@
     "src": "B2/bruma.webp",
     "w": 7.273,
     "x": 75.273,
-    "y": 52.352
+    "y": 52.608
    },
    {
     "anim": "sube",
@@ -1760,6 +1823,54 @@
     "w": 2.455,
     "x": 110.545,
     "y": 37.013
+   },
+   {
+    "anim": "cascada",
+    "capa": "picos",
+    "dur": 2.0,
+    "h": 7.143,
+    "movil": false,
+    "src": "B2/cascada.webp",
+    "w": 0.909,
+    "x": 10.727,
+    "y": 45.959
+   },
+   {
+    "anim": "deriva",
+    "capa": "cielo",
+    "dur": 180,
+    "dx": 26,
+    "h": 13.377,
+    "retraso": -0.0,
+    "src": "B2/nube0.webp",
+    "w": 43.636,
+    "x": 3.636,
+    "y": 7.792
+   },
+   {
+    "anim": "deriva",
+    "capa": "cielo",
+    "dur": 220,
+    "dx": -20,
+    "h": 14.87,
+    "retraso": -66.0,
+    "src": "B2/nube1.webp",
+    "w": 51.818,
+    "x": 58.182,
+    "y": 3.896
+   },
+   {
+    "anim": "deriva",
+    "capa": "cielo",
+    "dur": 130,
+    "dx": 18,
+    "h": 8.961,
+    "movil": false,
+    "retraso": -78.0,
+    "src": "B2/nube2.webp",
+    "w": 40.909,
+    "x": 32.727,
+    "y": 27.273
    }
   ],
   "capas": [
@@ -1782,12 +1893,12 @@
     "z": 0.14
    },
    {
-    "h": 23.506,
+    "h": 23.442,
     "id": "picos",
     "src": "B2/picos.webp",
     "w": 100.0,
     "x": 0.0,
-    "y": 36.299,
+    "y": 36.364,
     "z": 0.3
    },
    {
