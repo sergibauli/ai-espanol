@@ -45,7 +45,7 @@ const EnjambrePage = React.lazy(() => import("./pages/juegos/EnjambrePage.jsx"))
 const ClasePage = React.lazy(() => import("./pages/ClasePage.jsx"));
 const PromoPage = React.lazy(() => import("./pages/PromoPage.jsx"));
 const KahootPage = React.lazy(() => import("./pages/juegos/KahootPage.jsx"));
-const ApalabradosPage = React.lazy(() => import("./pages/juegos/ApalabradosPage.jsx"));
+const PalacioPalabrasPage = React.lazy(() => import("./pages/juegos/PalacioPalabrasPage.jsx"));
 const UnoPage = React.lazy(() => import("./pages/juegos/UnoPage.jsx"));
 const DragonJadePage = React.lazy(() => import("./pages/juegos/DragonJadePage.jsx"));
 const EscapePalacioPage = React.lazy(() => import("./pages/juegos/EscapePalacioPage.jsx"));
@@ -81,6 +81,11 @@ function QuitaCargadorInicial() {
     });
   }, []);
   return null;
+}
+// El antiguo juego de tablero de letras ahora es «Palacio de las palabras» (conserva ?m=N)
+function RedirigePalacio() {
+  const { search } = useLocation();
+  return <Navigate to={`/juegos/palacio-palabras${search}`} replace />;
 }
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAppAuth();
@@ -538,16 +543,8 @@ function AppRoutes() {
           <Route path="/juegos/word-quest" element={<Navigate to="/juegos" replace />} />
           <Route path="/juegos/word-archer" element={<Navigate to="/juegos" replace />} />
           <Route path="/juegos/word-candy" element={<Navigate to="/juegos" replace />} />
-          <Route
-            path="/juegos/apalabrados"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <ApalabradosPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
+          <Route path="/juegos/palacio-palabras" element={<RequireAuth><PalacioPalabrasPage /></RequireAuth>} />
+          <Route path="/juegos/apalabrados" element={<RedirigePalacio />} />
           <Route path="/juegos/word-chain" element={<Navigate to="/juegos" replace />} />
           <Route path="/juegos/tic-tac-toe" element={<Navigate to="/juegos" replace />} />
           <Route
