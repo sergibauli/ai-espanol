@@ -561,9 +561,18 @@ export class Game {
 
   private render(dt: number): void {
     const r = this.race;
-    if (r && r.humanos > 1 && this.state !== 'loading') {
+    if (r && r.humanos > 1 && (this.state === 'countdown' || this.state === 'racing' || this.state === 'finished' || this.state === 'paused')) {
       this.renderPartido(r);
       return;
+    }
+    if (r && r.humanos > 1) {
+      // Al salir de la pantalla partida (resultados), la cámara vuelve a ocupar todo el lienzo.
+      const tam = this.renderer.getSize(this.tmpVec2);
+      const asp = tam.x / Math.max(1, tam.y);
+      if (Math.abs(this.camera.aspect - asp) > 1e-3) {
+        this.camera.aspect = asp;
+        this.camera.updateProjectionMatrix();
+      }
     }
     if (this.postfxOk) {
       try {
@@ -1175,6 +1184,7 @@ export class Game {
       this.renderer.render(this.scene, cam);
     }
     this.renderer.setScissorTest(false);
+    this.renderer.setViewport(0, 0, tam.x, tam.y);
   }
 
   /** Con 3 jugadores: cámara aérea que sigue al líder de la carrera. */
