@@ -662,7 +662,7 @@
 .jh-poster--sopa { background: radial-gradient(circle at 30% 20%, #4fae78, #1d6339 70%); }
 .jh-poster--scramble { background: linear-gradient(135deg, #b4232f, #5a0814); }
 .jh-poster--memory { background: radial-gradient(circle at 50% 30%, #2f6f4a, #0f3a22 75%); }
-.jh-poster--apalabrados { background: linear-gradient(135deg, #8a5a1e, #4a2a12); }
+.jh-poster--palacio-palabras { background: linear-gradient(135deg, #8a5a1e, #4a2a12); }
 .jh-poster--uno { background: radial-gradient(circle at 50% 100%, #2c4f8f, #0b1530 75%); }
 .jh-poster--mapa-mental { background: radial-gradient(circle at 50% 50%, #1f6a5a, #0c3029 80%); }
 .jh-poster--teatro { background: radial-gradient(circle at 50% 70%, #4a1a12, #120406 80%); }
@@ -725,9 +725,28 @@ svg .jh-p-resp { transform-box: fill-box; transform-origin: center; animation: j
 .jh-p-brilla { animation: jh-brilla 2.6s ease-in-out infinite; animation-delay: var(--d); }
 .jh-p-interroga { animation: jh-ocultar 3s ease-in-out infinite; animation-delay: var(--d); }
 .jh-p-tinta { stroke-dashoffset: 320; animation: jh-tinta 4s ease-in-out infinite; }
+.jh-p-pincel { animation: jh-pincel 4s ease-in-out infinite; }
+@keyframes jh-pincel { 0%, 100% { transform: translate(0, 0) rotate(0); } 20% { transform: translate(-30px, -16px) rotate(-6deg); } 40% { transform: translate(-6px, -24px) rotate(3deg); } 60% { transform: translate(-40px, 6px) rotate(-4deg); } 80% { transform: translate(-12px, -4px) rotate(2deg); } }
 .jh-p-tinta.is-b { animation-delay: 2s; }
 .jh-p-enlace { animation: jh-hormiga 1s linear infinite; }
 .jh-p-flota { animation: jh-flotar-llave 3.4s ease-in-out infinite; }
+
+/* v22 · Fichas del palacio: dos fichas vuelan a la cima y se funden en oro */
+.jh-p-ficha-vuela { animation: jh-ficha-vuela 3.6s cubic-bezier(0.5, 0, 0.3, 1) infinite; }
+.jh-p-ficha-vuela.is-izq { --fx: 128px; }
+.jh-p-ficha-vuela.is-der { --fx: -128px; }
+.jh-p-destello { opacity: 0; transform-origin: 160px 30px; animation: jh-ficha-destello 3.6s ease-out infinite; }
+.jh-p-ficha-cima { animation: jh-flotar-llave 3.4s ease-in-out infinite; }
+@keyframes jh-ficha-vuela {
+  0%, 25% { transform: translate(0, 0); opacity: 1; }
+  60% { transform: translate(var(--fx), -14px); opacity: 1; }
+  70%, 100% { transform: translate(var(--fx), -14px) scale(0.3); opacity: 0; }
+}
+@keyframes jh-ficha-destello {
+  0%, 58% { opacity: 0; transform: scale(0.3); }
+  68% { opacity: 1; transform: scale(1.6); }
+  90%, 100% { opacity: 0; transform: scale(2.4); }
+}
 .jh-p-vuela { animation: jh-vuela 3.6s ease-in-out infinite; }
 .jh-p-nube { animation: jh-nube 9s ease-in-out infinite; }
 .jh-p-nube.is-b { animation-delay: -4s; }

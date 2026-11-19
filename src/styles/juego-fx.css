@@ -1,0 +1,1009 @@
+/* ===== v32 · Base común de efectos de los juegos (JuegoFx.jsx) =====
+   Fondo del mundo del nivel, cartel con el significado, estallido de acierto, destello de fallo,
+   Rey Mono que reacciona y pantalla final con estrellas y repaso con audio. Prefijo: jfx- */
+
+:root {
+  --jfx-laca: #c8102e;
+  --jfx-laca-osc: #8f0c21;
+  --jfx-oro: #f2c14e;
+  --jfx-oro-osc: #c8961e;
+  --jfx-tinta: #3b2416;
+  --jfx-papel: #fff6df;
+  --jfx-jade: #1f9d63;
+}
+
+/* ---------- Fondo: el mundo del nivel ---------- */
+.jfx-mundo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.jfx-mundo .dn-escena {
+  z-index: 0;
+}
+.jfx-mundo .dn-particulas {
+  z-index: 1;
+}
+.jfx-mundo__velo {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(60% 50% at 50% 46%, rgba(20, 6, 4, 0.08), rgba(20, 6, 4, 0.5) 100%),
+    linear-gradient(180deg, rgba(14, 4, 8, 0.2), rgba(14, 4, 8, 0) 40%, rgba(14, 4, 8, 0.45));
+}
+
+/* ---------- Capa de efectos ---------- */
+.jfx-capa {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+}
+
+/* Cartel con el significado */
+.jfx-cartel {
+  position: fixed;
+  left: 50%;
+  top: clamp(70px, 11vh, 110px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: min(360px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  padding: 12px 16px 12px 12px;
+  border-radius: 18px;
+  pointer-events: auto;
+  color: var(--jfx-tinta);
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(255, 255, 255, 0.7), transparent 55%),
+    url("../../public/theme/papel.jpg") center / 420px,
+    linear-gradient(180deg, #fff8e4, #f1dfb4);
+  box-shadow:
+    0 0 0 2px var(--jfx-oro-osc),
+    0 0 0 5px #fff1c4,
+    0 0 0 7px var(--jfx-oro-osc),
+    0 18px 40px rgba(0, 0, 0, 0.55);
+  transform: translateX(-50%);
+  animation: jfx-cartel-entra 0.55s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.jfx-cartel--bien {
+  box-shadow:
+    0 0 0 2px var(--jfx-oro-osc),
+    0 0 0 5px #fff1c4,
+    0 0 0 7px var(--jfx-oro-osc),
+    0 0 40px rgba(242, 193, 78, 0.75),
+    0 18px 40px rgba(0, 0, 0, 0.55);
+}
+.jfx-cartel--mal {
+  box-shadow:
+    0 0 0 2px var(--jfx-laca),
+    0 0 0 5px #fff1c4,
+    0 0 0 7px var(--jfx-laca-osc),
+    0 18px 40px rgba(0, 0, 0, 0.55);
+}
+.jfx-cartel__sello {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  font: 400 34px/1 STKaiti, KaiTi, "Noto Serif SC", serif;
+  color: #fff3c4;
+  background: linear-gradient(160deg, #e0283f, var(--jfx-laca-osc));
+  box-shadow: inset 0 0 0 3px rgba(255, 233, 176, 0.6), 0 4px 10px rgba(0, 0, 0, 0.35);
+  transform: rotate(-6deg);
+  animation: jfx-sello 0.5s 0.2s cubic-bezier(0.3, 1.8, 0.5, 1) backwards;
+}
+.jfx-cartel--bien .jfx-cartel__sello {
+  background: linear-gradient(160deg, #3fd08a, #13774a);
+}
+.jfx-cartel__txt {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  line-height: 1.15;
+}
+.jfx-cartel__txt small {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--jfx-laca-osc);
+}
+.jfx-cartel__txt b {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 900;
+  color: var(--jfx-tinta);
+  overflow-wrap: anywhere;
+}
+.jfx-cartel__txt i {
+  font-style: normal;
+  font-family: STKaiti, KaiTi, "Noto Serif SC", serif;
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 700;
+  color: var(--jfx-laca-osc);
+}
+.jfx-cartel__oir,
+.jfx-cartel__cerrar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 0;
+  cursor: pointer;
+  font-size: 14px;
+}
+.jfx-cartel__oir {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #3b2416;
+  background: linear-gradient(180deg, #ffe08a, #e2a72e);
+  box-shadow: inset 0 0 0 2px #fff4c8, 0 3px 0 #8a5a12;
+}
+.jfx-cartel__oir:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 0 0 2px #fff4c8, 0 1px 0 #8a5a12;
+}
+.jfx-cartel__cerrar {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #fff3c4;
+  background: var(--jfx-laca-osc);
+  box-shadow: 0 0 0 2px var(--jfx-oro);
+}
+.jfx-cartel__oir:focus-visible,
+.jfx-cartel__cerrar:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Estallido de acierto */
+.jfx-estallido {
+  position: fixed;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.jfx-estallido__luz {
+  position: absolute;
+  left: -110px;
+  top: -110px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 0deg, rgba(255, 226, 140, 0.55) 0 6deg, transparent 6deg 24deg),
+    radial-gradient(circle, rgba(255, 240, 190, 0.95), rgba(242, 193, 78, 0.35) 40%, transparent 68%);
+  mask: radial-gradient(circle, #000 40%, transparent 70%);
+  -webkit-mask: radial-gradient(circle, #000 40%, transparent 70%);
+  animation: jfx-luz 0.95s ease-out forwards;
+}
+.jfx-estallido__aro {
+  position: absolute;
+  left: -40px;
+  top: -40px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid var(--jfx-oro);
+  box-shadow: 0 0 18px var(--jfx-oro);
+  animation: jfx-aro 0.75s ease-out forwards;
+}
+.jfx-estallido i {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #fff2bf, var(--jfx-oro));
+  box-shadow: 0 0 10px rgba(255, 210, 110, 0.9);
+  transform: rotate(var(--a)) translateY(0) rotate(45deg);
+  animation: jfx-chispa 0.85s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+.jfx-estallido i:nth-child(3n) {
+  background: linear-gradient(135deg, #ff8796, var(--jfx-laca));
+  box-shadow: 0 0 10px rgba(255, 90, 110, 0.8);
+}
+
+/* Destello rojo en los bordes al fallar */
+.jfx-flash {
+  position: fixed;
+  inset: 0;
+  box-shadow: inset 0 0 90px 10px rgba(200, 16, 46, 0.65);
+  animation: jfx-flash 0.6s ease-out forwards;
+}
+
+/* Temblor reutilizable: añade la clase al elemento que falla */
+.jfx-tiembla {
+  animation: jfx-tiembla 0.5s ease-in-out;
+}
+
+/* Rey Mono que reacciona */
+.jfx-mono {
+  position: fixed;
+  right: clamp(8px, 2vw, 26px);
+  bottom: clamp(12px, 3vh, 26px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none;
+}
+.jfx-mono__img {
+  width: clamp(88px, 9vw, 132px);
+  height: auto;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.5));
+  transform-origin: 50% 100%;
+  animation: jfx-mono-entra 0.5s cubic-bezier(0.3, 1.6, 0.5, 1), jfx-mono-flota 3.6s 0.5s ease-in-out infinite;
+}
+.jfx-mono--serio .jfx-mono__img {
+  animation: jfx-mono-no 0.6s ease-in-out, jfx-mono-flota 3.6s 0.6s ease-in-out infinite;
+}
+.jfx-mono--poder .jfx-mono__img,
+.jfx-mono--feliz .jfx-mono__img {
+  animation: jfx-mono-salta 0.6s cubic-bezier(0.3, 1.6, 0.5, 1), jfx-mono-flota 3.6s 0.6s ease-in-out infinite;
+}
+.jfx-mono__bocadillo {
+  position: relative;
+  margin: 0;
+  max-width: 180px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  line-height: 1.25;
+  color: var(--jfx-tinta);
+  background: var(--jfx-papel);
+  box-shadow: 0 0 0 2px var(--jfx-oro-osc), 0 10px 20px rgba(0, 0, 0, 0.4);
+  animation: jfx-bocadillo 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+.jfx-mono__bocadillo::after {
+  content: "";
+  position: absolute;
+  right: 34px;
+  bottom: -15px;
+  border: 8px solid transparent;
+  border-top-color: var(--jfx-papel);
+  filter: drop-shadow(0 2px 0 var(--jfx-oro-osc));
+}
+.jfx-mono__bocadillo b {
+  font-weight: 900;
+}
+.jfx-mono__bocadillo span {
+  color: var(--jfx-laca-osc);
+  font-weight: 700;
+}
+.jfx-mono--serio .jfx-mono__bocadillo {
+  box-shadow: 0 0 0 2px var(--jfx-laca), 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Botones ---------- */
+.jfx-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  text-decoration: none;
+  transition: transform 0.12s, box-shadow 0.12s, filter 0.12s;
+}
+.jfx-boton--oro {
+  color: #3b2416;
+  background: linear-gradient(180deg, #ffe08a, #e2a72e);
+  box-shadow: inset 0 0 0 2px #fff4c8, 0 5px 0 #8a5a12, 0 10px 18px rgba(0, 0, 0, 0.35);
+}
+.jfx-boton--laca {
+  color: #fff3c4;
+  background: linear-gradient(180deg, #e8324c, #a50f25);
+  box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.85), 0 5px 0 #5e0614, 0 10px 18px rgba(0, 0, 0, 0.35);
+}
+.jfx-boton--claro {
+  color: #6a1a10;
+  background: #fff6df;
+  box-shadow: inset 0 0 0 2px #c8961e, 0 4px 0 #b88a3a;
+}
+.jfx-boton:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.jfx-boton:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: inset 0 0 0 2px rgba(255, 244, 200, 0.7), 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+.jfx-boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.jfx-boton:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+/* ---------- Pantalla final ---------- */
+.jfx-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow-y: auto;
+  background: radial-gradient(circle at 50% 30%, rgba(60, 10, 14, 0.75), rgba(10, 3, 4, 0.9));
+  animation: jfx-aparece 0.35s ease-out both;
+}
+.jfx-fin {
+  position: relative;
+  width: min(560px, 100%);
+  margin: 100px 0 20px;
+  padding: 50px clamp(16px, 4vw, 34px) 24px;
+  border-radius: 26px;
+  text-align: center;
+  color: var(--jfx-tinta);
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.65), transparent 60%),
+    url("../../public/theme/papel.jpg") center / 520px,
+    linear-gradient(180deg, #fff8e4, #f1dfb4);
+  box-shadow:
+    0 0 0 3px var(--jfx-oro-osc),
+    0 0 0 7px #fff1c4,
+    0 0 0 10px var(--jfx-laca-osc),
+    0 30px 60px rgba(0, 0, 0, 0.6);
+  animation: jfx-fin-entra 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+.jfx-fin__rayos {
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  width: 360px;
+  height: 360px;
+  margin-left: -180px;
+  margin-top: -180px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 214, 120, 0.55) 0 8deg, transparent 8deg 22deg);
+  mask: radial-gradient(circle, #000 25%, transparent 68%);
+  -webkit-mask: radial-gradient(circle, #000 25%, transparent 68%);
+  animation: jfx-gira 14s linear infinite;
+  pointer-events: none;
+}
+.jfx-fin--0 .jfx-fin__rayos {
+  opacity: 0.35;
+}
+.jfx-fin__mono {
+  position: absolute;
+  left: 50%;
+  top: -104px;
+  height: 140px;
+  width: auto;
+  translate: -50% 0;
+  filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.5));
+  animation: jfx-mono-salta 0.7s 0.2s cubic-bezier(0.3, 1.6, 0.5, 1) backwards;
+}
+.jfx-fin__sello {
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  font: 400 36px/1 STKaiti, KaiTi, "Noto Serif SC", serif;
+  color: #fff3c4;
+  background: linear-gradient(160deg, #e0283f, var(--jfx-laca-osc));
+  box-shadow: inset 0 0 0 3px rgba(255, 233, 176, 0.6), 0 6px 14px rgba(0, 0, 0, 0.35);
+  transform: rotate(10deg);
+  animation: jfx-sello 0.55s 0.5s cubic-bezier(0.3, 1.8, 0.5, 1) backwards;
+}
+.jfx-fin__titulo {
+  position: relative;
+  margin: 0;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--jfx-laca-osc);
+}
+.jfx-fin__titulo span {
+  display: block;
+  margin-top: 4px;
+  font-family: STKaiti, KaiTi, "Noto Serif SC", serif;
+  font-size: 0.72em;
+  color: var(--jfx-tinta);
+}
+.jfx-estrellas {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0 6px;
+}
+.jfx-estrellas svg {
+  color: #d8c49a;
+  fill: #eadcba;
+  stroke-width: 1.5;
+}
+.jfx-estrellas svg.is-llena {
+  color: #a8740f;
+  fill: var(--jfx-oro);
+  filter: drop-shadow(0 0 10px rgba(242, 193, 78, 0.9));
+  animation: jfx-estrella 0.6s cubic-bezier(0.3, 1.8, 0.5, 1) backwards;
+  animation-delay: calc(0.55s + var(--i) * 0.22s);
+}
+.jfx-estrellas svg:nth-child(2) {
+  transform: translateY(-8px) scale(1.12);
+}
+.jfx-datos {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.jfx-datos div {
+  padding: 8px 6px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 0 1.5px rgba(200, 150, 30, 0.55);
+}
+.jfx-datos small {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: #8a5a1e;
+}
+.jfx-datos strong {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--jfx-laca-osc);
+}
+.jfx-fin__nota {
+  margin: 4px 0 8px;
+  font-weight: 800;
+  color: #8a5a1e;
+}
+.jfx-repaso {
+  position: relative;
+  margin: 6px 0 14px;
+  text-align: left;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 0 0 1.5px rgba(200, 150, 30, 0.55);
+}
+.jfx-repaso summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 900;
+  color: var(--jfx-laca-osc);
+}
+.jfx-repaso summary span {
+  font-size: 13px;
+  color: #8a5a1e;
+}
+.jfx-repaso ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px 8px;
+  max-height: min(34vh, 280px);
+  overflow-y: auto;
+}
+.jfx-repaso li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px;
+  border-top: 1px dashed rgba(138, 90, 30, 0.3);
+}
+.jfx-repaso li:first-child {
+  border-top: 0;
+}
+.jfx-repaso__marca {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #fff;
+}
+.is-ok .jfx-repaso__marca {
+  background: var(--jfx-jade);
+}
+.is-mal .jfx-repaso__marca {
+  background: var(--jfx-laca);
+}
+.jfx-repaso li b {
+  font-size: 16px;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+.jfx-repaso li i {
+  font-style: normal;
+  font-family: STKaiti, KaiTi, "Noto Serif SC", serif;
+  font-size: 17px;
+  color: var(--jfx-laca-osc);
+  overflow-wrap: anywhere;
+}
+.jfx-repaso li button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #3b2416;
+  background: linear-gradient(180deg, #ffe08a, #e2a72e);
+  box-shadow: inset 0 0 0 2px #fff4c8, 0 2px 0 #8a5a12;
+}
+.jfx-fin__botones {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 760px) {
+  .jfx-cartel {
+    top: 58px;
+    gap: 10px;
+    padding: 10px 12px 10px 10px;
+  }
+  .jfx-cartel__sello {
+    width: 44px;
+    height: 44px;
+    font-size: 27px;
+  }
+  /* encima de la barra inferior fija */
+  .jfx-mono {
+    right: 6px;
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+  .jfx-mono__img {
+    width: 66px;
+  }
+  /* en móvil el Rey Mono solo asoma cuando habla, para no tapar el juego */
+  .jfx-mono {
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .jfx-mono:not(.jfx-mono--habla) {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  .jfx-mono__bocadillo {
+    max-width: 150px;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+  .jfx-mono__bocadillo::after {
+    right: 22px;
+  }
+  .jfx-fin {
+    padding-top: 44px;
+    margin-top: 90px;
+  }
+  .jfx-fin__mono {
+    height: 118px;
+    top: -90px;
+  }
+  .jfx-fin__sello {
+    right: 10px;
+    top: 10px;
+    width: 42px;
+    height: 42px;
+    font-size: 26px;
+  }
+  .jfx-fin__titulo {
+    padding: 0 34px;
+  }
+  .jfx-repaso li {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .jfx-repaso li i {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 15px;
+  }
+  .jfx-repaso li button {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+  .jfx-boton {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes jfx-cartel-entra {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px) scale(0.85) rotateX(40deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+@keyframes jfx-sello {
+  from {
+    opacity: 0;
+    transform: rotate(-6deg) scale(2.4);
+  }
+}
+@keyframes jfx-luz {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5) rotate(40deg);
+  }
+}
+@keyframes jfx-aro {
+  0% {
+    opacity: 1;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+@keyframes jfx-chispa {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateY(0) rotate(45deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(calc(var(--d) * -1)) rotate(45deg) scale(0.4);
+  }
+}
+@keyframes jfx-flash {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes jfx-tiembla {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  20% {
+    translate: -10px 0;
+  }
+  40% {
+    translate: 10px 0;
+  }
+  60% {
+    translate: -6px 0;
+  }
+  80% {
+    translate: 6px 0;
+  }
+}
+@keyframes jfx-mono-entra {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+  }
+}
+@keyframes jfx-mono-flota {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes jfx-mono-salta {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  35% {
+    transform: translateY(-26px) scale(1.08) rotate(-4deg);
+  }
+  70% {
+    transform: translateY(0) scale(0.96, 1.04);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes jfx-mono-no {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+  75% {
+    transform: rotate(-4deg);
+  }
+}
+@keyframes jfx-bocadillo {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.8);
+  }
+}
+@keyframes jfx-aparece {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes jfx-fin-entra {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+  }
+}
+@keyframes jfx-gira {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes jfx-estrella {
+  from {
+    opacity: 0;
+    transform: scale(2.6) rotate(-40deg);
+  }
+}
+
+/* ---------- Menos movimiento ---------- */
+.jfx-capa.is-reducido *,
+.jfx-modal.is-reducido * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.01ms !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .jfx-capa *,
+  .jfx-modal *,
+  .jfx-tiembla {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+  }
+  .jfx-estallido,
+  .jfx-flash,
+  .jfx-fin__rayos {
+    display: none;
+  }
+}
+
+/* cartel informativo (palabra tocada o colocada) */
+.jfx-cartel--info .jfx-cartel__sello {
+  background: linear-gradient(160deg, #ffd968, #c8961e);
+  color: #5e0614;
+}
+
+/* ---------- Focos de plató (Kahoot, Ruleta) ---------- */
+.jfx-focos {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.jfx-foco {
+  position: absolute;
+  top: -12%;
+  width: 34vw;
+  max-width: 460px;
+  height: 120%;
+  transform-origin: 50% 0;
+  background: conic-gradient(from 168deg at 50% 0, transparent 0deg, rgba(255, 226, 150, 0.22) 8deg, rgba(255, 240, 200, 0.32) 12deg, rgba(255, 226, 150, 0.22) 16deg, transparent 24deg);
+  filter: blur(6px);
+  mix-blend-mode: screen;
+  animation: jfx-barre 9s ease-in-out infinite alternate;
+}
+.jfx-foco--a {
+  left: -6%;
+  --g0: -28deg;
+  --g1: 8deg;
+}
+.jfx-foco--b {
+  left: 22%;
+  --g0: 18deg;
+  --g1: -14deg;
+  animation-duration: 11s;
+  animation-delay: -4s;
+  background: conic-gradient(from 168deg at 50% 0, transparent 0deg, rgba(255, 120, 140, 0.18) 8deg, rgba(255, 170, 180, 0.26) 12deg, rgba(255, 120, 140, 0.18) 16deg, transparent 24deg);
+}
+.jfx-foco--c {
+  right: 22%;
+  --g0: -16deg;
+  --g1: 20deg;
+  animation-duration: 10s;
+  animation-delay: -2s;
+  background: conic-gradient(from 168deg at 50% 0, transparent 0deg, rgba(140, 180, 255, 0.16) 8deg, rgba(190, 210, 255, 0.24) 12deg, rgba(140, 180, 255, 0.16) 16deg, transparent 24deg);
+}
+.jfx-foco--d {
+  right: -6%;
+  --g0: 26deg;
+  --g1: -8deg;
+  animation-duration: 12s;
+}
+.jfx-focos__suelo {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 4%;
+  height: 26%;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 220, 140, 0.22), transparent 70%);
+  filter: blur(10px);
+  animation: jfx-respira 4s ease-in-out infinite;
+}
+@keyframes jfx-barre {
+  from {
+    transform: rotate(var(--g0));
+  }
+  to {
+    transform: rotate(var(--g1));
+  }
+}
+@keyframes jfx-respira {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* ---------- Cuenta atrás 3 · 2 · 1 · ¡Ya! ---------- */
+.jfx-cuenta {
+  position: fixed;
+  inset: 0;
+  z-index: 9200;
+  display: grid;
+  place-items: center;
+  perspective: 900px;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 6, 10, 0.35), rgba(10, 3, 6, 0.75));
+}
+.jfx-cuenta__moneda {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  width: clamp(150px, 24vw, 230px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: #8f0c21;
+  background: radial-gradient(circle at 35% 30%, #fff7cf, #f2c14e 55%, #a8700f);
+  box-shadow:
+    inset 0 0 0 6px #fff0b8,
+    inset 0 0 0 10px #c8961e,
+    inset 0 -14px 24px rgba(120, 70, 0, 0.55),
+    0 14px 0 #6b4409,
+    0 30px 50px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(242, 193, 78, 0.7);
+  animation: jfx-moneda 0.8s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+.jfx-cuenta__moneda b {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: clamp(70px, 12vw, 120px);
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.6), 0 -2px 0 rgba(120, 70, 0, 0.4);
+}
+.jfx-cuenta__moneda.is-ya {
+  color: #fff3c4;
+  background: radial-gradient(circle at 35% 30%, #ff8796, #e0283f 55%, #8f0c21);
+  box-shadow:
+    inset 0 0 0 6px #f2c14e,
+    inset 0 0 0 10px #8f0c21,
+    0 14px 0 #4a0510,
+    0 30px 50px rgba(0, 0, 0, 0.6),
+    0 0 100px rgba(255, 90, 110, 0.8);
+}
+.jfx-cuenta__moneda.is-ya b {
+  font-size: clamp(44px, 8vw, 78px);
+  text-shadow: 0 3px 0 #4a0510;
+}
+.jfx-cuenta__moneda i {
+  font-style: normal;
+  font-family: STKaiti, KaiTi, "Noto Serif SC", serif;
+  font-size: clamp(22px, 3.4vw, 34px);
+  color: #ffe08a;
+}
+.jfx-cuenta__aro {
+  grid-area: 1 / 1;
+  width: clamp(150px, 24vw, 230px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 5px solid #f2c14e;
+  box-shadow: 0 0 30px #f2c14e;
+  animation: jfx-aro 0.8s ease-out forwards;
+}
+@keyframes jfx-moneda {
+  0% {
+    opacity: 0;
+    transform: translateZ(-600px) rotateY(-540deg) scale(0.4);
+  }
+  55% {
+    opacity: 1;
+    transform: translateZ(80px) rotateY(20deg) scale(1.12);
+  }
+  80% {
+    transform: translateZ(0) rotateY(-6deg) scale(1);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* ---------- Ficha que vuela en 3D ---------- */
+.jfx-vuelo {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9100;
+  padding: 10px 18px;
+  border-radius: 14px;
+  pointer-events: none;
+  font: 900 clamp(26px, 3.4vw, 40px) / 1.1 STKaiti, KaiTi, "Noto Serif SC", serif;
+  color: #8f0c21;
+  white-space: nowrap;
+  background: linear-gradient(170deg, #fffaf0, #efe3c6);
+  box-shadow: inset 0 0 0 2px #c8961e, 0 6px 0 #7a5413, 0 0 40px rgba(242, 193, 78, 0.85);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jfx-foco,
+  .jfx-focos__suelo {
+    animation: none;
+  }
+  .jfx-cuenta,
+  .jfx-vuelo {
+    display: none;
+  }
+}
+
+/* En móvil, Kahoot y Ruleta llenan la pantalla de botones: el aviso lo da el cartel, sin Rey Mono encima */
+@media (max-width: 760px) {
+  body:has(.kq3) .jfx-mono,
+  body:has(.rl3) .jfx-mono {
+    display: none;
+  }
+}

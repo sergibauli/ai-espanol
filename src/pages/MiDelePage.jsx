@@ -1,4 +1,5 @@
 import * as React from "react";
+import { EstadoGuardado } from "../components/ui/EstadoGuardado.jsx";
 import { Link } from "react-router";
 import { BookOpenIcon, HeadphonesIcon, PenLineIcon, MicIcon, LanguagesIcon, PuzzleIcon, CompassIcon, ArrowRightIcon, SparklesIcon, RotateCcwIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
@@ -148,6 +149,7 @@ export default function MiDelePage() {
             <p className="in-md-hero__zh" lang="zh">
               你离通过还有多远？
             </p>
+            <EstadoGuardado />
             <p className="in-md-hero__desc">
               Tu nota prevista en cada prueba, tu plan de la semana y tus errores para repasar, calculados con todo lo que haces en la app.
               <small lang="zh">根据你的所有练习，预测各项分数并生成每周计划和错题本。</small>

@@ -8,9 +8,9 @@ import "../../styles/v17-juegos3d.css";
 const sinMovimiento = () =>
   typeof window !== "undefined" && !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-/** Escenario: fondo nocturno, luna, faroles y suelo lacado que se pierde en el horizonte.
+/** Escenario (`fondo`: escena propia, p. ej. <FondoMundo nivel=…/>): fondo nocturno, luna, faroles y suelo lacado que se pierde en el horizonte.
  *  Con el ratón (o el dedo) la escena se inclina un poco: deja --mx y --my (de -1 a 1) en la raíz. */
-export function Escena3D({ tema = "kahoot", className = "", children, suelo = true }) {
+export function Escena3D({ tema = "kahoot", className = "", children, suelo = true, fondo = null }) {
   const raiz = React.useRef(null);
   const pendiente = React.useRef(0);
   const alMover = React.useCallback((evento) => {
@@ -51,6 +51,7 @@ export function Escena3D({ tema = "kahoot", className = "", children, suelo = tr
   return (
     <div ref={raiz} className={`j3 j3--${tema} gm-no-adapt ${className}`} onPointerMove={alMover} onPointerDown={alPulsar} onPointerUp={alSoltar}>
       <div className="j3-fondo" aria-hidden="true" translate="no">
+        {fondo}
         <div className="j3-luna" />
         <div className="j3-bruma" />
         {suelo && <div className="j3-suelo" />}

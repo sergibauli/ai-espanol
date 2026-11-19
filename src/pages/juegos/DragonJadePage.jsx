@@ -21,7 +21,7 @@ import {
   Sello,
   Volver,
   etiquetaContenido,
-  frasesDeClase,
+  frasesDeUnidad,
   palabrasDe,
 } from "./jbComun.jsx";
 import "../../styles/v13-juegos-b.css";
@@ -58,8 +58,8 @@ function construirPreguntas(c) {
   const lista = [...preguntas, ...barajar(huecos).slice(0, Math.max(3, Math.round(preguntas.length * 0.5)))];
   if (lista.length < 4) for (const v of relleno) lista.push({ tipo: "vocab", zh: limpiar(v.chino), es: limpiar(v.espanol) });
   const banco = [...new Set([...vocab, ...relleno].map((v) => limpiar(v.espanol)).concat(huecos.map((h) => h.es)))];
-  const frases = frasesDeClase(c, 3, 7);
-  const frase = frases.length ? frases[Math.floor(Math.random() * frases.length)] : frasesDeClase({ vocabulario: relleno }, 3, 7)[0] || { texto: "El dragón de jade vuela alto", zh: "玉龙高高飞翔" };
+  const frases = frasesDeUnidad(c, 3, 7);
+  const frase = frases.length ? frases[Math.floor(Math.random() * frases.length)] : frasesDeUnidad({ vocabulario: relleno }, 3, 7)[0] || { texto: "El dragón de jade vuela alto", zh: "玉龙高高飞翔" };
   return { preguntas: barajar(lista), banco, frase };
 }
 
@@ -696,7 +696,7 @@ export default function DragonJadePage() {
         descripcion="Guía al dragón y cómete las perlas con la palabra correcta · 引导玉龙吃掉正确的词语"
       />
     );
-  return <JuegoDragon key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} />;
+  return <JuegoDragon key={contenido.numero} contenido={contenido} />;
 }
 
 function JuegoDragon({ contenido }) {
@@ -1480,7 +1480,7 @@ function JuegoDragon({ contenido }) {
                   <RotateCcwIcon size={20} aria-hidden="true" /> Otra vez · 再玩一次
                 </button>
                 <Link to="/juegos/dragon-jade" className="jb-boton jb-boton--linea" onClick={() => setFase("inicio")}>
-                  <LayersIcon size={18} aria-hidden="true" /> Otra clase · 换一课
+                  <LayersIcon size={18} aria-hidden="true" /> Otra unidad · 换一个单元
                 </Link>
                 <Link to="/juegos" className="jb-boton jb-boton--linea">
                   Juegos · 游戏

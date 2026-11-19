@@ -40,7 +40,7 @@ export default function Login() {
       sello="入门"
       titulo="Bienvenido de nuevo"
       tituloZh="欢迎回来"
-      subtitulo="Prepara tus exámenes A1–B2 con el Rey Mono · 和美猴王一起备考"
+      subtitulo="Aprende español con el Rey Mono · 和美猴王一起学西班牙语"
       pie={
         <Link to="/" className="tp-btn-texto tp-acceso-volver">
           <ArrowLeftIcon size={15} aria-hidden="true" /> Portada · 首页

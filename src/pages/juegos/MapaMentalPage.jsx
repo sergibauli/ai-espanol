@@ -1,4 +1,4 @@
-// Mapa mental · 思维导图 — lienzo SVG con zoom, ramas de la clase y fichas de vocabulario que se unen con flechas
+// Mapa mental · 思维导图 — lienzo SVG con zoom, ramas de la unidad y fichas de vocabulario que se unen con flechas
 import * as React from "react";
 import { createPortal } from "react-dom";
 import {
@@ -23,6 +23,8 @@ import { useContenidoJA, CabeceraJA, SelectorUnidadJA, chispasOro, barajar, redu
 import { categoriaPorReglas, claveCategoria } from "../../lib/categoriaReglas.js";
 import CATEGORIAS_REVISADAS from "../../data/categorias-palabras.json";
 import "../../styles/v13-juegos-a.css";
+import "../../styles/v32-mapa.css";
+import { FondoMundo, useJuegoFx, CapaJuegoFx, PantallaFinal, BotonFx, MonoReactivo } from "../../components/juegos/JuegoFx.jsx";
 import "../../styles/movil-juegos.css";
 
 // ---------- Colores imperiales de los nodos ----------
@@ -332,17 +334,16 @@ export default function MapaMentalPage() {
   if (!contenido)
     return (
       <div className="ja-raiz ja-mapa gm-no-adapt">
-        <CabeceraJA titulo="Mapa mental" tituloZh="思维导图" sello="图" />
         <SelectorUnidadJA
           titulo="Mapa mental"
           tituloZh="思维导图"
           sello="图"
-          descripcion="Elige una unidad y una clase: ordena su vocabulario en ramas, une español y chino o crea tu propio mapa. · 选择单元和课：把词汇分到分支、连接中西文，或创作你自己的导图。"
+          descripcion="Elige una unidad: ordena su vocabulario en ramas, une español y chino o crea tu propio mapa. · 选择单元：把词汇分到分支、连接中西文，或创作你自己的导图。"
           onElegir={elegir}
         />
       </div>
     );
-  return <MapaMental key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} onCambiar={quitar} />;
+  return <MapaMental key={contenido.numero} contenido={contenido} onCambiar={quitar} />;
 }
 
 function MapaMental({ contenido, onCambiar }) {
@@ -366,6 +367,11 @@ function MapaMental({ contenido, onCambiar }) {
   const [modal, setModal] = React.useState(null); // {inicial?, idEditar?}
   const [ronda, setRonda] = React.useState(0);
   const premiados = React.useRef(new Set());
+  // Ronda: palabras falladas alguna vez y comprobaciones con errores (para las estrellas y el repaso)
+  const falladas = React.useRef(new Set());
+  const comprobacionesMal = React.useRef(0);
+  const [fin, setFin] = React.useState(null);
+  const fx = useJuegoFx({ inicio: ["¡Ordena las palabras en el mapa!", "把词语放到导图上！"] });
   const vistaRef = React.useRef(vista);
   vistaRef.current = vista;
   const mapaRef = React.useRef(mapa);
@@ -389,7 +395,7 @@ function MapaMental({ contenido, onCambiar }) {
   const encuadrar = React.useCallback((nodos, w = tam.w, h = tam.h) => {
     const b = limites(nodos);
     const margen = 40;
-    const k = Math.max(0.35, Math.min(1.25, (w - margen) / (b.x1 - b.x0 || 1), (h - margen) / (b.y1 - b.y0 || 1)));
+    const k = Math.max(0.35, Math.min(w < 600 ? 1.25 : 1.55, (w - margen) / (b.x1 - b.x0 || 1), (h - margen) / (b.y1 - b.y0 || 1)));
     setVista({ k, x: w / 2 - ((b.x0 + b.x1) / 2) * k, y: h / 2 - ((b.y0 + b.y1) / 2) * k });
   }, [tam.w, tam.h]);
 
@@ -399,7 +405,10 @@ function MapaMental({ contenido, onCambiar }) {
     setSel(null);
     setResultado(null);
     setSacudidas({});
+    setFin(null);
     premiados.current = new Set();
+    falladas.current = new Set();
+    comprobacionesMal.current = 0;
     if (modo === "libre") {
       let guardado = null;
       try {
@@ -551,6 +560,7 @@ function MapaMental({ contenido, onCambiar }) {
         const n = mapaRef.current.nodos.find((x) => x.id === g.id);
         if (n?.habla) speak(n.habla, 0.9, "m");
         else playClick?.();
+        if (n?.habla && modo !== "pares" && (n.zh || n.sub)) fx.cartel({ es: n.texto, zh: n.zh || n.sub, nota: "Palabra · 词语" });
         const ahora = Date.now();
         if (libre && g.id === ultimoToque.current.id && ahora - ultimoToque.current.t < 380) setModal({ idEditar: g.id, inicial: n });
         ultimoToque.current = { id: g.id, t: ahora };
@@ -627,7 +637,7 @@ function MapaMental({ contenido, onCambiar }) {
       const geoFicha = geometria({ tipo: ficha.tipo, texto: ficha.texto, sub: libre ? ficha.sub : "" });
       pos = huecoLibre(pos, geoFicha, mapaRef.current.nodos);
       asegurarVisible(pos, geoFicha);
-      const nodo = { id: nuevoId("p"), tipo: ficha.tipo, texto: ficha.texto, sub: libre || modo === "ramas" ? "" : ficha.sub, x: Math.round(pos.x), y: Math.round(pos.y), color: modo === "pares" ? "jade" : "papel", cat: ficha.cat, par: ficha.par, habla: ficha.habla, vocab: libre ? ficha.texto : undefined, nuevo: true };
+      const nodo = { id: nuevoId("p"), tipo: ficha.tipo, texto: ficha.texto, sub: libre || modo === "ramas" ? "" : ficha.sub, x: Math.round(pos.x), y: Math.round(pos.y), color: modo === "pares" ? "jade" : "papel", cat: ficha.cat, par: ficha.par, habla: ficha.habla, zh: ficha.tipo === "zh" ? "" : ficha.sub, vocab: libre ? ficha.texto : undefined, nuevo: true };
       if (libre) nodo.sub = ficha.sub;
       setMapa((m) => ({ ...m, nodos: [...m.nodos, nodo] }));
       setFichas((f) => f.filter((x) => x.id !== ficha.id));
@@ -635,7 +645,10 @@ function MapaMental({ contenido, onCambiar }) {
       marcarCambio();
       if (ficha.habla) speak(ficha.habla, 0.9, "m");
       else playClick?.();
+      // En «ramas» y «libre» se enseña el significado; en «parejas» sería dar la respuesta
+      if (modo !== "pares" && ficha.habla) fx.cartel({ es: ficha.texto, zh: ficha.sub, nota: "Palabra · 词语" });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [tam.w, tam.h, modo, libre, conectar, playClick, asegurarVisible],
   );
 
@@ -768,25 +781,42 @@ function MapaMental({ contenido, onCambiar }) {
       xp += 10;
     }
     if (xp) addXp(xp);
-    const estrellas = completo ? 3 : aciertos / total >= 0.6 ? 2 : aciertos > 0 ? 1 : 0;
+    colocados.filter((n) => estadoNodo[n.id] !== "ok").forEach((n) => falladas.current.add(n.texto));
+    const estrellas = completo ? Math.max(1, 3 - comprobacionesMal.current) : aciertos / total >= 0.6 ? 2 : aciertos > 0 ? 1 : 0;
+    if (!completo) comprobacionesMal.current++;
     const marca = Date.now();
     setSacudidas(Object.fromEntries([...Object.entries(estadoNodo), ...Object.entries(estadoArista)].filter(([, v]) => v === "bad").map(([k]) => [k, marca])));
     setResultado({ aciertos, total, xp, estrellas, completo, faltan: fichas.length, estadoArista, estadoNodo });
     setSel(null);
     if (completo) {
       playWin?.();
+      fx.acierto({ desde: lienzoRef.current, decir: false });
+      fx.mono("trofeo", "¡Mapa perfecto!", "完美的导图！");
+      // Repaso de la ronda: cada palabra colocada con su traducción
+      const repaso = colocados.map((n) => {
+        if (n.tipo === "zh") {
+          const es = nodos.find((x) => x.par === n.par && x.id.startsWith("es"));
+          return { es: es?.texto || "", zh: n.texto, ok: !falladas.current.has(n.texto) };
+        }
+        return { es: n.texto, zh: n.zh || "", ok: !falladas.current.has(n.texto) };
+      });
+      setTimeout(() => setFin({ estrellas, xp, total, repaso, intentos: comprobacionesMal.current + 1 }), reducido() ? 0 : 900);
       colocados.slice(0, 10).forEach((n, i) => setTimeout(() => {
         const p = aPantalla(n);
         chispasOro(p.x, p.y, 22);
       }, i * 90));
     } else if (aciertos) {
       playCorrect?.();
+      fx.mono(aciertos / total >= 0.6 ? "guino" : "feliz", `¡${aciertos} de ${total} bien! Corrige las rojas.`, `对了 ${aciertos}/${total} 个！改正红色的。`);
       colocados.filter((n) => estadoNodo[n.id] === "ok").slice(0, 6).forEach((n) => {
         const p = aPantalla(n);
         chispasOro(p.x, p.y, 14);
       });
       setTimeout(() => playWrong?.(), 350);
-    } else playWrong?.();
+    } else {
+      playWrong?.();
+      fx.fallo({});
+    }
   };
 
   // ---------- Exportar PNG ----------
@@ -815,7 +845,7 @@ function MapaMental({ contenido, onCambiar }) {
     titulo.setAttribute("y", 36);
     titulo.setAttribute("fill", "#8f0c21");
     titulo.setAttribute("style", `font: 800 18px ${FUENTE_UI}`);
-    titulo.textContent = `Wukong Español · ${contenido.nivel} · U${contenido.numero}${contenido.clase ? ` · Clase ${contenido.clase}` : ""} · 思维导图`;
+    titulo.textContent = `Wukong Español · ${contenido.nivel} · U${contenido.numero} · 思维导图`;
     copia.insertBefore(titulo, capa);
     const datos = new XMLSerializer().serializeToString(copia);
     const img = new Image();
@@ -834,7 +864,7 @@ function MapaMental({ contenido, onCambiar }) {
       ctx.scale(escala, escala);
       ctx.drawImage(img, 0, 0);
       const enlace = document.createElement("a");
-      enlace.download = `mapa-mental-U${contenido.numero}${contenido.clase ? `-C${contenido.clase}` : ""}.png`;
+      enlace.download = `mapa-mental-U${contenido.numero}.png`;
       enlace.href = lienzo.toDataURL("image/png");
       enlace.click();
       playCorrect?.();
@@ -859,7 +889,8 @@ function MapaMental({ contenido, onCambiar }) {
   }[modo];
 
   return (
-    <div className="ja-raiz ja-mapa gm-no-adapt">
+    <div className="ja-raiz ja-mapa mm2 gm-no-adapt">
+      <FondoMundo nivel={contenido.nivel} />
       <CabeceraJA titulo="Mapa mental" tituloZh="思维导图" sello="图" contenido={contenido} onCambiar={onCambiar} />
 
       <div className="ja-modos" role="tablist" aria-label="Modo · 模式">
@@ -878,6 +909,9 @@ function MapaMental({ contenido, onCambiar }) {
 
       <div className={`ja-mesa${cajonAbierto ? " cajon-abierto" : ""}`}>
         <div className="ja-lienzo" ref={lienzoRef}>
+          <span className="mm2-marca" aria-hidden="true" translate="no">
+            图
+          </span>
           <svg
             ref={svgRef}
             className={`ja-svg${cable ? " is-cableando" : ""}`}
@@ -909,7 +943,7 @@ function MapaMental({ contenido, onCambiar }) {
                 <path d="M1,1 L11,6 L1,11 L4,6 z" fill="#c8102e" />
               </marker>
             </defs>
-            <rect data-fondo="" x="0" y="0" width={tam.w} height={tam.h} fill="#f6ead0" />
+            <rect data-fondo="" className="mm2-fondo-svg" x="0" y="0" width={tam.w} height={tam.h} fill="#f6ead0" />
             <rect className="ja-solo-pantalla" x="0" y="0" width={tam.w} height={tam.h} fill="url(#ja-puntos)" />
             <g data-capa="" transform={`translate(${vista.x},${vista.y}) scale(${vista.k})`}>
               {mapa.aristas.map((a) => {
@@ -947,6 +981,13 @@ function MapaMental({ contenido, onCambiar }) {
             </g>
           </svg>
 
+          {/* El Rey Mono vive en la esquina del pergamino para no tapar las fichas */}
+          {!fin && (
+            <div className="mm2-mono">
+              <MonoReactivo mono={fx.estado.mono} />
+            </div>
+          )}
+
           <div className="ja-zoom" role="group" aria-label="Zoom">
             <button type="button" onClick={() => zoom(1.2)} aria-label="Acercar · 放大" title="Acercar · 放大">
               <PlusIcon size={20} />
@@ -959,7 +1000,7 @@ function MapaMental({ contenido, onCambiar }) {
             </button>
           </div>
 
-          {resultado && !resultado.viejo && (
+          {resultado && !resultado.viejo && !fin && (
             <div className={`ja-resultado${resultado.completo ? " is-completo" : ""}`} role="status">
               <img src={resultado.completo ? "./mono/trofeo.webp" : resultado.aciertos ? "./mono/feliz.webp" : "./mono/serio.webp"} alt="" aria-hidden="true" />
               <div>
@@ -1068,6 +1109,31 @@ function MapaMental({ contenido, onCambiar }) {
           document.body,
         )}
       {modal && <ModalTexto inicial={modal.inicial} onGuardar={guardarModal} onCerrar={() => setModal(null)} />}
+      <CapaJuegoFx fx={fx} conMono={false} />
+      {fin && (
+        <PantallaFinal
+          estrellas={fin.estrellas}
+          sello="图"
+          titulo={fin.estrellas === 3 ? "¡Mapa perfecto!" : "¡Mapa completo!"}
+          tituloZh={fin.estrellas === 3 ? "完美的导图！" : "导图完成了！"}
+          datos={[
+            { etiqueta: "Palabras · 词语", valor: fin.total },
+            { etiqueta: "Intentos · 尝试", valor: fin.intentos },
+            { etiqueta: "XP · 经验", valor: `+${fin.xp}` },
+          ]}
+          repaso={fin.repaso}
+        >
+          <BotonFx tono="oro" onClick={() => setRonda((r) => r + 1)}>
+            <ShuffleIcon size={18} aria-hidden="true" /> Otra ronda · 再来一轮
+          </BotonFx>
+          <BotonFx tono="laca" onClick={() => setFin(null)}>
+            <CheckIcon size={18} aria-hidden="true" /> Ver mi mapa · 看我的导图
+          </BotonFx>
+          <BotonFx tono="claro" onClick={onCambiar}>
+            Otra unidad · 其他单元
+          </BotonFx>
+        </PantallaFinal>
+      )}
     </div>
   );
 }
