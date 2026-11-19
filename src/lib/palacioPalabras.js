@@ -91,43 +91,55 @@ export function rellenar(atril, bolsa) {
 }
 
 // ---------- Léxico ----------
+const BIT = Object.fromEntries(LETRAS.map((l, i) => [l, 1 << i]));
+/** Máscara de letras distintas de una palabra (25 bits: a–z sin k/w, más ñ) */
+export const mascara = (k) => {
+  let m = 0;
+  for (let j = 0; j < k.length; j++) m |= BIT[k[j]] || 0;
+  return m;
+};
+
 /**
- * Prepara el léxico: `datos` = { clave: "forma|chino" | "forma" } (src/data/palacio-lexico.json)
- * más el vocabulario de la unidad (siempre válido, con su traducción y marcado como «de la unidad»).
+ * Prepara el léxico.
+ * `datos` = { clave: "forma|chino" | "forma" } (src/data/palacio-lexico.json): formas con tilde y traducción.
+ * `palabras` = diccionario completo (public/palabras/es.txt.gz, sin tildes): las que se aceptan.
+ * Devuelve { mapa (traducciones), validas (Set), lista, mascaras }.
  */
-export function prepararLexico(datos, vocabularioUnidad = []) {
+export function prepararLexico(datos, palabras = [], { conIndice = true } = {}) {
   const mapa = new Map();
   for (const [k, v] of Object.entries(datos || {})) {
     const [es, zh = ""] = String(v).split("|");
     mapa.set(k, { es, zh });
   }
-  const unidad = new Map(); // clave → { es, zh }
-  for (const v of vocabularioUnidad) {
-    const es = String(v?.espanol || "").trim();
-    const zh = String(v?.chino || "").trim();
-    if (!es || !zh) continue;
-    const sinArticulo = es.replace(/^(el|la|los|las|un|una|unos|unas)\s+/i, "").replace(/[¡!¿?.,;:()«»"]/g, "").trim();
-    const partes = sinArticulo.split(/\s+/);
-    if (partes.length === 1) {
-      const k = clave(partes[0]);
-      if (/^[a-zñ]{2,13}$/.test(k) && !/[kw]/.test(k)) {
-        unidad.set(k, { es: partes[0].toLowerCase(), zh: zh.split(/[；;，,（(]/)[0].trim() });
-        mapa.set(k, unidad.get(k));
-      }
-    } else {
-      for (const p of partes) {
-        const k = clave(p);
-        if (k.length >= 3 && mapa.has(k) && !/^(del|que|con|por|para|muy|mas|los|las|una|unos|unas)$/.test(k)) if (!unidad.has(k)) unidad.set(k, { es: mapa.get(k).es || p.toLowerCase(), zh: mapa.get(k).zh });
-      }
+  const validas = new Set(palabras);
+  // Las palabras del curso con traducción también valen (aunque no estén en la lista)
+  const extra = new Set();
+  for (const [k, v] of mapa)
+    if (v.zh && /^[a-zñ]{2,13}$/.test(k) && !/[kw]/.test(k) && !validas.has(k)) {
+      validas.add(k);
+      extra.add(k);
     }
-  }
-  // El rival solo juega palabras con traducción (así el alumno siempre aprende algo de sus jugadas)
-  const lista = [];
-  for (const [k, v] of mapa) if (k.length >= 2 && k.length <= LADO && (v.zh || unidad.has(k) || lema({ mapa }, k))) lista.push(k);
-  return { mapa, unidad, lista };
+  // El índice (lista + máscaras) solo hace falta donde se buscan jugadas (el Worker del Rey Mono)
+  return { mapa, validas, extra, cacheConocidas: new Map(), ...(conIndice ? indice([...validas]) : {}) };
 }
 
-export const esValida = (lexico, k) => lexico.mapa.has(k);
+/** Lista para el rival + máscara de letras de cada palabra (filtro rápido en buscarJugadas) */
+export function indice(lista) {
+  const l = lista.filter((k) => k.length >= 2 && k.length <= LADO);
+  const mascaras = new Uint32Array(l.length);
+  for (let i = 0; i < l.length; i++) mascaras[i] = mascara(l[i]);
+  return { lista: l, mascaras };
+}
+
+/** ¿Tiene traducción en los diccionarios de la app? (el alumno aprende algo de la jugada) */
+export function esConocida(lexico, k) {
+  const c = lexico.cacheConocidas;
+  if (c?.has(k)) return c.get(k);
+  const r = !!traduccion(lexico, k).zh;
+  c?.set(k, r);
+  return r;
+}
+export const esValida = (lexico, k) => (lexico.validas ? lexico.validas.has(k) : lexico.mapa.has(k));
 // Terminaciones verbales frecuentes (de más larga a más corta) para llegar al infinitivo
 const TERMINACIONES = [
   ["aremos", "ar"], ["eremos", "er"], ["iremos", "ir"], ["ábamos", "ar"], ["abamos", "ar"], ["íamos", "er"], ["iamos", "er"], ["aron", "ar"], ["ieron", "er"],
@@ -147,11 +159,17 @@ function lema(lexico, k) {
   }
   return null;
 }
+// Plurales, femeninos y pronombres pegados («casas» → casa, «acostarse» → acostar)
+const BASES = [[/es$/, ""], [/s$/, ""], [/ces$/, "z"], [/a$/, "o"], [/as$/, "os"], [/as$/, "o"], [/(me|te|se|lo|la|le|los|las|les|nos)$/, ""]];
 export function traduccion(lexico, k) {
-  const u = lexico.unidad.get(k);
-  if (u?.zh) return u;
   const v = lexico.mapa.get(k) || { es: k, zh: "" };
   if (v.zh) return v;
+  for (const [re, fin] of BASES) {
+    if (!re.test(k)) continue;
+    const base = k.replace(re, fin);
+    const b = base.length >= 2 && lexico.mapa.get(base);
+    if (b?.zh) return { es: v.es, zh: b.zh, lema: b.es || base };
+  }
   const l = lema(lexico, k);
   return l ? { es: v.es, zh: l.zh, lema: l.es || l.k } : v;
 }
@@ -169,7 +187,7 @@ const ERR = {
 
 /**
  * Valida una jugada. `tablero`: array LADO² con null | {l, v, comodin}; `puestas`: Map(índice → {l, v, comodin}).
- * Devuelve { ok, error, palabras: [{ k, celdas, puntos, unidad, bono }], total, siete }.
+ * Devuelve { ok, error, palabras: [{ k, celdas, puntos, conocida }], total, siete }.
  */
 export function evaluar(tablero, puestas, lexico, { comprobarDiccionario = true } = {}) {
   const ind = [...puestas.keys()];
@@ -262,12 +280,9 @@ export function evaluar(tablero, puestas, lexico, { comprobarDiccionario = true 
       }
       suma += v;
     }
-    let puntos = suma * mult;
-    const deUnidad = lexico.unidad.has(k);
-    const bono = deUnidad ? Math.max(5, Math.round(puntos / 2)) : 0;
-    puntos += bono;
+    const puntos = suma * mult;
     total += puntos;
-    resultado.push({ k, celdas, puntos, unidad: deUnidad, bono });
+    resultado.push({ k, celdas, puntos, conocida: esConocida(lexico, k) });
   }
   const siete = ind.length === ATRIL;
   if (siete) total += BONO_SIETE;
@@ -283,6 +298,11 @@ export function evaluar(tablero, puestas, lexico, { comprobarDiccionario = true 
 }
 
 // ---------- El rival: el Rey Mono ----------
+function bits(m) {
+  let n = 0;
+  for (; m; n++) m &= m - 1;
+  return n;
+}
 function contar(letras) {
   const m = {};
   for (const l of letras) m[l] = (m[l] || 0) + 1;
@@ -299,18 +319,10 @@ export function buscarJugadas(tablero, atril, lexico, { limite = 900, maxResulta
   const comodines = atril.filter((f) => f.comodin).length;
   const cuentaAtril = contar(atril.filter((f) => !f.comodin).map((f) => f.l));
   const vacio = tablero.every((c) => !c);
-  const enTablero = contar(tablero.filter(Boolean).map((f) => f.l));
-
-  // Filtro rápido: letras de la palabra ⊆ atril + tablero (+ comodines)
-  const candidatas = [];
-  for (const k of lexico.lista) {
-    if (k.length > LADO) continue;
-    if (vacio && k.length > ATRIL) continue;
-    const c = contar(k);
-    let faltan = 0;
-    for (const [l, n] of Object.entries(c)) faltan += Math.max(0, n - (cuentaAtril[l] || 0) - (enTablero[l] || 0));
-    if (faltan <= comodines) candidatas.push(k);
-  }
+  if (!lexico.mascaras) Object.assign(lexico, indice([...lexico.validas]));
+  const { lista, mascaras } = lexico;
+  const mascaraAtril = mascara(Object.keys(cuentaAtril).join(""));
+  const huecos = atril.length;
 
   const resultados = [];
   const vistas = new Set();
@@ -329,9 +341,28 @@ export function buscarJugadas(tablero, atril, lexico, { limite = 900, maxResulta
       ancla[i] = [[-1, 0], [1, 0], [0, -1], [0, 1]].some(([dr, dc]) => dentro(r + dr, c + dc) && tablero[idx(r + dr, c + dc)]);
     }
 
+  // Las líneas en orden aleatorio: si se acaba el tiempo, no siempre quedan las mismas sin mirar
+  lineas.sort(() => Math.random() - 0.5);
   for (const linea of lineas) {
     const cel = linea.celdas;
     if (!cel.some((i) => ancla[i])) continue;
+    // Filtro rápido: letras de la palabra ⊆ atril + fichas de esta línea (+ comodines)
+    const enLinea = cel.filter((i) => tablero[i]).map((i) => tablero[i].l);
+    const cuenta = contar(enLinea);
+    for (const [l, n] of Object.entries(cuentaAtril)) cuenta[l] = (cuenta[l] || 0) + n;
+    const disponible = mascaraAtril | mascara(enLinea.join(""));
+    const maxLargo = vacio ? Math.min(ATRIL, LADO) : Math.min(LADO, enLinea.length + huecos);
+    const candidatas = [];
+    for (let w = 0; w < lista.length; w++) {
+      const k = lista[w];
+      if (k.length > maxLargo) continue;
+      const fuera = mascaras[w] & ~disponible;
+      if (fuera && (!comodines || bits(fuera) > comodines)) continue;
+      const c = contar(k);
+      let faltan = 0;
+      for (const l in c) faltan += Math.max(0, c[l] - (cuenta[l] || 0));
+      if (faltan <= comodines) candidatas.push(k);
+    }
     for (const k of candidatas) {
       const n = k.length;
       for (let s = 0; s + n <= LADO; s++) {
@@ -387,18 +418,18 @@ export function buscarJugadas(tablero, atril, lexico, { limite = 900, maxResulta
 export function eligeMono(jugadas, dificultad = "normal", azar = Math.random) {
   if (!jugadas.length) return null;
   if (dificultad === "maestro") return jugadas[0];
-  // Le gustan las palabras de la unidad: así el alumno las ve en el tablero
-  const conUnidad = jugadas.filter((j) => j.palabras.some((p) => p.unidad));
+  // Prefiere palabras con traducción en la app: así el alumno aprende algo de sus jugadas
+  const conocidas = jugadas.filter((j) => j.palabras.every((p) => p.conocida));
   if (dificultad === "facil") {
-    const pool = jugadas.filter((j) => j.palabras[0]?.k.length <= 5);
-    const base = pool.length ? pool : jugadas;
+    const pool0 = conocidas.length && azar() < 0.85 ? conocidas : jugadas;
+    const pool = pool0.filter((j) => j.palabras[0]?.k.length <= 5);
+    const base = pool.length ? pool : pool0;
     const desde = Math.floor(base.length * 0.35);
     const tramo = base.slice(desde, Math.max(desde + 1, Math.floor(base.length * 0.8)));
-    if (conUnidad.length && azar() < 0.4) return conUnidad[Math.floor(azar() * Math.min(conUnidad.length, 6)) + 0] || tramo[0];
     return tramo[Math.floor(azar() * tramo.length)] || base[base.length - 1];
   }
-  if (conUnidad.length && azar() < 0.5) return conUnidad[Math.floor(azar() * Math.min(3, conUnidad.length))];
-  const top = jugadas.slice(0, Math.min(5, jugadas.length));
+  const base = conocidas.length && azar() < 0.6 ? conocidas : jugadas;
+  const top = base.slice(0, Math.min(5, base.length));
   return top[Math.floor(azar() * top.length)];
 }
 

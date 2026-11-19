@@ -49,4 +49,6 @@ export default defineConfig({
   // Con el Worker (VITE_API_URL) la clave de DeepSeek no se incrusta en la web
   define: { __DS_KEY__: JSON.stringify(process.env.VITE_API_URL ? "" : encodedDeepseekKey()) },
   build: { chunkSizeWarningLimit: 4000 },
+  // Workers como módulos ES (el del Rey Mono en «Palacio de las palabras» importa el léxico bajo demanda)
+  worker: { format: 'es' },
 });

@@ -1,7 +1,9 @@
 // Palacio de las palabras · 字母宫殿 — formar palabras con fichas de marfil sobre un tablero de laca y oro,
 // contra el Rey Mono. Tablero propio de 13×13 con el Trono en el centro y casillas temáticas
-// (sello ×2 letra, jade ×3 letra, linterna ×2 palabra, dragón ×3 palabra). Bono si la palabra es de la unidad.
+// (sello ×2 letra, jade ×3 letra, linterna ×2 palabra, dragón ×3 palabra).
 // Sustituye al antiguo juego de tablero de letras (la ruta /juegos/apalabrados redirige aquí).
+// Se juega sin elegir unidad, con el diccionario completo (public/palabras/es.txt.gz, ~590 000 formas):
+// se carga solo al abrir el juego y el Rey Mono busca sus jugadas en un Web Worker.
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router";
@@ -23,7 +25,8 @@ import {
 import { useSound } from "../../lib/sound.jsx";
 import { speak, confetti } from "../../components/lesson/fx.js";
 import { addXp } from "../../lib/gamification.js";
-import { useContenidoJuego, SelectorUnidad, Sello, etiquetaContenido, usePrefiereMenosMovimiento, claveRecord, leerNumero, guardarNumero } from "./jbComun.jsx";
+import { Sello, usePrefiereMenosMovimiento, claveRecord, leerNumero, guardarNumero } from "./jbComun.jsx";
+import { cargarDiccionario } from "../../lib/diccionarioPalacio.js";
 import {
   LADO,
   ATRIL,
@@ -38,6 +41,7 @@ import {
   evaluar,
   buscarJugadas,
   eligeMono,
+  esConocida,
   traduccion,
   sumaAtril,
   fila,
@@ -61,7 +65,7 @@ const FRASES = {
     ["¡Eso suma!", "加分了！"],
   ],
   grande: [["¡Uf! Esa jugada vale oro.", "哇！这一步价值千金。"]],
-  unidad: [["¡Palabra de la unidad! Bono para ti.", "本单元的单词！给你加分。"]],
+  nueva: [["¡Esa no la conocía! Buena palabra.", "这个词我都不知道！好词。"]],
   mal: [["Hmm… revisa esa palabra.", "嗯……再检查一下这个词。"]],
   piensa: [["Déjame pensar…", "让我想想……"]],
   mono: [
@@ -94,38 +98,86 @@ function useNumeroAnimado(valor, reducido) {
 }
 
 // ---------- Página ----------
-export default function PalacioPalabrasPage() {
-  const contenido = useContenidoJuego();
-  if (!contenido)
-    return (
-      <SelectorUnidad
-        titulo="Palacio de las palabras"
-        tituloChino="字母宫殿"
-        icono={<Sello grande>字</Sello>}
-        descripcion="Forma palabras con fichas de marfil contra el Rey Mono · 用象牙字母牌和美猴王比赛拼词"
-      />
-    );
-  return <CargaLexico key={contenido.numero} contenido={contenido} />;
-}
+// Sin selector de unidad: el juego usa el diccionario completo (los ?m=N antiguos se ignoran)
+const CONTENIDO = { numero: "libre", clase: null };
 
-function CargaLexico({ contenido }) {
-  const [datos, setDatos] = React.useState(null);
+export default function PalacioPalabrasPage() {
+  const [estado, setEstado] = React.useState({ lexico: null, datos: null, error: false });
+  const [intento, setIntento] = React.useState(0);
   React.useEffect(() => {
     let vivo = true;
-    import("../../data/palacio-lexico.json").then((m) => vivo && setDatos(m.default || m));
+    setEstado({ lexico: null, datos: null, error: false });
+    Promise.all([import("../../data/palacio-lexico.json"), cargarDiccionario()])
+      .then(([json, dic]) => {
+        if (!vivo) return;
+        setEstado({ lexico: prepararLexico(json.default || json, dic.palabras, { conIndice: false }), datos: dic.datos, error: false });
+      })
+      .catch(() => vivo && setEstado({ lexico: null, datos: null, error: true }));
     return () => {
       vivo = false;
     };
-  }, []);
-  const lexico = React.useMemo(() => (datos ? prepararLexico(datos, contenido.vocabulario) : null), [datos, contenido]);
-  if (!lexico)
+  }, [intento]);
+  if (!estado.lexico)
     return (
       <div className="pdl-raiz pdl-cargando gm-no-adapt">
         <Sello grande>字</Sello>
-        <p>Abriendo el palacio… · 正在打开宫殿……</p>
+        {estado.error ? (
+          <>
+            <p>No se pudo abrir el diccionario. Revisa la conexión. · 无法打开词典，请检查网络。</p>
+            <button type="button" className="pdl-boton" onClick={() => setIntento((n) => n + 1)}>
+              <RotateCcwIcon size={18} aria-hidden="true" /> Reintentar · 重试
+            </button>
+          </>
+        ) : (
+          <p>Abriendo el palacio y su diccionario… · 正在打开宫殿和词典……</p>
+        )}
       </div>
     );
-  return <JuegoPalacio contenido={contenido} lexico={lexico} />;
+  return <JuegoPalacio lexico={estado.lexico} datos={estado.datos} />;
+}
+
+/** El Rey Mono piensa en un Web Worker; sin Worker, busca en el hilo principal. */
+function useBuscador(lexico, datos) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    let worker = null;
+    const pendientes = new Map();
+    try {
+      worker = new Worker(new URL("../../lib/palacioMono.worker.js", import.meta.url), { type: "module" });
+      worker.onmessage = (e) => {
+        const { id, jugadas, error } = e.data || {};
+        const p = pendientes.get(id);
+        if (!p) return;
+        pendientes.delete(id);
+        error ? p.reject(new Error(error)) : p.resolve(jugadas);
+      };
+      worker.onerror = () => {
+        for (const p of pendientes.values()) p.reject(new Error("worker"));
+        pendientes.clear();
+        ref.current.worker = null;
+      };
+      worker.postMessage({ tipo: "iniciar", datos: datos.slice(0) });
+    } catch {
+      worker = null;
+    }
+    let n = 0;
+    ref.current = { worker, pendientes };
+    ref.current.buscar = (tablero, atril, opciones = {}) => {
+      const w = ref.current?.worker;
+      const local = () => new Promise((ok) => setTimeout(() => ok(buscarJugadas(tablero, atril, lexico, opciones)), 30));
+      if (!w) return local();
+      const id = ++n;
+      return new Promise((resolve, reject) => {
+        pendientes.set(id, { resolve, reject });
+        w.postMessage({ tipo: "buscar", id, tablero, atril, opciones });
+      }).catch(local);
+    };
+    return () => {
+      worker?.terminate();
+      pendientes.clear();
+    };
+  }, [lexico, datos]);
+  return React.useCallback((...args) => ref.current.buscar(...args), []);
 }
 
 // ---------- Ficha de marfil ----------
@@ -180,7 +232,8 @@ function MarcaPremio({ tipo }) {
 }
 
 // ---------- Juego ----------
-function JuegoPalacio({ contenido, lexico }) {
+function JuegoPalacio({ lexico, datos }) {
+  const buscar = useBuscador(lexico, datos);
   const reducido = usePrefiereMenosMovimiento();
   const { soundEnabled, toggleSound, playCorrect, playWrong, playWin, playLose, playClick } = useSound();
   const [fase, setFase] = React.useState("intro"); // intro | juego | fin
@@ -193,6 +246,8 @@ function JuegoPalacio({ contenido, lexico }) {
   });
   const [duracion, setDuracion] = React.useState("corta");
   const [p, setP] = React.useState(null); // estado de la partida
+  const pRef = React.useRef(p);
+  pRef.current = p;
   const [puestas, setPuestas] = React.useState(() => new Map()); // índice → ficha (pendientes del jugador)
   const [sel, setSel] = React.useState(null); // id de la ficha elegida en el atril
   const [cursor, setCursor] = React.useState(null); // { i, h } para escribir con el teclado
@@ -377,8 +432,8 @@ function JuegoPalacio({ contenido, lexico }) {
     );
     const palabras = celebrar("j", ev, puestas);
     playCorrect?.();
-    if (ev.palabras.some((w) => w.unidad)) decir("unidad", "feliz");
-    else if (ev.total >= 25) decir("grande", "guino");
+    if (ev.total >= 25) decir("grande", "guino");
+    else if (ev.palabras.some((w) => !w.conocida && w.k.length >= 5) && Math.random() < 0.5) decir("nueva", "guino");
     else decir("bien", "feliz");
     const estado = comprobarFin({
       ...p,
@@ -418,16 +473,27 @@ function JuegoPalacio({ contenido, lexico }) {
     setCambio(null);
   };
 
-  const pista = () => {
-    if (!miTurno || !p.pistas) return;
+  const [buscandoPista, setBuscandoPista] = React.useState(false);
+  const pista = async () => {
+    if (!miTurno || !p.pistas || buscandoPista) return;
     recoger();
-    const js = buscarJugadas(p.tablero, p.atrilJ, lexico, { limite: 700 });
+    setBuscandoPista(true);
+    decir("piensa", "serio");
+    const ronda = p.ronda;
+    let js = [];
+    try {
+      js = await buscar(p.tablero, p.atrilJ, { limite: 900 });
+    } finally {
+      setBuscandoPista(false);
+    }
+    if (pRef.current?.ronda !== ronda || pRef.current?.turno !== "j") return;
     if (!js.length) {
       setAviso({ es: "No hay palabra posible: cambia fichas o pasa.", zh: "没有可组的词：换牌或跳过。" });
       return;
     }
-    const conUnidad = js.find((j) => j.palabras.some((w) => w.unidad));
-    const elegida = conUnidad && conUnidad.total >= js[0].total * 0.5 ? conUnidad : js[Math.min(js.length - 1, 2)];
+    // Mejor una palabra con traducción: así la pista también enseña
+    const conocida = js.find((j) => j.palabras.every((w) => w.conocida));
+    const elegida = conocida && conocida.total >= js[0].total * 0.5 ? conocida : js[Math.min(js.length - 1, 2)];
     setPuestas(new Map(elegida.puestas));
     setP((ant) => ({ ...ant, pistas: ant.pistas - 1 }));
     setMono({ pose: "guino", es: "Prueba esto… pulsa «Jugar».", zh: "试试这个……点「落子」。", n: Math.random() });
@@ -437,9 +503,10 @@ function JuegoPalacio({ contenido, lexico }) {
   React.useEffect(() => {
     if (fase !== "juego" || !p || p.turno !== "m" || p.fin) return;
     decir("piensa", "serio");
-    const t = setTimeout(
-      () => {
-        const js = buscarJugadas(p.tablero, p.atrilM, lexico);
+    let vivo = true;
+    const espera = new Promise((ok) => setTimeout(ok, reducido ? 500 : 1500));
+    Promise.all([buscar(p.tablero, p.atrilM, { limite: 1600 }).catch(() => []), espera]).then(([js]) => {
+        if (!vivo) return;
         const m = eligeMono(js, dificultad);
         if (!m) {
           if (p.bolsa.length >= ATRIL) {
@@ -476,10 +543,10 @@ function JuegoPalacio({ contenido, lexico }) {
             historial: [{ quien: "m", palabras, total: m.total }, ...p.historial],
           }),
         );
-      },
-      reducido ? 500 : 1500,
-    );
-    return () => clearTimeout(t);
+    });
+    return () => {
+      vivo = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p?.turno, fase]);
 
@@ -492,13 +559,13 @@ function JuegoPalacio({ contenido, lexico }) {
     const margen = p.puntos.j - p.puntos.m;
     const estrellas = gana ? (margen >= 60 ? 3 : margen >= 20 ? 2 : 1) : p.puntos.j >= p.puntos.m * 0.8 && p.puntos.j > 0 ? 1 : 0;
     const misPalabras = p.historial.filter((h) => h.quien === "j").flatMap((h) => h.palabras);
-    const deUnidad = misPalabras.filter((w) => w.unidad).length;
-    const xp = 10 + Math.max(0, Math.floor(p.puntos.j / 10)) + deUnidad * 3 + (gana ? 15 : 0) + estrellas * 5;
+    const conocidas = misPalabras.filter((w) => w.conocida).length;
+    const xp = 10 + Math.max(0, Math.floor(p.puntos.j / 10)) + Math.min(conocidas, 10) * 2 + (gana ? 15 : 0) + estrellas * 5;
     const r = addXp(xp);
-    const clave = claveRecord("palacio", contenido);
+    const clave = claveRecord("palacio", CONTENIDO);
     const record = p.puntos.j > leerNumero(clave);
     if (record) guardarNumero(clave, p.puntos.j);
-    setPremio({ gana, empate, estrellas, xp, record, deUnidad, subeNivel: r?.levelUp });
+    setPremio({ gana, empate, estrellas, xp, record, palabras: misPalabras.length, subeNivel: r?.levelUp });
     const t = setTimeout(() => {
       setFase("fin");
       if (gana) {
@@ -664,29 +731,34 @@ function JuegoPalacio({ contenido, lexico }) {
   };
 
   // ---------- Pantallas ----------
-  const unidadPalabras = React.useMemo(() => {
-    const lista = [...lexico.unidad.entries()].filter(([k]) => k.length <= 9).map(([k, v]) => ({ k, ...v }));
-    return lista.sort(() => Math.random() - 0.5).slice(0, 10);
+  // Palabras para inspirarse: con traducción y de largo cómodo
+  const sugeridas = React.useMemo(() => {
+    const lista = [...lexico.mapa.entries()].filter(([k, v]) => v.zh && k.length >= 3 && k.length <= 7 && lexico.validas.has(k) && !lexico.extra?.has(k)).map(([k, v]) => ({ k, ...v }));
+    for (let i = lista.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [lista[i], lista[j]] = [lista[j], lista[i]];
+    }
+    return lista.slice(0, 10);
   }, [lexico]);
 
   if (fase === "intro" || !p)
     return (
       <div className={`pdl-raiz gm-no-adapt ${reducido ? "is-reducido" : ""}`}>
-        <Barra contenido={contenido} soundEnabled={soundEnabled} toggleSound={toggleSound} />
+        <Barra soundEnabled={soundEnabled} toggleSound={toggleSound} />
         <section className="pdl-intro">
           <div className="pdl-intro__mono">
             <img src={imgMono("saluda")} alt="" width="180" height="180" />
           </div>
           <div className="pdl-intro__texto">
             <p className="pdl-ceja">
-              <Sello>字</Sello> {etiquetaContenido(contenido)} · {contenido.titulo}
+              <Sello>字</Sello> Diccionario completo · <span translate="no">完整词典</span>
             </p>
             <h1>
               Palacio de las palabras <span translate="no">字母宫殿</span>
             </h1>
             <p className="pdl-intro__desc">
-              Reta al Rey Mono: coloca tus fichas de marfil en el tablero de laca y forma palabras en español. Las palabras de tu unidad dan <b>bono +50 %</b>.
-              <span> 挑战美猴王：把象牙字母牌放到漆金棋盘上，拼出西班牙语单词。本单元的单词额外加分 <b>+50%</b>。</span>
+              Reta al Rey Mono: coloca tus fichas de marfil en el tablero de laca y forma palabras en español. Vale <b>cualquier palabra del diccionario</b>, con plurales, femeninos y verbos conjugados.
+              <span> 挑战美猴王：把象牙字母牌放到漆金棋盘上，拼出西班牙语单词。<b>词典里的任何单词</b>都可以，包括复数、阴性和动词变位。</span>
             </p>
             <Leyenda />
             <div className="pdl-opciones">
@@ -755,7 +827,7 @@ function JuegoPalacio({ contenido, lexico }) {
 
   return (
     <div ref={raizRef} className={`pdl-raiz pdl-raiz--juego gm-no-adapt ${reducido ? "is-reducido" : ""} ${fantasma ? "is-arrastrando" : ""}`}>
-      <Barra contenido={contenido} soundEnabled={soundEnabled} toggleSound={toggleSound} onReglas={() => setVerReglas(true)} />
+      <Barra soundEnabled={soundEnabled} toggleSound={toggleSound} onReglas={() => setVerReglas(true)} />
       <div className="pdl-marcador-movil">{marcador}</div>
       <div className="pdl-mesa">
         <div className="pdl-centro">
@@ -837,7 +909,7 @@ function JuegoPalacio({ contenido, lexico }) {
               previa.ok ? (
                 <span className="pdl-previa__ok">
                   {previa.palabras.map((w) => (
-                    <b key={w.k} className={w.unidad ? "is-unidad" : ""}>
+                    <b key={w.k} className={w.conocida ? "is-unidad" : ""}>
                       {MAYUS(w.k)}
                     </b>
                   ))}
@@ -902,7 +974,7 @@ function JuegoPalacio({ contenido, lexico }) {
                 <button type="button" className="pdl-boton pdl-boton--claro" onClick={mezclar} disabled={!miTurno} aria-label="Mezclar · 洗牌">
                   <ShuffleIcon size={18} aria-hidden="true" /> <span>Mezclar · 洗牌</span>
                 </button>
-                <button type="button" className="pdl-boton pdl-boton--claro" onClick={pista} disabled={!miTurno || !p.pistas} aria-label={`Pista, quedan ${p.pistas} · 提示`}>
+                <button type="button" className="pdl-boton pdl-boton--claro" onClick={pista} disabled={!miTurno || !p.pistas || buscandoPista} aria-label={`Pista, quedan ${p.pistas} · 提示`}>
                   <LightbulbIcon size={18} aria-hidden="true" /> <span>Pista · 提示</span> {p.pistas > 0 && <sup>{p.pistas}</sup>}
                 </button>
                 <button
@@ -948,11 +1020,6 @@ function JuegoPalacio({ contenido, lexico }) {
                     {w.zh || "—"}
                     {w.lema && <em className="pdl-tarjeta__lema">← {w.lema}</em>}
                   </span>
-                  {w.unidad && (
-                    <span className="pdl-tarjeta__bono" title="Palabra de la unidad · 本单元单词">
-                      <i translate="no">课</i> +{w.bono}
-                    </span>
-                  )}
                   <b className="pdl-tarjeta__pts">+{w.puntos}</b>
                 </div>
               ))}
@@ -966,10 +1033,10 @@ function JuegoPalacio({ contenido, lexico }) {
 
           <details className="pdl-panel" open>
             <summary>
-              <BookOpenIcon size={16} aria-hidden="true" /> Palabras de la unidad · 本单元单词 <em>+50%</em>
+              <BookOpenIcon size={16} aria-hidden="true" /> Ideas de palabras · 单词灵感
             </summary>
             <ul className="pdl-vocab">
-              {unidadPalabras.map((w) => (
+              {sugeridas.map((w) => (
                 <li key={w.k}>
                   <button type="button" onClick={() => speak(w.es, 0.85)}>
                     <b>{w.es}</b> <small translate="no">{w.zh}</small>
@@ -1090,12 +1157,12 @@ function JuegoPalacio({ contenido, lexico }) {
               </div>
               <p className="pdl-final__datos">
                 <span className="pdl-final__xp">+{premio.xp} XP</span>
-                {premio.deUnidad > 0 && (
+                {premio.palabras > 0 && (
                   <span>
-                    {premio.deUnidad} palabras de la unidad · {premio.deUnidad}个本单元单词
+                    {premio.palabras} palabras formadas · 组了{premio.palabras}个单词
                   </span>
                 )}
-                {premio.record && <span className="pdl-final__record">¡Récord en esta unidad! · 本单元新纪录！</span>}
+                {premio.record && <span className="pdl-final__record">¡Nuevo récord! · 新纪录！</span>}
               </p>
               <ul className="pdl-final__palabras">
                 {p.historial
@@ -1114,9 +1181,6 @@ function JuegoPalacio({ contenido, lexico }) {
                 <button type="button" className="pdl-boton pdl-boton--grande" onClick={nuevaPartida}>
                   <RotateCcwIcon size={20} aria-hidden="true" /> Otra partida · 再来一局
                 </button>
-                <Link to="/juegos/palacio-palabras" className="pdl-boton pdl-boton--claro">
-                  Otra unidad · 换单元
-                </Link>
                 <Link to="/juegos" className="pdl-boton pdl-boton--claro">
                   Juegos · 游戏
                 </Link>
@@ -1129,7 +1193,7 @@ function JuegoPalacio({ contenido, lexico }) {
   );
 }
 
-function Barra({ contenido, soundEnabled, toggleSound, onReglas }) {
+function Barra({ soundEnabled, toggleSound, onReglas }) {
   return (
     <div className="pdl-barra">
       <Link to="/juegos" className="pdl-volver">
@@ -1141,7 +1205,10 @@ function Barra({ contenido, soundEnabled, toggleSound, onReglas }) {
           Palacio de las palabras <small translate="no">字母宫殿</small>
         </span>
       </span>
-      <span className="pdl-unidad">{etiquetaContenido(contenido)}</span>
+      <span className="pdl-unidad" title="Diccionario completo · 完整词典">
+        <span className="pdl-unidad__es">Diccionario completo · </span>
+        <span translate="no">完整词典</span>
+      </span>
       {onReglas && (
         <button type="button" className="pdl-icono" onClick={onReglas} aria-label="Reglas · 规则">
           <BookOpenIcon size={19} />
@@ -1187,7 +1254,7 @@ function Reglas({ abierto = false }) {
           Cada letra vale sus puntos; las casillas especiales los multiplican la primera vez que se cubren. <span>每个字母有分值；特殊格子在第一次被覆盖时加倍。</span>
         </li>
         <li>
-          Palabra de la unidad: +50 %. Usar las 7 fichas a la vez: «Siete sellos» +{BONO_SIETE}. <span>本单元单词 +50%；一次用完7张牌「七印齐发」+{BONO_SIETE}。</span>
+          Vale cualquier palabra española (sin tildes; la Ñ es una letra propia; CH, LL y RR se forman con dos fichas). Usar las 7 fichas a la vez: «Siete sellos» +{BONO_SIETE}. <span>任何西班牙语单词都可以（不用重音符号；Ñ是单独的字母；CH、LL、RR用两张牌拼）。一次用完7张牌「七印齐发」+{BONO_SIETE}。</span>
         </li>
         <li>
           El comodín 悟 sirve de cualquier letra y vale 0. Puedes cambiar fichas o pasar (pierdes el turno). <span>「悟」是万能牌，可当任何字母，0分。可以换牌或跳过（失去本回合）。</span>
