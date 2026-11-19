@@ -1966,3 +1966,63 @@
 .bz-credito a {
   color: #8f0c21;
 }
+
+/* ===== v22.3 · Cartas selladas (封) al fallar el reto ===== */
+.bz-sello-fallo {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  width: 74px;
+  height: 74px;
+  margin: -37px 0 0 -37px;
+  border-radius: 10px;
+  background: radial-gradient(circle at 30% 25%, #e8344f, #c8102e 55%, #8f0c21);
+  color: #fff4dc;
+  font-family: var(--bz-kai);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: inset 0 0 0 3px rgba(255, 230, 190, 0.6), inset 0 0 0 6px #c8102e, 0 8px 18px rgba(0, 0, 0, 0.45);
+  transform: rotate(-12deg);
+  animation: bz-estampa 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.4) backwards;
+  pointer-events: none;
+}
+.bz-sello-fallo--mano {
+  width: 54px;
+  height: 54px;
+  margin: -27px 0 0 -27px;
+  font-size: 32px;
+}
+.bz-slot.is-sellada .bz-boton-carta {
+  animation: none;
+  filter: grayscale(0.75) brightness(0.72);
+  transform: translateY(10px);
+}
+.bz-slot.is-sellada .bz-reto-tag {
+  opacity: 0.6;
+}
+.bz-reto.is-mal .bz-reto-carta .bz-carta-in {
+  animation: bz-sacude 0.45s;
+}
+.bz-toast--mal {
+  background: linear-gradient(#fbe0e0, #e89a9a);
+  color: #5a0814;
+  box-shadow: 0 0 0 2px #8f0c21, 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+@keyframes bz-estampa {
+  from {
+    opacity: 0;
+    transform: scale(2.6) rotate(-30deg);
+  }
+}
+@media (max-width: 760px) {
+  .bz-sello-fallo--mano {
+    width: 42px;
+    height: 42px;
+    margin: -21px 0 0 -21px;
+    font-size: 26px;
+  }
+}

@@ -9,7 +9,7 @@ import { addXp } from "../../lib/gamification.js";
 import { useModalAccesible } from "../../lib/useModalAccesible.js";
 import { chispasOro } from "./ja-comun.jsx";
 import { useContenidoJuego, usePrefiereMenosMovimiento, SelectorUnidad, Sello, Volver, etiquetaContenido, claveRecord, leerNumero, guardarNumero, sinAcentos } from "./jbComun.jsx";
-import { PALOS, PALO, NUMEROS, NOMBRE, PUNTOS, crearBaraja, ganadorBaza, jugadaMono, crearFabricaRetos, nombreCarta, nombreConArticulo, nombreZh, valor, ETIQUETA_RETO } from "./briscaLogica.js";
+import { PALOS, PALO, NUMEROS, NOMBRE, PUNTOS, crearBaraja, ganadorBaza, jugadaMono, crearFabricaRetos, nombreCarta, nombreConArticulo, nombreZh, valor, fuerza, ETIQUETA_RETO } from "./briscaLogica.js";
 import { Carta, Dorso, SimboloPalo, precargarBaraja } from "./CartasBaraja.jsx";
 import "../../styles/v13-juegos-b.css";
 import "../../styles/v13-juegos-a.css";
@@ -71,6 +71,8 @@ function nuevaPartida(siguienteReto) {
     retrasos,
     aviso: null,
     bazas: 0,
+    selladas: [],
+    burla: null,
   };
 }
 
@@ -122,7 +124,7 @@ function JuegoBrisca({ contenido }) {
       const t = setTimeout(() => {
         setP((s) => {
           if (s.mesa.length !== 2 || s.fase !== "jugar") return s;
-          const g = ganadorBaza(s.mesa[0], s.mesa[1], s.triunfo) === 0 ? s.mesa[0].quien : s.mesa[1].quien;
+          const g = s.mesa.some((e) => e.forzada) ? "m" : ganadorBaza(s.mesa[0], s.mesa[1], s.triunfo) === 0 ? s.mesa[0].quien : s.mesa[1].quien;
           return { ...s, fase: "resuelve", ganador: g };
         });
       }, 700);
@@ -161,7 +163,7 @@ function JuegoBrisca({ contenido }) {
       const t = setTimeout(() => {
         setP((s) => {
           const mazo = [...s.mazo];
-          let manoJ = s.manoJ;
+          let manoJ = s.manoJ.map((c) => (s.selladas.includes(c.id) ? { ...c, reto: fabrica(c) } : c));
           let manoM = s.manoM;
           const retrasos = {};
           const orden = s.ganador === "j" ? ["j", "m"] : ["m", "j"];
@@ -173,7 +175,7 @@ function JuegoBrisca({ contenido }) {
             else manoM = [...manoM, c];
           });
           const fin = !manoJ.length && !manoM.length;
-          return { ...s, mazo, manoJ, manoM, retrasos, turno: s.ganador, fase: fin ? "fin" : "jugar", ganador: fin ? s.ganador : null };
+          return { ...s, mazo, manoJ, manoM, retrasos, selladas: [], burla: null, turno: s.ganador, fase: fin ? "fin" : "jugar", ganador: fin ? s.ganador : null };
         });
       }, 520);
       return () => clearTimeout(t);
@@ -227,14 +229,41 @@ function JuegoBrisca({ contenido }) {
     else playWrong?.();
     if (reto.carta.reto.audio) setTimeout(() => speak(reto.carta.reto.audio, 0.9), 350);
   };
+  const BURLAS = [
+    { es: "¡Ji, ji! Esa carta queda sellada.", zh: "嘻嘻！这张牌被封住了。" },
+    { es: "¡Ja! Con esa no juegas, discípulo.", zh: "哈！这张你出不了，徒弟。" },
+    { es: "Mi 金箍棒 sella tu carta. ¡Prueba otra!", zh: "我的金箍棒封住了你的牌，换一张吧！" },
+    { es: "¡Uy! Ni las nubes te salvan de esa.", zh: "哎呀！筋斗云也救不了你。" },
+  ];
   const jugarCarta = () => {
     if (!reto || reto.respuesta === null) return;
     const { carta, acierto } = reto;
     setReto(null);
+    if (!acierto) {
+      // Fallo: la carta queda sellada (封) y no se puede tirar en esta baza
+      setP((s) => {
+        if (s.fase !== "jugar" || s.mesa.length >= 2) return s;
+        const selladas = [...new Set([...s.selladas, carta.id])];
+        const libres = s.manoJ.filter((c) => !selladas.includes(c.id));
+        const base = { ...s, selladas, racha: 0, retos: s.retos + 1, burla: BURLAS[s.retos % BURLAS.length], aviso: null, retrasos: {} };
+        if (libres.length) return base;
+        // Todas falladas: el Rey Mono gana la baza sin más (tu carta de menos valor va a la mesa)
+        const peor = [...s.manoJ].sort((a, b) => valor(a) - valor(b) || fuerza(a) - fuerza(b))[0];
+        return {
+          ...base,
+          manoJ: s.manoJ.filter((c) => c.id !== peor.id),
+          mesa: [...s.mesa, { carta: peor, palo: peor.palo, quien: "j", forzada: true }],
+          armado: false,
+          turno: "m",
+          aviso: "pierdes",
+        };
+      });
+      return;
+    }
     setP((s) => {
       if (s.fase !== "jugar" || s.mesa.length >= 2 || !s.manoJ.some((c) => c.id === carta.id)) return s;
       const usaBaston = s.armado && s.bastones > 0;
-      let racha = acierto ? s.racha + 1 : 0;
+      let racha = s.racha + 1;
       let bastones = s.bastones - (usaBaston ? 1 : 0);
       let aviso = null;
       if (racha >= 3) {
@@ -246,22 +275,20 @@ function JuegoBrisca({ contenido }) {
         ...s,
         manoJ: s.manoJ.filter((c) => c.id !== carta.id),
         mesa: [...s.mesa, { carta, palo: usaBaston ? s.triunfo : carta.palo, quien: "j", baston: usaBaston }],
-        saberJ: s.saberJ + (acierto ? BONUS : 0),
-        saberM: s.saberM + (acierto ? 0 : BONUS),
+        saberJ: s.saberJ + BONUS,
         racha,
         bastones,
         armado: false,
-        aciertos: s.aciertos + (acierto ? 1 : 0),
+        aciertos: s.aciertos + 1,
         retos: s.retos + 1,
         turno: "m",
         retrasos: {},
         aviso,
+        burla: null,
       };
     });
   };
-  const cancelarReto = () => {
-    if (reto && reto.respuesta === null) setReto(null);
-  };
+  const cancelarReto = () => {};
 
   // --- Animación FLIP: cada carta vuela de donde estaba a donde está ahora y se gira si cambia de cara ---
   const posRef = React.useRef(new Map());
@@ -364,7 +391,7 @@ function JuegoBrisca({ contenido }) {
         />
       )}
 
-      {reto && createPortal(<ModalReto reto={reto} triunfo={p?.triunfo} armado={p?.armado} onResponder={responder} onJugar={jugarCarta} onCancelar={cancelarReto} />, document.body)}
+      {reto && createPortal(<ModalReto reto={reto} triunfo={p?.triunfo} armado={p?.armado} libres={p ? p.manoJ.filter((c) => c.id !== reto.carta.id && !p.selladas.includes(c.id)).length : 0} onResponder={responder} onJugar={jugarCarta} onCancelar={cancelarReto} />, document.body)}
       {ayuda &&
         createPortal(
           <Hoja titulo="Cómo se juega · 玩法" onCerrar={() => setAyuda(false)}>
@@ -416,6 +443,8 @@ function Monton({ cartas, quien }) {
 }
 
 function mensajeDe(p) {
+  if (p.fase === "resuelve" && p.mesa.some((e) => e.forzada)) return { es: "¡Fallaste todos los retos! El Rey Mono se lleva la baza", zh: "全部答错！美猴王拿走这一墩", tono: "mal" };
+  if (p.fase === "jugar" && p.turno === "j" && p.burla) return { es: `Rey Mono: «${p.burla.es}»`, zh: `美猴王：「${p.burla.zh}」`, tono: "mal" };
   if (p.fase === "resuelve") {
     const pts = p.mesa.reduce((t, e) => t + valor(e.carta), 0);
     return p.ganador === "j" ? { es: `¡Ganas la baza! +${pts}`, zh: `你赢了这一墩！+${pts}`, tono: "bien" } : { es: `El Rey Mono gana la baza +${pts}`, zh: `美猴王赢了这一墩 +${pts}`, tono: "mal" };
@@ -521,8 +550,13 @@ function Mesa({ p, mesaRef, puedesJugar, elegirCarta, seleccionada, armar }) {
         </div>
         <div className={`bz-mano bz-mano--tuya${puedesJugar ? " is-turno" : ""}`}>
           {p.manoJ.map((c, i) => (
-            <div key={c.id} className={`bz-slot${seleccionada === c.id ? " is-elegida" : ""}`} style={{ "--i": i - (p.manoJ.length - 1) / 2 }}>
-              <button type="button" className="bz-boton-carta" disabled={!puedesJugar} onClick={() => elegirCarta(c)} aria-label={`${nombreCarta(c)} · reto: ${ETIQUETA_RETO[c.reto?.tipo] || ""}`}>
+            <div key={c.id} className={`bz-slot${seleccionada === c.id ? " is-elegida" : ""}${p.selladas.includes(c.id) ? " is-sellada" : ""}`} style={{ "--i": i - (p.manoJ.length - 1) / 2 }}>
+              {p.selladas.includes(c.id) && (
+                <span className="bz-sello-fallo bz-sello-fallo--mano" aria-hidden="true">
+                  封
+                </span>
+              )}
+              <button type="button" className="bz-boton-carta" disabled={!puedesJugar || p.selladas.includes(c.id)} onClick={() => elegirCarta(c)} aria-label={`${nombreCarta(c)} · reto: ${ETIQUETA_RETO[c.reto?.tipo] || ""}`}>
                 <Carta carta={c} origen="mazo" retraso={p.retrasos[c.id]} inclinable />
                 <span className="bz-reto-tag">
                   <i translate="no">{c.reto?.sello}</i> {ETIQUETA_RETO[c.reto?.tipo]}
@@ -534,6 +568,11 @@ function Mesa({ p, mesaRef, puedesJugar, elegirCarta, seleccionada, armar }) {
         </div>
         <Marcador quien="j" nombre="Tú" nombreZh="你" cartas={p.ptsJ} saber={p.saberJ} activo={puedesJugar} />
       </div>
+      {p.aviso === "pierdes" && (
+        <div className="bz-toast bz-toast--mal" role="status">
+          封 ¡Todas tus cartas selladas! El Rey Mono gana la baza · 全部被封，美猴王赢了这一墩
+        </div>
+      )}
       {p.aviso === "baston" && (
         <div className="bz-toast" role="status">
           <SparklesIcon size={18} aria-hidden="true" /> ¡3 aciertos! Ganas el 金箍棒 · 连对三次，获得金箍棒！
@@ -544,7 +583,7 @@ function Mesa({ p, mesaRef, puedesJugar, elegirCarta, seleccionada, armar }) {
 }
 
 // ---------- Modal del reto ----------
-function ModalReto({ reto, triunfo, armado, onResponder, onJugar, onCancelar }) {
+function ModalReto({ reto, triunfo, armado, libres, onResponder, onJugar, onCancelar }) {
   const ref = React.useRef(null);
   useModalAccesible(ref, { enfocar: true, onEscape: onCancelar });
   const { carta, respuesta, acierto } = reto;
@@ -553,13 +592,13 @@ function ModalReto({ reto, triunfo, armado, onResponder, onJugar, onCancelar }) 
   return (
     <div className="bz-modal-fondo gm-no-adapt" onClick={onCancelar}>
       <div className={`bz-modal bz-reto${contestado ? (acierto ? " is-bien" : " is-mal") : ""}`} ref={ref} role="dialog" aria-modal="true" aria-label="Reto de la carta · 卡牌挑战" onClick={(e) => e.stopPropagation()}>
-        {!contestado && (
-          <button type="button" className="bz-modal-cerrar" onClick={onCancelar} aria-label="Elegir otra carta · 换一张">
-            <XIcon size={20} />
-          </button>
-        )}
         <div className="bz-reto-carta">
           <Carta carta={carta} className={armado ? "is-dorada" : ""} inclinable />
+          {contestado && !acierto && (
+            <span className="bz-sello-fallo" aria-hidden="true">
+              封
+            </span>
+          )}
           <button type="button" className="bz-reto-nombre" onClick={() => speak(nombreConArticulo(carta), 0.9)}>
             <Volume2Icon size={16} aria-hidden="true" />
             <span>
@@ -590,7 +629,7 @@ function ModalReto({ reto, triunfo, armado, onResponder, onJugar, onCancelar }) 
           {contestado && (
             <div className="bz-reto-feedback" role="status">
               <p className="bz-reto-veredicto">
-                {acierto ? `¡Correcto! +${BONUS} puntos de saber · 答对了！+${BONUS}` : `Casi… +${BONUS} para el Rey Mono · 答错了，美猴王 +${BONUS}`}
+                {acierto ? `¡Correcto! +${BONUS} puntos de saber · 答对了！+${BONUS}` : libres ? "¡Fallo! Esta carta queda sellada 封: elige otra · 答错了！这张牌被封住，换一张" : "¡Fallo! No te quedan cartas libres: el Rey Mono gana la baza · 答错了！没有可出的牌，美猴王赢这一墩"}
               </p>
               {r.nota && (
                 <p className="bz-reto-nota">
@@ -602,12 +641,22 @@ function ModalReto({ reto, triunfo, armado, onResponder, onJugar, onCancelar }) 
                   {r.nota}
                 </p>
               )}
-              <button type="button" className="bz-boton bz-boton--oro" onClick={onJugar} autoFocus>
-                <PlayIcon size={18} aria-hidden="true" /> Jugar la carta · 出牌
+              <button type="button" className={`bz-boton${acierto ? " bz-boton--oro" : ""}`} onClick={onJugar} autoFocus>
+                {acierto ? (
+                  <>
+                    <PlayIcon size={18} aria-hidden="true" /> Jugar la carta · 出牌
+                  </>
+                ) : libres ? (
+                  <>
+                    <RotateCcwIcon size={18} aria-hidden="true" /> Elegir otra carta · 换一张牌
+                  </>
+                ) : (
+                  <>Ceder la baza · 认输这一墩</>
+                )}
               </button>
             </div>
           )}
-          {!contestado && <p className="bz-reto-pie">Si no te gusta este reto, cierra y elige otra carta · 不喜欢这道题？关掉换一张牌</p>}
+          {!contestado && <p className="bz-reto-pie">Si fallas, la carta queda sellada y no la puedes tirar · 答错的话，这张牌会被封住，不能出</p>}
         </div>
       </div>
     </div>
@@ -634,8 +683,8 @@ function Reglas() {
           <b>Quien gana la baza se lleva las cartas, roba primero y sale.</b> <small>赢的人收走这墩牌、先摸牌、下一轮先出。</small>
         </li>
         <li>
-          <b>Cada carta de tu mano trae un reto de la unidad.</b> Si aciertas, +{BONUS} puntos de saber para ti; si fallas, +{BONUS} para el Rey Mono. Con 3 aciertos seguidos ganas el <b>金箍棒</b>: convierte tu próxima carta en triunfo.
-          <small>你手里的每张牌都有一道本单元的题。答对你得 {BONUS} 分，答错美猴王得 {BONUS} 分。连对三次获得「金箍棒」：下一张牌变成王牌。</small>
+          <b>Cada carta de tu mano trae un reto de la unidad.</b> Si aciertas, juegas la carta y ganas +{BONUS} puntos de saber. <b>Si fallas, la carta queda sellada (封) y no la puedes tirar</b>: elige otra y responde a su reto. Si fallas los retos de todas tus cartas, el Rey Mono gana la baza. Con 3 aciertos seguidos ganas el <b>金箍棒</b>: convierte tu próxima carta en triunfo.
+          <small>你手里的每张牌都有一道本单元的题。答对才能出这张牌，并得 {BONUS} 分。答错这张牌会被封住，不能出，要换一张再答。如果所有牌都答错，美猴王直接赢这一墩。连对三次获得「金箍棒」：下一张牌变成王牌。</small>
         </li>
         <li>
           <b>Al final se suman los puntos de las cartas (120 en total) y los de saber.</b> ¡Gana quien tenga más!
@@ -732,9 +781,9 @@ function Intro({ onEmpezar, contenido }) {
             ¡Te reto a una brisca! <span translate="no">来一局布里斯卡吧！</span>
           </h2>
           <p>
-            Juega con la baraja española contra el Rey Mono. Cada carta de tu mano trae un reto de <b>{contenido.titulo}</b>: acierta para ganar puntos y el poder del 金箍棒.
+            Juega con la baraja española contra el Rey Mono. Cada carta de tu mano trae un reto de <b>{contenido.titulo}</b>: si aciertas, la tiras y ganas puntos; si fallas, queda sellada con un 封 y tendrás que probar con otra. ¡Falla todas y el Rey Mono se lleva la baza!
           </p>
-          <p className="bz-zh">用西班牙纸牌和美猴王对战。你手里的每张牌都有一道「{contenido.tituloChino || contenido.titulo}」的题：答对得分，还能获得金箍棒的力量。</p>
+          <p className="bz-zh">用西班牙纸牌和美猴王对战。你手里的每张牌都有一道「{contenido.tituloChino || contenido.titulo}」的题：答对才能出牌并得分；答错这张牌就被「封」住，只能换一张。全部答错，美猴王直接赢这一墩！</p>
           <button type="button" className="bz-boton bz-boton--oro bz-boton--grande" onClick={onEmpezar}>
             <PlayIcon size={20} aria-hidden="true" /> Repartir cartas · 发牌
           </button>

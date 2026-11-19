@@ -1,0 +1,428 @@
+/* ===== v32 · Palabra desordenada: «Imprenta del palacio» sobre el mundo del nivel =====
+   Tipos de marfil (como las fichas del palacio), galera de laca con filete dorado y pergamino con pistas. */
+
+/* Fondo: el mundo del nivel sustituye a la habitación marrón */
+.j3--imprenta.scr2 .j3-fondo {
+  background: #12060a;
+}
+.j3--imprenta.scr2 .j3-luna,
+.j3--imprenta.scr2 .j3-farol,
+.j3--imprenta.scr2 .j3-suelo {
+  display: none;
+}
+.j3--imprenta.scr2 .j3-bruma {
+  z-index: 3;
+  opacity: 0.5;
+}
+
+/* Barra de progreso dorada */
+.scr2-progreso {
+  position: relative;
+  height: 8px;
+  max-width: 760px;
+  margin: 0 auto 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.45);
+  overflow: hidden;
+}
+.scr2-progreso span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #c8961e, #ffe08a, #f2c14e);
+  box-shadow: 0 0 12px rgba(242, 193, 78, 0.8);
+  transition: width 0.6s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+.scr2-taller {
+  gap: clamp(14px, 2.4vh, 24px);
+}
+
+/* ---------- Pergamino con las pistas ---------- */
+.scr2-pergamino {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: min(620px, 100%);
+  min-height: 86px;
+  padding: 12px 64px;
+  border-radius: 6px;
+  color: #3b2416;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(255, 255, 255, 0.55), transparent 60%),
+    url("../../public/theme/papel.jpg") center / 420px,
+    linear-gradient(180deg, #fff8e4, #f1dfb4);
+  box-shadow:
+    inset 0 0 0 2px rgba(200, 150, 30, 0.75),
+    inset 0 0 0 5px rgba(255, 241, 196, 0.8),
+    inset 0 0 0 6px rgba(200, 150, 30, 0.5),
+    0 16px 30px rgba(0, 0, 0, 0.55);
+  animation: scr2-desenrolla 0.6s cubic-bezier(0.3, 1.3, 0.5, 1) both;
+}
+/* rodillos lacados con remates de oro */
+.scr2-pergamino::before,
+.scr2-pergamino::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  width: 20px;
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, #ffe08a 0 9px, transparent 9px calc(100% - 9px), #ffe08a calc(100% - 9px)),
+    linear-gradient(90deg, #5e0614, #c8102e 45%, #e8324c 55%, #8f0c21);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+.scr2-pergamino::before {
+  left: -10px;
+}
+.scr2-pergamino::after {
+  right: -10px;
+}
+.scr2-nivel {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  translate: 0 -50%;
+  writing-mode: vertical-rl;
+  padding: 8px 4px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #fff;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+.scr2-nivel--easy {
+  background: linear-gradient(180deg, #3fd08a, #13774a);
+}
+.scr2-nivel--medium {
+  background: linear-gradient(180deg, #ffd968, #c8961e);
+  color: #3b2416;
+}
+.scr2-nivel--hard {
+  background: linear-gradient(180deg, #ef4257, #8f0c21);
+}
+.scr2-significado {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+  animation: scr2-tinta 0.6s ease-out both;
+}
+.scr2-significado small {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a5a1e;
+}
+.j3 .scr2-significado b {
+  font-family: STKaiti, KaiTi, "Noto Serif SC", serif;
+  font-size: clamp(30px, 4.4vw, 44px);
+  font-weight: 700;
+  color: #8f0c21 !important;
+  text-align: center;
+}
+.j3 .scr2-sellado {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 6px 16px 6px 8px !important;
+  border: 0 !important;
+  border-radius: 14px;
+  cursor: pointer;
+  font: inherit;
+  color: #3b2416 !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  box-shadow: inset 0 0 0 2px rgba(200, 150, 30, 0.6), 0 3px 0 rgba(138, 90, 30, 0.5);
+  transition: transform 0.12s;
+}
+.j3 .scr2-sellado:hover {
+  transform: translateY(-2px);
+}
+.j3 .scr2-sellado:focus-visible,
+.j3 .scr2-oir:focus-visible {
+  outline: 3px solid #8f0c21;
+  outline-offset: 3px;
+}
+.scr2-sellado > span:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+.scr2-sellado b {
+  font-size: 17px;
+  font-weight: 900;
+}
+.scr2-sellado small {
+  font-size: 14px;
+  font-weight: 700;
+  color: #8f0c21;
+}
+.scr2-sellado__lacre {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50% 46% 52% 48%;
+  font: 400 24px/1 STKaiti, KaiTi, serif;
+  color: #ffe9b0;
+  background: radial-gradient(circle at 35% 30%, #ef4257, #8f0c21 70%);
+  box-shadow: 0 0 0 3px rgba(143, 12, 33, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+}
+.j3 .scr2-oir {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  min-height: 0;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #3b2416 !important;
+  background: linear-gradient(180deg, #ffe08a, #e2a72e) !important;
+  box-shadow: inset 0 0 0 2px #fff4c8, 0 3px 0 #8a5a12;
+}
+.j3 .scr2-oir:active {
+  translate: 0 calc(-50% + 2px);
+  box-shadow: inset 0 0 0 2px #fff4c8, 0 1px 0 #8a5a12;
+}
+
+/* ---------- Galera de laca con filete dorado ---------- */
+.scr2-galera.scr-galera {
+  padding: 18px 20px;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(255, 120, 120, 0.18), transparent 60%),
+    linear-gradient(180deg, #7a0a1c, #3d040d);
+  box-shadow:
+    inset 0 4px 12px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 2px rgba(242, 193, 78, 0.85),
+    inset 0 0 0 5px rgba(61, 4, 13, 0.9),
+    inset 0 0 0 6px rgba(242, 193, 78, 0.45),
+    0 0 0 3px #2a0207,
+    0 12px 0 3px #1a0105,
+    0 30px 40px rgba(0, 0, 0, 0.6);
+  transform: rotateX(14deg);
+}
+.scr2-galera.scr-galera--bien {
+  box-shadow:
+    inset 0 4px 12px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 2px #ffe08a,
+    0 0 0 3px #2a0207,
+    0 12px 0 3px #1a0105,
+    0 0 60px rgba(242, 193, 78, 0.75);
+}
+.j3 .scr2-galera .scr-hueco {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1.5px dashed rgba(242, 193, 78, 0.5) !important;
+}
+.j3 .scr2-galera .scr-hueco--lleno {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+/* tipo colocado: marfil con letra de laca (como las fichas del palacio) */
+.scr2-galera .scr-tipo {
+  color: #8f0c21;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  background:
+    radial-gradient(120% 90% at 30% 10%, rgba(255, 255, 255, 0.95), transparent 55%),
+    linear-gradient(170deg, #fffaf0, #efe3c6);
+  box-shadow:
+    inset 0 0 0 2px rgba(200, 150, 30, 0.7),
+    0 4px 0 #1f7a4e,
+    0 7px 0 #0f4a2e,
+    0 10px 12px rgba(0, 0, 0, 0.5);
+}
+.scr2-galera.scr-galera--bien .scr-tipo {
+  color: #fff3c4;
+  text-shadow: 0 2px 0 #7a5413;
+  background: radial-gradient(120% 90% at 30% 10%, rgba(255, 255, 255, 0.5), transparent 55%), linear-gradient(170deg, #ffd968, #c8961e);
+  box-shadow: inset 0 0 0 2px #fff4c8, 0 5px 0 #7a5413, 0 0 20px rgba(242, 193, 78, 0.8);
+}
+.scr2-galera .scr-hueco--solucion .scr-tipo {
+  color: #fff3c4;
+  text-shadow: 0 2px 0 #4a0510;
+  background: linear-gradient(170deg, #e8324c, #8f0c21);
+  box-shadow: inset 0 0 0 2px rgba(242, 193, 78, 0.85), 0 5px 0 #4a0510;
+}
+
+.j3 .scr2-mensaje {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 15px;
+  color: #fff3c4 !important;
+  background: rgba(20, 6, 8, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.4);
+}
+.scr2-mensaje span {
+  color: #ffd27a;
+}
+
+/* ---------- Bandeja de madera con tipos de marfil ---------- */
+.scr2-bandeja.scr-bandeja {
+  padding: 22px 18px 26px;
+  border-radius: 20px;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.12) 0 2px, transparent 2px 60px),
+    radial-gradient(100% 120% at 50% 0%, rgba(255, 230, 170, 0.18), transparent 60%),
+    linear-gradient(180deg, #4a2a14, #2b170a);
+  box-shadow:
+    inset 0 0 0 2px rgba(242, 193, 78, 0.75),
+    inset 0 0 0 5px rgba(43, 23, 10, 0.9),
+    inset 0 0 0 6px rgba(242, 193, 78, 0.35),
+    0 18px 34px rgba(0, 0, 0, 0.6);
+  transform: rotateX(22deg);
+}
+.j3 .scr2-bloque.scr-bloque {
+  padding: 0 0 10px !important;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #2f9b68, #0f4a2e) !important; /* canto de jade */
+}
+.scr2-bloque .scr-bloque__cara {
+  border-radius: 12px;
+  color: #8f0c21;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  background:
+    radial-gradient(120% 90% at 30% 10%, rgba(255, 255, 255, 0.95), transparent 55%),
+    repeating-linear-gradient(135deg, rgba(160, 120, 60, 0.05) 0 2px, transparent 2px 7px),
+    linear-gradient(170deg, #fffaf0, #efe3c6);
+  box-shadow: inset 0 0 0 2px rgba(200, 150, 30, 0.8), inset 0 0 0 5px rgba(255, 250, 235, 0.9), inset 0 0 0 6px rgba(200, 150, 30, 0.35);
+}
+.j3 .scr2-bloque.scr-bloque:hover:not(:disabled) {
+  box-shadow: 0 22px 20px rgba(0, 0, 0, 0.5), 0 0 26px rgba(255, 220, 120, 0.85);
+}
+.j3 .scr2-bloque.scr-bloque--usado {
+  opacity: 0.16;
+}
+
+/* La regla global «main.game-bg .gm-no-adapt button» fuerza 17–22 px: aquí manda el juego */
+main.game-bg .scr2 button.scr2-sellado {
+  font-size: 15px !important;
+}
+main.game-bg .scr2 button.scr2-oir {
+  font-size: 14px !important;
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 640px) {
+  .scr2-pergamino {
+    min-height: 74px;
+    padding: 10px 56px 10px 50px;
+    width: calc(100% - 20px);
+  }
+  .scr2-nivel {
+    left: 14px;
+    font-size: 11px;
+  }
+  .j3 .scr2-oir {
+    right: 14px;
+    width: 40px;
+    height: 40px;
+  }
+  .j3 .scr2-sellado {
+    min-height: 48px;
+    gap: 8px;
+    padding: 4px 10px 4px 6px !important;
+  }
+  .scr2-sellado__lacre {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+  .scr2-sellado > svg {
+    display: none;
+  }
+  .scr2-galera.scr-galera {
+    padding: 10px;
+    transform: rotateX(8deg);
+  }
+  .scr2-bandeja.scr-bandeja {
+    padding: 14px 10px 18px;
+    transform: rotateX(14deg);
+  }
+  .j3 .scr2-mensaje {
+    font-size: 13px;
+  }
+  .scr2-progreso {
+    margin-bottom: 10px;
+  }
+}
+
+@keyframes scr2-desenrolla {
+  from {
+    opacity: 0;
+    clip-path: inset(0 48% 0 48%);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(-20px -20px -20px -20px);
+  }
+}
+@keyframes scr2-tinta {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: scale(1.15);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scr2-pergamino,
+  .scr2-significado,
+  .scr2 .scr-bloque,
+  .scr2 .scr-tipo,
+  .scr2 .scr-sello,
+  .scr2-progreso span {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* La regla global «main.game-bg .gm-no-adapt button > * { color: inherit }» heredaba el color claro del botón */
+main.game-bg .scr2 .scr2-bloque .scr-bloque__cara,
+main.game-bg .scr2 .scr2-galera .scr-tipo,
+.scr2 .scr2-bloque .scr-bloque__cara,
+.scr2 .scr2-galera .scr-tipo {
+  color: #8f0c21 !important;
+}
+main.game-bg .scr2 .scr2-galera.scr-galera--bien .scr-tipo,
+main.game-bg .scr2 .scr2-galera .scr-hueco--solucion .scr-tipo,
+.scr2 .scr2-galera.scr-galera--bien .scr-tipo,
+.scr2 .scr2-galera .scr-hueco--solucion .scr-tipo {
+  color: #fff3c4 !important;
+}
+
+@media (max-width: 640px) {
+  /* una sola fila de tipos y los botones a la vista */
+  .scr2-bandeja.scr-bandeja {
+    --t: min(54px, calc((100vw - 64px) / var(--n) - 5px));
+    flex-wrap: nowrap;
+    gap: 5px;
+  }
+  .scr2-galera.scr-galera {
+    --t: min(54px, calc((100vw - 56px) / var(--n) - 4px));
+  }
+  .scr2-taller {
+    gap: 12px;
+  }
+  .j3 .scr2-mensaje {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+}

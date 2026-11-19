@@ -1,0 +1,206 @@
+/* ===== v33 · Ruleta de feria en 3D: bombillas en cadena, desenfoque de velocidad, sector ganador y panel que se voltea ===== */
+
+/* Bombillas del aro: se encienden alternas; al girar, la cadena corre mucho más rápido */
+.rl3-bombilla {
+  fill: #fff3c4;
+  stroke: #8a5a0a;
+  stroke-width: 0.6;
+  animation: rl3-bombilla 1.2s steps(1) infinite;
+}
+.rl3-bombilla--b {
+  animation-delay: -0.6s;
+}
+.rl-rueda--girando .rl3-bombilla {
+  animation-duration: 0.22s;
+}
+.rl-rueda--girando .rl3-bombilla--b {
+  animation-delay: -0.11s;
+}
+.rl3-rueda--parada .rl3-bombilla {
+  animation: rl3-bombilla-fiesta 0.35s steps(1) 6;
+}
+
+/* Desenfoque de velocidad y cámara que se acerca durante el giro */
+.rl-rueda--girando .rl-disco svg {
+  animation: rl3-desenfoque 5.2s cubic-bezier(0.12, 0.62, 0.08, 1) both;
+}
+.rl3-rueda .rl-plano {
+  transition: transform 0.6s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+.rl-rueda--girando.rl3-rueda .rl-plano {
+  transform: rotateX(36deg) scale(1.06);
+}
+.rl-rueda--girando .rl-eje {
+  box-shadow: 0 0 0 3px #8a5a0a, 0 10px 14px rgba(0, 0, 0, 0.55), 0 0 40px rgba(255, 220, 120, 0.9), inset 0 -6px 10px rgba(120, 70, 0, 0.55);
+}
+/* el puntero rebota con cada clavija y, al parar, da un golpe final */
+.rl3-rueda--parada .rl-flecha {
+  animation: rl3-golpe 0.6s cubic-bezier(0.3, 1.8, 0.5, 1);
+}
+
+/* Sector ganador: se ilumina y late */
+.rl3-sector path {
+  transition: filter 0.4s, opacity 0.4s;
+}
+.rl3-rueda--parada .rl3-sector:not(.rl3-sector--gana) path {
+  filter: brightness(0.55) saturate(0.6);
+}
+.rl3-sector--gana path {
+  stroke: #fff3c4;
+  stroke-width: 2.4;
+  animation: rl3-gana 0.6s ease-in-out 4 alternate;
+}
+
+/* Foco cenital sobre la ruleta */
+.rl3-rueda::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -40%;
+  width: 140%;
+  height: 150%;
+  translate: -50% 0;
+  z-index: -1;
+  background: radial-gradient(40% 60% at 50% 70%, rgba(255, 226, 150, 0.28), transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+.rl-rueda--girando.rl3-rueda::before {
+  background: radial-gradient(40% 60% at 50% 70%, rgba(255, 226, 150, 0.45), transparent 70%);
+}
+
+/* Panel: la pista entra volteándose como una tablilla (sin preserve-3d en el panel:
+   el teclado inclinado quedaría detrás del plano del panel) */
+.rl3-pista {
+  transform-origin: 50% 50%;
+}
+.j3 .rl3-pista:not(.rl-pista--vacia) {
+  animation: rl3-voltea 0.75s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+/* letras descubiertas: destello dorado al voltearse */
+.rl-casilla--vista b {
+  animation: rl3-letra 0.7s ease-out;
+}
+/* palabra completa: las casillas saltan en ola */
+.rl3-casillas--hecha .rl-casilla {
+  animation: rl3-ola 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  animation-delay: calc(var(--i) * 0.06s);
+}
+.rl3-casillas--hecha .rl-casilla b {
+  background: linear-gradient(180deg, #ffe08a, #c8961e);
+  color: #5e0614;
+  border-color: #fff3c4;
+  box-shadow: 0 5px 0 #7a5413, 0 0 20px rgba(242, 193, 78, 0.85);
+}
+
+/* La palabra que vuela de la ruleta al panel */
+.jfx-vuelo.rl3-vuelo {
+  background: radial-gradient(120% 90% at 30% 10%, #fff, transparent 55%), linear-gradient(170deg, #fffaf0, #efe3c6);
+}
+
+.j3 .rl3 .rl-accion:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+@keyframes rl3-bombilla {
+  0% {
+    fill: #fff8d8;
+    filter: drop-shadow(0 0 3px #ffd968);
+  }
+  50% {
+    fill: #a8700f;
+    filter: none;
+  }
+}
+@keyframes rl3-bombilla-fiesta {
+  0% {
+    fill: #fff;
+    filter: drop-shadow(0 0 4px #fff3c4);
+  }
+  50% {
+    fill: #ff4d64;
+    filter: drop-shadow(0 0 4px #ff4d64);
+  }
+}
+@keyframes rl3-desenfoque {
+  0% {
+    filter: drop-shadow(0 0 18px rgba(242, 193, 78, 0.5)) blur(0);
+  }
+  12%,
+  45% {
+    filter: drop-shadow(0 0 34px rgba(255, 210, 110, 0.95)) blur(2.4px);
+  }
+  100% {
+    filter: drop-shadow(0 0 18px rgba(242, 193, 78, 0.5)) blur(0);
+  }
+}
+@keyframes rl3-golpe {
+  0% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(-26deg) scale(1.15);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+@keyframes rl3-gana {
+  to {
+    filter: brightness(1.45) drop-shadow(0 0 6px #fff3c4);
+  }
+}
+@keyframes rl3-voltea {
+  0% {
+    opacity: 0;
+    transform: rotateY(-100deg) translateZ(40px) scale(0.7);
+  }
+  60% {
+    opacity: 1;
+    transform: rotateY(12deg) translateZ(30px) scale(1.08);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes rl3-letra {
+  0% {
+    box-shadow: 0 5px 0 #0d4a2c, 0 0 0 rgba(242, 193, 78, 0);
+  }
+  40% {
+    box-shadow: 0 5px 0 #0d4a2c, 0 0 26px rgba(242, 230, 120, 0.95);
+  }
+}
+@keyframes rl3-ola {
+  0% {
+    translate: 0 0;
+  }
+  40% {
+    translate: 0 -18px;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .rl-rueda--girando.rl3-rueda .rl-plano {
+    transform: rotateX(38deg) scale(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rl3-bombilla,
+  .rl-rueda--girando .rl-disco svg,
+  .rl3-rueda--parada .rl-flecha,
+  .rl3-sector--gana path,
+  .j3 .rl3-pista,
+  .rl-casilla--vista b,
+  .rl3-casillas--hecha .rl-casilla {
+    animation: none !important;
+  }
+  .j3 .rl-disco {
+    transition-duration: 0.3s !important;
+  }
+}

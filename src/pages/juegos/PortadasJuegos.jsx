@@ -2,6 +2,7 @@
 // Oro metálico, laca, luces y sombras con degradados propios de cada portada (ids únicos con useId).
 // Todas las animaciones son CSS (transform/opacity) en styles/juegos-hub.css (.jh-p-*).
 import * as React from "react";
+import { PortadaPinball } from "./PortadaPinball.jsx";
 
 const ROJO = "#c8102e";
 const ORO = "#f2c14e";
@@ -508,14 +509,14 @@ function Memory() {
   );
 }
 
-/* ---------- 7 · Apalabrados: tablero de laca ---------- */
-function Apalabrados() {
+/* ---------- 7 · Palacio de las palabras: tablero de laca ---------- */
+function PalacioPalabras() {
   const g = useG();
-  const bonus = { 2: ["laca", "×3"], 8: ["jade", "×2"], 12: ["azul", "×2"], 17: ["laca", "×3"], 22: ["jade", "×2"], 26: ["azul", "×2"] };
+  const bonus = { 2: ["laca", "×2"], 8: ["jade", "×3"], 12: ["azul", "×3"], 17: ["laca", "×2"], 22: ["jade", "×3"], 26: ["azul", "×3"] };
   const fichas = [
     [9, "P", "3"],
     [10, "A", "1"],
-    [11, "Z", "10"],
+    [11, "Z", "7"],
     [4, "S", "1"],
     [18, "L", "1"],
   ];
@@ -554,7 +555,7 @@ function Apalabrados() {
       <g className="jh-p-flota" style={{ transformOrigin: "290px 40px" }}>
         <Sombra cx={290} cy={74} rx={14} ry={3} op={0.5} />
         <g transform="rotate(14 290 40)">
-          <Ficha x={276} y={22} w={28} h={32} letra="Ñ" pts="8" color={ROJO} size={18} />
+          <Ficha x={276} y={22} w={28} h={32} letra="Ñ" pts="6" color={ROJO} size={18} />
         </g>
       </g>
       <Chispas
@@ -1054,7 +1055,7 @@ const ESCENAS = {
   sopa: Sopa,
   scramble: Scramble,
   memory: Memory,
-  apalabrados: Apalabrados,
+  "palacio-palabras": PalacioPalabras,
   uno: Uno,
   "mapa-mental": MapaMental,
   teatro: Teatro,
@@ -1063,6 +1064,7 @@ const ESCENAS = {
   "fichas-palacio": FichasPalacio,
   brisca: Brisca,
   "pincel-magico": PincelMagico,
+  "pinball-dragon": PortadaPinball,
 };
 
 export function Portada({ id, className = "" }) {
