@@ -6,7 +6,7 @@ App web (PWA) para que estudiantes chinos aprendan español y preparen el DELE A
 - `npm install` · `npm run dev` (Vite, http://localhost:5173) · `npm run build` (sale en `dist/`)
 - Audios de exámenes: voces de España por examen → skill `voz` (sección «Audios de los exámenes»).
 - Clases (sesiones de 50–60 min dentro de cada unidad): `node scripts/build-clases.mjs` regenera `src/data/modulos/clases.json` (reparto determinista de teoría, vocabulario, diálogos, ejercicios y plus). Ejecútalo tras cambiar el contenido de una unidad o añadir unidades.
-- Juego «Palacio de las palabras» (`#/juegos/palacio-palabras`): `node scripts/build-lexico-palacio.mjs` regenera `src/data/palacio-lexico.json` (palabras válidas + traducción) tras cambiar unidades o diccionarios.
+- Juego «Palacio de las palabras» (`#/juegos/palacio-palabras`, antes Apalabrados; sin selector de unidad): acepta cualquier palabra de `public/palabras/es.txt.gz` (lista Letterpress CC0, ~590 000 formas; se carga al abrir el juego, Cache API; el Rey Mono busca en `src/lib/palacioMono.worker.js`). Regenerar: `node scripts/build-diccionario-palacio.mjs` (ver `public/palabras/README.md`). `node scripts/build-lexico-palacio.mjs` regenera `src/data/palacio-lexico.json` (traducciones al chino) tras cambiar unidades o diccionarios.
 - Deploy: cada push a `main` construye y publica en GitHub Pages (`.github/workflows/deploy.yml`). URL: https://sergibauli.github.io/wukong-espanol/
 
 ## Arquitectura

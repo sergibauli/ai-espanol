@@ -1489,6 +1489,10 @@ main.game-bg .pdl-raiz button.pdl-icono { font-size: 15px !important; }
     font-size: 11px;
     padding: 4px 8px;
   }
+  /* Móvil: solo «完整词典», para que quepa el título */
+  .pdl-unidad__es {
+    display: none;
+  }
   .pdl-marcador {
     gap: 6px;
     margin: 2px 0 4px;
