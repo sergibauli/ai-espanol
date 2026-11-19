@@ -48,7 +48,9 @@ export interface ResumenCarrera {
 
 const TIEMPO_RETO = 6; // segundos reales para responder
 const CAMARA_LENTA = 0.28;
-const TIEMPO_FEEDBACK = 0.9;
+const TIEMPO_FEEDBACK_OK = 1.1; // s que se ve el acierto
+const TIEMPO_FEEDBACK_KO = 2.0; // s que se ve la corrección (fallo o tiempo agotado)
+const SALIDA_MS = 220; // pliegue del pergamino al cerrarse
 const PUERTA_AVISO_M = 75;
 
 const limpiar = (t: string): string => String(t ?? '').replace(/\s+/g, ' ').trim();
@@ -93,6 +95,8 @@ interface UIJugador {
   reto: RetoActivo | null;
   prevT: number;
   padPrev: boolean[];
+  /** Temporizador del pliegue de salida de la tarjeta. */
+  salida: number;
 }
 
 interface Puerta {
@@ -116,6 +120,8 @@ interface Puerta {
 }
 
 const COLORES_CARRIL = ['#37e3ff', '#ff4fd8', '#ffc531'];
+/** Cada carril también lleva un símbolo (no solo color): cian ◆, magenta ●, dorado ▲. */
+const SIMBOLOS_CARRIL = ['◆', '●', '▲'];
 // Paleta de los pórticos (laca, oro, jade, teja de noche, piedra, tinta)
 const LACA = 0xb3122a;
 const ORO = 0xe8b04a;
@@ -126,11 +132,12 @@ const TINTA = 0x1a0509;
 const DESTELLO_S = 0.9;
 // Atlas de textos de cada pórtico: estandarte arriba, carteles de 512×160 debajo.
 const ATLAS_W = 1024;
-const ATLAS_H = 512;
+const ATLAS_H = 1024;
 const ATLAS_BANNER_H = 192;
-const CARTEL_W = 512;
-const CARTEL_H = 160;
-const regionCartel = (i: number): { x: number; y: number } => ({ x: (i % 2) * CARTEL_W, y: ATLAS_BANNER_H + Math.floor(i / 2) * CARTEL_H });
+const CARTEL_W = 800;
+const CARTEL_H = 200;
+const CARTEL_ALTO_M = 1.25; // alto de la placa en metros
+const regionCartel = (i: number): { x: number; y: number } => ({ x: 0, y: ATLAS_BANNER_H + 8 + i * (CARTEL_H + 8) });
 
 export class CapaAprendizaje {
   /** La pone Game: escala de tiempo de la simulación (cámara lenta). */
@@ -248,12 +255,15 @@ export class CapaAprendizaje {
     const tela = el('span', 'wk-av-tela', undefined, aviso);
     el('span', 'wk-aviso-kicker', 'PUERTA DE PALABRAS · 单词门', tela);
     const avisoZh = el('span', 'wk-aviso-zh', '', tela);
-    el('span', 'wk-aviso-hint', 'Pasa por el carril correcto · 从正确的车道通过', tela);
+    const hint = el('span', 'wk-aviso-hint', undefined, tela);
+    el('span', '', 'Pasa por el carril correcto', hint);
+    hint.append(' · ');
+    el('span', '', '从正确的车道通过', hint);
     const carriles = el('span', 'wk-av-carriles', undefined, tela);
     carriles.setAttribute('aria-hidden', 'true');
-    for (let k = 0; k < 3; k++) el('i', '', undefined, carriles).style.setProperty('--c', COLORES_CARRIL[k]);
+    for (let k = 0; k < 3; k++) el('i', '', SIMBOLOS_CARRIL[k], carriles).style.setProperty('--c', COLORES_CARRIL[k]);
     for (const lado of ['izq', 'der']) el('span', `wk-av-borla ${lado}`, undefined, aviso).setAttribute('aria-hidden', 'true');
-    return { cont, raiz, tarjeta, enunciado, pista, botones, barra, aviso, avisoZh, reto: null, prevT: -1, padPrev: [] };
+    return { cont, raiz, tarjeta, enunciado, pista, botones, barra, aviso, avisoZh, reto: null, prevT: -1, padPrev: [], salida: 0 };
   }
 
   /** Texto de una opción: medallón con la tecla + palabra (solo presentación). */
@@ -343,7 +353,9 @@ export class CapaAprendizaje {
       b.classList.remove('ok', 'ko');
       b.disabled = false;
     });
-    u.tarjeta.classList.remove('ok', 'ko', 'prisa');
+    window.clearTimeout(u.salida);
+    u.tarjeta.classList.remove('ok', 'ko', 'prisa', 'saliendo');
+    u.botones[0]?.parentElement?.classList.toggle('tres', opciones.length >= 3);
     u.tarjeta.style.setProperty('--wk-resto', '1');
     u.barra.style.transform = 'scaleX(1)';
     u.raiz.classList.remove('oculto');
@@ -368,11 +380,33 @@ export class CapaAprendizaje {
     });
     u.tarjeta.classList.add(ok ? 'ok' : 'ko');
     if (r.modo === 'audio') u.enunciado.textContent = r.palabra.zh;
-    u.pista.textContent = ok ? '¡Correcto! Objeto conseguido · 答对了！获得道具' : `${r.palabra.es} = ${r.palabra.zh} · 没有道具`;
+    if (ok) u.pista.textContent = '¡Correcto! Objeto conseguido · 答对了！获得道具';
+    else this.pintarCorreccion(u, '', r.palabra, '没有道具');
     if (ok && this.solitario) this.opciones.decir?.(r.palabra.es);
-    r.feedback = TIEMPO_FEEDBACK;
+    r.feedback = ok ? TIEMPO_FEEDBACK_OK : TIEMPO_FEEDBACK_KO;
     if (this.solitario) this.setTimeScale(1);
     r.resolver(ok);
+  }
+
+  /** Cierra la tarjeta con el pliegue del pergamino (solo visual). */
+  private plegarTarjeta(u: UIJugador): void {
+    window.clearTimeout(u.salida);
+    u.tarjeta.classList.add('saliendo');
+    u.salida = window.setTimeout(() => this.ocultarTarjeta(u), SALIDA_MS);
+  }
+
+  private ocultarTarjeta(u: UIJugador): void {
+    window.clearTimeout(u.salida);
+    u.salida = 0;
+    u.tarjeta.classList.remove('saliendo');
+    u.raiz.classList.add('oculto');
+  }
+
+  /** Línea de corrección: «palabra = 中文 · …» con la palabra española en dorado. */
+  private pintarCorreccion(u: UIJugador, antes: string, p: Palabra, despues: string): void {
+    u.pista.textContent = antes;
+    el('b', '', p.es, u.pista);
+    u.pista.append(` = ${p.zh} · ${despues}`);
   }
 
   /** Cancela los retos en curso (salir, reiniciar) sin contarlos. */
@@ -381,7 +415,7 @@ export class CapaAprendizaje {
       const r = u.reto;
       if (!r) continue;
       u.reto = null;
-      u.raiz.classList.add('oculto');
+      this.ocultarTarjeta(u);
       if (!r.respondido) r.resolver(false);
     }
     this.setTimeScale(1);
@@ -447,13 +481,13 @@ export class CapaAprendizaje {
           u.tarjeta.classList.toggle('prisa', resto < 0.34);
           if (r.restante <= 0) {
             this.responder(idx, -1); // tiempo agotado cuenta como fallo
-            u.pista.textContent = `¡Tiempo! ${r.palabra.es} = ${r.palabra.zh} · 时间到！`;
+            this.pintarCorreccion(u, '¡Tiempo! ', r.palabra, '时间到！');
           }
         } else {
           r.feedback -= dtReal;
           if (r.feedback <= 0) {
             u.reto = null;
-            u.raiz.classList.add('oculto');
+            this.plegarTarjeta(u);
           }
         }
       }
@@ -536,7 +570,7 @@ export class CapaAprendizaje {
     const H = 4.8; // altura de las columnas (base del dintel)
     const px = hw + 0.95; // columnas fuera de la calzada
     const W = px * 2 + 1.1; // largo del dintel
-    const bw = Math.min(W * 0.56, 9.4); // estandarte
+    const bw = Math.min(W * 0.34, 5.4); // estandarte (más pequeño que las opciones)
     const bh = bw * (ATLAS_BANNER_H / ATLAS_W);
     const yFriso = H + 0.55;
     const yViga = yFriso + bh + 0.2;
@@ -596,9 +630,9 @@ export class CapaAprendizaje {
     }
     add(new THREE.SphereGeometry(0.3, 12, 8), ORO, 0, yTejado + 1.18, 0);
     // tablero de los carteles por carril (cuelga del dintel) y separadores dorados
-    add(new THREE.BoxGeometry(hw * 2 + 0.3, 1.02, 0.14), TINTA, 0, H - 0.56, 0);
-    add(new THREE.BoxGeometry(hw * 2 + 0.42, 0.07, 0.2), ORO, 0, H - 1.08, 0);
-    for (let i = 0; i <= n; i++) add(new THREE.BoxGeometry(0.1, 1.1, 0.22), ORO, -hw + i * ancho, H - 0.56, 0);
+    add(new THREE.BoxGeometry(hw * 2 + 0.3, CARTEL_ALTO_M + 0.16, 0.14), TINTA, 0, H - 0.08 - CARTEL_ALTO_M / 2, 0);
+    add(new THREE.BoxGeometry(hw * 2 + 0.42, 0.07, 0.2), ORO, 0, H - 0.2 - CARTEL_ALTO_M, 0);
+    for (let i = 0; i <= n; i++) add(new THREE.BoxGeometry(0.1, CARTEL_ALTO_M + 0.2, 0.22), ORO, -hw + i * ancho, H - 0.08 - CARTEL_ALTO_M / 2, 0);
 
     const estructura = new THREE.Mesh(this.geo(fusionar(piezas)), this.matEstructura());
     estructura.castShadow = true;
@@ -607,7 +641,7 @@ export class CapaAprendizaje {
     // ---- neón: arco por carril (con piernas que se desvanecen), farolillos y filos
     const ins = 0.16;
     const rArco = 0.75;
-    const yArco = H - 1.22 - rArco;
+    const yArco = H - 0.38 - CARTEL_ALTO_M - rArco;
     const neon: THREE.BufferGeometry[] = [];
     const luz: THREE.BufferGeometry[] = [];
     for (let i = 0; i < n; i++) {
@@ -694,10 +728,10 @@ export class CapaAprendizaje {
     for (let i = 0; i < n; i++) {
       const x = -hw + (i + 0.5) * ancho;
       const cw = ancho * 0.94;
-      const q = new THREE.PlaneGeometry(cw, Math.min(0.95, cw / (CARTEL_W / CARTEL_H)));
+      const q = new THREE.PlaneGeometry(Math.min(cw, CARTEL_ALTO_M * (CARTEL_W / CARTEL_H)), CARTEL_ALTO_M);
       const r = regionCartel(i);
       atlasUV(q, r.x, r.y, CARTEL_W, CARTEL_H);
-      q.translate(x, H - 0.56, 0.08);
+      q.translate(x, H - 0.08 - CARTEL_ALTO_M / 2, 0.08);
       quads.push(q);
       carteles.push({ x, ancho });
     }
@@ -789,9 +823,12 @@ export class CapaAprendizaje {
     if (!x) return;
     x.clearRect(0, 0, ATLAS_W, ATLAS_H);
     pintarEstandarte(x, palabra.zh);
+    // Un solo tamaño de letra por pórtico (el menor de las opciones), con 2 líneas si hace falta.
+    const lineas = opciones.slice(0, n).map(partirCartel);
+    const tam = tamCarteles(x, lineas);
     for (let i = 0; i < n; i++) {
       const r = regionCartel(i);
-      pintarCartel(x, r.x, r.y, opciones[i], COLORES_CARRIL[i]);
+      pintarCartel(x, r.x, r.y, lineas[i], tam, COLORES_CARRIL[i], SIMBOLOS_CARRIL[i]);
     }
     p.lienzo.textura.needsUpdate = true;
   }
@@ -1047,7 +1084,7 @@ function pintarEstandarte(ctx: CanvasRenderingContext2D, zh: string): void {
   nube(ctx, W - 34, H - 74, 1.5, -1);
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ajustar(ctx, zh, W - 260, 128, FUENTE_ZH, 900);
+  ajustar(ctx, zh, W - 260, 92, FUENTE_ZH, 900);
   ctx.lineJoin = 'round';
   ctx.lineWidth = 12;
   ctx.strokeStyle = '#2a0409';
@@ -1064,8 +1101,46 @@ function pintarEstandarte(ctx: CanvasRenderingContext2D, zh: string): void {
   ctx.shadowBlur = 0;
 }
 
-/** Cartel de un carril: placa de tinta con marco de neón del color del carril y la palabra en español. */
-function pintarCartel(ctx: CanvasRenderingContext2D, x0: number, y0: number, texto: string, color: string): void {
+/** Parte el texto de un cartel en 2 líneas (por el espacio más centrado) si tiene más de 11 caracteres. */
+function partirCartel(texto: string): string[] {
+  if (texto.length <= 11 || !texto.includes(' ')) return [texto];
+  const mitad = texto.length / 2;
+  let mejor = -1;
+  for (let i = 0; i < texto.length; i++) {
+    if (texto[i] === ' ' && (mejor < 0 || Math.abs(i - mitad) < Math.abs(mejor - mitad))) mejor = i;
+  }
+  return [texto.slice(0, mejor), texto.slice(mejor + 1)];
+}
+
+const CARTEL_TEXTO_W = CARTEL_W - 190; // ancho útil (símbolos a los lados)
+const CARTEL_TAM_MIN = 56;
+
+/** Tamaño de letra común a todos los carteles de un pórtico (el menor que cabe en todos). */
+function tamCarteles(ctx: CanvasRenderingContext2D, lineas: string[][]): number {
+  let tam = 124;
+  for (const ls of lineas) {
+    const max = ls.length > 1 ? 82 : 124;
+    let s = Math.min(tam, max);
+    ctx.font = `900 ${s}px ${FUENTE_ES}`;
+    while (s > CARTEL_TAM_MIN && Math.max(...ls.map((l) => ctx.measureText(l).width)) > CARTEL_TEXTO_W) {
+      s -= 2;
+      ctx.font = `900 ${s}px ${FUENTE_ES}`;
+    }
+    tam = Math.min(tam, s);
+  }
+  return Math.max(CARTEL_TAM_MIN, tam);
+}
+
+/** Cartel de un carril: placa de tinta con marco de neón del color del carril, su símbolo y la palabra en español. */
+function pintarCartel(
+  ctx: CanvasRenderingContext2D,
+  x0: number,
+  y0: number,
+  lineas: string[],
+  tam: number,
+  color: string,
+  simbolo: string,
+): void {
   const W = CARTEL_W;
   const H = CARTEL_H;
   ctx.save();
@@ -1074,42 +1149,49 @@ function pintarCartel(ctx: CanvasRenderingContext2D, x0: number, y0: number, tex
   ctx.rect(0, 0, W, H);
   ctx.clip();
   const g = ctx.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, 'rgba(30,8,20,0.96)');
-  g.addColorStop(1, 'rgba(8,4,14,0.96)');
+  g.addColorStop(0, 'rgba(30,8,20,0.97)');
+  g.addColorStop(1, 'rgba(8,4,14,0.97)');
   ctx.fillStyle = g;
-  roundRect(ctx, 8, 8, W - 16, H - 16, 26);
+  roundRect(ctx, 8, 8, W - 16, H - 16, 28);
   ctx.fill();
   ctx.shadowColor = color;
-  ctx.shadowBlur = 16;
-  ctx.lineWidth = 9;
+  ctx.shadowBlur = 18;
+  ctx.lineWidth = 10;
   ctx.strokeStyle = color;
   ctx.stroke();
   ctx.shadowBlur = 0;
   ctx.lineWidth = 2.5;
-  ctx.strokeStyle = 'rgba(255,255,255,0.55)';
-  roundRect(ctx, 20, 20, W - 40, H - 40, 16);
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+  roundRect(ctx, 22, 22, W - 44, H - 44, 16);
   ctx.stroke();
-  // rombos del color del carril a los lados
-  ctx.fillStyle = color;
-  for (const cx of [34, W - 34]) {
-    ctx.beginPath();
-    ctx.moveTo(cx, H / 2 - 12);
-    ctx.lineTo(cx + 9, H / 2);
-    ctx.lineTo(cx, H / 2 + 12);
-    ctx.lineTo(cx - 9, H / 2);
-    ctx.closePath();
-    ctx.fill();
-  }
+  // símbolo del carril a ambos lados (no depender solo del color)
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ajustar(ctx, texto, W - 110, 78, FUENTE_ES, 900);
-  ctx.lineJoin = 'round';
-  ctx.lineWidth = 8;
-  ctx.strokeStyle = 'rgba(0,0,0,0.85)';
-  ctx.strokeText(texto, W / 2, H / 2 + 3);
+  ctx.font = `900 54px ${FUENTE_ES}`;
+  ctx.fillStyle = color;
   ctx.shadowColor = color;
-  ctx.shadowBlur = 14;
-  ctx.fillStyle = '#ffffff';
-  ctx.fillText(texto, W / 2, H / 2 + 3);
+  ctx.shadowBlur = 12;
+  for (const cx of [62, W - 62]) ctx.fillText(simbolo, cx, H / 2 + 2);
+  ctx.shadowBlur = 0;
+  // texto
+  ctx.font = `900 ${tam}px ${FUENTE_ES}`;
+  const alto = tam * 1.02;
+  const y = H / 2 + 4 - ((lineas.length - 1) * alto) / 2;
+  ctx.lineJoin = 'round';
+  lineas.forEach((l, k) => {
+    const w = ctx.measureText(l).width;
+    const esc = w > CARTEL_TEXTO_W ? CARTEL_TEXTO_W / w : 1;
+    ctx.save();
+    ctx.translate(W / 2, y + k * alto);
+    ctx.scale(esc, 1);
+    ctx.lineWidth = 9;
+    ctx.strokeStyle = 'rgba(0,0,0,0.9)';
+    ctx.strokeText(l, 0, 0);
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 12;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(l, 0, 0);
+    ctx.restore();
+  });
   ctx.restore();
 }
