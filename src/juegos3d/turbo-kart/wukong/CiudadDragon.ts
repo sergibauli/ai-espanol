@@ -1145,13 +1145,16 @@ export class CiudadDragon {
   private readonly tmpR = new THREE.Vector3();
   private readonly tmpQ = new THREE.Vector3();
 
-  private actualizarEstelas(): void {
+  private actualizarEstelas(camara?: THREE.Camera): void {
     for (const e of this.estelas) {
       const st = e.kart.state;
       e.kart.forwardDir(this.tmpF);
       this.tmpR.set(-this.tmpF.z, 0, this.tmpF.x).normalize();
       const rapidez = Math.min(1, Math.abs(st.speed) / 20);
-      const fuerza = st.isBoosting ? 1 : rapidez * 0.6;
+      // Intensas solo con turbo; se apagan en los karts lejanos para no llenar la pantalla.
+      const lejos = camara ? camara.position.distanceTo(st.position) : 0;
+      const cerca = 1 - Math.min(1, Math.max(0, (lejos - 22) / 25));
+      const fuerza = (st.isBoosting ? 1 : rapidez * 0.45) * cerca;
       for (let k = 0; k < 2; k++) {
         const lado = k === 0 ? -1 : 1;
         const p = new THREE.Vector3()
@@ -1199,7 +1202,7 @@ export class CiudadDragon {
   update(dt: number, foco: THREE.Vector3 | null, camara?: THREE.Camera): void {
     this.tiempo += dt;
     this.matCarretera.uniforms.uTime.value = this.tiempo;
-    this.actualizarEstelas();
+    this.actualizarEstelas(camara);
     if (this.puntos) {
       this.siguienteFuego -= dt;
       if (this.siguienteFuego <= 0) {
