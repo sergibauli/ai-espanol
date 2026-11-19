@@ -142,7 +142,7 @@ export default function MiDelePage() {
           </span>
           <div className="in-md-hero__texto">
             <p className="in-ceja">
-              Práctica · Mi progreso <span lang="zh">· 练习 · 我的进度</span>
+              Mi progreso <span lang="zh">· 我的进度</span>
             </p>
             <h1>Tu camino al APTO</h1>
             <p className="in-md-hero__zh" lang="zh">

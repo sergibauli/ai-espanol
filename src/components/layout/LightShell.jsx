@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { createPortal } from "react-dom";
 import { LogOutIcon, XIcon } from "lucide-react";
 import { NavIcon } from "../ui/NavIcon.jsx";
@@ -22,8 +22,8 @@ import "../../styles/v21-wukong.css";
 const MAIN = [
   { to: "/ruta", icon: "ruta", es: "Aprender", zh: "学习" },
   { to: "/modulos", icon: "unidades", es: "Unidades", zh: "单元" },
-  { to: "/oficial", icon: "dele", es: "DELE", zh: "考试" },
-  { to: "/mi-dele", icon: "progreso", es: "Práctica", zh: "练习" },
+  // «Práctica» = exámenes por nivel; con doble clic (o doble toque) abre «Mi progreso» (/mi-dele, oculto en el menú)
+  { to: "/oficial", icon: "dele", es: "Práctica", zh: "练习" },
   { to: "/juegos", icon: "juegos", es: "Juegos", zh: "游戏" },
   { to: "/tv", icon: "tv", es: "TV", zh: "电视" },
   { to: "/diccionarios", icon: "diccionario", es: "Diccionario", zh: "词典" },
@@ -33,6 +33,8 @@ const MAIN = [
 ];
 // En móvil la barra inferior lleva las 5 primeras; el resto se abre con «Más»
 const MOVIL_FIJAS = MAIN.slice(0, 5);
+// Fuera del componente: el marco se vuelve a montar al cambiar de ruta y el primer clic no debe perderse
+let ultimoClicPractica = 0;
 const MOVIL_MAS = MAIN.slice(5);
 
 // Ficha de «hoy» en el menú lateral: racha y anillo del objetivo diario de XP
@@ -136,11 +138,22 @@ export function LightShell({ children, legacy = false, stage = false }) {
   // .con-juego en .light-page = «contiene main.game-bg» (sustituye a .light-page:not(:has(main.game-bg)) del CSS)
   const juego = pathname.startsWith("/juegos/");
   React.useEffect(() => (adapt ? attachLightAdapter(mainRef.current) : undefined), [adapt, pathname]);
+  // Doble clic / doble toque en «Práctica» → «Mi progreso»
+  const navigate = useNavigate();
+  const alClicar = (to) => (e) => {
+    if (to !== "/oficial") return;
+    const ahora = Date.now();
+    if (ahora - ultimoClicPractica < 450) {
+      e.preventDefault();
+      ultimoClicPractica = 0;
+      navigate("/mi-dele");
+    } else ultimoClicPractica = ahora;
+  };
   const active = (to) =>
     pathname === to ||
     (to !== "/ruta" && pathname.startsWith(to)) ||
     (to === "/ruta" && pathname === "/dashboard") ||
-    (to === "/oficial" && /^\/examenes/.test(pathname));
+    (to === "/oficial" && /^\/(examenes|mi-dele)/.test(pathname));
   return (
     <div className={`light-page v18 ${legacy || adapt ? "light-legacy" : ""} ${stage ? "has-stage" : ""} ${juego ? "con-juego" : ""}`}>
       <span className="v18-fondo-base" aria-hidden="true" />
@@ -171,7 +184,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
             </span>
           </Link>
           {MAIN.map((m, indice) => (
-            <Link key={m.to} to={m.to} style={{ "--i": indice }} className={`side-link ${active(m.to) ? "on" : ""}`} aria-current={active(m.to) ? "page" : undefined} onPointerEnter={() => precargar(m.to)} onFocus={() => precargar(m.to)}>
+            <Link key={m.to} to={m.to} style={{ "--i": indice }} className={`side-link ${active(m.to) ? "on" : ""}`} onClick={alClicar(m.to)} title={m.to === "/oficial" ? "Doble clic: Mi progreso · 双击：我的进度" : undefined} aria-current={active(m.to) ? "page" : undefined} onPointerEnter={() => precargar(m.to)} onFocus={() => precargar(m.to)}>
               <NavIcon name={m.icon} size={38} />
               <span>
                 {m.es}
@@ -192,7 +205,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
           <nav className="bottom-nav in-barra" aria-label="Navegación móvil">
             <span className="in-barra__marco" aria-hidden="true" />
             {MOVIL_FIJAS.map((m) => (
-              <Link key={m.to} to={m.to} className={`${active(m.to) ? "on" : ""} ${m.to === "/oficial" ? "in-barra__centro" : ""}`} aria-current={active(m.to) ? "page" : undefined} onTouchStart={() => precargar(m.to)} onPointerEnter={() => precargar(m.to)}>
+              <Link key={m.to} to={m.to} className={`${active(m.to) ? "on" : ""} ${m.to === "/oficial" ? "in-barra__centro" : ""}`} aria-current={active(m.to) ? "page" : undefined} onClick={alClicar(m.to)} onTouchStart={() => precargar(m.to)} onPointerEnter={() => precargar(m.to)}>
                 <span className="in-barra__ic">
                   <NavIcon name={m.icon} size={30} />
                 </span>
