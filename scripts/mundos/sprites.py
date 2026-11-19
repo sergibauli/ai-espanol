@@ -279,7 +279,7 @@ def sauce(ruta, w=320, h=420, luz=1, seed=0, hoja=("#0a1a1c", "#3a6a5a"), rim="#
     Lz = Lienzo(w, h)
     C = Capa(Lz)
     ramas = []
-    for _ in range(46):
+    for _ in range(110):
         x0 = rng.uniform(0, w * 0.95)
         largo = rng.uniform(h * 0.4, h * 0.98)
         curv = rng.uniform(-w * 0.05, w * 0.05)
@@ -294,8 +294,106 @@ def sauce(ruta, w=320, h=420, luz=1, seed=0, hoja=("#0a1a1c", "#3a6a5a"), rim="#
                     P.trazo([(x, y), (x + s * 3.2, y + 5.5)], 2.0, 0.6)
 
     m = Lz.mascara(dib)
+    m = m * suave(0, h * 0.18, Lz.Y)  # nacen de la oscuridad de arriba (copa fuera de cuadro)
     v = volumen(m, 4, -luz, 0.5)
     C.pon(mezcla(np.broadcast_to(col(hoja[0]), m.shape + (3,)), col(hoja[1]), v[..., None]), m)
     C.pon(rim, borde(m, luz * 1.2, -1) * 0.35)
     guarda_png_rgba(C.rgb, C.a, ruta)
     return w, h
+
+
+def cascada(ruta, w=40, h=200, seed=0):
+    """Tira de agua que cae, repetible en vertical (el sprite lleva dos periodos para la animación «cascada»)."""
+    Lz = Lienzo(w, h)
+    n = Lz.ruido(1.6, seed, aniso=(0.25, 4.0))
+    n2 = Lz.ruido(1.2, seed + 1, aniso=(0.3, 3.0))
+    X = Lz.X
+    perfil = suave(0, w * 0.25, X) * suave(w, w * 0.75, X)
+    a = np.clip((0.55 + 0.6 * (n - 0.5) + 0.3 * (n2 - 0.5)) * perfil * 1.2, 0, 1)
+    rgb = mezcla(np.broadcast_to(col("#9fc6c8"), a.shape + (3,)), col("#ffffff"), np.clip(n * 1.3 - 0.2, 0, 1)[..., None])
+    rgb = np.concatenate([rgb, rgb], 0)
+    a = np.concatenate([a, a], 0)
+    guarda_png_rgba(rgb, a, ruta)
+
+
+def bambu(ruta, w=260, h=760, luz=-1, seed=0, tallos=5, verde=("#1e3a22", "#9cc47a"), hoja=("#1a3a1e", "#8fbf6a")):
+    """Mata de bambú en primer plano: cañas con nudos y volumen, ramilletes de hojas lanceoladas (base abajo)."""
+    rng = np.random.default_rng(seed)
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    cañas, hojas = [], []
+    for k in range(tallos):
+        x0 = w * (0.2 + 0.6 * rng.random())
+        curv = rng.uniform(-w * 0.18, w * 0.18)
+        top = rng.uniform(0, h * 0.25)
+        g = rng.uniform(w * 0.03, w * 0.05)
+        pts = [(x0 + curv * ((h - y) / h) ** 2, y) for y in np.linspace(h, top, 24)]
+        cañas.append((pts, g))
+        for i in range(8, 24, 2):
+            xx, yy = pts[i]
+            for _ in range(rng.integers(2, 5)):
+                a = rng.uniform(-2.9, -0.3) + (np.pi if rng.random() < 0.15 else 0)
+                l = rng.uniform(w * 0.14, w * 0.26)
+                hojas.append(((xx, yy), a, l))
+    tm = Lz.mascara(lambda P: [P.trazo(p, g * 1.1, g * 0.7) for p, g in cañas])
+    nudos = Lz.mascara(lambda P: [P.linea([(p[i][0] - g * 0.7, p[i][1]), (p[i][0] + g * 0.7, p[i][1])], 1.6) for p, g in cañas for i in range(2, 22, 3)])
+    hm = Lz.mascara(lambda P: [P.poly([(x, y), (x + np.cos(a) * l * 0.5 - np.sin(a) * l * 0.09, y + np.sin(a) * l * 0.5 + np.cos(a) * l * 0.09 + l * 0.12),
+                                       (x + np.cos(a) * l, y + np.sin(a) * l + l * 0.3), (x + np.cos(a) * l * 0.5 + np.sin(a) * l * 0.09, y + np.sin(a) * l * 0.5 - np.cos(a) * l * 0.09 + l * 0.12)])
+                               for (x, y), a, l in hojas])
+    v = volumen(tm, 3, luz, 0, 1.3)
+    C.pon(mezcla(np.broadcast_to(col(verde[0]), tm.shape + (3,)), col(verde[1]), v[..., None]), tm)
+    C.pon("#14281a", nudos * tm)
+    C.pon("#e8f0c0", nudos * borde(tm, luz * 1.0, 0) * 0.6)
+    vh = volumen(hm, 3, luz, -0.6, 1.0)
+    C.pon(mezcla(np.broadcast_to(col(hoja[0]), hm.shape + (3,)), col(hoja[1]), vh[..., None]), hm)
+    C.pon("#f6f4d0", borde(hm, luz * 1.2, -1) * 0.35)
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return w, h
+
+
+def balsa(ruta, w=200, luz=-1):
+    """Balsa de bambú con pescador de sombrero cónico, pértiga, farolillo y dos cormoranes posados; con reflejo."""
+    h = int(w * 0.6)
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    X, Y = Lz.X, Lz.Y
+    yl = h * 0.72
+    bal = Lz.mascara(lambda P: P.poly([(w * 0.06, yl - 4), (w * 0.94, yl - 6), (w * 0.98, yl - 9), (w * 0.95, yl), (w * 0.05, yl + 1), (w * 0.02, yl - 6)]))
+    caña = ((Y % 3.2) < 1.1).astype(np.float32)
+    C.pon(mezcla(np.broadcast_to(col("#4a4a2a"), bal.shape + (3,)), col("#c8b878"), (0.6 - caña * 0.3 + 0.2 * suave(w, 0, X) * (luz < 0))[..., None]), bal)
+    pes = Lz.mascara(lambda P: (P.poly([(w * 0.42, yl - 5), (w * 0.48, yl - 5), (w * 0.47, yl - h * 0.33), (w * 0.43, yl - h * 0.33)]),
+                                P.elip(w * 0.45, yl - h * 0.38, w * 0.022, w * 0.024),
+                                P.poly([(w * 0.39, yl - h * 0.38), (w * 0.51, yl - h * 0.38), (w * 0.45, yl - h * 0.5)]),
+                                P.linea([(w * 0.47, yl - h * 0.3), (w * 0.72, yl - h * 0.82)], 1.4)))
+    C.pon(mezcla(np.broadcast_to(col("#1e2a2a"), bal.shape + (3,)), col("#5a6a5a"), volumen(pes, 2, luz, -1)[..., None]), pes)
+    C.pon("#e8d8a8", Lz.mascara(lambda P: P.poly([(w * 0.39, yl - h * 0.38), (w * 0.51, yl - h * 0.38), (w * 0.45, yl - h * 0.5)])) * 0.6)
+    for cx in (w * 0.2, w * 0.78):
+        cor = Lz.mascara(lambda P: (P.elip(cx, yl - h * 0.12, w * 0.035, h * 0.07), P.trazo(spline([(cx + w * 0.01, yl - h * 0.17), (cx + w * 0.02, yl - h * 0.26), (cx + w * 0.045, yl - h * 0.27)], 5), 2.4, 1.6)))
+        C.pon("#0c1414", cor)
+        C.pon("#9ab0a0", borde(cor, luz, -1) * 0.5)
+    fx, fy = w * 0.9, yl - h * 0.2
+    C.pon("#3a2a20", Lz.mascara(lambda P: P.linea([(w * 0.9, yl - 6), (w * 0.9, fy)], 1.0)))
+    C.pon("#e0402a", Lz.mascara(lambda P: P.elip(fx, fy, w * 0.016, h * 0.035)))
+    rc = np.zeros_like(bal)
+    k = int(yl)
+    alto = min(k, h - k)
+    tot = np.clip(bal + pes, 0, 1)
+    rc[k : k + alto] = tot[k - alto : k][::-1] * 0.4
+    C.pon("#2a4a44", rc * suave(h, k, Y) * (0.6 + 0.4 * (np.sin(Y * 1.4) > 0)))
+    C.pon("#ffffff", (np.abs(Y - yl - 1.5) < 0.8) * suave(w * 0.02, w * 0.1, X) * suave(w * 0.98, w * 0.9, X) * 0.5)
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return w, h
+
+
+def haz(ruta, w=400, h=600, c="#fff4d0", luz=-1, seed=0):
+    """Rayos de sol oblicuos entre la niebla (vienen del lado de la luz)."""
+    rng = np.random.default_rng(seed)
+    Lz = Lienzo(w, h)
+    X, Y = Lz.X, Lz.Y
+    u = X + (Y * 0.55 if luz < 0 else -Y * 0.55)
+    a = np.zeros((h, w), np.float32)
+    for _ in range(7):
+        cx = rng.uniform(0, w * 1.4) - (0 if luz < 0 else w * 0.4)
+        a += np.exp(-((u - cx) / rng.uniform(6, 22)) ** 2) * rng.uniform(0.3, 0.8)
+    a = np.clip(a * suave(0, h * 0.2, Y) * suave(h, h * 0.4, Y), 0, 1) * 0.6
+    guarda_png_rgba(np.broadcast_to(col(c), a.shape + (3,)), a, ruta)

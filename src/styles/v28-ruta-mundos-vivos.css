@@ -121,7 +121,7 @@
 .mr28 .ma-cascada > img { height: 200%; animation-name: maCae; animation-timing-function: linear; }
 @keyframes maCae { from { transform: translate3d(0, -50%, 0); } to { transform: translate3d(0, 0, 0); } }
 /* Fluye: corriente del río o arena que corre (la tira se desplaza en horizontal dentro de su caja) */
-.mr28 .ma-fluye { overflow: hidden; }
+.mr28 .ma-fluye { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent); }
 .mr28 .ma-fluye > img { width: 200%; animation-name: maFluye; animation-timing-function: linear; }
 @keyframes maFluye { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 /* Ráfaga: arena que se desprende de las crestas */
