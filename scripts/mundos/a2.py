@@ -120,7 +120,7 @@ def pinta(M):
     cirros(C, 260, 420, "#ffd0a0", 0.35, 16, aniso=(14.0, 1.0))
     for i, (cx, cy, w, h, op) in enumerate([(160, 300, 380, 110, 0.95), (620, 240, 420, 90, 0.9), (1000, 330, 300, 120, 0.95), (420, 470, 460, 70, 0.9),
                                             (860, 520, 380, 60, 0.85), (90, 540, 220, 50, 0.85), (640, 600, 300, 36, 0.7)]):
-        nube(C, cx, cy, w, h, 60 + i, (sx, sy + 60), "#ffc890", "#5e2656", "#ffe2a8", base_c="#e8706a", op=op, rim=0.35, plana=i % 2 == 0, bultos=9 + i % 4)
+        nube(C, cx, cy, w, h, 60 + i, (sx, sy + 60), "#ffc890", "#5e2656", "#ffe2a8", base_c="#e8706a", op=op, rim=0.2, plana=i % 2 == 0, bultos=9 + i % 4)
     M.capa("cielo", C, 0.06, q=80)
 
     # ------------------------------------------------------------ 1 · montes Qilian en la calima
@@ -185,7 +185,7 @@ def pinta(M):
     for i, (cx, top, hw, base) in enumerate([(60, 1000, 260, 1150), (1060, 990, 230, 1140)]):
         duna(C, cx, top, hw, base, seed=50 + i, ondas=0.8)
     # lago en media luna
-    lago = L.mascara(lambda P: P.poly(spline([(640, 1092), (720, 1062), (860, 1052), (990, 1070), (1040, 1100), (960, 1088), (850, 1082), (730, 1092), (660, 1104)], 10, cerrada=True)))
+    lago = L.mascara(lambda P: P.poly(spline([(600, 1110), (690, 1064), (850, 1046), (1010, 1060), (1090, 1110), (990, 1098), (850, 1094), (710, 1106), (630, 1128)], 10, cerrada=True)))
     agua = mezcla(np.broadcast_to(col("#5a3a6a"), (H, W, 3)), col("#ffc27a"), suave(1100, 1055, Y)[..., None])
     agua = mezcla(agua, col("#ffe8b0"), np.exp(-(((X - 860) / 120) ** 2))[..., None] * 0.5)
     C.pon(agua, lago)
@@ -193,7 +193,7 @@ def pinta(M):
     # juncos y hierba en la orilla
     rng = np.random.default_rng(9)
     junc = L.mascara(lambda P: [P.linea([(x, y), (x + rng.uniform(-3, 3), y - rng.uniform(8, 20))], 1.2) for x, y in
-                                [(rng.uniform(640, 1040), 1094 + rng.uniform(-12, 18)) for _ in range(90)]])
+                                [(rng.uniform(600, 1090), 1100 + rng.uniform(-12, 18)) for _ in range(90)]])
     C.pon(mezcla(np.broadcast_to(col("#2a3a20"), (H, W, 3)), col("#8a9a4a"), suave(1070, 1110, Y)[..., None]), junc)
     # pabellón del oasis (月牙泉阁) en la orilla
     pab, (abx, aby) = ar.salon(130, aleros=2, luz=LUZ, teja=("#2a3a34", "#5f7a5a", "#d8c890"), terrazas=1, marmol=("#6a3a40", "#d89a78"), rojo=("#3a0e18", "#b04a3a"), ncol=6, seed=10)
@@ -224,7 +224,7 @@ def pinta(M):
         yy = float(perfiles[k][int(x)])
         M.actor("dunas", "rafaga.webp", x - 10, yy - 34, 120, 40, "rafaga", dur=3.6 + i * 0.4, retraso=-i * 1.1, op=0.75, movil=i < 3)
     sp.brillo_agua(M.ruta("brillo.webp"), 300, 40, "#fff2c0", seed=4)
-    M.actor("oasis", "brillo.webp", 720, 1064, 250, 30, "brillo", dur=2.6, op=0.9)
+    M.actor("oasis", "brillo.webp", 720, 1056, 300, 34, "brillo", dur=2.6, op=0.9)
     M.actor("oasis", "brillo.webp", 760, 1078, 200, 22, "brillo", dur=3.4, retraso=-1.2, op=0.7, movil=False)
     sp.franja(M.ruta("calima.webp"), 600, 40, "#ffd9a0", 0.55, seed=5)
     M.actor("ciudad", "calima.webp", 0, 770, 1100, 70, "calima", dur=5, op=0.55)
@@ -233,7 +233,7 @@ def pinta(M):
     for x in (520, 700, 900):
         C_ = None
         M.actor("ciudad", "bandera.webp", x, muro_y - 26, 18, 11, "bandera", dur=2.2, retraso=-x / 300, movil=False)
-    for i, (x, base, s, amp) in enumerate(((660, 1092, 0.55, 1.6), (700, 1086, 0.7, 1.4), (1010, 1096, 0.62, 1.8), (1050, 1090, 0.48, 2.0), (1000, 1560, 1.9, 1.2), (-40, 1590, 1.7, 1.0))):
+    for i, (x, base, s, amp) in enumerate(((620, 1112, 0.6, 1.6), (680, 1090, 0.78, 1.4), (1040, 1100, 0.7, 1.8), (1085, 1106, 0.52, 2.0), (1000, 1560, 1.9, 1.2), (-40, 1590, 1.7, 1.0))):
         w_, h_ = sp_w * s, sp_h * s
         M.actor("oasis" if i < 4 else "frente", "palmera.webp", x - w_ / 2, base - h_, w_, h_, "mece", dur=5 + i * 0.6, retraso=-i, amp=amp, movil=i in (0, 2, 4))
     M.niebla("lejos", "arena", 47, 9, 0.6, 140)

@@ -323,7 +323,10 @@ def perfil_picos(L, picos, forma="pico", rug=10, seed=1, base=None):
         d = np.where(x < cx, np.abs(x - cx) / (hw * asim), np.abs(x - cx) / (hw / asim))
         if forma == "karst":
             dd = np.clip(d, 0, 1.0)
-            pr = top + (base - top) * (1 - np.sqrt(np.clip(1 - dd ** 2.2, 0, 1))) ** 0.7
+            ex = 1.6 + 1.6 * ((j * 0.731 + seed * 0.37) % 1)  # cúpula, pan de azúcar o torre de paredes rectas
+            pr = top + (base - top) * (1 - np.sqrt(np.clip(1 - dd ** ex, 0, 1))) ** (0.55 + 0.35 * ((j * 0.291) % 1))
+            # muesca o repisa en una ladera
+            pr = pr + np.exp(-((x - cx - hw * 0.45 * (1 if j % 2 else -1)) / (hw * 0.12)) ** 2) * (base - top) * 0.06
             pr = np.where(d >= 1, 1e9, pr)
             pr = pr + ruido1(L.w, 1.7, seed + j * 3) * rug * (0.3 + dd)
         elif forma == "duna":
@@ -332,7 +335,10 @@ def perfil_picos(L, picos, forma="pico", rug=10, seed=1, base=None):
         elif forma == "loma":
             pr = top + (base - top) * (d ** 2) / (0.3 + d ** 2) * 1.3 + ruido1(L.w, 2.4, seed + j) * rug
         else:
-            pr = top + (base - top) * d ** (0.9 + 0.35 * ((j * 0.37) % 1))
+            pr = top + (base - top) * d ** (0.75 + 0.5 * ((j * 0.37 + seed * 0.11) % 1))
+            # hombro: un pico secundario en una ladera
+            lado_h = 1 if (j + seed) % 2 else -1
+            pr = np.minimum(pr, top + (base - top) * 0.28 + (base - top) * (np.abs(x - cx - lado_h * hw * 0.55) / (hw * 0.4)) ** 0.9 * 0.7)
             det = ruido1(L.w, 1.9, seed + j * 13) * rug + ruido1(L.w, 1.3, seed + j * 7) * rug * 0.25
             pr = pr + det * np.clip(1 - d * 0.4, 0.3, 1)
         total = np.minimum(total, pr)
@@ -451,7 +457,7 @@ class Mundo:
     def ruta(self, nombre):
         return os.path.join(self.dir, nombre)
 
-    def capa(self, id_, C, z, q=82, alpha_q=80, grano=0.02):
+    def capa(self, id_, C, z, q=86, alpha_q=80, grano=0.02):
         caja = C.guarda(self.ruta(f"{id_}.webp"), q=q, alpha_q=alpha_q, grano=grano)
         x0, y0, x1, y1 = caja
         self.capas.append({"id": id_, "src": f"{self.nivel}/{id_}.webp", "z": z, "x": pct(x0, W), "y": pct(y0, H), "w": pct(x1 - x0, W), "h": pct(y1 - y0, H)})

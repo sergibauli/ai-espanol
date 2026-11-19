@@ -81,3 +81,29 @@ Capturas con progreso sembrado (unidad 1 hecha, 2 actual) en 1366×860 y 390×84
 - Examen: cadenas y candado (bloqueado), cartel rojo que late «¡A por el examen! 去考试» (abierto), estrellas (aprobado).
 - Rey Mono: siempre junto a la clase actual, del lado contrario al que sigue el camino (en móvil, si no cabe, del
   lado de dentro y más abajo), mirando a la moneda. Móvil con 3 clases: la cámara se aleja un 10 % para que quepa el examen.
+
+## v28 · Ronda 4 (mundos vivos)
+- **Pintor nuevo** `scripts/mundos/` (numpy + PIL, propio y determinista): `pincel.py` (capas RGBA, Bézier/Catmull-Rom,
+  nubes volumétricas con autosombreado, cordilleras con torrenteras en diagonal y nieve en vetas, reflejos de agua,
+  sombras proyectadas a contraluz, luz de borde), `arquitectura.py` (tejados chinos cóncavos con tejas vidriadas,
+  cumbrera y 鸱吻, ménsulas pintadas, terrazas de mármol, Templo del Cielo, Gran Muralla con torres, pinos nevados),
+  `sprites.py` (piezas animadas) y un módulo por nivel (`a1.py` … `b2.py`). `python3 scripts/mundos/pintar.py [A1 …]`
+  escribe `public/theme/ruta/mundo/<N>/*.webp` y `src/components/ruta/mundos.json` (planos, cajas y piezas).
+- **6 planos por nivel** en un marco 1100×1540 (lienzo visible 1000×1400 + margen para parallax), recortados a su caja:
+  A1 cielo · cumbres · lomas con la Gran Muralla · ciudad (Templo del Cielo, hutongs, Ciudad Prohibida, río helado con
+  puentes de mármol) · torre de esquina con farolillos y pinos · pinos del primer plano. A2 cielo de fuego · Qilian ·
+  Xi'an (muralla, Torre de la Campana y del Tambor, Pagoda del Ganso Salvaje) · dunas · oasis de la Media Luna · duna.
+  B1 cielo con luna · montes de tinta · el Bund y Pudong sobre el Huangpu · pueblo de agua con puente de arco · casas
+  cercanas sobre el canal · orilla. B2 cielo · tres filas de karst en bruma · picos con pagoda y cascada · terrazas de
+  arroz y aldea · río Li · rocas.
+- **Piezas animadas** (CSS, solo transform/opacity, `v28-ruta-mundos-vivos.css`): humo, banderas, farolillos,
+  destellos, grullas/garcetas (dos poses), caravana que avanza, ráfagas de arena, calima, brillo del oasis y del agua,
+  palmeras/bambú/sauces que se mecen, barcas y balsa que se deslizan, reflejos que tiemblan, ventanas que parpadean,
+  halo de luna, cascada, corriente del río, bruma que sube, rayos de sol. Siguen el canvas de partículas (nieve,
+  kongming, lluvia, luciérnagas, aves, hojas).
+- `MundoRuta` pausa todo con `.mr-pausa` (IntersectionObserver + pestaña oculta); en móvil oculta las piezas
+  `movil:false`; con prefers-reduced-motion queda quieto. Parallax: `--pz` por plano × scroll (`mr28Px`) y × cámara 3D
+  (`--cam-x/--cam-y`). Peso: ~1,1 MB por los cuatro mundos; se borran los antiguos `fondo-*-{medio,cerca}.webp`
+  (`fondo-*-lejos.webp` se queda: lo usa `FichaClase`). Los tramos no se regeneran: misma luz y paleta junto al camino.
+- Pendiente: siluetas de karst y picos aún algo regulares; nubes con borde algo «de pegatina»; A2 con el oasis pequeño;
+  tejados del pueblo de B1 sin textura de tejas a pequeña escala.

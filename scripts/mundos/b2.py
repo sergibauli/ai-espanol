@@ -58,7 +58,7 @@ def terrazas(C, cx, top, hw, base, seed=0):
 
 def aldea(C, lista, seed=0):
     for i, (x, base, w) in enumerate(lista):
-        P, (bx, by) = ar.salon(w, aleros=1, luz=LUZ, teja=("#1e2420", "#4a5248", "#a8b0a0"), terrazas=1, marmol=("#6a6050", "#b8a888"), rojo=("#4a3020", "#9a6a40"), ncol=4, seed=seed + i)
+        P, (bx, by) = ar.salon(w, aleros=1, luz=LUZ, teja=("#141a18", "#3a423c", "#8a948a"), terrazas=1, marmol=("#5a5244", "#a89a80"), rojo=("#3a2a1c", "#7a5a3a"), ncol=4, seed=seed + i)
         C.pega(P, x - bx, base - by)
 
 
