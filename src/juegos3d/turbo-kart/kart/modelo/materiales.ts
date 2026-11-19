@@ -177,26 +177,21 @@ export function textura(nombre: Textura): THREE.Texture {
         }
       }
     } else if (nombre === 'rayas') {
-      c.fillStyle = '#f4f6ff';
+      // pelaje blanco azulado con rayas anchas y negras (como el retrato del tigre)
+      c.fillStyle = '#e8eef8';
       c.fillRect(0, 0, N, N);
       const r = rng(5);
-      c.fillStyle = '#16121e';
-      for (let k = 0; k < 11; k++) {
-        const x = (k + 0.5) * (N / 11) + (r() - 0.5) * 8;
+      c.fillStyle = '#121018';
+      for (let k = 0; k < 7; k++) {
+        const x = (k + 0.5) * (N / 7) + (r() - 0.5) * 8;
         for (const centro of [N * 0.25, N * 0.75]) {
-          const largo = N * (0.12 + r() * 0.1);
-          const ancho = 5 + r() * 5;
+          const largo = N * (0.13 + r() * 0.09);
+          const ancho = 10 + r() * 8;
           c.beginPath();
           c.moveTo(x - ancho, centro - largo);
-          c.bezierCurveTo(x + ancho * 1.6, centro - largo * 0.3, x - ancho * 0.6, centro + largo * 0.4, x + ancho * 0.4, centro + largo);
-          c.bezierCurveTo(x + ancho * 0.2, centro + largo * 0.3, x + ancho * 2.2, centro - largo * 0.3, x + ancho, centro - largo);
+          c.bezierCurveTo(x + ancho * 1.2, centro - largo * 0.3, x - ancho * 0.5, centro + largo * 0.4, x + ancho * 0.2, centro + largo);
+          c.bezierCurveTo(x + ancho * 0.4, centro + largo * 0.3, x + ancho * 1.8, centro - largo * 0.3, x + ancho * 0.6, centro - largo);
           c.closePath();
-          c.fill();
-          // rama secundaria
-          c.beginPath();
-          c.moveTo(x + ancho * 0.5, centro - largo * 0.2);
-          c.quadraticCurveTo(x + ancho * 3, centro, x + ancho * 3.6, centro + largo * 0.35);
-          c.quadraticCurveTo(x + ancho * 2, centro + 2, x + ancho * 0.5, centro + largo * 0.1);
           c.fill();
         }
       }
@@ -315,4 +310,23 @@ export function textura(nombre: Textura): THREE.Texture {
   t.anisotropy = 4;
   texturas.set(nombre, t);
   return t;
+}
+
+/** Velo translúcido (aletas de seda del koi), compartido. */
+export function materialVelo(): THREE.MeshStandardMaterial {
+  return compartido('tk-velo', () =>
+    inyectarUber(
+      new THREE.MeshStandardMaterial({
+        vertexColors: true,
+        metalness: 0,
+        roughness: 1,
+        transparent: true,
+        opacity: 0.55,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+        envMap: entorno(),
+      }),
+      'v',
+    ),
+  );
 }

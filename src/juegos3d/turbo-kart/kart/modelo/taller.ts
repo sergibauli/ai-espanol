@@ -12,8 +12,8 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 export type V3 = [number, number, number];
-export type Capa = 'uber' | 'body' | 'accent' | 'orb';
-export const CAPAS: Capa[] = ['uber', 'body', 'accent', 'orb'];
+export type Capa = 'uber' | 'body' | 'accent' | 'orb' | 'velo';
+export const CAPAS: Capa[] = ['uber', 'body', 'accent', 'orb', 'velo'];
 
 /** Acabado de una pieza: capa, color y PBR por vértice. */
 export interface Acabado {
@@ -27,6 +27,9 @@ export interface Acabado {
   e?: number;
   /** iridiscencia 0..1 */
   i?: number;
+  /** Degradado a lo largo de la pieza (y local): color y emisión en la punta. */
+  grad?: number;
+  eTip?: number;
 }
 
 export interface AlaCfg {
@@ -216,6 +219,7 @@ export function limbGeometry(ax: number, ay: number, az: number, bx: number, by:
   return g;
 }
 
+const lerpN = (a: number, b: number, t: number) => a + (b - a) * t;
 const smooth = (a: number, b: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
   return t * t * (3 - 2 * t);
@@ -229,6 +233,13 @@ export class Taller {
   private cadena: string | null = null;
   private marcoM: THREE.Matrix4 | null = null;
   private readonly _t = new THREE.Matrix4();
+  /** Versión lejana (LOD): menos segmentos y sin detalles pequeños. */
+  bajo = false;
+  /** Detalles finos (rizos, bigotes, tacos...): no existen en la versión lejana. */
+  det(fn: () => void): this {
+    if (!this.bajo) fn();
+    return this;
+  }
   /** Funciones de color por pieza (manchas de koi, degradados). */
   pintor: ((x: number, y: number, z: number, base: THREE.Color) => void) | null = null;
 
@@ -299,21 +310,40 @@ export class Taller {
     for (const name of Object.keys(g.attributes)) if (name !== 'position' && name !== 'normal' && name !== 'uv') g.deleteAttribute(name);
     if (!g.attributes.normal) g.computeVertexNormals();
     if (!g.attributes.uv) g.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(g.attributes.position.count * 2), 2));
+    let yMin = Infinity;
+    let yMax = -Infinity;
+    if (ac.grad !== undefined) {
+      const lp = g.attributes.position as THREE.BufferAttribute;
+      for (let i = 0; i < lp.count; i++) {
+        yMin = Math.min(yMin, lp.getY(i));
+        yMax = Math.max(yMax, lp.getY(i));
+      }
+    }
+    const yLoc = ac.grad !== undefined ? Float32Array.from({ length: g.attributes.position.count }, (_, i) => (g.attributes.position.getY(i) - yMin) / Math.max(1e-5, yMax - yMin)) : null;
     g.applyMatrix4(this.marcoM ? this._t.multiplyMatrices(this.marcoM, m) : m);
+    if (this.bajo) {
+      g.computeBoundingSphere();
+      if ((g.boundingSphere?.radius ?? 1) < 0.03) {
+        g.dispose();
+        return this;
+      }
+    }
     const n = g.attributes.position.count;
+    const tip = ac.grad !== undefined ? new THREE.Color(ac.grad) : null;
     const col = new Float32Array(n * 3);
     const pbr = new Float32Array(n * 4);
     const base = new THREE.Color(ac.color);
     const pos = g.attributes.position as THREE.BufferAttribute;
     for (let i = 0; i < n; i++) {
       _c.copy(base);
+      if (tip && yLoc) _c.lerp(tip, yLoc[i]);
       if (this.pintor && ac.capa === 'body') this.pintor(pos.getX(i), pos.getY(i), pos.getZ(i), _c);
       col[i * 3] = _c.r;
       col[i * 3 + 1] = _c.g;
       col[i * 3 + 2] = _c.b;
       pbr[i * 4] = ac.m ?? 0.1;
       pbr[i * 4 + 1] = ac.r ?? 0.45;
-      pbr[i * 4 + 2] = ac.e ?? 0;
+      pbr[i * 4 + 2] = yLoc && ac.eTip !== undefined ? lerpN(ac.e ?? 0, ac.eTip, yLoc[i]) : ac.e ?? 0;
       pbr[i * 4 + 3] = ac.i ?? 0;
     }
     g.setAttribute('color', new THREE.BufferAttribute(col, 3));
@@ -329,20 +359,25 @@ export class Taller {
   esf(k: string | Acabado, x: number, y: number, z: number, rx: number, ry = rx, rz = rx, ax = 0, ay = 0, az = 0): this {
     const u = unidades();
     const r = Math.max(rx, ry, rz);
-    return this.add(k, r < 0.05 ? u.bolaB : r < 0.13 ? u.bolaM : u.bola, x, y, z, ax, ay, az, rx, ry, rz);
+    const geo = this.bajo ? (r < 0.13 ? u.bolaB : u.bolaM) : r < 0.05 ? u.bolaB : r < 0.13 ? u.bolaM : u.bola;
+    return this.add(k, geo, x, y, z, ax, ay, az, rx, ry, rz);
   }
   /** Pieza unitaria orientada de a a b (cono = cuernos, garras, llamas; esf = plumas, aletas; cil = barras). */
   pieza(k: string | Acabado, forma: 'cono' | 'esf' | 'cil', a: V3, b: V3, sx: number, sz = sx, hint: V3 = [0, 1, 0]): this {
     return this.addM(k, unidades()[forma], matrizPieza(a, b, sx, sz, hint));
   }
   tubo(k: string | Acabado, pts: V3[], radio: (t: number) => [number, number], seg = 16, radial = 10): this {
+    if (this.bajo) {
+      seg = Math.max(4, Math.ceil(seg / 2));
+      radial = Math.max(4, Math.ceil(radial * 0.6));
+    }
     const g = sweep(pts, radio, seg, radial);
     this.add(k, g);
     g.dispose();
     return this;
   }
   toro(k: string | Acabado, R: number, r: number, x: number, y: number, z: number, ax = 0, ay = 0, az = 0, arc = Math.PI * 2, sx = 1, sy = 1, sz = 1, seg = 16): this {
-    const g = new THREE.TorusGeometry(R, r, r < 0.022 ? 4 : 6, seg, arc);
+    const g = this.bajo ? new THREE.TorusGeometry(R, r, 3, Math.max(6, Math.ceil(seg / 2)), arc) : new THREE.TorusGeometry(R, r, r < 0.022 ? 4 : 6, seg, arc);
     this.add(k, g, x, y, z, ax, ay, az, sx, sy, sz);
     g.dispose();
     return this;
@@ -355,7 +390,7 @@ export class Taller {
   }
   /** Sólido de revolución alrededor de Y: perfil [radio, altura][]. */
   torno(k: string | Acabado, perfil: [number, number][], x: number, y: number, z: number, ax = 0, ay = 0, az = 0, seg = 16, sx = 1, sy = 1, sz = 1): this {
-    const g = new THREE.LatheGeometry(perfil.map(([r, h]) => new THREE.Vector2(r, h)), seg);
+    const g = new THREE.LatheGeometry(perfil.map(([r, h]) => new THREE.Vector2(r, h)), this.bajo ? Math.max(6, Math.ceil(seg / 2)) : seg);
     this.add(k, g, x, y, z, ax, ay, az, sx, sy, sz);
     g.dispose();
     return this;

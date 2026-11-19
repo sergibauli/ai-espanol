@@ -52,6 +52,10 @@ export const llama = (t: Taller, k: string, a: V3, b: V3, r: number) => t.pieza(
 
 /** Llama de fuego/crin en tres capas (más ancha y cálida en la raíz, punta brillante). */
 export function llamaDoble(t: Taller, a: V3, b: V3, r: number, curva: V3 = [0, 0, 0]) {
+  if (t.bajo) {
+    t.pieza('accent', 'cono', a, b, r * 0.9, r * 0.7);
+    return;
+  }
   const m: V3 = [lerp(a[0], b[0], 0.55) + curva[0], lerp(a[1], b[1], 0.55) + curva[1], lerp(a[2], b[2], 0.55) + curva[2]];
   t.pieza('accentRoot', 'esf', a, m, r * 1.1, r * 0.8);
   t.pieza('accent', 'cono', m, b, r * 0.75, r * 0.55);
@@ -65,10 +69,10 @@ export function patas(t: Taller, k: string, pie: string, grosor: number, delante
     const [zt, yt] = detras;
     // delanteras: hombro → codo → pata
     t.esf(k, s * 0.16, yd - 0.02, zd + 0.02, grosor * 1.5, grosor * 2, grosor * 1.8);
-    const g1 = limbGeometry(s * 0.17, yd - 0.04, zd, s * 0.23, 0.32, zd - 0.2, grosor);
+    const g1 = limbGeometry(s * 0.17, yd - 0.04, zd, s * 0.23, 0.32, zd - 0.2, grosor, t.bajo ? 5 : 7);
     t.add(k, g1);
     g1.dispose();
-    const g2 = limbGeometry(s * 0.23, 0.32, zd - 0.2, s * 0.24, 0.17, zd - 0.36, grosor * 0.82);
+    const g2 = limbGeometry(s * 0.23, 0.32, zd - 0.2, s * 0.24, 0.17, zd - 0.36, grosor * 0.82, t.bajo ? 5 : 7);
     t.add(k, g2);
     g2.dispose();
     if (pezuna) {
@@ -78,10 +82,10 @@ export function patas(t: Taller, k: string, pie: string, grosor: number, delante
     }
     // traseras: muslo → corvejón → pata
     t.esf(k, s * 0.17, yt, zt, grosor * 1.7, grosor * 2.5, grosor * 2.5);
-    const g3 = limbGeometry(s * 0.2, yt - 0.06, zt + 0.08, s * 0.24, 0.3, zt + 0.25, grosor * 0.95);
+    const g3 = limbGeometry(s * 0.2, yt - 0.06, zt + 0.08, s * 0.24, 0.3, zt + 0.25, grosor * 0.95, t.bajo ? 5 : 7);
     t.add(k, g3);
     g3.dispose();
-    const g4 = limbGeometry(s * 0.24, 0.3, zt + 0.25, s * 0.24, 0.16, zt + 0.38, grosor * 0.75);
+    const g4 = limbGeometry(s * 0.24, 0.3, zt + 0.25, s * 0.24, 0.16, zt + 0.38, grosor * 0.75, t.bajo ? 5 : 7);
     t.add(k, g4);
     g4.dispose();
     if (pezuna) {
@@ -102,17 +106,26 @@ export function patas(t: Taller, k: string, pie: string, grosor: number, delante
  * Ojos chibi: globo blanco, iris luminoso (capa orb), pupila, brillo y párpado. Miran hacia -Z y
  * un poco hacia fuera (`abre`).
  */
-export function ojos(t: Taller, x: number, y: number, z: number, r: number, parpado: string | null, abre = 0.35, ceño = 0.25) {
+export function ojos(t: Taller, x: number, y: number, z: number, r: number, parpado: string | null, abre = 0.35, ceño = 0.18, iris = 'eye', ceja = true) {
+  const c = Math.min(0.2, Math.max(0.15, ceño));
   t.par((s) => {
     const dx = Math.sin(abre) * s;
     const dz = -Math.cos(abre);
     t.esf('ivory', s * x, y, z, r * 1.05, r * 1.15, r * 0.85, 0, s * -abre, 0);
-    t.esf('eye', s * x + dx * r * 0.4, y, z + dz * r * 0.4, r * 0.78, r * 0.9, r * 0.52, 0, s * -abre, 0);
+    t.esf(iris, s * x + dx * r * 0.4, y, z + dz * r * 0.4, r * 0.78, r * 0.9, r * 0.52, 0, s * -abre, 0);
     t.esf('pupil', s * x + dx * r * 0.6, y - r * 0.02, z + dz * r * 0.6, r * 0.42, r * 0.62, r * 0.32, 0, s * -abre, 0);
-    t.esf('glint', s * x + dx * r * 0.72 - s * r * 0.18, y + r * 0.36, z + dz * r * 0.72, r * 0.16, r * 0.16, r * 0.12);
+    // brillo grande del color de los ojos y un segundo brillo pequeño, al otro lado y más abajo
+    t.esf('glintC', s * x + dx * r * 0.72 - s * r * 0.18, y + r * 0.36, z + dz * r * 0.72, r * 0.16, r * 0.16, r * 0.12);
+    t.esf('glint', s * x + dx * r * 0.74 + s * r * 0.12, y - r * 0.22, z + dz * r * 0.74, r * 0.07, r * 0.07, r * 0.05);
     if (parpado) {
-      // párpado superior en ángulo (mirada decidida)
-      t.pieza(parpado, 'esf', [s * x - s * r * 1.2, y + r * (0.75 + ceño), z + dz * r * 0.2], [s * x + s * r * 1.25, y + r * (0.95 - ceño), z + dz * r * 0.35], r * 0.55, r * 0.5, [0, 0, -1]);
+      // párpado superior fino, apenas inclinado (mirada despierta)
+      t.pieza(parpado, 'esf', [s * x - s * r * 1.15, y + r * (0.95 - c), z + dz * r * 0.2], [s * x + s * r * 1.2, y + r * (0.95 + c), z + dz * r * 0.3], r * 0.32, r * 0.42, [0, 0, -1]);
+    }
+    if (ceja) {
+      // ceja dorada en cuña a ~20°
+      const a0: V3 = [s * x - s * r * 1.1, y + r * 1.35, z + dz * r * 0.25];
+      const a1: V3 = [s * x + s * r * 1.3, y + r * 1.35 + r * 2.4 * 0.36, z + dz * r * 0.1];
+      t.pieza('gold', 'cono', a1, a0, r * 0.32, r * 0.16, [0, 0, -1]);
     }
   });
 }
@@ -128,5 +141,5 @@ export function rizo(t: Taller, k: string, x: number, y: number, z: number, R: n
   }
   const m = new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, ry, rz)), new THREE.Vector3(1, 1, 1));
   const local = pts.map((p) => new THREE.Vector3(p[0], p[1], p[2]).applyMatrix4(m));
-  t.tubo(k, local.map((v) => [v.x, v.y, v.z] as V3), (u) => [grosor * (1 - u * 0.5), grosor * (1 - u * 0.5)], 14, 5);
+  t.det(() => t.tubo(k, local.map((v) => [v.x, v.y, v.z] as V3), (u) => [grosor * (1 - u * 0.5), grosor * (1 - u * 0.5)], 14, 5));
 }

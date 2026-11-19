@@ -29,8 +29,8 @@ export const CHARACTERS: CharacterDef[] = [
   {
     id: 'fennec',
     name: 'Qilin Relámpago · 麒麟',
-    color: 0xf8dc96,
-    accent: 0x6ff0c0,
+    color: 0xd9a441,
+    accent: 0x5fe8c0,
     driverColor: 0x2bb04a,
     weightClass: 'light',
     stats: { speed: 0.25, acceleration: 0.85, handling: 0.8, weight: 0.2, miniTurbo: 0.95 },

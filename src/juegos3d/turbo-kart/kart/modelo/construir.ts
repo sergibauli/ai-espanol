@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import type { CharacterDef } from '../../core/types';
 import { CHARACTERS } from '../roster';
 import { Taller, CAPAS, type Acabado, type Capa, type HuesoDef } from './taller';
-import { compartido, entorno, inyectarUber, materialUber, textura } from './materiales';
+import { compartido, entorno, inyectarUber, materialUber, materialVelo, textura } from './materiales';
 import { chasis, rueda, ESCAPES_DEF, WHEEL_R_F, WHEEL_R_R, WHEEL_W_F, WHEEL_W_R, WHEEL_X, WHEEL_Z_F, WHEEL_Z_R } from './chasis';
 import { piloto } from './piloto';
 import type { Criatura } from '../criaturas/comun';
@@ -52,6 +52,9 @@ export interface KartModelPartsEx extends KartModelParts {
    */
   animate(dt: number, time: number, steer: number, speed01: number, boost: number, drift: number): void;
 }
+
+/** Distancia (m) a partir de la que se dibuja la versión ligera. */
+const LOD_DIST = 20;
 
 function criaturaDe(character: CharacterDef): Criatura {
   const c = CRIATURAS[character.id];
@@ -189,6 +192,7 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     dark: { capa: 'uber', color: 0x16111a, m: 0.2, r: 0.3 },
     pupil: { capa: 'uber', color: 0x0a0608, m: 0.3, r: 0.08 },
     glint: { capa: 'uber', color: 0xffffff, m: 0, r: 0.2, e: 2.5 },
+    glintC: { capa: 'uber', color: new THREE.Color(spec.ojo).lerp(new THREE.Color(0xffffff), 0.45).getHex(), m: 0, r: 0.2, e: 2.5 },
     eye: { capa: 'orb', color: 0xffffff },
     cloud: { capa: 'uber', color: 0xf4ead8, m: 0, r: 0.8, e: 0.12 },
     feather: { capa: 'uber', color: plumaColor, m: 0.35, r: 0.32, e: 0.12, i: 0.75 },
@@ -200,10 +204,14 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     seat: { capa: 'uber', color: 0x1a161c, m: 0.1, r: 0.55 },
     tire: { capa: 'uber', color: 0x141317, m: 0, r: 0.72 },
     rimDark: { capa: 'uber', color: 0x8a1018, m: 0.4, r: 0.25 },
+    rimLlama: { capa: 'uber', color: spec.llama, m: 0.3, r: 0.25, e: 0.9 },
+    guardaLlama: { capa: 'uber', color: spec.llama, m: 0.3, r: 0.22, e: 0.35 },
+    lacaOscura: { capa: 'uber', color: 0x3a0d10, m: 0.2, r: 0.2 },
     jade: { capa: 'uber', color: 0x2fd08f, m: 0.1, r: 0.1, e: 0.35 },
     tongue: { capa: 'uber', color: 0xd8405a, m: 0, r: 0.35 },
-    accentFin: { capa: 'accent', color: 0xffffff, m: 0.1, r: 0.25, e: 0.2, i: 0.7 },
-    noseTiger: { capa: 'uber', color: 0xe07a8a, m: 0, r: 0.3 },
+    mane: { capa: 'accent', color: 0xffffff, m: 0.05, r: 0.35, e: 0.55 },
+    accentFin: { capa: 'velo', color: 0xff8a3d, grad: 0x9ff4ff, m: 0.05, r: 0.3, e: 0.05, eTip: 0.4, i: 0.4 },
+    noseTiger: { capa: 'uber', color: 0x2a1e26, m: 0.2, r: 0.25 },
     serpent: { capa: 'uber', color: 0x2f7050, m: 0.35, r: 0.2, i: 0.5 },
     serpBelly: { capa: 'uber', color: 0xc8d890, m: 0.1, r: 0.35 },
     // piloto
@@ -280,36 +288,42 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
   root.updateMatrixWorld(true);
 
   // --- esculpir -------------------------------------------------------------------
-  const t = new Taller(pal);
-  if (spec.pintor) t.pintor = spec.pintor;
-  chasis(t, spec);
-  ruedasDef.forEach(([x, y, z, isFront], i) => {
-    t.declarar(`rueda${i}`, null, [x, y, z], { externo: wheels[i] });
-    t.marco(wheels[i].matrixWorld);
-    rueda(t, isFront ? WHEEL_R_F : WHEEL_R_R, isFront ? WHEEL_W_F : WHEEL_W_R);
-    t.marco(null);
-  });
-  // manillar de riendas
-  t.declarar('manillar', null, steeringWheel.getWorldPosition(new THREE.Vector3()), { externo: steeringWheel });
-  t.marco(steeringWheel.matrixWorld);
-  t.pieza('gold', 'cil', [-0.18, 0, 0], [0.18, 0, 0], 0.016);
-  t.par((s) => {
-    t.pieza('saddle', 'cil', [s * 0.12, 0, 0], [s * 0.2, 0, 0], 0.026);
-    t.esf('gold', s * 0.205, 0, 0, 0.03);
-  });
-  t.toro('gold', 0.045, 0.012, 0, 0, 0, 0, 0, 0, Math.PI * 2, 1, 1, 1, 14);
-  t.esf('jade', 0, 0, -0.01, 0.025);
-  t.pieza('metal', 'cil', [0, 0, 0], [0, -0.24, 0.02], 0.02);
-  t.marco(null);
-  // piloto
   const headPos = driverHead.getWorldPosition(new THREE.Vector3());
-  t.declarar('piloto', null, driver.position, { externo: driver });
-  t.declarar('casco', null, headPos, { externo: driverHead });
-  piloto(t, spec.piloto, driver.matrixWorld, driverHead.matrixWorld, headPos);
-  // criatura
-  t.estatico();
-  spec.construir(t);
-  const { geos, huesos } = t.montar();
+  const esculpir = (bajo: boolean) => {
+    const t = new Taller(pal);
+    t.bajo = bajo;
+    if (spec.pintor) t.pintor = spec.pintor;
+    chasis(t, spec);
+    ruedasDef.forEach(([x, y, z, isFront], i) => {
+      t.declarar(`rueda${i}`, null, [x, y, z], { externo: wheels[i] });
+      t.marco(wheels[i].matrixWorld);
+      rueda(t, isFront ? WHEEL_R_F : WHEEL_R_R, isFront ? WHEEL_W_F : WHEEL_W_R, isFront ? 'rimDark' : 'rimLlama');
+      t.marco(null);
+    });
+    // manillar de riendas
+    t.declarar('manillar', null, steeringWheel.getWorldPosition(new THREE.Vector3()), { externo: steeringWheel });
+    t.marco(steeringWheel.matrixWorld);
+    t.pieza('gold', 'cil', [-0.18, 0, 0], [0.18, 0, 0], 0.016);
+    t.par((s) => {
+      t.pieza('saddle', 'cil', [s * 0.12, 0, 0], [s * 0.2, 0, 0], 0.026);
+      t.esf('gold', s * 0.205, 0, 0, 0.03);
+    });
+    t.toro('gold', 0.045, 0.012, 0, 0, 0, 0, 0, 0, Math.PI * 2, 1, 1, 1, 14);
+    t.esf('jade', 0, 0, -0.01, 0.025);
+    t.pieza('metal', 'cil', [0, 0, 0], [0, -0.24, 0.02], 0.02);
+    t.marco(null);
+    // piloto
+    t.declarar('piloto', null, driver.position, { externo: driver });
+    t.declarar('casco', null, headPos, { externo: driverHead });
+    piloto(t, spec.piloto, driver.matrixWorld, driverHead.matrixWorld, headPos);
+    // criatura
+    t.estatico();
+    spec.construir(t);
+    return t.montar();
+  };
+  const { geos, huesos } = esculpir(false);
+  // versión lejana (rivales a más de LOD_DIST m): misma silueta, sin detalles finos
+  const lejos = esculpir(true);
 
   // --- esqueleto --------------------------------------------------------------------
   const huesoPor = new Map<string, THREE.Bone>();
@@ -344,28 +358,52 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
   root.updateMatrixWorld(true);
   const skeleton = new THREE.Skeleton(bones);
   const esfera = new THREE.Sphere(new THREE.Vector3(0, 0.6, 0.15), 1.75);
-  const MATS: Record<Capa, THREE.Material> = { uber, body: bodyMaterial, accent: accentMaterial, orb: orbMaterial };
+  const MATS: Record<Capa, THREE.Material> = { uber, body: bodyMaterial, accent: accentMaterial, orb: orbMaterial, velo: materialVelo() };
   const meshes = new Map<Capa, THREE.SkinnedMesh>();
-  for (const capa of CAPAS) {
-    const geo = geos.get(capa);
-    if (!geo) continue;
-    track(geo);
-    if (capa === 'body') {
-      const k = spec.repetir ?? 1;
-      if (k !== 1) {
-        const uv = geo.attributes.uv as THREE.BufferAttribute;
-        for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * k, uv.getY(i) * k);
+  const indiceAlto = new Map<string, number>();
+  huesos.forEach((h, i) => indiceAlto.set(h.nombre, i));
+  const cerca = new THREE.Group();
+  cerca.name = 'cerca';
+  const lejosG = new THREE.Group();
+  lejosG.name = 'lejos';
+  const lod = new THREE.LOD();
+  lod.name = 'lod';
+  lod.addLevel(cerca, 0);
+  lod.addLevel(lejosG, LOD_DIST);
+  root.add(lod);
+  const crearMallas = (g: Map<Capa, THREE.BufferGeometry>, destino: THREE.Group, alto: boolean, remap?: HuesoDef[]) => {
+    for (const capa of CAPAS) {
+      const geo = g.get(capa);
+      if (!geo) continue;
+      track(geo);
+      if (remap) {
+        const si = geo.attributes.skinIndex as THREE.BufferAttribute;
+        for (let i = 0; i < si.count; i++) {
+          for (let c = 0; c < 4; c++) {
+            const v = si.getComponent(i, c);
+            si.setComponent(i, c, indiceAlto.get(remap[v]?.nombre ?? 'cuerpo') ?? 1);
+          }
+        }
       }
+      if (capa === 'body') {
+        const k = spec.repetir ?? 1;
+        if (k !== 1) {
+          const uv = geo.attributes.uv as THREE.BufferAttribute;
+          for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * k, uv.getY(i) * k);
+        }
+      }
+      const m = new THREE.SkinnedMesh(geo, MATS[capa]);
+      m.name = `kart-${capa}${alto ? '' : '-lejos'}`;
+      m.bind(skeleton, new THREE.Matrix4());
+      m.boundingSphere = esfera.clone();
+      m.castShadow = capa === 'uber' || capa === 'body';
+      m.receiveShadow = capa === 'body';
+      destino.add(m);
+      if (alto) meshes.set(capa, m);
     }
-    const m = new THREE.SkinnedMesh(geo, MATS[capa]);
-    m.name = `kart-${capa}`;
-    m.bind(skeleton, new THREE.Matrix4());
-    m.boundingSphere = esfera.clone();
-    m.castShadow = capa === 'uber' || capa === 'body';
-    m.receiveShadow = capa === 'body';
-    root.add(m);
-    meshes.set(capa, m);
-  }
+  };
+  crearMallas(geos, cerca, true);
+  crearMallas(lejos.geos, lejosG, false, lejos.huesos);
   const body = meshes.get('body') ?? (meshes.get('uber') as THREE.SkinnedMesh);
 
   // --- llamas de los escapes: una malla con piel (dos conos por escape) ---------------
@@ -488,9 +526,9 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     const rebote = (Math.sin(time * 17.3) * 0.6 + Math.sin(time * 9.1 + 1.3) * 0.4) * 0.008 * speed01;
     bCuerpo.scale.set(1 + resp * 0.008, 1 + resp * 0.02 + turbo * 0.02, 1 - turbo * 0.02);
     bCuerpo.position.y = cuerpoY + rebote + derrape * 0.015;
-    bCuerpo.rotation.z = -giro * 0.07;
+    bCuerpo.rotation.z = -objetivo * 0.06;
     bCuerpo.rotation.x = turbo * 0.05 - speed01 * 0.02;
-    bCuerpo.rotation.y = -drift * 0.04 * derrape;
+    bCuerpo.rotation.y = -drift * 0.1;
     if (bCabeza) {
       bCabeza.rotation.y = -giro * 0.32;
       bCabeza.rotation.x = Math.sin(time * (3 + speed01 * 5)) * 0.035 - turbo * 0.12;

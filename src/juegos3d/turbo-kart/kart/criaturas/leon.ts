@@ -49,7 +49,7 @@ export const leon: Criatura = {
     for (let i = -2; i <= 2; i++) t.caja('ivory', 0.034, 0.026, 0.02, i * 0.038, 0.705, -0.99 + Math.abs(i) * 0.012);
     t.par((s) => t.pieza('ivory', 'cono', [s * 0.09, 0.7, -0.96], [s * 0.09, 0.62, -0.97], 0.016));
     t.esf('secondTex', 0, 0.8, -1.03, 0.06, 0.045, 0.04);
-    ojos(t, 0.1, 0.9, -0.9, 0.055, 'secondTex', 0.42, 0.2);
+    ojos(t, 0.1, 0.9, -0.9, 0.055, 'secondTex', 0.42, 0.2, 'eye', false);
     t.par((s) => {
       t.pieza('secondTex', 'esf', [s * 0.02, 0.98, -0.92], [s * 0.19, 0.99, -0.84], 0.04, 0.035, [0, 0, -1]);
       rizo(t, 'secondTex', s * 0.12, 1.0, -0.86, 0.03, 0.012, 0, 0);

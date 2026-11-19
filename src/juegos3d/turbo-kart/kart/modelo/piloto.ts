@@ -16,7 +16,7 @@ const R = 0.168; // radio del casco
 export function piloto(t: Taller, p: PilotoSpec, driverM: THREE.Matrix4, headM: THREE.Matrix4, headPos: THREE.Vector3) {
   // ------------------------------------------------------------------ cuerpo
   t.usar('piloto').marco(driverM);
-  const torso = new THREE.CapsuleGeometry(0.13, 0.1, 3, 12);
+  const torso = new THREE.CapsuleGeometry(0.13, 0.1, t.bajo ? 2 : 3, t.bajo ? 8 : 12);
   t.add('suit', torso, 0, 0.2, 0.02, 0, 0, 0, 1.12, 1, 0.82);
   torso.dispose();
   // solapa cruzada (交领) y cuello mandarín con ribete
@@ -35,19 +35,19 @@ export function piloto(t: Taller, p: PilotoSpec, driverM: THREE.Matrix4, headM: 
     hombrera.dispose();
     t.toro('ribete', 0.083, 0.01, s * 0.17, 0.31, 0.02, Math.PI / 2, -s * 0.5, 0, Math.PI * 2, 1, 1.1, 1);
     // brazos hacia el manillar
-    const up = limbGeometry(s * 0.19, 0.31, 0.02, s * 0.21, 0.2, -0.13, 0.048);
+    const up = limbGeometry(s * 0.19, 0.31, 0.02, s * 0.21, 0.2, -0.13, 0.048, t.bajo ? 5 : 7);
     t.add('suit', up);
     up.dispose();
-    const fo = limbGeometry(s * 0.21, 0.2, -0.13, s * 0.14, 0.195, -0.25, 0.043);
+    const fo = limbGeometry(s * 0.21, 0.2, -0.13, s * 0.14, 0.195, -0.25, 0.043, t.bajo ? 5 : 7);
     t.add('suit', fo);
     fo.dispose();
     t.toro('ribete', 0.042, 0.01, s * 0.15, 0.196, -0.235, 0, s * 1.0, 0);
     t.esf('glove', s * 0.13, 0.195, -0.27, 0.05, 0.045, 0.055);
     // piernas y botas
-    const th = limbGeometry(s * 0.1, 0.02, -0.02, s * 0.19, -0.04, -0.28, 0.058);
+    const th = limbGeometry(s * 0.1, 0.02, -0.02, s * 0.19, -0.04, -0.28, 0.058, t.bajo ? 5 : 7);
     t.add('suit', th);
     th.dispose();
-    const sh = limbGeometry(s * 0.19, -0.04, -0.28, s * 0.22, -0.22, -0.26, 0.05);
+    const sh = limbGeometry(s * 0.19, -0.04, -0.28, s * 0.22, -0.22, -0.26, 0.05, t.bajo ? 5 : 7);
     t.add('suit', sh);
     sh.dispose();
     t.esf('boot', s * 0.225, -0.25, -0.3, 0.055, 0.05, 0.08);
@@ -59,6 +59,7 @@ export function piloto(t: Taller, p: PilotoSpec, driverM: THREE.Matrix4, headM: 
   // cara
   t.esf('skin', 0, H - 0.015, -0.012, 0.138, 0.134, 0.13);
   t.esf('skin', 0, H - 0.075, -0.04, 0.085, 0.06, 0.08);
+  t.det(() => {
   // ojos grandes con brillo, cejas, mejillas y boca
   t.par((s) => {
     t.esf('pupil', s * 0.052, H - 0.03, -0.122, 0.024, 0.033, 0.014, 0, s * -0.38, 0);
@@ -74,6 +75,7 @@ export function piloto(t: Taller, p: PilotoSpec, driverM: THREE.Matrix4, headM: 
     t.pieza('hair', 'cono', [x, H + 0.075, -0.118 + Math.abs(i) * 0.012], [x * 1.25 + (i === 0 ? 0.012 : 0), H + 0.02 - (2 - Math.abs(i)) * 0.006, -0.135 + Math.abs(i) * 0.012], 0.028, 0.014, [0, 0, -1]);
   }
   t.par((s) => t.pieza('hair', 'cono', [s * 0.125, H + 0.04, -0.06], [s * 0.132, H - 0.07, -0.07], 0.03, 0.016, [s, 0, 0]));
+  });
   // casco abierto: calota, nuca, banda dorada y orejeras
   const calota = new THREE.SphereGeometry(R, 18, 7, 0, Math.PI * 2, 0, Math.PI * 0.4);
   t.add('helmet', calota, 0, H, 0.0, -0.18, 0, 0);
@@ -87,6 +89,7 @@ export function piloto(t: Taller, p: PilotoSpec, driverM: THREE.Matrix4, headM: 
     t.esf('ribete', s * 0.176, H - 0.03, 0.01, 0.022, 0.022, 0.022);
   });
   t.toro('dark', 0.1, 0.006, 0, H - 0.08, -0.01, 0.2, 0, Math.PI, Math.PI, 1.3, 1, 1, 10);
+  t.det(() => {
   // gafas de carreras sobre la frente
   t.par((s) => {
     const lente = new THREE.CylinderGeometry(0.042, 0.04, 0.03, 16);
@@ -97,6 +100,7 @@ export function piloto(t: Taller, p: PilotoSpec, driverM: THREE.Matrix4, headM: 
   });
   t.caja('dark', 0.03, 0.02, 0.02, 0, H + 0.085, -0.148, -0.55);
 
+  });
   // ------------------------------------------------------------------ peinado
   const top = H + R; // coronilla
   if (p.peinado === 'mono') {
