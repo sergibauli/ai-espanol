@@ -52,39 +52,22 @@ export function texturaXiangyun(): THREE.CanvasTexture {
     c.lineJoin = 'round';
     const r = rnd(1717);
     const motivos: [number, number, number, number][] = [];
-    for (let i = 0; i < 7; i++) motivos.push([r() * T, (i / 7) * T + r() * 30, 22 + r() * 16, r() < 0.5 ? -1 : 1]);
-    const lineas = (): void => {
-      // líneas largas y sinuosas a lo largo de la pista (periodo divisor de T para que repita)
-      for (const [x0, a, f] of [
-        [70, 26, 2],
-        [300, 34, 1],
-        [430, 18, 3],
-      ] as const) {
-        c.beginPath();
-        for (let v = 0; v <= T; v += 4) {
-          const x = x0 + a * Math.sin((v / T) * Math.PI * 2 * f) + 10 * Math.sin((v / T) * Math.PI * 2 * (f + 2));
-          if (v === 0) c.moveTo(x, v);
-          else c.lineTo(x, v);
-        }
-        c.stroke();
-      }
-    };
+    for (let i = 0; i < 9; i++) motivos.push([r() * T, (i / 9) * T + r() * 30, 13 + r() * 15, r() < 0.5 ? -1 : 1]);
     const todo = (): void => {
       for (const [x, y, s, sg] of motivos) {
         for (const dx of [-T, 0, T]) for (const dy of [-T, 0, T]) nubeChina(c, x + dx, y + dy, s, sg);
       }
-      lineas();
     };
     // halo
-    c.strokeStyle = 'rgba(255,255,255,0.22)';
-    c.lineWidth = 15;
+    c.strokeStyle = 'rgba(255,255,255,0.14)';
+    c.lineWidth = 6;
     c.shadowColor = '#fff';
-    c.shadowBlur = 14;
+    c.shadowBlur = 6;
     todo();
-    // trazo
+    // trazo fino
     c.shadowBlur = 0;
     c.strokeStyle = '#fff';
-    c.lineWidth = 4.5;
+    c.lineWidth = 2.2;
     todo();
   });
   tex.anisotropy = 8;
@@ -92,12 +75,15 @@ export function texturaXiangyun(): THREE.CanvasTexture {
   return tex;
 }
 
-/** Escamas rojas lacadas con filo dorado y brillo (barandillas). */
-export function texturaEscamas(): THREE.CanvasTexture {
+/**
+ * Escamas rojas lacadas #b3121f con filo dorado #f2c14e (barandillas). Con `luz`, el mapa emisivo:
+ * centro de cada escama retroiluminado en naranja (#ff5a2a) y el resto negro.
+ */
+export function texturaEscamas(luz = false): THREE.CanvasTexture {
   const W = 512;
   const H = 256;
   return texturaCanvas(W, H, (c) => {
-    c.fillStyle = '#5a0610';
+    c.fillStyle = luz ? '#000' : '#4a050c';
     c.fillRect(0, 0, W, H);
     const fila = 30;
     const col = 40;
@@ -105,34 +91,42 @@ export function texturaEscamas(): THREE.CanvasTexture {
       for (let k = -1; k < W / col + 1; k++) {
         const x = k * col + (row % 2) * (col / 2);
         const y = 26 + row * fila;
+        if (luz) {
+          const g = c.createRadialGradient(x, y - 16, 1, x, y - 14, 18);
+          g.addColorStop(0, '#ff7a3a');
+          g.addColorStop(0.5, '#c8361a');
+          g.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = g;
+          c.beginPath();
+          c.arc(x, y - 16, 19, 0.02 * Math.PI, 0.98 * Math.PI);
+          c.closePath();
+          c.fill();
+          continue;
+        }
         const g = c.createRadialGradient(x, y - 14, 2, x, y - 4, 24);
-        g.addColorStop(0, '#ff7a4a');
-        g.addColorStop(0.45, '#e01c30');
-        g.addColorStop(1, '#6a0612');
+        g.addColorStop(0, '#e0352e');
+        g.addColorStop(0.5, '#b3121f');
+        g.addColorStop(1, '#5a0610');
         c.fillStyle = g;
         c.beginPath();
         c.arc(x, y - 16, 21, 0.02 * Math.PI, 0.98 * Math.PI);
         c.closePath();
         c.fill();
-        c.strokeStyle = '#ffd36a';
+        c.strokeStyle = '#f2c14e';
         c.lineWidth = 3;
         c.beginPath();
         c.arc(x, y - 16, 21, 0.06 * Math.PI, 0.94 * Math.PI);
         c.stroke();
-        c.strokeStyle = 'rgba(255,230,180,0.55)';
-        c.lineWidth = 2;
-        c.beginPath();
-        c.arc(x - 3, y - 20, 12, 0.6 * Math.PI, 0.9 * Math.PI);
-        c.stroke();
       }
     }
-    // remate dorado arriba y zócalo abajo
+    if (luz) return;
+    // pasamanos dorado arriba y zócalo abajo
     const oro = c.createLinearGradient(0, 0, 0, 14);
-    oro.addColorStop(0, '#fff0b0');
-    oro.addColorStop(1, '#c98a1a');
+    oro.addColorStop(0, '#ffe7a0');
+    oro.addColorStop(1, '#b8801a');
     c.fillStyle = oro;
     c.fillRect(0, 0, W, 12);
-    c.fillStyle = '#ffd36a';
+    c.fillStyle = '#f2c14e';
     c.fillRect(0, H - 22, W, 6);
     c.fillStyle = '#3a0408';
     c.fillRect(0, H - 16, W, 16);

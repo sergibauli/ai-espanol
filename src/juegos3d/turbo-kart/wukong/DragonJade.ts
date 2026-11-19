@@ -15,6 +15,7 @@ const LISO = 0;
 const ESCAMAS = 1;
 const LUZ = 2;
 const ALETA = 3;
+const ORO = 4;
 
 const VERT = /* glsl */ `
 #include <common>
@@ -58,9 +59,12 @@ const FRAG = /* glsl */ `
 uniform float uTime;
 uniform vec3 uJade;
 uniform vec3 uHondo;
+uniform vec3 uEmis;
+uniform vec3 uFres;
 uniform vec3 uBrillo;
 uniform vec3 uOro;
 uniform vec3 uLuna;
+uniform float uOpacidad;
 varying vec3 vW;
 varying vec3 vN;
 varying float vTipo;
@@ -76,12 +80,20 @@ void main() {
   float fres = pow(1.0 - ndv, 3.0);
   float spec = pow(max(dot(reflect(-uLuna, N), V), 0.0), 28.0);
   vec3 col;
+  float alfa = mix(uOpacidad, 0.95, fres);
   if (vTipo > 1.5 && vTipo < 2.5) {
-    // ojos, bigotes y perla: luz cian-blanca
-    col = uBrillo * (1.7 + 0.4 * sin(uTime * 3.0 + vW.x));
+    // ojos y bigotes: lo único del dragón que pasa del umbral de bloom
+    col = uBrillo * (1.5 + 0.3 * sin(uTime * 3.0 + vW.x));
+    alfa = 1.0;
+  } else if (vTipo > 3.5) {
+    // púas dorsales y garras: oro #d9a640
+    col = uOro * (0.35 + 0.75 * dif) + uOro * spec * 0.8 + uFres * fres * 0.2;
+    col = min(col, vec3(0.85));
+    alfa = 1.0;
   } else {
-    col = mix(uHondo, uJade, dif) * 0.78;
+    col = mix(uHondo, uJade, dif) * 0.62;
     float pulso = pow(0.5 + 0.5 * sin(vFase * 0.45 - uTime * 2.1), 8.0);
+    col += uEmis * 0.4 * (0.75 + 0.25 * pulso);
     if (vTipo > 0.5 && vTipo < 1.5) {
       // escamas: semicírculos solapados, filas alternas desplazadas
       vec2 e = vEsc;
@@ -90,23 +102,23 @@ void main() {
       float d = length(vec2(f.x, f.y - 0.5));
       float sombra = smoothstep(0.1, 0.62, d);
       float filo = smoothstep(0.5, 0.56, d) * (1.0 - smoothstep(0.58, 0.66, d));
-      col *= mix(1.08, 0.62, sombra);
-      col += uBrillo * filo * (0.28 + 0.6 * pulso);
+      col *= mix(1.08, 0.72, sombra);
+      col += uEmis * filo * (0.18 + 0.25 * pulso);
       // vientre: placas doradas pálidas
       float placa = smoothstep(0.08, 0.14, fract(vEsc.x * 0.35));
-      vec3 vientre = uOro * (0.45 + 0.55 * dif) * mix(0.55, 1.0, placa);
+      vec3 vientre = mix(uJade, uOro, 0.45) * (0.35 + 0.4 * dif) * mix(0.6, 1.0, placa);
       col = mix(col, vientre, vVientre);
     } else if (vTipo > 2.5) {
-      // aletas, cuernos, melena y garras: jade con veta dorada
-      col = mix(col, uOro * (0.5 + 0.6 * dif), 0.38);
-      col += uBrillo * pulso * 0.15;
+      // cuernos, melena y aletas laterales: jade con veta dorada
+      col = mix(col, uOro * (0.4 + 0.5 * dif), 0.25);
     }
-    // falso subsurface: la luz atraviesa los bordes finos del jade
-    col += uBrillo * pow(1.0 - ndv, 1.7) * 0.32;
-    col += uBrillo * fres * 0.55;
-    col += vec3(1.0, 0.98, 0.95) * spec * 0.45;
+    // falso subsurface: la luz atraviesa los bordes del jade
+    col += uEmis * pow(1.0 - ndv, 1.7) * 0.25;
+    col += uFres * fres * 0.35;
+    col += vec3(1.0, 0.98, 0.95) * spec * 0.3;
+    col = min(col, vec3(0.85));
   }
-  gl_FragColor = vec4(col, 1.0);
+  gl_FragColor = vec4(col, alfa);
   #include <fog_fragment>
 }`;
 
@@ -183,15 +195,20 @@ export class DragonesJade {
       vertexShader: VERT,
       fragmentShader: FRAG,
       fog: true,
-      side: THREE.DoubleSide,
+      transparent: true,
+      depthWrite: true,
+      side: THREE.FrontSide,
       uniforms: THREE.UniformsUtils.merge([
         THREE.UniformsLib.fog,
         {
           uTime: { value: 0 },
-          uJade: { value: new THREE.Color(0.7, 0.95, 0.9) },
-          uHondo: { value: new THREE.Color(0.06, 0.28, 0.32) },
+          uJade: { value: new THREE.Color(0xcfeee6) },
+          uHondo: { value: new THREE.Color(0x1d5c58) },
+          uEmis: { value: new THREE.Color(0x5fd6c0) },
+          uFres: { value: new THREE.Color(0xe8fff9) },
           uBrillo: { value: new THREE.Color(0.55, 1.0, 0.95) },
-          uOro: { value: new THREE.Color(0.98, 0.84, 0.52) },
+          uOro: { value: new THREE.Color(0xd9a640) },
+          uOpacidad: { value: 0.66 },
           uLuna: { value: new THREE.Vector3(-0.35, 0.8, -0.49).normalize() },
         },
       ]),
@@ -200,7 +217,7 @@ export class DragonesJade {
 
   agregar(op: OpcionesDragon): void {
     const segs = op.segs ?? 260;
-    const radial = op.radial ?? 12;
+    const radial = op.radial ?? 14;
     const R = op.radio;
     const grosor = op.grosor ?? ((u: number) => (u < 0.04 ? 1.12 : u > 0.62 ? Math.max(0.16, 1 - ((u - 0.62) / 0.38) * 0.86) : 1));
     const curva = new THREE.CatmullRomCurve3(op.puntos, false, 'centripetal');
@@ -289,11 +306,11 @@ export class DragonesJade {
       const zA = lats[k];
       const xA = new THREE.Vector3().crossVectors(yA, zA).normalize();
       const base = centros[k].clone().addScaledVector(arribas[k], R * g * 0.85);
-      const s = R * g * alt;
+      const s = R * g * alt * 0.5;
       m.makeBasis(xA.multiplyScalar(s), yA.multiplyScalar(s), zA.multiplyScalar(s * 0.28)).setPosition(base);
       const geo = new THREE.ConeGeometry(0.55, 1.7, 4);
       geo.translate(0, 0.85, 0);
-      pieza(geo, u, ALETA, m);
+      pieza(geo, u, ORO, m);
     }
     // aletas laterales pequeñas
     for (let i = 0; i < nAletas / 3; i++) {
@@ -341,7 +358,7 @@ export class DragonesJade {
           m.compose(pie, q, new THREE.Vector3(R, R, R));
           const geo = new THREE.ConeGeometry(0.1, 0.75, 4);
           geo.translate(0, 0.37, 0);
-          pieza(geo, u, LUZ, m);
+          pieza(geo, u, ORO, m);
         }
       }
     }
@@ -366,11 +383,13 @@ export class DragonesJade {
     const add = (geo: THREE.BufferGeometry, tipo: number): void => {
       local.push({ geo, tipo });
     };
-    add(new THREE.SphereGeometry(1.2, 14, 10).scale(1.05, 0.9, 1.15), LISO);
-    add(new THREE.CylinderGeometry(0.6, 0.88, 2.4, 12).rotateX(Math.PI / 2).scale(1, 0.72, 1).translate(0, 0.08, 1.7), LISO);
-    add(new THREE.SphereGeometry(0.5, 10, 8).scale(1.55, 0.78, 1).translate(0, 0.28, 2.85), LISO);
+    add(new THREE.SphereGeometry(1.2, 22, 16).scale(1.05, 0.9, 1.15), LISO);
+    add(new THREE.CylinderGeometry(0.6, 0.88, 2.4, 20, 3).rotateX(Math.PI / 2).scale(1, 0.72, 1).translate(0, 0.08, 1.7), LISO);
+    add(new THREE.SphereGeometry(0.5, 16, 12).scale(1.55, 0.78, 1).translate(0, 0.28, 2.85), LISO);
     // mandíbula abierta
-    add(new THREE.CylinderGeometry(0.4, 0.68, 2.2, 10).rotateX(Math.PI / 2).scale(1, 0.48, 1).rotateX(0.42).translate(0, -0.78, 1.45), LISO);
+    add(new THREE.CylinderGeometry(0.4, 0.68, 2.2, 16, 2).rotateX(Math.PI / 2).scale(1, 0.48, 1).rotateX(0.5).translate(0, -0.85, 1.4), LISO);
+    // lengua
+    add(new THREE.CylinderGeometry(0.12, 0.2, 1.6, 8).rotateX(Math.PI / 2).rotateX(0.3).translate(0, -0.55, 1.9), ALETA);
     // colmillos
     for (const l of [-1, 1]) {
       for (const z of [2.1, 2.6]) add(new THREE.ConeGeometry(0.09, 0.45, 4).rotateX(Math.PI).translate(l * 0.42, -0.42, z), ALETA);

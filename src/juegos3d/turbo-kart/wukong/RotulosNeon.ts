@@ -71,7 +71,7 @@ function neon(c: CanvasRenderingContext2D, color: string, dibujar: () => void, g
   c.shadowBlur = grueso;
   dibujar();
   c.shadowBlur = 0;
-  c.globalAlpha = 0.85;
+  c.globalAlpha = 0.55;
   c.fillStyle = '#fff3fb';
   c.strokeStyle = '#fff3fb';
   c.lineWidth = Math.max(1, c.lineWidth * 0.35);
@@ -94,18 +94,25 @@ function pintarCelda(c: CanvasRenderingContext2D, d: DefRotulo, x: number, y: nu
     caja(c, x + 10, y + 10, w - 20, h - 20, 10);
     c.stroke();
   }
-  // tubo del marco
+  // marco de neón doble: rosa por fuera y cian por dentro (el pórtico, dorado y rosa)
   c.lineWidth = 4;
-  neon(c, d.color, () => {
+  neon(c, d.portal ? d.color : '#ff4fb0', () => {
     caja(c, x + 14, y + 14, w - 28, h - 28, 10);
     c.stroke();
   }, 10);
+  if (!d.portal) {
+    c.lineWidth = 2.5;
+    neon(c, '#3ff0ff', () => {
+      caja(c, x + 23, y + 23, w - 46, h - 46, 7);
+      c.stroke();
+    }, 6);
+  }
   c.textAlign = 'center';
   c.textBaseline = 'middle';
   if (d.vertical) {
     const chars = [...d.txt];
-    const paso = (h - 60) / chars.length;
-    const tam = Math.min(w - 34, paso * 0.86);
+    const paso = (h - 70) / chars.length;
+    const tam = Math.min(w - 50, paso * 0.86);
     c.font = `900 ${tam}px ${FUENTE}`;
     chars.forEach((ch, i) => neon(c, d.color, () => c.fillText(ch, x + w / 2, y + 30 + paso * (i + 0.5)), 12));
   } else {
@@ -152,7 +159,8 @@ void main() {
   // de vez en cuando un rótulo titila (tubo de neón viejo)
   float corte = step(0.97, fract(sin(floor(uTime * 7.0 + vF * 31.0)) * 43758.5453));
   parp *= 1.0 - corte * 0.55;
-  vec3 col = t.rgb * (0.75 + 1.9 * lum * lum) * parp;
+  // solo el tubo de neón pasa del umbral de bloom; el resto queda oscuro
+  vec3 col = t.rgb * (0.55 + 1.15 * lum * lum) * parp;
   gl_FragColor = vec4(col, 1.0);
   #include <fog_fragment>
 }`;
@@ -276,6 +284,34 @@ export class RotulosNeon {
     // rótulos pequeños a los lados del panel
     this.poner('longdao', centro.clone().addScaledVector(lat, -semiancho * 0.62).add(new THREE.Vector3(0, H - 1.0, 0)).addScaledVector(fondo, -0.56), fondo.clone().negate(), 1.4);
     this.poner('xiyou', centro.clone().addScaledVector(lat, semiancho * 0.62).add(new THREE.Vector3(0, H - 1.0, 0)).addScaledVector(fondo, -0.56), fondo.clone().negate(), 1.4);
+  }
+
+  /** Rótulo grande colgado sobre la pista de un cable entre dos mástiles (por las dos caras). */
+  colgante(id: string, centro: THREE.Vector3, tangente: THREE.Vector3, binormal: THREE.Vector3, semiancho: number): void {
+    const H = 12.5;
+    const fondo = tangente.clone().setY(0).normalize();
+    const lat = binormal.clone().setY(0).normalize();
+    const m = new THREE.Matrix4().makeBasis(lat, new THREE.Vector3(0, 1, 0), fondo).setPosition(centro);
+    const col = (g: THREE.BufferGeometry, hex: number, k = 1): THREE.BufferGeometry => {
+      g.deleteAttribute('uv');
+      const n = g.getAttribute('position').count;
+      const cc = new THREE.Color(hex).multiplyScalar(k);
+      const a = new Float32Array(n * 3);
+      for (let i = 0; i < n; i++) a.set([cc.r, cc.g, cc.b], i * 3);
+      g.setAttribute('color', new THREE.BufferAttribute(a, 3));
+      return g.applyMatrix4(m);
+    };
+    for (const l of [-1, 1]) {
+      const x = l * (semiancho + 1.2);
+      this.marcos.push(col(new THREE.BoxGeometry(0.3, H, 0.3).translate(x, H / 2, 0), 0x1a0c14));
+      this.marcos.push(col(new THREE.SphereGeometry(0.32, 8, 6).translate(x, H + 0.2, 0), 0xf2c14e, 1.1));
+      // tirantes del rótulo
+      this.marcos.push(col(new THREE.BoxGeometry(0.05, 1.6, 0.05).translate(l * 3.2, H - 1.4, 0), 0x2a2026));
+    }
+    this.marcos.push(col(new THREE.BoxGeometry((semiancho + 1.2) * 2, 0.08, 0.08).translate(0, H - 0.6, 0), 0x2a2026));
+    const panel = centro.clone().add(new THREE.Vector3(0, H - 3.4, 0));
+    this.poner(id, panel.clone().addScaledVector(fondo, -0.04), fondo.clone().negate(), 2.6);
+    this.poner(id, panel.clone().addScaledVector(fondo, 0.04), fondo, 2.6);
   }
 
   construir(): void {

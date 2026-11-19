@@ -16,7 +16,8 @@ import { texturaNubeBlanca } from './TexturasCiudad';
 /** Altura del suelo de la ciudad (la pista va de y ≈ 0 a 6,5). */
 export const Y_SUELO = -46;
 
-const JADE = 0x1f9a7c;
+/** Tejas gris azuladas (no turquesa: que no se confundan con la pista). */
+const JADE = 0x2a3444;
 const ORO = 0xf2c14e;
 const LACA = 0xb3121f;
 
@@ -455,7 +456,7 @@ export class CiudadElevada {
     const nCor = E.filter((e) => e.corona).length;
     const coronas = new THREE.InstancedMesh(
       this.g(corona),
-      this.m(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.4, metalness: 0.3, emissive: 0x0d3a2c, emissiveIntensity: 1, side: THREE.DoubleSide })),
+      this.m(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.45, metalness: 0.3, emissive: 0x141016, emissiveIntensity: 1, side: THREE.DoubleSide })),
       Math.max(1, nCor),
     );
     const q = new THREE.Quaternion();
@@ -541,7 +542,7 @@ export class CiudadElevada {
     }, false);
     this.texs.push(tex, emis);
     const matCuerpo = this.m(new THREE.MeshStandardMaterial({ map: tex, emissiveMap: emis, emissive: 0xffffff, emissiveIntensity: 1.5, roughness: 0.55 }));
-    const matAdorno = this.m(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.4, metalness: 0.35, emissive: 0x123a2e, emissiveIntensity: 1, side: THREE.DoubleSide }));
+    const matAdorno = this.m(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.45, metalness: 0.3, emissive: 0x141016, emissiveIntensity: 1, side: THREE.DoubleSide }));
     const N = 26;
     const ms: THREE.Matrix4[] = [];
     const s = this.muestra(0);
@@ -656,7 +657,7 @@ export class CiudadElevada {
       let z: number;
       let y: number;
       let w = 30 + r() * 45;
-      let a = 0.55 + r() * 0.35;
+      let a = 0.38 + r() * 0.2;
       if (i >= 75 && i < 140) {
         // Niebla baja que asoma junto a las barandillas, a la altura de la pista.
         this.muestra(r(), s);
@@ -667,7 +668,7 @@ export class CiudadElevada {
         y = s.position.y - 4.2 + r() * 1.5;
         if (this.cercania(x, z).d < 5) y -= 9;
         w = 14 + r() * 14;
-        a = 0.45 + r() * 0.25;
+        a = 0.4 + r() * 0.1;
       } else if (i < 75) {
         // Junto a la pista, por debajo del tablero: «la pista sobre las nubes».
         this.muestra(r(), s);
@@ -709,8 +710,8 @@ export class CiudadElevada {
         uniforms: {
           map: { value: tex },
           uTime: { value: 0 },
-          uColor: { value: new THREE.Color(0x8d88b8) },
-          uLuz: { value: new THREE.Color(0xffffff) },
+          uColor: { value: new THREE.Color(0x7d7096) },
+          uLuz: { value: new THREE.Color(0xb9a8c8) },
           uRosa: { value: new THREE.Color(0xff6aa8) },
         },
       }),
@@ -794,17 +795,17 @@ export class CiudadElevada {
         if (r() < 0.75) {
           const p = new THREE.Vector3(0, tipo === 0 ? 7.2 : 6.0, tipos[tipo].D * (tipo === 0 ? 0.34 : 0.36) + 0.35).applyMatrix4(m);
           const n = haciaPista.clone().addScaledVector(tan, -0.55).normalize();
-          this.rotulos.poner(idsH[Math.floor(r() * idsH.length)], p, n, (tipo === 0 ? 2.5 : 1.9) * esc);
+          this.rotulos.poner(idsH[Math.floor(r() * idsH.length)], p, n, (tipo === 0 ? 3.8 : 3.0) * esc);
         }
         if (r() < 0.55) {
-          const p = new THREE.Vector3(-tipos[tipo].W / 2 + 0.2, 5.5, tipos[tipo].D / 2 + 0.6).applyMatrix4(m);
-          this.rotulos.poner(idsV[Math.floor(r() * idsV.length)], p, tan.clone().negate(), 5.6 * esc);
+          const p = new THREE.Vector3(-tipos[tipo].W / 2 + 0.2, 7.0, tipos[tipo].D / 2 + 0.6).applyMatrix4(m);
+          this.rotulos.poner(idsV[Math.floor(r() * idsV.length)], p, tan.clone().negate(), 8.4 * esc);
         }
         // Valla de neón grande sobre el tejado, mirando a los karts que llegan.
         if (tipo === 0 && r() < 0.35) {
-          const p = new THREE.Vector3(0, 12.4, 0).applyMatrix4(m);
+          const p = new THREE.Vector3(0, 13.1, 0).applyMatrix4(m);
           const n = tan.clone().negate().addScaledVector(haciaPista, 0.5).normalize();
-          this.rotulos.poner(idsH[Math.floor(r() * idsH.length)], p, n, 3.4 * esc);
+          this.rotulos.poner(idsH[Math.floor(r() * idsH.length)], p, n, 4.8 * esc);
         }
         pos += avance;
       }
@@ -814,8 +815,10 @@ export class CiudadElevada {
     const adorno0 = unir([
       pintar(new THREE.BoxGeometry(12, 0.5, 9).translate(0, 0.25, 0), 0x2a1a1e),
       pintar(new THREE.BoxGeometry(11.4, 0.3, 8.4).translate(0, 4.45, 0), ORO, 1.1),
+      pintar(new THREE.BoxGeometry(13.2, 0.24, 10.2).translate(0, 4.36, 0), LACA, 1.1),
       pintar(tejadoChino(14, 1.4, 0.8).scale(1, 1, 0.78).translate(0, 4.5, 0), JADE, 0.8),
       pintar(new THREE.BoxGeometry(13.6, 0.12, 10.6).translate(0, 4.52, 0), ORO, 1.2),
+      pintar(new THREE.BoxGeometry(10.6, 0.22, 8.4).translate(0, 7.7, 0), LACA, 1.1),
       pintar(tejadoChino(11.5, 3.0, 1.3).scale(1, 1, 0.8).translate(0, 7.8, 0), JADE, 0.8),
       pintar(new THREE.BoxGeometry(4.2, 0.35, 0.45).translate(0, 10.75, 0), ORO, 1.3),
       pintar(new THREE.ConeGeometry(0.3, 1.1, 5).rotateZ(0.5).translate(-2.2, 11.1, 0), ORO, 1.3),
@@ -825,6 +828,7 @@ export class CiudadElevada {
     const cuerpo1 = unir([new THREE.BoxGeometry(7, 4, 6.5).translate(0, 2, 0), new THREE.BoxGeometry(5.6, 3.0, 5.2).translate(0, 5.6, 0), new THREE.BoxGeometry(4.4, 2.6, 4).translate(0, 8.8, 0)].map((g) => pintar(g, 0xffffff)));
     const adorno1 = unir([
       pintar(new THREE.BoxGeometry(8, 0.5, 7.5).translate(0, 0.25, 0), 0x2a1a1e),
+      pintar(new THREE.BoxGeometry(9.2, 0.22, 8.2).translate(0, 3.88, 0), LACA, 1.1),
       pintar(tejadoChino(10, 1.3, 0.7).scale(1, 1, 0.9).translate(0, 4.0, 0), JADE, 0.8),
       pintar(new THREE.BoxGeometry(9.6, 0.12, 8.6).translate(0, 4.02, 0), ORO, 1.2),
       pintar(tejadoChino(8, 1.2, 0.6).scale(1, 1, 0.9).translate(0, 7.1, 0), JADE, 0.8),
@@ -837,7 +841,7 @@ export class CiudadElevada {
       c.fillStyle = '#9a1020';
       c.fillRect(0, 0, 128, 64);
       for (let i = 0; i < 4; i++) {
-        c.fillStyle = '#ffc35a';
+        c.fillStyle = i === 2 ? '#3a1a10' : '#ffb04a';
         c.fillRect(8 + i * 30, 14, 22, 38);
         c.strokeStyle = '#6a2a06';
         c.lineWidth = 2;
@@ -858,14 +862,16 @@ export class CiudadElevada {
     const emis = texturaCanvas(128, 64, (c) => {
       c.fillStyle = '#300006';
       c.fillRect(0, 0, 128, 64);
+      // ventanas ámbar #ffb04a; ~30 % apagadas
       for (let i = 0; i < 4; i++) {
-        c.fillStyle = i % 3 === 1 ? '#ff8a30' : '#ffb848';
+        if (i === 2) continue;
+        c.fillStyle = i === 1 ? '#c9822f' : '#ffb04a';
         c.fillRect(8 + i * 30, 14, 22, 38);
       }
     }, false);
     this.texs.push(tex, emis);
-    const matCuerpo = this.m(new THREE.MeshStandardMaterial({ map: tex, emissiveMap: emis, emissive: 0xffffff, emissiveIntensity: 1.45, roughness: 0.5 }));
-    const matAdorno = this.m(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.4, metalness: 0.35, emissive: 0x123a2e, emissiveIntensity: 0.8, side: THREE.DoubleSide }));
+    const matCuerpo = this.m(new THREE.MeshStandardMaterial({ map: tex, emissiveMap: emis, emissive: 0xffffff, emissiveIntensity: 1.0, roughness: 0.5 }));
+    const matAdorno = this.m(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.45, metalness: 0.3, emissive: 0x141016, emissiveIntensity: 1, side: THREE.DoubleSide }));
     [
       [cuerpo0, adorno0],
       [cuerpo1, adorno1],
@@ -888,10 +894,21 @@ export class CiudadElevada {
   // ------------------------------------------------------------------ pórtico-rótulo sobre la pista
   private crearPortico(): void {
     const s = this.muestra(0);
-    for (const t of [0.255, 0.6]) {
+    const porticos = [0.255, 0.6];
+    for (const t of porticos) {
       this.muestra(t, s);
       if (esVacio(this.track.def, t)) continue;
       this.rotulos.portico(s.position.clone(), s.tangent.clone(), s.binormal.clone(), s.wallHalfWidth + 0.4);
+    }
+    // Un rótulo grande colgando sobre la pista cada ~150 m.
+    const L = this.track.length;
+    const ids = ['nihong', 'xiyou', 'longdao', 'longcheng', 'jisu', 'wukong'];
+    let k = 0;
+    for (let m = 150; m < L - 60; m += 150) {
+      const t = m / L;
+      if (esVacio(this.track.def, t) || porticos.some((p) => Math.abs(p - t) < 0.05)) continue;
+      this.muestra(t, s);
+      this.rotulos.colgante(ids[k++ % ids.length], s.position.clone(), s.tangent.clone(), s.binormal.clone(), s.wallHalfWidth + 0.6);
     }
   }
 
@@ -991,8 +1008,8 @@ export class CiudadElevada {
           varying vec3 vC;
           void main() {
             vec3 V = normalize(cameraPosition - vW);
-            float centro = pow(abs(dot(normalize(vN), V)), 1.4);
-            float a = centro * pow(1.0 - vY, 1.8) * 0.16;
+            float centro = pow(abs(dot(normalize(vN), V)), 2.6);
+            float a = centro * pow(1.0 - vY, 1.8) * 0.08;
             gl_FragColor = vec4(vC * a, 1.0);
           }`,
       }),
