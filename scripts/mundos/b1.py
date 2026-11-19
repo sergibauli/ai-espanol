@@ -8,7 +8,7 @@ import numpy as np
 
 import arquitectura as ar
 import sprites as sp
-from pincel import (H, W, Capa, Lienzo, borde, cielo, cirros, col, desenfoca, mezcla, niebla, nube, perfil_picos, reflejo_capa, sierra,
+from pincel import (H, W, marco_hojas, Capa, Lienzo, borde, cielo, cirros, col, desenfoca, mezcla, niebla, nube, perfil_picos, reflejo_capa, sierra,
                     spline, suave, vdesenfoca, volumen)
 
 LUZ = 1
@@ -172,7 +172,7 @@ def pinta(M):
     for k, (picos, base, tinta, f) in enumerate([
         ([(60, 560, 150), (240, 520, 130), (420, 585, 160), (900, 540, 150), (1080, 575, 140)], 720, "#3a3f72", 0.45),
         ([(150, 620, 170), (360, 600, 140), (820, 615, 160), (1000, 600, 170)], 740, "#262c5c", 0.3)]):
-        pf = perfil_picos(L, picos, rug=26, seed=18 + k, base=base)
+        pf = perfil_picos(L, picos, forma="cordal", rug=20, seed=18 + k, base=base)
         sierra(C, pf, base, luz=LUZ, lit="#6a6fa6", sombra=tinta, aire="#4a4a80", aire_f=f, filo=0.6, filo_c="#b8c4ff", niebla_pie=("#4a4472", 110, 0.95), seed=18 + k, estrias=0.8)
     M.capa("lejos", C, 0.14)
 
@@ -277,6 +277,12 @@ def pinta(M):
     C.pon("#8a9ad8", borde(piedra, LUZ, -1.5) * 0.4)
     M.capa("frente", C, 1.0)
 
+    # ------------------------------------------------------------ 6 · marco: hojas de loto y ramas de sauce desenfocadas
+    C = Capa(L)
+    marco_hojas(C, [(40, 1480, 90, 40, 110, -0.2), (1060, 1490, 90, 40, 110, -2.9), (10, 1300, 40, 30, 90, 1.2), (1090, 1280, 40, 30, 90, 1.9)],
+                "#020a0c", "#1e4a40", luz=LUZ, punta="#6a8ac8", desenfoque=8, seed=93)
+    M.capa("marco", C, 1.3)
+
     # ------------------------------------------------------------ piezas animadas
     sp.halo(M.ruta("halo-luna.webp"), 220, "#c8d8ff", 0.75)
     M.actor("cielo", "halo-luna.webp", lx - 150, ly - 150, 300, 300, "respira", dur=7, op=0.9)
@@ -295,6 +301,10 @@ def pinta(M):
     for i, (vx, vy, vw, vh) in enumerate(ventanas_pueblo[::2] + ventanas[::2]):
         s = vw * 2.6
         M.actor("pueblo" if i < len(ventanas_pueblo[::2]) else "canal", "ventana.webp", vx - s / 2, vy - s / 2, s, s, "parpadea", dur=round(5 + (i * 1.7) % 6, 2), retraso=-i * 0.9, movil=i % 2 == 0)
+    sp.gente(M, "pueblo", "campesina", 420, 836, 12, 10, 40, retraso=-6, luz=LUZ)
+    sp.gente(M, "pueblo", "viajero", 700, 838, 12, -10, 46, retraso=-20, luz=LUZ, movil=False)
+    sp.gente(M, "canal", "mercader", 40, 1160, 20, 14, 50, retraso=-8, luz=LUZ, movil=False)
+    sp.gente(M, "canal", "pescador", 1000, 1150, 20, -12, 56, retraso=-30, luz=LUZ)
     rw_, rh_ = sp.ropa(M.ruta("ropa.webp"), 160, 50, seed=2)
     for i, (x, y, s) in enumerate(((112, 1000, 0.7), (900, 992, 0.75), (250, 846, 0.45), (850, 850, 0.42))):
         M.actor("canal" if i < 2 else "pueblo", "ropa.webp", x, y, rw_ * s, rh_ * s, "cuelga", dur=4 + i * 0.5, retraso=-i, amp=1.5, movil=i < 2)
