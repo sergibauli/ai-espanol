@@ -5,6 +5,7 @@ import { LogOutIcon, XIcon } from "lucide-react";
 import { NavIcon } from "../ui/NavIcon.jsx";
 import { GameStats } from "../ui/GameStats.jsx";
 import { SelectorIdioma } from "../ui/SelectorIdioma.jsx";
+import { EstadoGuardado } from "../ui/EstadoGuardado.jsx";
 import { useAppAuth } from "../../lib/auth.jsx";
 import { useGame } from "../../lib/gamification.js";
 import { getStreak } from "../../lib/streak.js";
@@ -193,6 +194,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
             </Link>
           ))}
           <FichaHoy />
+          <EstadoGuardado />
           <SelectorIdioma arriba />
           <a href="#/" className="side-exit" onClick={(e) => (e.preventDefault(), logout())}>
             Salir · 退出

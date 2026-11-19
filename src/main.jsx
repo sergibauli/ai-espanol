@@ -2,6 +2,8 @@ import { ClerkProvider } from "@clerk/clerk-react";
 // Solo el español (el índice del paquete arrastra todos los idiomas)
 import { esES } from "@clerk/localizations/es-ES";
 import * as ReactDOM from "react-dom/client";
+// Primero: engancha localStorage para sincronizar el progreso con la cuenta (antes de que nada escriba)
+import "./lib/syncProgreso.js";
 import { ErrorBoundary, App } from "./App.jsx";
 import "./styles/app.css";
 import "./styles/overrides.css";

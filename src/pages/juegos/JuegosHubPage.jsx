@@ -21,6 +21,8 @@ import {
   TypeIcon,
   SpadeIcon,
   CompassIcon,
+  BrushIcon,
+  CircleDotIcon,
 } from "lucide-react";
 import * as React from "react";
 import { flushSync } from "react-dom";
@@ -40,7 +42,7 @@ export const READY_GAMES = new Set([
   "/juegos/scramble",
   "/juegos/sopa",
   "/juegos/ahorcado",
-  "/juegos/apalabrados",
+  "/juegos/palacio-palabras",
   "/juegos/mapa-mental",
   "/juegos/teatro",
   "/juegos/dragon-jade",
@@ -48,6 +50,8 @@ export const READY_GAMES = new Set([
   "/juegos/fichas-palacio",
   "/juegos/brisca",
   "/juegos/viaje-mono",
+  "/juegos/pincel-magico",
+  "/juegos/pinball-dragon",
 ]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
@@ -170,11 +174,11 @@ const JUEGOS = [
     path: "/juegos/memory",
   },
   {
-    id: "apalabrados",
-    name: "Apalabrados",
-    nameCn: "拼字棋盘",
-    desc: "Coloca letras en el tablero y forma palabras con casillas de bonus.",
-    descCn: "在棋盘上摆字母组词，争取加分格。",
+    id: "palacio-palabras",
+    name: "Palacio de las palabras",
+    nameCn: "字母宫殿",
+    desc: "Forma palabras con fichas de marfil contra el Rey Mono; las de tu unidad suman más.",
+    descCn: "用象牙字母牌和美猴王比赛拼词，本单元的单词加分更多。",
     icon: HashIcon,
     sello: "字",
     tono: "bronce",
@@ -182,8 +186,8 @@ const JUEGOS = [
     habilidad: { es: "Estrategia", zh: "策略" },
     nivel: 3,
     minutos: 10,
-    jugadores: "1–2",
-    path: "/juegos/apalabrados",
+    jugadores: "1",
+    path: "/juegos/palacio-palabras",
   },
   {
     id: "uno",
@@ -312,6 +316,38 @@ const JUEGOS = [
     minutos: 12,
     jugadores: "1–4",
     path: "/juegos/viaje-mono",
+  },
+  {
+    id: "pincel-magico",
+    name: "Pincel mágico",
+    nameCn: "神笔",
+    desc: "El pincel del Rey Mono pinta una palabra trazo a trazo: adivínala antes de que termine. Y en clase, dibuja tú y que tu equipo la diga.",
+    descCn: "美猴王的神笔一笔一画地画出一个词，在画完前猜出来！课堂上还可以你画我猜。",
+    icon: BrushIcon,
+    sello: "笔",
+    tono: "laca",
+    category: "concurso",
+    habilidad: { es: "Vocabulario y escritura", zh: "词汇与拼写" },
+    nivel: 1,
+    minutos: 6,
+    jugadores: "1+",
+    path: "/juegos/pincel-magico",
+  },
+  {
+    id: "pinball-dragon",
+    name: "Pinball del dragón",
+    nameCn: "龙之弹球",
+    desc: "Escucha la palabra y dale con la bola a la placa correcta. Si golpeas una equivocada, la bola se rompe.",
+    descCn: "听词语，用弹珠击中正确的词牌；打错了，球就会碎掉。",
+    icon: CircleDotIcon,
+    sello: "弹",
+    tono: "laca",
+    category: "aventura",
+    habilidad: { es: "Escucha y vocabulario", zh: "听力与词汇" },
+    nivel: 3,
+    minutos: 6,
+    jugadores: "1",
+    path: "/juegos/pinball-dragon",
   },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 
