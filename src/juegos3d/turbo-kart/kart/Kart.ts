@@ -420,6 +420,8 @@ export class Kart implements IKart {
     p.flameMaterial.opacity = 0.5 + this.visGlow * 0.45;
     p.flameMaterial.color.setHex(this.visGlow > 0.3 ? 0xff5ac8 : 0xff8a3a);
     p.orbMaterial.emissiveIntensity = 1.3 + Math.sin(this.time * 4) * 0.5;
+    // Criatura: respiración, cola y alas, aliento con turbo y estela de nubes al derrapar.
+    p.animate(dt, this.time, s.steerVisual, speedRatio, this.visGlow, s.isDrifting ? s.driftDirection : 0);
   }
 
   applyBoost(strength: number, duration: number, source: BoostSource): void {
