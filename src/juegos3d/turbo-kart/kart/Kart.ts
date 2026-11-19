@@ -414,6 +414,12 @@ export class Kart implements IKart {
     const exs = 1 + 0.12 * this.visGlow * flicker;
     const exz = 1 + 0.25 * this.visGlow * flicker;
     for (let i = 0; i < ex.length; i++) ex[i].scale.set(exs, exs, exz);
+    // Wukong: llamas siempre encendidas, largas y rosas con turbo; orbe de jade que late.
+    const largo = 0.85 + this.visGlow * 1.8 * flicker + Math.min(1, Math.abs(s.speed) / 25) * 0.35;
+    for (const f of p.flames) f.scale.set(1 + this.visGlow * 0.6, 1 + this.visGlow * 0.6, largo);
+    p.flameMaterial.opacity = 0.5 + this.visGlow * 0.45;
+    p.flameMaterial.color.setHex(this.visGlow > 0.3 ? 0xff5ac8 : 0xff8a3a);
+    p.orbMaterial.emissiveIntensity = 1.3 + Math.sin(this.time * 4) * 0.5;
   }
 
   applyBoost(strength: number, duration: number, source: BoostSource): void {

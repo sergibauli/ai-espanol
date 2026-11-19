@@ -36,6 +36,11 @@ export interface KartModelPartsEx extends KartModelParts {
   wheelRadii: number[];
   /** Disposes every geometry, material and texture owned by this model. */
   dispose(): void;
+  /** Wukong: llamas de los escapes (se avivan con el turbo). */
+  flames: THREE.Object3D[];
+  flameMaterial: THREE.MeshBasicMaterial;
+  /** Wukong: orbe de jade del morro (late). */
+  orbMaterial: THREE.MeshStandardMaterial;
 }
 
 // --- dimensions -------------------------------------------------------------
@@ -554,6 +559,165 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
   driver.add(driverHead);
   root.add(driver);
 
+  // --- Wukong: armadura de dragón (maqueta del dueño) ------------------------
+  // Oro para cuernos, aletas y ribetes; escamas en los laterales; orbe de jade en el morro;
+  // llamas rosas y naranjas en los escapes.
+  const oro = mat(
+    new THREE.MeshStandardMaterial({ color: 0xffc94a, metalness: 0.9, roughness: 0.22, emissive: 0x6a4208, emissiveIntensity: 0.8 }),
+  );
+  const escamaMat = mat(
+    new THREE.MeshPhysicalMaterial({ color: character.color, metalness: 0.35, roughness: 0.28, clearcoat: 1, clearcoatRoughness: 0.15, emissive: character.color, emissiveIntensity: 0.12 }),
+  );
+  const orbMaterial = mat(
+    new THREE.MeshStandardMaterial({ color: 0x3dff9a, emissive: 0x1aff7a, emissiveIntensity: 1.6, roughness: 0.15, metalness: 0.1 }),
+  );
+  const oroBatch = new Batch();
+  // cuernos curvos hacia atrás sobre el morro
+  for (const sx of [-1, 1]) {
+    const cuerno = new THREE.ConeGeometry(0.045, 0.34, 6);
+    oroBatch.add(cuerno, sx * 0.17, 0.52, -0.55, 0.95, 0, sx * -0.35);
+    oroBatch.add(cuerno, sx * 0.24, 0.47, -0.45, 1.15, 0, sx * -0.55, 0.8, 0.8, 0.8);
+    cuerno.dispose();
+    // ceja/arcada sobre el «ojo»
+    const ceja = new RoundedBoxGeometry(0.16, 0.035, 0.08, 1, 0.012);
+    oroBatch.add(ceja, sx * 0.17, 0.42, -0.72, 0.3, sx * 0.3, 0);
+    ceja.dispose();
+  }
+  // engaste del orbe y ribete del morro
+  const engaste = new THREE.TorusGeometry(0.1, 0.022, 8, 24);
+  oroBatch.add(engaste, 0, 0.32, -0.9);
+  engaste.dispose();
+  const ribete = new THREE.TorusGeometry(0.36, 0.018, 6, 24, Math.PI);
+  oroBatch.add(ribete, 0, 0.27, -0.6, -Math.PI / 2, 0, 0);
+  ribete.dispose();
+  // aletas dorsales sobre el motor y el respaldo
+  for (let i = 0; i < 4; i++) {
+    const aleta = new THREE.ConeGeometry(0.05, 0.2 - i * 0.025, 4);
+    oroBatch.add(aleta, 0, 0.92 - i * 0.05, 0.42 + i * 0.12, 0.5, 0, 0, 1, 1, 0.4);
+    aleta.dispose();
+  }
+  // aletas laterales sobre los pontones
+  for (const sx of [-1, 1]) {
+    for (let i = 0; i < 3; i++) {
+      const aleta = new THREE.ConeGeometry(0.04, 0.16, 4);
+      oroBatch.add(aleta, sx * (WHEEL_X - 0.03), 0.38, -0.18 + i * 0.2, 0.7, 0, sx * -0.3, 1, 1, 0.45);
+      aleta.dispose();
+    }
+  }
+  const oroMesh = makeMesh(track(oroBatch.build()), oro, 'dragonOro');
+  root.add(oroMesh);
+  // Guardabarros de escamas sobre cada rueda, con textura de escamas y ribete dorado.
+  const texEscamas = new THREE.CanvasTexture(
+    (() => {
+      const cv = document.createElement('canvas');
+      cv.width = 128;
+      cv.height = 64;
+      const c = cv.getContext('2d');
+      if (c) {
+        c.fillStyle = '#ffffff';
+        c.fillRect(0, 0, 128, 64);
+        for (let fila = 0; fila < 5; fila++) {
+          for (let col = -1; col < 10; col++) {
+            const x = col * 16 + (fila % 2) * 8;
+            const y = fila * 13 + 8;
+            const g = c.createRadialGradient(x, y - 3, 1, x, y, 9);
+            g.addColorStop(0, '#ffffff');
+            g.addColorStop(1, '#b8b0a8');
+            c.fillStyle = g;
+            c.beginPath();
+            c.arc(x, y, 8, 0, Math.PI);
+            c.fill();
+            c.strokeStyle = '#f2c14e';
+            c.lineWidth = 1.6;
+            c.beginPath();
+            c.arc(x, y, 8, 0.1, Math.PI - 0.1);
+            c.stroke();
+          }
+        }
+      }
+      return cv;
+    })(),
+  );
+  texEscamas.colorSpace = THREE.SRGBColorSpace;
+  texEscamas.wrapS = texEscamas.wrapT = THREE.RepeatWrapping;
+  texEscamas.repeat.set(3, 1);
+  textures.add(texEscamas);
+  escamaMat.map = texEscamas;
+  const escBatch = new Batch();
+  const ribBatch = new Batch();
+  const ruedas: [number, number, number, number][] = [
+    [WHEEL_X, WHEEL_Z_F, WHEEL_R_F, WHEEL_W_F],
+    [-WHEEL_X, WHEEL_Z_F, WHEEL_R_F, WHEEL_W_F],
+    [WHEEL_X, WHEEL_Z_R, WHEEL_R_R, WHEEL_W_R],
+    [-WHEEL_X, WHEEL_Z_R, WHEEL_R_R, WHEEL_W_R],
+  ];
+  for (const [x, z, r, w] of ruedas) {
+    const guard = new THREE.CylinderGeometry(r + 0.07, r + 0.07, w + 0.1, 16, 1, false, Math.PI * 0.05, Math.PI * 0.9);
+    guard.rotateZ(Math.PI / 2);
+    escBatch.add(guard, x, r, z, 0, 0, 0);
+    guard.dispose();
+    const borde = new THREE.TorusGeometry(r + 0.075, 0.018, 6, 18, Math.PI);
+    borde.rotateY(Math.PI / 2);
+    ribBatch.add(borde, x + Math.sign(x) * (w / 2 + 0.05), r, z);
+    ribBatch.add(borde, x - Math.sign(x) * (w / 2 + 0.05), r, z);
+    borde.dispose();
+  }
+  // Lomo de escamas sobre el capó
+  const lomo = new THREE.CylinderGeometry(0.24, 0.3, 0.5, 14, 1, false, -Math.PI / 2, Math.PI);
+  lomo.rotateX(Math.PI / 2 - 0.25);
+  escBatch.add(lomo, 0, 0.34, -0.5, 0, 0, 0, 1, 0.55, 1);
+  lomo.dispose();
+  root.add(makeMesh(track(escBatch.build()), escamaMat, 'dragonEscamas'));
+  // Cresta: dos cuernos altos detrás del asiento (visibles desde la cámara) y engaste del orbe trasero
+  for (const sx of [-1, 1]) {
+    const cuerno = new THREE.ConeGeometry(0.05, 0.5, 6);
+    ribBatch.add(cuerno, sx * 0.14, 1.02, 0.5, 0.55, 0, sx * -0.45);
+    cuerno.dispose();
+  }
+  const aroTrasero = new THREE.TorusGeometry(0.13, 0.03, 8, 24);
+  ribBatch.add(aroTrasero, 0, 0.46, 0.86);
+  aroTrasero.dispose();
+  root.add(makeMesh(track(ribBatch.build()), oro, 'dragonRibetes'));
+  const orbeTrasero = makeMesh(track(new THREE.SphereGeometry(0.11, 16, 12)), orbMaterial, 'dragonOrbeTrasero');
+  orbeTrasero.position.set(0, 0.46, 0.87);
+  orbeTrasero.scale.set(1, 1, 0.6);
+  orbeTrasero.castShadow = false;
+  root.add(orbeTrasero);
+  // Cuernos dorados en el casco del piloto
+  const cascoCuernos = new Batch();
+  for (const sx of [-1, 1]) {
+    const c = new THREE.ConeGeometry(0.03, 0.2, 6);
+    cascoCuernos.add(c, sx * 0.1, 0.27, 0.04, 0.6, 0, sx * -0.5);
+    c.dispose();
+  }
+  const cc = makeMesh(track(cascoCuernos.build()), oro, 'cascoCuernos');
+  cc.castShadow = false;
+  driverHead.add(cc);
+
+  // llamas de los escapes
+  const flameMaterial = mat(
+    new THREE.MeshBasicMaterial({ color: 0xff6ab0, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }),
+  );
+  const llamaGeo = track(new THREE.ConeGeometry(0.07, 0.6, 10, 1, true));
+  llamaGeo.rotateX(-Math.PI / 2);
+  llamaGeo.translate(0, 0, 0.58);
+  const nucleoGeo = track(new THREE.ConeGeometry(0.028, 0.24, 8, 1, true));
+  nucleoGeo.rotateX(-Math.PI / 2);
+  nucleoGeo.translate(0, 0, 0.4);
+  const nucleoMat = mat(new THREE.MeshBasicMaterial({ color: 0xfff0c0, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
+  const flames: THREE.Object3D[] = [];
+  for (const g of exhausts) {
+    const f = new THREE.Group();
+    f.name = 'llama';
+    const a = makeMesh(llamaGeo, flameMaterial, 'llama');
+    a.castShadow = false;
+    const b = makeMesh(nucleoGeo, nucleoMat, 'llamaNucleo');
+    b.castShadow = false;
+    f.add(a, b);
+    g.add(f);
+    flames.push(f);
+  }
+
   const dispose = () => {
     for (const g of geometries) g.dispose();
     for (const m of materials) m.dispose();
@@ -578,5 +742,8 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     exhaustGlowMaterial,
     wheelRadii,
     dispose,
+    flames,
+    flameMaterial,
+    orbMaterial,
   };
 }

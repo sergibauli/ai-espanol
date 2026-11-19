@@ -8,10 +8,10 @@ import type { TrackDefinition } from '../../core/types';
  */
 export const frostbiteFalls: TrackDefinition = {
   id: 'frostbite_falls',
-  name: 'Cascadas Heladas · 冰霜瀑布',
+  name: 'Templo de Jade · 玉虚宫',
   theme: 'snow',
   laps: 3,
-  description: 'Bajada vertiginosa hasta un lago helado sin barreras · 冲下冰湖堤道，两边就是悬崖。',
+  description: 'Salas de jade entre la nieve, guardianes de piedra y un puente sobre el vacío · 雪中玉殿、石像守卫和悬空栈道。',
   difficulty: 2,
   controlPoints: [
     { x: 0, y: 8, z: 0 }, // 0 finish line (plateau)
@@ -42,15 +42,15 @@ export const frostbiteFalls: TrackDefinition = {
   boostPads: [0.22, 0.66, 0.935],
   voidRanges: [[0.315, 0.545]],
   environment: {
-    skyTop: 0x1e3f7a,
-    skyHorizon: 0x9ccbf0,
-    skyBottom: 0xe3f1ff,
-    fogColor: 0xbcd8f2,
-    fogDensity: 0.0032,
+    skyTop: 0x1a2f5a,
+    skyHorizon: 0x9fe0d8,
+    skyBottom: 0xe8fff8,
+    fogColor: 0xbfe4dc,
+    fogDensity: 0.0016,
     sunColor: 0xdfeaff,
     sunIntensity: 2.0,
     sunDirection: { x: 0.36, y: 0.66, z: -0.66 },
-    ambientSky: 0xa9cdf5,
+    ambientSky: 0xbfe6dc,
     ambientGround: 0x8fa8c4,
     ambientIntensity: 1.0,
   },
@@ -59,8 +59,8 @@ export const frostbiteFalls: TrackDefinition = {
     roadStripe: 0xe8f6ff,
     curb: 0x2f6fb5,
     curbAlt: 0xffffff,
-    offroad: 0xeaf3fb,
-    wall: 0x8fd0f2,
+    offroad: 0xe6ece8,
+    wall: 0x2f9a80,
     ground: 0xe6eff8,
   },
 };

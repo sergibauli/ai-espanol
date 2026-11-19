@@ -195,13 +195,20 @@ export class RaceManager {
     const grid = this.track.startGrid;
     if (grid.length === 0) return;
     let aiSlot = 0;
+    // Wukong: varios jugadores humanos (pantalla partida) ocupan casillas consecutivas.
+    const humanos = this.trackers.filter((t) => t.kart.state.isPlayer).length;
+    const primera = Math.max(0, Math.min(PLAYER_GRID_SLOT, grid.length - humanos));
+    const reservadas = new Set<number>();
+    for (let h = 0; h < humanos; h++) reservadas.add(Math.min(primera + h, grid.length - 1));
+    let humano = 0;
     for (const tr of this.trackers) {
       const s = tr.kart.state;
       let slotIndex: number;
       if (s.isPlayer) {
-        slotIndex = Math.min(PLAYER_GRID_SLOT, grid.length - 1);
+        slotIndex = Math.min(primera + humano, grid.length - 1);
+        humano++;
       } else {
-        if (aiSlot === Math.min(PLAYER_GRID_SLOT, grid.length - 1)) aiSlot++;
+        while (reservadas.has(aiSlot % grid.length) && aiSlot < grid.length * 2) aiSlot++;
         slotIndex = aiSlot % grid.length;
         aiSlot++;
       }
@@ -410,7 +417,10 @@ export class RaceManager {
     tr.emittedPlace = s.place;
     tr.candidatePlace = s.place;
     s.wrongWay = false;
-    if (s.isPlayer && this.playerFinishedAt < 0) this.playerFinishedAt = this.time;
+    // El tiempo de gracia empieza cuando han llegado todos los jugadores humanos.
+    if (s.isPlayer && this.playerFinishedAt < 0 && this.trackers.every((t) => !t.kart.state.isPlayer || t.kart.state.finished)) {
+      this.playerFinishedAt = this.time;
+    }
     events.emit('race:finish', { kartId: s.id, place: s.place, time: s.finishTime, isPlayer: s.isPlayer });
   }
 

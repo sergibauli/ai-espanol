@@ -271,7 +271,7 @@ export class ItemManager implements IItemManager {
    * vocabulary challenge. The roulette spins meanwhile; the item is only granted
    * if `resolve(true)` is called (a wrong answer or timeout gives nothing).
    */
-  playerQuiz: ((resolve: (ok: boolean) => void) => void) | null = null;
+  playerQuiz: ((resolve: (ok: boolean) => void, kartId: number) => void) | null = null;
 
   constructor(particles: IParticleSystem | null) {
     this.particles = particles;
@@ -512,7 +512,7 @@ export class ItemManager implements IItemManager {
           r.quiz = 'pending';
           this.playerQuiz((ok) => {
             if (r.quiz === 'pending' && this.records.includes(r)) r.quiz = ok ? 'ok' : 'fail';
-          });
+          }, s.id);
         }
         this.debugCounts.pickup++;
         events.emit('item:pickup', { kartId: s.id, position: b.world.clone(), isPlayer: s.isPlayer });

@@ -52,6 +52,19 @@ import { disposeToasts, showToast } from '../ui/toast';
 import { TouchControls } from '../ui/TouchControls';
 import { CapaAprendizaje, type OpcionesAprendizaje } from '../learning/Aprendizaje';
 import { CiudadDragon } from '../wukong/CiudadDragon';
+import { CircuitosImperiales } from '../wukong/CircuitosImperiales';
+import { EntradaJugador } from '../kart/EntradaJugador';
+
+/** Wukong: un jugador más en pantalla partida (el jugador 1 usa los campos de siempre). */
+interface JugadorExtra {
+  kart: IKart;
+  camera: THREE.PerspectiveCamera;
+  follow: FollowCamera;
+  hud: HUD;
+  auto: IAIDriver | null;
+}
+
+const COLORES_JUGADOR = ['#ff3a4f', '#3ad1ff', '#7cff6b', '#ffd23f'];
 
 const MIN_LOADING_SECONDS = 0.8;
 /** Give up waiting for async shader compilation after this long and just go. */
@@ -95,6 +108,17 @@ interface RaceContext {
   resultsTimer: number;
   /** Wukong: capa visual de la Ciudad del Dragón. */
   ciudad: CiudadDragon | null;
+  /** Wukong: decorado de los circuitos imperiales (bambú, volcán, templo de jade). */
+  imperial: CircuitosImperiales | null;
+  /** Wukong · pantalla partida: nº de jugadores humanos (karts 0..n-1). */
+  humanos: number;
+  extra: JugadorExtra[];
+  entradas: EntradaJugador[];
+  entradasEstado: InputState[];
+  usoPendiente: boolean[];
+  cuadrantes: HTMLElement[];
+  /** Con 3 jugadores, el cuarto cuadrante muestra una vista aérea del líder. */
+  vista: THREE.PerspectiveCamera | null;
 }
 
 export class Game {
@@ -239,7 +263,7 @@ export class Game {
     this.capa.setTimeScale = (v) => {
       this.timeScale = v;
     };
-    this.capa.puedePreguntar = () => this.state === 'racing' && !!this.race && !this.race.karts[0].state.finished;
+    this.capa.puedePreguntar = (j) => this.state === 'racing' && !!this.race && !!this.race.karts[j] && !this.race.karts[j].state.finished;
     this.touchControls = this.tactil ? new TouchControls(this.uiRoot, this.input.touch) : null;
     this.uiRoot.classList.toggle('tactil', this.tactil);
     this.muteIndicator = el('div', 'mute-indicator', '🔇 SILENCIO · 静音', this.uiRoot);
@@ -318,7 +342,7 @@ export class Game {
 
     const input = this.input.update();
     try {
-      this.capa.update(dt, this.state === 'paused', this.race ? this.race.karts[0] : null);
+      this.capa.update(dt, this.state === 'paused', this.race ? this.race.karts.slice(0, this.race.humanos) : []);
       this.frame(dt, input);
     } catch (err) {
       console.error('[Game] frame error', err);
@@ -345,7 +369,8 @@ export class Game {
       case 'countdown':
       case 'racing':
       case 'finished': {
-        if (input.pause) {
+        const pausaExtra = this.leerEntradas();
+        if (input.pause || pausaExtra) {
           this.pause();
           this.render(dt);
           return;
@@ -455,6 +480,8 @@ export class Game {
     // Player input (or auto-drive after finishing).
     if (r.playerAutoDriver) {
       r.playerAutoDriver.update(dt, track, karts, items, null);
+    } else if (r.humanos > 1) {
+      this.aplicarEntrada(r, 0, player);
     } else {
       const p = this.playerInput;
       p.throttle = input.throttle;
@@ -474,6 +501,12 @@ export class Game {
       player.setInput(p);
     }
 
+    for (let j = 0; j < r.extra.length; j++) {
+      const x = r.extra[j];
+      if (x.auto) x.auto.update(dt, track, karts, items, null);
+      else this.aplicarEntrada(r, j + 1, x.kart);
+    }
+
     for (let i = 0; i < r.aiDrivers.length; i++) {
       r.aiDrivers[i].update(dt, track, karts, items, player);
     }
@@ -481,7 +514,7 @@ export class Game {
     for (let i = 0; i < karts.length; i++) {
       karts[i].update(dt, track, karts);
     }
-    this.capa.revisarPuertas(player);
+    for (let j = 0; j < r.humanos; j++) this.capa.revisarPuertas(karts[j], j);
 
     for (let i = 0; i < karts.length; i++) {
       const k = karts[i];
@@ -505,7 +538,14 @@ export class Game {
     for (let i = 0; i < r.karts.length; i++) r.karts[i].updateVisuals(dt);
     r.track.update(dt, this.elapsed);
     if (r.ciudad) this.safe(() => r.ciudad?.update(dt, player.state.position, this.camera));
-    r.followCamera.update(dt, player, lookBack);
+    if (r.imperial) this.safe(() => r.imperial?.update(dt));
+    r.followCamera.update(dt, player, r.humanos > 1 ? (r.entradasEstado[0]?.lookBack ?? false) && this.state === 'racing' : lookBack);
+    for (let j = 0; j < r.extra.length; j++) {
+      const x = r.extra[j];
+      x.follow.update(dt, x.kart, (r.entradasEstado[j + 1]?.lookBack ?? false) && this.state === 'racing');
+      x.hud.update(dt, x.kart, r.karts, r.raceManager.raceTime, r.raceManager.totalLaps);
+    }
+    if (r.vista) this.actualizarVista(r, dt);
     this.updateSun(r, player);
     this.particles.update(dt, r.karts, this.camera);
     this.audio.update(dt, r.karts, player.state.id, this.camera);
@@ -520,6 +560,20 @@ export class Game {
   }
 
   private render(dt: number): void {
+    const r = this.race;
+    if (r && r.humanos > 1 && (this.state === 'countdown' || this.state === 'racing' || this.state === 'finished' || this.state === 'paused')) {
+      this.renderPartido(r);
+      return;
+    }
+    if (r && r.humanos > 1) {
+      // Al salir de la pantalla partida (resultados), la cámara vuelve a ocupar todo el lienzo.
+      const tam = this.renderer.getSize(this.tmpVec2);
+      const asp = tam.x / Math.max(1, tam.y);
+      if (Math.abs(this.camera.aspect - asp) > 1e-3) {
+        this.camera.aspect = asp;
+        this.camera.updateProjectionMatrix();
+      }
+    }
     if (this.postfxOk) {
       try {
         this.postfx.render(dt);
@@ -673,15 +727,17 @@ export class Game {
       others[i] = others[j];
       others[j] = t;
     }
+    // Wukong: pantalla partida (2–4 jugadores humanos, solo con teclado/mandos).
+    const humanos = this.tactil ? 1 : Math.max(1, Math.min(4, Math.round(settings.jugadores ?? 1)));
     karts.push(new Kart(0, playerChar, true));
     for (let id = 1; id < KART_COUNT; id++) {
       const def = others.length > 0 ? others[(id - 1) % others.length] : playerChar;
-      karts.push(new Kart(id, def, false));
+      karts.push(new Kart(id, def, id < humanos));
     }
 
     const difficulty: Difficulty = settings.difficulty;
     const aiDrivers: IAIDriver[] = [];
-    for (let id = 1; id < karts.length; id++) {
+    for (let id = humanos; id < karts.length; id++) {
       aiDrivers.push(new AIDriver(karts[id], difficulty, id));
     }
 
@@ -696,13 +752,44 @@ export class Game {
     partial.followCamera = followCamera;
     followCamera.setTrack(track);
 
-    const hud = new HUD(this.uiRoot, buildItemIcon);
+    // Cuadrantes de la pantalla partida (2 = arriba/abajo, 3–4 = rejilla 2 × 2).
+    const cuadrantes: HTMLElement[] = [];
+    if (humanos > 1) {
+      this.uiRoot.classList.add('wk-split', `wk-split-${humanos}`);
+      for (let i = 0; i < humanos; i++) cuadrantes.push(el('div', `wk-cuadrante wk-q${i}`, undefined, this.uiRoot));
+      if (humanos === 3) {
+        const v = el('div', 'wk-cuadrante wk-q3 wk-vista', undefined, this.uiRoot);
+        el('div', 'wk-vista-titulo', 'VISTA DEL LÍDER · 领先者视角', v);
+        cuadrantes.push(v);
+      }
+      this.capa.configurarJugadores(cuadrantes.slice(0, humanos));
+    } else {
+      this.capa.configurarJugadores([this.uiRoot]);
+    }
+    const ajusteSplit = { distancia: 6, altura: 3, mirarArriba: 1.1, fovMin: 60, fovMax: 68 };
+    if (humanos > 1) followCamera.configurar(ajusteSplit);
+
+    const hud = new HUD(humanos > 1 ? cuadrantes[0] : this.uiRoot, buildItemIcon);
     partial.hud = hud;
     hud.setTrack(track);
+    if (humanos > 1) hud.setJugador(0, COLORES_JUGADOR[0]);
+    const extra: JugadorExtra[] = [];
+    for (let j = 1; j < humanos; j++) {
+      const cam = new THREE.PerspectiveCamera(60, 1, 0.1, 1200);
+      const follow = new FollowCamera(cam);
+      follow.setTrack(track);
+      follow.configurar(ajusteSplit);
+      const h = new HUD(cuadrantes[j], buildItemIcon);
+      h.setTrack(track);
+      h.setJugador(j, COLORES_JUGADOR[j]);
+      extra.push({ kart: karts[j], camera: cam, follow, hud: h, auto: null });
+    }
+    const entradas: EntradaJugador[] = [];
+    if (humanos > 1) for (let j = 0; j < humanos; j++) entradas.push(new EntradaJugador(j));
 
     // Lights from the track environment.
     const sun = new THREE.DirectionalLight(env.sunColor, env.sunIntensity);
-    sun.castShadow = true;
+    sun.castShadow = humanos === 1;
     sun.shadow.mapSize.set(this.mobile ? 1024 : 2048, this.mobile ? 1024 : 2048);
     const sc = sun.shadow.camera;
     sc.left = -SHADOW_HALF_EXTENT;
@@ -757,7 +844,21 @@ export class Game {
       unsubs: [],
       resultsTimer: 0,
       ciudad: null,
+      imperial: null,
+      humanos,
+      extra,
+      entradas,
+      entradasEstado: entradas.map(() => createEmptyInput()),
+      usoPendiente: entradas.map(() => false),
+      cuadrantes,
+      vista: humanos === 3 ? new THREE.PerspectiveCamera(55, 1, 0.1, 1500) : null,
     };
+    try {
+      r.imperial = new CircuitosImperiales(track);
+      this.scene.add(r.imperial.object);
+    } catch (err) {
+      console.error('[Game] circuitos imperiales', err);
+    }
     try {
       r.ciudad = new CiudadDragon(track, karts);
       this.scene.add(r.ciudad.object);
@@ -775,6 +876,7 @@ export class Game {
       // Dev-only: `?auto=1` lets the AI drive the player for soak testing.
       if (new URLSearchParams(location.search).has('auto')) {
         r.playerAutoDriver = new AIDriver(karts[0], 'hard', 0);
+        for (const x of r.extra) x.auto = new AIDriver(x.kart, 'hard', x.kart.state.id);
       }
       (window as unknown as { __tkr?: unknown }).__tkr = {
         game: this,
@@ -787,6 +889,7 @@ export class Game {
     // Sync visuals once so the first rendered frame is sane.
     for (const k of karts) k.updateVisuals(0);
     followCamera.snapTo(karts[0]);
+    for (const x of extra) x.follow.snapTo(x.kart);
     this.updateSun(r, karts[0]);
 
     r.unsubs.push(
@@ -799,7 +902,7 @@ export class Game {
       }),
       events.on('race:finish', (e) => {
         if (this.race !== r || !e.isPlayer) return;
-        this.onPlayerFinished(r);
+        this.onPlayerFinished(r, e.kartId);
       }),
       events.on('race:allFinished', () => {
         if (this.race !== r) return;
@@ -823,6 +926,7 @@ export class Game {
     this.pendingSettings = null;
     this.loading.hide();
     r.hud.show();
+    for (const x of r.extra) x.hud.show();
 
     // Cinematic: wide shot of the grid swooping into the chase position.
     const grid = r.track.startGrid;
@@ -851,14 +955,19 @@ export class Game {
     this.playMusic('race');
   }
 
-  private onPlayerFinished(r: RaceContext): void {
+  private onPlayerFinished(r: RaceContext, kartId = 0): void {
     if (this.state !== 'racing' && this.state !== 'countdown') return;
     try {
-      r.playerAutoDriver = new AIDriver(r.karts[0], 'normal', 0);
+      if (kartId === 0) r.playerAutoDriver = new AIDriver(r.karts[0], 'normal', 0);
+      else {
+        const x = r.extra[kartId - 1];
+        if (x) x.auto = new AIDriver(x.kart, 'normal', kartId);
+      }
     } catch (err) {
       console.warn('[Game] could not create auto-driver for the player', err);
-      r.playerAutoDriver = null;
     }
+    // En pantalla partida la carrera «termina» cuando han llegado todos los jugadores.
+    for (let j = 0; j < r.humanos; j++) if (!r.karts[j].state.finished) return;
     if (this.postfxOk) this.safe(() => this.postfx.flash(0xffffff, 0.35));
     this.setState('finished');
     if (r.raceManager.allFinished) r.resultsTimer = RESULTS_DELAY_SECONDS;
@@ -868,9 +977,11 @@ export class Game {
     const r = this.race;
     if (!r || this.state === 'results') return;
     r.hud.hide();
+    for (const x of r.extra) x.hud.hide();
     const standings = r.raceManager.getStandings();
+    this.results.jugadores = r.humanos;
     this.results.show(standings);
-    const puesto = standings.find((s) => s.isPlayer)?.place ?? standings.length;
+    const puesto = Math.min(...standings.filter((s) => s.isPlayer).map((s) => s.place), standings.length);
     try {
       const { resumen, xp } = this.capa.terminarCarrera(puesto);
       this.results.showAprendizaje(resumen, xp);
@@ -927,12 +1038,25 @@ export class Game {
     this.scene.fog = null;
 
     if (r.ciudad) this.safe(() => r.ciudad?.dispose());
+    if (r.imperial) this.safe(() => r.imperial?.dispose());
     this.safe(() => r.items.dispose());
     for (const k of r.karts) this.safe(() => k.dispose());
     this.safe(() => r.track.dispose());
     r.raceManager.dispose();
     r.followCamera.dispose();
     r.hud.dispose();
+    for (const x of r.extra) {
+      x.follow.dispose();
+      x.hud.dispose();
+    }
+    for (const e of r.entradas) e.dispose();
+    for (const c of r.cuadrantes) c.remove();
+    this.uiRoot.classList.remove('wk-split', 'wk-split-2', 'wk-split-3', 'wk-split-4');
+    this.renderer.setScissorTest(false);
+    const tam = this.renderer.getSize(this.tmpVec2);
+    this.renderer.setViewport(0, 0, tam.x, tam.y);
+    this.camera.aspect = tam.x / Math.max(1, tam.y);
+    this.camera.updateProjectionMatrix();
     this.safe(() => this.particles.reset());
     if (this.postfxOk) {
       this.safe(() => {
@@ -995,6 +1119,86 @@ export class Game {
       }
     }
   };
+
+  // ------------------------------------------------------------ pantalla partida
+
+  private readonly tmpVec2 = new THREE.Vector2();
+
+  /** Lee los mandos de cada jugador (una vez por fotograma). Devuelve true si alguno pide pausa. */
+  private leerEntradas(): boolean {
+    const r = this.race;
+    if (!r || r.humanos < 2) return false;
+    let pausa = false;
+    for (let j = 0; j < r.entradas.length; j++) {
+      const e = r.entradas[j].update();
+      const dst = r.entradasEstado[j];
+      Object.assign(dst, e);
+      if (e.useItem) r.usoPendiente[j] = true;
+      if (e.pause && j > 0) pausa = true;
+    }
+    return pausa;
+  }
+
+  private aplicarEntrada(r: RaceContext, j: number, kart: IKart): void {
+    const src = r.entradasEstado[j];
+    if (!src) return;
+    const p = this.jugadorInput[j] ?? (this.jugadorInput[j] = createEmptyInput());
+    p.throttle = src.throttle;
+    p.brake = src.brake;
+    p.steer = src.steer;
+    p.drift = src.drift;
+    p.useItem = r.usoPendiente[j];
+    p.useItemHeld = src.useItemHeld;
+    p.lookBack = src.lookBack;
+    r.usoPendiente[j] = false;
+    kart.setInput(p);
+  }
+  private readonly jugadorInput: InputState[] = [];
+
+  /** Rectángulos (x, y, w, h) de cada vista, en píxeles CSS, origen abajo-izquierda (WebGL). */
+  private rectangulos(n: number, w: number, h: number): [number, number, number, number][] {
+    const w2 = Math.floor(w / 2);
+    const h2 = Math.floor(h / 2);
+    if (n === 2) return [[0, h2, w, h - h2], [0, 0, w, h2]];
+    return [
+      [0, h2, w2, h - h2],
+      [w2, h2, w - w2, h - h2],
+      [0, 0, w2, h2],
+      [w2, 0, w - w2, h2],
+    ];
+  }
+
+  private renderPartido(r: RaceContext): void {
+    const tam = this.renderer.getSize(this.tmpVec2);
+    const camaras: THREE.PerspectiveCamera[] = [this.camera, ...r.extra.map((x) => x.camera)];
+    if (r.vista) camaras.push(r.vista);
+    const rects = this.rectangulos(r.humanos, tam.x, tam.y);
+    this.renderer.setScissorTest(true);
+    for (let i = 0; i < camaras.length && i < rects.length; i++) {
+      const [x, y, w, h] = rects[i];
+      const cam = camaras[i];
+      cam.aspect = w / Math.max(1, h);
+      cam.updateProjectionMatrix();
+      this.renderer.setViewport(x, y, w, h);
+      this.renderer.setScissor(x, y, w, h);
+      this.renderer.render(this.scene, cam);
+    }
+    this.renderer.setScissorTest(false);
+    this.renderer.setViewport(0, 0, tam.x, tam.y);
+  }
+
+  /** Con 3 jugadores: cámara aérea que sigue al líder de la carrera. */
+  private actualizarVista(r: RaceContext, dt: number): void {
+    const cam = r.vista;
+    if (!cam) return;
+    let lider = r.karts[0];
+    for (const k of r.karts) if (k.state.place > 0 && k.state.place < lider.state.place) lider = k;
+    const p = lider.state.position;
+    lider.forwardDir(this.tmpB);
+    this.tmpA.set(p.x - this.tmpB.x * 18, p.y + 16, p.z - this.tmpB.z * 18);
+    cam.position.lerp(this.tmpA, Math.min(1, dt * 3));
+    cam.lookAt(p.x + this.tmpB.x * 8, p.y, p.z + this.tmpB.z * 8);
+  }
 
   /** Adaptive quality: lower the pixel ratio when frames are slow, raise it back when there is headroom. */
   private adaptQuality(dt: number): void {
