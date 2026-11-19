@@ -183,3 +183,24 @@
 @media (prefers-reduced-motion: reduce) {
   .r24-espuma, .r24-destellos, .r24-anillo-agua, .r24-farol { animation: none !important; }
 }
+
+/* ===== v24 · Botón «Empezar · 开始»: placa lacada con marco de oro y volutas 如意 ===== */
+.rt22 .rp-parada .rp-empezar { position: relative; gap: 10px; margin-bottom: 30px; padding: 8px 22px 8px 8px; border-radius: 12px; border: 0;
+  font: 900 16px/1 var(--rt-ui); letter-spacing: .14em; color: #fff6dc;
+  background: radial-gradient(130% 80% at 30% -10%, rgba(255,255,255,.45), transparent 50%), linear-gradient(180deg, #f2384e 0%, #c8102e 42%, #8f0c21 78%, #5e0614 100%);
+  box-shadow: inset 0 0 0 2px #fff0b8, inset 0 0 0 3.5px #b07a1c, inset 0 0 0 5px rgba(255,230,160,.55), inset 0 -6px 10px rgba(60,0,10,.35),
+    0 0 0 2px #7a4d12, 0 0 0 4px #f2c14e, 0 0 0 5.5px #6e4210, 0 6px 0 3px #4a2a08, 0 0 34px rgba(255,200,90,.75), 0 18px 22px rgba(50,5,10,.55); }
+.rt22 .rp-empezar b { font-weight: 900; color: #fffaf0; text-shadow: 0 2px 0 rgba(70,0,12,.7), 0 0 12px rgba(255,214,120,.55); }
+.rp-emp-ala { position: absolute; top: 50%; width: 22px; height: 40px; margin-top: -20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff6d0'/%3E%3Cstop offset='.45' stop-color='%23f2c14e'/%3E%3Cstop offset='1' stop-color='%239a6416'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M28 7C15 1 3 5 3 14c0 6 6 8 9 5-7 3-11 9-8 15 3 7 12 9 24 6z' fill='url(%23g)' stroke='%236e4210' stroke-width='1.4'/%3E%3Cpath d='M13 20c-4-3-2-8 3-7M10 33c-1 4 3 7 7 4' fill='none' stroke='%236e4210' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='14' r='1.6' fill='%23fff6d0'/%3E%3C/svg%3E") center / contain no-repeat; filter: drop-shadow(0 2px 1px rgba(60,20,0,.5)); pointer-events: none; }
+.rp-emp-ala.izq { left: -24px; }
+.rp-emp-ala.der { right: -24px; transform: scaleX(-1); }
+.rp-emp-play { width: 34px; height: 34px; background: radial-gradient(circle at 34% 26%, #fffbe6 0, #f6d77e 30%, #c8961e 68%, #6e4210 100%);
+  box-shadow: inset 0 0 0 1.5px rgba(255,250,220,.9), inset 0 -3px 3px rgba(90,50,10,.45), 0 0 0 1.5px #7a4d12, 0 3px 5px rgba(60,0,10,.55); }
+.rp-emp-play::before { background: linear-gradient(180deg, #c8102e, #7d0a1d); }
+.rp-emp-zh { border-left: 1.5px solid rgba(255,226,154,.7); color: #ffe7a6; }
+.rt22 .rp-parada .rp-empezar::after { width: 16px; height: 16px; margin: -5px 0 0 -8px; background: linear-gradient(135deg, #fff3c4, #f2c14e 50%, #a8741e); border: 0; box-shadow: 0 0 0 1.5px #6e4210, 3px 3px 4px rgba(50,5,10,.45); }
+@media (max-width: 700px) {
+  .rt22 .rp-parada .rp-empezar { padding: 6px 16px 6px 6px; font-size: 14px; }
+  .rp-emp-ala { width: 18px; height: 32px; margin-top: -16px; } .rp-emp-ala.izq { left: -19px; } .rp-emp-ala.der { right: -19px; }
+  .rp-emp-play { width: 28px; height: 28px; }
+}

@@ -454,6 +454,8 @@ export default function RutaPage() {
                         >
                           {isCurrent && (
                             <button type="button" className="rp-empezar" onClick={abrir} tabIndex={-1} aria-hidden="true">
+                              <span className="rp-emp-ala izq" />
+                              <span className="rp-emp-ala der" />
                               <span className="rp-emp-luz" />
                               <span className="rp-emp-play" />
                               <b>{clase.hechas ? "Seguir" : "Empezar"}</b>
