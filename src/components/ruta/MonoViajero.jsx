@@ -29,7 +29,7 @@ const igual = (a, b) => a && b && a[0] === b[0] && a[1] === b[1];
 const suave = (k) => (k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2);
 const sinMovimiento = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salida = false, retraso = 0, seguir = false, onLlegada }) {
+export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salida = false, retraso = 0, seguir = false, onLlegada, forma }) {
   const refMedida = React.useRef(null);
   const refMover = React.useRef(null);
   const refInclina = React.useRef(null);
@@ -82,7 +82,7 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
 
     // Muestreo de la curva a velocidad uniforme
     const medida = refMedida.current;
-    medida.setAttribute("d", tramo(origen, hasta));
+    medida.setAttribute("d", tramo(origen, hasta, forma));
     const largo = medida.getTotalLength();
     const puntos = Array.from({ length: MUESTRAS + 1 }, (_, i) => {
       const p = medida.getPointAtLength((largo * i) / MUESTRAS);

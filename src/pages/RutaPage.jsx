@@ -20,11 +20,14 @@ import { TransicionNivel } from "../components/ruta/TransicionNivel.jsx";
 import { CabeceraRuta } from "../components/ruta/CabeceraRuta.jsx";
 import { SelloPasaporte, FiltroTinta, fechaSello } from "../components/ruta/SelloPasaporte.jsx";
 import { Pictograma, PaisajeBanda, paisajeDe } from "../components/ruta/paisajes.jsx";
-import { ANCHO_CARRIL, FILA, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva } from "../components/ruta/geometria.js";
+import { ANCHO_CARRIL, FILA, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva, formaDe } from "../components/ruta/geometria.js";
+import { Medallon, SelloHecha, CofreImperial } from "../components/ruta/Medallon.jsx";
+import { TerrenoForma } from "../components/ruta/TerrenoForma.jsx";
 import "../styles/v13-ruta-mundos.css";
 import "../styles/v14-ruta.css";
 import "../styles/v22-ruta.css";
 import "../styles/movil-ruta.css";
+import "../styles/v23-ruta-recorridos.css";
 
 const STOP = Object.fromEntries(STOPS.map((parada) => [parada.n, parada]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
@@ -321,7 +324,9 @@ export default function RutaPage() {
             const parada = STOP[numero];
             const prog = progresos[numero];
             const paradas = prog.total;
-            const pts = puntosCamino(idx, paradas);
+            const forma = formaDe(lv.key, idx);
+            const pts = puntosCamino(idx, paradas, forma);
+            const camino = trazado(pts, paradas, forma);
             const alcanzada = unlocked(idx, 1);
             const alto = ARRIBA + paradas * FILA + 78;
             const enFiesta = fiesta?.numero === numero;
@@ -399,33 +404,43 @@ export default function RutaPage() {
                     <b translate="no">{parada?.lugarZh}</b>
                   </span>
                   <EscenaTramo nivel={lv.key} idx={idx} />
-                  <div className="ruta-camino" style={{ width: ANCHO_CARRIL, height: alto }}>
+                  <div className={`ruta-camino rf-${forma.tipo}`} data-forma={forma.tipo} style={{ width: ANCHO_CARRIL, height: alto }}>
                     <svg className="ruta-carretera" width={ANCHO_CARRIL} height={alto} aria-hidden="true">
-                      <path className="borde" d={trazado(pts)} />
-                      <path className="piedra" d={trazado(pts)} />
-                      <path className="losas" d={trazado(pts)} />
+                      <TerrenoForma forma={forma} pts={pts} camino={camino} />
+                      {/* Cuerpo temático del recorrido: río, muralla, escalinata, tinta o estela de nubes */}
+                      <path className="rf-base" d={camino} />
+                      <path className="rf-detalle" d={camino} />
+                      <path className="borde" d={camino} />
+                      <path className="piedra" d={camino} />
+                      <path className="losas" d={camino} />
+                      <path className="rf-filo" d={camino} />
                       {alcanzada && (
                         <>
-                          <path className="halo" d={trazado(pts, oroHasta)} />
-                          <path className="oro" d={trazado(pts, oroHasta)} />
-                          <path className="luz" d={trazado(pts, oroHasta)} />
+                          <path className="halo" d={trazado(pts, oroHasta, forma)} />
+                          <path className="oro" d={trazado(pts, oroHasta, forma)} />
+                          <path className="luz" d={trazado(pts, oroHasta, forma)} />
                         </>
                       )}
                       {/* Tramo recién ganado: se dibuja en oro una sola vez */}
                       {enFiesta && fiesta.fase === "trazo" && fiesta.i < paradas && (
                         <g className="rc-trazo">
-                          <path className="oro" pathLength="1" d={tramo(pts[fiesta.i], pts[fiesta.i + 1])} />
-                          <path className="luz" pathLength="1" d={tramo(pts[fiesta.i], pts[fiesta.i + 1])} />
+                          <path className="oro" pathLength="1" d={tramo(pts[fiesta.i], pts[fiesta.i + 1], forma)} />
+                          <path className="luz" pathLength="1" d={tramo(pts[fiesta.i], pts[fiesta.i + 1], forma)} />
                         </g>
                       )}
                     </svg>
+                    {/* Adornos a mitad de cada tramo: linternas, almenaras, salpicaduras de tinta, faroles o nubes */}
+                    {pts.slice(0, -1).map((punto, k) => {
+                      const [x, y] = puntoCurva(punto, pts[k + 1], 0.5, forma);
+                      return <span key={k} className="rf-adorno" style={{ left: x, top: y, "--k": k, "--lado": x > ANCHO_CARRIL / 2 ? 1 : -1 }} aria-hidden="true" />;
+                    })}
                     {/* Destello que recorre el oro de vez en cuando y huellas que laten hacia la siguiente parada */}
-                    {alcanzada && (iActual >= 0 || idx === mods.indexOf(modActual) - 1) && <span className="rc-brillo-camino" style={{ offsetPath: `path("${trazado(pts, oroHasta)}")` }} aria-hidden="true" />}
+                    {alcanzada && (iActual >= 0 || idx === mods.indexOf(modActual) - 1) && <span className="rc-brillo-camino" style={{ offsetPath: `path("${trazado(pts, oroHasta, forma)}")` }} aria-hidden="true" />}
                     {iActual >= 0 &&
                       !retenida &&
                       [0.24, 0.42, 0.6, 0.78].map((t, k) => {
-                        const [x, y] = puntoCurva(pts[iActual], pts[iActual + 1], t);
-                        return <span key={t} className="rc-huella" style={{ left: x, top: y, "--k": k }} aria-hidden="true" />;
+                        const [x, y] = puntoCurva(pts[iActual], pts[iActual + 1], t, forma);
+                        return <span key={t} className="rc-huella" style={{ left: x, top: y, "--k": k, "--lado": x > ANCHO_CARRIL / 2 ? 1 : -1 }} aria-hidden="true" />;
                       })}
                     {prog.clases.map((clase, i) => {
                       const clave = `${numero}-${clase.n}`;
@@ -436,7 +451,11 @@ export default function RutaPage() {
                       const estaAbierta = abierta === clave;
                       const siguiente = clase.lecciones.findIndex((hecha) => !hecha);
                       const estado = isDone ? "done" : isOpen ? "open" : "locked";
-                      const tamanoMoneda = (isCurrent ? 92 : 80) - (esMovil ? 10 : 0);
+                      const tamanoMoneda = (isCurrent ? 104 : 86) - (esMovil ? 12 : 0);
+                      const abrir = () => {
+                        if (!isOpen) setNegada(clave);
+                        setAbierta(estaAbierta ? null : clave);
+                      };
                       return (
                         <div
                           key={clave}
@@ -445,9 +464,25 @@ export default function RutaPage() {
                           ref={esLaDeFiesta ? fiestaRef : isCurrent ? currentRef : null}
                         >
                           {isCurrent && (
-                            <div className="rp-empezar">
-                              {clase.hechas ? "SEGUIR" : "EMPEZAR"} <span translate="no">{clase.hechas ? "继续" : "开始"}</span>
-                            </div>
+                            <button type="button" className="rp-empezar" onClick={abrir} tabIndex={-1} aria-hidden="true">
+                              <span className="rp-emp-luz" />
+                              <span className="rp-emp-play" />
+                              <b>{clase.hechas ? "Seguir" : "Empezar"}</b>
+                              <span className="rp-emp-zh" translate="no">
+                                {clase.hechas ? "继续" : "开始"}
+                              </span>
+                            </button>
+                          )}
+                          {isCurrent && (
+                            <span className="md-haz" aria-hidden="true" />
+                          )}
+                          {isCurrent && (
+                            <span className="md-aura" aria-hidden="true">
+                              <i />
+                              <i />
+                              <i />
+                              <i />
+                            </span>
                           )}
                           <span className="rp-peana" aria-hidden="true" />
                           <span className="rp-onda" aria-hidden="true" />
@@ -462,10 +497,7 @@ export default function RutaPage() {
                           <button
                             type="button"
                             className={`path-node ${estado} ${isCurrent ? "current" : ""}`}
-                            onClick={() => {
-                              if (!isOpen) setNegada(clave);
-                              setAbierta(estaAbierta ? null : clave);
-                            }}
+                            onClick={abrir}
                             aria-expanded={estaAbierta}
                             aria-label={`Clase ${clase.n} de la unidad ${numero}${isDone ? ", completada" : isOpen ? "" : ", bloqueada"} · 第${clase.n}课`}
                           >
@@ -478,19 +510,14 @@ export default function RutaPage() {
                             )}
                             {isOpen && !isDone && <span className="ruta-clase-anillo" style={{ "--p": Math.round((clase.hechas / LESSONS_PER_MODULE) * 100) }} aria-hidden="true" />}
                             <span className="rp-moneda">
-                              <Moneda tamano={tamanoMoneda} tono={isDone ? "oro" : isCurrent ? "jade" : isOpen ? "oro" : "bronce"} brillo={isDone || isCurrent}>
-                                {isDone ? clase.nota === 100 ? <StarIcon size={26} fill="currentColor" /> : <CheckIcon size={28} strokeWidth={3.5} /> : isCurrent ? null : isOpen ? <Emoji3D emoji={i === 0 ? unidad.icono : LESSON_META[Math.min(i, 4)].emoji} size={32} /> : <LockIcon size={20} />}
-                              </Moneda>
-                              <span className="rp-brillo" aria-hidden="true" />
+                              <Medallon tamano={tamanoMoneda} estado={isDone ? "hecha" : isCurrent ? "actual" : isOpen ? "abierta" : "cerrada"}>
+                                {isDone ? clase.nota === 100 ? <StarIcon size={30} fill="currentColor" /> : <CheckIcon size={32} strokeWidth={3.5} /> : isOpen ? <Emoji3D emoji={i === 0 ? unidad.icono : LESSON_META[Math.min(i, 4)].emoji} size={isCurrent ? (esMovil ? 38 : 44) : esMovil ? 30 : 34} /> : null}
+                              </Medallon>
+                              {isDone && <SelloHecha perfecta={clase.nota === 100} />}
                             </span>
                             <span className="ruta-clase-sello" translate="no">
                               第{clase.n}课
                             </span>
-                            {isDone && (
-                              <span className="rp-marca" aria-hidden="true">
-                                <Pictograma tipo={paisaje.tipo} tamano={22} />
-                              </span>
-                            )}
                           </button>
                           {estaAbierta && (
                             <div className={`rp-pop ${isOpen ? "" : "cerrada"}`} role="dialog" aria-label={`Clase ${clase.n} · 第${clase.n}课`} style={{ "--c": isOpen ? lv.color : "#5a4632", "--d": isOpen ? lv.dark : "#2b1d10", "--dx": `${ANCHO_CARRIL / 2 - pts[i][0]}px` }}>
@@ -550,13 +577,13 @@ export default function RutaPage() {
                       <span className="rp-peana" aria-hidden="true" />
                       {unidadGanada && <span className="rp-rayos" aria-hidden="true" />}
                       <span className="rp-moneda">
-                        <Moneda tamano={esMovil ? 84 : 96} tono={unidadGanada ? "oro" : "bronce"} brillo={unidadGanada}>
-                          <Emoji3D emoji={unidadGanada ? "🏆" : "🎁"} size={esMovil ? 38 : 44} />
-                        </Moneda>
-                        <span className="rp-brillo" aria-hidden="true" />
+                        <span className={`rp-templo t-${lv.key}`} aria-hidden="true" />
+                        <span className="rp-templo-cofre">
+                          <CofreImperial abierto={unidadGanada} tamano={esMovil ? 50 : 58} />
+                        </span>
                       </span>
-                      <span className="ruta-clase-sello" translate="no">
-                        考试
+                      <span className="ruta-clase-sello rp-cofre-cartel">
+                        Examen <span translate="no">考试</span>
                       </span>
                     </Link>
                     {iMono >= 0 && (
@@ -568,6 +595,7 @@ export default function RutaPage() {
                         salida={monoSeVa}
                         retraso={fiesta ? 0 : 700}
                         seguir={Boolean(fiesta)}
+                        forma={forma}
                         onLlegada={monoSeVa ? () => setFiesta((actual) => (actual ? { ...actual, monoSalio: true } : actual)) : undefined}
                       />
                     )}
