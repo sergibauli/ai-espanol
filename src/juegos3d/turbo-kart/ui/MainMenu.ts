@@ -41,12 +41,12 @@ const RETRATOS: Record<string, { src: string; filtro?: string }> = {
 };
 const WEIGHT_LABEL: Record<string, string> = { light: 'LIGERO · 轻', medium: 'MEDIO · 中', heavy: 'PESADO · 重' };
 const THEME_LABEL: Record<string, string> = {
-  grassland: 'PRADERA · 草原',
-  desert: 'DESIERTO · 沙漠',
-  snow: 'NIEVE · 雪地',
+  grassland: 'BAMBÚ · 竹林',
+  desert: 'VOLCÁN · 火山',
+  snow: 'TEMPLO · 玉殿',
   beach: 'PLAYA · 海滩',
   volcano: 'VOLCÁN · 火山',
-  neon: 'NEÓN · 霓虹',
+  neon: 'CIUDAD · 龙城',
 };
 
 export class MainMenu {

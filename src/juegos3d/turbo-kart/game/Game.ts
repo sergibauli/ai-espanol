@@ -52,6 +52,7 @@ import { disposeToasts, showToast } from '../ui/toast';
 import { TouchControls } from '../ui/TouchControls';
 import { CapaAprendizaje, type OpcionesAprendizaje } from '../learning/Aprendizaje';
 import { CiudadDragon } from '../wukong/CiudadDragon';
+import { CircuitosImperiales } from '../wukong/CircuitosImperiales';
 
 const MIN_LOADING_SECONDS = 0.8;
 /** Give up waiting for async shader compilation after this long and just go. */
@@ -95,6 +96,8 @@ interface RaceContext {
   resultsTimer: number;
   /** Wukong: capa visual de la Ciudad del Dragón. */
   ciudad: CiudadDragon | null;
+  /** Wukong: decorado de los circuitos imperiales (bambú, volcán, templo de jade). */
+  imperial: CircuitosImperiales | null;
 }
 
 export class Game {
@@ -505,6 +508,7 @@ export class Game {
     for (let i = 0; i < r.karts.length; i++) r.karts[i].updateVisuals(dt);
     r.track.update(dt, this.elapsed);
     if (r.ciudad) this.safe(() => r.ciudad?.update(dt, player.state.position, this.camera));
+    if (r.imperial) this.safe(() => r.imperial?.update(dt));
     r.followCamera.update(dt, player, lookBack);
     this.updateSun(r, player);
     this.particles.update(dt, r.karts, this.camera);
@@ -757,7 +761,14 @@ export class Game {
       unsubs: [],
       resultsTimer: 0,
       ciudad: null,
+      imperial: null,
     };
+    try {
+      r.imperial = new CircuitosImperiales(track);
+      this.scene.add(r.imperial.object);
+    } catch (err) {
+      console.error('[Game] circuitos imperiales', err);
+    }
     try {
       r.ciudad = new CiudadDragon(track, karts);
       this.scene.add(r.ciudad.object);
@@ -927,6 +938,7 @@ export class Game {
     this.scene.fog = null;
 
     if (r.ciudad) this.safe(() => r.ciudad?.dispose());
+    if (r.imperial) this.safe(() => r.imperial?.dispose());
     this.safe(() => r.items.dispose());
     for (const k of r.karts) this.safe(() => k.dispose());
     this.safe(() => r.track.dispose());
