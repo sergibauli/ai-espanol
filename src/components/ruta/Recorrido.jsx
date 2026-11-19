@@ -346,36 +346,45 @@ function pincel({ M, forma, pts }) {
         <circle key={k} className="r24-gota" cx={f1(g.x)} cy={f1(g.y)} r={f1(g.r)} />
       ))}
       {pts.slice(0, ultima).map((p, i) => (
-        <PiedraTinta key={i} x={p[0]} y={p[1]} />
+        <PiedraTinta key={i} x={p[0]} y={p[1]} k={i} />
       ))}
       <Explanada x={pts[ultima][0]} y={pts[ultima][1]} tipo="tinta" />
     </g>
   );
 }
 
-function PiedraTinta({ x, y }) {
-  // Piedra de tinta (砚台) de piedra de Duan: losa de esquinas redondeadas, borde alzado, charco de tinta arriba y nubes talladas
-  const hw = 64;
-  const top = y + 10;
-  const fondo = y + 70;
-  const G = 12;
+function PiedraTinta({ x, y, k = 0 }) {
+  // Círculo zen (圆相) pintado de un solo trazo alrededor de la base, con aguada clara y sello rojo del artista
+  const cx = x;
+  const cy = y + 34;
+  const rx = 66;
+  const ry = 27;
+  const ini = -2.2 + k * 0.9;
+  const N = 64;
+  const fuera = [];
+  const dentro = [];
+  for (let i = 0; i <= N; i++) {
+    const t = i / N;
+    const a = ini + t * Math.PI * 1.86;
+    const w = (1.5 + 7.5 * Math.sin(Math.PI * Math.min(1, t * 1.15)) ** 0.7) * (1 + 0.15 * Math.sin(t * 23));
+    fuera.push(`${f1(cx + Math.cos(a) * (rx + w))} ${f1(cy + Math.sin(a) * (ry + w * 0.55))}`);
+    dentro.push(`${f1(cx + Math.cos(a) * (rx - w))} ${f1(cy + Math.sin(a) * (ry - w * 0.55))}`);
+  }
+  const anillo = `M${fuera.join("L")}L${dentro.reverse().join("L")}Z`;
+  const sx = cx + (k % 2 ? -1 : 1) * (rx + 4);
   return (
-    <g className="r24-piedra-tinta">
-      <rect className="r24-sombra" x={x - hw + 8} y={top + 16} width={hw * 2 + 8} height={fondo - top + 6} rx="22" />
-      <rect x={x - hw} y={top + G} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "#3a2f35" }} />
-      <rect x={x - hw} y={top + G / 2} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "#5a4b53" }} />
-      <rect x={x - hw} y={top} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "url(#r24-duan)" }} />
-      <rect x={x - hw + 2} y={top + 2} width={hw * 2 - 4} height={fondo - top - 4} rx="18" style={{ fill: "url(#r24-grano)", opacity: 0.45 }} />
-      {/* Superficie de moler, rehundida y satinada */}
-      <rect x={x - hw + 10} y={top + 8} width={hw * 2 - 20} height={fondo - top - 16} rx="14" style={{ fill: "#40353b" }} />
-      <rect x={x - hw + 11} y={top + 9.5} width={hw * 2 - 22} height={fondo - top - 18} rx="13" style={{ fill: "url(#r24-moler)" }} />
-      {/* Charco de tinta (墨池) arriba, en media luna */}
-      <path d={`M${x - 40} ${top + 13}h80q-6 14-40 14t-40-14z`} style={{ fill: "url(#r24-charco)" }} />
-      <path d={`M${x - 30} ${top + 15}q30 6 54 0`} style={{ fill: "none", stroke: "rgba(255,255,255,.45)", strokeWidth: 1.2, strokeLinecap: "round" }} />
-      {/* Nubes talladas en las esquinas y luz en el canto */}
-      <path d={`M${x - hw + 6} ${fondo - 10}c2-6 9-7 12-2c2-5 9-5 10 1M${x + hw - 28} ${fondo - 10}c2-6 9-7 12-2c2-5 9-5 10 1`} style={{ fill: "none", stroke: "rgba(230,215,225,.5)", strokeWidth: 1.4, strokeLinecap: "round" }} />
-      <rect x={x - hw} y={top} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "none", stroke: "rgba(255,240,250,.35)", strokeWidth: 1.4 }} />
-      <rect x={x - hw} y={top} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "url(#r24-luz-plataforma)" }} />
+    <g className="r24-enso">
+      <ellipse cx={cx} cy={cy} rx={rx + 10} ry={ry + 6} className="r24-aguada" />
+      <ellipse cx={cx} cy={cy} rx={rx - 4} ry={ry - 3} style={{ fill: "rgba(250,246,236,.55)" }} />
+      <path d={anillo} className="r24-tinta" />
+      <path d={anillo} style={{ fill: "none", stroke: "rgba(236,229,214,.5)", strokeWidth: 0.8, strokeDasharray: "14 22 6 30" }} />
+      <g transform={`translate(${f1(sx)} ${cy + 8}) rotate(${k % 2 ? 8 : -8})`}>
+        <rect x="-9" y="-9" width="18" height="18" rx="2" style={{ fill: "#c8102e" }} />
+        <rect x="-7" y="-7" width="14" height="14" rx="1" style={{ fill: "none", stroke: "#fff1e0", strokeWidth: 1 }} />
+        <text x="0" y="4.5" textAnchor="middle" style={{ fill: "#fff1e0", font: '700 11px "STKaiti","KaiTi",serif' }}>
+          学
+        </text>
+      </g>
     </g>
   );
 }

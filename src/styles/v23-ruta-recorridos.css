@@ -222,3 +222,6 @@
 @media (max-width: 700px) {
   .rt22 .ru-paisaje::after { background: linear-gradient(90deg, color-mix(in srgb, var(--pd) 97%, transparent) 0%, color-mix(in srgb, var(--pd) 92%, transparent) 70%, color-mix(in srgb, var(--pd) 55%, transparent) 100%) !important; }
 }
+/* Etiqueta «第N课» algo mayor y con marco dorado para leerse sobre mármol, nieve o papel */
+.rt22 .ruta-camino .path-node .ruta-clase-sello { font-size: 15px; padding: 4px 10px; box-shadow: inset 0 0 0 1px rgba(255,233,168,.9), 0 0 0 1.5px #7a4d12, 0 3px 6px rgba(0,0,0,.45); }
+.rt22 .rp-parada.actual .md-aura::after { opacity: .35; }
