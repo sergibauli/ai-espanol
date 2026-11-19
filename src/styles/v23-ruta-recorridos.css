@@ -3,78 +3,6 @@
    rp-emp- botón «Empezar · 开始». Componentes: components/ruta/geometria.js (formaDe) y components/ruta/Medallon.jsx.
    Se anima casi solo transform y opacity; todo se para con prefers-reduced-motion. */
 
-/* ---------- Recorridos: capas comunes ---------- */
-.rt22 .ruta-carretera .rf-base, .rt22 .ruta-carretera .rf-detalle, .rt22 .ruta-carretera .rf-filo { fill: none; stroke: none; stroke-linecap: round; stroke-linejoin: round; }
-.rt22 .ruta-carretera path { stroke-linejoin: round; }
-.rf-adorno { position: absolute; z-index: 2; width: 0; height: 0; pointer-events: none; }
-.rf-adorno::before, .rf-adorno::after { content: none; position: absolute; }
-
-/* ---------- A1 · La Gran Muralla: tramos rectos, almenas a los lados, adarve de piedra y almenaras ---------- */
-.rt22 .ruta-camino.rf-muralla .ruta-carretera .rf-base { stroke: rgba(40,30,20,.28); stroke-width: 72; stroke-linecap: square; transform: translate(6px, 10px); }
-.rt22 .ruta-camino.rf-muralla .ruta-carretera .rf-detalle { stroke: #7d715c; stroke-width: 74; stroke-dasharray: 12 9; stroke-linecap: butt; }
-.rt22 .ruta-camino.rf-muralla .ruta-carretera .borde { stroke: #b3a68b; stroke-width: 58; stroke-linecap: square; }
-.rt22 .ruta-camino.rf-muralla .ruta-carretera .piedra { stroke: #e6dcc6; stroke-width: 36; stroke-dasharray: none; stroke-linecap: square; filter: none; }
-.rt22 .ruta-camino.rf-muralla .ruta-carretera .losas { stroke: rgba(125,113,92,.4); stroke-width: 36; stroke-dasharray: 1.5 16; stroke-linecap: butt; opacity: 1; }
-.rt22 .ruta-camino.rf-muralla .ruta-carretera .rf-filo { stroke: rgba(90,78,60,.35); stroke-width: 46; stroke-dasharray: 26 4 18 4; stroke-linecap: butt; opacity: .55; }
-.rf-muralla .rp-peana { border-radius: 10px 10px 50% 50% / 10px 10px 40% 40%; background: linear-gradient(180deg, #cfc4ab, #9a8f7a 60%, #6d6252) !important;
-  box-shadow: inset 0 2px 0 rgba(255,255,255,.5), 0 8px 0 #4f463a, 0 18px 16px rgba(25,12,0,.4) !important; }
-.rf-muralla .rp-peana::before { inset: -9px 6px auto; height: 10px; border: 0; border-radius: 0; background: repeating-linear-gradient(90deg, #8d8270 0 12px, transparent 12px 20px); }
-/* Almenara (烽火台) con su fuego */
-/* (adorno retirado) */
-/* (adorno retirado) */
-@keyframes rfLlama { from { transform: scale(1, .9) rotate(-4deg); opacity: .85; } to { transform: scale(.92, 1.12) rotate(4deg); opacity: 1; } }
-
-/* ---------- A2 · Puente de madera sobre el río, con barandilla y linternas ---------- */
-.rt22 .ruta-camino.rf-rio .ruta-carretera .rf-base { stroke: rgba(78,160,205,.5); stroke-width: 96; }
-.rt22 .ruta-camino.rf-rio .ruta-carretera .rf-detalle { stroke: rgba(235,250,255,.75); stroke-width: 74; stroke-dasharray: 2 30; animation: rfAgua 6s linear infinite; }
-@keyframes rfAgua { to { stroke-dashoffset: -64; } }
-.rt22 .ruta-camino.rf-rio .ruta-carretera .borde { stroke: #4a2810; stroke-width: 36; }
-.rt22 .ruta-camino.rf-rio .ruta-carretera .piedra { stroke: #c98d4f; stroke-width: 28; stroke-dasharray: none; filter: none; }
-.rt22 .ruta-camino.rf-rio .ruta-carretera .losas { stroke: #7a4a22; stroke-width: 28; stroke-dasharray: 2 7; stroke-linecap: butt; opacity: .75; }
-.rt22 .ruta-camino.rf-rio .ruta-carretera .rf-filo { stroke: #c8102e; stroke-width: 40; stroke-dasharray: 4 26; stroke-linecap: butt; opacity: .9; }
-.rf-rio .rp-peana { background: radial-gradient(ellipse at 42% 28%, #fff1d6 0, #d9a066 40%, #8a5a2e 80%, #4a2810) !important; }
-/* Linterna roja colgada de su poste, que se mece */
-.rf-rio .rf-adorno::after { content: ""; left: calc(var(--lado) * 66px - 2px); top: -46px; width: 4px; height: 60px; border-radius: 2px; background: linear-gradient(90deg, #3b2416, #7a4a22, #3b2416); box-shadow: 8px 0 0 -0.5px #3b2416; clip-path: inset(0 -10px 0 0); }
-.rf-rio .rf-adorno::before { content: ""; left: calc(var(--lado) * 66px - 12px); top: -40px; width: 26px; height: 30px; border-radius: 45%;
-  background: linear-gradient(180deg, #c8961e 0 4px, transparent 4px calc(100% - 4px), #c8961e calc(100% - 4px)), repeating-linear-gradient(90deg, rgba(90,0,10,.35) 0 2px, transparent 2px 6px), radial-gradient(ellipse at 40% 40%, #ffd27a, #e0283f 55%, #8f0c21);
-  box-shadow: 0 0 14px 4px rgba(255,120,60,.55); transform-origin: 50% -6px; animation: rfMece 3.2s ease-in-out infinite; animation-delay: calc(var(--k) * -.8s); }
-@keyframes rfMece { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
-
-/* ---------- B1 · Trazo de tinta con rizos de caligrafía ---------- */
-.rt22 .ruta-camino.rf-pincel .ruta-carretera .rf-base { stroke: rgba(20,16,14,.12); stroke-width: 76; }
-.rt22 .ruta-camino.rf-pincel .ruta-carretera .rf-detalle { stroke: rgba(20,16,14,.42); stroke-width: 34; stroke-dasharray: 60 4 22 3 90 6 14 2; }
-.rt22 .ruta-camino.rf-pincel .ruta-carretera .borde { stroke: #1d1712; stroke-width: 26; opacity: .9; }
-.rt22 .ruta-camino.rf-pincel .ruta-carretera .piedra { stroke: rgba(255,255,255,.2); stroke-width: 6; stroke-dasharray: 30 50; filter: none; transform: translate(-3px, -3px); }
-.rt22 .ruta-camino.rf-pincel .ruta-carretera .losas { stroke: rgba(20,16,14,.7); stroke-width: 26; stroke-dasharray: 1 13; stroke-linecap: round; opacity: .5; }
-.rf-pincel .rp-peana { background: radial-gradient(ellipse at 42% 28%, #fffaf0 0, #e6ddcc 40%, #8e8676 78%, #2b2622) !important; }
-/* Salpicadura de tinta y sello del artista */
-/* (adorno retirado) */
-/* (adorno retirado) */
-
-/* ---------- B2 · Escalinata de mármol de la Ciudad Prohibida, con balaustrada y faroles ---------- */
-.rt22 .ruta-camino.rf-escalinata .ruta-carretera .rf-base { stroke: #c8961e; stroke-width: 80; stroke-linecap: butt; }
-.rt22 .ruta-camino.rf-escalinata .ruta-carretera .rf-detalle { stroke: #f3eee2; stroke-width: 72; stroke-dasharray: 5 9; stroke-linecap: butt; }
-.rt22 .ruta-camino.rf-escalinata .ruta-carretera .borde { stroke: rgba(70,50,20,.3); stroke-width: 60; stroke-linecap: butt; }
-.rt22 .ruta-camino.rf-escalinata .ruta-carretera .piedra { stroke: #fbf8ef; stroke-width: 56; stroke-dasharray: none; stroke-linecap: butt; filter: none; }
-.rt22 .ruta-camino.rf-escalinata .ruta-carretera .losas { stroke: #b9ae98; stroke-width: 56; stroke-dasharray: 2.5 9; stroke-linecap: butt; opacity: 1; }
-.rt22 .ruta-camino.rf-escalinata .ruta-carretera .rf-filo { stroke: #e3d3ad; stroke-width: 16; stroke-dasharray: 10 4; stroke-linecap: butt; }
-.rt22 .ruta-camino.rf-escalinata .ruta-carretera .oro { stroke-width: 18; }
-.rf-escalinata .rp-peana { border-radius: 8px !important; background: linear-gradient(180deg, #fffdf6, #e9e0cc 60%, #c8b994) !important;
-  box-shadow: 0 0 0 2px #c8961e, 0 6px 0 #a08a5c, 0 7px 0 2px #8f0c21, 0 18px 16px rgba(25,12,0,.35) !important; }
-/* Dos faroles de piedra a los lados del tramo */
-/* (adorno retirado) */
-/* (adorno retirado) */ .rf-escalinata .rf-adorno::after { left: 48px; }
-
-/* ---------- Vuelo del Rey Mono: estela de puntos y nubes doradas ---------- */
-.rt22 .ruta-camino.rf-nubes .ruta-carretera :is(.borde, .piedra, .rf-base, .rf-detalle) { stroke: none; filter: none; }
-.rt22 .ruta-camino.rf-nubes .ruta-carretera .rf-filo { stroke: rgba(255,236,180,.5); stroke-width: 22; filter: blur(5px); }
-.rt22 .ruta-camino.rf-nubes .ruta-carretera .losas { stroke: #fffaf0; stroke-width: 8; stroke-dasharray: .1 17; stroke-linecap: round; opacity: .95; filter: drop-shadow(0 0 3px rgba(200,150,30,.9)); }
-.rt22 .ruta-camino.rf-nubes .ruta-carretera .oro { stroke-dasharray: 18 9; }
-.rf-nubes .rp-peana { width: 168px !important; height: 66px !important; margin: 12px 0 0 -72px !important; border-radius: 0 !important; background: url("../../public/theme/nube-oro.png") center / contain no-repeat !important; box-shadow: none !important; filter: drop-shadow(0 8px 8px rgba(60,30,0,.3)); }
-.rf-nubes .rp-peana::before { content: none; }
-.rf-nubes .rf-adorno::before { content: ""; left: calc(var(--lado) * 50px - 38px); top: -16px; width: 76px; height: 32px; background: url("../../public/theme/nube-oro.png") center / contain no-repeat; opacity: .9; animation: rfNube 7s ease-in-out infinite; animation-delay: calc(var(--k) * -2.3s); }
-@keyframes rfNube { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(10px, -6px); } }
-
 /* ---------- Medallones ---------- */
 .md-medallon { position: relative; display: grid; place-items: center; width: var(--md); height: var(--md); flex: none; }
 .md-medallon > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(0 12px 10px rgba(30,10,0,.38)); transition: filter 260ms; }
@@ -156,56 +84,21 @@
   .md-sello { width: 30px; height: 30px; right: -9px; } .md-sello span { font-size: 18px; }
   .rt22 .rp-parada .rp-empezar { margin-bottom: 28px; padding: 6px 16px 6px 6px; font-size: 14px; }
   .rp-emp-play { width: 28px; height: 28px; } .rp-emp-zh { font-size: 18px; }
-  .rf-rio .rf-adorno::before { left: calc(var(--lado) * 60px - 12px); } .rf-rio .rf-adorno::after { left: calc(var(--lado) * 60px - 2px); }
   .md-medallon > svg, .md-cofre > svg { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(0 8px 6px rgba(30,10,0,.3)); }
   .md-actual > svg { filter: drop-shadow(0 0 10px rgba(140,255,190,.95)) drop-shadow(0 5px 0 #6e4210); }
   .md-hecha > svg { filter: drop-shadow(0 0 6px rgba(255,214,110,.9)) drop-shadow(0 4px 0 #7a4d12); }
-  .rt22 .ruta-camino.rf-nubes .ruta-carretera .rf-filo { filter: none; opacity: .5; }
 }
 
 /* ---------- Sin movimiento ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .rf-adorno::before, .rf-adorno::after, .rt22 .ruta-carretera .rf-detalle, .md-actual .md-icono, .md-brillo::before, .md-sello, .md-aura::before, .md-aura::after, .md-aura i,
+  .md-actual .md-icono, .md-brillo::before, .md-sello, .md-aura::before, .md-aura::after, .md-aura i,
   .md-cofre-luz, .rt22 .rp-parada .rp-empezar, .rp-emp-luz::before { animation: none !important; }
   .md-cofre-tapa, .rt22 .rp-parada .rp-empezar { transition: none !important; }
 }
 .rt22 .rp-empezar > span { margin-left: 0; }
 
-/* ===== v23.1 · Escenario y relieve de cada recorrido (components/ruta/TerrenoForma.jsx) ===== */
-.tf path.tf-suelo, .tf path.tf-lado, .tf path.tf-lado-textura, .tf path.tf-orilla, .tf path.tf-agua, .tf path.tf-reflejo, .tf path.tf-aguada { fill: none; stroke: none; stroke-linecap: round; stroke-linejoin: round; }
-.tf-suelo { stroke: rgba(255,248,225,.55) !important; stroke-width: 170; filter: blur(18px); }
-/* Muralla: cara lateral de ladrillo que da altura al muro */
-.tf-muralla .tf-lado { stroke: #5b5144 !important; stroke-width: 74; stroke-linecap: square !important; transform: translateY(18px); }
-.tf-muralla .tf-lado-textura { stroke: rgba(30,22,14,.45) !important; stroke-width: 74; stroke-dasharray: 1.5 9; stroke-linecap: butt !important; transform: translateY(18px); }
-.tf-muralla .tf-suelo { stroke: rgba(255,255,255,.7) !important; }
-/* Río: orillas de arena y hierba, agua con brillo y reflejos */
-.tf-rio .tf-orilla { stroke: #d9c48e !important; stroke-width: 124; }
-.tf-rio .tf-lado { stroke: #6e9f5a !important; stroke-width: 140; opacity: .7; }
-.tf-rio .tf-agua { stroke: url(#tf-agua) !important; stroke-width: 104; }
-.tf-rio .tf-reflejo { stroke: rgba(255,255,255,.55) !important; stroke-width: 2.5; stroke-dasharray: 14 40 6 30; transform: translateX(-26px); animation: rfAgua 5s linear infinite; }
-.rt22 .ruta-camino.rf-rio .ruta-carretera .rf-base { stroke: rgba(10,60,100,.25); stroke-width: 44; transform: translateY(12px); }
-/* Tinta: aguada amplia y salpicada */
-.tf-pincel .tf-aguada { stroke: rgba(29,23,18,.08) !important; stroke-width: 150; filter: blur(10px); }
-.tf-pincel .tf-lado { stroke: rgba(29,23,18,.22) !important; stroke-width: 30; transform: translate(5px, 7px); }
-.tf-pincel .tf-suelo { stroke: rgba(255,255,255,.5) !important; }
-/* Escalinata: cara lateral de mármol y sombra de la terraza */
-.tf-escalinata .tf-lado { stroke: #8f0c21 !important; stroke-width: 80; stroke-linecap: butt !important; transform: translateY(12px); }
-.tf-escalinata .tf-lado-textura { stroke: #d9cdb1 !important; stroke-width: 80; stroke-dasharray: 3 9; stroke-linecap: butt !important; transform: translateY(6px); }
-.tf-escalinata .tf-suelo { stroke: rgba(255,245,215,.85) !important; stroke-width: 210; filter: blur(4px); }
-.tf-muros { filter: drop-shadow(0 6px 4px rgba(60,0,10,.35)); }
-/* Nubes: brillo celeste */
-.tf-nubes .tf-suelo { stroke: rgba(255,236,170,.45) !important; stroke-width: 150; }
 
-/* Plataformas temáticas bajo el medallón */
-.rf-muralla .rp-peana { width: 132px !important; height: 50px !important; margin: 20px 0 0 -66px !important; border-radius: 6px !important;
-  background: repeating-linear-gradient(0deg, rgba(60,50,40,.25) 0 1px, transparent 1px 8px), linear-gradient(180deg, #e6dcc6, #b3a68b) !important;
-  box-shadow: 0 0 0 2px #6d6252, 0 16px 0 #7d715c, 0 16px 0 2px #4f463a, 0 26px 18px rgba(25,12,0,.4) !important; }
-.rf-muralla .rp-peana::before { inset: -11px -2px auto !important; height: 11px !important; border: 0 !important; border-radius: 0 !important; background: repeating-linear-gradient(90deg, #7d715c 0 14px, transparent 14px 22px) !important; }
-.rf-escalinata .rp-peana { width: 140px !important; height: 52px !important; margin: 18px 0 0 -70px !important; }
-.rf-rio .rp-peana { width: 130px !important; box-shadow: inset 0 2px 0 rgba(255,255,255,.6), 0 0 0 3px #c8102e, 0 8px 0 #4a2810, 0 8px 0 3px #8f0c21, 0 0 0 9px rgba(140,210,240,.35), 0 20px 18px rgba(10,40,60,.35) !important; }
-.rf-pincel .rp-peana { box-shadow: inset 0 2px 0 rgba(255,255,255,.7), inset 0 -6px 10px rgba(0,0,0,.35), 0 8px 0 #1d1712, 0 18px 18px rgba(0,0,0,.35) !important; }
-
-/* Haz de luz que cae del cielo sobre la clase actual */
+/* Haz de luz sobre la clase actual */
 .md-haz { position: absolute; z-index: -2; left: 50%; bottom: 40%; width: 150px; height: 420px; margin-left: -75px; pointer-events: none;
   background: linear-gradient(180deg, transparent, rgba(255,240,190,.25) 40%, rgba(255,236,170,.65));
   clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent);
@@ -213,18 +106,12 @@
 @keyframes mdHaz { 0%, 100% { opacity: .7; } 50% { opacity: 1; } }
 .md-aura { width: 250px; height: 250px; margin: -125px 0 0 -125px; }
 @media (max-width: 700px) {
-  .tf-suelo { filter: none; opacity: .5; } .tf-pincel .tf-aguada { filter: none; }
   .md-haz { width: 120px; margin-left: -60px; height: 320px; }
   .md-aura { width: 196px; height: 196px; margin: -98px 0 0 -98px; }
 }
-@media (prefers-reduced-motion: reduce) { .tf-rio .tf-reflejo, .md-haz { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .md-haz { animation: none !important; } }
 
 /* ===== v23.2 · Calidad: tinta con borde de pincel, templo ilustrado como meta de cada unidad ===== */
-.rt22 .ruta-camino.rf-pincel .ruta-carretera :is(.borde, .rf-detalle, .rf-base) { filter: url(#tf-pincel); }
-.rt22 .ruta-camino.rf-pincel .ruta-carretera .borde { stroke: #2b2420; opacity: .72; stroke-width: 24; }
-.rt22 .ruta-camino.rf-pincel .ruta-carretera .rf-detalle { stroke: rgba(43,36,32,.32); stroke-width: 40; }
-.rt22 .ruta-camino.rf-pincel .ruta-carretera .losas { opacity: 0; }
-.tf-pincel .tf-lado { opacity: 0; }
 /* Templo de la meta (ilustración propia en public/theme/templos) con el cofre del examen delante */
 .rt22 .ruta-camino .rp-cofre .rp-moneda { display: grid; place-items: end center; width: 190px; height: 150px; }
 .rp-templo { position: absolute; left: 50%; bottom: 8px; width: 190px; height: 140px; margin-left: -95px; background: center bottom / contain no-repeat;
@@ -242,5 +129,57 @@
   .rt22 .ruta-camino .rp-cofre .rp-moneda { width: 160px; height: 126px; }
   .rp-templo { width: 160px; height: 118px; margin-left: -80px; }
   .rt22 .ruta-camino .rp-cofre .rp-peana { width: 160px !important; margin-left: -80px !important; }
-  .rt22 .ruta-camino.rf-pincel .ruta-carretera :is(.borde, .rf-detalle, .rf-base) { filter: none; }
+}
+
+
+/* ===== v24 · Recorrido ilustrado (components/ruta/Recorrido.jsx): muralla, río y puente, tinta, escalinata, nubes ===== */
+.r24-defs { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+.ruta-camino > svg.r24 { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+/* El cuerpo antiguo de trazos y las peanas CSS se sustituyen por el dibujo */
+.rt22 .ruta-camino .rp-parada .rp-peana, .rt22 .ruta-camino .rp-cofre .rp-peana { display: none; }
+.rt22 .ruta-camino .rp-bruma { display: none; }
+.r24-sombra { fill: rgba(35,22,8,.32); filter: url(#r24-desenfoque); }
+.r24-losa { stroke: none; }
+.r24-lit { filter: drop-shadow(0 0 3px rgba(255,214,120,.6)); }
+.r24-desgaste { fill: none; stroke: rgba(70,55,35,.08); }
+.r24-filo-luz { fill: none; stroke: rgba(255,255,255,.55); stroke-width: 1; }
+/* Río */
+.r24-hondo { fill: rgba(10,55,100,.28); filter: url(#r24-desenfoque); }
+.r24-juncos { fill: #7f9450; opacity: .55; }
+.r24-espuma { fill: none; stroke: rgba(255,255,255,.42); stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 22 9 5 14; animation: r24Fluye 7s linear infinite; }
+.r24-destellos { fill: none; stroke: rgba(255,255,255,.6); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 3 46 8 60; animation: r24Fluye 5s linear infinite; }
+.r24-destellos.b { stroke-dasharray: 6 70 2 40; animation-duration: 6.5s; opacity: .7; }
+@keyframes r24Fluye { to { stroke-dashoffset: -260; } }
+.r24-sombra-agua { fill: rgba(8,40,70,.38); filter: url(#r24-desenfoque); }
+.r24-onda-pilote { fill: none; stroke: rgba(255,255,255,.55); stroke-width: 1; }
+.r24-anillo-agua { fill: none; stroke: rgba(255,255,255,.5); stroke-width: 1.4; transform-box: fill-box; transform-origin: center; animation: r24Onda 3.6s ease-out infinite; }
+@keyframes r24Onda { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.12); opacity: 0; } }
+.r24-farol { transform-box: view-box; animation: r24Mece 3.4s ease-in-out infinite; }
+.r24-farol-halo { fill: url(#r24-farol-luz); }
+@keyframes r24Mece { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+/* Tinta */
+.r24-aguada { fill: rgba(35,30,28,.10); filter: url(#r24-desenfoque); }
+.r24-tinta-borde { fill: rgba(30,26,24,.32); filter: url(#r24-sangrado); }
+.r24-tinta { fill: #1c1816; filter: url(#r24-sangrado); }
+.r24-seco { fill: none; stroke: #ece5d6; stroke-opacity: .55; stroke-linecap: round; }
+.r24-tinta-brillo { fill: none; stroke: rgba(255,255,255,.16); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 60 30 120 40; }
+.r24-gota { fill: #1c1816; opacity: .75; }
+/* Escalinata */
+.r24-rampa-oro { fill: rgba(242,193,78,.42); mix-blend-mode: multiply; }
+/* Nubes */
+.r24-estela-halo { fill: none; stroke: rgba(255,232,160,.5); stroke-width: 18; stroke-linecap: round; filter: url(#r24-desenfoque); }
+.r24-estela { fill: none; stroke: #fff6d0; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: .1 13; filter: drop-shadow(0 0 3px rgba(242,193,78,.95)); }
+.r24-pasadera { transform-box: fill-box; }
+.r24-pasadera.lit { filter: drop-shadow(0 0 6px rgba(255,214,120,.9)); }
+.r24-nube-parada { filter: drop-shadow(0 6px 6px rgba(80,50,10,.25)); }
+/* Hilo de oro del progreso: más fino, como incrustación sobre el material */
+.rt22 .ruta-camino:not(.rf-nubes) .ruta-carretera .halo { opacity: .35; stroke-width: 26; }
+.rt22 .ruta-camino:not(.rf-nubes) .ruta-carretera .oro { stroke-width: 5; }
+.rt22 .ruta-camino:not(.rf-nubes) .ruta-carretera .luz { stroke-width: 1.8; }
+@media (max-width: 700px) {
+  .r24-sombra, .r24-hondo, .r24-sombra-agua, .r24-aguada, .r24-estela-halo { filter: none; opacity: .6; }
+  .r24-tinta, .r24-tinta-borde, .r24-lit, .r24-estela, .r24-pasadera.lit, .r24-nube-parada { filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .r24-espuma, .r24-destellos, .r24-anillo-agua, .r24-farol { animation: none !important; }
 }

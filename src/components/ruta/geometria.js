@@ -99,3 +99,58 @@ export function puntoCurva(desde, hasta, t, forma) {
   const b = (a, p, q, z) => u * u * u * a + 3 * u * u * t * p + 3 * u * t * t * q + t * t * t * z;
   return [b(desde[0], c1[0], c2[0], hasta[0]), b(desde[1], c1[1], c2[1], hasta[1])];
 }
+
+/* ---------- v24 · Muestreo del recorrido para dibujarlo como objeto (losas, tablones, peldaños, nubes) ---------- */
+/** Muestras equiespaciadas (cada `paso` px) de todo el recorrido: entrada → paradas.
+ *  Cada muestra: { x, y, a (ángulo de la tangente), nx, ny (normal a la izquierda), s (longitud acumulada), seg }
+ *  `seg` = 0 en la entrada, i en el tramo pts[i-1] → pts[i] (así «seg <= hechas» = tramo ya recorrido). */
+export function muestrear(pts, forma, paso = 8) {
+  const finos = [];
+  const tramos = [[ENTRADA, pts[0]], ...pts.slice(1).map((p, i) => [pts[i], p])];
+  tramos.forEach(([a, b], seg) => {
+    const n = 48;
+    for (let k = seg ? 1 : 0; k <= n; k++) finos.push({ p: puntoCurva(a, b, k / n, forma), seg: k === 0 ? seg : seg });
+  });
+  let s = 0;
+  for (let i = 0; i < finos.length; i++) {
+    if (i) s += Math.hypot(finos[i].p[0] - finos[i - 1].p[0], finos[i].p[1] - finos[i - 1].p[1]);
+    finos[i].s = s;
+  }
+  const total = s;
+  const out = [];
+  let j = 0;
+  for (let d = 0; d <= total + 0.01; d += paso) {
+    while (j < finos.length - 2 && finos[j + 1].s < d) j++;
+    const f0 = finos[j];
+    const f1 = finos[j + 1] || f0;
+    const t = f1.s > f0.s ? (d - f0.s) / (f1.s - f0.s) : 0;
+    const x = f0.p[0] + (f1.p[0] - f0.p[0]) * t;
+    const y = f0.p[1] + (f1.p[1] - f0.p[1]) * t;
+    // tangente con una ventana algo más amplia para que no tiemble en las esquinas
+    const ia = Math.max(0, j - 1);
+    const ib = Math.min(finos.length - 1, j + 2);
+    const a = Math.atan2(finos[ib].p[1] - finos[ia].p[1], finos[ib].p[0] - finos[ia].p[0]);
+    out.push({ x, y, a, nx: Math.sin(a), ny: -Math.cos(a), s: d, seg: f1.seg });
+  }
+  return out;
+}
+const r1 = (v) => Math.round(v * 10) / 10;
+/** Polilínea desplazada `desp` px a lo largo de la normal (desp puede ser función de la muestra) */
+export function paralela(m, desp = 0, dy = 0) {
+  return m.map((q, i) => {
+    const d = typeof desp === "function" ? desp(q, i) : desp;
+    return `${i ? "L" : "M"}${r1(q.x + q.nx * d)} ${r1(q.y + q.ny * d + dy)}`;
+  }).join("");
+}
+/** Cinta (polígono cerrado) de ancho variable alrededor del recorrido */
+export function cinta(m, ancho, dx = 0, dy = 0) {
+  const w = (q, i) => (typeof ancho === "function" ? ancho(q, i) : ancho) / 2;
+  const izq = m.map((q, i) => `${r1(q.x + q.nx * w(q, i) + dx)} ${r1(q.y + q.ny * w(q, i) + dy)}`);
+  const der = m.map((q, i) => `${r1(q.x - q.nx * w(q, i) + dx)} ${r1(q.y - q.ny * w(q, i) + dy)}`).reverse();
+  return `M${izq.join("L")}L${der.join("L")}Z`;
+}
+/** Número pseudoaleatorio estable en [0, 1) */
+export const azar = (n) => {
+  const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+};

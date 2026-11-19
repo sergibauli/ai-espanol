@@ -22,7 +22,7 @@ import { SelloPasaporte, FiltroTinta, fechaSello } from "../components/ruta/Sell
 import { Pictograma, PaisajeBanda, paisajeDe } from "../components/ruta/paisajes.jsx";
 import { ANCHO_CARRIL, FILA, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva, formaDe } from "../components/ruta/geometria.js";
 import { Medallon, SelloHecha, CofreImperial } from "../components/ruta/Medallon.jsx";
-import { TerrenoForma } from "../components/ruta/TerrenoForma.jsx";
+import { Recorrido, RecorridoDefs } from "../components/ruta/Recorrido.jsx";
 import "../styles/v13-ruta-mundos.css";
 import "../styles/v14-ruta.css";
 import "../styles/v22-ruta.css";
@@ -309,6 +309,7 @@ export default function RutaPage() {
       <div className="ruta-layout rt14 rt16 rt22">
         <main className={`ruta-main map-${lv.key} mr-on`} data-momento={momento}>
           <MundoRuta key={lv.key} nivel={lv.key} momento={momento} fiesta={Boolean(fiesta) && !fiesta.saltada} />
+          <RecorridoDefs />
           <TransicionNivel destino={transicion?.destino} clave={transicion?.clave} onCubre={irANivel} onFin={() => setTransicion(null)} />
           <CabeceraRuta
             region={REGION[lv.key]}
@@ -326,7 +327,6 @@ export default function RutaPage() {
             const paradas = prog.total;
             const forma = formaDe(lv.key, idx);
             const pts = puntosCamino(idx, paradas, forma);
-            const camino = trazado(pts, paradas, forma);
             const alcanzada = unlocked(idx, 1);
             const alto = ARRIBA + paradas * FILA + 78;
             const enFiesta = fiesta?.numero === numero;
@@ -405,15 +405,9 @@ export default function RutaPage() {
                   </span>
                   <EscenaTramo nivel={lv.key} idx={idx} />
                   <div className={`ruta-camino rf-${forma.tipo}`} data-forma={forma.tipo} style={{ width: ANCHO_CARRIL, height: alto }}>
+                    {/* Cuerpo ilustrado del recorrido: muralla, río con puente, tinta, escalinata o nubes (v24) */}
+                    <Recorrido forma={forma} pts={pts} hechas={oroHasta} alcanzada={alcanzada} alto={alto} />
                     <svg className="ruta-carretera" width={ANCHO_CARRIL} height={alto} aria-hidden="true">
-                      <TerrenoForma forma={forma} pts={pts} camino={camino} />
-                      {/* Cuerpo temático del recorrido: río, muralla, escalinata, tinta o estela de nubes */}
-                      <path className="rf-base" d={camino} />
-                      <path className="rf-detalle" d={camino} />
-                      <path className="borde" d={camino} />
-                      <path className="piedra" d={camino} />
-                      <path className="losas" d={camino} />
-                      <path className="rf-filo" d={camino} />
                       {alcanzada && (
                         <>
                           <path className="halo" d={trazado(pts, oroHasta, forma)} />
@@ -429,11 +423,6 @@ export default function RutaPage() {
                         </g>
                       )}
                     </svg>
-                    {/* Adornos a mitad de cada tramo: linternas, almenaras, salpicaduras de tinta, faroles o nubes */}
-                    {pts.slice(0, -1).map((punto, k) => {
-                      const [x, y] = puntoCurva(punto, pts[k + 1], 0.5, forma);
-                      return <span key={k} className="rf-adorno" style={{ left: x, top: y, "--k": k, "--lado": x > ANCHO_CARRIL / 2 ? 1 : -1 }} aria-hidden="true" />;
-                    })}
                     {/* Destello que recorre el oro de vez en cuando y huellas que laten hacia la siguiente parada */}
                     {alcanzada && (iActual >= 0 || idx === mods.indexOf(modActual) - 1) && <span className="rc-brillo-camino" style={{ offsetPath: `path("${trazado(pts, oroHasta, forma)}")` }} aria-hidden="true" />}
                     {iActual >= 0 &&
