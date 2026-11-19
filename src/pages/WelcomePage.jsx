@@ -65,16 +65,16 @@ const VENTAJAS = [
   {
     Icono: LandmarkIcon,
     cifra: "80",
-    es: "modelos de examen DELE",
-    zh: "80套DELE模拟真题",
+    es: "modelos de examen",
+    zh: "80套模拟真题",
     detalle: "Con el formato y el tiempo del examen real.",
     detalleZh: "与真实考试相同的题型和时间。",
   },
   {
     Icono: SparklesIcon,
-    cifra: "IA",
+    cifra: "24h",
     es: "tutor que te corrige",
-    zh: "AI导师批改纠错",
+    zh: "导师批改纠错",
     detalle: "Conversa y escribe; te explica cada error.",
     detalleZh: "对话与写作，逐条讲解错误。",
   },
@@ -157,9 +157,9 @@ const MUNDOS = [
   { tema: "ruta", tono: "#e0a63a", Icono: MapIcon, sello: "路", es: "Ruta por China", zh: "中国之旅", detalle: "Avanza de Pekín a la Ruta de la Seda, clase a clase.", detalleZh: "从北京到丝绸之路，一课一课前进。" },
   { tema: "unidades", tono: "#e8283f", Icono: BookOpenIcon, sello: "课", es: "90 unidades", zh: "90个单元", detalle: "Teoría, vocabulario, diálogos y ejercicios del A1 al B2.", detalleZh: "语法、词汇、对话和练习，A1到B2。" },
   { tema: "juegos", tono: "#22c38e", Icono: Gamepad2Icon, sello: "玩", es: "Juegos en 3D", zh: "3D游戏", detalle: "Kahoot, UNO, ruleta, memory… para repasar jugando.", detalleZh: "抢答、UNO、轮盘、记忆配对，边玩边复习。" },
-  { tema: "dele", tono: "#f2c14e", Icono: LandmarkIcon, sello: "考", es: "DELE oficial", zh: "DELE真题", detalle: "80 modelos de examen con corrección y nota.", detalleZh: "80套模拟真题，自动批改评分。" },
+  { tema: "dele", tono: "#f2c14e", Icono: LandmarkIcon, sello: "考", es: "Práctica", zh: "练习", detalle: "80 modelos de examen con corrección y nota.", detalleZh: "80套模拟真题，自动批改评分。" },
   { tema: "pronunciacion", tono: "#4f7dff", Icono: MicIcon, sello: "音", es: "Pronunciación", zh: "发音", detalle: "Sílabas, palabras y frases con voz real.", detalleZh: "音节、单词和句子，真人发音。" },
-  { tema: "tutor", tono: "#b25cff", Icono: BotIcon, sello: "师", es: "Tutor IA", zh: "AI导师", detalle: "Pregunta en chino y practica la conversación.", detalleZh: "用中文提问，练习口语对话。" },
+  { tema: "tutor", tono: "#b25cff", Icono: BotIcon, sello: "师", es: "Tutor", zh: "导师", detalle: "Pregunta en chino y practica la conversación.", detalleZh: "用中文提问，练习口语对话。" },
 ];
 function Carrusel3D() {
   const [paso, setPaso] = React.useState(0);
@@ -377,7 +377,7 @@ export default function WelcomePage() {
           <MarcaWukong />
           <p className="pc-ceja">
             <i aria-hidden="true" />
-            <span>DELE A1 – B2</span>
+            <span>A1 – B2</span>
             <span lang="zh-Hans">西班牙语备考</span>
             <i aria-hidden="true" />
           </p>
@@ -394,8 +394,8 @@ export default function WelcomePage() {
             </span>
           </h1>
           <p className="pc-sub">
-            Lecciones cortas, historias con voz real, juegos y preparación del DELE, todo explicado en chino.
-            <span lang="zh-Hans">短课、真人语音故事、游戏和DELE备考，全部中文讲解。</span>
+            Lecciones cortas, historias con voz real, juegos y preparación de exámenes, todo explicado en chino.
+            <span lang="zh-Hans">短课、真人语音故事、游戏和考试备考，全部中文讲解。</span>
           </p>
           <div className="pc-intro-acciones">
             <button type="button" className="pc-btn pc-btn-laca" onClick={signIn}>
@@ -427,8 +427,8 @@ export default function WelcomePage() {
             <span lang="zh-Hans">登录</span>
           </h2>
           <p className="pc-panel-texto">
-            Entra con la cuenta que te ha dado tu academia y sigue tu ruta hacia el DELE.
-            <span lang="zh-Hans">使用学校为你开通的账号登录，继续你的DELE之路。</span>
+            Entra con la cuenta que te ha dado tu academia y sigue tu ruta hacia el examen.
+            <span lang="zh-Hans">使用学校为你开通的账号登录，继续你的备考之路。</span>
           </p>
           <button type="button" className="pc-btn pc-btn-laca pc-btn-ancho" onClick={signIn}>
             <LogInIcon size={20} strokeWidth={2.6} aria-hidden="true" />
@@ -465,8 +465,8 @@ export default function WelcomePage() {
             <i aria-hidden="true" />
           </p>
           <h2 id="pc-viaje-titulo" className="pc-viaje-titulo">
-            Del primer «hola» al DELE
-            <span lang="zh-Hans">从第一句“你好”到DELE</span>
+            Del primer «hola» al examen
+            <span lang="zh-Hans">从第一句“你好”到考试</span>
           </h2>
         </header>
         <div className="pc-rollo">
@@ -504,7 +504,7 @@ export default function WelcomePage() {
           <NotaWeChat conQr={false} />
         </div>
         <p className="pc-pie">
-          Wukong Español · <span lang="zh-Hans">西班牙语学习与DELE备考</span>
+          Wukong Español · <span lang="zh-Hans">西班牙语学习与考试备考</span>
         </p>
       </section>
     </div>

@@ -187,9 +187,9 @@ function ConsejosPage() {
     <div className="rx-page rx-hoja gm-no-adapt">
       <div className="rx-wrap is-estrecho">
         <SectionHero
-          eyebrow="Examen DELE · DELE考试"
+          eyebrow="Examen · 考试"
           title="Consejos para aprobar"
-          titleZh="DELE 通关技巧"
+          titleZh="考试通关技巧"
           description="Estrategias por prueba (comprensión, expresión e interacción) y errores que más penalizan en el examen."
           descriptionZh="按考试部分整理的策略，以及最容易丢分的错误。"
           actions={

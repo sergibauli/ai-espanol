@@ -13,7 +13,7 @@ const LEVELS = ["A1", "A2", "B1", "B2"];
 const PRESETS = [
   { key: "rapido", es: "Test rápido", zh: "快速测试", total: 10, minutos: 10, conLectura: false },
   { key: "estandar", es: "Examen estándar", zh: "标准考试", total: 25, minutos: 30, conLectura: true },
-  { key: "simulacro", es: "Simulacro DELE", zh: "DELE 模拟", total: 40, minutos: 50, conLectura: true },
+  { key: "simulacro", es: "Simulacro", zh: "模拟考试", total: 40, minutos: 50, conLectura: true },
 ];
 
 export default function ExamGeneratorPage() {
@@ -343,7 +343,7 @@ export default function ExamGeneratorPage() {
           </section>
         )}
         <p className="xm-gen-links">
-          ¿Prefieres modelos completos? · 想做完整模拟题？ <Link to="/oficial">Exámenes oficiales DELE · 官方模拟</Link>
+          ¿Prefieres modelos completos? · 想做完整模拟题？ <Link to="/oficial">Práctica · 练习</Link>
           <Link to="/examenes">Exámenes de práctica · 练习</Link>
         </p>
       </div>

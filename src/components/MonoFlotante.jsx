@@ -14,7 +14,7 @@ const CONSEJOS = [
   ["Ser = quién eres; estar = cómo estás", "ser 是本质，estar 是状态"],
   ["Apunta las palabras nuevas", "记下新单词"],
   ["Equivocarse también es aprender", "犯错也是学习"],
-  ["En el DELE, lee primero las preguntas", "DELE考试先读问题"],
+  ["En el examen, lee primero las preguntas", "考试时先读问题"],
   ["¡Paso a paso se llega lejos!", "千里之行，始于足下"],
   ["Escucha la frase y repítela", "听一句，跟读一句"],
 ];
@@ -134,8 +134,8 @@ export function MonoFlotante({ onAbrir }) {
         onPointerLeave={cancelarLargo}
         onPointerCancel={cancelarLargo}
         onContextMenu={(e) => e.preventDefault()}
-        aria-label="Rey Mono, tutor IA: doble clic o Intro para abrir · 美猴王AI导师：双击打开"
-        title="Doble clic: tutor IA · 双击：AI导师"
+        aria-label="Rey Mono, tutor: doble clic o Intro para abrir · 美猴王导师：双击打开"
+        title="Doble clic: tutor · 双击：导师"
       >
         <span className="mf-aura" aria-hidden="true" />
         <span className="mf-cuerpo" aria-hidden="true">

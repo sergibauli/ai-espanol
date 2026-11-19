@@ -220,7 +220,7 @@ export default function DiagnosticoPage() {
                 <ArrowRightIcon size={22} strokeWidth={2.8} aria-hidden="true" />
               </button>
               <Link to="/mi-dele" className="in-boton-crema">
-                Ver mi panel DELE · 我的DELE
+                Ver mi panel · 我的进度
               </Link>
             </div>
           </section>

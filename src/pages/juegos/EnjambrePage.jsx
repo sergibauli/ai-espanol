@@ -163,7 +163,7 @@ Devuelve SOLO JSON: {"nota":0-10,"aciertos":N,"feedback":"2 frases en español d
               <CpuIcon size={16} aria-hidden="true" /> Enjambre de agentes · 智能体集群
             </span>
             <h1>
-              Enjambre IA <span className="rx-zh">智能体集群</span>
+              Enjambre <span className="rx-zh">智能体集群</span>
             </h1>
             <p>
               4 agentes que planifican, generan, evalúan y corrigen por ti.
@@ -283,7 +283,7 @@ Devuelve SOLO JSON: {"nota":0-10,"aciertos":N,"feedback":"2 frases en español d
                 </div>
               ))}
               <button type="button" className="rx-btn rx-enj__accion" onClick={corregir}>
-                <GavelIcon size={16} aria-hidden="true" /> Corregir · AI批改
+                <GavelIcon size={16} aria-hidden="true" /> Corregir · 批改
               </button>
             </section>
           )}

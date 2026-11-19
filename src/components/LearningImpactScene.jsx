@@ -9,7 +9,7 @@ const n = {
   },
   exams: {
     main: "A+",
-    side: "DELE",
+    side: "EXAMEN",
     word: "SUPÉRATE",
     color: "#fbbf24",
     accent: "#a855f7",

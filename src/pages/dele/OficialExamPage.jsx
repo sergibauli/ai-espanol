@@ -1446,9 +1446,9 @@ function IaComponent() {
     numPrueba === 1 || numPrueba === 2
       ? [`${(numPrueba === 1 ? _.lectura : _.audicion).preguntas} preguntas · 题`, `${tareasActuales.length} tareas · 项`, tareaActual?.genero || tareaActual?.tipoAudio, esNuevo ? "Simulacro nuevo · 新模拟题" : "Modelo oficial · 官方真题"]
       : numPrueba === 3
-        ? [`${tareasActuales.length} tareas · 项`, tareaActual ? `${tareaActual.minPalabras}–${tareaActual.maxPalabras} palabras · 词` : null, "Corrección con IA · AI批改"]
+        ? [`${tareasActuales.length} tareas · 项`, tareaActual ? `${tareaActual.minPalabras}–${tareaActual.maxPalabras} palabras · 词` : null, "Corrección · 批改"]
         : numPrueba === 4
-          ? [`${tareasActuales.length} tareas · 项`, te?.preparacion ? `Preparación ${te.preparacion} min · 准备` : null, "Examinador IA · AI考官"]
+          ? [`${tareasActuales.length} tareas · 项`, te?.preparacion ? `Preparación ${te.preparacion} min · 准备` : null, "Examinador oral · 口语考官"]
           : [examen.temaCentral, esNuevo ? "Simulacro nuevo · 新模拟题" : "Modelo oficial · 官方真题"];
   const tablero = (num) =>
     num <= 2 ? (
@@ -1618,7 +1618,7 @@ function IaComponent() {
       <div className="sx" ref={salaRef} onKeyDown={navTeclas}>
         <SalaHero
           prueba={numPrueba}
-          codigo={`DELE ${nivel} · ${String(examen.modelo).padStart(2, "0")}`}
+          codigo={`${nivel} · ${String(examen.modelo).padStart(2, "0")}`}
           subtitulo={examen.temaCentral}
           volverA={`/oficial/${nivel}`}
           modo={modo}
@@ -1720,7 +1720,7 @@ function IaComponent() {
             const mat = a.material;
             return (
               <>
-                <Instrucciones sello="写" texto={a.instrucciones || a.titulo} zh="写下你的回答，然后点击“AI 批改”。每次批改计入每周5次AI额度。" />
+                <Instrucciones sello="写" texto={a.instrucciones || a.titulo} zh="写下你的回答，然后点击“批改”。每次批改计入每周5次额度。" />
                 <div className="sx-escritorio">
                   <div className="sx-encargo">
                     {(a.situacion || a.destinatario || a.proposito) && (
@@ -1800,7 +1800,7 @@ function IaComponent() {
                         <CuotaIA />
                         <button type="button" className="sx-btn sx-btn-laca" onClick={() => Ce(o, E[o] || "", "escritura", a)} disabled={isCorrecting || !(E[o] || "").trim()}>
                           {isCorrecting ? <LoaderCircleIcon size={16} className="animate-spin" /> : <SparklesIcon size={16} />}
-                          {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir con IA · AI批改"}
+                          {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir · 批改"}
                         </button>
                       </div>
                     </div>
@@ -1842,7 +1842,7 @@ function IaComponent() {
             const palabras = d(E[o]);
             return (
               <>
-                <Instrucciones sello="说" texto={a.instrucciones} zh="先准备，再按麦克风开始说。说完可以请 AI 批改（计入每周5次额度）。" />
+                <Instrucciones sello="说" texto={a.instrucciones} zh="先准备，再按麦克风开始说。说完可以请求批改（计入每周5次额度）。" />
                 <div className="sx-oral">
                   <div>
                     <div className="sx-lamina">
@@ -1900,8 +1900,8 @@ function IaComponent() {
                     >
                       <img src={recurso("mono/serio.webp")} alt="" aria-hidden="true" />
                       <p>
-                        Hacer esta tarea con el examinador IA (cuenta como 1 uso)
-                        <span className="sx-zh" lang="zh-CN">用 AI 考官模拟本项（计1次）</span>
+                        Hacer esta tarea con el examinador (cuenta como 1 uso)
+                        <span className="sx-zh" lang="zh-CN">用考官模拟本项（计1次）</span>
                       </p>
                     </a>
                   </div>
@@ -1956,7 +1956,7 @@ function IaComponent() {
                       </span>
                       <button type="button" className="sx-btn sx-btn-oro" onClick={() => Ce(o, E[o] || "", "monologo", a)} disabled={isCorrecting || !(E[o] || "").trim()}>
                         {isCorrecting ? <LoaderCircleIcon size={16} className="animate-spin" /> : <SparklesIcon size={16} />}
-                        {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir con IA · AI批改"}
+                        {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir · 批改"}
                       </button>
                     </div>
                   </section>
@@ -2051,7 +2051,7 @@ function IaComponent() {
                           </div>
                           {v === null ? (
                             <div className="pend">
-                              {num <= 2 ? "Sin corregir · 未批改" : "Pide la corrección con IA · 请AI批改"} →
+                              {num <= 2 ? "Sin corregir · 未批改" : "Pide la corrección · 请求批改"} →
                             </div>
                           ) : (
                             <>
@@ -2085,8 +2085,8 @@ function IaComponent() {
                     </button>
                   </div>
                   <p className="sx-nota-pie">
-                    {n_evaluacion?.criterio || `APTO con ≥${minimo} puntos en cada grupo`}. Lectura y auditiva se puntúan con la clave oficial; escritura y oral, con la corrección por IA. ·{" "}
-                    <span lang="zh-CN">阅读与听力按官方答案计分；写作与口语按 AI 批改估算。</span>
+                    {n_evaluacion?.criterio || `APTO con ≥${minimo} puntos en cada grupo`}. Lectura y auditiva se puntúan con la clave oficial; escritura y oral, con la corrección automática. ·{" "}
+                    <span lang="zh-CN">阅读与听力按官方答案计分；写作与口语按自动批改估算。</span>
                   </p>
                 </div>
               </div>

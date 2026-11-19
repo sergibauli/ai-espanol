@@ -171,14 +171,14 @@ const VIDEOS = [
   },
   {
     id: "v16",
-    titulo: "Español para el examen DELE",
+    titulo: "Español para el examen",
     canal: "Academia Eureka",
     canalHandle: "@AcademiaEureka",
     query: "DELE B2 examen oral ejemplo",
     nivel: "B2",
     acento: "España",
-    tema: "DELE",
-    descripcion: "Ejemplos y consejos para las pruebas orales del examen DELE.",
+    tema: "Examen",
+    descripcion: "Ejemplos y consejos para las pruebas orales del examen.",
   },
 ];
 const NIVELES = ["Todos", "A1", "A2", "B1", "B2"];

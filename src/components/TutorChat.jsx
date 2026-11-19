@@ -22,14 +22,14 @@ function TutorAvatar({ size, talking }) {
 }
 
 const CHAT_HISTORY_KEY = "dele_chat_history_v1";
-const TUTOR_GREETING = "¡Hola! 👋 Soy tu tutor de español. ¿Qué nivel DELE estás preparando? / 你好！我是你的西语导师，你在准备哪个级别？";
+const TUTOR_GREETING = "¡Hola! 👋 Soy tu tutor de español. ¿Qué nivel estás preparando? / 你好！我是你的西语导师，你在准备哪个级别？";
 const saludo = () => ({ role: "assistant", content: TUTOR_GREETING, timestamp: Date.now() });
 
 // Preguntas rápidas para la conversación vacía
 const ATAJOS = [
   ["¿Ser o estar?", "ser 还是 estar？"],
   ["Corrige mi frase", "帮我改错"],
-  ["Consejos para el DELE", "DELE备考建议"],
+  ["Consejos para el examen", "考试备考建议"],
 ];
 
 function loadChatHistory() {
@@ -170,11 +170,11 @@ function TutorChat() {
     <>
       {!abierto && <MonoFlotante onAbrir={() => setAbierto(true)} />}
       {abierto && (
-        <div className="tp-chat gm-no-adapt" role="dialog" aria-modal="false" aria-label="Tutor IA · AI导师">
+        <div className="tp-chat gm-no-adapt" role="dialog" aria-modal="false" aria-label="Tutor · 导师">
           <header className="tp-chat-cab">
             <TutorAvatar size={44} talking={pensando} />
             <div className="tp-chat-cab-txt">
-              <h3>Tutor IA · Rey Mono</h3>
+              <h3>Tutor · Rey Mono</h3>
               <p>{pensando ? "Escribiendo… · 正在输入" : "Pregúntame lo que quieras · 有问题尽管问"}</p>
             </div>
             <button type="button" onClick={limpiar} className="tp-chat-icono" title="Nueva conversación · 新对话" aria-label="Nueva conversación · 新对话">
@@ -194,7 +194,7 @@ function TutorChat() {
                   {m.tipo === "limite" ? <HourglassIcon size={18} aria-hidden="true" /> : <WifiOffIcon size={18} aria-hidden="true" />}
                   <div>
                     <b>{m.tipo === "limite" ? "Consultas de esta semana agotadas" : m.tipo === "red" ? "Sin conexión" : "No he podido contestar"}</b>
-                    <span>{m.tipo === "limite" ? "本周AI次数已用完，周一更新" : m.tipo === "red" ? "网络连接失败" : "AI暂时无法回答"}</span>
+                    <span>{m.tipo === "limite" ? "本周导师次数已用完，周一更新" : m.tipo === "red" ? "网络连接失败" : "导师暂时无法回答"}</span>
                     {m.tipo !== "limite" && (
                       <button type="button" onClick={reintentar}>
                         <RefreshCwIcon size={14} aria-hidden="true" /> Reintentar · 重试

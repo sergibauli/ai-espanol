@@ -111,16 +111,16 @@ function ProduccionUnidad({ mod, nivel }) {
             {palabras} / {min}–{max} palabras
           </span>
           <button className="wel-btn red" disabled={isCorrecting || !txt.trim()} onClick={corregir}>
-            {isCorrecting ? "Corrigiendo…" : "Corregir como en el DELE"}
+            {isCorrecting ? "Corrigiendo…" : "Corregir como en el examen"}
           </button>
         </div>
         {res && <CorrectionCard data={res} />}
       </div>
       <div className="unit-prod-task oral">
         <h3>🎙️ Expresión oral</h3>
-        <p>Habla sobre «{tema}»: preparación, monólogo y preguntas del entrevistador, corregido con los criterios del DELE.</p>
+        <p>Habla sobre «{tema}»: preparación, monólogo y preguntas del entrevistador, corregido con los criterios del examen.</p>
         <a className="oe-link" href={`#/examinador-oral?nivel=${nivel}&tema=${encodeURIComponent(tema)}&tarea=${encodeURIComponent(`Monólogo sobre la unidad «${tema}»`)}&puntos=${encodeURIComponent(JSON.stringify(puntos))}`}>
-          Empezar con el examinador IA
+          Empezar con el examinador
         </a>
       </div>
     </div>
@@ -509,14 +509,14 @@ export default function UnitPage() {
               >
                 <span className="v27-gran-btn__ico" aria-hidden="true">✨</span>
                 <span>
-                  <b>{reto ? "Creando preguntas…" : "Reto nuevo con IA"}</b>
-                  <small lang="zh">{reto ? "正在出题…" : "AI 新挑战"}</small>
+                  <b>{reto ? "Creando preguntas…" : "Reto nuevo"}</b>
+                  <small lang="zh">{reto ? "正在出题…" : "新挑战"}</small>
                 </span>
                 <PlayIcon size={20} fill="currentColor" />
               </button>
             </div>
 
-            <h2 className="unit-h2" id="u-produccion">Producción <small>(corregida con los criterios del DELE)</small></h2>
+            <h2 className="unit-h2" id="u-produccion">Producción <small>(corregida con los criterios del examen)</small></h2>
             <ProduccionUnidad mod={mod} nivel={meta.nivel} />
 
             <h2 className="unit-h2" id="u-juegos">Juegos <small>(con las palabras de esta unidad)</small></h2>
@@ -564,7 +564,7 @@ export default function UnitPage() {
         <div className="v27-puertas">
           {[
             ["descubre", "📖", "读", plus?.lectura ? "Lectura y cultura" : "Frases y errores típicos", plus?.lectura ? "阅读与文化" : "常用句与常见错误", plus?.lectura ? "Lee un texto de la unidad y descubre la cultura" : "Las frases clave y los errores que más se repiten"],
-            ["examen", "📝", "考", varias ? "Examen · clase o unidad" : "Examen del módulo", varias ? "本课小测 · 单元考试" : "模块考试", "Ponte a prueba como en el DELE y gana tu sello"],
+            ["examen", "📝", "考", varias ? "Examen · clase o unidad" : "Examen del módulo", varias ? "本课小测 · 单元考试" : "模块考试", "Ponte a prueba como en el examen y gana tu sello"],
           ].map(([k, e, sello, es, zh, desc], i) => (
             <button key={k} type="button" aria-expanded={extra === k} className={`v27-puerta ${k} ${extra === k ? "on" : ""}`} style={{ "--i": i }} onClick={() => setExtra(extra === k ? null : k)}>
               <span className="v27-puerta__arco" aria-hidden="true">

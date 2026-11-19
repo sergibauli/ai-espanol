@@ -6,7 +6,7 @@ import { LessonPlayer } from "../components/lesson/LessonPlayer.jsx";
 import { getDele, setDele, predict, skillStats, errorNotebook, markReviewed, weekKey, monthKey, LEVELS, SKILLS } from "../lib/progresoDele.js";
 import "../styles/movil-dele.css";
 
-const RUTAS = { "/ruta": "Ruta", "/modulos": "Unidades", "/examenes": "Práctica DELE", "/oficial": "Simulacro DELE", "/juegos": "Juegos", "/pronunciacion": "Pronunciación", "/diccionarios": "Diccionario", "/mi-dele": "Cuaderno de errores", "/examinador-oral": "Examinador oral IA", "/audicion": "Audición con acentos" };
+const RUTAS = { "/ruta": "Ruta", "/modulos": "Unidades", "/examenes": "Ejercicios de examen", "/oficial": "Práctica", "/juegos": "Juegos", "/pronunciacion": "Pronunciación", "/diccionarios": "Diccionario", "/mi-dele": "Cuaderno de errores", "/examinador-oral": "Examinador oral", "/audicion": "Audición con acentos" };
 const DIAS = ["Lunes · 周一", "Martes · 周二", "Miércoles · 周三", "Jueves · 周四", "Viernes · 周五", "Sábado · 周六", "Domingo · 周日"];
 
 // Plan local (sin IA): refuerza las dos destrezas más flojas
@@ -46,7 +46,7 @@ const PRUEBAS = ["lectura", "audicion", "escritura", "oral"];
 const NUMERAL = { lectura: "一", audicion: "二", escritura: "三", oral: "四" };
 const HERRAMIENTAS = [
   { to: "/audicion", icono: HeadphonesIcon, es: "Acentos", zh: "口音听力", desc: "Oye España y América · 听不同口音" },
-  { to: "/examinador-oral", icono: MicIcon, es: "Examinador oral IA", zh: "AI口语考官", desc: "Ensaya la prueba oral · 模拟口试" },
+  { to: "/examinador-oral", icono: MicIcon, es: "Examinador oral", zh: "口语考官", desc: "Ensaya la prueba oral · 模拟口试" },
 ];
 
 // Anillo de la probabilidad de APTO (SVG con degradado dorado)
@@ -193,7 +193,7 @@ export default function MiDelePage() {
         </header>
 
         {/* ---------- Accesos secundarios ---------- */}
-        <nav className="in-md-herr" aria-label="Herramientas DELE · 考试工具">
+        <nav className="in-md-herr" aria-label="Herramientas de examen · 考试工具">
           {HERRAMIENTAS.map((herramienta) => {
             const Icono = herramienta.icono;
             return (
@@ -273,7 +273,7 @@ export default function MiDelePage() {
               <span>Plan de la semana</span> <small lang="zh">本周计划</small>
               {datos.semanal?.ia && (
                 <em className="in-chip-ia">
-                  <SparklesIcon size={14} aria-hidden="true" /> IA
+                  <SparklesIcon size={14} aria-hidden="true" /> Auto
                 </em>
               )}
             </h2>

@@ -125,7 +125,7 @@ export default function AudicionAcentosPage() {
   return (
     <LightShell>
       <div className="ui-page jd-au rx-page rx-hoja">
-        <SectionHero eyebrow="Audición · 听力" title="Acentos del español" titleZh="西班牙、墨西哥、阿根廷口音" description="En el DELE B1 y B2 oirás acentos de España y de América. Practica con voces reales de cada país: escucha dos veces, responde y después mira la transcripción." descriptionZh="DELE B1、B2会出现不同国家的口音。听两遍，作答，然后看原文。" />
+        <SectionHero eyebrow="Audición · 听力" title="Acentos del español" titleZh="西班牙、墨西哥、阿根廷口音" description="En los exámenes B1 y B2 oirás acentos de España y de América. Practica con voces reales de cada país: escucha dos veces, responde y después mira la transcripción." descriptionZh="B1、B2考试会出现不同国家的口音。听两遍，作答，然后看原文。" />
         {dialogo ? (
           <Dialogo key={dialogo.id} d={dialogo} onBack={() => setSeleccionado(null)} />
         ) : (

@@ -206,7 +206,7 @@ function OficialNivelPage() {
           </div>
 
           <div className="dx-lateral">
-            <nav className="dx-niveles" aria-label={t("Niveles DELE", "DELE级别")}>
+            <nav className="dx-niveles" aria-label={t("Niveles", "级别")}>
               {Object.entries(NIVELES).map(([k, v]) => (
                 <Link key={k} to={`/oficial/${k}`} className={`dx-nivel ${k === nivel ? "on" : ""}`} data-nivel={k} aria-current={k === nivel ? "page" : undefined} title={`${k} · ${v.nombre}`}>
                   <span className="dx-nivel-sello" translate="no">{v.sello}</span>

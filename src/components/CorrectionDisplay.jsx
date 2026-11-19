@@ -29,7 +29,7 @@ function useO() {
 }
 // Si la IA falla no se inventa una nota: se muestra «no corregido»
 function D(t, a) {
-  return { fallo: true, mensaje: a || "无法连接到AI批改服务，请稍后再试。", nivelCERL: t || "A2" };
+  return { fallo: true, mensaje: a || "无法连接到批改服务，请稍后再试。", nivelCERL: t || "A2" };
 }
 function L(t) {
   const a = t.indexOf("{");
@@ -127,7 +127,7 @@ export function u() {
           setIsCorrecting(false);
           const c = error instanceof Error ? error.message : "Unknown error";
           return {
-            data: D(l, `AI服务暂时不可用 (${c})`),
+            data: D(l, `批改服务暂时不可用 (${c})`),
           };
         }
       },
@@ -288,7 +288,7 @@ function MComponent({ data }) {
         )}
         {(data.criterios || []).length > 0 && (
           <div className="corr-criterios">
-            <h4>Criterios DELE · 评分标准</h4>
+            <h4>Criterios del examen · 评分标准</h4>
             {data.criterios.map((c, k) => (
               <div key={k} className="corr-crit">
                 <span>

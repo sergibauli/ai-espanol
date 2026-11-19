@@ -398,11 +398,11 @@ export default function ExaminadorOralPage() {
     <LightShell>
       <div className="ui-page">
         <SectionHero
-          eyebrow="Examinador oral IA · AI口语考官"
-          title="Examen oral DELE"
-          titleZh="AI模拟DELE口语考试"
-          description="Practica la expresión e interacción orales del DELE con un examinador de IA: preparación cronometrada, monólogo, conversación y corrección."
-          descriptionZh="用AI考官练习DELE口语表达与互动：限时准备、独白、对话和批改。"
+          eyebrow="Examinador oral · 口语考官"
+          title="Examen oral"
+          titleZh="模拟口语考试"
+          description="Practica la expresión e interacción orales del examen con un examinador virtual: preparación cronometrada, monólogo, conversación y corrección."
+          descriptionZh="用模拟考官练习口语表达与互动：限时准备、独白、对话和批改。"
         />
         <ol className="oe-steps tp-eo-pasos" aria-label="Fases del examen · 考试阶段">
           {FASES.map((fase_, indice) => (
@@ -534,7 +534,7 @@ export default function ExaminadorOralPage() {
                 <p className="tp-eo-estado" role="status"><span className="tp-eo-pincel" aria-hidden="true" /> Corrigiendo como un examinador… · 考官批改中…</p>
               )}
               {limitReached && (
-                <p className="tp-eo-estado error" role="alert">Has usado tus 5 consultas de IA de esta semana: se renuevan el lunes. Escucha tus grabaciones abajo. · 本周5次AI已用完，周一更新。可以先回听录音。</p>
+                <p className="tp-eo-estado error" role="alert">Has usado tus 5 consultas de esta semana: se renuevan el lunes. Escucha tus grabaciones abajo. · 本周5次已用完，周一更新。可以先回听录音。</p>
               )}
               {correccion && <CorrectionCard data={correccion} />}
               {audioMonologo && (

@@ -119,7 +119,7 @@ export default function ImpresionExamen({ examen, nivel, variante, respuestas, t
   const fecha = new Date().toLocaleDateString("es-ES");
   const pr = (n) => examen.pruebas.find((p) => p.prueba === n);
   const puntosPrueba = { 1: puntuacion?.pLect, 2: puntuacion?.pAud, 3: puntuacion?.pEsc, 4: puntuacion?.pOral };
-  const titulo = `DELE ${nivel} · Modelo ${String(examen.modelo).padStart(2, "0")} — ${examen.temaCentral || ""}`;
+  const titulo = `${nivel} · Modelo ${String(examen.modelo).padStart(2, "0")} — ${examen.temaCentral || ""}`;
   React.useEffect(() => {
     const anterior = document.title;
     document.title = `${titulo}${corregido ? " (corregido)" : " (en blanco)"}`;
@@ -352,7 +352,7 @@ function CorreccionIA({ ia }) {
   return (
     <div className="ix-ia">
       <b>
-        Corrección con IA · AI批改{typeof ia.puntuacion === "number" ? `: ${ia.puntuacion}/100` : ""}
+        Corrección · 批改{typeof ia.puntuacion === "number" ? `: ${ia.puntuacion}/100` : ""}
       </b>
       {ia.textoCorregido ? (
         <div className="ix-modelo">

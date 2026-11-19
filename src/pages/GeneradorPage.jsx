@@ -110,7 +110,7 @@ function GeneradorPage() {
         resultado = extraerJson(respuesta);
       }
       if (examenCompleto(resultado)) setExamen(resultado);
-      else setError("La IA no devolvió un examen completo tras 3 intentos. Prueba otro tema o reintenta · AI未返回完整考试（已重试3次）");
+      else setError("No se ha podido generar un examen completo tras 3 intentos. Prueba otro tema o reintenta · 未能生成完整考试（已重试3次）");
     } catch (fallo) {
       setError(fallo.message || "Error");
     }
@@ -140,11 +140,11 @@ function GeneradorPage() {
       <div className="rx-wrap is-estrecho">
         <div className="gm-no-adapt">
           <SectionHero
-            eyebrow="IA Lab · AI实验室"
-            title="Generador IA de exámenes"
-            titleZh="AI 生成 DELE 试卷"
-            description="Escribe un tema y la IA crea un examen DELE completo con tareas de comprensión y expresión. Para exámenes al instante sin IA, usa el generador automático."
-            descriptionZh="输入主题，AI 生成完整的 DELE 试卷。"
+            eyebrow="Laboratorio · 实验室"
+            title="Generador de exámenes"
+            titleZh="生成试卷"
+            description="Escribe un tema y se crea un examen completo con tareas de comprensión y expresión. Para exámenes al instante, usa el generador rápido."
+            descriptionZh="输入主题，生成完整的试卷。"
             actions={
               <Link className="ui-btn" to="/examenes/generador">
                 Generador automático · 自动出题
@@ -307,7 +307,7 @@ function PracticaOral({ etiqueta, texto, setTexto, correccion, grabando, onGraba
       <div className="rx-filtros">
         <button type="button" className="rx-btn" onClick={onCorregir} disabled={corrigiendo || !texto.trim()}>
           {corrigiendo ? <LoaderCircleIcon size={16} className="animate-spin" aria-hidden="true" /> : <SparklesIcon size={16} aria-hidden="true" />}
-          {corrigiendo ? "Corrigiendo… · 批改中" : "Corregir con IA · AI批改"}
+          {corrigiendo ? "Corrigiendo… · 批改中" : "Corregir · 批改"}
         </button>
         {grabando ? (
           <button type="button" className="rx-btn is-oro" onClick={onParar}>
@@ -455,7 +455,7 @@ function ExamenGenerado({ examen }) {
               disabled={isCorrecting || !(redacciones[opcion] || "").trim()}
             >
               {isCorrecting ? <LoaderCircleIcon size={16} className="animate-spin" aria-hidden="true" /> : <SparklesIcon size={16} aria-hidden="true" />}
-              {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir con IA · AI批改"}
+              {isCorrecting ? "Corrigiendo… · 批改中" : "Corregir · 批改"}
             </button>
             {correccionesEscritura[opcion] && <Correccion data={correccionesEscritura[opcion]} />}
           </div>

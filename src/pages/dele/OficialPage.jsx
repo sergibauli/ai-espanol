@@ -235,7 +235,7 @@ function OficialPage() {
                 marginTop: 3,
               },
             },
-            "DELE",
+            "PRÁCTICA",
           ),
           h(
             "span",
@@ -276,14 +276,14 @@ function OficialPage() {
           {
             className: "ofx-title",
           },
-          t("Exámenes DELE oficiales", "DELE 官方考试"),
+          t("Práctica", "练习"),
         ),
         h(
           "div",
           {
             className: "ofx-sub",
           },
-          `DELE 官方考试 · ${t("como el día del examen", "模拟真实考试")}`,
+          `练习 · ${t("como el día del examen", "模拟真实考试")}`,
         ),
       ),
     ),
@@ -313,8 +313,8 @@ function OficialPage() {
         {
           className: "ofx-stat",
         },
-        h("b", null, "IA"),
-        h("span", null, t("corrige escritura y oral", "AI 批改写作和口语")),
+        h("b", null, "✓"),
+        h("span", null, t("corrige escritura y oral", "批改写作和口语")),
       ),
     ),
   );

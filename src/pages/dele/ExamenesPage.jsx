@@ -71,8 +71,8 @@ const x = [
     key: "B2",
     title: "Nivel B2 - Avanzado",
     sub: "熟练级",
-    desc: "Politica, cultura, IA, globalizacion",
-    descZh: "政治、文化、人工智能、全球化",
+    desc: "Politica, cultura, tecnologia, globalizacion",
+    descZh: "政治、文化、科技、全球化",
     color: "#a855f7",
     glow: "#c084fc",
     accent: "#9333ea",
@@ -245,7 +245,7 @@ function WComponent() {
               letterSpacing: "-0.02em",
             }}
           >
-            {t_1("DELE para practicar", "DELE 练习")}
+            {t_1("Ejercicios de examen", "考试题练习")}
           </h1>
           <p className="text-white/50 text-lg max-w-xl mx-auto">
             {t_1(
@@ -270,7 +270,7 @@ function WComponent() {
                   }}
                 />
                 <span className="text-[13.5px] font-black text-white/95">
-                  {t_1("DELE para practicar", "DELE 练习")}
+                  {t_1("Ejercicios de examen", "考试题练习")}
                 </span>
                 <span
                   className="ml-auto text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full"
@@ -306,7 +306,7 @@ function WComponent() {
                   }}
                 />
                 <span className="text-[13.5px] font-black text-white/95">
-                  {t_1("DELE Exámenes Oficiales", "DELE 官方考试")}
+                  {t_1("Práctica", "练习")}
                 </span>
                 <ChevronRightIcon
                   size={15}

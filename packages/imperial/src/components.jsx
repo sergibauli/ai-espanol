@@ -288,7 +288,7 @@ export function PanelCorreccion({ puntuacion = 0, apto, nivel, criterios = [], c
         </span>
       </div>
       <div className="im-correccion__cab">
-        {nivel && <span className="im-correccion__nivel">Corrección DELE {nivel}</span>}
+        {nivel && <span className="im-correccion__nivel">Corrección {nivel}</span>}
         <Sello texto={ok ? "Apto" : "No apto"} sub={ok ? "合格" : "不合格"} tono={ok ? "jade" : "laca"} grande />
       </div>
       {criterios.length > 0 && (
@@ -349,7 +349,7 @@ export function Logo({ variante = "completo", tono = "oscuro", tamano = 48, subt
           <b>
             Wukong <i>Español</i>
           </b>
-          {subtitulo && <small>悟空西语 · DELE</small>}
+          {subtitulo && <small>悟空西语 · 西班牙语</small>}
         </span>
       )}
     </span>

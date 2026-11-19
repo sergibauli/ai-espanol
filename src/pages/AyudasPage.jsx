@@ -1042,9 +1042,9 @@ const TIPOS_TEXTO = [
     sampleTitle: "Solicitud de información sobre curso de español",
     sampleTitleCn: "咨询西班牙语课程信息",
     sampleText:
-      "Estimado señor o señora: Me dirijo a usted tras ver el anuncio de su academia en internet. Me pongo en contacto con usted porque estoy interesada en realizar un curso intensivo de español durante el mes de julio. Quisiera saber si aún quedan plazas disponibles para el nivel B2 y cuáles son los horarios de las clases. Asimismo, le agradecería que me informara sobre el precio total del curso, incluyendo el material didáctico. ¿Sería posible reservar plaza online o es necesario acudir presencialmente? Me gustaría saber también si ofrecen alojamiento para estudiantes extranjeros durante el período del curso. Con respecto a la certificación, ¿el curso prepara específicamente para el examen DELE B2? Adjunto encontrará una copia de mi pasaporte y el formulario de inscripción relleno. Agradezco de antemano su atención y su pronta respuesta. Quedo a la espera de su confirmación para proceder con el pago de la reserva. Para cualquier duda, no dude en contactar conmigo por teléfono o por email. Le saluda atentamente, Li Wei.",
+      "Estimado señor o señora: Me dirijo a usted tras ver el anuncio de su academia en internet. Me pongo en contacto con usted porque estoy interesada en realizar un curso intensivo de español durante el mes de julio. Quisiera saber si aún quedan plazas disponibles para el nivel B2 y cuáles son los horarios de las clases. Asimismo, le agradecería que me informara sobre el precio total del curso, incluyendo el material didáctico. ¿Sería posible reservar plaza online o es necesario acudir presencialmente? Me gustaría saber también si ofrecen alojamiento para estudiantes extranjeros durante el período del curso. Con respecto a la certificación, ¿el curso prepara específicamente para el examen B2? Adjunto encontrará una copia de mi pasaporte y el formulario de inscripción relleno. Agradezco de antemano su atención y su pronta respuesta. Quedo a la espera de su confirmación para proceder con el pago de la reserva. Para cualquier duda, no dude en contactar conmigo por teléfono o por email. Le saluda atentamente, Li Wei.",
     sampleTextCn:
-      "主题：咨询信息 - 2024年7月西班牙语强化课程。尊敬的先生/女士：我在网上看到贵校的广告后，特此致信。我联系您是因为我有兴趣在七月份参加西班牙语强化课程。我想知道B2级别是否还有空位，以及上课时间是什么时候。同样，如能告知课程总费用（包括教材），我将不胜感激。是否可以在线预订名额，还是需要亲自前往？我也想知道课程期间是否为外国学生提供住宿。关于证书，该课程是否为DELE B2考试做专门准备？附件中您会找到我的护照复印件和填好的报名表。预先感谢您的关注和及时回复。我等候您的确认以便进行预订付款。如有任何疑问，请随时通过电话或邮件与我联系。李伟谨上。",
+      "主题：咨询信息 - 2024年7月西班牙语强化课程。尊敬的先生/女士：我在网上看到贵校的广告后，特此致信。我联系您是因为我有兴趣在七月份参加西班牙语强化课程。我想知道B2级别是否还有空位，以及上课时间是什么时候。同样，如能告知课程总费用（包括教材），我将不胜感激。是否可以在线预订名额，还是需要亲自前往？我也想知道课程期间是否为外国学生提供住宿。关于证书，该课程是否为B2考试做专门准备？附件中您会找到我的护照复印件和填好的报名表。预先感谢您的关注和及时回复。我等候您的确认以便进行预订付款。如有任何疑问，请随时通过电话或邮件与我联系。李伟谨上。",
     connectorsInText: [
       "Estimado",
       "Me dirijo a usted",
@@ -1548,12 +1548,12 @@ const TIPOS_TEXTO = [
     tricks: [
       "Escribe tus argumentos ordenándolos por importancia lógica, usando conectores numéricos claros.",
       "Intenta refutar las posibles objeciones del lector usando ejemplos o datos.",
-      "No uses adjetivos cargados de emoción; la argumentación del DELE se basa en la lógica y la objetividad.",
+      "No uses adjetivos cargados de emoción; la argumentación del examen se basa en la lógica y la objetividad.",
     ],
     tricksCn: [
       "按照逻辑重要性安排论点，使用清晰的数字连接词。",
       "试着用例子或数据来反驳读者可能提出的反对意见。",
-      "不要使用带有强烈感情色彩的形容词；DELE的论证建立在逻辑和客观的基础之上。",
+      "不要使用带有强烈感情色彩的形容词；考试中的论证建立在逻辑和客观的基础之上。",
     ],
     sampleTitle: "¿Ha simplificado la tecnología el estudio?",
     sampleTitleCn: "科技是否简化了学习？",
@@ -1622,8 +1622,8 @@ function AyudasPage() {
           eyebrow="Escritura · 写作"
           title="Ayudas de escritura"
           titleZh="西班牙语写作助手"
-          description="Conectores, plantillas y técnicas para escribir textos del DELE: narrar, opinar, argumentar, cartas y correos."
-          descriptionZh="DELE写作用的连接词、模板和技巧：叙述、观点、论证、信件和邮件。"
+          description="Conectores, plantillas y técnicas para escribir textos del examen: narrar, opinar, argumentar, cartas y correos."
+          descriptionZh="考试写作用的连接词、模板和技巧：叙述、观点、论证、信件和邮件。"
         />
         <div className="rx-ay__tipos" role="group" aria-label="Tipo de texto · 文本类型">
           {TIPOS_TEXTO.map((item, indice) => (

@@ -29,7 +29,7 @@ const TOTAL = 80 + Object.values(NUEVOS).reduce((a, l) => a + l.length, 0);
 const MODOS = [
   { id: "simulacro", to: "/examenes/generador", icono: ZapIcon, sello: "考", marca: "试", etiqueta: "Examen nuevo cada vez", es: "Simulacro automático", zh: "自动模拟考", desc: "Un examen distinto en cada intento, con nota al momento.", chips: ["4 pruebas", "Nota al instante", "A1–B2"], cta: "Empezar simulacro" },
   { id: "destrezas", to: "/examenes", icono: TargetIcon, sello: "练", marca: "技", etiqueta: "Entrena lo que más te cuesta", es: "Practicar por destrezas", zh: "分项练习", desc: "Lectura, audición, escritura y oral, por niveles.", chips: ["Lectura", "Audición", "Escritura", "Oral"], cta: "Elegir destreza" },
-  { id: "oral", to: "/examinador-oral", icono: MicIcon, sello: "问", marca: "言", etiqueta: "Con inteligencia artificial", es: "Examinador oral IA", zh: "AI口语考官", desc: "Preparación, monólogo y preguntas del entrevistador, como en el examen.", chips: ["Monólogo", "Entrevista", "Corrección DELE"], cta: "Hablar con el examinador" },
+  { id: "oral", to: "/examinador-oral", icono: MicIcon, sello: "问", marca: "言", etiqueta: "Prueba oral", es: "Examinador oral", zh: "口语考官", desc: "Preparación, monólogo y preguntas del entrevistador, como en el examen.", chips: ["Monólogo", "Entrevista", "Corrección"], cta: "Hablar con el examinador" },
   { id: "acentos", to: "/audicion", icono: HeadphonesIcon, sello: "音", marca: "声", etiqueta: "Entrena el oído", es: "Acentos del español", zh: "口音听力", desc: "Audiciones con voces de España, México y Argentina.", chips: ["España", "México", "Argentina"], cta: "Escuchar acentos" },
 ];
 
@@ -164,7 +164,7 @@ export default function OficialHubPage() {
                   <ZapIcon size={17} strokeWidth={2.6} /> Examen rápido · 快速测试
                 </Link>
                 <Link to="/generador" className="dp-btn">
-                  <Wand2Icon size={16} strokeWidth={2.4} /> Generador IA · AI出题
+                  <Wand2Icon size={16} strokeWidth={2.4} /> Generador · 出题
                 </Link>
                 <Link to="/mi-dele" className="dp-btn">
                   <CompassIcon size={16} strokeWidth={2.4} /> Mi progreso · 我的进度

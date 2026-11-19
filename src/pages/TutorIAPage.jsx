@@ -13,7 +13,7 @@ import "../styles/movil-recursos.css";
 const LEVELS = ["A1", "A2", "B1", "B2"];
 const TOPICS = [
   ["☕", "En un café", "在咖啡馆", "Vamos a practicar: yo soy el camarero de un café en Madrid y tú eres el cliente. Empieza tú."],
-  ["🎓", "Examen oral DELE", "DELE口语", "Hazme una simulación de la prueba oral del DELE de mi nivel: preséntame la tarea 1 y hazme preguntas una a una."],
+  ["🎓", "Examen oral", "口语考试", "Hazme una simulación de la prueba oral del examen de mi nivel: preséntame la tarea 1 y hazme preguntas una a una."],
   ["⚖️", "Ser y estar", "ser和estar", "Explícame la diferencia entre ser y estar con ejemplos muy fáciles y luego ponme 3 frases para practicar."],
   ["✈️", "De viaje", "旅行", "Practiquemos una conversación en el aeropuerto: tú eres el empleado y yo el viajero."],
   ["🗣️", "Corrige mi frase", "改错", "Quiero que corrijas mis frases. Te escribiré una y me explicas los errores."],
@@ -145,7 +145,7 @@ export default function TutorIAPage() {
           <div className="tp-tutor-id">
             <div className="tutor-nombre">
               <b>Rey Mono</b>
-              <small>AI老师 · tutor de español</small>
+              <small>西语老师 · tutor de español</small>
             </div>
             <div className={`tutor-status ${estado[0]}`} role="status" aria-live="polite">
               <i aria-hidden="true" />
@@ -193,7 +193,7 @@ export default function TutorIAPage() {
         </aside>
         <section className="tutor-chat" aria-label="Conversación con Rey Mono · 对话">
           <header className="tutor-head">
-            <CintaTitulo texto="Tutor IA" zh="AI 西语老师" tono="laca" />
+            <CintaTitulo texto="Tutor" zh="西语老师" tono="laca" />
             <span className="tutor-head-sub">
               Habla o escribe: te contesto a tu nivel <InsigniaNivel nivel={level} tamano="sm" />
             </span>
@@ -241,7 +241,7 @@ export default function TutorIAPage() {
                     </button>
                   ))}
                 </div>
-                {agotada && <p className="tp-vacio-aviso">Esta semana ya no quedan consultas de IA · 本周AI次数已用完</p>}
+                {agotada && <p className="tp-vacio-aviso">Esta semana ya no quedan consultas al tutor · 本周导师次数已用完</p>}
               </div>
             )}
             {busy && (
@@ -295,8 +295,8 @@ function ErrorTutor({ tipo, dias, onReintentar }) {
           <HourglassIcon size={22} />
         </span>
         <div>
-          <b>Has usado tus 5 consultas de IA de esta semana</b>
-          <span className="tp-aviso-zh">本周5次AI已用完</span>
+          <b>Has usado tus 5 consultas al tutor de esta semana</b>
+          <span className="tp-aviso-zh">本周5次导师次数已用完</span>
           <p>
             Se renuevan el lunes (en {dias} día{dias > 1 ? "s" : ""}). Mientras, repasa con las unidades y los juegos. · 周一更新（{dias}天后）。在此之前可以用单元和游戏复习。
           </p>
@@ -311,7 +311,7 @@ function ErrorTutor({ tipo, dias, onReintentar }) {
       </span>
       <div>
         <b>{tipo === "red" ? "No hay conexión con Rey Mono" : "Rey Mono no ha podido contestar"}</b>
-        <span className="tp-aviso-zh">{tipo === "red" ? "网络连接失败" : "AI暂时无法回答"}</span>
+        <span className="tp-aviso-zh">{tipo === "red" ? "网络连接失败" : "导师暂时无法回答"}</span>
         <p>Comprueba tu conexión e inténtalo otra vez. No se gasta otra consulta. · 请检查网络后重试，不会多扣次数。</p>
         <button type="button" className="tp-aviso-btn" onClick={onReintentar}>
           <RefreshCwIcon size={16} aria-hidden="true" /> Reintentar · 重试

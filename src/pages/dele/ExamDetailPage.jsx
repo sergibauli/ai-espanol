@@ -2067,7 +2067,7 @@ function WaComponent() {
             <div className="p-8 relative">
               <div className="xd-sello gm-no-adapt hidden lg:flex" aria-hidden="true" translate="no">
                 <span>考</span>
-                <b>DELE</b>
+                <b>试</b>
               </div>
               <div
                 className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-40"
@@ -2875,7 +2875,7 @@ function WaComponent() {
                           </p>
                         </div>
                         <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] font-black uppercase tracking-[.18em] xd-ok">
-                          Audio DELE
+                          Audio del examen
                         </span>
                       </div>
                       {vozEspana ? null : T.length === 0 ? (
@@ -3612,8 +3612,8 @@ function WaComponent() {
                   </h2>
                   <p className="xd-oro text-sm font-bold">
                     {t_1(
-                      "Estilo DELE: verdadero/falso, emparejar, huecos, ordenar y transformar",
-                      "DELE风格：判断、配对、填空、排序和改写",
+                      "Estilo examen: verdadero/falso, emparejar, huecos, ordenar y transformar",
+                      "考试风格：判断、配对、填空、排序和改写",
                     )}
                   </p>
                 </div>
@@ -3640,7 +3640,7 @@ function WaComponent() {
                     {t_1("Gramatica del nivel", "本级语法")} {n.level}
                   </h2>
                   <p className="xd-tinta text-sm font-bold">
-                    {t_1("Puntos clave para tu nivel DELE", "你的DELE级别的关键语法点")}
+                    {t_1("Puntos clave para tu nivel", "你的级别的关键语法点")}
                   </p>
                 </div>
               </div>
@@ -3779,7 +3779,7 @@ function WaComponent() {
                     >
                       <img
                         src={`https://picsum.photos/seed/dele-foto-${at}/800/500`}
-                        alt={t_1("Fotografia del examen DELE", "DELE考试照片")}
+                        alt={t_1("Fotografia del examen", "考试照片")}
                         className="w-full h-auto object-cover transition-transform duration-700"
                         style={{
                           minHeight: "320px",
@@ -3974,7 +3974,7 @@ function WaComponent() {
                       ) : (
                         <SparklesIcon size={18} />
                       )}
-                      {isCorrecting ? t_1("Corrigiendo...", "批改中...") : t_1("Corregir con IA", "AI批改")}
+                      {isCorrecting ? t_1("Corrigiendo...", "批改中...") : t_1("Corregir", "批改")}
                     </button>
                   </div>
                 </div>
@@ -4193,7 +4193,7 @@ function WaComponent() {
                             )}
                             {isCorrecting
                               ? t_1("Corrigiendo...", "批改中...")
-                              : t_1("Corregir con IA", "AI批改")}
+                              : t_1("Corregir", "批改")}
                           </button>
                         </div>
                       </div>
@@ -4434,10 +4434,10 @@ function WaComponent() {
                           )}
                           {isCorrecting
                             ? t_1("Corrigiendo...", "批改中...")
-                            : t_1("Corregir con IA", "AI批改")}
+                            : t_1("Corregir", "批改")}
                         </button>
                         <a className="oe-link" href={`#/examinador-oral?nivel=${encodeURIComponent(n?.level || "")}&tema=${encodeURIComponent(n?.monologue?.topic1?.title || "")}&tarea=${encodeURIComponent(n?.monologue?.topic1?.description || "")}&puntos=${encodeURIComponent(JSON.stringify(n?.monologue?.topic1?.guideQuestions || []))}`}>
-                        🎙️ Hacer esta tarea con el examinador IA · 用AI考官模拟
+                        🎙️ Hacer esta tarea con el examinador · 用考官模拟
                       </a>
                       </div>
                     </div>
@@ -4507,7 +4507,7 @@ function WaComponent() {
                             )}
                             {isCorrecting
                               ? t_1("Corrigiendo...", "批改中...")
-                              : t_1("Corregir con IA", "AI批改")}
+                              : t_1("Corregir", "批改")}
                           </button>
                         </div>
                       )}
@@ -4534,7 +4534,7 @@ function WaComponent() {
                 <div>
                   <h2 className="text-white font-bold text-lg">{"Interacción oral · 口语互动"}</h2>
                   <p className="text-white/30 text-xs">
-                    {t_1("Practica con IA", "用AI练习")}
+                    {t_1("Practica con el tutor", "和导师练习")}
                   </p>
                 </div>
               </div>
@@ -4740,7 +4740,7 @@ function WaComponent() {
                           )}
                           {isCorrecting
                             ? t_1("Corrigiendo...", "批改中...")
-                            : t_1("Corregir con IA", "AI批改")}
+                            : t_1("Corregir", "批改")}
                         </button>
                       </div>
                     </div>
@@ -4810,7 +4810,7 @@ function WaComponent() {
                             )}
                             {isCorrecting
                               ? t_1("Corrigiendo...", "批改中...")
-                              : t_1("Corregir con IA", "AI批改")}
+                              : t_1("Corregir", "批改")}
                           </button>
                         </div>
                       )}
@@ -4929,7 +4929,7 @@ function WaComponent() {
                   {t_1("Certificado de Practica", "练习证书")}
                 </h2>
                 <p className="text-white/35 text-sm mb-2">
-                  DELE {n.level} - {n.theme}
+                  {n.level} - {n.theme}
                 </p>
                 <div
                   className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-mono mb-6"

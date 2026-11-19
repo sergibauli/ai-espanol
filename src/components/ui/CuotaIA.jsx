@@ -30,8 +30,8 @@ export function CuotaIA({ className = "", variante = "compacta" }) {
   const agotada = cuota.restantes === 0;
   const renueva = `Se renuevan en ${dias} día${dias > 1 ? "s" : ""} · ${dias}天后更新`;
   const resumen = agotada
-    ? `Consultas de IA agotadas esta semana. ${renueva}`
-    : `Te quedan ${cuota.restantes} de ${cuota.limite} consultas de IA esta semana. ${renueva}`;
+    ? `Consultas al tutor agotadas esta semana. ${renueva}`
+    : `Te quedan ${cuota.restantes} de ${cuota.limite} consultas al tutor esta semana. ${renueva}`;
   const monedas = (
     <span className="cuota-ia-perlas tp-cuota-monedas" aria-hidden="true">
       {Array.from({ length: cuota.limite }, (_, indice) => (
@@ -46,7 +46,7 @@ export function CuotaIA({ className = "", variante = "compacta" }) {
         <div className="tp-cuota-cab">
           <SparklesIcon size={16} strokeWidth={2.6} aria-hidden="true" />
           <span className="tp-cuota-tit">
-            Consultas de IA <small>本周AI次数</small>
+            Usos del tutor <small>本周导师次数</small>
           </span>
           <span className="tp-cuota-num" aria-hidden="true">
             <b>{cuota.restantes}</b>/{cuota.limite}
@@ -73,7 +73,7 @@ export function CuotaIA({ className = "", variante = "compacta" }) {
       <SparklesIcon size={15} strokeWidth={2.6} aria-hidden="true" />
       {monedas}
       <span aria-hidden="true">
-        IA {cuota.restantes}/{cuota.limite} <small>{agotada ? "agotadas · 已用完" : "esta semana · 本周"}</small>
+        Tutor {cuota.restantes}/{cuota.limite} <small>{agotada ? "agotadas · 已用完" : "esta semana · 本周"}</small>
       </span>
     </div>
   );

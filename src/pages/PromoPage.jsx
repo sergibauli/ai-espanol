@@ -3,10 +3,10 @@ import * as React from "react";
 
 // Diapositivas del vídeo promocional (cifras reales de la app)
 const ESCENAS = [
-  { mono: "saluda", es: "Wukong Español", zh: "悟空西语", desc: "Tu camino al DELE A1–B2, hecho para estudiantes chinos", descZh: "为中文学生打造的 DELE A1–B2 备考平台" },
+  { mono: "saluda", es: "Wukong Español", zh: "悟空西语", desc: "Tu camino al A1–B2, hecho para estudiantes chinos", descZh: "为中文学生打造的 A1–B2 备考平台" },
   { mono: "feliz", es: "90 unidades", zh: "90 个单元", desc: "Un viaje por China: vocabulario, diálogos, teoría y ejercicios", descZh: "游历中国：词汇、对话、语法和练习" },
-  { mono: "serio", es: "80 modelos DELE", zh: "80 套 DELE 模拟题", desc: "Lectura, audición, escritura y prueba oral, como el día del examen", descZh: "阅读、听力、写作和口语，和考试一样" },
-  { mono: "guino", es: "Tutor IA y examinador oral", zh: "AI 导师和口语考官", desc: "Habla con el Rey Mono y practica la prueba oral con corrección", descZh: "和美猴王对话，练习口语并获得批改" },
+  { mono: "serio", es: "80 modelos de examen", zh: "80 套模拟题", desc: "Lectura, audición, escritura y prueba oral, como el día del examen", descZh: "阅读、听力、写作和口语，和考试一样" },
+  { mono: "guino", es: "Tutor y examinador oral", zh: "导师和口语考官", desc: "Habla con el Rey Mono y practica la prueba oral con corrección", descZh: "和美猴王对话，练习口语并获得批改" },
   { mono: "poder", es: "Pronunciación y juegos", zh: "发音和游戏", desc: "Sílabas con voz real, repaso espaciado y juegos para memorizar", descZh: "真人发音、间隔复习和记忆游戏" },
   { mono: "trofeo", es: "Explicado en tu idioma", zh: "母语讲解", desc: "Chino, inglés, francés, alemán, neerlandés, ruso o japonés", descZh: "中文、英语、法语、德语、荷兰语、俄语或日语" },
 ];
@@ -79,7 +79,7 @@ export default function PromoPage() {
                   ¡Empieza hoy!
                   <small>今天就开始学西语！</small>
                 </h1>
-                <p className="tp-promo-desc">Prepárate para el DELE y habla español con confianza · 自信地说西班牙语</p>
+                <p className="tp-promo-desc">Prepara tus exámenes y habla español con confianza · 自信地说西班牙语</p>
                 <div className="tp-promo-qr">
                   <img src="./images/qr-wechat.png" alt="Código QR de WeChat · 微信二维码" />
                   <b>扫码加微信 · 联系我们</b>

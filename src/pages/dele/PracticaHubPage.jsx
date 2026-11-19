@@ -28,8 +28,8 @@ export default function PracticaHubPage() {
           <span className="imperial-cloud c1" />
           <span className="imperial-cloud c2" />
           <div className="imperial-hero-text">
-            <small>DELE 练习 · PRÁCTICA POR DESTREZAS</small>
-            <h1>Entrena cada prueba del DELE</h1>
+            <small>考试练习 · PRÁCTICA POR DESTREZAS</small>
+            <h1>Entrena cada prueba del examen</h1>
             <p>Vocabulario, lectura, audición, escritura, monólogo e interacción, nivel a nivel.</p>
           </div>
           <div className="imperial-hero-art">
@@ -48,7 +48,7 @@ export default function PracticaHubPage() {
             <TarjetaExamen
               key={l.key}
               nivel={l.key}
-              titulo={`DELE ${l.key} · ${l.name}`}
+              titulo={`${l.key} · ${l.name}`}
               tituloZh={l.zh}
               datos={SKILLS.map(([, es]) => es)}
               accion="Practicar · 开始练习"

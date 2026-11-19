@@ -56,11 +56,11 @@ function TopNav() {
               className="brand-orbit flex items-center gap-2.5 shrink-0"
               aria-label="Wukong Español"
             >
-              <span className="brand-mark">AI</span>
+              <span className="brand-mark">悟</span>
               <span className="hidden sm:flex flex-col leading-none">
                 <span className="text-[15px] font-black tracking-[0.08em] text-white">ESPAÑOL</span>
                 <span className="text-[9px] font-bold tracking-[0.24em] text-orange-300/80 mt-1">
-                  DELE LAB
+                  WUKONG
                 </span>
               </span>
             </Link>

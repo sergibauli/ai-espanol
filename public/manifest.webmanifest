@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Wukong Español · 悟空西语 · DELE",
+  "name": "Wukong Español · 悟空西语",
   "short_name": "Wukong",
-  "description": "Aprende español, practica DELE y mejora con juegos interactivos. 学西班牙语，备考DELE。",
+  "description": "Aprende español, prepara tus exámenes y mejora con juegos interactivos. 学西班牙语，备考考试。",
   "lang": "es",
   "start_url": "./#/ruta",
   "scope": "./",
@@ -20,7 +20,7 @@
   ],
   "shortcuts": [
     { "name": "Juegos · 游戏", "short_name": "Juegos", "url": "./#/juegos", "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Exámenes DELE · 考试", "short_name": "DELE", "url": "./#/oficial", "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Práctica · 练习", "short_name": "Práctica", "url": "./#/oficial", "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }] },
     { "name": "Repaso · 记忆", "short_name": "Repaso", "url": "./#/memoria", "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }

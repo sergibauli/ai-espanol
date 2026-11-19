@@ -711,7 +711,7 @@ function firstOpenLevel(lessons) {
 
 // Bienvenida de la primera vez (motivo, nivel y meta diaria), como en las apps de idiomas
 const REASONS = [
-  ["🎓", "Aprobar el DELE", "通过DELE考试"],
+  ["🎓", "Aprobar el examen", "通过考试"],
   ["💼", "Trabajo", "工作"],
   ["✈️", "Viajar", "旅行"],
   ["🏫", "Estudiar en España", "去西班牙留学"],
@@ -723,7 +723,7 @@ const START = [
   ["📖", "Conozco algunas palabras", "会一些单词", "A1"],
   ["💬", "Puedo tener conversaciones básicas", "能进行简单对话", "A2"],
   ["🗣️", "Hablo con soltura sobre muchos temas", "能流利交流", "B1"],
-  ["🏆", "Preparo el DELE B2", "准备DELE B2", "B2"],
+  ["🏆", "Preparo el B2", "准备B2", "B2"],
 ];
 const GOALS = [
   [10, "Casual · 5 min/día", "轻松"],
