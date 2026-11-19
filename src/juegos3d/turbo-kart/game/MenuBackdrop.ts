@@ -121,6 +121,10 @@ export class MenuBackdrop {
   private readonly fog = new THREE.FogExp2(FOG_COLOR, 0.03);
   private readonly background = new THREE.Color(FOG_COLOR);
   private envTexture: THREE.Texture | null = null;
+  /** Wukong: ilustraciones de fondo por encuadre (maquetas) y piezas que esconden. */
+  private readonly ambiente: THREE.Object3D[] = [];
+  private readonly arte: Partial<Record<MenuFraming, THREE.Texture>> = {};
+  private escena: THREE.Scene | null = null;
 
   private framing: MenuFraming = 'title';
   private readonly cur: FramingSpec = { ...FRAMINGS.title };
@@ -156,6 +160,7 @@ export class MenuBackdrop {
       },
     });
     const sky = new THREE.Mesh(skyGeo, this.skyMaterial);
+    this.ambiente.push(sky);
     sky.frustumCulled = false;
     this.group.add(sky);
     this.disposables.push(skyGeo, this.skyMaterial);
@@ -183,6 +188,7 @@ export class MenuBackdrop {
       fog: false,
     });
     const twinkles = new THREE.Points(twinkleGeo, twinkleMat);
+    this.ambiente.push(twinkles);
     twinkles.frustumCulled = false;
     this.group.add(twinkles);
     this.disposables.push(twinkleGeo, twinkleMat);
@@ -198,6 +204,7 @@ export class MenuBackdrop {
       envMapIntensity: 1.2,
     });
     const floor = new THREE.Mesh(floorGeo, floorMat);
+    this.ambiente.push(floor);
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -0.005;
     floor.receiveShadow = true;
@@ -205,7 +212,8 @@ export class MenuBackdrop {
     this.disposables.push(floorGeo, floorMat, gridTex);
 
     // Podium ----------------------------------------------------------------------
-    const podiumMat = new THREE.MeshStandardMaterial({ color: 0x15142c, metalness: 0.8, roughness: 0.22, envMapIntensity: 1.4 });
+    // Wukong: plataforma de jade (maqueta 03)
+    const podiumMat = new THREE.MeshStandardMaterial({ color: 0x1d6a58, metalness: 0.45, roughness: 0.2, envMapIntensity: 1.6, emissive: 0x06261f, emissiveIntensity: 0.6 });
     const podiumGeo = new THREE.CylinderGeometry(PODIUM_RADIUS, PODIUM_RADIUS + 0.12, PODIUM_HEIGHT, 72);
     const podium = new THREE.Mesh(podiumGeo, podiumMat);
     podium.position.y = PODIUM_HEIGHT / 2;
@@ -317,7 +325,47 @@ export class MenuBackdrop {
     if (immediate) Object.assign(this.cur, FRAMINGS[mode]);
   }
 
+  /** Carga una ilustración como fondo para un encuadre (title / characters / tracks). */
+  setArte(mode: MenuFraming, url: string): void {
+    new THREE.TextureLoader().load(
+      url,
+      (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        this.arte[mode]?.dispose();
+        this.arte[mode] = tex;
+      },
+      undefined,
+      () => console.warn('[MenuBackdrop] no se pudo cargar', url),
+    );
+  }
+
+  private aplicarArte(camera: THREE.PerspectiveCamera): void {
+    const scene = this.escena;
+    if (!scene) return;
+    const tex = this.arte[this.framing] ?? null;
+    for (const o of this.ambiente) o.visible = !tex;
+    if (!tex) {
+      if (scene.background !== this.background) scene.background = this.background;
+      scene.fog = this.fog;
+      return;
+    }
+    // «cover»: recorta la imagen para llenar la pantalla sin deformarla.
+    const img = tex.image as { width?: number; height?: number } | undefined;
+    const ia = img?.width && img?.height ? img.width / img.height : 4 / 3;
+    const ca = camera.aspect || 1;
+    if (ca > ia) {
+      tex.repeat.set(1, ia / ca);
+      tex.offset.set(0, (1 - ia / ca) / 2);
+    } else {
+      tex.repeat.set(ca / ia, 1);
+      tex.offset.set((1 - ca / ia) / 2, 0);
+    }
+    scene.background = tex;
+    scene.fog = null;
+  }
+
   attach(scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer?: THREE.WebGLRenderer): void {
+    this.escena = scene;
     scene.add(this.group);
     scene.fog = this.fog;
     scene.background = this.background;
@@ -331,6 +379,8 @@ export class MenuBackdrop {
 
   detach(scene: THREE.Scene): void {
     scene.remove(this.group);
+    this.escena = null;
+    for (const t of Object.values(this.arte)) if (scene.background === t) scene.background = null;
     if (scene.fog === this.fog) scene.fog = null;
     if (scene.environment === this.envTexture) scene.environment = null;
   }
@@ -340,6 +390,7 @@ export class MenuBackdrop {
     this.angle += dt * ORBIT_SPEED;
     this.kartHolder.rotation.y += dt * KART_SPIN;
     this.skyMaterial.uniforms.uTime.value = this.time;
+    this.aplicarArte(camera);
     this.dustMaterial.uniforms.uTime.value = this.time;
 
     const pulse = 0.9 + 0.1 * Math.sin(this.time * 1.7);
@@ -390,6 +441,7 @@ export class MenuBackdrop {
   dispose(): void {
     this.disposeKart();
     for (const d of this.disposables) d.dispose();
+    for (const t of Object.values(this.arte)) t?.dispose();
     this.disposables.length = 0;
     this.rings.length = 0;
     if (this.envTexture) {

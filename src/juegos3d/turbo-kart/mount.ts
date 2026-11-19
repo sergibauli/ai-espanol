@@ -8,6 +8,7 @@
  */
 import './style.css';
 import './learning/wukong.css';
+import './learning/wukong-diseno.css';
 import { Game } from './game/Game';
 import type { OpcionesAprendizaje } from './learning/Aprendizaje';
 

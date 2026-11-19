@@ -204,6 +204,8 @@ export class Game {
 
     // ---------------------------------------------------------- ui
     this.backdrop = new MenuBackdrop();
+    this.backdrop.setArte('characters', './turbo-kart/fondo-pilotos.webp');
+    this.backdrop.setArte('tracks', './turbo-kart/fondo-circuitos.webp');
     this.mainMenu = new MainMenu(this.uiRoot, CHARACTERS as readonly CharacterDef[], TRACKS as readonly TrackDefinition[]);
     this.mainMenu.onHighlight = (id) => this.backdrop.setCharacter(getCharacter(id));
     this.mainMenu.onPanelChange = (panel) => this.onMenuPanel(panel);

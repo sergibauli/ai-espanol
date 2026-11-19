@@ -17,13 +17,28 @@ const DIFFICULTY_BLURB: Record<Difficulty, string> = {
   hard: 'Rivales implacables, trazadas casi perfectas · 对手毫不留情！',
 };
 const STAT_KEYS: readonly { key: keyof CharacterDef['stats']; label: string }[] = [
-  { key: 'speed', label: 'VEL' },
-  { key: 'acceleration', label: 'ACE' },
-  { key: 'handling', label: 'MAN' },
-  { key: 'weight', label: 'PES' },
-  { key: 'miniTurbo', label: 'TUR' },
+  { key: 'speed', label: 'Velocidad' },
+  { key: 'acceleration', label: 'Aceleración' },
+  { key: 'handling', label: 'Manejo' },
+  { key: 'weight', label: 'Peso' },
+  { key: 'miniTurbo', label: 'Turbo' },
 ];
 const CHAR_COLUMNS = 4;
+/** Ilustraciones de las maquetas (public/turbo-kart). */
+export const ARTE = {
+  portada: './turbo-kart/portada.webp',
+};
+/** Retrato de cada piloto (recortados de la maqueta 02). */
+const RETRATOS: Record<string, { src: string; filtro?: string }> = {
+  zippy: { src: './turbo-kart/piloto-mujer.webp' },
+  pixel: { src: './turbo-kart/piloto-pixel.webp' },
+  fennec: { src: './turbo-kart/piloto-fennec.webp' },
+  max: { src: './turbo-kart/piloto-rojo.webp' },
+  juno: { src: './turbo-kart/piloto-mujer.webp', filtro: 'hue-rotate(200deg) saturate(1.2)' },
+  kai: { src: './turbo-kart/piloto-kai.webp' },
+  bram: { src: './turbo-kart/piloto-boulder.webp' },
+  rosa: { src: './turbo-kart/piloto-bigrig.webp' },
+};
 const WEIGHT_LABEL: Record<string, string> = { light: 'LIGERO · 轻', medium: 'MEDIO · 中', heavy: 'PESADO · 重' };
 const THEME_LABEL: Record<string, string> = {
   grassland: 'PRADERA · 草原',
@@ -68,35 +83,46 @@ export class MainMenu {
     this.rootNode = el('div', 'screen menu hidden', undefined, root);
 
     // ---------------------------------------------------------------- title
-    const title = el('section', 'panel-title-screen', undefined, this.rootNode);
-    const logoWrap = el('div', 'logo', undefined, title);
-    const words = GAME_TITLE.split(' ');
-    words.forEach((w, i) => {
-      const line = el('span', `logo-word logo-word-${i}`, undefined, logoWrap);
-      line.dataset.text = w;
-      line.textContent = w;
-    });
-    el('div', 'logo-sub', 'GRAN PREMIO DE PALABRAS · 单词大奖赛', title);
-    const prompt = el('div', 'press-start', undefined, title);
-    el('span', 'press-start-text', 'ENTER O TOCA · 点击开始', prompt);
-    const legend = el('div', 'controls-legend glass', undefined, title);
-    const keys: [string, string][] = [
-      ['W / ↑', 'Acelerar · 加速'],
-      ['S / ↓', 'Frenar / atrás · 刹车/倒车'],
-      ['A D / ← →', 'Girar · 转向'],
-      ['ESPACIO / SHIFT', 'Saltar · derrapar · 跳跃/漂移'],
-      ['E / CTRL', 'Usar objeto (con FRENO, hacia atrás) · 使用道具'],
-      ['Q', 'Mirar atrás · 向后看'],
-      ['1 2 3', 'Responder reto · 回答问题'],
-      ['ESC / P', 'Pausa · 暂停'],
-      ['M', 'Silencio · 静音'],
+    const title = el('section', 'panel-title-screen wk-titulo', undefined, this.rootNode);
+    // Ilustración de la portada (maqueta 03): logo, alas de dragón de jade y kart sobre la plataforma.
+    const arte = el('div', 'wk-arte', undefined, title);
+    const img = el('img', 'wk-arte-img', undefined, arte);
+    img.src = ARTE.portada;
+    img.alt = `${GAME_TITLE} · 西游极速 · Gran Premio de Palabras · 单词大奖赛`;
+    img.draggable = false;
+    // Interfaz real encima, en las mismas posiciones que en la maqueta.
+    const capa = el('div', 'wk-capa', undefined, title);
+    const legend = el('div', 'wk-controles', undefined, capa);
+    el('div', 'wk-controles-tit', '操作说明 · Controles', legend);
+    const keys: [string, string, string][] = [
+      ['➚', 'Acelerar · 加速', 'W / ↑'],
+      ['◐', 'Frenar / Derrapar · 刹车/漂移', 'S · Espacio'],
+      ['⟲', 'Girar · 转向', 'A D / ← →'],
+      ['◈', 'Objeto · 道具', 'E / Ctrl'],
+      ['Ⅱ', 'Pausa · 暂停', 'Esc / P'],
+      ['✎', 'Responder reto · 答题', '1 2 3'],
     ];
-    for (const [k, v] of keys) {
-      const row = el('div', 'legend-row', undefined, legend);
-      el('kbd', '', k, row);
-      el('span', '', v, row);
+    for (const [ico, txt, tecla] of keys) {
+      const row = el('div', 'wk-control', undefined, legend);
+      el('span', 'wk-control-ico', ico, row);
+      el('span', 'wk-control-txt', txt, row);
+      el('kbd', 'wk-control-tecla', tecla, row);
     }
-    el('div', 'version', 'Basado en Turbo Kart Rush de BridgeMind, licencia MIT · 支持手柄', title);
+    const lado = el('div', 'wk-botones-jade', undefined, capa);
+    const jade = (texto: string, panel: MenuPanel): void => {
+      const b = el('button', 'wk-jade', texto, lado);
+      b.type = 'button';
+      b.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        this.goTo(panel, true);
+      });
+    };
+    jade('Empezar · 开始比赛', 'characterSelect');
+    jade('Pilotos · 角色选择', 'characterSelect');
+    jade('Circuitos · 赛道选择', 'trackSelect');
+    const prompt = el('div', 'press-start wk-enter', undefined, capa);
+    el('span', 'press-start-text', 'ENTER O TOCA · 点击开始', prompt);
+    el('div', 'version', 'Basado en Turbo Kart Rush de BridgeMind, licencia MIT · 支持手柄', capa);
     title.addEventListener('click', () => {
       if (this.panel === 'title') this.goTo('characterSelect', true);
     });
@@ -124,7 +150,7 @@ export class MainMenu {
     this.charTagline = new TextField(el('div', 'select-info-tagline', '', charInfo));
     const charActions = el('div', 'actions', undefined, charFoot);
     charActions.appendChild(button('← ATRÁS · 返回', 'ghost', () => this.goTo('title', true)));
-    charActions.appendChild(button('SEGUIR · 继续 →', 'primary', () => this.goTo('trackSelect', true)));
+    charActions.appendChild(button('SELECCIONAR · 选择 →', 'primary', () => this.goTo('trackSelect', true)));
 
     // ----------------------------------------------------------- track select
     const tr = el('section', 'panel-select panel-tracks', undefined, this.rootNode);
@@ -346,6 +372,15 @@ export class MainMenu {
     card.style.setProperty('--card-accent', cssHex(c.color));
     card.style.setProperty('--card-accent-2', cssHex(c.accent));
     card.style.setProperty('--card-glow', cssRgba(c.color, 0.55));
+    const retrato = RETRATOS[c.id];
+    if (retrato) {
+      const foto = el('img', 'wk-retrato', undefined, card);
+      foto.src = retrato.src;
+      foto.alt = c.name;
+      foto.draggable = false;
+      if (retrato.filtro) foto.style.filter = retrato.filtro;
+      card.classList.add('con-retrato');
+    }
     const swatch = el('div', 'char-swatch', undefined, card);
     swatch.style.background = `linear-gradient(145deg, ${cssHex(c.color)} 0%, ${cssHex(c.accent)} 100%)`;
     const helmet = el('div', 'char-helmet', undefined, swatch);
@@ -361,6 +396,7 @@ export class MainMenu {
     const stats = el('div', 'stats', undefined, card);
     for (const s of STAT_KEYS) {
       const row = el('div', 'stat', undefined, stats);
+      row.dataset.k = s.key;
       el('span', 'stat-label', s.label, row);
       const bar = el('div', 'stat-bar', undefined, row);
       const fill = el('div', 'stat-fill', undefined, bar);

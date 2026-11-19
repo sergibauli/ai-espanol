@@ -1,0 +1,662 @@
+/* Wukong Turbo Rush · 西游极速 — diseño según las maquetas del dueño (docs/maquetas/turbo-kart).
+   Laca roja, oro y jade. Fase 1: portada (03), selección de piloto (02), circuitos, podio (04) y HUD (01). */
+
+.tkr {
+  --oro: #f2c14e;
+  --oro-claro: #fff1b8;
+  --oro-oscuro: #8a5a12;
+  --laca: #c8102e;
+  --laca-oscura: #4a0a12;
+  --jade: #1f7a66;
+  --jade-claro: #5fd3b4;
+  --jade-oscuro: #0b2e28;
+  --serif: 'Songti SC', 'STSong', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif;
+  --marco-oro: linear-gradient(135deg, #fff1b8 0%, #f2c14e 22%, #8a5a12 50%, #f2c14e 78%, #fff1b8 100%);
+}
+
+/* ------------------------------------------------------------------ portada (maqueta 03) */
+.tkr .wk-titulo {
+  background: #120a08;
+  overflow: hidden;
+}
+.tkr .wk-titulo::before {
+  content: '';
+  position: absolute;
+  inset: -30px;
+  background: url('/turbo-kart/portada.webp') center / cover no-repeat;
+  filter: blur(22px) brightness(0.45) saturate(1.2);
+}
+.tkr .wk-arte,
+.tkr .wk-capa {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(100vw, 133.333vh);
+  height: min(100vh, 75vw);
+}
+.tkr .wk-arte-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+  animation: tkr-wk-respira 9s ease-in-out infinite;
+}
+@keyframes tkr-wk-respira {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.012);
+  }
+}
+.tkr .wk-capa {
+  pointer-events: none;
+}
+.tkr .wk-capa > * {
+  pointer-events: auto;
+}
+
+/* Panel de controles de jade (tapa el de la maqueta, misma posición) */
+.tkr .wk-controles {
+  position: absolute;
+  left: 2.7%;
+  top: 51%;
+  width: 24.4%;
+  height: 40%;
+  padding: 1.4% 1.3%;
+  border-radius: 12px;
+  background: linear-gradient(170deg, #134a40 0%, #0b2e28 70%, #082420 100%);
+  border: 2px solid #c9a24a;
+  box-shadow: 0 0 0 2px #3a2a0a inset, 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 3.2%;
+}
+.tkr .wk-controles-tit {
+  font: 800 clamp(13px, 1.9vh, 19px) / 1.2 var(--wk-zh);
+  color: #fff1d0;
+  letter-spacing: 1px;
+  margin-bottom: 2%;
+}
+.tkr .wk-control {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  border-radius: 7px;
+  background: linear-gradient(180deg, #1f6b5a, #145244);
+  border: 1px solid #c9a24a;
+  color: #f4fff9;
+  font: 600 clamp(10px, 1.45vh, 14px) / 1.1 var(--body), var(--wk-zh);
+  min-height: 0;
+}
+.tkr .wk-control-ico {
+  width: 1.4em;
+  text-align: center;
+  color: #ffe9a8;
+}
+.tkr .wk-control-txt {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tkr .wk-control-tecla {
+  font: 700 0.85em/1 var(--body);
+  color: #0b2e28;
+  background: #ffe9a8;
+  border-radius: 4px;
+  padding: 2px 5px;
+  white-space: nowrap;
+}
+
+/* Botones de jade a la derecha */
+.tkr .wk-botones-jade {
+  position: absolute;
+  left: 84.3%;
+  top: 74%;
+  width: 14.2%;
+  height: 19.4%;
+  display: flex;
+  flex-direction: column;
+  gap: 6%;
+}
+.tkr .wk-jade {
+  flex: 1;
+  border-radius: 999px;
+  border: 2px solid #c9a24a;
+  background: linear-gradient(180deg, #2a8a72 0%, #145244 60%, #0b2e28 100%);
+  color: #fff6dc;
+  font: 700 clamp(10px, 1.5vh, 15px) / 1.05 var(--body), var(--wk-zh);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
+  padding: 0 6px;
+}
+.tkr .wk-jade:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+}
+
+/* Botón rojo «ENTER O TOCA» (tapa el de la maqueta) */
+.tkr .wk-titulo .wk-enter {
+  position: absolute;
+  left: 31.8%;
+  top: 86.2%;
+  width: 40.8%;
+  height: 9.2%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #d4202e 0%, #9c0d1c 60%, #6a0812 100%);
+  border: 2px solid #f2c14e;
+  box-shadow: 0 0 0 2px #5a3a08 inset, 0 0 26px rgba(255, 150, 60, 0.45);
+  transform: none;
+  animation: tkr-wk-latido 1.8s ease-in-out infinite;
+}
+.tkr .wk-titulo .press-start-text {
+  font: 800 clamp(14px, 2.6vh, 26px) / 1 var(--display), var(--wk-zh);
+  letter-spacing: 0.06em;
+  color: #fff1d0;
+  background: none;
+  -webkit-text-fill-color: #fff1d0;
+  text-shadow: 0 2px 0 #4a0a12;
+  animation: none;
+}
+@keyframes tkr-wk-latido {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px #5a3a08 inset, 0 0 18px rgba(255, 150, 60, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 2px #5a3a08 inset, 0 0 34px rgba(255, 190, 80, 0.75);
+  }
+}
+.tkr .wk-titulo .version {
+  position: absolute;
+  left: auto;
+  right: 1%;
+  bottom: 0.6%;
+  font-size: clamp(9px, 1.1vh, 11px);
+  color: rgba(255, 241, 208, 0.75);
+  text-shadow: 0 1px 2px #000;
+}
+
+/* ------------------------------------------------------------------ cabeceras y pies de selección (maqueta 02) */
+.tkr .select-header .panel-kicker {
+  color: var(--oro);
+  letter-spacing: 0.3em;
+}
+.tkr .select-header .panel-title {
+  font-family: var(--serif);
+  font-weight: 900;
+  background: linear-gradient(180deg, #fff7d6 0%, #f2c14e 55%, #b07a1a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 0 rgba(60, 10, 10, 0.8)) drop-shadow(0 0 18px rgba(242, 193, 78, 0.35));
+  letter-spacing: 0.02em;
+}
+.tkr .select-footer {
+  background: linear-gradient(180deg, rgba(40, 8, 12, 0.85), rgba(20, 6, 8, 0.9));
+  border: 1.5px solid rgba(242, 193, 78, 0.55);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.tkr .select-info-name {
+  color: var(--oro-claro);
+  font-family: var(--serif);
+}
+.tkr .select-footer .btn,
+.tkr .wk-pie .btn {
+  border-radius: 12px;
+  border: 2px solid var(--oro);
+  font-family: var(--display), var(--wk-zh);
+}
+.tkr .select-footer .btn.ghost {
+  background: linear-gradient(180deg, #2a1410, #160906);
+  color: #ffe9b0;
+}
+.tkr .select-footer .btn.primary {
+  background: linear-gradient(180deg, #e0303c 0%, #a40f1e 60%, #6a0812 100%);
+  color: #fff1d0;
+  box-shadow: 0 0 0 2px #5a3a08 inset, 0 0 22px rgba(255, 120, 60, 0.45);
+}
+
+/* ------------------------------------------------------------------ cartas de piloto */
+.tkr .card {
+  position: relative;
+  background: linear-gradient(180deg, #2b1210 0%, #170908 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 0 0 2px #c9a24a, 0 0 0 4px #3a220a, 0 12px 26px rgba(0, 0, 0, 0.5);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.tkr .card::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(242, 193, 78, 0.35);
+  border-radius: calc(var(--radius) - 4px);
+  pointer-events: none;
+}
+.tkr .char-card.con-retrato .char-swatch {
+  display: none;
+}
+.tkr .wk-retrato {
+  display: block;
+  width: calc(100% + 24px);
+  margin: -12px -12px 8px;
+  aspect-ratio: 158 / 100;
+  object-fit: cover;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom: 2px solid #c9a24a;
+  position: relative;
+  z-index: 1;
+}
+.tkr .card-name {
+  font-family: var(--display);
+  color: #fff4dc;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+}
+.tkr .card .pill {
+  border: 1px solid #c9a24a;
+  color: #ffe2a0;
+  background: rgba(60, 20, 10, 0.6);
+}
+.tkr .stat-label {
+  font-family: var(--body);
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255, 236, 200, 0.85);
+  min-width: 6.6em;
+}
+.tkr .stat-bar {
+  background: rgba(0, 0, 0, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.25);
+}
+.tkr .stat[data-k='speed'] .stat-fill {
+  background: linear-gradient(90deg, #ff3a4f, #ffb347);
+}
+.tkr .stat[data-k='acceleration'] .stat-fill {
+  background: linear-gradient(90deg, #8a5cff, #3ad1ff);
+}
+.tkr .stat[data-k='handling'] .stat-fill {
+  background: linear-gradient(90deg, #d14cff, #6aa8ff);
+}
+.tkr .stat[data-k='weight'] .stat-fill {
+  background: linear-gradient(90deg, #ff6a2a, #ffd23f);
+}
+.tkr .stat[data-k='miniTurbo'] .stat-fill {
+  background: linear-gradient(90deg, #ff4fa0, #ffcf5a);
+}
+/* Carta elegida: marco de fuego con alas (maqueta 02) */
+.tkr .wk-alas {
+  display: none;
+}
+.tkr .char-card.selected {
+  box-shadow: 0 0 0 2px #ffb347, 0 0 0 4px #b3260f, 0 0 34px rgba(255, 110, 40, 0.75), 0 12px 26px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, #5a1510 0%, #2a0a08 100%);
+  transform: translateY(-4px) scale(1.03);
+  z-index: 2;
+}
+.tkr .char-card.selected .wk-alas {
+  display: block;
+  position: absolute;
+  left: -16%;
+  top: -14%;
+  width: 132%;
+  height: auto;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(90deg, #000 0 16%, transparent 27% 73%, #000 84%);
+  mask-image: linear-gradient(90deg, #000 0 16%, transparent 27% 73%, #000 84%);
+  animation: tkr-wk-alas 1.6s ease-in-out infinite;
+}
+@keyframes tkr-wk-alas {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.35);
+  }
+}
+
+/* ------------------------------------------------------------------ circuitos */
+.tkr .track-card .track-art {
+  border-bottom: 2px solid #c9a24a;
+}
+.tkr .track-card.selected {
+  box-shadow: 0 0 0 2px #ffe08a, 0 0 0 4px #8a5a12, 0 0 32px rgba(242, 193, 78, 0.6), 0 12px 26px rgba(0, 0, 0, 0.5);
+}
+.tkr .segmented {
+  border: 1.5px solid rgba(242, 193, 78, 0.5);
+  background: rgba(20, 6, 8, 0.7);
+}
+.tkr .seg.selected {
+  background: linear-gradient(180deg, #2a8a72, #145244);
+  color: #fff6dc;
+  box-shadow: 0 0 0 1.5px #c9a24a inset;
+}
+.tkr .btn.start {
+  background: linear-gradient(180deg, #e0303c 0%, #a40f1e 60%, #6a0812 100%) !important;
+  border: 2px solid var(--oro) !important;
+  color: #fff1d0;
+}
+
+/* ------------------------------------------------------------------ podio (maqueta 04) */
+.tkr .results {
+  background:
+    linear-gradient(90deg, rgba(20, 8, 4, 0) 30%, rgba(20, 8, 4, 0.55) 62%, rgba(20, 8, 4, 0.8) 100%),
+    url('/turbo-kart/podio.webp') 28% 50% / cover no-repeat;
+  justify-content: flex-end;
+  padding-right: 3vw;
+}
+.tkr .results-panel {
+  width: min(46vw, 600px);
+  background: linear-gradient(180deg, rgba(60, 12, 14, 0.92), rgba(28, 8, 8, 0.94));
+  border: 2px solid #c9a24a;
+  box-shadow: 0 0 0 3px #3a220a, 0 20px 50px rgba(0, 0, 0, 0.6);
+  backdrop-filter: none;
+}
+.tkr .results-panel::before {
+  background: var(--marco-oro);
+}
+.tkr .results-title {
+  font-family: var(--serif);
+  background: linear-gradient(180deg, #fff7d6 0%, #f2c14e 55%, #b07a1a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tkr .standing-row {
+  background: rgba(0, 0, 0, 0.28);
+  border-color: rgba(242, 193, 78, 0.25);
+}
+.tkr .standing-row.you {
+  background: linear-gradient(90deg, rgba(200, 16, 46, 0.45), rgba(242, 193, 78, 0.18));
+  border-color: #f2c14e;
+}
+.tkr .results-panel .btn.primary {
+  background: linear-gradient(180deg, #e0303c 0%, #a40f1e 60%, #6a0812 100%);
+  border: 2px solid var(--oro);
+  color: #fff1d0;
+}
+
+/* ------------------------------------------------------------------ HUD (maqueta 01) */
+.tkr .item-frame,
+.tkr .hud-lap,
+.tkr .hud-timer,
+.tkr .hud-minimap {
+  background: linear-gradient(180deg, rgba(40, 10, 12, 0.78), rgba(16, 6, 8, 0.82));
+  border: 2px solid #c9a24a;
+  box-shadow: 0 0 0 2px rgba(58, 34, 10, 0.9), 0 8px 20px rgba(0, 0, 0, 0.45);
+  backdrop-filter: none;
+}
+.tkr .hud-lap-value,
+.tkr .hud-timer {
+  color: #fff1d0;
+}
+.tkr .hud-lap-label {
+  color: var(--oro);
+}
+.tkr .place-num {
+  background: linear-gradient(180deg, #fff7d6 0%, #f2c14e 50%, #b07a1a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 0 rgba(74, 10, 18, 0.9)) drop-shadow(0 0 16px rgba(242, 193, 78, 0.4));
+}
+/* Velocímetro circular neón abajo a la derecha con barra de turbo */
+.tkr .hud-speed {
+  left: auto;
+  right: var(--hud-pad);
+  transform: none;
+  bottom: calc(var(--hud-pad) * 0.8);
+  width: clamp(130px, 12vw, 176px);
+  filter: drop-shadow(0 0 10px rgba(60, 230, 255, 0.55));
+}
+.tkr .hud-speed .gauge-bg {
+  stroke: rgba(60, 230, 255, 0.18);
+}
+.tkr .hud-speed .gauge-fill {
+  stroke: #3ce6ff;
+}
+.tkr .hud.boosting .hud-speed .gauge-fill {
+  stroke: #ffc531;
+}
+.tkr .hud-minimap {
+  bottom: auto;
+  top: calc(var(--hud-pad) + 120px);
+}
+.tkr .wk-turbo {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.tkr .wk-turbo-etq {
+  font: 800 9px/1 var(--body), var(--wk-zh);
+  letter-spacing: 1px;
+  color: #ffe9a8;
+}
+.tkr .wk-turbo-barra {
+  width: 100%;
+  height: 7px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid #c9a24a;
+  overflow: hidden;
+}
+.tkr .wk-turbo-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff7a2f, #ffd23f, #fff6c0);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.12s linear;
+  box-shadow: 0 0 10px #ffc531;
+}
+
+/* ------------------------------------------------------------------ móvil */
+@media (max-aspect-ratio: 9/10) {
+  .tkr .wk-arte {
+    width: max(100vw, 133.333vh);
+    height: max(100vh, 75vw);
+  }
+  .tkr .wk-capa {
+    left: 0;
+    top: 0;
+    transform: none;
+    width: 100%;
+    height: 100%;
+  }
+  .tkr .wk-controles {
+    display: none;
+  }
+  .tkr .wk-botones-jade {
+    left: 50%;
+    transform: translateX(-50%);
+    top: auto;
+    bottom: calc(9% + 70px);
+    width: min(78vw, 320px);
+    height: auto;
+    flex-direction: row;
+    gap: 8px;
+  }
+  .tkr .wk-jade {
+    min-height: 44px;
+    font-size: 11px;
+  }
+  .tkr .wk-titulo .wk-enter {
+    left: 50%;
+    transform: translateX(-50%);
+    top: auto;
+    bottom: calc(3% + 14px);
+    width: min(86vw, 360px);
+    height: 58px;
+  }
+  .tkr .wk-titulo .version {
+    left: 8px;
+    right: 8px;
+    bottom: 4px;
+    text-align: center;
+  }
+  .tkr .results {
+    background:
+      linear-gradient(180deg, rgba(20, 8, 4, 0) 20%, rgba(20, 8, 4, 0.7) 45%),
+      url('/turbo-kart/podio.webp') 30% 0 / auto 48vh no-repeat,
+      #1a0c08;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0 0 2vh;
+  }
+  .tkr .results-panel {
+    width: 96vw;
+    max-height: 70vh;
+  }
+  .tkr .hud-speed {
+    display: none;
+  }
+}
+
+/* ---- ajustes tras comparar con las maquetas */
+.tkr .char-card {
+  overflow: visible;
+}
+.tkr .char-card .wk-retrato {
+  overflow: hidden;
+}
+.tkr .char-card.selected,
+.tkr .char-card.selected.focused,
+.tkr .char-card.focused {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #ffb347, 0 0 0 4px #b3260f, 0 0 34px rgba(255, 110, 40, 0.75), 0 12px 26px rgba(0, 0, 0, 0.5);
+  animation: tkr-wk-fuego 1.6s ease-in-out infinite;
+}
+@keyframes tkr-wk-fuego {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px #ffb347, 0 0 0 4px #b3260f, 0 0 26px rgba(255, 110, 40, 0.6), 0 12px 26px rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 2px #ffd27a, 0 0 0 4px #d8401a, 0 0 44px rgba(255, 140, 40, 0.95), 0 12px 26px rgba(0, 0, 0, 0.5);
+  }
+}
+.tkr .char-card.focused::before,
+.tkr .char-card.selected::before {
+  content: none;
+}
+.tkr .char-card .wk-alas {
+  display: none;
+}
+.tkr .char-card.selected .wk-alas,
+.tkr .char-card.focused .wk-alas {
+  display: block;
+  position: absolute;
+  left: -18%;
+  top: -12%;
+  width: 136%;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(90deg, #000 0 15%, transparent 22% 78%, #000 85%);
+  mask-image: linear-gradient(90deg, #000 0 15%, transparent 22% 78%, #000 85%);
+}
+.tkr .stat {
+  grid-template-columns: 5.8em 1fr;
+  gap: 6px;
+}
+.tkr .stat-label {
+  font-size: 10px;
+  min-width: 0;
+  white-space: nowrap;
+}
+.tkr .wk-titulo .wk-enter::before,
+.tkr .wk-titulo .wk-enter::after,
+.tkr .wk-titulo .press-start-text::before,
+.tkr .wk-titulo .press-start-text::after {
+  display: none;
+}
+.tkr .wk-titulo .press-start-text {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.tkr .hud-minimap {
+  top: calc(var(--hud-pad) + 150px);
+}
+.tkr .hud-place .place-num,
+.tkr .hud-place.gold .place-num,
+.tkr .hud-place.silver .place-num,
+.tkr .hud-place.bronze .place-num {
+  color: #f2c14e;
+  background: linear-gradient(180deg, #fff7d6 0%, #f2c14e 50%, #b07a1a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- móvil vertical: la ilustración se ve entera de ancho (logo completo) y se corta antes de los botones dibujados */
+@media (max-aspect-ratio: 9/10) {
+  .tkr .wk-arte {
+    left: -53vw;
+    top: max(8px, 3vh);
+    transform: none;
+    width: 200vw;
+    height: 124vw;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(180deg, #000 82%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 82%, transparent 100%);
+  }
+  .tkr .wk-arte-img {
+    height: auto;
+  }
+  .tkr .char-card .wk-alas,
+  .tkr .char-card.selected .wk-alas,
+  .tkr .char-card.focused .wk-alas {
+    display: none;
+  }
+  .tkr .select-header .panel-title {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+  .tkr .char-card.selected,
+  .tkr .char-card.focused {
+    transform: none;
+  }
+}
+
+/* Las alas recortadas no quedan limpias sobre las cartas: solo marco de fuego */
+.tkr .char-card .wk-alas,
+.tkr .char-card.selected .wk-alas,
+.tkr .char-card.focused .wk-alas {
+  display: none !important;
+}
+@media (max-width: 700px) {
+  .tkr .panel-chars .select-header .panel-title {
+    font-size: 22px;
+  }
+  .tkr .stat {
+    grid-template-columns: 4.6em 1fr;
+    gap: 4px;
+  }
+  .tkr .stat-label {
+    font-size: 9px;
+  }
+}

@@ -93,6 +93,8 @@ export class HUD {
   private vignetteApplied = -1;
   private readonly timed: TimedNode[] = [];
   private readonly boostGlow: HTMLElement;
+  private readonly turboFill: HTMLElement;
+  private turboValue = -1;
   private boostGlowApplied = -1;
 
   constructor(
@@ -144,6 +146,9 @@ export class HUD {
     const speedInner = el('div', 'speed-inner', undefined, speedWrap);
     this.speedText = new TextField(el('div', 'speed-value', '0', speedInner));
     el('div', 'speed-unit', 'km/h', speedInner);
+    const turbo = el('div', 'wk-turbo', undefined, speedWrap);
+    el('span', 'wk-turbo-etq', 'TURBO · 加速', turbo);
+    this.turboFill = el('div', 'wk-turbo-fill', undefined, el('div', 'wk-turbo-barra', undefined, turbo));
 
     // Bottom-right: minimap
     const mapWrap = el('div', 'hud-minimap glass', undefined, this.rootNode);
@@ -207,6 +212,16 @@ export class HUD {
     if (Math.abs(g - this.gaugeValue) > 0.004) {
       this.gaugeValue = g;
       this.gaugeFill.setAttribute('stroke-dasharray', `${(g * GAUGE_ARC).toFixed(1)} 276.5`);
+    }
+    // Wukong: barra de turbo (carga del derrape o turbo activo).
+    const turboV = s.isBoosting
+      ? Math.min(1, 0.35 + s.boostTimer / 1.5)
+      : s.isDrifting
+        ? Math.min(1, (s.driftStage + s.driftCharge) / 3)
+        : 0;
+    if (Math.abs(turboV - this.turboValue) > 0.01) {
+      this.turboValue = turboV;
+      this.turboFill.style.transform = `scaleX(${turboV.toFixed(3)})`;
     }
     const boost = s.isBoosting ? 1 : 0;
     if (boost !== this.boostGlowApplied) {

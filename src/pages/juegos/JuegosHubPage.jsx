@@ -354,7 +354,7 @@ const JUEGOS = [
   {
     id: "turbo-kart",
     name: "Wukong Turbo Rush",
-    nameCn: "悟空极速赛车",
+    nameCn: "西游极速",
     desc: "Carreras de karts en 3D: acierta la palabra de cada caja para conseguir objeto y cruza la puerta correcta para ganar turbo.",
     descCn: "3D卡丁车比赛：答对道具箱的词才能拿到道具，穿过正确的单词门获得加速。",
     icon: CarIcon,
