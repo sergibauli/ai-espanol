@@ -18,6 +18,7 @@ import {
 import * as React from "react";
 import { SectionHero } from "../components/ui/SectionHero.jsx";
 import { Link } from "react-router";
+import { BotonImprimir } from "../components/impresion/BotonImprimir.jsx";
 import { u as useCorreccion, C as Correccion } from "../components/CorrectionDisplay.jsx";
 import { c as generarConCache, e as extraerJson, a as pedirIA } from "../lib/ai-generator.js";
 import "../styles/v14-fix-recursos.css";
@@ -185,6 +186,7 @@ function GeneradorPage() {
                 {guardado ? <CheckIcon size={18} aria-hidden="true" /> : <SaveIcon size={18} aria-hidden="true" />} {guardado ? "Guardado · 已保存" : "Guardar · 保存"}
               </button>
             )}
+            {examen && <BotonImprimir fuente={{ tipo: "practica", examen: { ...examen, level: examen.level || nivel, theme: examen.theme || tema }, extra: { tipo: "Examen temático", tipoZh: "主题试卷", sello: "题", codigo: `Nivel ${examen.level || nivel} · Tema propio` } }} />}
             <button type="button" className="rx-btn is-papel" aria-expanded={verHistorial} onClick={() => setVerHistorial((visible) => !visible)}>
               <HistoryIcon size={18} aria-hidden="true" /> Historial · 历史 ({historial.length})
             </button>

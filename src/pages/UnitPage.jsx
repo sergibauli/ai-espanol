@@ -64,6 +64,8 @@ import { u as useCorrection, C as CorrectionCard } from "../components/Correctio
 import "../styles/movil-unidades.css";
 const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
+import { BotonImprimir } from "../components/impresion/BotonImprimir.jsx";
+import { fuenteExamenUnidad } from "../components/impresion/examenUnidad.js";
 const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
 const STORIES = import.meta.glob("../data/stories/*.json", { import: "default" });
 // Colores de cada mundo (bambú, linternas, tinta, Ciudad Prohibida) para los detalles de las tarjetas
@@ -163,6 +165,7 @@ function FinDeClase({ numero, estado, siguiente, total, siguienteUnidad, onIrCla
             📝 Examen de la clase
           </button>
         )}
+        {siguiente && <BotonImprimir fuente={fuenteExamenUnidad(numero, { clase: estado.n, tituloClase: estado.titulo })} etiqueta={<span>Imprimir examen · <span lang="zh-CN">打印试卷</span></span>} title="Examen de la clase para imprimir · 打印本课小测" />}
         {siguiente ? (
           <button type="button" className={estado.completada ? "cls-btn-laca grande" : "cls-btn-papel"} onClick={() => onIrClase(siguiente.n)}>
             {estado.completada ? "Siguiente clase" : "Ir a la clase"} {siguiente.n} →
@@ -172,6 +175,7 @@ function FinDeClase({ numero, estado, siguiente, total, siguienteUnidad, onIrCla
             <button type="button" className={estado.completada ? "cls-btn-laca grande" : "cls-btn-papel"} onClick={onExamen}>
               🏆 Examen de la unidad
             </button>
+            <BotonImprimir fuente={fuenteExamenUnidad(numero)} etiqueta={<span>Imprimir examen · <span lang="zh-CN">打印试卷</span></span>} title="Examen de la unidad para imprimir · 打印单元考试" />
             {estado.completada && siguienteUnidad && (
               <Link className="cls-btn-papel" to={`/modulos/modulo-${siguienteUnidad.numero}`}>
                 Unidad {siguienteUnidad.numero} →
@@ -559,6 +563,10 @@ export default function UnitPage() {
               Examen y lectura <span lang="zh">考试</span>
             </h2>
             <p>{varias ? "Examen corto de la clase o examen de toda la unidad · 本课小测或单元考试" : "Examen del módulo, lectura y errores típicos · 模块考试、阅读与常见错误"}</p>
+            <div className="ip-boton-fila">
+              <BotonImprimir fuente={fuenteExamenUnidad(numero)} etiqueta={<span>Imprimir examen de la unidad · <span lang="zh-CN">打印单元试卷</span></span>} />
+              {varias && <BotonImprimir className="secundario" fuente={fuenteExamenUnidad(numero, { clase, tituloClase: info?.titulo })} etiqueta={<span>Examen de la clase {clase} · <span lang="zh-CN">本课小测</span></span>} />}
+            </div>
           </div>
         </section>
         <div className="v27-puertas">

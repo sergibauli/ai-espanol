@@ -1,6 +1,7 @@
 import * as React from "react";
-import { CheckIcon, XIcon, ClockIcon, ChevronLeftIcon, ChevronRightIcon, FlagIcon, RotateCcwIcon, PrinterIcon, BookOpenIcon, LanguagesIcon, LightbulbIcon, ListChecksIcon } from "lucide-react";
+import { CheckIcon, XIcon, ClockIcon, ChevronLeftIcon, ChevronRightIcon, FlagIcon, RotateCcwIcon, BookOpenIcon, LanguagesIcon, LightbulbIcon, ListChecksIcon } from "lucide-react";
 import { isCorrect, scoreExam, SKILLS } from "../../lib/examGenerator.js";
+import { BotonImprimir } from "../impresion/BotonImprimir.jsx";
 
 // Examen con estética imperial (pergamino, laca roja y oro). Estilos: src/styles/v12-examenes.css (prefijo xm-).
 const LETTERS = ["A", "B", "C", "D", "E"];
@@ -176,7 +177,9 @@ function ScoreRing({ nota, apto }) {
  * Ejecuta un examen generado. onFinish(resultado, respuestas) se llama una vez al entregar.
  * Props: exam, onFinish, onRestart, compact (sin barra fija; para unidades y deberes).
  */
-export function ExamRunner({ exam, onFinish, onRestart, compact = false }) {
+export function ExamRunner({ exam, onFinish, onRestart, compact = false, impresion }) {
+  // impresion: datos extra para la portada impresa (tipo de examen, título…), ver components/impresion/modeloImpresion.js
+  const fuenteImpresion = { tipo: "generado", examen: exam, extra: impresion };
   const items = React.useMemo(() => [...(exam.lectura?.preguntas || []), ...exam.preguntas], [exam]);
   const lecturaCount = exam.lectura?.preguntas.length || 0;
   const totalSeconds = exam.minutos * 60;
@@ -297,9 +300,7 @@ export function ExamRunner({ exam, onFinish, onRestart, compact = false }) {
             <button type="button" className="xm-btn" onClick={() => questionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}>
               <ListChecksIcon size={18} /> Revisar respuestas · 查看答案
             </button>
-            <button type="button" className="xm-btn" onClick={() => window.print()}>
-              <PrinterIcon size={18} /> Imprimir · 打印
-            </button>
+            <BotonImprimir fuente={fuenteImpresion} />
             {onRestart && (
               <button type="button" className="xm-btn primary" onClick={onRestart}>
                 <RotateCcwIcon size={18} /> Nuevo examen · 再考一次
@@ -328,9 +329,12 @@ export function ExamRunner({ exam, onFinish, onRestart, compact = false }) {
               <em style={{ width: `${(1 - timeShare) * 100}%` }} />
             </div>
           </div>
-          <button type="button" className="xm-btn primary xm-submit" onClick={submit}>
-            <FlagIcon size={17} /> Entregar · 交卷
-          </button>
+          <div className="xm-bar-acciones">
+            <BotonImprimir fuente={fuenteImpresion} compacto etiqueta={<span>PDF · <span lang="zh-CN">打印</span></span>} />
+            <button type="button" className="xm-btn primary xm-submit" onClick={submit}>
+              <FlagIcon size={17} /> Entregar · 交卷
+            </button>
+          </div>
         </div>
       )}
 
