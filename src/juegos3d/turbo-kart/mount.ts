@@ -12,6 +12,7 @@ import './learning/wukong-diseno.css';
 import './ui/animado.css';
 import './learning/wukong-circuitos.css';
 import './learning/wukong-retos.css';
+import './learning/wukong-tactil.css';
 import { Game } from './game/Game';
 import type { OpcionesAprendizaje } from './learning/Aprendizaje';
 
