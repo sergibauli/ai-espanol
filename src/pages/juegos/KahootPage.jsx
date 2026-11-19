@@ -1,30 +1,22 @@
-import {
-  ZapIcon,
-  BookOpenIcon,
-  Gamepad2Icon,
-  TrophyIcon,
-  SparklesIcon,
-  StarIcon,
-  HeartIcon,
-  ArrowLeftIcon,
-  RotateCcwIcon,
-  TimerIcon,
-  CrownIcon,
-  FlameIcon,
-} from "lucide-react";
+// Kahoot Quiz · 抢答竞赛 (v33): plató en 3D con focos, cuenta atrás 3·2·1, tablero que cae volteándose,
+// fichas que flotan, giran al acertar y caen al fallar, y la base común de efectos (JuegoFx):
+// cartel con el significado y audio, Rey Mono que reacciona y pantalla final con repaso.
+import { ZapIcon, TrophyIcon, RotateCcwIcon, TimerIcon, FlameIcon, LayersIcon, ArrowLeftIcon } from "lucide-react";
 import * as React from "react";
 import { Link } from "react-router";
-import { StarfieldBackground } from "../../components/fx/StarfieldBackground.jsx";
-import { P as P_1 } from "../../components/PostGameNav.jsx";
 import { SoundToggles } from "../../components/SoundToggles.jsx";
 import { SelectorTemaJuego, CintaTemaJuego } from "../../components/juegos/SelectorTemaJuego.jsx";
 import { useSound } from "../../lib/sound.jsx";
-import { Escena3D, BarraJuego, Placa, Boton3D, Resultado3D } from "../../components/juegos/Escena3D.jsx";
+import { addXp } from "../../lib/gamification.js";
+import { Escena3D, BarraJuego, Placa } from "../../components/juegos/Escena3D.jsx";
+import { FocosEscenario, CuentaAtras, useJuegoFx, CapaJuegoFx, PantallaFinal, BotonFx, estrellasPorAciertos } from "../../components/juegos/JuegoFx.jsx";
 import "../../styles/v17-kahoot.css";
+import "../../styles/v33-kahoot.css";
 import "../../styles/movil-juegos.css";
 // Kahoot solo usa el vocabulario de la unidad: datos ligeros
 import { vocabularioJuego as contenidoJuego } from "../../lib/vocabularioJuegos.js";
-const Ha = {
+// Banco de preguntas por unidad (las unidades sin banco usan su vocabulario)
+const BANCO = {
   modulos: [
     {
       id: "modulo-1",
@@ -8936,659 +8928,20 @@ const Ha = {
     },
   ],
 };
-const aa = [
-  {
-    color: "#e0283f",
-    label: "Rojo",
-    shadow: "rgba(224,40,63,0.6)",
-    glow: "rgba(224,40,63,0.25)",
-  },
-  {
-    color: "#f2c14e",
-    label: "Azul",
-    shadow: "rgba(242,193,78,0.6)",
-    glow: "rgba(242,193,78,0.25)",
-  },
-  {
-    color: "#5fd08a",
-    label: "Verde",
-    shadow: "rgba(95,208,138,0.6)",
-    glow: "rgba(95,208,138,0.25)",
-  },
-  {
-    color: "#f2c14e",
-    label: "Amarillo",
-    shadow: "rgba(242,193,78,0.6)",
-    glow: "rgba(242,193,78,0.25)",
-  },
-];
-const KAHOOT_TILES = [["#d0343f", "#8f0c21", "#fff"], ["#2f6fd6", "#173f8a", "#fff"], ["#f2c14e", "#c8961e", "#3b2416"], ["#36a35a", "#1e6338", "#fff"]];
 
-function JComponent({ expression, bounce }) {
-  const c = React.useMemo(() => {
-    switch (expression) {
-      case "happy":
-      case "celebrating":
-        return (
-          <>
-            <path d="M22 28 Q30 38 38 28" stroke="#333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-            <path d="M50 28 Q58 38 66 28" stroke="#333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-          </>
-        );
-      case "sad":
-        return (
-          <>
-            <path d="M22 34 Q30 26 38 34" stroke="#333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-            <path d="M50 34 Q58 26 66 34" stroke="#333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-          </>
-        );
-      case "excited":
-      case "shocked":
-        return (
-          <>
-            <circle cx="30" cy="32" r="7" fill="#333" />
-            <circle cx="58" cy="32" r="7" fill="#333" />
-            <circle cx="32" cy="30" r="3" fill="white" />
-            <circle cx="60" cy="30" r="3" fill="white" />
-          </>
-        );
-      case "thinking":
-        return (
-          <>
-            <circle cx="30" cy="32" r="4" fill="#333" />
-            <circle cx="58" cy="32" r="4" fill="#333" />
-            <circle cx="31" cy="31" r="1.5" fill="white" />
-            <circle cx="59" cy="31" r="1.5" fill="white" />
-          </>
-        );
-      case "warning":
-        return (
-          <>
-            <ellipse cx="30" cy="32" rx="7" ry="9" fill="#333" />
-            <ellipse cx="58" cy="32" rx="7" ry="9" fill="#333" />
-            <circle cx="32" cy="30" r="3" fill="white" />
-            <circle cx="60" cy="30" r="3" fill="white" />
-          </>
-        );
-      default:
-        return (
-          <>
-            <circle cx="30" cy="32" r="5" fill="#333" />
-            <circle cx="58" cy="32" r="5" fill="#333" />
-            <circle cx="31" cy="30" r="2" fill="white" />
-            <circle cx="59" cy="30" r="2" fill="white" />
-          </>
-        );
-    }
-  }, [expression]);
-  const e = React.useMemo(() => {
-    switch (expression) {
-      case "happy":
-      case "excited":
-      case "celebrating":
-        return (
-          <path d="M34 44 Q44 56 54 44" stroke="#333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-        );
-      case "shocked":
-        return <ellipse cx="44" cy="48" rx="4" ry="6" fill="#333" />;
-      case "sad":
-        return (
-          <path d="M36 50 Q44 42 52 50" stroke="#333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-        );
-      case "thinking":
-        return <ellipse cx="44" cy="46" rx="3" ry="4" fill="#333" />;
-      case "warning":
-        return (
-          <path d="M38 50 Q44 46 50 50" stroke="#333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-        );
-      default:
-        return (
-          <path d="M38 46 Q44 48 50 46" stroke="#333" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-        );
-    }
-  }, [expression]);
-  const d =
-    expression === "happy" ||
-    expression === "excited" ||
-    expression === "celebrating" ||
-    expression === "shocked" ||
-    expression === "warning" ? (
-      <>
-        <circle cx="22" cy="40" r="6" fill="#e0283f" opacity="0.35" />
-        <circle cx="66" cy="40" r="6" fill="#e0283f" opacity="0.35" />
-      </>
-    ) : null;
-  const l =
-    expression === "sad"
-      ? "#a0a8ff"
-      : expression === "celebrating"
-        ? "#f2c14e"
-        : expression === "shocked"
-          ? "#e0283f"
-          : expression === "warning"
-            ? "#d99a22"
-            : "#e0283f";
-  const S =
-    expression === "celebrating" || expression === "shocked" || expression === "warning"
-      ? "#e0283f"
-      : "#e0283f";
-  return (
-    <div
-      className="fixed bottom-2 right-2 md:bottom-6 md:right-6 z-50 pointer-events-none"
-      style={{
-        animation: bounce ? "mascotSuperBounce 0.6s ease-in-out" : "mascotFloat 4s ease-in-out infinite",
-      }}
-    >
-      <svg width="160" height="160" viewBox="0 0 88 88" className="w-32 h-32 md:w-48 md:h-48 drop-shadow-2xl">
-        <defs>
-          <radialGradient id={`bodyGrad-${expression}`} cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stopColor={l} />
-            <stop offset="100%" stopColor={S} />
-          </radialGradient>
-          <filter id="mascotGlow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id="mascotShadow">
-            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="rgba(0,0,0,0.3)" />
-          </filter>
-        </defs>
-        <g
-          style={{
-            animation:
-              expression === "celebrating"
-                ? "mascotSpin 2s ease-in-out infinite"
-                : expression === "excited"
-                  ? "mascotWiggle 0.5s ease-in-out infinite"
-                  : expression === "warning"
-                    ? "mascotWarningShake 0.8s ease-in-out infinite"
-                    : undefined,
-          }}
-        >
-          <circle
-            cx="44"
-            cy="48"
-            r="36"
-            fill={`url(#bodyGrad-${expression})`}
-            filter="url(#mascotGlow)"
-            opacity="0.9"
-          />
-          <circle cx="44" cy="48" r="36" fill={`url(#bodyGrad-${expression})`} filter="url(#mascotShadow)" />
-          <ellipse
-            cx="24"
-            cy="18"
-            rx="10"
-            ry="14"
-            fill={`url(#bodyGrad-${expression})`}
-            transform="rotate(-20 24 18)"
-          />
-          <ellipse
-            cx="64"
-            cy="18"
-            rx="10"
-            ry="14"
-            fill={`url(#bodyGrad-${expression})`}
-            transform="rotate(20 64 18)"
-          />
-          {d}
-          {c}
-          {e}
-          {expression === "thinking" && (
-            <text
-              x="70"
-              y="18"
-              fontSize="16"
-              fill="#f2c14e"
-              style={{
-                animation: "mascotQuestionBounce 1s ease-in-out infinite",
-              }}
-            >
-              ?
-            </text>
-          )}
-          {expression === "warning" && (
-            <>
-              <text
-                x="6"
-                y="22"
-                fontSize="14"
-                fill="#e0283f"
-                style={{
-                  animation: "starTwinkle 0.8s ease-in-out infinite",
-                }}
-              >
-                !
-              </text>
-              <text
-                x="72"
-                y="18"
-                fontSize="14"
-                fill="#f2c14e"
-                style={{
-                  animation: "starTwinkle 1s ease-in-out infinite 0.2s",
-                }}
-              >
-                !
-              </text>
-            </>
-          )}
-          {expression === "celebrating" && (
-            <>
-              <text
-                x="6"
-                y="22"
-                fontSize="14"
-                fill="#f2c14e"
-                style={{
-                  animation: "starTwinkle 0.8s ease-in-out infinite",
-                }}
-              >
-                ✦
-              </text>
-              <text
-                x="72"
-                y="18"
-                fontSize="14"
-                fill="#5fd08a"
-                style={{
-                  animation: "starTwinkle 1s ease-in-out infinite 0.2s",
-                }}
-              >
-                ✦
-              </text>
-              <text
-                x="76"
-                y="52"
-                fontSize="12"
-                fill="#f2c14e"
-                style={{
-                  animation: "starTwinkle 0.6s ease-in-out infinite 0.4s",
-                }}
-              >
-                ✦
-              </text>
-              <text
-                x="8"
-                y="55"
-                fontSize="10"
-                fill="#e0283f"
-                style={{
-                  animation: "starTwinkle 1.2s ease-in-out infinite 0.1s",
-                }}
-              >
-                ✦
-              </text>
-            </>
-          )}
-        </g>
-      </svg>
-    </div>
-  );
-}
-function Ya1Component({ active }) {
-  const t = React.useMemo(
-    () =>
-      Array.from({
-        length: typeof window !== "undefined" && window.innerWidth < 768 ? 38 : 78,
-      }).map((c, e) => ({
-        id: e,
-        left: Math.random() * 100,
-        delay: Math.random() * 2.5,
-        duration: 1.5 + Math.random() * 3,
-        color: aa[e % 4].color,
-        size: 4 + Math.random() * 14,
-        rotate: Math.random() * 360,
-        startX: Math.random() * 100,
-        endX: (Math.random() - 0.5) * 80,
-        shape: e % 3,
-      })),
-    [],
-  );
-  if (active) {
-    return (
-      <div className="kahoot-confetti fixed inset-0 pointer-events-none z-40 overflow-hidden">
-        {t.map((c) => (
-          <div
-            key={c.id}
-            className="absolute top-0"
-            style={{
-              left: `${c.startX}%`,
-              width: `${c.size}px`,
-              height: c.shape === 0 ? `${c.size}px` : `${c.size * 0.6}px`,
-              background: c.color,
-              animation: `confettiExplode ${c.duration}s ${c.delay}s ease-out forwards`,
-              transform: `rotate(${c.rotate}deg)`,
-              opacity: 0.9,
-              boxShadow: `0 0 ${c.size * 1.5}px ${c.color}, 0 0 ${c.size * 3}px ${c.color}`,
-              borderRadius: c.shape === 0 ? "50%" : c.shape === 1 ? "2px" : "0%",
-              clipPath:
-                c.shape === 2
-                  ? "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
-                  : undefined,
-              "--end-x": `${c.endX}vw`,
-            }}
-          />
-        ))}
-      </div>
-    );
+const TIEMPO_PREGUNTA = 20;
+const FORMAS = ["triángulo", "rombo", "círculo", "cuadrado"];
+
+function barajar(lista) {
+  const copia = [...lista];
+  for (let k = copia.length - 1; k > 0; k--) {
+    const r = Math.floor(Math.random() * (k + 1));
+    [copia[k], copia[r]] = [copia[r], copia[k]];
   }
-  return null;
+  return copia;
 }
-function Component() {
-  const r = React.useMemo(
-    () =>
-      Array.from({
-        length: typeof window !== "undefined" && window.innerWidth < 768 ? 10 : 18,
-      }).map((t, c) => ({
-        id: c,
-        left: Math.random() * 100,
-        top: Math.random() * 100,
-        size: 2 + Math.random() * 4,
-        duration: 5 + Math.random() * 8,
-        delay: Math.random() * 6,
-        color: aa[c % 4].color,
-      })),
-    [],
-  );
-  return (
-    <div className="game-decorative-particles fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {r.map((t) => (
-        <div
-          key={t.id}
-          className="absolute rounded-full"
-          style={{
-            left: `${t.left}%`,
-            top: `${t.top}%`,
-            width: `${t.size}px`,
-            height: `${t.size}px`,
-            background: t.color,
-            boxShadow: `0 0 ${t.size * 10}px ${t.color}, 0 0 ${t.size * 20}px ${t.color}, 0 0 ${t.size * 30}px ${t.color}`,
-            animation: `particleFloat ${t.duration}s ${t.delay}s ease-in-out infinite`,
-            opacity: 0.7,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-function VaComponent({ color }) {
-  if (color) {
-    return (
-      <div
-        className="fixed inset-0 pointer-events-none z-30 animate-flash-overlay"
-        style={{
-          background: color,
-          mixBlendMode: "screen",
-        }}
-      />
-    );
-  }
-  return null;
-}
-function BaComponent({ won }) {
-  const t = ["#f2c14e", "#5fd08a", "#f2c14e"];
-  const c = ["160px", "110px", "80px"];
-  return (
-    <div className="flex items-end gap-2 md:gap-4 mb-6 md:mb-10 w-full max-w-md justify-center">
-      {[1, 0, 2].map((e) => (
-        <div
-          key={e}
-          className="flex-1 flex flex-col items-center"
-          style={{
-            animation: `podiumBounce 0.8s ${e * 0.2}s cubic-bezier(0.34, 1.56, 0.64, 1) both`,
-          }}
-        >
-          <div
-            className="mb-2 text-2xl md:text-3xl"
-            style={{
-              animation: `trophyFloat 2s ${e * 0.2}s ease-in-out infinite`,
-              opacity: e === 0 ? 1 : 0.6,
-            }}
-          >
-            {e === 0 ? (
-              <CrownIcon
-                size={28}
-                style={{
-                  color: t[e],
-                  filter: `drop-shadow(0 0 10px ${t[e]})`,
-                }}
-              />
-            ) : e === 1 ? (
-              <StarIcon
-                size={24}
-                style={{
-                  color: t[e],
-                }}
-              />
-            ) : (
-              <HeartIcon
-                size={20}
-                style={{
-                  color: t[e],
-                }}
-              />
-            )}
-          </div>
-          <div
-            className="w-full rounded-t-xl md:rounded-t-2xl flex items-center justify-center relative overflow-hidden"
-            style={{
-              height: c[e],
-              background: `linear-gradient(180deg,${t[e]}33,${t[e]}11)`,
-              border: `2px solid ${t[e]}66`,
-              borderBottom: "none",
-              boxShadow: `0 0 40px ${t[e]}44, inset 0 0 30px ${t[e]}22`,
-              animation: e === 0 ? "podiumGlow 2s ease-in-out infinite alternate" : undefined,
-            }}
-          >
-            <span
-              className="text-3xl md:text-4xl font-black"
-              style={{
-                color: t[e],
-                textShadow: `0 0 20px ${t[e]}`,
-                animation: e === 0 ? "podiumShine 3s linear infinite" : undefined,
-              }}
-            >
-              {e === 0 ? "🥇" : e === 1 ? "🥈" : "🥉"}
-            </span>
-            <div
-              className="absolute bottom-0 left-0 right-0 h-1.5"
-              style={{
-                background: t[e],
-                boxShadow: `0 0 15px ${t[e]}`,
-              }}
-            />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-function IaComponent({ timeLeft, maxTime }) {
-  const c = (timeLeft / maxTime) * 100;
-  const e = timeLeft <= 3 ? "#e0283f" : timeLeft <= 6 ? "#f2c14e" : "#5fd08a";
-  const d = timeLeft <= 3 ? "timerPanicPulse" : timeLeft <= 6 ? "timerWarnPulse" : "timerNormalPulse";
-  const filter_1 =
-    timeLeft <= 3
-      ? "drop-shadow(0 0 20px #e0283f) drop-shadow(0 0 40px #e0283f) drop-shadow(0 0 60px #e0283f)"
-      : "none";
-  return (
-    <div className="flex flex-col items-center gap-3 mb-4 md:mb-6 w-full max-w-2xl mx-auto">
-      <div
-        className="w-full h-3 md:h-4 rounded-full overflow-hidden relative shadow-inner"
-        style={{
-          background: "rgba(255,255,255,0.08)",
-          boxShadow: "inset 0 0 15px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3)",
-        }}
-      >
-        <div
-          className="h-full rounded-full relative"
-          style={{
-            width: `${c}%`,
-            background: `linear-gradient(90deg,${e}88,${e})`,
-            boxShadow:
-              timeLeft <= 3
-                ? `0 0 30px ${e}, 0 0 60px ${e}, 0 0 100px ${e}88, inset 0 0 10px rgba(255,255,255,0.2)`
-                : `0 0 20px ${e}, 0 0 40px ${e}66`,
-            transition: "width 1s linear, background 0.3s ease, box-shadow 0.3s ease",
-            animation: `${d} 1s ease-in-out infinite`,
-          }}
-        >
-          <div
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: "linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent)",
-              animation: "shimmer 1.5s linear infinite",
-            }}
-          />
-        </div>
-      </div>
-      <div
-        className="relative w-24 h-24 md:w-28 md:h-28 flex items-center justify-center"
-        style={{
-          animation: `${d} 0.6s ease-in-out infinite`,
-          filter: filter_1,
-        }}
-      >
-        <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 80 80">
-          <defs>
-            <filter id="timerGlow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.06)" strokeWidth="5" fill="none" />
-          <circle
-            cx="40"
-            cy="40"
-            r="34"
-            stroke={e}
-            strokeWidth="5"
-            fill="none"
-            strokeDasharray={2 * Math.PI * 34}
-            strokeDashoffset={2 * Math.PI * 34 * (1 - timeLeft / maxTime)}
-            strokeLinecap="round"
-            filter="url(#timerGlow)"
-            style={{
-              transition: "stroke-dashoffset 1s linear, stroke 0.3s ease",
-              filter: `drop-shadow(0 0 10px ${e})`,
-            }}
-          />
-        </svg>
-        <div className="gm-timer-face flex flex-col items-center">
-          <span
-            className="text-3xl md:text-4xl font-black"
-            style={{
-              color: e,
-              textShadow:
-                timeLeft <= 3
-                  ? `0 0 20px ${e}, 0 0 40px ${e}, 0 0 80px ${e}, 0 0 120px ${e}88`
-                  : `0 0 20px ${e}, 0 0 40px ${e}66`,
-            }}
-          >
-            {timeLeft}
-          </span>
-          <span className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-wider">seg</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-function XaComponent({ streak, multiplier }) {
-  if (streak < 2) {
-    return null;
-  }
-  const length = Math.min(streak, 5);
-  const e =
-    streak >= 5
-      ? Array.from({
-          length: 16,
-        }).map((d, id) => ({
-          id,
-          left: Math.random() * 100,
-          delay: Math.random() * 1.5,
-          size: 3 + Math.random() * 6,
-        }))
-      : [];
-  return (
-    <div className="text-center mb-4 animate-streak-enter relative">
-      <div
-        className="absolute -inset-[2px] rounded-full pointer-events-none opacity-100"
-        style={{
-          background: "linear-gradient(90deg, #f2c14e, #e0283f, #e0283f, #f2c14e, #e0283f)",
-          backgroundSize: "200% 200%",
-          animation: "borderRotate 2s linear infinite",
-          zIndex: -1,
-        }}
-      />
-      <div
-        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm md:text-base font-black shadow-2xl border relative overflow-hidden"
-        style={{
-          background: "rgba(242,193,78,0.12)",
-          borderColor: "rgba(242,193,78,0.35)",
-          color: "#f2c14e",
-          boxShadow: "0 0 30px rgba(242,193,78,0.3), 0 0 60px rgba(242,193,78,0.15)",
-          animation: "streakPulse 0.8s ease-in-out infinite, streakGlow 2s ease-in-out infinite alternate",
-        }}
-      >
-        {e.map((d) => (
-          <div
-            key={d.id}
-            className="absolute rounded-full pointer-events-none"
-            style={{
-              left: `${d.left}%`,
-              top: "50%",
-              width: `${d.size}px`,
-              height: `${d.size}px`,
-              background: "#f2c14e",
-              boxShadow: "0 0 6px #f2c14e, 0 0 12px #f2c14e",
-              animation: `streakGoldConfetti 1.5s ${d.delay}s ease-out infinite`,
-              opacity: 0.8,
-            }}
-          />
-        ))}
-        <span className="flex items-center gap-0.5">
-          {Array.from({
-            length,
-          }).map((d, l) => (
-            <FlameIcon
-              key={l}
-              size={16}
-              className="inline-block"
-              style={{
-                animation: `flameFlicker 0.4s ${l * 0.1}s ease-in-out infinite alternate`,
-              }}
-            />
-          ))}
-        </span>
-        <span>
-          ¡Racha {streak}! 🔥 x{multiplier.toFixed(1)}
-        </span>
-        <span className="flex items-center gap-0.5">
-          {Array.from({
-            length,
-          }).map((d, l) => (
-            <FlameIcon
-              key={l}
-              size={16}
-              className="inline-block"
-              style={{
-                animation: `flameFlicker 0.4s ${l * 0.1 + 0.2}s ease-in-out infinite alternate`,
-              }}
-            />
-          ))}
-        </span>
-      </div>
-    </div>
-  );
-}
-// Preguntas tipo Kahoot (chino → español) con el vocabulario de la unidad completa (20 palabras al azar)
-function preguntasDeVocabulario(numero, barajar) {
+
+function preguntasDeVocabulario(numero) {
   const contenido = contenidoJuego(numero);
   if (!contenido) return [];
   const palabras = contenido.vocabulario.filter((v) => v.espanol && v.chino);
@@ -9602,485 +8955,301 @@ function preguntasDeVocabulario(numero, barajar) {
     })
     .filter((pregunta) => pregunta.incorrectas.length === 3);
 }
-function AComponent() {
+
+export default function KahootPage() {
   const { playCorrect, playWrong, playWin, playLose, playClick } = useSound();
-  const [l, setL] = React.useState("select");
-  const [oa, setOa] = React.useState(null);
-  const [h, setH] = React.useState([]);
-  const [v, setV] = React.useState(0);
-  const [ia, setIa] = React.useState(0);
-  const [q, setQ] = React.useState(20);
-  const [w, setW] = React.useState(null);
-  const [g, setG] = React.useState(false);
-  const [y, setY] = React.useState(0);
-  const [k, setK] = React.useState(0);
-  const [ja, setJa] = React.useState(() => {
-    try {
-      return parseInt(localStorage.getItem("kahoot_beststreak") || "0");
-    } catch {
-      return 0;
-    }
-  });
-  const [P, setP] = React.useState(1);
-  const [I, setI] = React.useState([]);
-  const [Sa, setSa] = React.useState(false);
-  const [ca, setCa] = React.useState("");
-  const [X, setX] = React.useState(null);
-  const [Ra, setRa] = React.useState(false);
-  const [color, setColor] = React.useState(null);
-  const [bounce, setBounce] = React.useState(false);
-  const [ua, setUa] = React.useState("idle");
-  const [da, setDa] = React.useState(null);
-  const GRef = React.useRef(20);
-  const jRef = React.useRef(null);
-  const Z = Ha.modulos || [];
-  const pa = React.useCallback(
-    (i) => {
+  const [fase, setFase] = React.useState("select"); // select | cuenta | playing | result
+  const [tema, setTema] = React.useState(null);
+  const [preguntas, setPreguntas] = React.useState([]);
+  const [indice, setIndice] = React.useState(0);
+  const [puntos, setPuntos] = React.useState(0);
+  const [segundos, setSegundos] = React.useState(TIEMPO_PREGUNTA);
+  const [elegida, setElegida] = React.useState(null);
+  const [respondida, setRespondida] = React.useState(false);
+  const [aciertos, setAciertos] = React.useState(0);
+  const [racha, setRacha] = React.useState(0);
+  const [mejorRacha, setMejorRacha] = React.useState(0);
+  const [multiplicador, setMultiplicador] = React.useState(1);
+  const [sumas, setSumas] = React.useState([]); // «+120» que suben
+  const [bonus, setBonus] = React.useState(null);
+  const [saliendo, setSaliendo] = React.useState(false);
+  const [respuestas, setRespuestas] = React.useState([]); // { es, zh, ok } para el repaso
+  const [error, setError] = React.useState("");
+  const segundosRef = React.useRef(TIEMPO_PREGUNTA);
+  const relojRef = React.useRef(null);
+  const tableroRef = React.useRef(null);
+  const fx = useJuegoFx({ inicio: ["¡Elige rápido la respuesta!", "快选答案！"] });
+  const modulos = BANCO.modulos || [];
+
+  const empezar = React.useCallback(
+    (idTema) => {
       playClick();
-      const barajar = (lista) => {
-        const copia = [...lista];
-        for (let k = copia.length - 1; k > 0; k--) {
-          const r = Math.floor(Math.random() * (k + 1));
-          [copia[k], copia[r]] = [copia[r], copia[k]];
-        }
-        return copia;
-      };
       // Preguntas (siempre de la unidad completa, aunque llegue ?clase=K): unidad sin banco → con su vocabulario;
       // unidad con banco → el banco; «Todas las unidades» → 20 preguntas mezcladas de todo el banco.
-      let preguntasElegidas;
-      if (i === null) {
-        preguntasElegidas = barajar(Z.flatMap((modulo) => modulo.preguntas || [])).slice(0, 20);
+      let elegidas;
+      if (idTema === null) {
+        elegidas = barajar(modulos.flatMap((modulo) => modulo.preguntas || [])).slice(0, 20);
       } else {
-        const numero = Number(String(i).replace("modulo-", ""));
-        const banco = Z.find((modulo) => modulo.id === i)?.preguntas || [];
-        preguntasElegidas = banco.length === 0 ? preguntasDeVocabulario(numero, barajar) : banco;
+        const numero = Number(String(idTema).replace("modulo-", ""));
+        const banco = modulos.find((modulo) => modulo.id === idTema)?.preguntas || [];
+        elegidas = banco.length === 0 ? preguntasDeVocabulario(numero) : banco;
       }
-      if (!preguntasElegidas || preguntasElegidas.length === 0) {
-        setCa("Esta unidad no tiene preguntas disponibles. Prueba con otra unidad. · 这个单元没有题目，请换一个单元。");
+      if (!elegidas || elegidas.length === 0) {
+        setError("Esta unidad no tiene preguntas disponibles. Prueba con otra unidad. · 这个单元没有题目，请换一个单元。");
         return;
       }
-      setCa("");
-      const o = barajar;
-      const b = o(preguntasElegidas).map((u) => {
-        const allAnswers = o([u.correcta, ...u.incorrectas]);
-        return {
-          ...u,
-          allAnswers,
-        };
-      });
-      setH(b);
-      setOa(i);
-      setV(0);
-      setIa(0);
-      setY(0);
-      setQ(20);
-      setW(null);
-      setG(false);
-      setK(0);
-      setP(1);
-      setI([]);
-      setColor(null);
-      setDa(null);
-      setL("playing");
-      setUa("in");
-      setRa(false);
-      setTimeout(() => setRa(true), 80);
+      setError("");
+      setPreguntas(barajar(elegidas).map((p) => ({ ...p, opciones: barajar([p.correcta, ...p.incorrectas]) })));
+      setTema(idTema);
+      setIndice(0);
+      setPuntos(0);
+      setAciertos(0);
+      setSegundos(TIEMPO_PREGUNTA);
+      segundosRef.current = TIEMPO_PREGUNTA;
+      setElegida(null);
+      setRespondida(false);
+      setRacha(0);
+      setMejorRacha(0);
+      setMultiplicador(1);
+      setSumas([]);
+      setBonus(null);
+      setRespuestas([]);
+      setSaliendo(false);
+      setFase("cuenta");
     },
-    [Z, playClick],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [playClick],
   );
-  React.useEffect(() => {
-    if (!(l !== "playing" || g)) {
-      if (q <= 0) {
-        N(null);
-        return;
-      }
-      GRef.current = q;
-      jRef.current = setInterval(() => {
-        setQ((i) => {
-          GRef.current = i - 1;
-          if (i - 1 <= 0) {
-            if (jRef.current) {
-              clearInterval(jRef.current);
-            }
-            N(null);
-          }
-          return Math.max(0, i - 1);
-        });
-      }, 1000);
-      return () => {
-        if (jRef.current) {
-          clearInterval(jRef.current);
-        }
-      };
-    }
-  }, [l, g, v]);
-  React.useEffect(() => {
-    if (I.length === 0) {
-      return;
-    }
-    const i = setTimeout(() => setI([]), 1300);
-    return () => clearTimeout(i);
-  }, [I.length]);
-  const N = React.useCallback(
-    (i) => {
-      if (g) {
-        return;
-      }
-      const s = h[v];
-      if (!s) {
-        return;
-      }
-      const o = i === s.correcta;
-      setW(i);
-      setG(true);
-      setX(o);
-      if (jRef.current) {
-        clearInterval(jRef.current);
-      }
-      if (o) {
+
+  const pregunta = preguntas[indice];
+
+  const responder = React.useCallback(
+    (respuesta) => {
+      if (respondida || !pregunta) return;
+      const ok = respuesta === pregunta.correcta;
+      setElegida(respuesta);
+      setRespondida(true);
+      clearInterval(relojRef.current);
+      setRespuestas((r) => [...r, { es: pregunta.correcta, zh: pregunta.preguntaChino, ok }]);
+      if (ok) {
         playCorrect();
-        const b = GRef.current;
-        const u = Math.floor(b * 15);
-        const p = k * 10;
-        const m = 100 + u + p;
-        const U = Math.floor(m * P);
-        setIa((x) => x + U);
-        setY((x) => x + 1);
-        setK((x) => {
-          const ga = x + 1;
-          setJa((Da) => {
-            const ha = Math.max(Da, ga);
-            localStorage.setItem("kahoot_beststreak", String(ha));
-            return ha;
-          });
-          return ga;
-        });
-        setP((x) => Math.min(x + 0.5, 4));
-        setColor("rgba(95,208,138,0.2)");
-        setBounce(true);
-        setTimeout(() => setBounce(false), 600);
-        const text = u > 50 ? `+${U} Speed!` : `+${U}`;
-        setI((x) => [
-          ...x,
-          {
-            id: Date.now() + Math.random(),
-            text,
-            life: 1.5,
-            x: Math.random() * 40 - 20,
-          },
-        ]);
-        if (u > 50) {
-          setDa("¡Speed Bonus!");
-        }
-        setTimeout(() => setDa(null), 1200);
+        const rapidez = Math.floor(segundosRef.current * 15);
+        const ganados = Math.floor((100 + rapidez + racha * 10) * multiplicador);
+        const nuevaRacha = racha + 1;
+        setPuntos((x) => x + ganados);
+        setAciertos((x) => x + 1);
+        setRacha(nuevaRacha);
+        setMejorRacha((m) => Math.max(m, nuevaRacha));
+        try {
+          const guardada = parseInt(localStorage.getItem("kahoot_beststreak") || "0", 10);
+          if (nuevaRacha > guardada) localStorage.setItem("kahoot_beststreak", String(nuevaRacha));
+        } catch {}
+        setMultiplicador((x) => Math.min(x + 0.5, 4));
+        setSumas((x) => [...x, { id: Date.now() + Math.random(), texto: `+${ganados}`, dx: Math.random() * 40 - 20 }]);
+        if (rapidez > 50) setBonus("¡Rapidísimo! · 神速！");
+        setTimeout(() => setBonus(null), 1200);
+        // Estallido sobre la ficha correcta (ya pintada en verde en el siguiente fotograma)
+        requestAnimationFrame(() => fx.acierto({ es: pregunta.correcta, zh: pregunta.preguntaChino, desde: document.querySelector(".kq-ficha--bien") || tableroRef.current, racha: nuevaRacha }));
       } else {
         playWrong();
-        setK(0);
-        setP(1);
-        setSa(true);
-        setColor("rgba(224,40,63,0.25)");
-        setTimeout(() => {
-          setSa(false);
-        }, 500);
+        setRacha(0);
+        setMultiplicador(1);
+        fx.fallo({ es: pregunta.correcta, zh: pregunta.preguntaChino, nota: respuesta === null ? "¡Tiempo! La respuesta · 时间到！答案" : "La respuesta · 正确答案" });
       }
-      setTimeout(() => setColor(null), 350);
       setTimeout(() => {
-        if (v + 1 >= h.length) {
-          setL("result");
-          if (y + (o ? 1 : 0) > h.length / 2) {
-            playWin();
-          } else {
-            playLose();
-          }
+        if (indice + 1 >= preguntas.length) {
+          const totalAciertos = aciertos + (ok ? 1 : 0);
+          if (totalAciertos) addXp(totalAciertos * 2);
+          if (totalAciertos > preguntas.length / 2) playWin();
+          else playLose();
+          setFase("result");
         } else {
-          setUa("out");
+          setSaliendo(true);
           setTimeout(() => {
-            setV((b) => b + 1);
-            setQ(20);
-            GRef.current = 20;
-            setW(null);
-            setG(false);
-            setUa("in");
-            setRa(false);
-            setTimeout(() => setRa(true), 80);
-          }, 350);
+            setIndice((x) => x + 1);
+            setSegundos(TIEMPO_PREGUNTA);
+            segundosRef.current = TIEMPO_PREGUNTA;
+            setElegida(null);
+            setRespondida(false);
+            setSaliendo(false);
+          }, 380);
         }
-      }, 1800);
+      }, 2200);
     },
-    [g, h, v, k, P, y, playCorrect, playWrong, playWin, playLose],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [respondida, pregunta, racha, multiplicador, indice, preguntas.length, aciertos, playCorrect, playWrong, playWin, playLose],
   );
+  const responderRef = React.useRef(responder);
+  responderRef.current = responder;
+
+  // Reloj de cada pregunta
   React.useEffect(() => {
-    if (l !== "playing" || g) {
-      return;
-    }
-    const i = {
-      1: 0,
-      2: 1,
-      3: 2,
-      4: 3,
-      a: 0,
-      b: 1,
-      c: 2,
-      d: 3,
+    if (fase !== "playing" || respondida) return undefined;
+    relojRef.current = setInterval(() => {
+      setSegundos((s) => {
+        const quedan = Math.max(0, s - 1);
+        segundosRef.current = quedan;
+        if (quedan === 0) {
+          clearInterval(relojRef.current);
+          setTimeout(() => responderRef.current(null), 0);
+        }
+        return quedan;
+      });
+    }, 1000);
+    return () => clearInterval(relojRef.current);
+  }, [fase, respondida, indice]);
+
+  // Las sumas «+120» desaparecen solas
+  React.useEffect(() => {
+    if (!sumas.length) return undefined;
+    const t = setTimeout(() => setSumas([]), 1300);
+    return () => clearTimeout(t);
+  }, [sumas.length]);
+
+  // Teclado: 1–4 o A–D
+  React.useEffect(() => {
+    if (fase !== "playing" || respondida) return undefined;
+    const teclas = { 1: 0, 2: 1, 3: 2, 4: 3, a: 0, b: 1, c: 2, d: 3 };
+    const alPulsar = (evento) => {
+      const n = teclas[evento.key.toLowerCase()];
+      if (n !== undefined && pregunta?.opciones?.[n]) responderRef.current(pregunta.opciones[n]);
     };
-    const s = (o) => {
-      const b = i[o.key.toLowerCase()];
-      if (b === undefined) {
-        return;
-      }
-      const u = h[v];
-      if (u?.allAnswers?.[b]) {
-        N(u.allAnswers[b]);
-      }
-    };
-    window.addEventListener("keydown", s);
-    return () => window.removeEventListener("keydown", s);
-  }, [l, g, v, h, N]);
-  const onClick = () => {
-    playClick();
-    setL("select");
-    setOa(null);
-    setH([]);
-    setV(0);
-    setIa(0);
-    setY(0);
-    setQ(20);
-    setW(null);
-    setG(false);
-    setK(0);
-    setP(1);
-    setI([]);
-    setX(null);
-    setColor(null);
-    setDa(null);
-    setUa("idle");
-  };
-  const expression = React.useMemo(() => {
-    if (l === "select") {
-      return "happy";
-    }
-    if (l === "result") {
-      if (y > h.length / 2) {
-        return "celebrating";
-      }
-      return "sad";
-    }
-    if (g) {
-      if (X) {
-        return "excited";
-      }
-      return "shocked";
-    }
-    if (q <= 3) {
-      return "warning";
-    }
-    if (k >= 3) {
-      return "excited";
-    }
-    return "neutral";
-  }, [l, g, X, q, y, h.length, k]);
-  const active = l === "result" && y > h.length / 2;
-  const O = `
-    @keyframes mascotFloat { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-10px) rotate(2deg)} }
-    @keyframes mascotSuperBounce { 0%{transform:translateY(0) scale(1)} 30%{transform:translateY(-20px) scale(1.1)} 60%{transform:translateY(5px) scale(0.95)} 100%{transform:translateY(0) scale(1)} }
-    @keyframes mascotSpin { 0%,100%{transform:rotate(0)} 50%{transform:rotate(10deg)} }
-    @keyframes mascotWiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-5deg)} 75%{transform:rotate(5deg)} }
-    @keyframes mascotWarningShake { 0%,100%{transform:translateX(0) rotate(0)} 20%{transform:translateX(-4px) rotate(-3deg)} 40%{transform:translateX(4px) rotate(3deg)} 60%{transform:translateX(-3px) rotate(-2deg)} 80%{transform:translateX(3px) rotate(2deg)} }
-    @keyframes mascotQuestionBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
-    @keyframes starTwinkle { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
-    @keyframes confettiExplode { 0%{transform:translateY(50vh) translateX(0) rotate(0);opacity:1} 100%{transform:translateY(-20vh) translateX(var(--end-x)) rotate(720deg);opacity:0} }
-    @keyframes particleFloat { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-30px) scale(1.3)} }
-    @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
-    @keyframes timerNormalPulse { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.1)} }
-    @keyframes timerWarnPulse { 0%,100%{transform:scale(1);filter:brightness(1)} 50%{transform:scale(1.05);filter:brightness(1.2)} }
-    @keyframes timerPanicPulse { 0%,100%{transform:scale(1);filter:brightness(1)} 50%{transform:scale(1.2);filter:brightness(1.6);text-shadow:0 0 40px #e0283f,0 0 80px #e0283f,0 0 120px #e0283f} }
-    @keyframes streakPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
-    @keyframes streakGoldConfetti { 0%{transform:translateY(0) scale(1);opacity:0.8} 50%{transform:translateY(-20px) scale(1.2);opacity:1} 100%{transform:translateY(-40px) scale(0.8);opacity:0} }
-    @keyframes streakGlow { 0%{box-shadow:0 0 30px rgba(242,193,78,0.3),0 0 60px rgba(242,193,78,0.15)} 100%{box-shadow:0 0 50px rgba(242,193,78,0.5),0 0 100px rgba(242,193,78,0.25)} }
-    @keyframes flameFlicker { 0%{transform:scale(1) rotate(-5deg)} 100%{transform:scale(1.2) rotate(5deg)} }
-    @keyframes streak-enter { 0%{opacity:0;transform:translateY(-20px) scale(0.8)} 60%{opacity:1;transform:translateY(5px) scale(1.1)} 100%{transform:translateY(0) scale(1)} }
-    @keyframes question-enter { 0%{opacity:0;transform:translateY(40px) scale(0.95) rotateX(-5deg)} 60%{opacity:1;transform:translateY(-5px) scale(1.02) rotateX(2deg)} 100%{opacity:1;transform:translateY(0) scale(1) rotateX(0)} }
-    @keyframes question-out { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-40px) scale(0.95) rotateX(5deg)} }
-    @keyframes cardEnter { 0%{opacity:0;transform:translateY(40px) scale(0.9)} 100%{opacity:1;transform:translateY(0) scale(1)} }
-    @keyframes card3DHover { 0%{transform:translateY(0) rotateX(0) rotateY(0)} 100%{transform:translateY(-8px) rotateX(4deg) rotateY(2deg)} }
-    @keyframes buttonAppear { 0%{opacity:0;transform:translateY(30px) scale(0.9)} 60%{opacity:1;transform:translateY(-3px) scale(1.02)} 100%{opacity:1;transform:translateY(0) scale(1)} }
-    @keyframes buttonPulse { 0%,100%{box-shadow:0 0 20px var(--shadow-color)33} 50%{box-shadow:0 0 40px var(--shadow-color)66,0 0 60px var(--shadow-color)33} }
-    @keyframes shakeScreen { 0%{transform:translate(0,0)} 10%{transform:translate(-8px,-4px)} 20%{transform:translate(8px,4px)} 30%{transform:translate(-6px,6px)} 40%{transform:translate(6px,-6px)} 50%{transform:translate(-4px,-2px)} 60%{transform:translate(4px,2px)} 70%{transform:translate(-2px,4px)} 80%{transform:translate(2px,-4px)} 90%{transform:translate(-1px,1px)} 100%{transform:translate(0,0)} }
-    @keyframes flash-overlay { 0%{opacity:0.6} 100%{opacity:0} }
-    @keyframes bounce-in { 0%{opacity:0;transform:scale(0.7)} 60%{opacity:1;transform:scale(1.15)} 100%{transform:scale(1)} }
-    @keyframes trophySpin { 0%,100%{transform:rotateY(0) scale(1)} 50%{transform:rotateY(180deg) scale(1.1)} }
-    @keyframes trophyFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-    @keyframes podiumBounce { 0%{opacity:0;transform:translateY(60px) scale(0.8)} 60%{opacity:1;transform:translateY(-5px) scale(1.05)} 100%{opacity:1;transform:translateY(0) scale(1)} }
-    @keyframes podiumGlow { 0%{box-shadow:0 0 40px rgba(242,193,78,0.3)} 100%{box-shadow:0 0 80px rgba(242,193,78,0.6),0 0 120px rgba(242,193,78,0.3)} }
-    @keyframes podiumShine { 0%{filter:brightness(1)} 50%{filter:brightness(1.3)} 100%{filter:brightness(1)} }
-    @keyframes speedBonus { 0%{opacity:0;transform:translateY(20px) scale(0.8)} 20%{opacity:1;transform:translateY(-5px) scale(1.1)} 80%{opacity:1;transform:translateY(-5px) scale(1)} 100%{opacity:0;transform:translateY(-30px) scale(0.9)} }
-    @keyframes kahootFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-    @keyframes kahootTitlePulse { from{filter:drop-shadow(0 0 50px rgba(224,40,63,0.5)) brightness(1)} to{filter:drop-shadow(0 0 100px rgba(224,40,63,0.7)) brightness(1.15)} }
-    @keyframes borderRotate { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
-    @keyframes shineRotate { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
-    @keyframes gradientBg { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    @keyframes neonPulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
-    @keyframes floating3D { 0%,100%{transform:translateY(0) translateZ(0) rotateX(0)} 50%{transform:translateY(-6px) translateZ(20px) rotateX(2deg)} }
-    @keyframes glowTextPulse { 0%,100%{text-shadow:0 0 20px var(--glow-color),0 0 40px var(--glow-color)66} 50%{text-shadow:0 0 30px var(--glow-color),0 0 60px var(--glow-color)88,0 0 90px var(--glow-color)44} }
-    @keyframes answerCorrectBurst { 0%{transform:scale(1) translateZ(0)} 30%{transform:scale(1.08) translateZ(60px)} 60%{transform:scale(1.04) translateZ(40px)} 100%{transform:scale(1.04) translateZ(40px)} }
-    @keyframes answerWrongShake { 0%{transform:translateX(0) translateZ(0)} 15%{transform:translateX(-8px) translateZ(0)} 30%{transform:translateX(8px) translateZ(0)} 45%{transform:translateX(-5px) translateZ(0)} 60%{transform:translateX(5px) translateZ(0)} 75%{transform:translateX(-2px) translateZ(0)} 100%{transform:translateX(0) translateZ(0)} }
-    @keyframes moduleCardGlow { 0%{box-shadow:0 0 20px rgba(224,40,63,0.15),0 10px 30px rgba(0,0,0,0.3)} 50%{box-shadow:0 0 40px rgba(224,40,63,0.3),0 15px 50px rgba(0,0,0,0.4)} 100%{box-shadow:0 0 20px rgba(224,40,63,0.15),0 10px 30px rgba(0,0,0,0.3)} }
-    @keyframes questionCardGlow { 0%{box-shadow:0 0 40px rgba(224,40,63,0.15),0 20px 60px rgba(0,0,0,0.4),inset 0 0 60px rgba(255,255,255,0.02)} 50%{box-shadow:0 0 70px rgba(224,40,63,0.25),0 25px 80px rgba(0,0,0,0.5),inset 0 0 80px rgba(255,255,255,0.04)} 100%{box-shadow:0 0 40px rgba(224,40,63,0.15),0 20px 60px rgba(0,0,0,0.4),inset 0 0 60px rgba(255,255,255,0.02)} }
-    @keyframes progressGlow { 0%{box-shadow:0 0 20px rgba(242,193,78,0.6),0 0 40px rgba(224,40,63,0.3)} 50%{box-shadow:0 0 35px rgba(242,193,78,0.8),0 0 70px rgba(224,40,63,0.5)} 100%{box-shadow:0 0 20px rgba(242,193,78,0.6),0 0 40px rgba(224,40,63,0.3)} }
-    @keyframes scoreFloat { 0%,100%{transform:translateY(0) translateZ(0)} 50%{transform:translateY(-4px) translateZ(15px)} }
-    @keyframes answerHoverGlow { 0%{box-shadow:0 0 20px var(--shadow-color)33,0 8px 20px rgba(0,0,0,0.2)} 50%{box-shadow:0 0 50px var(--shadow-color)66,0 0 80px var(--shadow-color)33,0 12px 40px rgba(0,0,0,0.3)} 100%{box-shadow:0 0 20px var(--shadow-color)33,0 8px 20px rgba(0,0,0,0.2)} }
-    @keyframes flipIn3D { 0%{opacity:0;transform:perspective(1000px) rotateY(-90deg) translateZ(-100px)} 60%{opacity:1;transform:perspective(1000px) rotateY(10deg) translateZ(20px)} 100%{opacity:1;transform:perspective(1000px) rotateY(0) translateZ(0)} }
-    @keyframes slideOut3D { 0%{opacity:1;transform:perspective(1000px) rotateX(0) translateZ(0)} 100%{opacity:0;transform:perspective(1000px) rotateX(15deg) translateZ(-200px) translateY(-60px)} }
-    @keyframes neonBorderSweep { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    @keyframes correctAnswerGlow { 0%,100%{box-shadow:0 0 50px rgba(95,208,138,0.5),0 0 100px rgba(95,208,138,0.25),inset 0 0 30px rgba(95,208,138,0.1)} 50%{box-shadow:0 0 80px rgba(95,208,138,0.7),0 0 150px rgba(95,208,138,0.4),inset 0 0 50px rgba(95,208,138,0.2)} }
-    @keyframes wrongAnswerGlow { 0%,100%{box-shadow:0 0 30px rgba(224,40,63,0.4),0 0 60px rgba(224,40,63,0.2)} 50%{box-shadow:0 0 50px rgba(224,40,63,0.6),0 0 100px rgba(224,40,63,0.3)} }
-    @keyframes resultCardFloat { 0%,100%{transform:translateY(0) rotateX(0) rotateY(0)} 50%{transform:translateY(-8px) rotateX(3deg) rotateY(-2deg)} }
-    .animate-streak-enter { animation: streak-enter 0.5s ease-out both; }
-    .animate-question-enter { animation: question-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-    .animate-question-out { animation: question-out 0.35s ease-in both; }
-    .animate-bounce-in { animation: bounce-in 0.5s ease-out both; }
-    .animate-flash-overlay { animation: flash-overlay 0.35s ease-out forwards; }
-    .animate-shake { animation: shakeScreen 0.5s ease-in-out both; }
-    .animate-flip-in-3d { animation: flipIn3D 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-    .animate-slide-out-3d { animation: slideOut3D 0.4s ease-in both; }
-  `;
-  if (l === "select") {
+    window.addEventListener("keydown", alPulsar);
+    return () => window.removeEventListener("keydown", alPulsar);
+  }, [fase, respondida, pregunta]);
+
+  // El Rey Mono avisa cuando queda poco tiempo
+  React.useEffect(() => {
+    if (fase === "playing" && !respondida && segundos === 5) fx.mono("guino", "¡Rápido, quedan 5 segundos!", "快！还有5秒！");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [segundos]);
+
+  if (fase === "select") {
     return (
       <>
         <SoundToggles />
-        <SelectorTemaJuego juego="kahoot" error={ca} onIniciar={pa} />
+        <SelectorTemaJuego juego="kahoot" error={error} onIniciar={empezar} />
       </>
     );
   }
-  if (l === "result") {
-    const won = y > h.length / 2;
-    const precision = h.length > 0 ? Math.round((y / h.length) * 100) : 0;
-    return (
-      <Escena3D tema="kahoot">
-        <CintaTemaJuego />
-        <SoundToggles />
-        <Ya1Component active={active} />
-        <BarraJuego titulo="Kahoot Quiz" tituloZh="抢答竞赛" alVolver={() => playClick()} />
-        <Resultado3D
-          gano={won}
-          sello="答"
-          estrellas={precision >= 90 ? 3 : precision >= 60 ? 2 : precision >= 30 ? 1 : 0}
-          titulo={won ? "¡Victoria!" : "¡Buen intento!"}
-          tituloZh={won ? "胜利 · 太棒了" : "再试一次 · 加油"}
-          datos={[
-            { etiqueta: "Puntos · 得分", valor: ia, tono: "rojo" },
-            { etiqueta: "Aciertos · 答对", valor: `${y}/${h.length}`, tono: "jade" },
-            { etiqueta: "Precisión · 正确率", valor: `${precision}%`, tono: "oro" },
-            { etiqueta: "Mejor racha · 最佳连击", valor: ja, tono: "tinta" },
-          ]}
-          acciones={
-            <>
-              <Boton3D tono="oro" onClick={() => oa !== undefined && pa(oa)}>
-                <RotateCcwIcon size={18} /> Reintentar · 重试
-              </Boton3D>
-              <Boton3D tono="rojo" onClick={onClick}>
-                Otra unidad · 其他单元
-              </Boton3D>
-            </>
-          }
-        />
-        <P_1 currentGameId="kahoot" />
-        <style>{O}</style>
-      </Escena3D>
-    );
-  }
-  const f = h[v];
-  const acerto = g && w === f.correcta;
-  const tiempoPct = Math.max(0, Math.min(100, (q / 20) * 100));
-  const tonoTiempo = q <= 3 ? "rojo" : q <= 6 ? "oro" : "jade";
+
+  const total = preguntas.length;
+  const precision = total ? Math.round((aciertos / total) * 100) : 0;
+  const tiempoPct = Math.max(0, Math.min(100, (segundos / TIEMPO_PREGUNTA) * 100));
+  const tonoTiempo = segundos <= 3 ? "rojo" : segundos <= 6 ? "oro" : "jade";
+  const acerto = respondida && elegida === pregunta?.correcta;
+
   return (
-    <Escena3D tema="kahoot" className={Sa ? "kq-temblor" : ""}>
+    <Escena3D tema="kahoot" className={`kq3${racha >= 3 ? " kq3--fuego" : ""}${respondida ? (acerto ? " kq3--bien" : " kq3--mal") : ""}`} fondo={<FocosEscenario />}>
       <CintaTemaJuego />
       <SoundToggles />
-      <Ya1Component active={!!(g && X)} />
-      <VaComponent color={color} />
       <BarraJuego titulo="Kahoot Quiz" tituloZh="抢答竞赛" alVolver={() => playClick()}>
-        <Placa icono={<TrophyIcon size={16} />} valor={ia} etiqueta="Puntos · 分" />
-        <Placa icono={<ZapIcon size={16} />} valor={`x${P.toFixed(1)}`} etiqueta="Bonus · 倍" tono="rojo" pulso={P >= 2} />
-        {k >= 2 && <Placa icono={<FlameIcon size={16} />} valor={k} etiqueta="Racha · 连击" tono="rojo" pulso />}
-        <Placa icono={<TimerIcon size={16} />} valor={`${v + 1}/${h.length}`} etiqueta="Pregunta · 题" tono="tinta" />
+        <Placa icono={<TrophyIcon size={16} />} valor={puntos} etiqueta="Puntos · 分" />
+        <Placa icono={<ZapIcon size={16} />} valor={`x${multiplicador.toFixed(1)}`} etiqueta="Bonus · 倍" tono="rojo" pulso={multiplicador >= 2} />
+        {racha >= 2 && <Placa icono={<FlameIcon size={16} />} valor={racha} etiqueta="Racha · 连击" tono="rojo" pulso />}
+        <Placa icono={<TimerIcon size={16} />} valor={`${Math.min(indice + 1, total)}/${total}`} etiqueta="Pregunta · 题" tono="tinta" />
       </BarraJuego>
-      <div className="kq-progreso" role="progressbar" aria-valuemin={0} aria-valuemax={h.length} aria-valuenow={v}>
-        {h.map((pregunta, n) => (
-          <i key={n} className={n < v ? "kq-hecho" : n === v ? "kq-actual" : ""} />
+
+      <div className="kq-progreso" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={indice} aria-label="Progreso · 进度">
+        {preguntas.map((_, n) => (
+          <i key={n} className={n < indice ? "kq-hecho" : n === indice ? "kq-actual" : ""} />
         ))}
       </div>
 
-      <div className="kq-mesa">
-        <div key={v} className={`kq-tablero ${ua === "out" ? "kq-tablero--sale" : ""}`}>
-          <span className="kq-cuerda kq-cuerda--i" aria-hidden="true" />
-          <span className="kq-cuerda kq-cuerda--d" aria-hidden="true" />
-          <div className={`kq-reloj kq-reloj--${tonoTiempo}`} style={{ "--pct": `${tiempoPct}%` }} aria-label={`Quedan ${q} segundos`}>
-            <b key={q}>{q}</b>
-          </div>
-          <p className="kq-etiqueta">¿Cómo se dice en español? · 西班牙语怎么说？</p>
-          <p className="kq-pregunta">{f.preguntaChino}</p>
-          <span className="kq-esquina kq-esquina--1" aria-hidden="true" />
-          <span className="kq-esquina kq-esquina--2" aria-hidden="true" />
-          <span className="kq-esquina kq-esquina--3" aria-hidden="true" />
-          <span className="kq-esquina kq-esquina--4" aria-hidden="true" />
-        </div>
-
-        <div className="kq-flotantes" aria-hidden="true">
-          {da && <span className="kq-bonus">{da}</span>}
-          {I.map((punto) => (
-            <span key={punto.id} className="kq-suma" style={{ "--dx": `${punto.x}px` }}>
-              {punto.text}
+      {pregunta && fase !== "cuenta" && (
+        <div className="kq-mesa kq3-mesa">
+          {!respondida && segundos <= 5 && segundos > 0 && (
+            <span className="kq3-ultimos" key={`u${segundos}`} aria-hidden="true">
+              {segundos}
             </span>
-          ))}
-        </div>
-
-        <div className={`kq-fichas ${g ? "kq-fichas--resuelto" : ""}`}>
-          {f.allAnswers.map((respuesta, n) => {
-            const esCorrecta = respuesta === f.correcta;
-            const elegida = w === respuesta;
-            const estado = !g ? "" : esCorrecta ? "kq-ficha--bien" : elegida ? "kq-ficha--mal" : "kq-ficha--fuera";
-            return (
-              <button
-                key={`${v}-${respuesta}`}
-                type="button"
-                className={`kq-ficha kq-ficha--${n % 4} ${estado}`}
-                style={{ "--n": n }}
-                onClick={() => N(respuesta)}
-                disabled={g}
-              >
-                <span className="kq-ficha__cara">
-                  <span className="kq-ficha__forma" aria-hidden="true">
-                    <i />
-                  </span>
-                  <span className="kq-ficha__texto">{respuesta}</span>
-                  <kbd className="kq-ficha__tecla" aria-hidden="true">
-                    {g && esCorrecta ? "✓" : g && elegida ? "✗" : n + 1}
-                  </kbd>
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="kq-veredicto" aria-live="polite">
-          {g && (
-            <p className={acerto ? "kq-veredicto__bien" : "kq-veredicto__mal"}>
-              {acerto ? (
-                <>
-                  <SparklesIcon size={18} /> ¡Correcto! · 正确！
-                </>
-              ) : (
-                <>
-                  {w === null ? "¡Tiempo! · 时间到" : "¡Casi! · 差一点"} — Respuesta · 答案: <b>{f.correcta}</b>
-                </>
-              )}
-            </p>
           )}
+          <div key={indice} ref={tableroRef} className={`kq-tablero kq3-tablero ${saliendo ? "kq-tablero--sale" : ""}`}>
+            <span className="kq-cuerda kq-cuerda--i" aria-hidden="true" />
+            <span className="kq-cuerda kq-cuerda--d" aria-hidden="true" />
+            <span className="kq3-fuego" aria-hidden="true" />
+            <div className={`kq-reloj kq-reloj--${tonoTiempo} kq3-reloj`} style={{ "--pct": `${tiempoPct}%` }} aria-label={`Quedan ${segundos} segundos · 剩余秒数`}>
+              <b key={segundos}>{segundos}</b>
+            </div>
+            <p className="kq-etiqueta">¿Cómo se dice en español? · 西班牙语怎么说？</p>
+            <p className="kq-pregunta" lang="zh-CN">
+              {pregunta.preguntaChino}
+            </p>
+            <span className="kq-esquina kq-esquina--1" aria-hidden="true" />
+            <span className="kq-esquina kq-esquina--2" aria-hidden="true" />
+            <span className="kq-esquina kq-esquina--3" aria-hidden="true" />
+            <span className="kq-esquina kq-esquina--4" aria-hidden="true" />
+          </div>
+
+          <div className="kq-flotantes" aria-hidden="true">
+            {bonus && <span className="kq-bonus">{bonus}</span>}
+            {sumas.map((s) => (
+              <span key={s.id} className="kq-suma" style={{ "--dx": `${s.dx}px` }}>
+                {s.texto}
+              </span>
+            ))}
+          </div>
+
+          <div className={`kq-fichas kq3-fichas ${respondida ? "kq-fichas--resuelto" : ""}`}>
+            {pregunta.opciones.map((respuesta, n) => {
+              const esCorrecta = respuesta === pregunta.correcta;
+              const esElegida = elegida === respuesta;
+              const estado = !respondida ? "" : esCorrecta ? "kq-ficha--bien" : esElegida ? "kq-ficha--mal" : "kq-ficha--fuera";
+              return (
+                <button
+                  key={`${indice}-${respuesta}`}
+                  type="button"
+                  className={`kq-ficha kq-ficha--${n % 4} kq3-ficha ${estado}`}
+                  style={{ "--n": n }}
+                  onClick={() => responder(respuesta)}
+                  disabled={respondida}
+                  aria-label={`${FORMAS[n % 4]}: ${respuesta}`}
+                >
+                  <span className="kq-ficha__cara">
+                    <span className="kq-ficha__forma" aria-hidden="true">
+                      <i />
+                    </span>
+                    <span className="kq-ficha__texto">{respuesta}</span>
+                    <kbd className="kq-ficha__tecla" aria-hidden="true">
+                      {respondida && esCorrecta ? "✓" : respondida && esElegida ? "✗" : n + 1}
+                    </kbd>
+                  </span>
+                  <span className="kq3-canto" aria-hidden="true" />
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <style>{O}</style>
+      )}
+
+      {fase === "cuenta" && <CuentaAtras onFin={() => setFase("playing")} />}
+      <CapaJuegoFx fx={fx} conMono={fase !== "result"} />
+
+      {fase === "result" && (
+        <PantallaFinal
+          estrellas={estrellasPorAciertos(aciertos, total)}
+          sello="答"
+          titulo={aciertos > total / 2 ? "¡Victoria!" : undefined}
+          tituloZh={aciertos > total / 2 ? "胜利 · 太棒了" : undefined}
+          datos={[
+            { etiqueta: "Puntos · 得分", valor: puntos },
+            { etiqueta: "Aciertos · 答对", valor: `${aciertos}/${total}` },
+            { etiqueta: "Precisión · 正确率", valor: `${precision}%` },
+            { etiqueta: "Mejor racha · 最佳连击", valor: mejorRacha },
+          ]}
+          repaso={respuestas}
+          nota={aciertos ? `+${aciertos * 2} XP · 经验` : ""}
+        >
+          <BotonFx tono="oro" onClick={() => empezar(tema)}>
+            <RotateCcwIcon size={18} aria-hidden="true" /> Reintentar · 重试
+          </BotonFx>
+          <BotonFx tono="laca" onClick={() => setFase("select")}>
+            <LayersIcon size={18} aria-hidden="true" /> Otra unidad · 其他单元
+          </BotonFx>
+          <Link to="/juegos" className="jfx-boton jfx-boton--claro">
+            <ArrowLeftIcon size={18} aria-hidden="true" /> Juegos · 游戏
+          </Link>
+        </PantallaFinal>
+      )}
     </Escena3D>
   );
 }
-export { AComponent as default };

@@ -44,6 +44,78 @@ export function FondoMundo({ nivel = "A1" }) {
   );
 }
 
+/** Focos de plató que barren el escenario (Kahoot, Ruleta): conos de luz cálida y polvo dorado. */
+export function FocosEscenario({ tono = "oro" }) {
+  return (
+    <div className={`jfx-focos jfx-focos--${tono}`} aria-hidden="true">
+      <span className="jfx-foco jfx-foco--a" />
+      <span className="jfx-foco jfx-foco--b" />
+      <span className="jfx-foco jfx-foco--c" />
+      <span className="jfx-foco jfx-foco--d" />
+      <span className="jfx-focos__suelo" />
+    </div>
+  );
+}
+
+/**
+ * Cuenta atrás 3 · 2 · 1 · ¡Ya! con monedas de oro que giran en 3D.
+ * Llama a onFin al terminar (al instante con prefers-reduced-motion).
+ */
+export function CuentaAtras({ onFin, desde = 3 }) {
+  const [n, setN] = React.useState(desde);
+  const finRef = React.useRef(onFin);
+  finRef.current = onFin;
+  React.useEffect(() => {
+    if (sinMovimiento()) {
+      finRef.current?.();
+      return undefined;
+    }
+    if (n < 0) {
+      finRef.current?.();
+      return undefined;
+    }
+    const t = setTimeout(() => setN((x) => x - 1), n === 0 ? 650 : 800);
+    return () => clearTimeout(t);
+  }, [n]);
+  if (n < 0 || sinMovimiento()) return null;
+  return createPortal(
+    <div className="jfx-cuenta gm-no-adapt" role="status" aria-live="assertive">
+      <span className="jfx-cuenta__aro" key={`a${n}`} />
+      <span className={`jfx-cuenta__moneda${n === 0 ? " is-ya" : ""}`} key={n}>
+        <b>{n === 0 ? "¡Ya!" : n}</b>
+        {n === 0 && <i translate="no">开始</i>}
+      </span>
+    </div>,
+    document.body,
+  );
+}
+
+/** Lanza un elemento que vuela en 3D de un punto a otro (p. ej. la palabra de la ruleta al panel). */
+export function volarFicha(texto, desde, hasta, clase = "") {
+  if (sinMovimiento() || !desde || !hasta || typeof document === "undefined") return;
+  const a = desde.getBoundingClientRect();
+  const b = hasta.getBoundingClientRect();
+  const el = document.createElement("span");
+  el.className = `jfx-vuelo ${clase}`;
+  el.textContent = texto;
+  el.setAttribute("aria-hidden", "true");
+  el.setAttribute("translate", "no");
+  document.body.appendChild(el);
+  const x0 = a.left + a.width / 2;
+  const y0 = a.top + a.height / 2;
+  const x1 = b.left + b.width / 2;
+  const y1 = b.top + b.height / 2;
+  const animacion = el.animate(
+    [
+      { transform: `translate(${x0}px, ${y0}px) translate(-50%, -50%) scale(0.4) rotateY(0deg) rotateX(40deg)`, opacity: 0 },
+      { transform: `translate(${(x0 + x1) / 2}px, ${Math.min(y0, y1) - 120}px) translate(-50%, -50%) scale(1.35) rotateY(200deg) rotateX(-10deg)`, opacity: 1, offset: 0.5 },
+      { transform: `translate(${x1}px, ${y1}px) translate(-50%, -50%) scale(1) rotateY(360deg) rotateX(0deg)`, opacity: 0.2 },
+    ],
+    { duration: 850, easing: "cubic-bezier(.3,.7,.3,1)", fill: "forwards" },
+  );
+  animacion.onfinish = () => el.remove();
+}
+
 /**
  * Estado de los efectos de un juego.
  * - acierto({ es, zh, desde, racha, decir }) · desde: elemento (o {x,y}) donde nace el estallido
