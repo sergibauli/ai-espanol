@@ -2267,8 +2267,8 @@
   }
 }
 .vm-ficha.is-hundida .vm-ficha-gira {
-  transform: translateY(42%);
-  clip-path: inset(-60% -40% 42% -40%);
+  transform: translateY(26%) scale(0.86);
+  filter: brightness(0.7) saturate(0.8);
 }
 .vm-ficha-agua {
   position: absolute;
