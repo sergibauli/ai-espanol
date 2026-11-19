@@ -107,3 +107,20 @@ Capturas con progreso sembrado (unidad 1 hecha, 2 actual) en 1366×860 y 390×84
   (`fondo-*-lejos.webp` se queda: lo usa `FichaClase`). Los tramos no se regeneran: misma luz y paleta junto al camino.
 - Pendiente: siluetas de karst y picos aún algo regulares; nubes con borde algo «de pegatina»; A2 con el oasis pequeño;
   tejados del pueblo de B1 sin textura de tejas a pequeña escala.
+
+## v29 · Ronda 5 (mejora de los mundos)
+- **Roca** (`sierra` en `scripts/mundos/pincel.py`): estratos que se inclinan con la ladera, grietas oscuras con filo
+  de luz, oclusión en los pies y los barrancos, vegetación en repisas (`verde=`), luz de borde más ancha; siluetas con
+  muescas en V, cortados escalonados y hombros (`perfil_picos`), karst con perfiles distintos y repisas.
+- **Nubes**: borde blando sin contorno (densidad desenfocada, sin línea de borde, base que se deshace) y nubes
+  sueltas (`nube_suelta`) que derivan sobre el cielo a velocidades distintas (`ma-deriva`) en los cuatro niveles.
+- **A2**: oasis de la Media Luna protagonista (pabellón grande, vega, juncos, agua que refleja el cielo de fuego con
+  destellos), huellas de la caravana, rocas con sombra y matorrales en la arena.
+- **B1**: sauces con cientos de hebras en dos profundidades y copa redondeada; puente de arco con sillares, dovelas en
+  abanico, musgo, balaustrada con pilares y reflejo; ropa tendida que se mece, barca con pasajera y paraguas rojo.
+- **B2**: karst con vegetación en repisas y siluetas irregulares, segunda cascada.
+- **Móvil**: el lienzo se encuadra por ancho (124 %) y la máscara del tramo pintado es un 40 % más estrecha
+  (`TramoPintado`, `useEstrecho`): a los lados del camino se ven la Ciudad Prohibida, la pagoda, Pudong o el karst.
+- Peso total de los mundos: ~1,4 MB. Tramos sin regenerar (paleta junto al camino igual).
+- Pendiente: los picos siguen leyéndose algo triangulares de lejos; el karst lejano es muy uniforme; los edificios
+  son de frente (sin escorzo) y no hay figuras humanas en tierra; entre unidades sigue la niebla del tramo.

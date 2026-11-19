@@ -21,8 +21,23 @@ const BANDAS = [
   [150, 1],
 ];
 
+// v29 · En móvil la máscara es más estrecha: a los lados del camino se ve el mundo pintado (no solo el terreno del tramo)
+function useEstrecho() {
+  const consulta = "(max-width: 700px)";
+  const [estrecho, setEstrecho] = React.useState(() => typeof window !== "undefined" && window.matchMedia?.(consulta).matches);
+  React.useEffect(() => {
+    const mq = window.matchMedia?.(consulta);
+    if (!mq) return undefined;
+    const cambia = () => setEstrecho(mq.matches);
+    mq.addEventListener?.("change", cambia);
+    return () => mq.removeEventListener?.("change", cambia);
+  }, []);
+  return estrecho;
+}
+
 export function TramoPintado({ src, pts, forma, alto, carril }) {
   const uid = React.useId().replace(/[^a-zA-Z0-9]/g, "");
+  const k = useEstrecho() ? 0.6 : 1;
   const x0 = carril / 2 - ANCHO_IMG / 2;
   const h = alto + 220;
   const ultimo = pts.length - 1;
@@ -32,8 +47,8 @@ export function TramoPintado({ src, pts, forma, alto, carril }) {
     <svg className="ru-tramo-svg" width={ANCHO_IMG} height={h} viewBox={`${x0} ${ARRIBA_IMG} ${ANCHO_IMG} ${h}`} style={{ left: x0, top: ARRIBA_IMG }} aria-hidden="true">
       <defs>
         <mask id={`${uid}m`} maskUnits="userSpaceOnUse" x={x0} y={ARRIBA_IMG} width={ANCHO_IMG} height={h}>
-          {BANDAS.map(([ancho, op]) => (
-            <g key={ancho} opacity={op}>
+          {BANDAS.map(([anchoBase, op]) => { const ancho = anchoBase * k; return (
+            <g key={anchoBase} opacity={op}>
               <path d={camino} fill="none" stroke="#fff" strokeWidth={ancho} strokeLinecap="round" strokeLinejoin="round" />
               {pts.slice(0, ultimo).map(([x, y], i) => (
                 <circle key={i} cx={x} cy={y} r={ancho * 0.42} fill="#fff" />
@@ -41,7 +56,7 @@ export function TramoPintado({ src, pts, forma, alto, carril }) {
               {/* peana y pabellón del examen */}
               <ellipse cx={ex} cy={ey + 70} rx={ancho * 0.62} ry={ancho * 0.4} fill="#fff" />
             </g>
-          ))}
+          ); })}
         </mask>
       </defs>
       <image href={src} x={x0} y={ARRIBA_IMG} width={ANCHO_IMG} height={h} preserveAspectRatio="none" mask={`url(#${uid}m)`} />
