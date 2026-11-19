@@ -2,6 +2,7 @@
 // Oro metálico, laca, luces y sombras con degradados propios de cada portada (ids únicos con useId).
 // Todas las animaciones son CSS (transform/opacity) en styles/juegos-hub.css (.jh-p-*).
 import * as React from "react";
+import { PortadaPinball } from "./PortadaPinball.jsx";
 
 const ROJO = "#c8102e";
 const ORO = "#f2c14e";
@@ -1005,6 +1006,7 @@ const ESCENAS = {
   "escape-palacio": EscapePalacio,
   "fichas-palacio": FichasPalacio,
   brisca: Brisca,
+  "pinball-dragon": PortadaPinball,
 };
 
 export function Portada({ id, className = "" }) {

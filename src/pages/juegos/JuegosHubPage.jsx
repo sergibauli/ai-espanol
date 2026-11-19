@@ -21,6 +21,7 @@ import {
   TypeIcon,
   SpadeIcon,
   CompassIcon,
+  CircleDotIcon,
 } from "lucide-react";
 import * as React from "react";
 import { flushSync } from "react-dom";
@@ -47,6 +48,7 @@ export const READY_GAMES = new Set([
   "/juegos/escape-palacio",
   "/juegos/fichas-palacio",
   "/juegos/brisca",
+  "/juegos/pinball-dragon",
 ]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
@@ -295,6 +297,22 @@ const JUEGOS = [
     minutos: 10,
     jugadores: "1",
     path: "/juegos/brisca",
+  },
+  {
+    id: "pinball-dragon",
+    name: "Pinball del dragón",
+    nameCn: "龙之弹球",
+    desc: "Escucha la palabra y dale con la bola a la placa correcta. Si golpeas una equivocada, la bola se rompe.",
+    descCn: "听词语，用弹珠击中正确的词牌；打错了，球就会碎掉。",
+    icon: CircleDotIcon,
+    sello: "弹",
+    tono: "laca",
+    category: "aventura",
+    habilidad: { es: "Escucha y vocabulario", zh: "听力与词汇" },
+    nivel: 3,
+    minutos: 6,
+    jugadores: "1",
+    path: "/juegos/pinball-dragon",
   },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 
