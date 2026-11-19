@@ -218,6 +218,12 @@ export function sincronizar() {
       fijar({ fase: Object.keys(leerMeta().dirty).length ? "pendiente-breve" : "guardado" });
     })
     .catch((e) => {
+      // Worker sin /progress (aún no desplegado): se sigue solo en local; lo pendiente se sube en otra sesión
+      if (e?.status === 404 || e?.status === 405) {
+        console.warn("[sync] el servidor no tiene /progress; el progreso sigue en local");
+        fijar({ fase: "local", sesion: null });
+        return;
+      }
       if (e?.status === 401 || e?.status === 403) console.warn("[sync] sin permiso:", e.message);
       else if (!e?.red) console.warn("[sync]", e);
       fijar({ fase: "pendiente" });
