@@ -8,9 +8,9 @@ import type { IKart, ITrack, SurfaceQuery } from '../core/types';
 import { events } from '../core/events';
 import { clamp, clamp01, damp, angleDelta, smoothstep, wrapAngle, lerp } from '../core/math';
 
-const CHASE_DISTANCE = 5.6;
-const CHASE_HEIGHT = 2.25;
-const LOOK_UP = 0.8;
+const CHASE_DISTANCE = 4.3; // Wukong: cámara más cerca y baja, como en la maqueta
+const CHASE_HEIGHT = 1.75;
+const LOOK_UP = 0.95;
 const LOOK_AHEAD = 2.5;
 const FOV_MIN = 68;
 const FOV_MAX = 80;

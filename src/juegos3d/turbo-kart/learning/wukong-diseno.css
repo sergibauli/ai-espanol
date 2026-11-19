@@ -660,3 +660,55 @@
     font-size: 9px;
   }
 }
+
+/* ---- HUD según las cuatro vistas de carrera de la maqueta */
+.tkr .hud-lap,
+.tkr .hud-timer,
+.tkr .item-frame {
+  background: linear-gradient(180deg, #8a1a1e 0%, #5a0a10 100%);
+  border: 2px solid #e6b54a;
+  box-shadow: 0 0 0 2px #3a6a5a, 0 0 0 4px #c9a24a, 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+.tkr .hud-lap-label {
+  color: #ffe2a0;
+}
+.tkr .hud-minimap {
+  background: linear-gradient(180deg, rgba(42, 16, 10, 0.88), rgba(20, 8, 6, 0.9));
+  border: 2px solid #e6b54a;
+  box-shadow: 0 0 0 2px #3a6a5a, 0 0 0 5px #c9a24a, 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+/* Emblema de nube dorada en el recuadro de objeto vacío */
+.tkr .item-frame:not(.has-item):not(.spinning)::after {
+  content: '';
+  position: absolute;
+  inset: 18%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M14 40c-6 0-9-5-7-9 2-5 8-5 10-3 1-7 9-11 15-7 4-5 13-4 15 3 6-1 11 4 9 10-1 4-5 6-9 6H14z' fill='none' stroke='%23f2c14e' stroke-width='3.2' stroke-linejoin='round'/%3E%3Cpath d='M22 33c0-4 5-5 6-2M36 28c2-4 8-3 8 1' fill='none' stroke='%23f2c14e' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M20 46c4 3 10 3 14 0M38 46c3 2 7 2 9 0' fill='none' stroke='%23f2c14e' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  filter: drop-shadow(0 0 6px rgba(242, 193, 78, 0.55));
+  opacity: 0.95;
+}
+/* Velocímetro: esfera oscura con marco dorado y arco degradado */
+.tkr .hud-speed {
+  filter: none;
+}
+.tkr .hud-speed::before {
+  content: '';
+  position: absolute;
+  inset: -6%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 10, 8, 0.92) 0 58%, rgba(70, 20, 14, 0.9) 60% 66%, transparent 67%);
+  box-shadow: 0 0 0 3px #e6b54a, 0 0 0 6px #3a6a5a, 0 0 0 8px #c9a24a, 0 10px 24px rgba(0, 0, 0, 0.55);
+  -webkit-mask: radial-gradient(circle, #000 0 70%, transparent 71%);
+  mask: radial-gradient(circle, #000 0 70%, transparent 71%);
+}
+.tkr .hud-speed .gauge-fill,
+.tkr .hud.boosting .hud-speed .gauge-fill {
+  stroke: url(#wk-arco);
+  filter: drop-shadow(0 0 5px rgba(255, 200, 80, 0.6));
+}
+.tkr .hud-speed .gauge-bg {
+  stroke: rgba(255, 230, 180, 0.12);
+}
+.tkr .speed-value {
+  color: #fff4dc;
+}

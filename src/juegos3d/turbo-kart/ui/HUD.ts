@@ -128,6 +128,23 @@ export class HUD {
     const svg = document.createElementNS(svgNS, 'svg');
     svg.setAttribute('viewBox', '0 0 100 100');
     svg.classList.add('gauge');
+    // Wukong: arco degradado verde → amarillo → rojo (maqueta).
+    const defs = document.createElementNS(svgNS, 'defs');
+    const grad = document.createElementNS(svgNS, 'linearGradient');
+    grad.setAttribute('id', 'wk-arco');
+    grad.setAttribute('gradientUnits', 'userSpaceOnUse');
+    grad.setAttribute('x1', '94');
+    grad.setAttribute('y1', '60');
+    grad.setAttribute('x2', '22');
+    grad.setAttribute('y2', '14');
+    for (const [o, c] of [['0', '#3dffb0'], ['0.45', '#ffe14a'], ['0.75', '#ff8a2a'], ['1', '#ff2a3a']]) {
+      const st = document.createElementNS(svgNS, 'stop');
+      st.setAttribute('offset', o);
+      st.setAttribute('stop-color', c);
+      grad.appendChild(st);
+    }
+    defs.appendChild(grad);
+    svg.appendChild(defs);
     const bg = document.createElementNS(svgNS, 'circle');
     bg.setAttribute('cx', '50');
     bg.setAttribute('cy', '50');
