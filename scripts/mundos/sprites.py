@@ -1,0 +1,301 @@
+"""Piezas animadas de los mundos (v28): cada una se pinta aparte (RGBA) para que MundoRuta la mueva con CSS
+(solo transform y opacity): humo, banderas, farolillos, destellos, grullas, camellos, barcas, balsa con pescador,
+cormoranes, cascada, ráfagas de arena, reflejos… Mismo pincel y misma luz que el paisaje."""
+import numpy as np
+
+from pincel import Capa, Lienzo, borde, bz, col, desenfoca, mezcla, oclusion, spline, suave, volumen, guarda_png_rgba
+
+
+def humo(ruta, tam=96, c=("#c9cfda", "#ffffff"), seed=0):
+    Lz = Lienzo(tam, tam)
+    rng = np.random.default_rng(seed)
+    m = Lz.mascara(lambda P: [P.elip(tam / 2 + rng.uniform(-tam * 0.16, tam * 0.16), tam / 2 + rng.uniform(-tam * 0.12, tam * 0.12), r, r * 0.85)
+                              for r in rng.uniform(tam * 0.12, tam * 0.24, 7)])
+    m = desenfoca(m, tam * 0.08)
+    n = Lz.ruido(1.8, seed + 3)
+    m = np.clip(m * (0.6 + 0.6 * n) * 1.2, 0, 1) * 0.85
+    v = volumen(m, tam * 0.1, -0.6, 0.7, 1.0)
+    rgb = mezcla(np.broadcast_to(col(c[0]), m.shape + (3,)), col(c[1]), v[..., None])
+    guarda_png_rgba(rgb, m, ruta)
+
+
+def bandera(ruta, w=56, h=34, tela=("#8f0c21", "#e0283f"), ribete="#f2c14e", luz=1, emblema=True):
+    """Estandarte de cola de golondrina (el asta se pinta en el paisaje; aquí solo la tela, sujeta por la izquierda)."""
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    X, Y = Lz.X, Lz.Y
+    ond = np.sin(X / w * np.pi * 2.2) * h * 0.06
+    contorno = [(0, 1), (w * 0.98, h * 0.12), (w * 0.8, h * 0.5), (w * 0.98, h * 0.88), (0, h - 1)]
+    m = Lz.mascara(lambda P: P.poly(contorno))
+    m = np.clip(m, 0, 1)
+    pl = np.clip(0.5 + np.cos(X / w * np.pi * 2.2) * 0.45 * luz, 0, 1)  # pliegues iluminados
+    c = mezcla(np.broadcast_to(col(tela[0]), m.shape + (3,)), col(tela[1]), pl[..., None])
+    rib = np.clip(m - desenfoca(m, 1.2) * 0 - np.clip(np.roll(m, 3, 0) * np.roll(m, -3, 0) * np.roll(m, 3, 1) * np.roll(m, -3, 1), 0, 1), 0, 1)
+    c = mezcla(c, col(ribete), rib * 0.9)
+    if emblema:
+        e = Lz.mascara(lambda P: P.elip(w * 0.36, h * 0.5 + ond.mean() * 0, h * 0.2, h * 0.2))
+        c = mezcla(c, mezcla(np.broadcast_to(col("#b07a1e"), m.shape + (3,)), col("#ffe08a"), pl[..., None]), e * 0.95)
+    C.pon(c, m)
+    guarda_png_rgba(C.rgb, C.a, ruta)
+
+
+def farol(ruta, w=34, h=52, rojo=("#6e0817", "#e0283f", "#ffd27a"), cuerda=True):
+    """Farolillo rojo encendido: costillas, tapas doradas, borla y halo (el halo va en el mismo sprite)."""
+    pad = int(w * 0.9)
+    Lz = Lienzo(w + pad * 2, h + pad * 2)
+    C = Capa(Lz)
+    X, Y = Lz.X, Lz.Y
+    cx, cy = Lz.w / 2, pad + h * 0.48
+    halo = np.exp(-(((X - cx) / (w * 0.95)) ** 2 + ((Y - cy) / (w * 0.95)) ** 2))
+    C.pon("#ff8a3a", halo * 0.5)
+    rx, ry = w * 0.46, h * 0.32
+    cuerpo = Lz.mascara(lambda P: P.elip(cx, cy, rx, ry))
+    u = np.clip((X - cx) / rx, -1, 1)
+    v = np.clip((Y - cy) / ry, -1, 1)
+    brillo = np.clip(1 - (u ** 2 + v ** 2) * 0.8, 0, 1)
+    c = mezcla(np.broadcast_to(col(rojo[0]), cuerpo.shape + (3,)), col(rojo[1]), np.clip(brillo * 1.2, 0, 1)[..., None])
+    c = mezcla(c, col(rojo[2]), (brillo ** 3)[..., None] * 0.75)
+    cost = (np.cos(np.arcsin(np.clip(u, -0.999, 0.999)) * 0 + np.arcsin(np.clip(u, -0.999, 0.999)) * 7) > 0.85) * 1.0
+    c = mezcla(c, col(rojo[0]), cost * 0.45)
+    C.pon(c, cuerpo)
+    tapas = Lz.mascara(lambda P: (P.rect(cx - rx * 0.45, cy - ry - h * 0.07, cx + rx * 0.45, cy - ry + h * 0.03), P.rect(cx - rx * 0.45, cy + ry - h * 0.03, cx + rx * 0.45, cy + ry + h * 0.07)))
+    C.pon(mezcla(np.broadcast_to(col("#7a4a10"), cuerpo.shape + (3,)), col("#ffd66a"), suave(-rx * 0.4, rx * 0.4, X - cx)[..., None]), tapas)
+    bor = Lz.mascara(lambda P: [P.linea([(cx + dx, cy + ry + h * 0.07), (cx + dx * 1.3, cy + ry + h * 0.32)], 1.1) for dx in (-2.5, 0, 2.5)])
+    C.pon("#c8102e", bor)
+    if cuerda:
+        C.pon("#2a1a10", Lz.mascara(lambda P: P.linea([(cx, 0), (cx, cy - ry - h * 0.07)], 1.2)))
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return Lz.w, Lz.h, cx, 0
+
+
+def destello(ruta, tam=40, c="#fffbe8"):
+    Lz = Lienzo(tam, tam)
+    X, Y = Lz.X - tam / 2, Lz.Y - tam / 2
+    r = np.hypot(X, Y) / (tam / 2)
+    cruz = np.exp(-(np.abs(X) / 1.1) ** 2) * np.clip(1 - np.abs(Y) / (tam / 2), 0, 1) ** 2 + np.exp(-(np.abs(Y) / 1.1) ** 2) * np.clip(1 - np.abs(X) / (tam / 2), 0, 1) ** 2
+    diag = (np.exp(-(np.abs(X - Y) / 1.2) ** 2) + np.exp(-(np.abs(X + Y) / 1.2) ** 2)) * np.clip(1 - r * 1.6, 0, 1) ** 2 * 0.5
+    a = np.clip(cruz + diag + np.exp(-(r * 6) ** 2), 0, 1)
+    rgb = np.broadcast_to(col(c), a.shape + (3,))
+    guarda_png_rgba(rgb, a, ruta)
+
+
+def grulla(ruta, fase, w=120, h=70, luz=1):
+    """Grulla de corona roja en vuelo (de perfil, hacia la izquierda). fase 0 = alas arriba, 1 = alas abajo."""
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    cy = h * 0.5
+    cuerpo = [(w * 0.42, cy - 3), (w * 0.62, cy - 4), (w * 0.72, cy - 1), (w * 0.62, cy + 4), (w * 0.44, cy + 4)]
+    cuello = [(w * 0.44, cy - 1), (w * 0.12, cy - 3)]
+    patas = [(w * 0.7, cy + 1), (w * 0.98, cy + 3)]
+    if fase == 0:
+        ala = [(w * 0.46, cy - 2), (w * 0.38, cy - h * 0.38), (w * 0.52, cy - h * 0.48), (w * 0.68, cy - h * 0.28), (w * 0.6, cy - 2)]
+        punta = [(w * 0.38, cy - h * 0.38), (w * 0.52, cy - h * 0.48), (w * 0.5, cy - h * 0.34)]
+    else:
+        ala = [(w * 0.46, cy + 1), (w * 0.36, cy + h * 0.36), (w * 0.5, cy + h * 0.46), (w * 0.66, cy + h * 0.24), (w * 0.6, cy + 2)]
+        punta = [(w * 0.36, cy + h * 0.36), (w * 0.5, cy + h * 0.46), (w * 0.48, cy + h * 0.3)]
+    blanco = Lz.mascara(lambda P: (P.poly(spline(cuerpo, 6, cerrada=True)), P.poly(spline(ala, 6, cerrada=True))))
+    negro = Lz.mascara(lambda P: (P.trazo(spline(cuello, 6), 3.4, 2.4), P.poly(punta), P.poly([(w * 0.64, cy - 3), (w * 0.76, cy - 1), (w * 0.64, cy + 3)])))
+    C.pon(mezcla(np.broadcast_to(col("#9fb0c8"), blanco.shape + (3,)), col("#ffffff"), volumen(blanco, 3, -luz, -1, 1.2)[..., None]), blanco)
+    C.pon("#1c1c24", negro)
+    C.pon("#e0283f", Lz.mascara(lambda P: P.elip(w * 0.115, cy - 4.2, 2.0, 1.6)))
+    C.pon("#f2e6c8", Lz.mascara(lambda P: P.poly([(w * 0.1, cy - 3.6), (w * 0.02, cy - 2.2), (w * 0.1, cy - 2.2)])))
+    C.pon("#3a3a44", Lz.mascara(lambda P: P.linea(patas, 1.1)))
+    guarda_png_rgba(C.rgb, C.a, ruta)
+
+
+def nube_humo_horizontal(ruta, w=180, h=60, c=("#f0c38a", "#fff0d0"), seed=0):
+    """Ráfaga de arena que se desprende de una cresta (se estira hacia la derecha)."""
+    Lz = Lienzo(w, h)
+    n = Lz.ruido(1.8, seed, aniso=(0.3, 2.0))
+    X, Y = Lz.X, Lz.Y
+    forma = np.exp(-((Y - h * 0.6) / (h * 0.22 + X / w * h * 0.18)) ** 2) * suave(0, w * 0.1, X) * suave(w, w * 0.4, X)
+    a = np.clip(forma * (0.3 + 0.9 * n), 0, 1) * 0.75
+    rgb = mezcla(np.broadcast_to(col(c[0]), a.shape + (3,)), col(c[1]), n[..., None])
+    guarda_png_rgba(rgb, a, ruta)
+
+
+def caravana(ruta, n=5, alto=46, luz=-1, cuerpo=("#3a1a22", "#7a3e34"), rim="#ffd08a"):
+    """Caravana de camellos bactrianos con jinete y fardos, a contraluz (luz de borde del lado del sol)."""
+    paso = alto * 1.25
+    w = int(paso * n + alto * 0.8)
+    h = int(alto * 1.5)
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    yb = h - 2
+
+    def camello(P, x, k):
+        cu = alto * 0.5
+        P.elip(x, yb - alto * 0.62, cu * 0.62, alto * 0.17)  # tronco
+        P.elip(x - cu * 0.28, yb - alto * 0.78, cu * 0.2, alto * 0.14)  # jorobas
+        P.elip(x + cu * 0.2, yb - alto * 0.78, cu * 0.2, alto * 0.14)
+        cuello = spline([(x + cu * 0.55, yb - alto * 0.62), (x + cu * 0.85, yb - alto * 0.72), (x + cu * 0.95, yb - alto * 0.95), (x + cu * 1.08, yb - alto * 1.0)], 6)
+        P.trazo(cuello, alto * 0.13, alto * 0.08)
+        P.elip(x + cu * 1.12, yb - alto * 0.99, alto * 0.09, alto * 0.055)
+        fase = k * 1.7
+        for i, lx in enumerate((-0.42, -0.25, 0.3, 0.46)):
+            sw = np.sin(fase + i * 1.6) * alto * 0.06
+            P.linea([(x + cu * lx, yb - alto * 0.55), (x + cu * lx + sw, yb - alto * 0.25), (x + cu * lx + sw * 1.4, yb)], alto * 0.055)
+        P.linea([(x - cu * 0.6, yb - alto * 0.62), (x - cu * 0.72, yb - alto * 0.42)], alto * 0.04)  # cola
+        if k == n - 1:  # jinete con sombrero
+            P.elip(x - cu * 0.02, yb - alto * 1.0, alto * 0.08, alto * 0.16)
+            P.elip(x - cu * 0.02, yb - alto * 1.2, alto * 0.06, alto * 0.06)
+            P.poly([(x - cu * 0.02 - alto * 0.14, yb - alto * 1.22), (x - cu * 0.02 + alto * 0.14, yb - alto * 1.22), (x - cu * 0.02, yb - alto * 1.34)])
+        else:  # fardos
+            P.rect(x - cu * 0.35, yb - alto * 0.98, x + cu * 0.1, yb - alto * 0.8)
+
+    m = Lz.mascara(lambda P: [camello(P, alto * 0.45 + paso * k, k) for k in range(n)])
+    cuerda = Lz.mascara(lambda P: [P.linea([(alto * 0.45 + paso * k + alto * 0.62, yb - alto * 1.0), (alto * 0.45 + paso * (k + 1) - alto * 0.3, yb - alto * 0.7)], 0.9) for k in range(n - 1)])
+    c = mezcla(np.broadcast_to(col(cuerpo[0]), m.shape + (3,)), col(cuerpo[1]), volumen(m, 3, luz, -0.6, 1.0)[..., None] * 0.7)
+    C.pon(c, m)
+    C.pon(cuerpo[0], cuerda * 0.8)
+    C.pon(rim, borde(m, luz * 1.6, -0.8) * 0.95)
+    # fardos de colores (seda)
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return w, h
+
+
+def palmera(ruta, alto=300, luz=-1, seed=0, oscura=("#2a1a1a", "#7a5a3a"), hoja=("#14200f", "#4a5a26"), rim="#ffc070"):
+    """Palmera datilera: tronco curvo anillado y penacho de hojas pinnadas (base abajo al centro del sprite)."""
+    rng = np.random.default_rng(seed)
+    w = int(alto * 0.95)
+    h = int(alto * 1.05)
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    cx = w / 2
+    top = (cx + alto * 0.12, h - alto * 0.85)
+    tronco = spline([(cx, h - 2), (cx + alto * 0.02, h - alto * 0.4), (top[0] - alto * 0.02, top[1] + alto * 0.15), top], 10)
+    tm = Lz.mascara(lambda P: P.trazo(tronco, alto * 0.07, alto * 0.045))
+    anillos = (np.sin(Lz.Y * 0.9) > 0.3) * 1.0
+    tc = mezcla(np.broadcast_to(col(oscura[0]), tm.shape + (3,)), col(oscura[1]), volumen(tm, 3, luz, 0, 1.2)[..., None])
+    tc = mezcla(tc, col(oscura[0]), anillos[..., None] * 0.35)
+    C.pon(tc, tm)
+    hojas = []
+    for k in range(13):
+        a = -np.pi / 2 + (k - 6) * 0.42 + rng.uniform(-0.1, 0.1)
+        largo = alto * rng.uniform(0.36, 0.48)
+        caida = alto * (0.05 + 0.22 * abs(np.cos(a)))
+        p0 = top
+        p1 = (top[0] + np.cos(a) * largo * 0.35, top[1] + np.sin(a) * largo * 0.6 - alto * 0.06)
+        p2 = (top[0] + np.cos(a) * largo * 0.75, top[1] + np.sin(a) * largo * 0.45 - alto * 0.02)
+        p3 = (top[0] + np.cos(a) * largo, top[1] + np.sin(a) * largo * 0.2 + caida)
+        hojas.append(bz(p0, p1, p2, p3, 18))
+
+    def dib(P):
+        for curva in hojas:
+            P.trazo(curva, alto * 0.018, alto * 0.006)
+            for i in range(2, len(curva) - 1):
+                x, y = curva[i]
+                dx, dy = curva[i + 1][0] - curva[i - 1][0], curva[i + 1][1] - curva[i - 1][1]
+                n = np.hypot(dx, dy) + 1e-6
+                nx, ny = -dy / n, dx / n
+                l = alto * 0.08 * np.sin(np.pi * (0.15 + 0.85 * i / len(curva)))
+                for s in (-1, 1):
+                    P.trazo([(x, y), (x + nx * l * s * 0.6 + dx / n * l * 0.7, y + ny * l * s * 0.6 + dy / n * l * 0.7 + l * 0.45)], alto * 0.014, alto * 0.004)
+
+    hm = Lz.mascara(dib)
+    hc = mezcla(np.broadcast_to(col(hoja[0]), hm.shape + (3,)), col(hoja[1]), volumen(hm, 4, luz, 0.3, 1.0)[..., None])
+    C.pon(hc, hm)
+    C.pon(rim, borde(np.clip(hm + tm, 0, 1), luz * 1.5, -1) * 0.45)
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return w, h
+
+
+def brillo_agua(ruta, w=300, h=40, c="#fff2c0", seed=0, vetas=26):
+    """Destellos alargados del sol (o la luna) sobre el agua."""
+    rng = np.random.default_rng(seed)
+    Lz = Lienzo(w, h)
+    m = Lz.mascara(lambda P: [P.elip(rng.uniform(w * 0.1, w * 0.9), y, rng.uniform(w * 0.02, w * 0.09) * (1 - abs(y / h - 0.5)), max(0.6, h * 0.025))
+                              for y in rng.uniform(h * 0.1, h * 0.9, vetas)])
+    m = np.clip(desenfoca(m, 1.0) * 1.4, 0, 1) * np.exp(-(((Lz.X - w / 2) / (w * 0.4)) ** 2))
+    guarda_png_rgba(np.broadcast_to(col(c), m.shape + (3,)), m, ruta)
+
+
+def franja(ruta, w=600, h=40, c="#ffd9a0", f=0.6, seed=0, aniso=(6.0, 1.0)):
+    """Franja de calima / bruma tileable en horizontal (para «fluye» y «calima»)."""
+    Lz = Lienzo(w, h)
+    n = Lz.ruido(2.0, seed, aniso)
+    perfil = np.exp(-(((Lz.Y - h * 0.5) / (h * 0.3)) ** 2))
+    a = np.clip((n * 0.9 + 0.2) * perfil * f, 0, 1)
+    guarda_png_rgba(np.broadcast_to(col(c), a.shape + (3,)), a, ruta)
+
+
+def barca(ruta, w=150, luz=1, farol_c="#ffb04a"):
+    """Barca de toldo (乌篷船) con barquero y farol encendido, con su reflejo cálido (el sprite incluye el agua)."""
+    h = int(w * 0.62)
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    X, Y = Lz.X, Lz.Y
+    yl = h * 0.55  # línea del agua
+    casco = Lz.mascara(lambda P: P.poly(spline([(w * 0.04, yl - h * 0.16), (w * 0.3, yl - h * 0.02), (w * 0.7, yl - h * 0.02), (w * 0.97, yl - h * 0.2), (w * 0.9, yl + h * 0.02), (w * 0.12, yl + h * 0.02)], 8, cerrada=True)))
+    toldo = Lz.mascara(lambda P: P.poly(spline([(w * 0.32, yl - h * 0.05), (w * 0.36, yl - h * 0.22), (w * 0.5, yl - h * 0.28), (w * 0.64, yl - h * 0.22), (w * 0.68, yl - h * 0.05)], 8)))
+    C.pon(mezcla(np.broadcast_to(col("#0c0e18"), casco.shape + (3,)), col("#4a3a3a"), volumen(casco, 3, -luz, -1)[..., None] * 0.8), casco)
+    C.pon(mezcla(np.broadcast_to(col("#10121c"), casco.shape + (3,)), col("#3a3a52"), ((np.sin(X * 0.9) > 0) * 0.3 + volumen(toldo, 3, -luz, -1) * 0.6)[..., None]), toldo)
+    # barquero con remo
+    bq = Lz.mascara(lambda P: (P.elip(w * 0.8, yl - h * 0.3, w * 0.025, h * 0.1), P.elip(w * 0.8, yl - h * 0.43, w * 0.022, w * 0.022),
+                               P.poly([(w * 0.76, yl - h * 0.45), (w * 0.84, yl - h * 0.45), (w * 0.8, yl - h * 0.52)]), P.linea([(w * 0.84, yl - h * 0.36), (w * 0.98, yl + h * 0.15)], 1.4)))
+    C.pon("#0a0a12", bq)
+    C.pon("#c8b0a0", borde(bq, luz * 1.2, -1) * 0.5)
+    # farol en la proa con halo y su reflejo
+    fx, fy = w * 0.2, yl - h * 0.3
+    C.pon("#3a2a20", Lz.mascara(lambda P: P.linea([(w * 0.26, yl - h * 0.1), (w * 0.2, yl - h * 0.4)], 1.2)))
+    halo = np.exp(-(((X - fx) ** 2 + (Y - fy) ** 2) / (w * 0.09) ** 2))
+    C.pon(farol_c, halo * 0.55)
+    C.pon("#ffe6a0", Lz.mascara(lambda P: P.elip(fx, fy, w * 0.022, h * 0.05)))
+    C.pon("#e0402a", Lz.mascara(lambda P: P.elip(fx, fy + h * 0.005, w * 0.02, h * 0.035)) * 0.5)
+    ref = np.exp(-(((X - fx) / (w * 0.035)) ** 2)) * suave(yl, yl + h * 0.05, Y) * suave(h, yl + h * 0.1, Y) * (0.5 + 0.5 * np.sin(Y * 1.3))
+    C.pon(farol_c, np.clip(ref * 0.8, 0, 1))
+    refc = np.clip(np.flipud(casco) * 0, 0, 1)
+    # reflejo oscuro del casco
+    rc = np.zeros_like(casco)
+    k = int(yl)
+    alto = min(k, h - k)
+    rc[k : k + alto] = casco[k - alto : k][::-1] * 0.5
+    rc = rc * (0.6 + 0.4 * (np.sin(Y * 1.6 + X * 0.1) > 0))
+    C.pon("#04060e", rc * suave(h, k, Y))
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return w, h
+
+
+def reflejo_luz(ruta, w=24, h=120, c="#ffc070", seed=0):
+    """Reflejo vertical de una luz en el agua: trazos horizontales cortos que se deshacen hacia abajo."""
+    rng = np.random.default_rng(seed)
+    Lz = Lienzo(w, h)
+    m = Lz.mascara(lambda P: [P.rect(w / 2 - l / 2 + rng.uniform(-w * 0.15, w * 0.15), y, w / 2 + l / 2, y + rng.uniform(1, 2.2))
+                              for y, l in [(rng.uniform(0, h), rng.uniform(w * 0.2, w * 0.9)) for _ in range(int(h / 3))]])
+    m = m * suave(h, 0, Lz.Y) ** 0.8
+    guarda_png_rgba(np.broadcast_to(col(c), m.shape + (3,)), np.clip(desenfoca(m, 0.6) * 1.2, 0, 1), ruta)
+
+
+def halo(ruta, tam=200, c="#c8d8ff", f=0.8, p=1.6):
+    Lz = Lienzo(tam, tam)
+    d = np.hypot(Lz.X - tam / 2, Lz.Y - tam / 2) / (tam / 2)
+    a = np.clip(np.exp(-(d * 2.2) ** p) * f, 0, 1) * suave(1, 0.85, d)
+    guarda_png_rgba(np.broadcast_to(col(c), a.shape + (3,)), a, ruta)
+
+
+def sauce(ruta, w=320, h=420, luz=1, seed=0, hoja=("#0a1a1c", "#3a6a5a"), rim="#9ab8d8"):
+    """Ramas colgantes de sauce llorón (cuelga desde arriba; se mece desde el borde superior)."""
+    rng = np.random.default_rng(seed)
+    Lz = Lienzo(w, h)
+    C = Capa(Lz)
+    ramas = []
+    for _ in range(46):
+        x0 = rng.uniform(0, w * 0.95)
+        largo = rng.uniform(h * 0.4, h * 0.98)
+        curv = rng.uniform(-w * 0.05, w * 0.05)
+        ramas.append([(x0 + curv * np.sin(t * 2.4) + t * rng.uniform(-6, 10), t * largo) for t in np.linspace(0, 1, 18)])
+
+    def dib(P):
+        for r in ramas:
+            P.linea(r, 1.1)
+            for i in range(2, len(r)):
+                x, y = r[i]
+                for s in (-1, 1):
+                    P.trazo([(x, y), (x + s * 3.2, y + 5.5)], 2.0, 0.6)
+
+    m = Lz.mascara(dib)
+    v = volumen(m, 4, -luz, 0.5)
+    C.pon(mezcla(np.broadcast_to(col(hoja[0]), m.shape + (3,)), col(hoja[1]), v[..., None]), m)
+    C.pon(rim, borde(m, luz * 1.2, -1) * 0.35)
+    guarda_png_rgba(C.rgb, C.a, ruta)
+    return w, h

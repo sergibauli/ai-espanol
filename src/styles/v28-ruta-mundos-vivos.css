@@ -1,0 +1,154 @@
+/* ===== v28 · Mundos vivos de la Ruta (components/ruta/MundoRuta.jsx + mundos.json, pintados con scripts/mundos/*.py) =====
+   6 planos pintados por nivel dentro del lienzo 1000×1400 (cada plano mide el 110 % para que el parallax no enseñe
+   bordes) y piezas animadas dentro de su plano. Solo transform y opacity; pausa con .mr-pausa (fuera de pantalla o
+   pestaña oculta); menos piezas en móvil; todo quieto con prefers-reduced-motion. */
+
+.mr28 .mr-lienzo { container-type: inline-size; }
+.mr28 .mr-plano { position: absolute; left: -5%; top: 0; width: 110%; height: 110%; pointer-events: none; will-change: transform; }
+.mr28 .mr-pintura { position: absolute; display: block; max-width: none; user-select: none; -webkit-user-drag: none; }
+.mr28 .mr-plano-niebla { overflow: hidden; }
+.mr28 .mr-plano-niebla .mr-tira { left: 0; }
+
+/* Parallax: scroll (scroll-timeline de .ruta-main) y cámara 3D (puntero / inclinación), ambos según la profundidad */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .mr28 .mr-plano { animation: mr28Px linear both; animation-timeline: --mrRuta; animation-range: contain 0% contain 100%; }
+  }
+}
+@keyframes mr28Px { to { translate: 0 calc(var(--pz, .5) * -120px); } }
+.r3-on .mr28 .mr-plano { transform: translate3d(calc(var(--cam-x, 0) * var(--pz, .5) * -44px), calc(var(--cam-y, 0) * var(--pz, .5) * -22px), 0); }
+.r3-on .mr28 .mr-particulas-canvas { transform: translate3d(calc(var(--cam-x, 0) * -30px), calc(var(--cam-y, 0) * -15px), 0); }
+/* Profundidad de campo: solo el cielo y lo más lejano, solo en escritorio (en móvil, sin blur) */
+@media (min-width: 701px) and (hover: hover) and (pointer: fine) {
+  .mr28 .mr-p-frente .mr-pintura { filter: blur(1.2px); }
+}
+/* Los rayos de la luz clave, un poco más suaves sobre el cielo pintado */
+.mr28 .mr-rayos { opacity: .8; }
+
+/* ---------- Piezas animadas ---------- */
+.mr28 .ma { position: absolute; display: block; pointer-events: none; }
+.mr28 .ma > img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; max-width: none; user-select: none; -webkit-user-drag: none; }
+.mr28 .ma > img, .mr28 .ma { animation-duration: var(--dur, 4s); animation-delay: var(--del, 0s); animation-iteration-count: infinite; }
+
+/* Humo de chimenea: sube, se abre y se deshace */
+.mr28 .ma-humo > img { opacity: 0; transform-origin: 50% 80%; animation-name: maHumo; animation-timing-function: linear; }
+@keyframes maHumo {
+  0% { opacity: 0; transform: translate(0, 0) scale(.35); }
+  12% { opacity: .8; }
+  60% { opacity: .45; }
+  100% { opacity: 0; transform: translate(-60%, -320%) scale(2.1); }
+}
+/* Banderas: la tela ondea desde el asta (izquierda) */
+.mr28 .ma-bandera > img { transform-origin: 0 50%; animation-name: maBandera; animation-timing-function: ease-in-out; }
+@keyframes maBandera {
+  0%, 100% { transform: skewY(-5deg) scaleX(.94); }
+  25% { transform: skewY(3deg) scaleX(1.02) scaleY(.97); }
+  50% { transform: skewY(6deg) scaleX(.97); }
+  75% { transform: skewY(-2deg) scaleX(1.03) scaleY(1.02); }
+}
+/* Farolillos colgados: se mecen y su luz respira */
+.mr28 .ma-farol > img { transform-origin: 50% 0; animation-name: maFarol; animation-timing-function: ease-in-out; }
+@keyframes maFarol {
+  0%, 100% { transform: rotate(-5deg); opacity: .92; }
+  50% { transform: rotate(5deg); opacity: 1; }
+}
+/* Destello del sol (nieve, agua, tejados) */
+.mr28 .ma-destello > img { opacity: 0; animation-name: maDestello; animation-timing-function: ease-in-out; }
+@keyframes maDestello {
+  0%, 62%, 100% { opacity: 0; transform: scale(.2) rotate(0deg); }
+  76% { opacity: 1; transform: scale(1) rotate(45deg); }
+  90% { opacity: 0; transform: scale(.4) rotate(90deg); }
+}
+/* Vuelo: la bandada cruza el lienzo (--dx en centésimas del lienzo) y aletea (dos poses que se alternan) */
+.mr28 .ma-vuelo { animation-name: maCruza; animation-timing-function: linear; }
+@keyframes maCruza {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(calc(var(--dx, -100) * .5cqw), calc(var(--dy, -4) * 1cqw), 0); }
+  100% { transform: translate3d(calc(var(--dx, -100) * 1cqw), 0, 0); }
+}
+.mr28 .ma-vuelo > img { animation-name: maAla; animation-duration: var(--aleteo, .9s); animation-delay: 0s; animation-timing-function: steps(1, end); }
+.mr28 .ma-vuelo > img.ma-b { animation-name: maAlaB; }
+@keyframes maAla { 0%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes maAlaB { 0%, 49.9% { opacity: 0; } 50%, 100% { opacity: 1; } }
+/* Desliza: barcas, caravana, balsa (ida y vuelta lenta, con balanceo) */
+.mr28 .ma-desliza { animation-name: maDesliza; animation-timing-function: ease-in-out; animation-direction: alternate; }
+@keyframes maDesliza { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(calc(var(--dx, 10) * 1cqw), calc(var(--dy, 0) * 1cqw), 0); } }
+.mr28 .ma-desliza > img { transform-origin: 50% 90%; animation-name: maBalanceo; animation-duration: 3.4s; animation-timing-function: ease-in-out; }
+@keyframes maBalanceo { 0%, 100% { transform: rotate(-1.2deg) translateY(0); } 50% { transform: rotate(1.2deg) translateY(-2%); } }
+/* Avanza: la caravana camina en una sola dirección y vuelve a empezar fundida */
+.mr28 .ma-avanza { animation-name: maAvanza; animation-timing-function: linear; }
+@keyframes maAvanza {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { transform: translate3d(calc(var(--dx, 20) * 1cqw), calc(var(--dy, 0) * 1cqw), 0); opacity: 0; }
+}
+.mr28 .ma-avanza > img { transform-origin: 50% 100%; animation-name: maPaso; animation-duration: 1.1s; animation-delay: var(--del, 0s); animation-timing-function: ease-in-out; }
+@keyframes maPaso { 0%, 100% { transform: translateY(0) rotate(-.6deg); } 50% { transform: translateY(-3%) rotate(.6deg); } }
+/* Sube: farolillos y bruma que ascienden y se desvanecen */
+.mr28 .ma-sube > img { opacity: 0; animation-name: maSube; animation-timing-function: linear; }
+@keyframes maSube {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(.9); }
+  15% { opacity: var(--op, .9); }
+  75% { opacity: calc(var(--op, .9) * .7); }
+  100% { opacity: 0; transform: translate3d(calc(var(--dx, 0) * 1cqw), calc(var(--dy, -30) * 1cqw), 0) scale(1.25); }
+}
+/* Mecerse: bambú, sauces, palmeras (giro desde la base o desde arriba según transform-origin) */
+.mr28 .ma-mece > img { transform-origin: 50% 100%; animation-name: maMece; animation-timing-function: ease-in-out; }
+.mr28 .ma-cuelga > img { transform-origin: 50% 0; animation-name: maMece; animation-timing-function: ease-in-out; }
+@keyframes maMece { 0%, 100% { transform: rotate(calc(var(--amp, 2) * -1deg)); } 50% { transform: rotate(calc(var(--amp, 2) * 1deg)); } }
+/* Brillo: reflejos del sol o de la luna en el agua (titilan y se estiran) */
+.mr28 .ma-brillo > img { transform-origin: 50% 50%; animation-name: maBrillo; animation-timing-function: ease-in-out; }
+@keyframes maBrillo {
+  0%, 100% { opacity: calc(var(--op, .8) * .55); transform: scaleX(.92) translateX(-1%); }
+  50% { opacity: var(--op, .8); transform: scaleX(1.06) translateX(1%); }
+}
+/* Tiembla: reflejos que ondulan en el agua */
+.mr28 .ma-tiembla > img { transform-origin: 50% 0; animation-name: maTiembla; animation-timing-function: ease-in-out; }
+@keyframes maTiembla {
+  0%, 100% { transform: scaleY(1) skewX(0deg); opacity: var(--op, .85); }
+  33% { transform: scaleY(1.035) skewX(.8deg); }
+  66% { transform: scaleY(.975) skewX(-.8deg); opacity: calc(var(--op, .85) * .8); }
+}
+/* Parpadea: ventanas y luces que se encienden y titilan */
+.mr28 .ma-parpadea > img { animation-name: maParpadea; animation-timing-function: steps(1, end); }
+@keyframes maParpadea { 0%, 100% { opacity: 1; } 37% { opacity: .55; } 41% { opacity: 1; } 70% { opacity: .2; } 78% { opacity: 1; } }
+/* Respira: halo de luz (sol, luna, oasis) */
+.mr28 .ma-respira > img { animation-name: maRespira; animation-timing-function: ease-in-out; }
+@keyframes maRespira { 0%, 100% { opacity: calc(var(--op, 1) * .6); transform: scale(.96); } 50% { opacity: var(--op, 1); transform: scale(1.04); } }
+/* Cascada: el agua cae (la tira se repite dentro de su caja) */
+.mr28 .ma-cascada { overflow: hidden; }
+.mr28 .ma-cascada > img { height: 200%; animation-name: maCae; animation-timing-function: linear; }
+@keyframes maCae { from { transform: translate3d(0, -50%, 0); } to { transform: translate3d(0, 0, 0); } }
+/* Fluye: corriente del río o arena que corre (la tira se desplaza en horizontal dentro de su caja) */
+.mr28 .ma-fluye { overflow: hidden; }
+.mr28 .ma-fluye > img { width: 200%; animation-name: maFluye; animation-timing-function: linear; }
+@keyframes maFluye { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+/* Ráfaga: arena que se desprende de las crestas */
+.mr28 .ma-rafaga > img { opacity: 0; transform-origin: 0 70%; animation-name: maRafaga; animation-timing-function: ease-out; }
+@keyframes maRafaga {
+  0% { opacity: 0; transform: translateX(-10%) scaleX(.3); }
+  20% { opacity: var(--op, .8); }
+  100% { opacity: 0; transform: translateX(45%) scaleX(1.3) translateY(-12%); }
+}
+/* Calima: la franja del horizonte ondula */
+.mr28 .ma-calima > img { transform-origin: 50% 50%; animation-name: maCalima; animation-timing-function: ease-in-out; }
+@keyframes maCalima {
+  0%, 100% { transform: scaleY(1) translateX(0); opacity: var(--op, .5); }
+  50% { transform: scaleY(1.6) translateX(-1.5%); opacity: calc(var(--op, .5) * .5); }
+}
+/* Flota: aves posadas en la balsa, cormoranes que cabecean */
+.mr28 .ma-flota > img { transform-origin: 50% 100%; animation-name: maFlota; animation-timing-function: ease-in-out; }
+@keyframes maFlota { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-4%) rotate(3deg); } }
+
+/* ---------- Pausa, móvil y movimiento reducido ---------- */
+.mr28.mr-pausa *, .mr28.mr-pausa *::before, .mr28.mr-pausa *::after { animation-play-state: paused !important; }
+@media (max-width: 700px) {
+  .mr28 [data-movil="no"] { display: none !important; }
+  .mr28 .mr-plano { will-change: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mr28 .ma, .mr28 .ma > img, .mr28 .mr-plano, .mr28 .mr-tira { animation: none !important; }
+  .mr28 .ma-vuelo, .mr28 .ma-sube > img, .mr28 .ma-humo > img, .mr28 .ma-rafaga > img, .mr28 .ma-destello > img, .mr28 .ma-vuelo > img.ma-b { opacity: 0; }
+  .mr28 .ma-vuelo { display: none; }
+}
