@@ -124,3 +124,21 @@ Capturas con progreso sembrado (unidad 1 hecha, 2 actual) en 1366×860 y 390×84
 - Peso total de los mundos: ~1,4 MB. Tramos sin regenerar (paleta junto al camino igual).
 - Pendiente: los picos siguen leyéndose algo triangulares de lejos; el karst lejano es muy uniforme; los edificios
   son de frente (sin escorzo) y no hay figuras humanas en tierra; entre unidades sigue la niebla del tramo.
+
+## v30 · Ronda 6 (ilustración más rica y viva)
+- **Vistas entre unidades**: `scripts/tramos-ruta.py` deja la bruma de entrada/salida de cada tramo en un velo al 22 %
+  y funde el alfa; los 48 tramos se han regenerado (misma paleta junto al camino).
+- **Cordilleras naturales** (`perfil_picos(forma="cordal")`): crestas por octavas de ruido «ridged» en A1 y B1, sin
+  triángulos. Karst lejano de B2 generado con anchos y alturas muy distintos.
+- **Escorzo de tres cuartos** en todos los salones (`salon(escorzo=…)`): fachada lateral y faldón del tejado del lado
+  en sombra; sombras proyectadas como antes. Aldea de B2 con muros grises.
+- **Gente** (`sprites.figura` / `sprites.gente`): monjes, mercaderes con pértiga, viajeros, campesinas y pescadores que
+  caminan (dos poses que se alternan, `ma-camina`), a pequeña escala, en los cuatro mundos.
+- **Riqueza**: textura de pincel y variación de color cálido/frío en todas las capas (`Capa.guarda(pincel=True)`),
+  hierba y matas en la vega del oasis, marco desenfocado en las esquinas por nivel (agujas de pino, palmera, loto,
+  bambú: `marco_hojas`), viñeteado y gradación por nivel (`.mr28 .mr-fijo::after`).
+- **Luz que cambia**: sombras de nubes que pasan por el terreno (`sombra-nube`, `ma-deriva`).
+- **Coste medido** (mismo entorno headless sin GPU, `fps28.cjs`): v29 A1 11–13 fps con el ratón, v30 A1 7–11;
+  B1 10–15 frente a 9–15. Peso de los mundos: ~1,6 MB (+0,2 MB); tramos 2,6 MB (−0,3 MB).
+- Pendiente: nubes de A2 aún con aspecto de recorte; edificios a escala media sin detalle fino; el escorzo es sutil;
+  las figuras son siluetas simples; el viñeteado y el marco cuestan algo de rendimiento en equipos sin GPU.
