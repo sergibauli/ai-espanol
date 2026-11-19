@@ -17,7 +17,7 @@ App web (PWA) para que estudiantes chinos aprendan español y preparen el DELE A
 - `src/pages/` (juegos en `juegos/`, DELE en `dele/`, pestañas de módulo en `modulo/`).
 - Estilos: `src/styles/app.css` es Tailwind 3 **ya compilado** (no hay config de Tailwind; solo funcionan las clases que ya existen en ese CSS). `src/styles/overrides.css` = ajustes de diseño. `public/overrides.js` = parches DOM heredados (a eliminar).
 - Clases: `src/lib/clases.js` (`clasesDe`, `moduloDeClase(mod, n)` = mismo módulo filtrado a la clase n, `plusDeClase`, `progresoUnidad`). Unidad `#/modulos/modulo-N?clase=K`; progreso por clase en `dele_class_progress` (`modulo-N#cK`); la clase 1 usa los ids de lección de siempre (`mN-lI`), las demás `mN-cK-lI`.
-- Persistencia: progreso en `localStorage` (claves `dele_*`). Campus (clases, deberes, roles) en `src/lib/campus.jsx` → Worker `worker/` (KV + Clerk); sin `VITE_API_URL` va en modo demo local.
+- Persistencia: progreso en `localStorage` (claves `dele_*`) **y en la cuenta**: `src/lib/syncProgreso.js` intercepta localStorage y sincroniza con el Worker (`GET/PUT /progress`); qué claves y cómo se fusionan en `src/lib/syncReglas.js` y `docs/sincronizacion-progreso.md`. Una clave de progreso nueva hay que añadirla a `REGLAS`. Pruebas: `npm run test:sync`. Campus (clases, deberes, roles) en `src/lib/campus.jsx` → Worker `worker/` (KV + Clerk); sin `VITE_API_URL` va en modo demo local.
 - Diseño v3: clases `ui-*` de `src/styles/modern.css` para pantallas nuevas (Inicio, Campus, Generador de exámenes, Profesores).
 
 ## Idiomas de ayuda e IA (v11)
