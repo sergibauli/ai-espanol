@@ -1,14 +1,16 @@
 /**
  * Wukong Turbo Rush · 西游极速 — visual layer of the item boxes.
  *
- * Every box is a floating imperial silk lantern (灯笼): translucent red silk lit
- * from inside (pulsing warm core + fresnel rim), gold caps, ribs and handle, a
- * swaying red tassel with a jade bead, a glowing gold 字 that floats in front of
- * the silk, a rotating jade halo with xiangyun clouds and runes, golden
- * fireflies circling it and a pool of light + rune circle on the ground (which
- * also plays the jade shockwave when a kart collects the box).
+ * Every box is a floating imperial silk lantern (灯笼): deep red lacquered silk
+ * lit from inside (small pulsing candle core, gold rim, lacquer highlight), gold
+ * caps, ribs and handle, a swaying red tassel with a jade bead, a legible gold 字
+ * with a dark lacquer outline floating in front of the silk, a rotating gold
+ * halo with xiangyun clouds and jade runes, a column of gold light above it,
+ * fireflies and a pool of light + gold rune circle on the ground (which also
+ * plays the jade shockwave when a kart collects the box). The lanterns grow a
+ * little with camera distance so they read from far away.
  *
- * Everything is instanced: 6 draw calls for all the boxes of a track, cheap
+ * Everything is instanced: 7 draw calls for all the boxes of a track, cheap
  * shaders, no real lights. Purely visual: it only reads box slots.
  */
 import * as THREE from 'three';
@@ -25,23 +27,38 @@ export interface LanternSlot {
 
 const TAU = Math.PI * 2;
 /** Overall lantern scale and how far above the pickup point its body floats. */
-const LANTERN_SCALE = 0.86;
-const LANTERN_LIFT = 0.26;
+const LANTERN_SCALE = 1.05;
+const LANTERN_LIFT = 0.5;
 /** Lantern body: radius and half-height (local units, before LANTERN_SCALE). */
 const BODY_R = 0.6;
 const BODY_H = 0.5;
 const RIBS = 10;
 const FIREFLIES_PER_BOX = 10;
 const DECAL_SIZE = 7.2;
-const APPEAR_SECONDS = 0.85;
+const APPEAR_SECONDS = 0.6;
+/** Candle relights this long after the pop-in starts, over CANDLE_SECONDS. */
+const CANDLE_DELAY = 0.15;
+const CANDLE_SECONDS = 0.4;
+/** Anticipation before the lantern bursts (it swells and flares). */
+const BREAK_SECONDS = 0.08;
+/** Lowest point of the lantern (tassel tip) in local units: kept fixed when scaling by distance. */
+const BOTTOM_LOCAL = 1.21;
 const BURST_SECONDS = 0.95;
 
 // ---------------------------------------------------------------------------
 // Shaders
 // ---------------------------------------------------------------------------
 
+/** Extra scale with camera distance so the boxes read from far away (×1 at 15 m → ×1.45 at 60 m). */
+const DIST_SCALE = /* glsl */ `
+float distScale(vec3 c) {
+  return 1.0 + 0.45 * clamp((distance(cameraPosition, c) - 15.0) / 45.0, 0.0, 1.0);
+}
+`;
+
 const INSTANCE_COMMON = /* glsl */ `
 uniform float uTime;
+varying vec2 vFx;
 varying vec3 vLocal;
 varying vec3 vN;
 varying vec3 vV;
@@ -52,12 +69,17 @@ const BODY_VERT = /* glsl */ `
 ${INSTANCE_COMMON}
 attribute float aKind;
 attribute float aSway;
+attribute vec2 aFx; // candle intensity, white-hot flare
 varying float vKind;
+${DIST_SCALE}
 void main() {
   mat4 im = instanceMatrix;
   vec3 c = (modelMatrix * im * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
   vPhase = c.x * 0.37 + c.z * 0.61;
-  vec3 p = position;
+  vFx = aFx;
+  float k = distScale(c);
+  vec3 p = position * k;
+  p.y += (k - 1.0) * ${BOTTOM_LOCAL.toFixed(2)};
   // tassel sways like silk in the wind (weight grows towards its tip)
   float w = aSway * aSway;
   p.x += w * 0.13 * sin(uTime * 3.1 + vPhase);
@@ -89,23 +111,28 @@ void main() {
   float ay = abs(yN);
   float band = smoothstep(0.66, 0.69, ay) * (1.0 - smoothstep(0.80, 0.83, ay));
   float bandPat = step(0.5, fract(ang * 36.0 / 6.2831853 + step(0.0, yN) * 0.5));
-  float pulse = 0.84 + 0.16 * sin(uTime * 2.6 + vPhase) + 0.05 * sin(uTime * 7.3 + vPhase * 2.0);
+  float pulse = 0.84 + 0.16 * sin(uTime * 2.6 + vPhase) + 0.03 * sin(uTime * 7.3 + vPhase * 2.0);
+  float candle = vFx.x;
 
   // light from the candle inside: strongest where the silk faces the camera
   float inner = pow(ndv, 1.4) * (0.5 + 0.5 * panel) * (1.0 - 0.55 * yN * yN);
-  vec3 silkDark = vec3(0.22, 0.004, 0.012);
-  vec3 silkLit = vec3(0.78, 0.018, 0.014);
-  vec3 col = mix(silkDark, silkLit, clamp(inner * pulse * 1.2, 0.0, 1.0));
-  col += vec3(1.6, 0.48, 0.06) * pow(inner, 4.0) * pulse * 0.85;
+  vec3 silkDark = vec3(0.10, 0.0, 0.008);
+  vec3 silkLit = vec3(0.50, 0.006, 0.012);
+  vec3 col = mix(silkDark, silkLit, clamp(inner * pulse * min(candle, 1.0), 0.0, 1.0));
+  // candle core: a small warm spot behind the 字
+  col += vec3(1.0, 0.30, 0.04) * pow(inner, 7.0) * pulse * 0.45 * candle;
   // silk weave + shadow along the ribs
   col *= (0.9 + 0.1 * sin(vLocal.y * 160.0)) * (0.55 + 0.45 * smoothstep(0.0, 0.16, ribD));
   float fres = pow(1.0 - ndv, 3.0);
-  col += vec3(0.9, 0.10, 0.30) * fres * 0.45;           // pink neon rim
-  col += vec3(0.05, 0.45, 0.40) * fres * fres * 0.5;    // jade sky bounce
+  col += vec3(1.0, 0.55, 0.15) * fres * 0.22;            // gold rim
+  // lacquer highlight
+  float lac = pow(max(dot(reflect(-v, n), normalize(vec3(0.3, 0.8, 0.5))), 0.0), 48.0);
+  col += vec3(1.0, 0.85, 0.7) * lac * 0.7;
 
   vec3 gold = vec3(1.0, 0.62, 0.16) * (0.35 + 0.75 * ndv) + vec3(0.8, 0.55, 0.2) * fres;
   float g = max(rib, band * (0.55 + 0.45 * bandPat));
   col = mix(col, gold, g);
+  col = mix(col, vec3(1.3, 0.8, 0.45), vFx.y * 0.35); // flare before bursting
   gl_FragColor = vec4(col, 1.0);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -131,9 +158,9 @@ void main() {
 
   float strands = 0.7 + 0.3 * sin(atan(vLocal.z, vLocal.x) * 46.0);
   float tip = smoothstep(-0.78, -1.15, vLocal.y);
-  vec3 silk = vec3(0.85, 0.05, 0.06) * strands * (0.45 + 0.55 * ndv);
+  vec3 silk = vec3(0.5, 0.012, 0.02) * strands * (0.45 + 0.55 * ndv);
   silk = mix(silk, vec3(1.1, 0.55, 0.15) * strands, tip * 0.35);
-  silk += vec3(0.9, 0.25, 0.1) * smoothstep(-0.95, -0.72, vLocal.y) * 0.35; // lit by the lantern
+  silk += vec3(0.6, 0.12, 0.03) * smoothstep(-0.95, -0.72, vLocal.y) * 0.3; // lit by the lantern
 
   vec3 jade = mix(vec3(0.02, 0.22, 0.16), vec3(0.35, 1.25, 0.95), env * 0.6 + fres);
   jade += vec3(0.8, 1.4, 1.2) * spec * 0.7;
@@ -148,11 +175,18 @@ void main() {
 /** Camera-facing 字 that floats in front of the silk, sways and breathes. */
 const ZI_VERT = /* glsl */ `
 uniform float uTime;
+attribute vec2 aFx;
 varying vec2 vUv;
 varying float vGlow;
+varying float vWhite;
+${DIST_SCALE}
 void main() {
   vec3 c = (modelMatrix * instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+  float k = distScale(c);
   float s = length(instanceMatrix[0].xyz);
+  c.y += (k - 1.0) * ${BOTTOM_LOCAL.toFixed(2)} * s;
+  s *= k;
+  vWhite = aFx.y;
   float ph = c.x * 0.37 + c.z * 0.61;
   vec3 camR = vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]);
   vec3 camU = vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
@@ -173,13 +207,15 @@ const ZI_FRAG = /* glsl */ `
 uniform sampler2D uMap;
 varying vec2 vUv;
 varying float vGlow;
+varying float vWhite;
 void main() {
-  // masks: r = glyph + medallion (emissive gold), g = dark lacquer outline, b = warm glow
+  // masks: r = glyph (emissive gold), g = dark lacquer outline, b = warm glow
   vec3 t = texture2D(uMap, vUv).rgb;
-  vec3 gold = mix(vec3(1.6, 0.62, 0.06), vec3(1.9, 1.15, 0.28), smoothstep(0.3, 0.8, vUv.y));
-  vec3 emit = gold * t.r * vGlow + vec3(1.0, 0.35, 0.06) * t.b * 0.55 * vGlow;
-  float occ = max(t.g, t.r) * 0.92;
-  vec3 col = emit + vec3(0.12, 0.0, 0.01) * t.g * (1.0 - t.r);
+  vec3 gold = mix(vec3(1.15, 0.55, 0.06), vec3(1.4, 0.85, 0.20), smoothstep(0.3, 0.8, vUv.y));
+  gold = mix(gold, vec3(1.4, 1.15, 0.85), vWhite);
+  vec3 emit = gold * t.r * vGlow + vec3(1.0, 0.35, 0.06) * t.b * 0.18 * vGlow;
+  float occ = max(t.g, t.r);
+  vec3 col = emit + vec3(0.03, 0.0, 0.004) * t.g * (1.0 - t.r);
   if (occ + emit.r < 0.004) discard;
   // premultiplied: the outline darkens the silk, the glyph and glow add light
   gl_FragColor = vec4(col, occ);
@@ -191,8 +227,13 @@ const HALO_VERT = /* glsl */ `
 uniform float uTime;
 varying vec2 vUv;
 varying float vFacing;
+${DIST_SCALE}
 void main() {
+  vec3 c = (modelMatrix * instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+  float k = distScale(c);
+  float s = length(instanceMatrix[0].xyz);
   vec4 wp = modelMatrix * instanceMatrix * vec4(position, 1.0);
+  wp.xyz = c + (wp.xyz - c) * k + vec3(0.0, (k - 1.0) * ${BOTTOM_LOCAL.toFixed(2)} * ${LANTERN_SCALE.toFixed(2)}, 0.0);
   vec3 n = normalize(mat3(modelMatrix) * mat3(instanceMatrix) * vec3(0.0, 1.0, 0.0));
   vFacing = abs(dot(n, normalize(cameraPosition - wp.xyz)));
   vUv = uv;
@@ -209,7 +250,9 @@ void main() {
   vec4 t = texture2D(uMap, vec2(vUv.x * 2.0 - uTime * 0.06, vUv.y));
   // edge-on the band would get too dense: soften it a little
   float k = mix(0.75, 1.0, vFacing);
-  vec3 col = t.rgb * vec3(0.30, 1.45, 1.05) * k * (0.9 + 0.1 * sin(uTime * 3.0 + vUv.x * 40.0));
+  // gold band and clouds (r), jade only in the rune glyphs (g); kept under ~0.9
+  vec3 col = (vec3(1.25, 0.78, 0.22) * 0.85 * t.r + vec3(0.2, 0.95, 0.7) * 0.8 * t.g) * k;
+  col *= 0.9 + 0.1 * sin(uTime * 3.0 + vUv.x * 40.0);
   gl_FragColor = vec4(col * t.a, 1.0);
 }
 `;
@@ -249,7 +292,7 @@ void main() {
   float ring2 = exp(-pow((r - 0.27) / 0.005, 2.0));
   float dashes = step(0.45, fract(a * 18.0 / 6.2831853 + uTime * 0.08)) * step(0.228, r) * step(r, 0.258);
   float runes = ring1 + ring2 * 0.8 + dashes * 0.55;
-  col += vec3(0.15, 0.95, 0.72) * runes * (0.5 * vis + 0.12 + appearFlash * 1.2);
+  col += vec3(1.0, 0.48, 0.05) * 0.6 * runes * (0.9 * vis + 0.2 + appearFlash * 1.2);
   // jade shockwave on pickup
   float age = vState.y;
   if (age >= 0.0 && age < ${BURST_SECONDS.toFixed(2)}) {
@@ -262,6 +305,39 @@ void main() {
     float spokes = pow(abs(sin(a * 6.0 + age * 3.0)), 24.0) * smoothstep(R, R * 0.4, r) * fade;
     col += vec3(1.4, 1.0, 0.4) * spokes * 0.8;
   }
+  gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+/** Signature column of gold light above each lantern (camera-facing, additive). */
+const BEAM_VERT = /* glsl */ `
+varying vec2 vUv;
+${DIST_SCALE}
+void main() {
+  vec3 c = (modelMatrix * instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+  float k = distScale(c);
+  float s = length(instanceMatrix[0].xyz);
+  vec3 toCam = cameraPosition - c;
+  toCam.y = 0.0;
+  vec3 side = normalize(cross(vec3(0.0, 1.0, 0.0), normalize(toCam + vec3(1e-4, 0.0, 0.0))));
+  // base just above the lantern's handle (bottom kept in place when scaling by distance)
+  vec3 base = c + vec3(0.0, (0.84 * k + (k - 1.0) * ${BOTTOM_LOCAL.toFixed(2)}) * s, 0.0);
+  vec3 wp = base + side * position.x * 0.3 * k * s + vec3(0.0, position.y * 3.5 * k * s, 0.0);
+  vUv = uv;
+  gl_Position = projectionMatrix * viewMatrix * vec4(wp, 1.0);
+}
+`;
+
+const BEAM_FRAG = /* glsl */ `
+uniform float uTime;
+varying vec2 vUv;
+void main() {
+  float x = vUv.x * 2.0 - 1.0;
+  float across = 1.0 - x * x;
+  float h = vUv.y;
+  float fade = pow(1.0 - h, 1.6) * smoothstep(0.0, 0.06, h);
+  float shimmer = 0.85 + 0.15 * sin(h * 18.0 - uTime * 4.0);
+  vec3 col = vec3(1.0, 0.54, 0.067) * 0.35 * across * fade * shimmer;
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -284,7 +360,7 @@ void main() {
   gl_Position = projectionMatrix * mv;
   float tw = 0.55 + 0.45 * sin(uTime * (6.0 + 5.0 * aSeed.x) + aSeed.z * 40.0);
   vAlpha = sin(h * 3.14159) * vis * tw;
-  vColor = aSeed.w < 0.5 ? vec3(2.0, 1.35, 0.5) : (aSeed.w < 1.5 ? vec3(0.45, 1.7, 1.5) : vec3(1.8, 0.5, 1.1));
+  vColor = aSeed.w < 0.5 ? vec3(2.0, 1.35, 0.5) : (aSeed.w < 1.5 ? vec3(0.45, 1.7, 1.5) : vec3(1.6, 1.3, 0.8));
   float size = 0.15 * (0.7 + 0.6 * tw);
   gl_PointSize = vis <= 0.001 ? 0.0 : clamp(size * projectionMatrix[1][1] * uHeightPx * 0.5 / max(0.05, -mv.z), 0.0, 48.0);
 }
@@ -389,8 +465,8 @@ function buildHaloGeometry(inner: number, outer: number, segments: number): THRE
 const CJK_FONT = '"PingFang SC","Noto Sans CJK SC","Noto Serif CJK SC","Microsoft YaHei",serif';
 
 function makeZiTexture(): THREE.CanvasTexture {
-  // Channel masks (see ZI_FRAG): red = gold glyph, green = outline, blue = glow.
-  const S = 256;
+  // Channel masks (see ZI_FRAG): red = gold glyph, green = dark outline, blue = glow.
+  const S = 512;
   const canvas = document.createElement('canvas');
   canvas.width = S;
   canvas.height = S;
@@ -406,31 +482,19 @@ function makeZiTexture(): THREE.CanvasTexture {
     g.addColorStop(1, 'rgba(0,0,255,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, S, S);
-    ctx.font = `900 ${Math.round(S * 0.58)}px ${CJK_FONT}`;
+    ctx.font = `900 ${Math.round(S * 0.64)}px ${CJK_FONT}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.lineJoin = 'round';
-    ctx.lineWidth = 16;
+    ctx.lineWidth = 22;
     ctx.strokeStyle = 'rgb(0,255,0)';
-    ctx.strokeText('字', c, c + 8);
-    ctx.lineWidth = 7;
-    ctx.beginPath();
-    ctx.arc(c, c, S * 0.42, 0, TAU);
-    ctx.stroke();
-    // gold medallion rings + glyph (red channel)
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.strokeStyle = 'rgb(255,255,0)';
-    ctx.lineWidth = 3.5;
-    ctx.beginPath();
-    ctx.arc(c, c, S * 0.42, 0, TAU);
-    ctx.stroke();
-    ctx.globalCompositeOperation = 'lighter';
+    ctx.strokeText('字', c, c + 14);
     ctx.fillStyle = 'rgb(255,0,0)';
-    ctx.fillText('字', c, c + 8);
+    ctx.fillText('字', c, c + 14);
   }
   const t = new THREE.CanvasTexture(canvas);
   t.colorSpace = THREE.NoColorSpace;
-  t.anisotropy = 2;
+  t.anisotropy = 4;
   return t;
 }
 
@@ -445,19 +509,20 @@ function makeHaloTexture(): THREE.CanvasTexture {
   if (ctx) {
     ctx.clearRect(0, 0, W, H);
     const band = ctx.createLinearGradient(0, 0, 0, H);
-    band.addColorStop(0, 'rgba(255,255,255,0.0)');
-    band.addColorStop(0.12, 'rgba(255,255,255,0.9)');
-    band.addColorStop(0.2, 'rgba(255,255,255,0.10)');
-    band.addColorStop(0.8, 'rgba(255,255,255,0.10)');
-    band.addColorStop(0.88, 'rgba(255,255,255,0.9)');
-    band.addColorStop(1, 'rgba(255,255,255,0.0)');
+    // red channel = gold band + clouds, green channel = jade rune glyphs (HALO_FRAG)
+    band.addColorStop(0, 'rgba(255,0,0,0.0)');
+    band.addColorStop(0.12, 'rgba(255,0,0,0.9)');
+    band.addColorStop(0.2, 'rgba(255,0,0,0.05)');
+    band.addColorStop(0.8, 'rgba(255,0,0,0.05)');
+    band.addColorStop(0.88, 'rgba(255,0,0,0.9)');
+    band.addColorStop(1, 'rgba(255,0,0,0.0)');
     ctx.fillStyle = band;
     ctx.fillRect(0, 0, W, H);
     const glyphs = ['福', '禄', '寿', '喜', '吉', '祥', '龙', '字'];
     const cells = 8;
     const cw = W / cells;
-    ctx.strokeStyle = 'rgba(255,255,255,0.95)';
-    ctx.fillStyle = 'rgba(255,255,255,1)';
+    ctx.strokeStyle = 'rgba(255,0,0,0.95)';
+    ctx.fillStyle = 'rgba(255,0,0,1)';
     ctx.lineCap = 'round';
     for (let i = 0; i < cells; i++) {
       const x0 = i * cw;
@@ -497,7 +562,9 @@ function makeHaloTexture(): THREE.CanvasTexture {
       ctx.font = `700 34px ${CJK_FONT}`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
+      ctx.fillStyle = 'rgba(0,255,0,1)';
       ctx.fillText(glyphs[i % glyphs.length], gx, cy + 2);
+      ctx.fillStyle = 'rgba(255,0,0,1)';
       // dots between motifs
       ctx.beginPath();
       ctx.arc(x0 + cw * 0.92, cy, 3, 0, TAU);
@@ -523,11 +590,26 @@ const _p = new THREE.Vector3();
 const _s = new THREE.Vector3();
 const _axisY = new THREE.Vector3(0, 1, 0);
 
-/** Elastic pop (overshoots twice, settles at 1). */
-function popIn(x: number): number {
+/** Ease-out-back with a single soft overshoot (peaks at ~1.08). */
+function backOut(x: number): number {
   if (x <= 0) return 0;
   if (x >= 1) return 1;
-  return 1 - Math.exp(-6.5 * x) * Math.cos(x * 10.5);
+  const c1 = 1.5;
+  const t = x - 1;
+  return 1 + (c1 + 1) * t * t * t + c1 * t * t;
+}
+
+function cubicOut(x: number): number {
+  const t = 1 - Math.min(1, Math.max(0, x));
+  return 1 - t * t * t;
+}
+
+/** Candle relight curve after a respawn: 0 -> 1.5 peak -> 1. */
+function candleCurve(age: number): number {
+  const k = (age - CANDLE_DELAY) / CANDLE_SECONDS;
+  if (k <= 0) return 0;
+  if (k >= 1) return 1;
+  return k < 0.6 ? 1.5 * (k / 0.6) : 1.5 - 0.5 * ((k - 0.6) / 0.4);
 }
 
 export class LanternBoxes {
@@ -539,26 +621,31 @@ export class LanternBoxes {
   private readonly zi: THREE.InstancedMesh;
   private readonly halo: THREE.InstancedMesh;
   private readonly decal: THREE.InstancedMesh;
+  private readonly beam: THREE.InstancedMesh;
   private readonly flies: THREE.Points;
   private readonly geometries: THREE.BufferGeometry[] = [];
   private readonly materials: THREE.ShaderMaterial[] = [];
   private readonly textures: THREE.Texture[] = [];
   private readonly decalState: THREE.InstancedBufferAttribute;
+  /** Per instance: candle intensity, white-hot flare (shared by silk, frame and 字). */
+  private readonly fx: THREE.InstancedBufferAttribute;
   private readonly flyCenter: THREE.BufferAttribute;
   private readonly timeUniform = { value: 0 };
   private readonly heightPx = { value: 1080 };
   private readonly drawSize = new THREE.Vector2();
 
   private readonly wasActive: boolean[];
-  private readonly appear: Float32Array;
+  /** Seconds since the box reappeared (10 = settled). */
+  private readonly appearAge: Float32Array;
+  /** Seconds since pickup: < 0 during the anticipation, -10 = idle. */
   private readonly burstAge: Float32Array;
 
   constructor(count: number) {
     this.n = count;
     this.object.name = 'itemBoxLanterns';
     this.wasActive = new Array(count).fill(true);
-    this.appear = new Float32Array(count).fill(1);
-    this.burstAge = new Float32Array(count).fill(-1);
+    this.appearAge = new Float32Array(count).fill(10);
+    this.burstAge = new Float32Array(count).fill(-10);
 
     const uTime = this.timeUniform;
     const mat = (vertexShader: string, fragmentShader: string, extra: Partial<THREE.ShaderMaterialParameters> = {}, uniforms: Record<string, THREE.IUniform> = {}): THREE.ShaderMaterial => {
@@ -576,24 +663,44 @@ export class LanternBoxes {
       return mesh;
     };
 
+    this.fx = new THREE.InstancedBufferAttribute(new Float32Array(count * 2), 2);
+    for (let i = 0; i < count; i++) this.fx.setXY(i, 1, 0);
+    this.fx.setUsage(THREE.DynamicDrawUsage);
+
     // silk body + gold frame (opaque)
-    this.silk = inst(buildSilkGeometry(), mat(BODY_VERT, SILK_FRAG), 'itemBoxes', 0);
-    this.frame = inst(buildFrameGeometry(), mat(BODY_VERT, FRAME_FRAG), 'itemBoxFrame', 0);
+    const silkGeo = buildSilkGeometry();
+    silkGeo.setAttribute('aFx', this.fx);
+    this.silk = inst(silkGeo, mat(BODY_VERT, SILK_FRAG), 'itemBoxes', 0);
+    const frameGeo = buildFrameGeometry();
+    frameGeo.setAttribute('aFx', this.fx);
+    this.frame = inst(frameGeo, mat(BODY_VERT, FRAME_FRAG), 'itemBoxFrame', 0);
 
-    // floating 字
-    const ziTex = makeZiTexture();
-    this.textures.push(ziTex);
-    this.zi = inst(new THREE.PlaneGeometry(1, 1), mat(ZI_VERT, ZI_FRAG, { transparent: true, depthWrite: false, blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor, blendEquation: THREE.AddEquation }, { uMap: { value: ziTex } }), 'itemBoxQuestion', 4);
-
-    // jade halo
+    // gold halo (drawn before the 字 so the glyph's dark outline covers it)
     const haloTex = makeHaloTexture();
     this.textures.push(haloTex);
     this.halo = inst(
       buildHaloGeometry(0.8, 1.0, 72),
       mat(HALO_VERT, HALO_FRAG, { transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }, { uMap: { value: haloTex } }),
       'itemBoxHalo',
-      5,
+      3,
     );
+
+    // floating 字 (premultiplied: dark outline + emissive gold)
+    const ziTex = makeZiTexture();
+    this.textures.push(ziTex);
+    const ziGeo = new THREE.PlaneGeometry(1, 1);
+    ziGeo.setAttribute('aFx', this.fx);
+    this.zi = inst(
+      ziGeo,
+      mat(ZI_VERT, ZI_FRAG, { transparent: true, depthWrite: false, blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor, blendEquation: THREE.AddEquation }, { uMap: { value: ziTex } }),
+      'itemBoxQuestion',
+      4,
+    );
+
+    // column of light above every lantern
+    const beamGeo = new THREE.PlaneGeometry(1, 1);
+    beamGeo.translate(0, 0.5, 0);
+    this.beam = inst(beamGeo, mat(BEAM_VERT, BEAM_FRAG, { transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }), 'itemBoxBeam', 5);
 
     // ground light pool / rune circle / shockwave
     const decalGeo = new THREE.PlaneGeometry(1, 1);
@@ -618,7 +725,7 @@ export class LanternBoxes {
     const seed = new Float32Array(nf * 4);
     for (let i = 0; i < nf; i++) {
       const j = i % FIREFLIES_PER_BOX;
-      seed[i * 4] = 0.75 + Math.random() * 0.75;
+      seed[i * 4] = 0.85 + Math.random() * 0.8;
       seed[i * 4 + 1] = (Math.random() < 0.5 ? -1 : 1) * (0.6 + Math.random() * 1.1);
       seed[i * 4 + 2] = Math.random();
       seed[i * 4 + 3] = j % 5 === 3 ? 1 : j % 7 === 6 ? 2 : 0;
@@ -643,47 +750,71 @@ export class LanternBoxes {
     this.timeUniform.value = time;
     const n = Math.min(this.n, slots.length);
     const st = this.decalState.array as Float32Array;
+    const fxa = this.fx.array as Float32Array;
     const fc = this.flyCenter.array as Float32Array;
     for (let i = 0; i < n; i++) {
       const b = slots[i];
-      // state transitions: pickup → shockwave, respawn → elastic pop-in
-      if (this.wasActive[i] && !b.active) this.burstAge[i] = 0;
-      else if (!this.wasActive[i] && b.active) this.appear[i] = 0;
+      // state transitions: pickup -> anticipation + shockwave, respawn -> rise from the runes
+      if (this.wasActive[i] && !b.active) this.burstAge[i] = -BREAK_SECONDS;
+      else if (!this.wasActive[i] && b.active) this.appearAge[i] = 0;
       this.wasActive[i] = b.active;
-      if (this.burstAge[i] >= 0) {
+      if (this.burstAge[i] > -5) {
         this.burstAge[i] += dt;
-        if (this.burstAge[i] > BURST_SECONDS) this.burstAge[i] = -1;
+        if (this.burstAge[i] > BURST_SECONDS) this.burstAge[i] = -10;
       }
-      if (b.active && this.appear[i] < 1) this.appear[i] = Math.min(1, this.appear[i] + dt / APPEAR_SECONDS);
+      if (b.active && this.appearAge[i] < 10) this.appearAge[i] += dt;
 
-      const ap = b.active ? this.appear[i] : 0;
-      const pop = popIn(ap);
-      const sc = pop * LANTERN_SCALE;
-      const spinIn = (1 - pop) * 7;
+      let sc = 0;
+      let rise = 0;
+      let spin = 0;
+      let candle = 1;
+      let flare = 0;
+      let pop = 0;
+      const age = this.appearAge[i];
+      if (b.active) {
+        const x = age / APPEAR_SECONDS;
+        pop = backOut(x);
+        const e = cubicOut(x);
+        sc = pop * LANTERN_SCALE;
+        rise = -(1 - e) * 0.6;
+        spin = (1 - e) * Math.PI;
+        candle = age < CANDLE_DELAY + CANDLE_SECONDS ? candleCurve(age) : 1;
+      } else if (this.burstAge[i] < 0 && this.burstAge[i] > -5) {
+        // anticipation: swell 1 -> 1.25 (ease-out), candle x2.5, 字 white-hot
+        const k = 1 + this.burstAge[i] / BREAK_SECONDS;
+        const e = 1 - (1 - k) * (1 - k);
+        pop = 1;
+        sc = LANTERN_SCALE * (1 + 0.25 * e);
+        candle = 2.5;
+        flare = 1;
+      }
+      fxa[i * 2] = candle;
+      fxa[i * 2 + 1] = flare;
 
       // lantern body + frame: gentle yaw, sway on two axes
-      _p.set(b.world.x, b.world.y + LANTERN_LIFT, b.world.z);
-      _e.set(Math.sin(time * 1.3 + b.phase) * 0.07, time * 0.6 + b.phase * 2 + spinIn, Math.sin(time * 1.9 + b.phase) * 0.09);
+      _p.set(b.world.x, b.world.y + LANTERN_LIFT + rise, b.world.z);
+      _e.set(Math.sin(time * 1.3 + b.phase) * 0.07, time * 0.6 + b.phase * 2 + spin, Math.sin(time * 1.9 + b.phase) * 0.09);
       _q.setFromEuler(_e);
       _s.setScalar(sc);
       _m.compose(_p, _q, _s);
       this.silk.setMatrixAt(i, _m);
       this.frame.setMatrixAt(i, _m);
 
-      // 字: billboard, appears slightly after the lantern
-      const zs = popIn(Math.max(0, (ap - 0.2) / 0.8)) * LANTERN_SCALE;
-      _s.setScalar(zs);
-      _m.compose(_p, _q.identity(), _s);
+      // 字 billboard and light column (only position and scale are used)
+      _q.identity();
+      _m.compose(_p, _q, _s);
       this.zi.setMatrixAt(i, _m);
+      _s.setScalar(b.active ? sc * Math.min(1, candle) : 0);
+      _m.compose(_p, _q, _s);
+      this.beam.setMatrixAt(i, _m);
 
-      // jade halo: tilted ring precessing around the lantern
-      const hs = sc * (1 + (1 - pop) * 0.8) * 1.02;
+      // gold halo: tilted ring precessing around the lantern
       _e.set(0.42 + Math.sin(time * 0.9 + b.phase) * 0.12, 0, 0.18);
       _q.setFromEuler(_e);
       _q2.setFromAxisAngle(_axisY, time * 0.8 + b.phase);
       _q.premultiply(_q2);
       _p.y -= 0.02;
-      _s.setScalar(hs);
+      _s.setScalar(sc * 1.02);
       _m.compose(_p, _q, _s);
       this.halo.setMatrixAt(i, _m);
 
@@ -692,28 +823,31 @@ export class LanternBoxes {
       _s.setScalar(DECAL_SIZE);
       _m.compose(_p, _q.identity(), _s);
       this.decal.setMatrixAt(i, _m);
-      st[i * 3] = pop;
+      st[i * 3] = b.active ? Math.min(1, pop) : 0;
       st[i * 3 + 1] = this.burstAge[i];
-      st[i * 3 + 2] = b.active ? this.appear[i] : 1;
+      st[i * 3 + 2] = b.active ? Math.min(1, age / APPEAR_SECONDS) : 1;
 
-      const cy = b.world.y + LANTERN_LIFT;
+      const cy = b.world.y + LANTERN_LIFT + rise;
+      const fv = b.active ? Math.min(1, pop) * LANTERN_SCALE : 0;
       for (let k = 0; k < FIREFLIES_PER_BOX; k++) {
         const o = (i * FIREFLIES_PER_BOX + k) * 4;
-        fc[o] = b.world.x; fc[o + 1] = cy; fc[o + 2] = b.world.z; fc[o + 3] = pop * LANTERN_SCALE;
+        fc[o] = b.world.x; fc[o + 1] = cy; fc[o + 2] = b.world.z; fc[o + 3] = fv;
       }
     }
     this.silk.instanceMatrix.needsUpdate = true;
     this.frame.instanceMatrix.needsUpdate = true;
     this.zi.instanceMatrix.needsUpdate = true;
+    this.beam.instanceMatrix.needsUpdate = true;
     this.halo.instanceMatrix.needsUpdate = true;
     this.decal.instanceMatrix.needsUpdate = true;
     this.decalState.needsUpdate = true;
+    this.fx.needsUpdate = true;
     this.flyCenter.needsUpdate = true;
   }
 
   dispose(): void {
     this.object.removeFromParent();
-    for (const m of [this.silk, this.frame, this.zi, this.halo, this.decal]) m.dispose();
+    for (const m of [this.silk, this.frame, this.zi, this.halo, this.decal, this.beam]) m.dispose();
     for (const g of this.geometries) g.dispose();
     for (const m of this.materials) m.dispose();
     for (const t of this.textures) t.dispose();
