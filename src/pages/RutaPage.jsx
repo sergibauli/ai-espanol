@@ -292,7 +292,6 @@ export default function RutaPage() {
   React.useEffect(() => {
     const dir = crearDirector(mainRef.current);
     director.current = dir;
-    if (import.meta.env.DEV) window.__directorRuta = dir;
     dir.sincronizar();
     return () => {
       dir.destruir();

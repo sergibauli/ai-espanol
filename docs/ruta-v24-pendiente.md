@@ -61,3 +61,23 @@ Capturas con progreso sembrado (unidad 1 hecha, 2 actual) en 1366×860 y 390×84
   ~50 min»). Sombras de medallones y pabellón al lado contrario de la luz del nivel; B1 sin rayos (luz de farolillos).
 - Estandarte: «U2» bajo la moneda, barra segmentada (clases + examen) con «0/2 clases 课»; en móvil, compacto y fijo
   bajo las pestañas. Escritorio sin filetes rojos. Rey Mono más grande (100/140 px) con sombra de contacto.
+
+## v27 · Ronda 3 (mapa en 3D)
+- **Cámara 3D sin WebGL** (`src/components/ruta/camara3d.js`): cada unidad es un tablero inclinado (`.r3-suelo`:
+  `perspective() rotateY() rotateX()` con tramo pintado, hilo de oro, huellas y sombras de contacto) y lo que está de
+  pie (medallones, pabellón, Rey Mono) son carteles colocados en su punto PROYECTADO con escala por profundidad
+  (`proyectar()` replica exactamente la matriz CSS). Sin preserve-3d: clics, z-index y Safari funcionan igual.
+- Un solo director (una rAF) para la página: inclinación según la altura del tablero en pantalla (scroll), giro con el
+  puntero (escritorio) o con la inclinación del móvil (botón «3D 体感», permiso en iOS), vuelos de cámara
+  («acercar» a la clase actual al cargar, «vuelo» desde lo alto al cambiar de nivel). Duerme cuando no hay nada que
+  mover, solo trabaja con tableros visibles, se para con la pestaña oculta y con prefers-reduced-motion.
+- Rendimiento: los transforms se escriben con WAAPI quieta (`ponerTransform`): cambiar `style.transform` de un
+  medallón recalculaba el estilo de todo su subárbol (~4× más caro). Las cajas se miden una vez y se sigue el scroll.
+- Medallones = monedas 3D (`Medallon.jsx`: 5–8 capas de canto en Z, dorso con 悟) que se inclinan hacia el puntero
+  con reflejo que lo sigue, giran al pulsar y dan dos vueltas con el sello 成 estampado al completar.
+- Paisaje: parallax por puntero/inclinación en tres planos y en las partículas; desenfoque solo del plano lejano y
+  solo en escritorio.
+- Ficha de clase (`FichaClase.jsx`, portal): carta junto al medallón en escritorio, hoja inferior en móvil.
+- Examen: cadenas y candado (bloqueado), cartel rojo que late «¡A por el examen! 去考试» (abierto), estrellas (aprobado).
+- Rey Mono: siempre junto a la clase actual, del lado contrario al que sigue el camino (en móvil, si no cabe, del
+  lado de dentro y más abajo), mirando a la moneda. Móvil con 3 clases: la cámara se aleja un 10 % para que quepa el examen.
