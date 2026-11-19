@@ -35,16 +35,16 @@ const AYUDA_JUGADORES = [
 export const ARTE = {
   portada: './turbo-kart/portada.webp',
 };
-/** Retrato de cada piloto (recortados de la maqueta 02). */
+/** Imagen de cada piloto montado en su criatura (recortes de la maqueta «神兽赛车»). */
 const RETRATOS: Record<string, { src: string; filtro?: string }> = {
-  zippy: { src: './turbo-kart/piloto-mujer.webp' },
-  pixel: { src: './turbo-kart/piloto-pixel.webp' },
-  fennec: { src: './turbo-kart/piloto-fennec.webp' },
-  max: { src: './turbo-kart/piloto-rojo.webp' },
-  juno: { src: './turbo-kart/piloto-mujer.webp', filtro: 'hue-rotate(200deg) saturate(1.2)' },
-  kai: { src: './turbo-kart/piloto-kai.webp' },
-  bram: { src: './turbo-kart/piloto-boulder.webp' },
-  rosa: { src: './turbo-kart/piloto-bigrig.webp' },
+  zippy: { src: './turbo-kart/criatura-zippy.webp' },
+  pixel: { src: './turbo-kart/criatura-pixel.webp' },
+  fennec: { src: './turbo-kart/criatura-fennec.webp' },
+  max: { src: './turbo-kart/criatura-max.webp' },
+  juno: { src: './turbo-kart/criatura-juno.webp' },
+  kai: { src: './turbo-kart/criatura-kai.webp' },
+  bram: { src: './turbo-kart/criatura-bram.webp' },
+  rosa: { src: './turbo-kart/criatura-rosa.webp' },
 };
 const WEIGHT_LABEL: Record<string, string> = { light: 'LIGERO · 轻', medium: 'MEDIO · 中', heavy: 'PESADO · 重' };
 const THEME_LABEL: Record<string, string> = {
@@ -483,6 +483,9 @@ export class MainMenu {
       foto.alt = c.name;
       foto.draggable = false;
       if (retrato.filtro) foto.style.filter = retrato.filtro;
+      // las imágenes son apaisadas: se ven enteras sobre el morado de la maqueta
+      foto.style.objectFit = 'contain';
+      foto.style.background = '#2a1d3c';
       card.classList.add('con-retrato');
     }
     const swatch = el('div', 'char-swatch', undefined, card);
