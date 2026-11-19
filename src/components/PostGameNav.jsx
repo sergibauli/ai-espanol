@@ -45,7 +45,7 @@ const t = [
   "word-samurai",
   "word-astronaut",
   "word-candy",
-  "apalabrados",
+  "palacio-palabras",
   "word-pirate",
   "word-wizard",
 ];

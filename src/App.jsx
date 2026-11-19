@@ -6,6 +6,7 @@ import { MascotProvider } from "./components/Mascot.jsx";
 import { useAppAuth, AuthProvider } from "./lib/auth.jsx";
 import { LanguageProvider } from "./lib/i18n.jsx";
 import { CampusProvider } from "./lib/campus.jsx";
+import { iniciarSesionSync, primeraSincronizacion } from "./lib/syncProgreso.js";
 import { LIGHT_ROUTES, LEGACY_LIGHT, STAGE_ROUTES, LightShell } from "./components/layout/LightShell.jsx";
 import WelcomePage from "./pages/WelcomePage.jsx";
 import { SECCIONES } from "./lib/precarga.js";
@@ -44,12 +45,13 @@ const EnjambrePage = React.lazy(() => import("./pages/juegos/EnjambrePage.jsx"))
 const ClasePage = React.lazy(() => import("./pages/ClasePage.jsx"));
 const PromoPage = React.lazy(() => import("./pages/PromoPage.jsx"));
 const KahootPage = React.lazy(() => import("./pages/juegos/KahootPage.jsx"));
-const ApalabradosPage = React.lazy(() => import("./pages/juegos/ApalabradosPage.jsx"));
+const PalacioPalabrasPage = React.lazy(() => import("./pages/juegos/PalacioPalabrasPage.jsx"));
 const UnoPage = React.lazy(() => import("./pages/juegos/UnoPage.jsx"));
 const DragonJadePage = React.lazy(() => import("./pages/juegos/DragonJadePage.jsx"));
 const EscapePalacioPage = React.lazy(() => import("./pages/juegos/EscapePalacioPage.jsx"));
 const MahjongPage = React.lazy(() => import("./pages/juegos/MahjongPage.jsx"));
 const BriscaPage = React.lazy(() => import("./pages/juegos/BriscaPage.jsx"));
+const PinballDragonPage = React.lazy(() => import("./pages/juegos/PinballDragonPage.jsx"));
 const MapaMentalPage = React.lazy(() => import("./pages/juegos/MapaMentalPage.jsx"));
 const TeatroDialogosPage = React.lazy(() => import("./pages/juegos/TeatroDialogosPage.jsx"));
 const ExamGeneratorPage = React.lazy(() => import("./pages/ExamGeneratorPage.jsx"));
@@ -79,6 +81,11 @@ function QuitaCargadorInicial() {
     });
   }, []);
   return null;
+}
+// El antiguo juego de tablero de letras ahora es «Palacio de las palabras» (conserva ?m=N)
+function RedirigePalacio() {
+  const { search } = useLocation();
+  return <Navigate to={`/juegos/palacio-palabras${search}`} replace />;
 }
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAppAuth();
@@ -387,6 +394,7 @@ function AppRoutes() {
           <Route path="/juegos/escape-palacio" element={<RequireAuth><EscapePalacioPage /></RequireAuth>} />
           <Route path="/juegos/fichas-palacio" element={<RequireAuth><MahjongPage /></RequireAuth>} />
           <Route path="/juegos/brisca" element={<RequireAuth><BriscaPage /></RequireAuth>} />
+          <Route path="/juegos/pinball-dragon" element={<RequireAuth><PinballDragonPage /></RequireAuth>} />
           <Route
             path="/juegos/scramble"
             element={
@@ -535,16 +543,8 @@ function AppRoutes() {
           <Route path="/juegos/word-quest" element={<Navigate to="/juegos" replace />} />
           <Route path="/juegos/word-archer" element={<Navigate to="/juegos" replace />} />
           <Route path="/juegos/word-candy" element={<Navigate to="/juegos" replace />} />
-          <Route
-            path="/juegos/apalabrados"
-            element={
-              <RequireAuth>
-                <PageTransition>
-                  <ApalabradosPage />
-                </PageTransition>
-              </RequireAuth>
-            }
-          />
+          <Route path="/juegos/palacio-palabras" element={<RequireAuth><PalacioPalabrasPage /></RequireAuth>} />
+          <Route path="/juegos/apalabrados" element={<RedirigePalacio />} />
           <Route path="/juegos/word-chain" element={<Navigate to="/juegos" replace />} />
           <Route path="/juegos/tic-tac-toe" element={<Navigate to="/juegos" replace />} />
           <Route
@@ -577,13 +577,38 @@ function AppRoutes() {
     </>
   );
 }
+// Progreso con la cuenta: al entrar (o cambiar de alumno) descarga y fusiona; si llegan datos o cambia
+// el alumno, vuelve a montar las páginas para que lean el progreso ya fusionado (solo pasa al entrar).
+function SincronizadorProgreso({ children }) {
+  const { user, isAdminLogin, getToken, isLoading } = useAppAuth();
+  const [version, setVersion] = React.useState(0);
+  const tokenRef = React.useRef(getToken);
+  tokenRef.current = getToken;
+  const userId = user?.id || null;
+  React.useEffect(() => {
+    if (isLoading) return undefined;
+    const esClerk = Boolean(userId && !isAdminLogin);
+    const cambio = iniciarSesionSync({ userId, esClerk, getToken: tokenRef.current ? () => tokenRef.current() : null });
+    if (cambio) setVersion((v) => v + 1);
+    let vigente = true;
+    primeraSincronizacion().then((llegaron) => {
+      if (vigente && llegaron) setVersion((v) => v + 1);
+    });
+    return () => {
+      vigente = false;
+    };
+  }, [userId, isAdminLogin, isLoading]);
+  return <React.Fragment key={version}>{children}</React.Fragment>;
+}
 function App() {
   return (
     <HashRouter>
       <AuthProvider>
         <LanguageProvider>
           <CampusProvider>
-            <AppRoutes />
+            <SincronizadorProgreso>
+              <AppRoutes />
+            </SincronizadorProgreso>
           </CampusProvider>
         </LanguageProvider>
       </AuthProvider>
