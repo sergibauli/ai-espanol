@@ -8,7 +8,7 @@ import numpy as np
 
 import arquitectura as ar
 import sprites as sp
-from pincel import (H, W, Capa, Lienzo, borde, cielo, cirros, col, desenfoca, desplaza, mezcla, niebla, nube, perfil_picos, sierra,
+from pincel import (H, W, Capa, Lienzo, borde, desplaza, reflejo_capa, nube_suelta, cielo, cirros, col, desenfoca, desplaza, mezcla, niebla, nube, perfil_picos, sierra,
                     sombra_de, sombra_elipse, spline, suave, volumen)
 
 LUZ = -1
@@ -185,20 +185,42 @@ def pinta(M):
     for i, (cx, top, hw, base) in enumerate([(60, 1000, 260, 1150), (1060, 990, 230, 1140)]):
         duna(C, cx, top, hw, base, seed=50 + i, ondas=0.8)
     # lago en media luna
-    lago = L.mascara(lambda P: P.poly(spline([(600, 1110), (690, 1064), (850, 1046), (1010, 1060), (1090, 1110), (990, 1098), (850, 1094), (710, 1106), (630, 1128)], 10, cerrada=True)))
-    agua = mezcla(np.broadcast_to(col("#5a3a6a"), (H, W, 3)), col("#ffc27a"), suave(1100, 1055, Y)[..., None])
-    agua = mezcla(agua, col("#ffe8b0"), np.exp(-(((X - 860) / 120) ** 2))[..., None] * 0.5)
-    C.pon(agua, lago)
-    C.pon("#7a8a4a", borde(lago, 0, 3, 1.0) * 0.8)
+    # oasis de la Media Luna (protagonista): pabellón en la orilla, agua que refleja el cielo de fuego, juncos y orilla verde
+    pab, (abx, aby) = ar.salon(170, aleros=2, luz=LUZ, teja=("#2a3a34", "#5f7a5a", "#d8c890"), terrazas=2, marmol=("#6a3a40", "#d89a78"), rojo=("#3a0e18", "#b04a3a"), ncol=7, seed=10)
+    vega = L.mascara(lambda P: P.poly(spline([(400, 1092), (560, 1034), (800, 1012), (1040, 1026), (1120, 1070), (1120, 1210), (900, 1222), (600, 1210), (420, 1160)], 10, cerrada=True)))
+    vc = mezcla(np.broadcast_to(col("#2a3218"), (H, W, 3)), col("#7a7a36"), volumen(vega, 10, LUZ, -0.8)[..., None])
+    vc = mezcla(vc, col("#c8784a"), suave(1020, 1220, Y)[..., None] * 0.35)
+    vc = mezcla(vc, col("#ffcf80"), (suave(0.55, 0.8, L.ruido(1.4, 44)) * 0.3)[..., None])
+    C.pon(vc, vega * suave(0.2, 0.6, desenfoca(vega, 6)))
+    sombra_de(C, pab, 930 - abx, 1046 - aby, LUZ, largo=1.4, aplasta=0.2, c="#3a1a3a", f=0.4)
+    C.pega(pab, 930 - abx, 1046 - aby)
+    lago = L.mascara(lambda P: P.poly(spline([(450, 1120), (560, 1066), (760, 1050), (960, 1062), (1080, 1100), (1060, 1130), (930, 1112), (760, 1112), (600, 1136), (500, 1160)], 10, cerrada=True)))
+    y_l = 1050
+    cielo_ref = cielo(L, [(0, "#fde4a8"), (0.68, "#ffd890"), (0.71, "#f08a44"), (0.74, "#c8443e"), (0.77, "#7a2a50"), (1, "#3a1648")])
+    cielo_ref = mezcla(cielo_ref, col("#fff2c0"), (np.exp(-(((X - sx - 420) / 140) ** 2)) * suave(1170, y_l, Y) * 0.55)[..., None])
+    reflejo_capa(C, y_l, 1180, cielo_ref, f=0.7, olas=2.0, seed=45, mascara=lago, brillo="#ffe8b0", oscurece=0.7)
+    C.pon("#2a3a1a", borde(lago, 0, 3, 1.2) * 0.7)
+    C.pon("#fff0c0", borde(lago, 0, -2, 0.8) * 0.5)
     # juncos y hierba en la orilla
     rng = np.random.default_rng(9)
-    junc = L.mascara(lambda P: [P.linea([(x, y), (x + rng.uniform(-3, 3), y - rng.uniform(8, 20))], 1.2) for x, y in
-                                [(rng.uniform(600, 1090), 1100 + rng.uniform(-12, 18)) for _ in range(90)]])
-    C.pon(mezcla(np.broadcast_to(col("#2a3a20"), (H, W, 3)), col("#8a9a4a"), suave(1070, 1110, Y)[..., None]), junc)
-    # pabellón del oasis (月牙泉阁) en la orilla
-    pab, (abx, aby) = ar.salon(130, aleros=2, luz=LUZ, teja=("#2a3a34", "#5f7a5a", "#d8c890"), terrazas=1, marmol=("#6a3a40", "#d89a78"), rojo=("#3a0e18", "#b04a3a"), ncol=6, seed=10)
-    sombra_de(C, pab, 900 - abx, 1060 - aby, LUZ, largo=1.4, aplasta=0.2, c="#6a2a4a", f=0.4)
-    C.pega(pab, 900 - abx, 1060 - aby)
+    orilla = [(x, 1086 + 40 * np.sin((x - 450) / 640 * np.pi) * 0.5 + rng.uniform(-14, 30)) for x in rng.uniform(440, 1100, 220)]
+    junc = L.mascara(lambda P: [P.trazo([(x, y), (x + rng.uniform(-5, 5), y - rng.uniform(10, 30))], 1.6, 0.4) for x, y in orilla])
+    C.pon(mezcla(np.broadcast_to(col("#1a2a14"), (H, W, 3)), col("#8a9a4a"), suave(1060, 1150, Y)[..., None]), junc)
+    C.pon("#ffcf80", borde(junc, -LUZ, 0) * 0.6)
+    # huellas de la caravana en la arena, rocas y matorrales
+    huella = spline([(-20, 1260), (180, 1236), (330, 1190), (430, 1150)], 30)
+    hm = L.mascara(lambda P: [P.elip(x + (3 if i % 2 else -3), y + (2 if i % 2 else -2), 3.2, 1.6) for i, (x, y) in enumerate(huella[::2])])
+    C.pon("#a8605a", hm * 0.55)
+    C.pon("#ffe0a8", desplaza(hm, 0, 1.5) * (1 - hm) * 0.5)
+    for i, (x, y, r) in enumerate(((260, 1300, 26), (300, 1316, 14), (720, 1330, 34), (760, 1348, 16), (520, 1250, 12), (880, 1290, 20))):
+        rk = L.mascara(lambda P: P.poly(spline([(x - r, y), (x - r * 0.7, y - r * 0.7), (x, y - r * 0.9), (x + r * 0.8, y - r * 0.5), (x + r, y)], 5, cerrada=True)))
+        sombra_de_c = desplaza(rk, int(r * 0.9), 3)
+        C.pon("#7a3a4a", desenfoca(sombra_de_c, 2) * (1 - rk) * 0.4)
+        C.pon(mezcla(np.broadcast_to(col("#5a2a3a"), (H, W, 3)), col("#e8a070"), volumen(rk, 4, LUZ, -0.8, 1.3)[..., None]), rk)
+    mat = L.mascara(lambda P: [P.linea([(x, y), (x + np.cos(a_) * l, y - np.sin(a_) * l)], 1.1) for x, y in ((380, 1240), (640, 1290), (980, 1250), (180, 1200)) for a_, l in
+                               [(rng.uniform(0.3, 2.8), rng.uniform(8, 22)) for _ in range(22)]])
+    C.pon("#3a1e1e", mat)
+    C.pon("#ffcf8a", borde(mat, -LUZ, -1) * 0.6)
     sp_w, sp_h = sp.palmera(M.ruta("palmera.webp"), 200, luz=LUZ, seed=2)
     palmas = sp.palmera  # (los sprites de palmera se reutilizan como piezas que se mecen)
     C.tiñe("#ffd9a0", np.exp(-(((X - sx) / 400) ** 2 + ((Y - sy - 300) / 300) ** 2)) * 0.25)
@@ -224,8 +246,8 @@ def pinta(M):
         yy = float(perfiles[k][int(x)])
         M.actor("dunas", "rafaga.webp", x - 10, yy - 34, 120, 40, "rafaga", dur=3.6 + i * 0.4, retraso=-i * 1.1, op=0.75, movil=i < 3)
     sp.brillo_agua(M.ruta("brillo.webp"), 300, 40, "#fff2c0", seed=4)
-    M.actor("oasis", "brillo.webp", 720, 1056, 300, 34, "brillo", dur=2.6, op=0.9)
-    M.actor("oasis", "brillo.webp", 760, 1078, 200, 22, "brillo", dur=3.4, retraso=-1.2, op=0.7, movil=False)
+    M.actor("oasis", "brillo.webp", 600, 1062, 420, 40, "brillo", dur=2.6, op=0.95)
+    M.actor("oasis", "brillo.webp", 640, 1090, 300, 28, "brillo", dur=3.4, retraso=-1.2, op=0.75, movil=False)
     sp.franja(M.ruta("calima.webp"), 600, 40, "#ffd9a0", 0.55, seed=5)
     M.actor("ciudad", "calima.webp", 0, 770, 1100, 70, "calima", dur=5, op=0.55)
     M.actor("dunas", "calima.webp", 0, 990, 1100, 60, "calima", dur=6.5, retraso=-2, op=0.45, movil=False)
@@ -233,9 +255,12 @@ def pinta(M):
     for x in (520, 700, 900):
         C_ = None
         M.actor("ciudad", "bandera.webp", x, muro_y - 26, 18, 11, "bandera", dur=2.2, retraso=-x / 300, movil=False)
-    for i, (x, base, s, amp) in enumerate(((620, 1112, 0.6, 1.6), (680, 1090, 0.78, 1.4), (1040, 1100, 0.7, 1.8), (1085, 1106, 0.52, 2.0), (1000, 1560, 1.9, 1.2), (-40, 1590, 1.7, 1.0))):
+    for i, (x, base, s, amp) in enumerate(((470, 1120, 0.7, 1.6), (540, 1084, 0.86, 1.4), (1060, 1090, 0.8, 1.8), (1110, 1108, 0.6, 2.0), (1000, 1560, 1.9, 1.2), (-40, 1590, 1.7, 1.0))):
         w_, h_ = sp_w * s, sp_h * s
         M.actor("oasis" if i < 4 else "frente", "palmera.webp", x - w_ / 2, base - h_, w_, h_, "mece", dur=5 + i * 0.6, retraso=-i, amp=amp, movil=i in (0, 2, 4))
+    for i, (x, y, w, h, dur, dx) in enumerate(((80, 150, 360, 100, 170, 26), (700, 90, 380, 110, 210, -22), (420, 430, 300, 60, 120, 20))):
+        nw, nh = nube_suelta(M, f"nube{i}.webp", w, h, 400 + i, sx - x - 180, sy - y, "#ffc890", "#5e2656", "#ffe2a8", base_c="#e8706a", op=0.9)
+        M.actor("cielo", f"nube{i}.webp", x, y, nw, nh, "deriva", dur=dur, retraso=-dur * 0.3 * i, dx=dx, movil=i < 2)
     M.niebla("lejos", "arena", 47, 9, 0.6, 140)
     M.niebla("ciudad", "arena", 54, 8, 0.5, 100, inversa=True)
     M.guarda(SOL, niebla="arena")

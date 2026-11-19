@@ -273,12 +273,12 @@ def nube(C, cx, cy, w, h, seed, sol, luz_c, sombra_c, borde_c, base_c=None, op=1
             sx_, sy_ = bx + np.cos(a) * r * 0.75, by + np.sin(a) * r * 0.75
             D = np.maximum(D, np.clip(1 - ((X - sx_) ** 2 + (Y - sy_) ** 2) / rr ** 2, 0, 1) ** 0.6)
     if plana:
-        D = D * suave(cy + h * 0.08, cy - h * 0.1, Y)
+        D = D * suave(cy + h * 0.32, cy - h * 0.28, Y) ** 1.3
     n = Lz.ruido(1.5, seed + 3)
     n2 = Lz.ruido(1.0, seed + 4)
     D = np.clip(D * 1.25 + (n - 0.5) * 0.55 + (n2 - 0.5) * 0.25 - 0.18, 0, 1)
-    D = desenfoca(D, 1.2)
-    a = suave(0.02, 0.35, D) * op
+    D = desenfoca(D, 2.6)
+    a = suave(0.0, 0.55, D) ** 1.2 * op  # borde blando que se deshace (sin contorno)
     ux, uy = sol[0] - cx, sol[1] - (cy - h * 0.5)
     nn = np.hypot(ux, uy) + 1e-6
     ux, uy = ux / nn, uy / nn
@@ -287,12 +287,12 @@ def nube(C, cx, cy, w, h, seed, sol, luz_c, sombra_c, borde_c, base_c=None, op=1
         dd = paso * max(w, h)
         occ = occ + desplaza(D, -ux * dd, -uy * dd) * k
     lit = np.clip(1.05 - occ * 1.15, 0, 1)
-    lit = np.clip(lit + suave(0.5, 0.0, D) * 0.25, 0, 1)
     c = mezcla(np.broadcast_to(col(sombra_c), D.shape + (3,)), col(luz_c), lit[..., None])
     if base_c:
         c = mezcla(c, col(base_c), (suave(cy - h * 0.55, cy + h * 0.05, Y) * (1 - lit) * 0.6)[..., None])
-    ed = np.clip(a - desplaza(a, -ux * 3, -uy * 3), 0, 1) * 0.8 + suave(0.25, 0.05, D) * a * np.clip(lit * 1.4 - 0.6, 0, 1) * 0.6
-    c = mezcla(c, col(borde_c), np.clip(ed * 1.0 * rim, 0, 1)[..., None])
+    # franja iluminada difusa del lado de la luz (dispersión), sin línea de contorno
+    ed = desenfoca(np.clip(a - desplaza(a, -ux * 10, -uy * 10), 0, 1), 4) * np.clip(lit * 1.3 - 0.3, 0, 1)
+    c = mezcla(c, col(borde_c), np.clip(ed * 0.45 * rim, 0, 1)[..., None])
     C.pon(c, a, x0, y0)
 
 
@@ -329,6 +329,8 @@ def perfil_picos(L, picos, forma="pico", rug=10, seed=1, base=None):
             pr = pr + np.exp(-((x - cx - hw * 0.45 * (1 if j % 2 else -1)) / (hw * 0.12)) ** 2) * (base - top) * 0.06
             pr = np.where(d >= 1, 1e9, pr)
             pr = pr + ruido1(L.w, 1.7, seed + j * 3) * rug * (0.3 + dd)
+            pr = pr + np.abs(ruido1(L.w, 1.2, seed + j * 3 + 7)) * rug * 1.4 * dd
+            pr = pr + np.round(ruido1(L.w, 2.4, seed + j * 3 + 9) * 2.5) / 2.5 * rug * 0.8 * dd
         elif forma == "duna":
             pr = top + d ** 1.5 * (base - top) * 0.6
             pr = pr + ruido1(L.w, 2.6, seed + j) * rug
@@ -341,12 +343,16 @@ def perfil_picos(L, picos, forma="pico", rug=10, seed=1, base=None):
             pr = np.minimum(pr, top + (base - top) * 0.28 + (base - top) * (np.abs(x - cx - lado_h * hw * 0.55) / (hw * 0.4)) ** 0.9 * 0.7)
             det = ruido1(L.w, 1.9, seed + j * 13) * rug + ruido1(L.w, 1.3, seed + j * 7) * rug * 0.25
             pr = pr + det * np.clip(1 - d * 0.4, 0.3, 1)
+            # muescas en V y cortados escalonados (crestas de roca, no conos)
+            pr = pr + np.abs(ruido1(L.w, 1.3, seed + j * 5 + 2)) * rug * 1.1 * np.clip(d, 0.1, 1)
+            esc = np.round(ruido1(L.w, 2.2, seed + j * 9 + 4) * 3) / 3
+            pr = pr + esc * rug * 0.9 * np.clip(d, 0, 1)
         total = np.minimum(total, pr)
     return total
 
 
 def sierra(C, perfil, base, *, luz=1, lit="#ffffff", sombra="#556688", nieve=None, aire=None, aire_f=0.0, pie=None, niebla_pie=None,
-           filo=0.0, filo_c="#fff6e0", seed=1, estrias=1.0, textura=0.1, karst=False, roca=None):
+           filo=0.0, filo_c="#fff6e0", seed=1, estrias=1.0, textura=0.1, karst=False, roca=None, verde=None):
     """Rellena bajo la silueta con relieve: caras según la pendiente de la cresta + crestas y torrenteras (ruido
     «ridged» vertical) iluminadas por la luz clave, nieve en lo plano y alto, luz de borde en el filo y aire."""
     L = C.L
@@ -378,6 +384,24 @@ def sierra(C, perfil, base, *, luz=1, lit="#ffffff", sombra="#556688", nieve=Non
     c = mezcla(np.broadcast_to(col(sombra), (L.h, L.w, 3)), col(lit), ilum)
     tex = L.ruido(1.3, seed + 5) - 0.5
     c = c * (1 + tex[..., None] * textura)
+    # estratos: bandas casi horizontales deformadas que se inclinan con la ladera, y grietas oscuras
+    ondul = desenfoca(L.ruido(2.6, seed + 31), 4) * 60
+    periodo = 9.0 if karst else 13.0
+    est = np.sin((Y + ondul + orient * (X % 997) * 0.12) / periodo * np.pi)
+    estrato = suave(0.82, 0.97, est) * np.clip(prof * 3, 0, 1)
+    c = mezcla(c, col(sombra) * 0.7, (estrato * 0.32 * (0.6 + 0.4 * (1 - ilum)))[..., None])
+    c = mezcla(c, col(lit), (suave(0.82, 0.97, -est) * ilum * 0.18 * np.clip(prof * 3, 0, 1))[..., None])
+    gr = ridged(L, seed + 41, aniso=(1.0, 2.4), beta=1.6)
+    grieta = suave(0.955, 0.99, gr[yi, xi]) * np.clip(prof * 4, 0, 1)
+    c = mezcla(c, col(sombra) * 0.45, (grieta * 0.55)[..., None])
+    c = mezcla(c, col(lit), (borde(grieta, luz * 1.5, 0) * ilum * 0.4)[..., None])
+    # oclusión ambiental: los pies de la montaña y el fondo de los barrancos, más oscuros
+    c = mezcla(c, col(sombra) * 0.6, (suave(base - 160, base + 20, Y) * 0.3 + (1 - relieve) * 0.12)[..., None] * (1 if niebla_pie is None else 0.8))
+    if verde is not None:
+        rep = suave(0.58, 0.72, desenfoca(L.ruido(1.7, seed + 51), 1.2)) * suave(0.45, 0.25, np.abs(orient)) * np.clip(prof * 5, 0, 1)
+        rep = np.maximum(rep, suave(0.6, 0.75, relieve) * np.clip(prof * 2 - 0.2, 0, 1) * 0.6)
+        vc = mezcla(np.broadcast_to(col(verde[0]), (L.h, L.w, 3)), col(verde[1]), np.clip(ilum * 1.1, 0, 1)[..., None])
+        c = mezcla(c, vc, (np.clip(rep, 0, 1) * 0.85)[..., None])
     if roca is not None:  # vetas de roca (karst): bandas horizontales irregulares
         vet = L.ruido(1.8, seed + 21, aniso=(0.25, 3.0))
         c = mezcla(c, col(roca), suave(0.62, 0.8, vet) * 0.35)
@@ -387,10 +411,11 @@ def sierra(C, perfil, base, *, luz=1, lit="#ffffff", sombra="#556688", nieve=Non
         # nieve en las crestas del relieve (vetas que bajan); cerca de la cima casi todo, abajo solo en lo alto
         umbral = 0.95 - lim * 0.55 * np.exp(-prof / max(lim, 0.05) * 1.2) - 0.18 * ln
         hay = suave(umbral - 0.06, umbral + 0.06, relieve * 0.8 + 0.2 * ln)
-        hay = np.maximum(hay, suave(0.06, 0.0, prof) * 0.9)
+        hay = np.maximum(hay, suave(0.04, 0.0, prof) * 0.9)
+        hay = hay * suave(0.25, 0.55, relieve * 0.7 + ilum * 0.3 + 0.2 * ln)  # roca a la vista en barrancos y caras en sombra
         c = mezcla(c, mezcla(np.broadcast_to(col(n_sombra), (L.h, L.w, 3)), col(n_lit), ilum), np.clip(hay, 0, 1))
     if filo:
-        b = suave(4.0, 0.0, Y - pf[None, :]) * suave(0.3, 0.85, ilum)
+        b = (suave(5.0, 0.0, Y - pf[None, :]) + borde(alfa, -luz * 3, 0, 1.0) * 0.8) * suave(0.25, 0.8, ilum)
         c = mezcla(c, col(filo_c), b * filo)
     if pie:
         c = mezcla(c, col(pie), suave(base - 200, base, Y) * 0.6)
@@ -527,3 +552,13 @@ def vdesenfoca(a, r):
     for _ in range(3):
         a = fr.caja(a, max(1, int(r / 1.7)), 0)
     return a
+
+
+def nube_suelta(M, nombre, w, h, seed, sol_dx, sol_dy, luz_c, sombra_c, borde_c, base_c=None, op=1.0):
+    """Nube aparte (sprite) para que derive sobre el cielo a su propia velocidad. sol_dx/dy: dónde queda la luz."""
+    Lz = Lienzo(int(w * 1.5), int(h * 2.3))
+    C = Capa(Lz)
+    cx, cy = Lz.w / 2, h * 1.75
+    nube(C, cx, cy, w, h, seed, (cx + sol_dx, cy + sol_dy), luz_c, sombra_c, borde_c, base_c=base_c, op=op, plana=False)
+    guarda_png_rgba(C.rgb, C.a, M.ruta(nombre))
+    return Lz.w, Lz.h
