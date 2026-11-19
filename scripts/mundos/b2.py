@@ -8,7 +8,7 @@ import numpy as np
 
 import arquitectura as ar
 import sprites as sp
-from pincel import (H, W, nube_suelta, Capa, Lienzo, borde, cielo, cirros, col, desenfoca, mezcla, niebla, nube, perfil_picos, reflejo_capa, ruido1, sierra,
+from pincel import (H, W, marco_hojas, nube_suelta, Capa, Lienzo, borde, cielo, cirros, col, desenfoca, mezcla, niebla, nube, perfil_picos, reflejo_capa, ruido1, sierra,
                     spline, suave, volumen)
 
 LUZ = -1
@@ -58,7 +58,7 @@ def terrazas(C, cx, top, hw, base, seed=0):
 
 def aldea(C, lista, seed=0):
     for i, (x, base, w) in enumerate(lista):
-        P, (bx, by) = ar.salon(w, aleros=1, luz=LUZ, teja=("#141a18", "#3a423c", "#8a948a"), terrazas=1, marmol=("#5a5244", "#a89a80"), rojo=("#3a2a1c", "#7a5a3a"), ncol=4, seed=seed + i)
+        P, (bx, by) = ar.salon(w, aleros=1, luz=LUZ, teja=("#141a18", "#3a423c", "#8a948a"), terrazas=1, marmol=("#5a5244", "#a89a80"), rojo=("#4a4a48", "#c8c4b8"), ncol=4, seed=seed + i, escorzo=1.0)
         C.pega(P, x - bx, base - by)
 
 
@@ -83,6 +83,15 @@ def pinta(M):
         ([(0, 540, 56), (110, 505, 48), (250, 525, 56), (380, 495, 50), (520, 540, 46), (640, 510, 58), (770, 535, 48), (890, 500, 56), (1040, 520, 60)], 680, "#d2dede", 0.48),
         ([(70, 590, 62), (200, 565, 54), (330, 600, 60), (600, 575, 62), (730, 600, 54), (860, 570, 64), (1000, 590, 58), (1110, 560, 54)], 740, "#dce6e2", 0.36),
     ]
+    rngk = np.random.default_rng(77)
+    filas = []
+    for k, (base, cima, aire, f) in enumerate(((620, 430, "#c8d6d8", 0.62), (680, 495, "#d2dede", 0.48), (740, 560, "#dce6e2", 0.36))):
+        x, picos = -20.0, []
+        while x < 1130:
+            hw = rngk.uniform(22, 78)
+            picos.append((x, cima + rngk.uniform(-40, 70) + (78 - hw) * 0.3, hw))
+            x += hw * rngk.uniform(0.9, 1.9)
+        filas.append((picos, base, aire, f))
     for k, (picos, base, aire, f) in enumerate(filas):
         karst(C, picos, base, lit="#b8d0c4", sombra="#6f8f94", aire=aire, aire_f=f, seed=200 + k * 7, niebla_pie=("#eef3ec", 70, 0.95), filo=0.5, rug=11)
         niebla(C, base - 10, 28, "#f2f6ee", 0.8, 210 + k)
@@ -147,6 +156,12 @@ def pinta(M):
     C.pon(rc, rocas)
     M.capa("frente", C, 1.0)
 
+    # ------------------------------------------------------------ 6 · marco: hojas de bambú desenfocadas en los bordes
+    C = Capa(L)
+    marco_hojas(C, [(20, 1320, 60, 50, 110, 0.4), (40, 1500, 90, 70, 120, -0.3), (1080, 1300, 60, 50, 110, 2.7), (1060, 1500, 90, 70, 120, -2.8)],
+                "#0e2414", "#7aa85a", luz=LUZ, punta="#e8f0c0", desenfoque=7, seed=94)
+    M.capa("marco", C, 1.3)
+
     # ------------------------------------------------------------ piezas animadas
     sp.cascada(M.ruta("cascada.webp"), 40, 220, seed=3)
     M.actor("picos", "cascada.webp", x_casc - 9, y_casc, 18, 180, "cascada", dur=1.6)
@@ -168,6 +183,12 @@ def pinta(M):
     sp.grulla(M.ruta("garza-b.webp"), 1, luz=LUZ)
     for i, (dx, dy, s) in enumerate(((0, 0, 0.6), (50, 22, 0.5), (96, 10, 0.45))):
         M.actor("picos", "garza-a.webp", 1120 + dx, 560 + dy, 60 * s, 35 * s, "vuelo", dur=52, retraso=-30 - i * 0.2, dx=-150, dy=-3, aleteo=1.0 + i * 0.1, src2=f"{M.nivel}/garza-b.webp", movil=i < 2)
+    sp.gente(M, "terrazas", "campesina", 200, 905, 12, 8, 50, retraso=-10, luz=LUZ)
+    sp.gente(M, "terrazas", "campesina", 940, 925, 12, -7, 46, retraso=-22, luz=LUZ, movil=False)
+    sp.gente(M, "rio", "pescador", 170, 1100, 20, 9, 60, retraso=-15, luz=LUZ, movil=False)
+    sp.sombra_nube(M.ruta("sombra-nube.webp"), 480, 160, "#1e3a34", 0.25, seed=5)
+    M.actor("terrazas", "sombra-nube.webp", -200, 880, 520, 170, "deriva", dur=70, dx=45)
+    M.actor("picos", "sombra-nube.webp", 600, 700, 460, 160, "deriva", dur=90, retraso=-30, dx=-40, movil=False)
     # segunda cascada lejana y nubes sueltas que derivan
     M.actor("picos", "cascada.webp", 118, float(pf[120]) + 60, 10, 110, "cascada", dur=2.0, movil=False)
     for i, (x, y, w, h, dur, dx) in enumerate(((40, 120, 320, 90, 180, 26), (640, 60, 380, 100, 220, -20), (360, 420, 300, 60, 130, 18))):
