@@ -1,4 +1,4 @@
-// Escape del palacio · 逃出紫禁城 — sala de escape en 5 puertas con el contenido de la clase.
+// Escape del palacio · 逃出紫禁城 — sala de escape en 5 puertas con el contenido de la unidad completa.
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router";
@@ -22,7 +22,7 @@ import {
   Sello,
   Volver,
   etiquetaContenido,
-  frasesDeClase,
+  frasesDeUnidad,
   palabrasDe,
 } from "./jbComun.jsx";
 import "../../styles/v13-juegos-b.css";
@@ -113,7 +113,7 @@ function construirPuzles(c) {
   }
 
   // 4 · Mensaje cifrado: una frase de diálogo para ordenar
-  const frases = frasesDeClase(c, 4, 9);
+  const frases = frasesDeUnidad(c, 4, 9);
   const conZh = frases.filter((f) => f.zh);
   const frase = (conZh.length ? conZh : frases)[Math.floor(Math.random() * Math.max(1, (conZh.length ? conZh : frases).length))] ||
     (() => {
@@ -157,10 +157,10 @@ export default function EscapePalacioPage() {
         titulo="Escape del palacio"
         tituloChino="逃出紫禁城"
         icono={<Sello grande>逃</Sello>}
-        descripcion="Cinco puertas lacadas, cinco enigmas con tu clase · 五道朱漆门，五个谜题"
+        descripcion="Cinco puertas lacadas, cinco enigmas con tu unidad · 五道朱漆门，五个谜题"
       />
     );
-  return <JuegoEscape key={`${contenido.numero}-${contenido.clase}`} contenido={contenido} />;
+  return <JuegoEscape key={contenido.numero} contenido={contenido} />;
 }
 
 function JuegoEscape({ contenido }) {
@@ -318,8 +318,8 @@ function JuegoEscape({ contenido }) {
             </p>
             <ul className="jb-instrucciones">
               <li>
-                <b>Te han encerrado en la Ciudad Prohibida.</b> Abre las 5 puertas lacadas con lo que has aprendido en esta clase.
-                <span>你被困在紫禁城里。用这一课学到的知识打开五道朱漆门。</span>
+                <b>Te han encerrado en la Ciudad Prohibida.</b> Abre las 5 puertas lacadas con lo que has aprendido en esta unidad.
+                <span>你被困在紫禁城里。用这个单元学到的知识打开五道朱漆门。</span>
               </li>
               <li>
                 <b>Cada puerta es un enigma:</b> candado de letras, pergamino roto, balanza, mensaje cifrado y la puerta del emperador.
@@ -446,7 +446,7 @@ function JuegoEscape({ contenido }) {
                   <RotateCcwIcon size={20} aria-hidden="true" /> Otra vez · 再玩一次
                 </button>
                 <Link to="/juegos/escape-palacio" className="jb-boton jb-boton--linea">
-                  <LayersIcon size={18} aria-hidden="true" /> Otra clase · 换一课
+                  <LayersIcon size={18} aria-hidden="true" /> Otra unidad · 换一个单元
                 </Link>
                 <Link to="/juegos" className="jb-boton jb-boton--linea">
                   Juegos · 游戏

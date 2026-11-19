@@ -3,7 +3,6 @@ import * as React from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { ArrowLeftIcon, LayersIcon } from "lucide-react";
 import CATALOGO from "../../data/modulos/catalog.json";
-import { clasesDe } from "../../lib/clases.js";
 import { contenidoJuego, parametrosJuego, todasLasPalabras } from "../../lib/contenidoJuego.js";
 
 export const NIVELES = ["A1", "A2", "B1", "B2"];
@@ -28,7 +27,7 @@ export function respuestaSeleccionar(ejercicio) {
   return r;
 }
 
-/** Hook: contenido del juego según ?m=N&clase=K; «todas» = vocabulario de todas las unidades */
+/** Hook: contenido del juego según ?m=N (unidad completa; un ?clase=K heredado se ignora); «todas» = vocabulario de todas las unidades */
 export function useContenidoJuego() {
   const location = useLocation();
   return React.useMemo(() => {
@@ -47,12 +46,12 @@ export function useContenidoJuego() {
         ejercicios: {},
       };
     }
-    const { numero, clase } = parametrosJuego();
-    return numero ? contenidoJuego(numero, clase) : null;
+    const { numero } = parametrosJuego();
+    return numero ? contenidoJuego(numero) : null;
   }, [location.search, location.pathname]);
 }
 
-/** Clave de récord por unidad y clase */
+/** Clave de récord por unidad (clase siempre null → sufijo «u», el de siempre) */
 export const claveRecord = (juego, contenido) => `dele_${juego}_record_${contenido?.numero ?? "x"}_${contenido?.clase ?? "u"}`;
 export function leerNumero(clave, porDefecto = 0) {
   try {
@@ -98,15 +97,13 @@ export function Volver({ to = "/juegos" }) {
   );
 }
 
-/** Selector de unidad y clase cuando no llega ?m= en la ruta */
+/** Selector nivel → unidad cuando no llega ?m= en la ruta (siempre la unidad completa) */
 export function SelectorUnidad({ titulo, tituloChino, icono, descripcion }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [nivel, setNivel] = React.useState("A1");
-  const [unidad, setUnidad] = React.useState(null);
   const unidades = CATALOGO.filter((u) => u.nivel === nivel);
-  const ir = (numero, clase) => navigate(`${location.pathname}?m=${numero}${clase ? `&clase=${clase}` : ""}`);
-  const clases = unidad ? clasesDe(unidad.numero) : [];
+  const ir = (numero) => navigate(`${location.pathname}?m=${numero}`);
   return (
     <div className="jb-selector gm-no-adapt">
       <Volver />
@@ -118,82 +115,47 @@ export function SelectorUnidad({ titulo, tituloChino, icono, descripcion }) {
         <p className="jb-sub">{descripcion}</p>
       </header>
       <div className="jb-pergamino jb-selector__panel">
-        {!unidad ? (
-          <>
-            <p className="jb-selector__paso">1 · Elige una unidad · 选择单元</p>
-            <div className="jb-pestanas" role="tablist" aria-label="Nivel · 级别">
-              {NIVELES.map((n) => (
-                <button key={n} type="button" role="tab" aria-selected={nivel === n} className={`jb-pestana ${nivel === n ? "is-activa" : ""}`} onClick={() => setNivel(n)}>
-                  {n}
-                </button>
-              ))}
-              <button type="button" className="jb-pestana jb-pestana--todas" onClick={() => ir("todas")}>
-                <LayersIcon size={16} aria-hidden="true" /> Todas · 全部
-              </button>
-            </div>
-            <ul className="jb-unidades">
-              {unidades.map((u) => (
-                <li key={u.numero}>
-                  <button type="button" className="jb-unidad" onClick={() => (clasesDe(u.numero).length > 1 ? setUnidad(u) : ir(u.numero))}>
-                    <span className="jb-unidad__num" translate="no">
-                      {u.numero}
-                    </span>
-                    <span className="jb-unidad__txt">
-                      <strong>{u.titulo}</strong>
-                      <small>{u.tituloChino}</small>
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : (
-          <>
-            <button type="button" className="jb-enlace" onClick={() => setUnidad(null)}>
-              <ArrowLeftIcon size={16} aria-hidden="true" /> Otras unidades · 其他单元
+        <p className="jb-selector__paso">Elige una unidad · 选择单元</p>
+        <div className="jb-pestanas" role="tablist" aria-label="Nivel · 级别">
+          {NIVELES.map((n) => (
+            <button key={n} type="button" role="tab" aria-selected={nivel === n} className={`jb-pestana ${nivel === n ? "is-activa" : ""}`} onClick={() => setNivel(n)}>
+              {n}
             </button>
-            <p className="jb-selector__paso">
-              2 · Unidad {unidad.numero}: {unidad.titulo} — elige una clase · 选择课
-            </p>
-            <ul className="jb-unidades">
-              <li>
-                <button type="button" className="jb-unidad" onClick={() => ir(unidad.numero)}>
-                  <span className="jb-unidad__num">全</span>
-                  <span className="jb-unidad__txt">
-                    <strong>Toda la unidad</strong>
-                    <small>整个单元</small>
-                  </span>
-                </button>
-              </li>
-              {clases.map((c) => (
-                <li key={c.n}>
-                  <button type="button" className="jb-unidad" onClick={() => ir(unidad.numero, c.n)}>
-                    <span className="jb-unidad__num">{c.n}</span>
-                    <span className="jb-unidad__txt">
-                      <strong>Clase {c.n}{c.titulo ? ` · ${c.titulo}` : ""}</strong>
-                      <small>第{c.n}课{c.tituloChino ? ` · ${c.tituloChino}` : ""}</small>
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+          ))}
+          <button type="button" className="jb-pestana jb-pestana--todas" onClick={() => ir("todas")}>
+            <LayersIcon size={16} aria-hidden="true" /> Todas · 全部
+          </button>
+        </div>
+        <ul className="jb-unidades">
+          {unidades.map((u) => (
+            <li key={u.numero}>
+              <button type="button" className="jb-unidad" onClick={() => ir(u.numero)}>
+                <span className="jb-unidad__num" translate="no">
+                  {u.numero}
+                </span>
+                <span className="jb-unidad__txt">
+                  <strong>{u.titulo}</strong>
+                  <small>{u.tituloChino}</small>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 
-/** Etiqueta «Unidad N · Clase K» */
+/** Etiqueta «UN · nivel» */
 export function etiquetaContenido(c) {
   if (!c) return "";
   if (c.numero === "todas") return "Todas las unidades · 全部单元";
   const nivel = c.nivel || CATALOGO.find((u) => u.numero === c.numero)?.nivel || "";
-  return `U${c.numero}${c.clase ? ` · Clase ${c.clase} 第${c.clase}课` : ""}${nivel ? ` · ${nivel}` : ""}`;
+  return `U${c.numero}${nivel ? ` · ${nivel}` : ""}`;
 }
 
-/** Frases de la clase (diálogos y «ordenar») de longitud razonable */
-export function frasesDeClase(c, min = 3, max = 9) {
+/** Frases de la unidad (diálogos y «ordenar») de longitud razonable */
+export function frasesDeUnidad(c, min = 3, max = 9) {
   const frases = [];
   for (const o of c?.ejercicios?.ordenar || []) if (o?.respuestaCorrecta) frases.push({ texto: limpiar(o.respuestaCorrecta), zh: limpiar(o.explicacion && tieneChino(o.explicacion) && !o.explicacion.includes("正确的顺序") ? o.explicacion : "") });
   for (const d of c?.dialogos || [])

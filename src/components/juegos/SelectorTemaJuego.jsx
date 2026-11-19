@@ -1,9 +1,8 @@
-// v14 · Selector de temática (unidad / clase) común a los juegos clásicos del hub:
+// v14 · Selector de temática (nivel → unidad; siempre la unidad completa) común a los juegos clásicos del hub:
 // Ruleta, Ahorcado, Memory, Sopa de letras, Palabra desordenada, Kahoot, Apalabrados y UNO.
 // Pantalla tipo app: cabecera con el emblema del juego, búsqueda, chips de nivel A1–B2,
 // «Todas las unidades» destacada y tarjetas con sello caligráfico, nivel, palabras y progreso.
 import * as React from "react";
-import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router";
 import {
   ArrowLeftIcon,
@@ -11,7 +10,6 @@ import {
   XIcon,
   LayersIcon,
   PlayIcon,
-  ChevronRightIcon,
   DicesIcon,
   EyeIcon,
   Grid3x3Icon,
@@ -19,13 +17,11 @@ import {
   ZapIcon,
   HashIcon,
   CrownIcon,
-  BookOpenIcon,
 } from "lucide-react";
 import CATALOGO from "../../data/modulos/catalog.json";
-import { clasesDe, progresoUnidad } from "../../lib/clases.js";
+import { progresoUnidad } from "../../lib/clases.js";
 import { getGame } from "../../lib/gamification.js";
 import "../../styles/v14-fix-juegos.css";
-import { useModalAccesible } from "../../lib/useModalAccesible.js";
 
 const NIVELES = ["A1", "A2", "B1", "B2"];
 const NIVEL_ZH = { A1: "入门", A2: "初级", B1: "中级", B2: "中高级" };
@@ -43,17 +39,14 @@ export const JUEGOS_CLASICOS = {
 
 const reducido = () => typeof window !== "undefined" && !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-/** Unidad y clase que llegan en la ruta (#/juegos/x?m=N&clase=K) */
+/** Unidad que llega en la ruta (#/juegos/x?m=N); un ?clase=K heredado se ignora: se juega la unidad entera */
 function leerRuta(search) {
   const params = new URLSearchParams(search);
-  const numero = Number(params.get("m")) || null;
-  const claseTexto = params.get("clase");
-  const clase = claseTexto && claseTexto !== "unidad" ? Number(claseTexto) || null : null;
-  return { numero, clase };
+  return { numero: Number(params.get("m")) || null };
 }
 
 // Entrada de la ruta que ya arrancó una partida (por location.key): al volver al selector desde el juego
-// no se vuelve a arrancar sola, pero una navegación nueva (otra clase, otra unidad) sí.
+// no se vuelve a arrancar sola, pero una navegación nueva (otra unidad) sí.
 let entradaIniciada = null;
 
 /** Sello rojo con caligrafía (número de unidad o carácter) */
@@ -84,7 +77,7 @@ function AnilloProgreso({ pct }) {
  * Pantalla de elección de temática.
  * - `juego`: clave de JUEGOS_CLASICOS.
  * - `onIniciar(moduloId | null)`: arranca la partida con la unidad (`modulo-N`) o con todas (null).
- *   Si la ruta trae ?clase=K, las utilidades de juegos ya filtran el vocabulario a esa clase.
+ *   Siempre con el vocabulario de la unidad completa (aunque la ruta traiga ?clase=K).
  * - `error`: aviso (p. ej. la unidad no tiene palabras válidas para este juego).
  * - `sinUnidades`: el juego no se juega por unidad (Apalabrados): solo cabecera + `children`.
  */
@@ -95,15 +88,11 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
   const navigate = useNavigate();
   const [nivel, setNivel] = React.useState("todos");
   const [busqueda, setBusqueda] = React.useState("");
-  const [unidadAbierta, setUnidadAbierta] = React.useState(null);
-  // Hoja «Elegir clase»: foco dentro al abrir, Tab atrapado y Escape la cierra
-  const hoja = React.useRef(null);
-  useModalAccesible(hoja, { activo: Boolean(unidadAbierta), enfocar: true, onEscape: () => setUnidadAbierta(null) });
   const iniciarRef = React.useRef(onIniciar);
   iniciarRef.current = onIniciar;
   const ruta = leerRuta(location.search);
 
-  // Llegada desde una clase o una unidad (?m=N&clase=K): arranca directamente con ese contenido.
+  // Llegada con una unidad (?m=N, también desde una clase con &clase=K): arranca directamente con la unidad entera.
   // useLayoutEffect: antes de que el auto-clic heredado de App.jsx (PageTransition) pulse una tarjeta.
   React.useLayoutEffect(() => {
     if (sinUnidades || !ruta.numero) return;
@@ -136,10 +125,9 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
 
   const cuentaNivel = React.useMemo(() => Object.fromEntries(NIVELES.map((n) => [n, CATALOGO.filter((u) => u.nivel === n).length])), []);
 
-  const ir = (numero, clase) => {
-    setUnidadAbierta(null);
-    const destino = `?m=${numero}${clase ? `&clase=${clase}` : ""}`;
-    if (destino === location.search) {
+  const ir = (numero) => {
+    const destino = `?m=${numero}`;
+    if (Number(new URLSearchParams(location.search).get("m")) === numero) {
       entradaIniciada = location.key;
       iniciarRef.current(`modulo-${numero}`);
     } else {
@@ -150,10 +138,8 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
     if (location.search) navigate(location.pathname, { replace: true });
     iniciarRef.current(null);
   };
-  const elegirUnidad = (u) => (clasesDe(u.numero).length > 1 ? setUnidadAbierta(u) : ir(u.numero, null));
 
   const unidadRuta = ruta.numero ? CATALOGO.find((u) => u.numero === ruta.numero) : null;
-  const claseRuta = unidadRuta && ruta.clase ? clasesDe(unidadRuta.numero).find((c) => c.n === ruta.clase) : null;
   const animar = !reducido();
 
   return (
@@ -195,12 +181,12 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
       ) : (
         <>
           {unidadRuta && (
-            <button type="button" className="v14j-destacada v14j-destacada--clase" onClick={() => ir(unidadRuta.numero, ruta.clase)}>
+            <button type="button" className="v14j-destacada v14j-destacada--clase" onClick={() => ir(unidadRuta.numero)}>
               <SelloJuego>{unidadRuta.numero}</SelloJuego>
               <span className="v14j-destacada-txt">
-                <small>{claseRuta ? `Tu clase · 你的课 · Clase ${claseRuta.n} · 第${claseRuta.n}课` : `Tu unidad · 你的单元`}</small>
-                <b>{claseRuta?.titulo || unidadRuta.titulo}</b>
-                <i translate="no">{claseRuta?.tituloChino || unidadRuta.tituloChino}</i>
+                <small>Tu unidad · 你的单元</small>
+                <b>{unidadRuta.titulo}</b>
+                <i translate="no">{unidadRuta.tituloChino}</i>
               </span>
               <span className="v14j-jugar" aria-hidden="true">
                 <PlayIcon size={20} fill="currentColor" />
@@ -249,10 +235,9 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
           <ul className="v14j-lista" key={`${nivel}|${busqueda ? "q" : ""}`}>
             {unidades.map((u, i) => {
               const pct = progreso[u.numero] || 0;
-              const nClases = clasesDe(u.numero).length;
               return (
                 <li key={u.numero} className={animar ? "v14j-entra" : ""} style={{ "--i": Math.min(i, 14) }}>
-                  <button type="button" className="v14j-tarjeta" onClick={() => elegirUnidad(u)}>
+                  <button type="button" className="v14j-tarjeta" onClick={() => ir(u.numero)}>
                     <SelloJuego>{u.numero}</SelloJuego>
                     <span className="v14j-tarjeta-txt">
                       <b>{u.titulo}</b>
@@ -262,7 +247,6 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
                         <span>
                           {u.vocabularioCount || 0} palabras · 词
                         </span>
-                        {nClases > 1 && <span>{nClases} clases · 课</span>}
                       </span>
                     </span>
                     <AnilloProgreso pct={pct} />
@@ -279,72 +263,22 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
         </>
       )}
 
-      {unidadAbierta &&
-        createPortal(
-          <div className="v14j-hoja-fondo gm-no-adapt" onClick={() => setUnidadAbierta(null)}>
-            <div className="v14j-hoja" ref={hoja} role="dialog" aria-modal="true" aria-label="Elegir clase · 选择课" onClick={(e) => e.stopPropagation()}>
-              <span className="v14j-hoja-asa" aria-hidden="true" />
-              <button type="button" className="v14j-hoja-cerrar" onClick={() => setUnidadAbierta(null)} aria-label="Cerrar · 关闭">
-                <XIcon size={20} />
-              </button>
-              <div className="v14j-hoja-cab">
-                <SelloJuego>{unidadAbierta.numero}</SelloJuego>
-                <div>
-                  <small>
-                    {unidadAbierta.nivel} · Unidad {unidadAbierta.numero} · 第{unidadAbierta.numero}单元
-                  </small>
-                  <h2>{unidadAbierta.titulo}</h2>
-                  <p translate="no">{unidadAbierta.tituloChino}</p>
-                </div>
-              </div>
-              <p className="v14j-hoja-paso">¿Con qué palabras juegas? · 用哪些单词玩？</p>
-              <div className="v14j-hoja-clases">
-                {clasesDe(unidadAbierta.numero).map((c) => (
-                  <button key={c.n} type="button" className="v14j-clase" onClick={() => ir(unidadAbierta.numero, c.n)}>
-                    <span className="v14j-clase-n" translate="no">
-                      第{c.n}课
-                    </span>
-                    <span className="v14j-clase-txt">
-                      <b>{c.titulo || `Clase ${c.n}`}</b>
-                      <small>
-                        Clase {c.n} · {(c.vocabulario || []).length} palabras · 词{c.tituloChino ? ` · ${c.tituloChino}` : ""}
-                      </small>
-                    </span>
-                    <ChevronRightIcon size={18} aria-hidden="true" />
-                  </button>
-                ))}
-                <button type="button" className="v14j-clase v14j-clase--todo" onClick={() => ir(unidadAbierta.numero, null)}>
-                  <span className="v14j-clase-n" aria-hidden="true">
-                    <BookOpenIcon size={20} />
-                  </span>
-                  <span className="v14j-clase-txt">
-                    <b>Toda la unidad</b>
-                    <small>整个单元 · {unidadAbierta.vocabularioCount || 0} palabras · 词</small>
-                  </span>
-                  <ChevronRightIcon size={18} aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-          </div>,
-          document.body,
-        )}
     </div>
   );
 }
 
-/** Cinta con la unidad / clase de la partida en curso (para las fases de juego) */
+/** Cinta con la unidad de la partida en curso (para las fases de juego) */
 export function CintaTemaJuego() {
   const location = useLocation();
-  const { numero, clase } = leerRuta(location.search);
+  const { numero } = leerRuta(location.search);
   const unidad = numero ? CATALOGO.find((u) => u.numero === numero) : null;
   // La marca (oculta) permite aplicar el tema imperial v14 solo a los juegos clásicos (.app-stage:has(.v14j-marca))
   if (!unidad) return <span className="v14j-marca" hidden />;
-  const info = clase ? clasesDe(numero).find((c) => c.n === clase) : null;
   return (
     <p className="v14j-cinta v14j-marca gm-no-adapt">
       <span translate="no">{unidad.nivel}</span> Unidad {numero}
-      {info ? ` · Clase ${info.n} · 第${info.n}课` : ` · 第${numero}单元`}
-      <b>{info?.titulo || unidad.titulo}</b>
+      {` · 第${numero}单元`}
+      <b>{unidad.titulo}</b>
     </p>
   );
 }

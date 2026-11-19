@@ -1,12 +1,9 @@
 // Piezas comunes de los juegos «Mapa mental» y «Teatro de diálogos» (prefijo ja-)
 import * as React from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { ArrowLeftIcon, ChevronRightIcon, XIcon, BookOpenIcon } from "lucide-react";
-import { createPortal } from "react-dom";
+import { ArrowLeftIcon, ChevronRightIcon, BookOpenIcon } from "lucide-react";
 import CATALOGO from "../../data/modulos/catalog.json";
 import { contenidoJuego } from "../../lib/contenidoJuego.js";
-import { clasesDe } from "../../lib/clases.js";
-import { useModalAccesible } from "../../lib/useModalAccesible.js";
 
 export const NIVELES = ["A1", "A2", "B1", "B2"];
 const NIVEL_ZH = { A1: "入门", A2: "初级", B1: "中级", B2: "中高级" };
@@ -22,25 +19,24 @@ export const barajar = (lista) => {
   return copia;
 };
 
-/** Contenido de la unidad/clase según ?m=N&clase=K (HashRouter) y funciones para cambiarla */
+/** Contenido de la unidad completa según ?m=N (HashRouter) y funciones para cambiarla.
+ *  Un ?clase=K heredado (enlaces desde una clase) se ignora: los juegos usan siempre toda la unidad. */
 export function useContenidoJA() {
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const numero = Number(params.get("m")) || null;
-  const claseTexto = params.get("clase");
-  const clase = claseTexto && claseTexto !== "unidad" ? Number(claseTexto) || null : null;
   const contenido = React.useMemo(() => {
     if (!numero) return null;
-    const datos = contenidoJuego(numero, clase);
+    const datos = contenidoJuego(numero);
     return datos ? { ...datos, nivel: datos.nivel || nivelDe(numero) } : null;
-  }, [numero, clase]);
+  }, [numero]);
   const elegir = React.useCallback(
-    (n, k) => navigate(`${location.pathname}?m=${n}${k ? `&clase=${k}` : ""}`),
+    (n) => navigate(`${location.pathname}?m=${n}`),
     [navigate, location.pathname],
   );
   const quitar = React.useCallback(() => navigate(location.pathname), [navigate, location.pathname]);
-  return { contenido, numero, clase, elegir, quitar };
+  return { contenido, numero, clase: null, elegir, quitar };
 }
 
 /** Partículas doradas en un lienzo temporal (respeta prefers-reduced-motion) */
@@ -125,7 +121,6 @@ export function CabeceraJA({ titulo, tituloZh, sello, contenido, onCambiar, chil
           <span className="ja-chip-texto">
             <b>
               {contenido.nivel} · U{contenido.numero}
-              {contenido.clase ? ` · C${contenido.clase}` : ""}
             </b>
             <small className="ja-chip-tema">{contenido.tituloChino || contenido.titulo}</small>
             <small className="ja-chip-movil">Cambiar · 更换</small>
@@ -138,15 +133,10 @@ export function CabeceraJA({ titulo, tituloZh, sello, contenido, onCambiar, chil
   );
 }
 
-/** Selector de unidad (90 unidades) y clase */
+/** Selector de unidad (nivel → unidad): los juegos usan siempre la unidad completa */
 export function SelectorUnidadJA({ titulo, tituloZh, sello, descripcion, onElegir }) {
   const [nivel, setNivel] = React.useState("A1");
-  const [unidad, setUnidad] = React.useState(null);
-  // Hoja «Elegir clase»: foco dentro al abrir, Tab atrapado y Escape la cierra
-  const hoja = React.useRef(null);
-  useModalAccesible(hoja, { activo: Boolean(unidad), enfocar: true, onEscape: () => setUnidad(null) });
   const unidades = CATALOGO.filter((u) => u.nivel === nivel);
-  const clases = unidad ? clasesDe(unidad.numero) : [];
   return (
     <div className="ja-selector">
       <div className="ja-selector-hero">
@@ -166,7 +156,7 @@ export function SelectorUnidadJA({ titulo, tituloZh, sello, descripcion, onElegi
       </div>
       <div className="ja-unidades">
         {unidades.map((u) => (
-          <button key={u.numero} type="button" className="ja-unidad" onClick={() => setUnidad(u)}>
+          <button key={u.numero} type="button" className="ja-unidad" onClick={() => onElegir(u.numero)}>
             <span className="ja-unidad-num">{u.numero}</span>
             <span className="ja-unidad-txt">
               <b>{u.titulo}</b>
@@ -176,43 +166,6 @@ export function SelectorUnidadJA({ titulo, tituloZh, sello, descripcion, onElegi
           </button>
         ))}
       </div>
-      {unidad &&
-        createPortal(
-          <div className="ja-modal-fondo gm-no-adapt" onClick={() => setUnidad(null)}>
-            <div className="ja-modal" ref={hoja} role="dialog" aria-modal="true" aria-label="Elegir clase · 选择课" onClick={(e) => e.stopPropagation()}>
-              <button type="button" className="ja-modal-cerrar" onClick={() => setUnidad(null)} aria-label="Cerrar · 关闭">
-                <XIcon size={20} />
-              </button>
-              <p className="ja-modal-kicker">
-                {unidad.nivel} · Unidad {unidad.numero} · 第{unidad.numero}单元
-              </p>
-              <h3>{unidad.titulo}</h3>
-              <p className="ja-modal-zh">{unidad.tituloChino}</p>
-              <div className="ja-clases">
-                {clases.length > 1 &&
-                  clases.map((c) => (
-                    <button key={c.n} type="button" className="ja-clase" onClick={() => onElegir(unidad.numero, c.n)}>
-                      <span className="ja-clase-n">{c.n}</span>
-                      <span>
-                        <b>{c.titulo || `Clase ${c.n}`}</b>
-                        <small>
-                          Clase {c.n} · 第{c.n}课{c.tituloChino ? ` · ${c.tituloChino}` : ""}
-                        </small>
-                      </span>
-                    </button>
-                  ))}
-                <button type="button" className="ja-clase ja-clase-todo" onClick={() => onElegir(unidad.numero, null)}>
-                  <span className="ja-clase-n">★</span>
-                  <span>
-                    <b>Toda la unidad</b>
-                    <small>整个单元 · 全部内容</small>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>,
-          document.body,
-        )}
     </div>
   );
 }
