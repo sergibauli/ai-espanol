@@ -2,16 +2,16 @@ import * as React from "react";
 
 /*
   v22 · Cabecera de la Ruta: «dos dragones juegan con la perla» (二龙戏珠) sobre un dintel de laca, y cuatro tablillas
-  de nivel, cada una con su mundo (A1 bambú, A2 linternas, B1 tinta, B2 Ciudad Prohibida).
+  de nivel, cada una con su mundo (v25: A1 Pekín nevado, A2 dunas, B1 agua y tinta, B2 karst y niebla).
   Los dragones nacen de nubes de oro: así se ven enteros, sin cortes contra el borde del pergamino.
   Todo se anima con transform/opacity y se detiene con prefers-reduced-motion (v22-ruta.css).
 */
 
 export const MUNDO_NIVEL = {
-  A1: { es: "Bosque de bambú", zh: "竹林", c: "#1f9a5c", d: "#0d4a2b", luz: "#b8f5cf" },
-  A2: { es: "Calle de linternas", zh: "灯笼街", c: "#e2541e", d: "#7d1a08", luz: "#ffd58a" },
-  B1: { es: "Montes de tinta", zh: "水墨山", c: "#2f5fb3", d: "#0f2350", luz: "#cfe0ff" },
-  B2: { es: "Ciudad Prohibida", zh: "紫禁城", c: "#7a3fd0", d: "#2c0f5c", luz: "#fde68a" },
+  A1: { es: "Pekín nevado", zh: "雪中北京", c: "#1f9a5c", d: "#0d4a2b", luz: "#b8f5cf" },
+  A2: { es: "Dunas al atardecer", zh: "大漠落日", c: "#e2541e", d: "#7d1a08", luz: "#ffd58a" },
+  B1: { es: "Agua y tinta", zh: "江南水墨", c: "#2f5fb3", d: "#0f2350", luz: "#cfe0ff" },
+  B2: { es: "Karst y niebla", zh: "山水云雾", c: "#7a3fd0", d: "#2c0f5c", luz: "#fde68a" },
 };
 
 // Mini-escenas de cada tablilla (200×90, se recortan con la tablilla)

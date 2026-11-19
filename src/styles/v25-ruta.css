@@ -72,3 +72,46 @@
 
 /* ---------- Un solo Rey Mono en la Ruta (el viajero): el asistente flotante se oculta aquí ---------- */
 body.en-ruta .mf { display: none !important; }
+
+/* ---------- Transición entre unidades: banda de nubes (las nubes ya no son camino, solo umbral) ---------- */
+.rt22 .ruta-main.mr-on .ruta-unit { padding-bottom: 62px; }
+.rt22 .ruta-main.mr-on .ruta-unit::after { content: ""; position: absolute; z-index: 1; left: -4%; right: -4%; bottom: -36px; height: 120px; pointer-events: none;
+  background: url("../../public/theme/ruta/niebla-blanca.webp") 0 50% / 520px 100% repeat-x; opacity: .9; }
+.rt22 .ruta-main.map-A2 .ruta-unit::after { background-image: url("../../public/theme/ruta/niebla-arena.webp"); }
+.rt22 .ruta-main.map-B1 .ruta-unit::after { background-image: url("../../public/theme/ruta/niebla-noche.webp"); opacity: .75; }
+.rt22 .ruta-main.mr-on .ruta-unit .ru-estandarte { z-index: 4; }
+
+/* ---------- Marca de agua del lugar: 3,5 % y fuera de la columna del camino ---------- */
+.rt22 .ruta-main.mr-on .ru-marca-agua { opacity: .035; left: auto; right: 2%; top: 46%; transform: none; }
+.rt22 .ruta-main.mr-on .ru-marca-agua b { writing-mode: vertical-rl; font-size: 54px; letter-spacing: 8px; margin: 0; }
+.rt22 .ruta-main.mr-on .ru-marca-agua svg { display: none; }
+@media (max-width: 700px) { .rt22 .ruta-main.mr-on .ru-marca-agua { display: none; } }
+
+/* ---------- Pestañas de nivel inactivas legibles ---------- */
+.rh-tablilla:not(.on) { filter: saturate(.85) brightness(.97); }
+.rh-tablilla:not(.on) .rh-velo { background: linear-gradient(180deg, color-mix(in srgb, var(--d) 25%, transparent) 0%, color-mix(in srgb, var(--d) 60%, transparent) 38%, color-mix(in srgb, var(--d) 96%, transparent) 100%); }
+
+/* ---------- Móvil: el final del camino nunca queda bajo la barra inferior ---------- */
+@media (max-width: 1000px) {
+  .rt22 .ruta-main.mr-on { padding-bottom: calc(96px + 24px + env(safe-area-inset-bottom, 0px)) !important; }
+}
+/* Sello «成» arriba a la derecha: no tapa la etiqueta de la clase */
+.rt22 .ruta-camino .md-sello { top: -8px; bottom: auto; right: -14px; }
+
+/* ---------- Estandarte en móvil: título en dos líneas (chino debajo), lugar en su línea, «0/2» dentro del rollo ---------- */
+@media (max-width: 700px) {
+  .rt22 .ruta-unit .ru-estandarte { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: auto auto; column-gap: 10px; row-gap: 5px; align-items: center; padding: 10px 8px 9px 10px; }
+  .rt22 .ruta-unit .ru-medallon { grid-column: 1; grid-row: 1 / 3; align-self: center; }
+  .rt22 .ruta-unit .ru-textos { grid-column: 2; grid-row: 1; }
+  .rt22 .ruta-unit .ru-guia { grid-column: 3; grid-row: 1 / 3; align-self: center; }
+  .rt22 .ruta-unit .ru-clases { position: static; grid-column: 2; grid-row: 2; justify-self: start; padding: 2px 8px; }
+  .rt22 .ruta-unit .ru-lugar { white-space: normal; overflow: visible; font-size: 10.5px; line-height: 1.25; }
+  .rt22 .ruta-unit .ru-lugar > span { font-size: 12.5px; }
+  .rt22 .ruta-unit .ru-estandarte h2 { white-space: normal; overflow: visible; text-overflow: clip; font-size: 17px; line-height: 1.12; margin-top: 3px; }
+  .rt22 .ruta-unit .ru-estandarte h2 .ru-titulo { display: block; }
+  .rt22 .ruta-unit .ru-estandarte h2 i { display: block; margin: 3px 0 0; font-size: 13.5px; }
+}
+/* El botón se desplaza hacia el centro del carril (no se sale por el borde); la flecha sigue apuntando a la parada */
+.rt22 .rp-parada .rp-empezar { translate: calc(var(--dxe, 0px) * .5) 0; }
+.rt22 .rp-parada .rp-empezar::after { left: calc(50% - var(--dxe, 0px) * .5) !important; }
+@media (max-width: 700px) { .rt22 .rp-parada .rp-empezar { translate: calc(var(--dxe, 0px) * .62) 0; } .rt22 .rp-parada .rp-empezar::after { left: calc(50% - var(--dxe, 0px) * .62) !important; } }

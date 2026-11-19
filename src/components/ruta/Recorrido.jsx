@@ -70,7 +70,7 @@ const NIEBLA = { muralla: "#eef1f5", rio: "#f6d4a0", pincel: "#2a3358", escalina
 const LUZ_LADO = { muralla: 1, rio: -1, pincel: 1, escalinata: -1, nubes: 1 };
 const SUELO = {
   // [cresta iluminada, ladera en sombra, falda, borde difuso]
-  muralla: ["#fbf8f2", "#b4c4db", "#93a7c6", "rgba(244,246,250,.55)"],
+  muralla: ["#fdfaf4", "#9fb2d0", "#7489ad", "rgba(244,246,250,.55)"],
   rio: ["#f2cf92", "#c98e5c", "#a8684a", "rgba(250,214,160,.5)"],
   pincel: ["#efe6d2", "#d9cdb2", "#b9ab90", "rgba(239,230,210,.35)"],
   escalinata: ["#a9cf8f", "#5f8f60", "#3f6a4c", "rgba(226,238,226,.6)"],
@@ -81,15 +81,17 @@ function terreno({ M, forma }) {
   const tipo = forma.tipo;
   const c = SUELO[tipo];
   if (!c) return null;
-  const m = M(6);
+  const m = M(tipo === "pincel" ? 3 : 6);
   const lado = LUZ_LADO[tipo];
-  const ancho = (q) => (tipo === "pincel" ? 150 : 170) + 22 * Math.sin(q.s / 53 + 1) + 12 * Math.sin(q.s / 17);
+  const papel = tipo === "pincel";
+  // borde: ondulación amplia + barbas de papel de arroz (pincel) o irregularidad del terreno
+  const amplio = tipo === "escalinata" ? 2.2 : 1;
+  const ancho = (q) => (papel ? 128 : tipo === "escalinata" ? 190 : 170) + 22 * amplio * Math.sin(q.s / 53 + 1) + 12 * Math.sin(q.s / 17) + (papel ? 4 * Math.sin(q.s / 7.3) + 1.6 * Math.sin(q.s / 2.9 + 2) : 3 * Math.sin(q.s / 5.1));
   const grad = `r25-suelo-${tipo}`;
   return (
     <g className={`r25-suelo r25-suelo-${tipo}`}>
       {/* Halo difuso: el terreno se funde con el paisaje */}
-      <path d={cinta(m, (q) => ancho(q) + 90)} style={{ fill: c[3], opacity: 0.35 }} />
-      <path d={cinta(m, (q) => ancho(q) + 50)} style={{ fill: c[3], opacity: 0.55 }} />
+      <path className="r25-halo" d={cinta(m, (q) => ancho(q) + 60)} style={{ fill: c[3] }} />
       {/* Falda de la loma (volumen hacia el espectador) */}
       {tipo !== "pincel" && <path d={cinta(m, (q) => ancho(q) - 6, 0, 30)} style={{ fill: c[2] }} />}
       {tipo !== "pincel" && <path d={cinta(m, (q) => ancho(q) - 6, 0, 30)} style={{ fill: "url(#r25-falda)" }} />}
@@ -112,15 +114,18 @@ function brumaPendiente({ M, forma }) {
 /** Objetos delante del camino (oclusión): pinos nevados, tamariscos y rocas, hojas de orquídea a tinta, arbustos */
 function primerPlano({ M, forma, pts }) {
   const tipo = forma.tipo;
-  const libres = M(46).filter((q, k) => k > 1 && !pts.some((p) => Math.hypot(p[0] - q.x, p[1] + 30 - q.y) < 95));
+  const borde = { escalinata: 92, rio: 92, muralla: 80, pincel: 62 }[tipo] || 80;
+  const cerca = { escalinata: 50, rio: 66, muralla: 36, pincel: 30 }[tipo] || 40;
+  const libres = M(34).filter((q, k) => k > 1 && !pts.some((p) => Math.hypot(p[0] - q.x, p[1] + 30 - q.y) < 72));
   const piezas = [];
   libres.forEach((q, k) => {
-    if (azar(k * 9.1 + pts.length) < 0.35) return;
+    if (azar(k * 9.1 + pts.length) < 0.3) return;
     const lado = k % 2 ? 1 : -1;
-    const off = (tipo === "escalinata" ? 52 : tipo === "rio" ? 70 : 38) + azar(k * 3.3) * 14;
+    // dos de cada tres en el borde del terreno (rompen su silueta); una pegada al camino (lo tapa un poco: oclusión)
+    const off = (k % 3 === 0 ? cerca : borde) + azar(k * 3.3) * 14;
     const x = q.x + q.nx * lado * off;
     const y = q.y + q.ny * lado * off + 14;
-    const e = 0.75 + azar(k * 5.7) * 0.5;
+    const e = (k % 3 === 0 ? 0.8 : 1) * (0.75 + azar(k * 5.7) * 0.5);
     piezas.push(<use key={k} href={`#r25-prop-${tipo}-${k % 2}`} transform={`translate(${f1(x)} ${f1(y)}) scale(${lado * e} ${e})`} />);
   });
   return <g className="r25-delante">{piezas}</g>;
@@ -382,39 +387,77 @@ function Muelle({ x, y }) {
 function pincel({ M, forma, pts }) {
   const m = M(3);
   const ultima = pts.length - 1;
-  // Posición (s) de cada parada para que el pincel cargue más tinta al apoyarse
-  const sParadas = pts.map((p) => m.reduce((mejor, q) => (Math.hypot(q.x - p[0], q.y - p[1]) < Math.hypot(mejor.x - p[0], mejor.y - p[1]) ? q : mejor), m[0]).s);
+  // Posición (s) de cada parada: ahí el pincel se apoya (carga tinta) y luego se va secando hasta la siguiente
+  const sParadas = [0, ...pts.map((p) => m.reduce((mejor, q) => (Math.hypot(q.x - p[0], q.y - p[1]) < Math.hypot(mejor.x - p[0], mejor.y - p[1]) ? q : mejor), m[0]).s)];
   const fin = m[m.length - 1].s;
-  const ancho = (q) => {
-    const presion = sParadas.reduce((acc, s) => acc + 6 * Math.exp(-((q.s - s) ** 2) / (2 * 30 ** 2)), 0);
-    const entrada = Math.min(1, 0.25 + q.s / 60);
-    const salida = Math.min(1, 0.35 + (fin - q.s) / 50);
-    return (19 + 6 * Math.sin(q.s / 47 + 1) + 2.5 * Math.sin(q.s / 13)) * entrada * salida + presion;
+  const seco = (q) => {
+    let i = 0;
+    while (i + 1 < sParadas.length && sParadas[i + 1] <= q.s) i++;
+    const a0 = sParadas[i];
+    const a1 = sParadas[i + 1] ?? fin;
+    return a1 > a0 ? Math.min(1, Math.max(0, (q.s - a0) / (a1 - a0))) : 0;
   };
-  const secos = [-0.36, -0.22, -0.08, 0.12, 0.27, 0.4].map((f, k) => ({ f, k }));
+  const ancho = (q) => {
+    const presion = sParadas.slice(1).reduce((acc, s0) => acc + 9 * Math.exp(-((q.s - s0) ** 2) / (2 * 26 ** 2)), 0);
+    const entrada = Math.min(1, 0.2 + q.s / 50);
+    const salida = Math.min(1, 0.3 + (fin - q.s) / 45);
+    return (22 + 5 * Math.sin(q.s / 47 + 1) + 2 * Math.sin(q.s / 11)) * (1 - 0.38 * seco(q)) * entrada * salida + presion;
+  };
+  // 飞白: vetas de papel que asoman cuando el pincel se seca (más cuanto más lejos de la última parada)
+  const vetas = [];
+  for (let k = 0; k < 11; k++) {
+    const f = -0.42 + (k / 10) * 0.84;
+    const umbral = 0.28 + azar(k * 7.3) * 0.5;
+    let d = "";
+    let dentro = false;
+    m.forEach((q) => {
+      const visible = seco(q) > umbral && Math.sin(q.s / (5 + k) + k) > -0.6;
+      if (!visible) {
+        dentro = false;
+        return;
+      }
+      const w = ancho(q) * f;
+      d += `${dentro ? "L" : "M"}${f1(q.x + q.nx * w)} ${f1(q.y + q.ny * w)}`;
+      dentro = true;
+    });
+    if (d) vetas.push(<path key={k} className="r25-veta" d={d} style={{ strokeWidth: 0.8 + azar(k * 3.1) * 1.4 }} />);
+  }
+  // Pan de oro (金箔) solo en el tramo recorrido
+  const oro = [];
+  m.forEach((q, k) => {
+    if (!q._lit || azar(k * 1.31) > 0.22) return;
+    const off = (azar(k * 2.7) - 0.5) * ancho(q) * 0.8;
+    oro.push(<rect key={k} className="r25-oro" x={f1(q.x + q.nx * off - 1.2)} y={f1(q.y + q.ny * off - 1.2)} width={f1(1.4 + azar(k) * 2.2)} height={f1(1.2 + azar(k * 5) * 1.8)} transform={`rotate(${Math.round(azar(k * 9) * 90)} ${f1(q.x + q.nx * off)} ${f1(q.y + q.ny * off)})`} />);
+  });
   const gotas = [];
   pts.slice(0, ultima).forEach((p, i) => {
-    for (let g = 0; g < 5; g++) {
+    for (let g = 0; g < 4; g++) {
       const a = azar(i * 13 + g) * Math.PI * 2;
       const d = 58 + azar(i * 7 + g * 3) * 26;
-      gotas.push({ x: p[0] + Math.cos(a) * d, y: p[1] + 30 + Math.sin(a) * d * 0.5, r: 1.2 + azar(i + g * 11) * 3.2 });
+      gotas.push({ x: p[0] + Math.cos(a) * d, y: p[1] + 30 + Math.sin(a) * d * 0.5, r: 1 + azar(i + g * 11) * 2.6 });
     }
   });
+  const contorno = (q) => ancho(q) + 1.6 * Math.sin(q.s / 2.3) + 1.1 * Math.sin(q.s / 5.1);
+  const hecho = m.filter((q) => q._lit);
   return (
     <g>
-      <path className="r24-aguada" d={cinta(m, (q) => ancho(q) * 3.2)} />
-      <path className="r24-tinta-borde" d={cinta(m, (q) => ancho(q) + 9, 2, 3)} />
-      <path className="r24-tinta" d={cinta(m, (q) => ancho(q) + 2.2 * Math.sin(q.s / 2.3) + 1.4 * Math.sin(q.s / 5.1))} />
-      {/* Pincel seco (飞白): vetas de papel que asoman dentro del trazo */}
-      {secos.map(({ f, k }) => (
-        <path
-          key={k}
-          className="r24-seco"
-          d={paralela(m, (q) => ancho(q) * f)}
-          style={{ strokeDasharray: `${28 + k * 17} ${46 + ((k * 23) % 40)} ${10 + k * 4} ${30 + k * 9}`, strokeDashoffset: k * 31, strokeWidth: 1 + (k % 3) * 0.7 }}
-        />
+      <path className="r24-aguada" d={cinta(m, (q) => ancho(q) * 2.6)} />
+      {/* Boceto pálido de lo que queda por pintar; lo recorrido, en tinta rica (el pincel pinta al avanzar) */}
+      <path className="r25-tinta-boceto" d={cinta(m, contorno)} />
+      {hecho.length > 2 && (
+        <g>
+          <path className="r25-tinta-cuerpo" d={cinta(hecho, contorno)} />
+          <path className="r25-tinta-nucleo" d={cinta(hecho, (q) => ancho(q) * (0.5 - 0.3 * seco(q)))} />
+          {[1, -1].map((lado) => (
+            <path key={lado} className="r25-tinta-orla" d={paralela(hecho, (q) => (lado * contorno(q)) / 2 - lado * 1.2)} style={{ strokeDasharray: lado > 0 ? "70 6 30 4" : "44 5 90 7" }} />
+          ))}
+        </g>
+      )}
+      {[1, -1].map((lado) => (
+        <path key={lado} className="r25-tinta-orla boceto" d={paralela(m.filter((q) => !q._lit), (q) => (lado * contorno(q)) / 2 - lado * 1.2)} />
       ))}
-      <path className="r24-tinta-brillo" d={paralela(m, (q) => ancho(q) * 0.24, -1)} />
+      {vetas}
+      {oro}
       {gotas.map((g, k) => (
         <circle key={k} className="r24-gota" cx={f1(g.x)} cy={f1(g.y)} r={f1(g.r)} />
       ))}
@@ -444,20 +487,12 @@ function PiedraTinta({ x, y, k = 0 }) {
     dentro.push(`${f1(cx + Math.cos(a) * (rx - w))} ${f1(cy + Math.sin(a) * (ry - w * 0.55))}`);
   }
   const anillo = `M${fuera.join("L")}L${dentro.reverse().join("L")}Z`;
-  const sx = cx + (k % 2 ? -1 : 1) * (rx + 4);
   return (
     <g className="r24-enso">
       <ellipse cx={cx} cy={cy} rx={rx + 10} ry={ry + 6} className="r24-aguada" />
       <ellipse cx={cx} cy={cy} rx={rx - 4} ry={ry - 3} style={{ fill: "rgba(250,246,236,.55)" }} />
       <path d={anillo} className="r24-tinta" />
       <path d={anillo} style={{ fill: "none", stroke: "rgba(236,229,214,.5)", strokeWidth: 0.8, strokeDasharray: "14 22 6 30" }} />
-      <g transform={`translate(${f1(sx)} ${cy + 8}) rotate(${k % 2 ? 8 : -8})`}>
-        <rect x="-9" y="-9" width="18" height="18" rx="2" style={{ fill: "#c8102e" }} />
-        <rect x="-7" y="-7" width="14" height="14" rx="1" style={{ fill: "none", stroke: "#fff1e0", strokeWidth: 1 }} />
-        <text x="0" y="4.5" textAnchor="middle" style={{ fill: "#fff1e0", font: '700 11px "STKaiti","KaiTi",serif' }}>
-          学
-        </text>
-      </g>
     </g>
   );
 }
@@ -879,16 +914,20 @@ export function RecorridoDefs() {
           <path d="M-14 -6 H10 M-10 -11 H12" stroke="#8a4a30" strokeWidth=".8" opacity=".5" />
         </g>
         <g id="r25-prop-pincel-0">
-          {[["M0 0 C-6 -16 -20 -26 -34 -30", 3.2], ["M0 0 C2 -18 12 -32 26 -38", 2.6], ["M0 0 C-2 -12 -4 -26 -14 -40", 2.2], ["M0 0 C6 -8 18 -12 30 -10", 1.8]].map(([d, w], k) => (
-            <path key={k} d={d} fill="none" stroke="#1c1a18" strokeWidth={w} strokeLinecap="round" opacity=".85" />
-          ))}
-          <path d="M-4 -14 q-4 -6 0 -9 q4 3 0 9z M2 -16 q2 -7 7 -6 q0 5 -7 6z" fill="#3a3330" />
-          <circle cx="-1" cy="-17" r="1.6" fill="#c8102e" />
+          {/* Orquídea a tinta: hojas afiladas de un solo trazo con presión */}
+          <path d="M0 0 C-6 -10 -18 -22 -38 -27 C-20 -19 -8 -9 0 0Z" fill="rgba(22,20,18,.82)" />
+          <path d="M1 0 C2 -16 10 -30 24 -40 C14 -27 6 -14 1 0Z" fill="rgba(22,20,18,.78)" />
+          <path d="M-1 0 C-4 -14 -6 -28 -16 -44 C-9 -28 -4 -14 -1 0Z" fill="rgba(22,20,18,.7)" />
+          <path d="M2 0 C8 -6 18 -9 32 -7 C18 -5 9 -3 2 0Z" fill="rgba(22,20,18,.6)" />
+          <path d="M-3 -20 q-5 -4 -3 -9 q4 2 3 9z M3 -24 q1 -7 6 -7 q0 5 -6 7z" fill="rgba(60,52,48,.75)" />
+          <circle cx="0" cy="-24" r="1.4" fill="#c8102e" />
         </g>
         <g id="r25-prop-pincel-1">
-          <path d="M-24 0 Q-26 -16 -12 -24 Q2 -30 14 -20 Q24 -10 22 0Z" fill="rgba(28,26,24,.72)" />
-          <path d="M-18 -4 Q-18 -16 -8 -20 M4 -24 Q14 -18 16 -6" fill="none" stroke="#efe6d2" strokeWidth="1.4" strokeDasharray="6 4 2 5" opacity=".7" />
-          <path d="M-30 1 H30" stroke="rgba(28,26,24,.35)" strokeWidth="2.4" strokeLinecap="round" />
+          {/* Ramita de bambú a tinta */}
+          <path d="M-2 0 C-1 -14 2 -28 6 -42" fill="none" stroke="rgba(22,20,18,.75)" strokeWidth="2.2" strokeLinecap="round" />
+          {[[-1, -14, -150], [1, -24, -30], [3, -34, -160], [5, -40, -20]].map(([x, y, a], k) => (
+            <path key={k} transform={`translate(${x} ${y}) rotate(${a})`} d="M0 0 C6 -3 14 -3 22 0 C14 2 6 2 0 0Z" fill={`rgba(22,20,18,${0.82 - k * 0.1})`} />
+          ))}
         </g>
         <g id="r25-prop-escalinata-0">
           <ellipse cx="-3" cy="1" rx="22" ry="5" fill="#2f5a3a" opacity=".3" />

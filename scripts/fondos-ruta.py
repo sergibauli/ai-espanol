@@ -426,7 +426,23 @@ def A1():
     for ax in (60, 135, 210):
         arcos = np.maximum(arcos, ((np.abs(X - ax) < 15) & (Y > 1060) & (Y < 1120)) | (((X - ax) ** 2 + (Y - 1060) ** 2) < 225))
     edificio(C, te, mu, luz=luz, cx=135, aire="#e3e8f0", aire_f=0.12, seed=4)
-    C.pon(hexa("#2a1012"), arcos * mu)
+    # volumen del muro: más oscuro abajo, sombra del alero, albardilla dorada con nieve, tachones de las puertas
+    C.pon(hexa("#3a0c10"), mu * suave(1030, 1120, Y) * 0.35)
+    for y_alero, x0, x1 in ((950, 20, 250), (905, 45, 225), (1012, -10, 300)):
+        C.pon(hexa("#2a0a0c"), mu * ((X > x0) & (X < x1)) * suave(y_alero + 2, y_alero + 7, Y) * suave(y_alero + 22, y_alero + 9, Y) * 0.55)
+    C.pon(hexa("#f8f9fc"), mu * (np.abs(Y - 1014) < 2.5) * 0.9)
+    tach = np.zeros((H, W), np.float32)
+    for ax in (60, 135, 210):
+        for dy in (1072, 1084, 1096, 1108):
+            for dx in (-8, 0, 8):
+                tach = np.maximum(tach, np.clip(1 - ((X - ax - dx) ** 2 + (Y - dy) ** 2) / 3.2, 0, 1))
+    C.pon(mezcla(np.broadcast_to(hexa("#2a1012"), (H, W, 3)), hexa("#5a1a1c"), suave(1060, 1120, Y)), arcos * mu)
+    C.pon(hexa("#e8b84a"), tach * arcos)
+    # basamento de mármol blanco (须弥座) con barandilla
+    bas = ((Y > 1118) & (Y < 1134) & (X < 330)).astype(np.float32)
+    C.pon(mezcla(np.broadcast_to(hexa("#f4f2ee"), (H, W, 3)), hexa("#aab6c8"), suave(1120, 1134, Y)), bas)
+    C.pon(hexa("#c9d2de"), ((np.abs(Y - 1118) < 1) & (X < 330)).astype(np.float32))
+    C.pon(hexa("#e9edf2"), (((X % 14) < 3) & (Y > 1108) & (Y < 1119) & (X < 320)).astype(np.float32))
     sombra_contacto(C, 150, 1122, 230, 14, 0.35, "#3a4a6a")
     pinos_nevados(C, [(880, 1150, 170), (945, 1170, 210), (990, 1120, 140), (820, 1180, 100), (330, 1200, 110)], verde="#183229",
                   nieve="#f7fbff", luz=luz, seed=6)

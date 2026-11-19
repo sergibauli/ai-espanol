@@ -20,7 +20,7 @@ import { TransicionNivel } from "../components/ruta/TransicionNivel.jsx";
 import { CabeceraRuta } from "../components/ruta/CabeceraRuta.jsx";
 import { SelloPasaporte, FiltroTinta, fechaSello } from "../components/ruta/SelloPasaporte.jsx";
 import { Pictograma, PaisajeBanda, paisajeDe } from "../components/ruta/paisajes.jsx";
-import { ANCHO_CARRIL, FILA, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva, formaDe } from "../components/ruta/geometria.js";
+import { ANCHO_CARRIL, FILA, ajustarFila, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva, formaDe } from "../components/ruta/geometria.js";
 import { Medallon, SelloHecha, CofreImperial, GlifoClase } from "../components/ruta/Medallon.jsx";
 import { Recorrido, RecorridoDefs } from "../components/ruta/Recorrido.jsx";
 import "../styles/v13-ruta-mundos.css";
@@ -115,6 +115,7 @@ export default function RutaPage() {
   const lv = LEVELS.find((nivel) => nivel.key === level) || LEVELS[0];
   const mods = CATALOG.filter((unidad) => unidad.nivel === lv.key);
   const esMovil = useEsMovil();
+  ajustarFila(esMovil);
   const [abierta, setAbierta] = React.useState(null); // parada con el popover abierto («unidad-clase»)
   const [negada, setNegada] = React.useState(null); // parada bloqueada que acaba de tocarse (vaivén)
   const [lesson, setLesson] = React.useState(null);
@@ -245,8 +246,8 @@ export default function RutaPage() {
       const rNodo = nodo.getBoundingClientRect();
       const cofre = nodo.closest(".ruta-unit")?.querySelector(".rp-cofre");
       const rCofre = cofre?.getBoundingClientRect();
-      const bloqueArriba = rNodo.top - (movil ? 84 : 96); // incluye el botón Empezar
-      const bloqueAbajo = rCofre ? rCofre.bottom + 26 : rNodo.bottom + 60;
+      const bloqueArriba = rNodo.top - (movil ? 72 : 96); // incluye el botón Empezar
+      const bloqueAbajo = rCofre ? rCofre.bottom + (movil ? 44 : 56) : rNodo.bottom + 60; // cartel «Examen» y premio
       const libre = abajo - arriba - (bloqueAbajo - bloqueArriba);
       const delta = libre >= 0 ? bloqueArriba - arriba - libre * 0.45 : bloqueArriba - arriba;
       let contenedor = nodo.parentElement;
@@ -398,7 +399,7 @@ export default function RutaPage() {
                   </span>
                   <div className="ru-textos">
                     <span className="ru-lugar">
-                      <span translate="no">{parada?.ciudadZh}·{parada?.lugarZh}</span> {parada?.ciudad} · {parada?.lugar}
+                      <span translate="no">{parada?.lugarZh?.startsWith(parada?.ciudadZh || "\u0000") ? parada?.lugarZh : `${parada?.ciudadZh}·${parada?.lugarZh}`}</span> {parada?.ciudad} · {parada?.lugar}
                     </span>
                     <h2>
                       <small>
@@ -481,7 +482,7 @@ export default function RutaPage() {
                           ref={esLaDeFiesta ? fiestaRef : isCurrent ? currentRef : null}
                         >
                           {isCurrent && (
-                            <button type="button" className="rp-empezar" onClick={abrir} tabIndex={-1} aria-hidden="true">
+                            <button type="button" className="rp-empezar" onClick={abrir} tabIndex={-1} aria-hidden="true" style={{ "--dxe": `${ANCHO_CARRIL / 2 - pts[i][0]}px` }}>
                               <span className="rp-emp-ala izq" />
                               <span className="rp-emp-ala der" />
                               <span className="rp-emp-luz" />

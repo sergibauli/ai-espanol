@@ -8,7 +8,11 @@
 //   nubes    → el vuelo del Rey Mono saltando de nube en nube                    (todos, de vez en cuando)
 // Todo es determinista: la misma unidad (nivel + posición) siempre dibuja la misma forma.
 export const ANCHO_CARRIL = 300;
-export const FILA = 150;
+export let FILA = 150;
+/** v25 · En móvil las paradas van algo más juntas para que la clase actual y el examen quepan sin hacer scroll */
+export function ajustarFila(movil) {
+  FILA = movil ? 128 : 150;
+}
 export const ARRIBA = 150;
 const CENTRO = ANCHO_CARRIL / 2;
 

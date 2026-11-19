@@ -59,7 +59,7 @@ export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = fa
       <div className="mr-fijo">
         <div className="mr-cielo" />
         <div className="mr-lienzo" style={{ "--sx": `${luz.x}%`, "--sy": `${luz.y}%` }}>
-          <img className="mr-capa mr-lejos" src={capa(nv, "lejos")} alt="" decoding="async" fetchpriority="high" />
+          <img className="mr-capa mr-lejos" src={capa(nv, "lejos")} alt="" decoding="async" fetchPriority="high" />
           <span className="mr-rayos" />
           <span className={`mr-tira n-${luz.niebla} t1`} />
           <img className="mr-capa mr-medio" src={capa(nv, "medio")} alt="" decoding="async" />

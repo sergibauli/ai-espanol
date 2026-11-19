@@ -231,9 +231,9 @@
 .r24-rio .r25-proyectada { fill: rgba(110,50,30,.2); }
 .r24-escalinata .r25-proyectada { fill: rgba(20,50,30,.28); }
 .r25-bruma { filter: url(#r24-desenfoque); pointer-events: none; }
-.r25-bruma-muralla { fill: rgba(236,240,247,.62); }
+.r25-bruma-muralla { fill: rgba(236,240,247,.45); }
 .r25-bruma-rio { fill: rgba(250,220,175,.55); }
-.r25-bruma-pincel { fill: rgba(236,229,214,.5); }
+.r25-bruma-pincel { fill: rgba(236,229,214,.32); }
 .r25-bruma-escalinata { fill: rgba(236,243,236,.6); }
 .r25-delante { filter: drop-shadow(0 2px 2px rgba(20,20,30,.25)); }
 @media (max-width: 700px) {
@@ -245,3 +245,20 @@
 /* El terreno lo dibuja el Recorrido: fuera los velos rectangulares heredados del tramo */
 .rt22 .ruta-main.mr-on .ruta-camino-wrap::before, .rt22 .ruta-main.mr-on .ruta-camino-wrap::after,
 .ruta-main.mr-on .ruta-camino-wrap.ru-terreno::before, .ruta-main.mr-on .ruta-camino-wrap::after { display: none !important; }
+/* v25 · Tinta B1: cuerpo translúcido, orla de tinta acumulada, 飞白 y pan de oro en lo recorrido */
+.r25-halo { opacity: .7; filter: url(#r24-desenfoque); }
+.r25-suelo-pincel .r25-halo { opacity: .45; }
+.r25-tinta-cuerpo { fill: rgba(28,24,22,.58); filter: url(#r24-sangrado); }
+.r25-tinta-nucleo { fill: rgba(10,8,8,.38); }
+.r25-tinta-orla { fill: none; stroke: rgba(12,10,9,.72); stroke-width: 2.4; stroke-linecap: round; }
+.r25-veta { fill: none; stroke: #efe6d2; stroke-opacity: .78; stroke-linecap: round; }
+.r25-oro { fill: #f6d77e; stroke: #b07a1c; stroke-width: .3; }
+.rt22 .ruta-camino.rf-pincel .ruta-carretera .halo { opacity: 0; }
+.rt22 .ruta-camino.rf-pincel .ruta-carretera .oro { stroke-width: 2.2; }
+.rt22 .ruta-camino.rf-pincel .ruta-carretera .luz { stroke-width: .8; }
+@media (max-width: 700px) { .r25-halo { filter: none; opacity: .35; } .r25-tinta-cuerpo { filter: none; } }
+.r25-tinta-boceto { fill: rgba(60,52,48,.16); }
+.r25-tinta-orla.boceto { stroke: rgba(40,34,30,.35); stroke-width: 1.2; stroke-dasharray: 3 5; }
+.r25-tinta-cuerpo { fill: rgba(20,17,15,.8); }
+.r25-tinta-nucleo { fill: rgba(5,4,4,.45); }
+.r25-bruma-pincel { fill: rgba(236,229,214,.12); }
