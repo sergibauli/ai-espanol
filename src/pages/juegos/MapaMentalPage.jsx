@@ -332,7 +332,6 @@ export default function MapaMentalPage() {
   if (!contenido)
     return (
       <div className="ja-raiz ja-mapa gm-no-adapt">
-        <CabeceraJA titulo="Mapa mental" tituloZh="思维导图" sello="图" />
         <SelectorUnidadJA
           titulo="Mapa mental"
           tituloZh="思维导图"

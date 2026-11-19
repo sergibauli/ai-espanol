@@ -1,12 +1,12 @@
 // Piezas comunes de los juegos «Mapa mental» y «Teatro de diálogos» (prefijo ja-)
 import * as React from "react";
+import { ElegirUnidadJuego } from "../../components/juegos/ElegirUnidadJuego.jsx";
 import { Link, useLocation, useNavigate } from "react-router";
-import { ArrowLeftIcon, ChevronRightIcon, BookOpenIcon } from "lucide-react";
+import { ArrowLeftIcon, BookOpenIcon } from "lucide-react";
 import CATALOGO from "../../data/modulos/catalog.json";
 import { contenidoJuego } from "../../lib/contenidoJuego.js";
 
 export const NIVELES = ["A1", "A2", "B1", "B2"];
-const NIVEL_ZH = { A1: "入门", A2: "初级", B1: "中级", B2: "中高级" };
 
 export const reducido = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 export const nivelDe = (numero) => CATALOGO.find((u) => u.numero === Number(numero))?.nivel || "A1";
@@ -135,37 +135,5 @@ export function CabeceraJA({ titulo, tituloZh, sello, contenido, onCambiar, chil
 
 /** Selector de unidad (nivel → unidad): los juegos usan siempre la unidad completa */
 export function SelectorUnidadJA({ titulo, tituloZh, sello, descripcion, onElegir }) {
-  const [nivel, setNivel] = React.useState("A1");
-  const unidades = CATALOGO.filter((u) => u.nivel === nivel);
-  return (
-    <div className="ja-selector">
-      <div className="ja-selector-hero">
-        <SelloJA texto={sello} grande />
-        <h2>{titulo}</h2>
-        <p className="ja-selector-zh">{tituloZh}</p>
-        <p className="ja-selector-desc">{descripcion}</p>
-        <img src="./mono/saluda.webp" alt="" className="ja-selector-mono" aria-hidden="true" />
-      </div>
-      <div className="ja-niveles" role="tablist" aria-label="Nivel · 级别">
-        {NIVELES.map((n) => (
-          <button key={n} type="button" role="tab" aria-selected={nivel === n} className={`ja-nivel${nivel === n ? " is-on" : ""}`} onClick={() => setNivel(n)}>
-            <b>{n}</b>
-            <small>{NIVEL_ZH[n]}</small>
-          </button>
-        ))}
-      </div>
-      <div className="ja-unidades">
-        {unidades.map((u) => (
-          <button key={u.numero} type="button" className="ja-unidad" onClick={() => onElegir(u.numero)}>
-            <span className="ja-unidad-num">{u.numero}</span>
-            <span className="ja-unidad-txt">
-              <b>{u.titulo}</b>
-              <small>{u.tituloChino}</small>
-            </span>
-            <ChevronRightIcon size={18} aria-hidden="true" />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
+  return <ElegirUnidadJuego juego={{ titulo, tituloZh, sello, desc: descripcion }} onElegir={onElegir} />;
 }

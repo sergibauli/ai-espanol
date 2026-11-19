@@ -1,7 +1,8 @@
 // Piezas comunes de los juegos «Dragón de jade» y «Escape del palacio» (prefijo jb-)
 import * as React from "react";
+import { ElegirUnidadJuego } from "../../components/juegos/ElegirUnidadJuego.jsx";
 import { Link, useLocation, useNavigate } from "react-router";
-import { ArrowLeftIcon, LayersIcon } from "lucide-react";
+import { ArrowLeftIcon } from "lucide-react";
 import CATALOGO from "../../data/modulos/catalog.json";
 import { contenidoJuego, parametrosJuego, todasLasPalabras } from "../../lib/contenidoJuego.js";
 
@@ -101,49 +102,9 @@ export function Volver({ to = "/juegos" }) {
 export function SelectorUnidad({ titulo, tituloChino, icono, descripcion }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [nivel, setNivel] = React.useState("A1");
-  const unidades = CATALOGO.filter((u) => u.nivel === nivel);
   const ir = (numero) => navigate(`${location.pathname}?m=${numero}`);
-  return (
-    <div className="jb-selector gm-no-adapt">
-      <Volver />
-      <header className="jb-selector__cabecera">
-        {icono}
-        <h1 className="jb-titulo">
-          {titulo} <span translate="no">· {tituloChino}</span>
-        </h1>
-        <p className="jb-sub">{descripcion}</p>
-      </header>
-      <div className="jb-pergamino jb-selector__panel">
-        <p className="jb-selector__paso">Elige una unidad · 选择单元</p>
-        <div className="jb-pestanas" role="tablist" aria-label="Nivel · 级别">
-          {NIVELES.map((n) => (
-            <button key={n} type="button" role="tab" aria-selected={nivel === n} className={`jb-pestana ${nivel === n ? "is-activa" : ""}`} onClick={() => setNivel(n)}>
-              {n}
-            </button>
-          ))}
-          <button type="button" className="jb-pestana jb-pestana--todas" onClick={() => ir("todas")}>
-            <LayersIcon size={16} aria-hidden="true" /> Todas · 全部
-          </button>
-        </div>
-        <ul className="jb-unidades">
-          {unidades.map((u) => (
-            <li key={u.numero}>
-              <button type="button" className="jb-unidad" onClick={() => ir(u.numero)}>
-                <span className="jb-unidad__num" translate="no">
-                  {u.numero}
-                </span>
-                <span className="jb-unidad__txt">
-                  <strong>{u.titulo}</strong>
-                  <small>{u.tituloChino}</small>
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+  const sello = typeof icono?.props?.children === "string" ? icono.props.children : "游";
+  return <ElegirUnidadJuego juego={{ titulo, tituloZh: tituloChino, sello, desc: descripcion }} onElegir={ir} onTodas={() => ir("todas")} />;
 }
 
 /** Etiqueta «UN · nivel» */

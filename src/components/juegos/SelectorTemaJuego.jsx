@@ -7,9 +7,6 @@ import { Link, useLocation, useNavigate } from "react-router";
 import {
   ArrowLeftIcon,
   SearchIcon,
-  XIcon,
-  LayersIcon,
-  PlayIcon,
   DicesIcon,
   EyeIcon,
   Grid3x3Icon,
@@ -19,12 +16,9 @@ import {
   CrownIcon,
 } from "lucide-react";
 import CATALOGO from "../../data/modulos/catalog.json";
-import { progresoUnidad } from "../../lib/clases.js";
-import { getGame } from "../../lib/gamification.js";
 import "../../styles/v14-fix-juegos.css";
+import { ElegirUnidadJuego } from "./ElegirUnidadJuego.jsx";
 
-const NIVELES = ["A1", "A2", "B1", "B2"];
-const NIVEL_ZH = { A1: "入门", A2: "初级", B1: "中级", B2: "中高级" };
 
 export const JUEGOS_CLASICOS = {
   ruleta: { titulo: "Ruleta de Palabras", tituloZh: "单词轮盘", sello: "轮", Icono: DicesIcon, desc: "Gira la ruleta y adivina la palabra letra a letra.", descZh: "转动轮盘，逐个字母猜出单词。" },
@@ -37,7 +31,6 @@ export const JUEGOS_CLASICOS = {
   uno: { titulo: "UNO", tituloZh: "UNO 卡牌", sello: "牌", Icono: CrownIcon, desc: "El clásico de cartas: acierta la palabra para poder jugar tu carta.", descZh: "经典卡牌游戏：答对单词才能出牌。" },
 };
 
-const reducido = () => typeof window !== "undefined" && !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
 /** Unidad que llega en la ruta (#/juegos/x?m=N); un ?clase=K heredado se ignora: se juega la unidad entera */
 function leerRuta(search) {
@@ -58,21 +51,6 @@ export function SelloJuego({ children, grande = false, className = "" }) {
   );
 }
 
-/** Anillo de progreso dorado */
-function AnilloProgreso({ pct }) {
-  const r = 17;
-  const c = 2 * Math.PI * r;
-  return (
-    <span className="v14j-anillo" aria-label={`Progreso ${pct}% · 进度`}>
-      <svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">
-        <circle cx="20" cy="20" r={r} className="v14j-anillo-fondo" />
-        <circle cx="20" cy="20" r={r} className="v14j-anillo-valor" strokeDasharray={`${(c * pct) / 100} ${c}`} />
-      </svg>
-      <b>{pct}%</b>
-    </span>
-  );
-}
-
 /**
  * Pantalla de elección de temática.
  * - `juego`: clave de JUEGOS_CLASICOS.
@@ -86,8 +64,6 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
   const { Icono } = info;
   const location = useLocation();
   const navigate = useNavigate();
-  const [nivel, setNivel] = React.useState("todos");
-  const [busqueda, setBusqueda] = React.useState("");
   const iniciarRef = React.useRef(onIniciar);
   iniciarRef.current = onIniciar;
   const ruta = leerRuta(location.search);
@@ -100,30 +76,6 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
     entradaIniciada = location.key;
     iniciarRef.current(`modulo-${ruta.numero}`);
   }, [location.key, ruta.numero, sinUnidades]);
-
-  const progreso = React.useMemo(() => {
-    const lecciones = getGame()?.lessons || {};
-    const mapa = {};
-    for (const u of CATALOGO) {
-      try {
-        mapa[u.numero] = progresoUnidad(u.numero, lecciones).pct;
-      } catch {
-        mapa[u.numero] = 0;
-      }
-    }
-    return mapa;
-  }, []);
-
-  const unidades = React.useMemo(() => {
-    const texto = busqueda
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[̀-ͯ]/g, "");
-    return CATALOGO.filter((u) => (nivel === "todos" || u.nivel === nivel) && (!texto || `${u.numero} ${u.titulo} ${u.tituloChino}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").includes(texto)));
-  }, [nivel, busqueda]);
-
-  const cuentaNivel = React.useMemo(() => Object.fromEntries(NIVELES.map((n) => [n, CATALOGO.filter((u) => u.nivel === n).length])), []);
 
   const ir = (numero) => {
     const destino = `?m=${numero}`;
@@ -140,7 +92,22 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
   };
 
   const unidadRuta = ruta.numero ? CATALOGO.find((u) => u.numero === ruta.numero) : null;
-  const animar = !reducido();
+
+  // Juegos por unidad: pantalla escenográfica común (mundos por nivel y tablillas lacadas)
+  if (!sinUnidades) {
+    const aviso = error && !/[\u4e00-\u9fff]/.test(error) ? `${error} · 这个单元没有适合本游戏的单词，请换一个单元或选择「全部单元」。` : error;
+    return (
+      <div className="gm-no-adapt" data-juego={juego}>
+        <ElegirUnidadJuego
+          juego={{ titulo: info.titulo, tituloZh: info.tituloZh, sello: info.sello, desc: info.desc, descZh: info.descZh }}
+          onElegir={ir}
+          onTodas={irTodas}
+          unidadActual={unidadRuta?.numero}
+          error={aviso}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="v14j-selector gm-no-adapt" data-juego={juego}>
@@ -176,92 +143,7 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
         </p>
       )}
 
-      {sinUnidades ? (
-        <div className="v14j-libre">{children}</div>
-      ) : (
-        <>
-          {unidadRuta && (
-            <button type="button" className="v14j-destacada v14j-destacada--clase" onClick={() => ir(unidadRuta.numero)}>
-              <SelloJuego>{unidadRuta.numero}</SelloJuego>
-              <span className="v14j-destacada-txt">
-                <small>Tu unidad · 你的单元</small>
-                <b>{unidadRuta.titulo}</b>
-                <i translate="no">{unidadRuta.tituloChino}</i>
-              </span>
-              <span className="v14j-jugar" aria-hidden="true">
-                <PlayIcon size={20} fill="currentColor" />
-              </span>
-            </button>
-          )}
-
-          <button type="button" className="v14j-destacada" onClick={irTodas}>
-            <SelloJuego>全</SelloJuego>
-            <span className="v14j-destacada-txt">
-              <small>Mezcla todo · 混合全部词汇</small>
-              <b>Todas las unidades</b>
-              <i translate="no">全部单元 · A1–B2</i>
-            </span>
-            <span className="v14j-jugar" aria-hidden="true">
-              <LayersIcon size={20} />
-            </span>
-          </button>
-
-          <div className="v14j-filtros">
-            <label className="v14j-buscar">
-              <SearchIcon size={18} aria-hidden="true" />
-              <input type="search" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Buscar tema o número · 搜索主题" aria-label="Buscar tema · 搜索主题" />
-              {busqueda && (
-                <button type="button" onClick={() => setBusqueda("")} aria-label="Borrar búsqueda · 清除">
-                  <XIcon size={16} />
-                </button>
-              )}
-            </label>
-            <div className="v14j-chips" role="tablist" aria-label="Nivel · 级别">
-              <button type="button" role="tab" aria-selected={nivel === "todos"} className={`v14j-chip ${nivel === "todos" ? "is-on" : ""}`} onClick={() => setNivel("todos")}>
-                <b>Todos</b>
-                <small>全部 · {CATALOGO.length}</small>
-              </button>
-              {NIVELES.map((n) => (
-                <button key={n} type="button" role="tab" aria-selected={nivel === n} className={`v14j-chip ${nivel === n ? "is-on" : ""}`} onClick={() => setNivel(n)}>
-                  <b>{n}</b>
-                  <small>
-                    {NIVEL_ZH[n]} · {cuentaNivel[n]}
-                  </small>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <ul className="v14j-lista" key={`${nivel}|${busqueda ? "q" : ""}`}>
-            {unidades.map((u, i) => {
-              const pct = progreso[u.numero] || 0;
-              return (
-                <li key={u.numero} className={animar ? "v14j-entra" : ""} style={{ "--i": Math.min(i, 14) }}>
-                  <button type="button" className="v14j-tarjeta" onClick={() => ir(u.numero)}>
-                    <SelloJuego>{u.numero}</SelloJuego>
-                    <span className="v14j-tarjeta-txt">
-                      <b>{u.titulo}</b>
-                      <i translate="no">{u.tituloChino}</i>
-                      <span className="v14j-meta">
-                        <em className={`v14j-nivel v14j-nivel--${u.nivel}`}>{u.nivel}</em>
-                        <span>
-                          {u.vocabularioCount || 0} palabras · 词
-                        </span>
-                      </span>
-                    </span>
-                    <AnilloProgreso pct={pct} />
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-          {unidades.length === 0 && (
-            <p className="v14j-vacio">
-              No hay temas con «{busqueda}» · 没有找到相关主题
-            </p>
-          )}
-        </>
-      )}
+      <div className="v14j-libre">{children}</div>
 
     </div>
   );

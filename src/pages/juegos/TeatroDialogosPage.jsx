@@ -89,7 +89,6 @@ export default function TeatroDialogosPage() {
   if (!contenido)
     return (
       <div className="ja-raiz ja-teatro gm-no-adapt">
-        <CabeceraJA titulo="Teatro de diálogos" tituloZh="对话剧场" sello="剧" />
         <SelectorUnidadJA
           titulo="Teatro de diálogos"
           tituloZh="对话剧场"
