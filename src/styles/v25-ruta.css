@@ -1,0 +1,74 @@
+/* ===== v25 · Ruta «Aprender»: glifos caligráficos, candado de latón, Empezar con la clase, examen con premio y estado,
+   etiquetas «Clase N · 第N课», rayo de luz desde la luz clave del nivel. Se carga el último en RutaPage. ===== */
+
+/* ---------- Glifo de la clase (壹 贰 叁…) grabado en la cara del medallón ---------- */
+.md-glifo { display: block; overflow: visible; }
+.md-glifo-txt { font: 700 30px/1 "STKaiti", "KaiTi", "Kaiti SC", "AR PL UKai CN", "Noto Serif CJK SC", "Source Han Serif SC", serif; }
+.md-actual .md-glifo { filter: drop-shadow(0 2px 2px rgba(0,40,20,.6)); }
+.md-abierta .md-glifo { filter: drop-shadow(0 2px 1.5px rgba(60,0,10,.6)); }
+.md-hecha .md-icono { filter: none; }
+.md-hecha .md-glifo { filter: drop-shadow(0 1px 0 rgba(255,246,200,.9)); }
+/* Moneda del estandarte: pictograma propio grabado en oro (sin emojis) */
+.ru-medallon .ru-pictograma { color: #6e4210; filter: drop-shadow(0 1px 0 rgba(255,246,200,.85)) drop-shadow(0 -1px 0 rgba(60,30,0,.35)); }
+
+/* ---------- Bloqueadas: más pequeñas, bronce con verdín apagado, sin aura ---------- */
+.rt22 .ruta-camino .path-node.locked .md-medallon > svg { filter: saturate(.55) brightness(.92) drop-shadow(0 3px 0 #1a1c16) drop-shadow(0 7px 6px rgba(10,10,0,.35)); }
+.rt22 .ruta-camino .path-node.locked .ruta-clase-sello { opacity: .82; filter: saturate(.4); }
+.rt22 .ruta-camino .rp-parada.locked .ruta-clase-anillo { display: none; }
+
+/* ---------- Etiqueta «Clase N · 第N课» ---------- */
+.rt22 .ruta-camino .path-node .ruta-clase-sello { display: inline-flex; align-items: baseline; gap: 5px; white-space: nowrap; font: 800 11.5px/1 var(--rt-ui, system-ui); letter-spacing: .04em; padding: 4px 9px 4px 10px; }
+.rt22 .ruta-camino .path-node .ruta-clase-sello i { font: 700 14px/1 "STKaiti", "KaiTi", "Kaiti SC", serif; font-style: normal; letter-spacing: 0; color: #ffe29a; }
+
+/* ---------- Botón «Empezar · Clase N / 开始 第N课»: ~52 % del ancho, pegado a la parada ---------- */
+.rt22 .rp-parada .rp-empezar { justify-content: flex-start; width: 320px; margin-bottom: 10px; padding: 7px 14px 7px 7px; gap: 10px; animation-name: rp25Bota; }
+.rt22 .rp-parada .rp-empezar::after { width: 12px; height: 12px; margin: -6px 0 0 -6px; }
+@keyframes rp25Bota { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-4px); } }
+.rp-emp-play { flex: none; width: 38px !important; height: 38px !important; }
+.rp-emp-play::before { display: none !important; }
+.rp-emp-play svg { display: block; filter: drop-shadow(0 1px 0 rgba(255,246,200,.6)); }
+.rp-emp-textos { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; flex: 1; min-width: 0; }
+.rp-emp-textos b { font-size: 17px; letter-spacing: .12em; }
+.rp-emp-textos small { font: 700 11px/1 var(--rt-ui, system-ui); letter-spacing: .08em; text-transform: none; color: #ffe7a6; opacity: .95; }
+.rt22 .rp-empezar .rp-emp-zh { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 21px; }
+.rp-emp-zh small { font: 700 12px/1 "STKaiti", "KaiTi", "Kaiti SC", serif; color: #fff1cc; letter-spacing: .02em; }
+@media (max-width: 700px) {
+  .rt22 .rp-parada .rp-empezar { width: 206px; margin-bottom: 8px; padding: 5px 10px 5px 5px; gap: 7px; }
+  .rp-emp-play { width: 32px !important; height: 32px !important; }
+  .rp-emp-play svg { width: 17px; height: 17px; }
+  .rp-emp-textos b { font-size: 14px; letter-spacing: .1em; }
+  .rp-emp-textos small { font-size: 10px; }
+  .rt22 .rp-empezar .rp-emp-zh { font-size: 17px; padding-left: 7px; }
+  .rp-emp-zh small { font-size: 10.5px; }
+}
+
+/* ---------- Examen: premio visible y estado aprobado ---------- */
+.rp-cofre-premio { position: absolute; left: 50%; bottom: -44px; translate: -50% 0; white-space: nowrap; padding: 3px 9px; border-radius: 999px; pointer-events: none;
+  font: 800 11px/1.2 var(--rt-ui, system-ui); color: #5a3a08; background: linear-gradient(180deg, #fff6d0, #f2c14e); box-shadow: 0 0 0 1px #a8741e, 0 2px 5px rgba(40,20,0,.35); }
+.rp-cofre-premio i { font: 700 12px "STKaiti", "KaiTi", serif; font-style: normal; color: #8f0c21; }
+.rp-cofre-sello { position: absolute; right: 18px; top: 4px; z-index: 3; display: grid; place-items: center; width: 54px; height: 54px; rotate: -10deg; pointer-events: none;
+  font: 700 36px/1 "STKaiti", "KaiTi", "Kaiti SC", serif; color: #fff4e6;
+  background: radial-gradient(circle at 30% 25%, #f0364c, #c8102e 55%, #8f0c21); border-radius: 8px;
+  box-shadow: inset 0 0 0 2.5px #8f0c21, inset 0 0 0 4.5px rgba(255,240,220,.9), 0 4px 10px rgba(60,0,10,.45);
+  animation: mdEstampa 520ms cubic-bezier(.3,1.5,.5,1) both; }
+.rt22 .ruta-camino .rp-cofre.ganado .rp-templo { filter: drop-shadow(0 0 18px rgba(255,214,120,.95)) drop-shadow(0 10px 10px rgba(30,10,0,.4)); }
+.rt22 .ruta-camino .rp-cofre.ganado .rp-cofre-cartel { background: linear-gradient(180deg, #f6d77e, #c8961e); color: #5a1a08; }
+.rt22 .ruta-camino .rp-cofre.ganado .rp-cofre-cartel span { color: #8f0c21; }
+@media (max-width: 700px) {
+  .rp-cofre-sello { width: 44px; height: 44px; font-size: 29px; right: 10px; }
+  .rp-cofre-premio { bottom: -40px; }
+}
+
+/* ---------- Sello «成» de clase hecha con textura de tinta estampada ---------- */
+.rp-cofre-sello::after, .md-sello::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: url("../../public/theme/ruta/grano.webp") 0 0 / 70px; mix-blend-mode: screen; opacity: .35; border-radius: inherit; }
+
+/* ---------- Rayo de luz hacia la clase actual, desde el lado de la luz clave del nivel ---------- */
+.rt22 .ruta-camino.rf-escalinata .md-haz, .rt22 .ruta-camino.rf-pincel .md-haz { display: block; }
+.md-haz { transform-origin: 50% 100%; }
+.ruta-main.map-A1 .md-haz { rotate: 24deg; }
+.ruta-main.map-A2 .md-haz { rotate: -26deg; background: linear-gradient(180deg, transparent, rgba(255,214,150,.3) 40%, rgba(255,226,170,.7)); }
+.ruta-main.map-B1 .md-haz { rotate: 16deg; background: linear-gradient(180deg, transparent, rgba(190,210,255,.2) 40%, rgba(220,230,255,.5)); }
+.ruta-main.map-B2 .md-haz { rotate: -22deg; }
+
+/* ---------- Un solo Rey Mono en la Ruta (el viajero): el asistente flotante se oculta aquí ---------- */
+body.en-ruta .mf { display: none !important; }

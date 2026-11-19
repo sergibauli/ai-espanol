@@ -1,0 +1,71 @@
+/* ===== v25 · Mundo pintado de la Ruta (components/ruta/MundoRuta.jsx + ParticulasRuta.jsx) =====
+   Lienzo 1000×1400 que cubre la columna (anclado abajo) con tres planos raster (scripts/fondos-ruta.py),
+   niebla que deriva entre planos, rayos desde la luz clave, brillo del agua y partículas en canvas.
+   Solo se anima transform y opacity; todo quieto con prefers-reduced-motion. */
+
+.mr25 .mr-lienzo { position: absolute; left: 50%; bottom: 0; width: max(100%, 71.43vh); aspect-ratio: 1000 / 1400; translate: -50% 0; overflow: hidden; }
+.mr25 .mr-lienzo > img.mr-capa { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%; display: block; user-select: none; }
+/* Fondo de respaldo mientras cargan las imágenes */
+.mr25.mr-A1 .mr-cielo { background: linear-gradient(180deg, #3f6595, #bccbdc 40%, #f6efe6 60%); }
+.mr25.mr-A2 .mr-cielo { background: linear-gradient(180deg, #2c1b47, #c4553f 35%, #fbd38a 55%, #f5c47e); }
+.mr25.mr-B1 .mr-cielo { background: linear-gradient(180deg, #081430, #3a3d70 45%, #0b2238 55%); }
+.mr25.mr-B2 .mr-cielo { background: linear-gradient(180deg, #88aec0, #eef0e2 50%, #cfe3dc); }
+
+/* Rayos de la luz clave (god rays) que giran muy despacio y respiran */
+.mr25 .mr-rayos { position: absolute; left: var(--sx); top: var(--sy); width: 170%; aspect-ratio: 1; translate: -50% -50%; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, rgba(255,236,190,.22) 0 2.2deg, transparent 2.2deg 7deg, rgba(255,236,190,.12) 7deg 8.5deg, transparent 8.5deg 15deg);
+  -webkit-mask-image: radial-gradient(closest-side, #000 4%, rgba(0,0,0,.55) 30%, transparent 70%); mask-image: radial-gradient(closest-side, #000 4%, rgba(0,0,0,.55) 30%, transparent 70%);
+  animation: mr25Rayos 240s linear infinite, mr25Respira 9s ease-in-out infinite; }
+.mr25.mr-A2 .mr-rayos { background: repeating-conic-gradient(from 0deg, rgba(255,200,120,.3) 0 2.5deg, transparent 2.5deg 8deg, rgba(255,214,150,.15) 8deg 9.5deg, transparent 9.5deg 16deg); }
+.mr25.mr-B1 .mr-rayos { background: repeating-conic-gradient(from 0deg, rgba(190,210,255,.12) 0 1.5deg, transparent 1.5deg 9deg); }
+@keyframes mr25Rayos { to { rotate: 360deg; } }
+@keyframes mr25Respira { 0%, 100% { opacity: .7; } 50% { opacity: 1; } }
+
+/* Bandas de niebla que derivan (tira tileable de 1024 px repetida en un elemento del doble de ancho) */
+.mr25 .mr-tira { position: absolute; left: 0; width: 200%; height: 20%; pointer-events: none; background: url("../../public/theme/ruta/niebla-blanca.webp") repeat-x 0 0 / 50% 100%;
+  animation: mr25Deriva 120s linear infinite; will-change: transform; }
+.mr25 .mr-tira.n-arena { background-image: url("../../public/theme/ruta/niebla-arena.webp"); }
+.mr25 .mr-tira.n-noche { background-image: url("../../public/theme/ruta/niebla-noche.webp"); }
+.mr25 .mr-tira.t1 { top: 40%; opacity: .75; animation-duration: 160s; }
+.mr25 .mr-tira.t2 { top: 54%; opacity: .7; animation-duration: 110s; animation-direction: reverse; }
+.mr25 .mr-tira.t3 { top: 76%; height: 26%; opacity: .55; animation-duration: 80s; }
+.mr25.mr-A2 .mr-tira.t1 { top: 45%; } .mr25.mr-A2 .mr-tira.t2 { top: 58%; opacity: .5; }
+.mr25.mr-B1 .mr-tira.t1 { top: 44%; opacity: .55; } .mr25.mr-B1 .mr-tira.t2 { top: 57%; opacity: .5; } .mr25.mr-B1 .mr-tira.t3 { opacity: .35; }
+.mr25.mr-B2 .mr-tira.t1 { top: 37%; } .mr25.mr-B2 .mr-tira.t2 { top: 52%; opacity: .85; } .mr25.mr-B2 .mr-tira.t3 { top: 84%; }
+@keyframes mr25Deriva { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Brillo del agua: destellos horizontales que se desplazan y titilan */
+.mr25 .mr-agua { position: absolute; left: 0; width: 200%; height: 24%; pointer-events: none;
+  background: radial-gradient(ellipse 22px 1.4px at 50% 50%, rgba(255,250,235,.85), transparent) 0 0 / 97px 19px,
+    radial-gradient(ellipse 14px 1px at 50% 50%, rgba(255,240,210,.7), transparent) 41px 9px / 131px 23px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 15%, #000 60%, transparent); mask-image: linear-gradient(180deg, transparent, #000 15%, #000 60%, transparent);
+  animation: mr25Agua 22s linear infinite, mr25Titila 3.2s ease-in-out infinite; opacity: .7; }
+.mr25.mr-B2 .mr-agua { opacity: .55; }
+@keyframes mr25Agua { from { transform: translateX(0); } to { transform: translateX(-388px); } }
+@keyframes mr25Titila { 0%, 100% { opacity: .45; } 50% { opacity: .85; } }
+
+/* Partículas (canvas a pantalla completa del lienzo fijo) */
+.mr25 .mr-particulas-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* Gradación según la hora de China (el nivel conserva su luz clave; solo cambia el tono) */
+.mr25 .mr-tono { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 600ms; }
+.mr25[data-momento="atardecer"]:not(.mr-A2):not(.mr-B1) .mr-tono { opacity: 1; background: linear-gradient(180deg, rgba(255,140,70,.16), rgba(120,40,90,.14)); mix-blend-mode: multiply; }
+.mr25[data-momento="noche"]:not(.mr-B1) .mr-tono { opacity: 1; background: linear-gradient(180deg, rgba(20,30,90,.42), rgba(30,30,70,.28)); mix-blend-mode: multiply; }
+
+/* Fiesta (al completar una clase): el paisaje se ilumina un instante */
+.mr25.mr-fiesta .mr-rayos { animation-duration: 240s, 1.2s; }
+.mr25.mr-fiesta .mr-lienzo { filter: brightness(1.08) saturate(1.1); transition: filter 400ms; }
+
+/* Parallax: los planos raster se mueven distinto al hacer scroll (keyframes mrPx1–3 en v13). El lienzo se alarga
+   abajo para que el plano lejano no deje hueco al subir. */
+.mr25 .mr-lienzo > img.mr-lejos { inset: 0 0 -6% 0; height: 106%; }
+
+@media (max-width: 700px) {
+  .mr25 .mr-tira.t3 { display: none; }
+  .mr25 .mr-tira { animation-duration: 200s !important; }
+  .mr25 .mr-rayos { animation: mr25Rayos 400s linear infinite; opacity: .8; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mr25 .mr-rayos, .mr25 .mr-tira, .mr25 .mr-agua { animation: none !important; }
+  .mr25 .mr-particulas-canvas { display: none; }
+}

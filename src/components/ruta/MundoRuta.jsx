@@ -1,21 +1,30 @@
 import * as React from "react";
 import "../../styles/v13-ruta-mundos.css";
 import "../../styles/v14-motion.css";
-import * as A1 from "./mundos/A1.jsx";
-import * as A2 from "./mundos/A2.jsx";
-import * as B1 from "./mundos/B1.jsx";
-import * as B2 from "./mundos/B2.jsx";
+import "../../styles/v25-ruta-mundo.css";
+import { ParticulasRuta } from "./ParticulasRuta.jsx";
 
 /*
-  Mundos ilustrados de la ruta de aprendizaje (un mundo por nivel), solo SVG + CSS.
-  Cada nivel vive en ./mundos/<nivel>.jsx (Panorama, Ambiente, VINETAS) con su CSS src/styles/v14-ruta-<nivel>.css.
-  - <MundoRuta nivel momento fiesta>: panorama fijo (sticky) en capas con parallax ligado al scroll + ambiente animado.
-      momento = "dia" | "atardecer" | "noche" (hora de China) → atributo data-momento.
-      fiesta  = true unos segundos al completar una clase → clase .mr-fiesta (cada mundo reacciona a su manera).
-  - <EscenaTramo nivel idx>: viñetas a izquierda y derecha del camino de cada unidad.
-  Base común en v13-ruta-mundos.css; tokens de movimiento en v14-motion.css.
+  v25 · Mundo de cada nivel de la Ruta: un paisaje PINTADO (raster propio, scripts/fondos-ruta.py) en tres planos
+  (lejos · medio · cerca) dentro de un lienzo fijo (sticky) con:
+    - parallax ligado al scroll (cada plano se desplaza distinto; v13-ruta-mundos.css),
+    - bandas de niebla que derivan entre planos (tiras tileables public/theme/ruta/niebla-*.webp),
+    - rayos de sol / luna desde la luz clave del nivel, brillo del agua (B1, B2),
+    - partículas en canvas (ParticulasRuta: nieve, polvo y farolillos, lluvia y pétalos, aves y hojas).
+  Luz clave: A1 sol bajo de invierno a la derecha · A2 sol de atardecer a la izquierda · B1 luna arriba a la derecha ·
+  B2 sol de mañana a la izquierda. Todo se para con prefers-reduced-motion y se reduce en móvil.
+  momento = "dia" | "atardecer" | "noche" (hora de China) → data-momento (gradación de color encima del paisaje).
 */
-const MUNDOS = { A1, A2, B1, B2 };
+const BASE = import.meta.env.BASE_URL || "./";
+const capa = (nivel, plano) => `${BASE}theme/ruta/fondo-${nivel}-${plano}.webp`;
+
+// Luz clave de cada nivel en coordenadas del lienzo (1000 × 1400) · niebla · línea del agua
+const LUZ = {
+  A1: { x: 77, y: 25.7, niebla: "blanca", agua: null },
+  A2: { x: 23, y: 42.9, niebla: "arena", agua: null },
+  B1: { x: 76, y: 16.4, niebla: "noche", agua: 64.6 },
+  B2: { x: 26, y: 21.4, niebla: "blanca", agua: 62.9 },
+};
 
 // Momento del día según la hora de China (UTC+8)
 export function momentoChina(fecha = new Date()) {
@@ -34,8 +43,7 @@ function forzado(clave) {
   }
 }
 
-// Momento que se pinta (el forzado por URL manda). RutaPage lo copia en .ruta-main[data-momento] para que el CSS
-// no necesite `.ruta-main:has(.mr-XX[data-momento])` (cada :has en un contenedor tan grande recalcula todo el árbol).
+// Momento que se pinta (el forzado por URL manda). RutaPage lo copia en .ruta-main[data-momento].
 export function momentoRuta(momentoProp) {
   const pedido = forzado("momento");
   return ["dia", "atardecer", "noche"].includes(pedido) ? pedido : momentoProp || momentoChina();
@@ -44,53 +52,32 @@ export function momentoRuta(momentoProp) {
 export function MundoRuta({ nivel, momento: momentoProp, fiesta: fiestaProp = false }) {
   const momento = momentoRuta(momentoProp);
   const fiesta = fiestaProp || forzado("fiesta") === "1";
-  const { Panorama, Ambiente } = MUNDOS[nivel] || MUNDOS.A1;
+  const luz = LUZ[nivel] || LUZ.A1;
+  const nv = LUZ[nivel] ? nivel : "A1";
   return (
-    <div className={`mr-mundo mr-${nivel} ${fiesta ? "mr-fiesta" : ""}`} data-momento={momento} aria-hidden="true">
+    <div className={`mr-mundo mr-${nv} mr25 ${fiesta ? "mr-fiesta" : ""}`} data-momento={momento} aria-hidden="true">
       <div className="mr-fijo">
         <div className="mr-cielo" />
-        <Panorama momento={momento} fiesta={fiesta} />
-        <Ambiente momento={momento} fiesta={fiesta} />
+        <div className="mr-lienzo" style={{ "--sx": `${luz.x}%`, "--sy": `${luz.y}%` }}>
+          <img className="mr-capa mr-lejos" src={capa(nv, "lejos")} alt="" decoding="async" fetchpriority="high" />
+          <span className="mr-rayos" />
+          <span className={`mr-tira n-${luz.niebla} t1`} />
+          <img className="mr-capa mr-medio" src={capa(nv, "medio")} alt="" decoding="async" />
+          {luz.agua && <span className="mr-agua" style={{ top: `${luz.agua}%` }} />}
+          <span className={`mr-tira n-${luz.niebla} t2`} />
+          <img className="mr-capa mr-cerca" src={capa(nv, "cerca")} alt="" decoding="async" />
+          <span className={`mr-tira n-${luz.niebla} t3`} />
+        </div>
+        <ParticulasRuta nivel={nv} />
+        <div className="mr-tono" />
       </div>
       <div className="mr-velo" />
     </div>
   );
 }
 
-// Rendimiento: cada viñeta se marca con data-fuera cuando sale de la pantalla (v20-fluidez.css pausa entonces sus
-// animaciones). Las de su unidad ya se pausan cuando sale la unidad entera, pero una unidad mide ~600 px y sus
-// viñetas (copos, reflejos… animados dentro del SVG, en el hilo principal) seguían en marcha estando fuera de la vista.
-function usePausaVinetas() {
-  const izquierda = React.useRef(null);
-  const derecha = React.useRef(null);
-  React.useEffect(() => {
-    const els = [izquierda.current, derecha.current].filter(Boolean);
-    if (!els.length || typeof IntersectionObserver === "undefined") return undefined;
-    const ojo = new IntersectionObserver(
-      (entradas) => {
-        for (const e of entradas) e.target.toggleAttribute("data-fuera", !e.isIntersecting);
-      },
-      { rootMargin: "200px 0px" },
-    );
-    els.forEach((el) => ojo.observe(el));
-    return () => ojo.disconnect();
-  }, []);
-  return [izquierda, derecha];
-}
-
-export function EscenaTramo({ nivel, idx }) {
-  const lista = (MUNDOS[nivel] || MUNDOS.A1).VINETAS;
-  const Izquierda = lista[idx % lista.length];
-  const Derecha = lista[(idx + 2) % lista.length];
-  const [refIzquierda, refDerecha] = usePausaVinetas();
-  return (
-    <>
-      <div ref={refIzquierda} className={`mr-vineta izq ${idx % 2 ? "baja" : ""}`} aria-hidden="true">
-        <Izquierda />
-      </div>
-      <div ref={refDerecha} className={`mr-vineta der ${idx % 2 ? "" : "baja"}`} aria-hidden="true">
-        <Derecha />
-      </div>
-    </>
-  );
+// v25 · Las viñetas sueltas a los lados del camino («pegatinas») se retiran: el paisaje pintado y el terreno de cada
+// tramo (Recorrido) ya componen la escena. Se mantiene el componente para no romper importaciones.
+export function EscenaTramo() {
+  return null;
 }

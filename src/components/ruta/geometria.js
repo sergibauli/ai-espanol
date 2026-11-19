@@ -12,11 +12,12 @@ export const FILA = 150;
 export const ARRIBA = 150;
 const CENTRO = ANCHO_CARRIL / 2;
 
+// v25 · Una sola gramática de camino por nivel (las nubes quedan solo como transición entre unidades)
 const FORMAS_NIVEL = {
-  A1: ["muralla", "muralla", "nubes"],
-  A2: ["rio", "rio", "nubes"],
-  B1: ["pincel", "pincel", "nubes"],
-  B2: ["escalinata", "escalinata", "nubes"],
+  A1: ["muralla"],
+  A2: ["rio"],
+  B1: ["pincel"],
+  B2: ["escalinata"],
 };
 // Desplazamiento horizontal de cada parada según la forma (se repite en ciclo)
 const PASOS = {
@@ -36,7 +37,7 @@ export function formaDe(nivel, idx = 0) {
   if (!lista) return { tipo: "zigzag", espejo: 1, curva: "S" };
   const tipo = lista[idx % lista.length];
   // Cada dos tramos el dibujo se refleja para que dos unidades seguidas no se parezcan
-  const espejo = Math.floor(idx / lista.length) % 2 ? -1 : 1;
+  const espejo = Math.floor(idx / lista.length) % 2 ? -1 : 1; // con una sola forma: una unidad sí y otra no
   return { tipo, espejo, curva: CURVA[tipo] };
 }
 const normal = (forma) => (typeof forma === "string" ? { tipo: forma, espejo: 1, curva: CURVA[forma] || "S" } : forma || { tipo: "zigzag", espejo: 1, curva: "S" });

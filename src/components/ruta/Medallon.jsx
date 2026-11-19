@@ -9,7 +9,7 @@ const PALETAS = {
   hecha: { canto: ["#fff8d6", "#f2c14e", "#b07a1c", "#6e4210"], cara: ["#fffbe6", "#f6d77e", "#d5a332", "#8a5a1e"], filete: "#fff3c4", grabado: "#9a6416", lomo: "#6e4210" },
   actual: { canto: ["#fff8d6", "#f2c14e", "#b07a1c", "#6e4210"], cara: ["#e6fff0", "#5fcf91", "#1f8a52", "#0a3b22"], filete: "#d8ffe6", grabado: "#0a3b22", lomo: "#5a360c" },
   abierta: { canto: ["#fff8d6", "#e9b648", "#a8741e", "#6e4210"], cara: ["#ff9a9a", "#e0283f", "#a5112a", "#560512"], filete: "#f6d77e", grabado: "#560512", lomo: "#5a360c" },
-  cerrada: { canto: ["#c7a77c", "#8f6a3e", "#5a3f22", "#2e1f10"], cara: ["#b9b4a6", "#8f8a7e", "#6a665c", "#3e3b35"], filete: "#7fa392", grabado: "#2e2c28", lomo: "#24180c" },
+  cerrada: { canto: ["#a7a08a", "#6f7a66", "#4a4e40", "#262820"], cara: ["#8a9488", "#5f6e64", "#46524a", "#262c28"], filete: "#8fb3a0", grabado: "#1e2420", lomo: "#1a1c16" },
 };
 
 // Marco lobulado de 8 pétalos (海棠): silueta imperial en vez de un canto dentado
@@ -65,6 +65,12 @@ export function Medallon({ estado = "abierta", tamano = 84, children, className 
             <stop offset=".7" stopColor="#000" stopOpacity="0" />
             <stop offset="1" stopColor="#000" stopOpacity=".5" />
           </radialGradient>
+          <linearGradient id="mdLaton" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#f3d98e" />
+            <stop offset=".4" stopColor="#c9a25a" />
+            <stop offset=".75" stopColor="#8a6428" />
+            <stop offset="1" stopColor="#5a3a14" />
+          </linearGradient>
           <linearGradient id={`${uid}r`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#fff" stopOpacity=".75" />
             <stop offset="1" stopColor="#fff" stopOpacity="0" />
@@ -90,7 +96,7 @@ export function Medallon({ estado = "abierta", tamano = 84, children, className 
         {[0, 90, 180, 270].map((g) => (
           <path key={g} d={RIZO} transform={`rotate(${g + 45} 60 60) translate(60 26)`} fill="none" stroke={p.grabado} strokeOpacity=".32" strokeWidth="1.2" strokeLinecap="round" />
         ))}
-        {cerrada && <path d={GRIETAS} fill="none" stroke="#24221e" strokeOpacity=".5" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />}
+        {false && <path d={GRIETAS} fill="none" stroke="#24221e" strokeOpacity=".5" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />}
         {cerrada && <Candado />}
         {/* Reflejos: casquete brillante arriba y luz de rebote abajo */}
         <path d="M27 50 A34 34 0 0 1 93 50 A40 26 0 0 0 27 50 Z" fill={`url(#${uid}r)`} opacity={cerrada ? 0.25 : 0.7} />
@@ -103,19 +109,52 @@ export function Medallon({ estado = "abierta", tamano = 84, children, className 
   );
 }
 
-// Candado de bronce grabado
+// v25 · Candado chino de latón (横锁): cuerpo de barril con remates, arco en U y bocallave en forma de 卍 simplificado
 function Candado() {
   return (
     <g transform="translate(60 62)">
-      <path d="M-10 -6 v-8 a10 10 0 0 1 20 0 v8" fill="none" stroke="#2a1a0c" strokeWidth="6.5" strokeLinecap="round" />
-      <path d="M-10 -6 v-8 a10 10 0 0 1 20 0 v8" fill="none" stroke="#b08a52" strokeWidth="3.6" strokeLinecap="round" />
-      <rect x="-16" y="-7" width="32" height="25" rx="5" fill="#8a6434" stroke="#2a1a0c" strokeWidth="1.6" />
-      <rect x="-16" y="-7" width="32" height="25" rx="5" fill="url(#r24-grano)" opacity=".5" />
-      <rect x="-13" y="-4.5" width="26" height="20" rx="3.5" fill="none" stroke="#e8cf9a" strokeOpacity=".55" strokeWidth="1" />
-      <circle cx="0" cy="3" r="3.6" fill="#2a1a0c" />
-      <path d="M-1.6 4.5 h3.2 l1 8 h-5.2 z" fill="#2a1a0c" />
-      <path d="M-13 -4 h26" stroke="#fff" strokeOpacity=".35" strokeWidth="1.4" />
+      <path d="M-11 -4 v-9 a11 9 0 0 1 22 0 v9" fill="none" stroke="#2a1a0c" strokeWidth="6" strokeLinecap="round" />
+      <path d="M-11 -4 v-9 a11 9 0 0 1 22 0 v9" fill="none" stroke="#c9a25a" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M-9.6 -12 a10 8 0 0 1 8 -7" fill="none" stroke="#fff3c4" strokeOpacity=".6" strokeWidth="1.1" strokeLinecap="round" />
+      {/* barril */}
+      <rect x="-21" y="-6" width="42" height="18" rx="9" fill="url(#mdLaton)" stroke="#3a240e" strokeWidth="1.5" />
+      <rect x="-25" y="-8" width="7" height="22" rx="2.5" fill="url(#mdLaton)" stroke="#3a240e" strokeWidth="1.3" />
+      <rect x="18" y="-8" width="7" height="22" rx="2.5" fill="url(#mdLaton)" stroke="#3a240e" strokeWidth="1.3" />
+      <path d="M-17 -2 H17" stroke="#fff3c4" strokeOpacity=".55" strokeWidth="1.3" />
+      <path d="M-15 8 H15" stroke="#3a240e" strokeOpacity=".35" strokeWidth="1" />
+      {/* bocallave */}
+      <circle cx="0" cy="3" r="4.6" fill="#5a3a14" stroke="#3a240e" strokeWidth=".8" />
+      <path d="M0 -0.4 v6.8 M-3.4 3 h6.8" stroke="#e9cf8e" strokeWidth="1.1" />
+      {/* borla roja */}
+      <path d="M0 12 v6" stroke="#8f0c21" strokeWidth="1.6" />
+      <path d="M-2.4 18 h4.8 l1.2 8 h-7.2z" fill="#a5112a" />
     </g>
+  );
+}
+
+const CIFRAS = ["", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾"];
+/** v25 · Cifra caligráfica de la clase grabada en oro (sustituye a los emojis del medallón) */
+export function GlifoClase({ n = 1, estado = "abierta", tamano = 40 }) {
+  const uid = React.useId().replace(/[^a-zA-Z0-9]/g, "");
+  const car = CIFRAS[n] || String(n);
+  const hecha = estado === "hecha";
+  return (
+    <svg className={`md-glifo md-glifo-${estado}`} width={tamano} height={tamano} viewBox="0 0 40 40" aria-hidden="true">
+      <defs>
+        <linearGradient id={`${uid}g`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={hecha ? "#c8102e" : "#fffbe6"} />
+          <stop offset=".45" stopColor={hecha ? "#a5112a" : "#f6d77e"} />
+          <stop offset="1" stopColor={hecha ? "#6e0817" : "#c8961e"} />
+        </linearGradient>
+      </defs>
+      {/* Bajo relieve: sombra arriba-izquierda y luz abajo-derecha (grabado en la cara del medallón) */}
+      <text x="20" y="30.5" textAnchor="middle" className="md-glifo-txt" fill={hecha ? "#fff3c4" : "#3a1a06"} opacity=".55" transform="translate(.9 1.1)">
+        {car}
+      </text>
+      <text x="20" y="30.5" textAnchor="middle" className="md-glifo-txt" fill={`url(#${uid}g)`} stroke={hecha ? "#5a0a14" : "#7a4d12"} strokeWidth=".6" paintOrder="stroke">
+        {car}
+      </text>
+    </svg>
   );
 }
 

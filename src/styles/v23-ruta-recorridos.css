@@ -225,3 +225,23 @@
 /* Etiqueta «第N课» algo mayor y con marco dorado para leerse sobre mármol, nieve o papel */
 .rt22 .ruta-camino .path-node .ruta-clase-sello { font-size: 15px; padding: 4px 10px; box-shadow: inset 0 0 0 1px rgba(255,233,168,.9), 0 0 0 1.5px #7a4d12, 0 3px 6px rgba(0,0,0,.45); }
 .rt22 .rp-parada.actual .md-aura::after { opacity: .35; }
+
+/* ===== v25 · Terreno bajo el camino, sombra proyectada, bruma de lo pendiente, primer plano ===== */
+.r25-proyectada { fill: rgba(40,50,90,.22); filter: url(#r24-desenfoque); }
+.r24-rio .r25-proyectada { fill: rgba(110,50,30,.2); }
+.r24-escalinata .r25-proyectada { fill: rgba(20,50,30,.28); }
+.r25-bruma { filter: url(#r24-desenfoque); pointer-events: none; }
+.r25-bruma-muralla { fill: rgba(236,240,247,.62); }
+.r25-bruma-rio { fill: rgba(250,220,175,.55); }
+.r25-bruma-pincel { fill: rgba(236,229,214,.5); }
+.r25-bruma-escalinata { fill: rgba(236,243,236,.6); }
+.r25-delante { filter: drop-shadow(0 2px 2px rgba(20,20,30,.25)); }
+@media (max-width: 700px) {
+  .r25-proyectada, .r25-bruma { filter: none; }
+  .r25-proyectada { opacity: .7; }
+  .r25-bruma { opacity: .85; }
+  .r25-delante { filter: none; }
+}
+/* El terreno lo dibuja el Recorrido: fuera los velos rectangulares heredados del tramo */
+.rt22 .ruta-main.mr-on .ruta-camino-wrap::before, .rt22 .ruta-main.mr-on .ruta-camino-wrap::after,
+.ruta-main.mr-on .ruta-camino-wrap.ru-terreno::before, .ruta-main.mr-on .ruta-camino-wrap::after { display: none !important; }

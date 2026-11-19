@@ -46,11 +46,84 @@ export function Recorrido({ forma, pts, hechas = 0, alcanzada = false, alto }) {
     return fn({ forma, pts, lit, uid });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clave, hechas, alcanzada]);
+  const entorno = React.useMemo(() => {
+    const o = marca({ forma, pts, lit });
+    return { suelo: terreno(o), delante: primerPlano(o), bruma: brumaPendiente(o) };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clave, hechas, alcanzada]);
   return (
     <svg className={`r24 r24-${forma.tipo}`} width="300" height={alto} aria-hidden="true">
+      {entorno.suelo}
       {dibujo}
+      {entorno.bruma}
+      {entorno.delante}
+      {/* El camino nace de la niebla bajo el estandarte */}
+      <ellipse cx="150" cy="4" rx="190" ry="78" style={{ fill: `url(#r25-entrada-${forma.tipo})` }} />
     </svg>
   );
+}
+
+/* ====================================================================== v25 · Terreno, bruma y primer plano */
+// Color de la niebla de cada nivel (entrada del camino y tramo pendiente)
+const NIEBLA = { muralla: "#eef1f5", rio: "#f6d4a0", pincel: "#2a3358", escalinata: "#eef3ec", nubes: "#fff6e0" };
+// Lado de la luz clave: +1 el sol viene de la derecha (A1, B1), −1 de la izquierda (A2, B2)
+const LUZ_LADO = { muralla: 1, rio: -1, pincel: 1, escalinata: -1, nubes: 1 };
+const SUELO = {
+  // [cresta iluminada, ladera en sombra, falda, borde difuso]
+  muralla: ["#fbf8f2", "#b4c4db", "#93a7c6", "rgba(244,246,250,.55)"],
+  rio: ["#f2cf92", "#c98e5c", "#a8684a", "rgba(250,214,160,.5)"],
+  pincel: ["#efe6d2", "#d9cdb2", "#b9ab90", "rgba(239,230,210,.35)"],
+  escalinata: ["#a9cf8f", "#5f8f60", "#3f6a4c", "rgba(226,238,226,.6)"],
+};
+
+/** Loma / ribera / papel / ladera bajo el recorrido: bordes que se funden, falda en sombra y sombra proyectada */
+function terreno({ M, forma }) {
+  const tipo = forma.tipo;
+  const c = SUELO[tipo];
+  if (!c) return null;
+  const m = M(6);
+  const lado = LUZ_LADO[tipo];
+  const ancho = (q) => (tipo === "pincel" ? 150 : 170) + 22 * Math.sin(q.s / 53 + 1) + 12 * Math.sin(q.s / 17);
+  const grad = `r25-suelo-${tipo}`;
+  return (
+    <g className={`r25-suelo r25-suelo-${tipo}`}>
+      {/* Halo difuso: el terreno se funde con el paisaje */}
+      <path d={cinta(m, (q) => ancho(q) + 90)} style={{ fill: c[3], opacity: 0.35 }} />
+      <path d={cinta(m, (q) => ancho(q) + 50)} style={{ fill: c[3], opacity: 0.55 }} />
+      {/* Falda de la loma (volumen hacia el espectador) */}
+      {tipo !== "pincel" && <path d={cinta(m, (q) => ancho(q) - 6, 0, 30)} style={{ fill: c[2] }} />}
+      {tipo !== "pincel" && <path d={cinta(m, (q) => ancho(q) - 6, 0, 30)} style={{ fill: "url(#r25-falda)" }} />}
+      <path d={cinta(m, ancho)} style={{ fill: `url(#${grad})` }} />
+      <path d={cinta(m, (q) => ancho(q) - 4)} style={{ fill: "url(#r24-grano)", opacity: tipo === "pincel" ? 0.25 : 0.18 }} />
+      {/* Sombra proyectada del camino sobre el terreno, opuesta a la luz */}
+      {tipo !== "pincel" && <path className="r25-proyectada" d={cinta(m, tipo === "escalinata" ? 92 : tipo === "rio" ? 70 : 64, -lado * 16, 22)} />}
+    </g>
+  );
+}
+
+/** Tramo aún no recorrido: lo vela una bruma del color del nivel (desaturado y apagado) */
+function brumaPendiente({ M, forma }) {
+  const m = M(5).filter((q) => !q._lit);
+  if (m.length < 3) return null;
+  const w = forma.tipo === "escalinata" ? 110 : forma.tipo === "rio" ? 150 : 96;
+  return <path className={`r25-bruma r25-bruma-${forma.tipo}`} d={cinta(m, w)} />;
+}
+
+/** Objetos delante del camino (oclusión): pinos nevados, tamariscos y rocas, hojas de orquídea a tinta, arbustos */
+function primerPlano({ M, forma, pts }) {
+  const tipo = forma.tipo;
+  const libres = M(46).filter((q, k) => k > 1 && !pts.some((p) => Math.hypot(p[0] - q.x, p[1] + 30 - q.y) < 95));
+  const piezas = [];
+  libres.forEach((q, k) => {
+    if (azar(k * 9.1 + pts.length) < 0.35) return;
+    const lado = k % 2 ? 1 : -1;
+    const off = (tipo === "escalinata" ? 52 : tipo === "rio" ? 70 : 38) + azar(k * 3.3) * 14;
+    const x = q.x + q.nx * lado * off;
+    const y = q.y + q.ny * lado * off + 14;
+    const e = 0.75 + azar(k * 5.7) * 0.5;
+    piezas.push(<use key={k} href={`#r25-prop-${tipo}-${k % 2}`} transform={`translate(${f1(x)} ${f1(y)}) scale(${lado * e} ${e})`} />);
+  });
+  return <g className="r25-delante">{piezas}</g>;
 }
 
 /* ====================================================================== A1 · Muralla */
@@ -100,7 +173,7 @@ function muralla({ M, forma, pts }) {
   const parapetos = [1, -1].map((lado) => desplaza(m, lado * (W / 2 - 3)));
   return (
     <g>
-      <path className="r24-sombra" d={cinta(m, W + 18, 14, H + 16)} />
+      <path className="r24-sombra" d={cinta(m, W + 18, -16, H + 16)} />
       {/* Zócalo y cara de ladrillo (altura del muro) */}
       <path d={cinta(m, W + 4, 0, H + 3)} style={{ fill: "#6b5d47" }} />
       <path d={cinta(m, W, 0, H)} style={{ fill: "url(#r24-ladrillo)" }} />
@@ -140,7 +213,7 @@ function Torre({ x, y, k }) {
   for (let px = x - hw + 4; px <= x + hw - 10; px += 14) almenas.push(px);
   return (
     <g className="r24-torre">
-      <ellipse className="r24-sombra" cx={x + 12} cy={fondo + H + 8} rx={hw + 14} ry="16" />
+      <ellipse className="r24-sombra" cx={x - 14} cy={fondo + H + 8} rx={hw + 14} ry="16" />
       {/* Cara frontal de ladrillo con puerta en arco */}
       <rect x={x - hw} y={fondo - 2} width={hw * 2} height={H + 2} style={{ fill: "url(#r24-ladrillo)" }} />
       <rect x={x - hw} y={fondo - 2} width={hw * 2} height={H + 2} style={{ fill: "url(#r24-cara-torre)" }} />
@@ -749,6 +822,88 @@ export function RecorridoDefs() {
           <path d="M-36 0a7 7 0 1 1 8 8a4 4 0 1 0-4-4M30 -2a7 7 0 1 1 8 8a4 4 0 1 0-4-4M-4 10a5 5 0 1 1 6 5" fill="none" stroke="#d9a63a" strokeWidth="1.6" strokeLinecap="round" />
           <ellipse cx="-24" cy="-26" rx="13" ry="5" fill="#fff" opacity=".9" />
           <ellipse cx="22" cy="-30" rx="12" ry="4.5" fill="#fff" opacity=".8" />
+        </g>
+        {/* v25 · Terreno: luz desde el lado de la luz clave de cada nivel */}
+        {Object.entries(SUELO).map(([tipo, c]) => (
+          <linearGradient key={tipo} id={`r25-suelo-${tipo}`} gradientUnits="userSpaceOnUse" x1={LUZ_LADO[tipo] > 0 ? 40 : 260} y1="0" x2={LUZ_LADO[tipo] > 0 ? 260 : 40} y2="0">
+            <stop offset="0" stopColor={c[1]} />
+            <stop offset=".55" stopColor={c[0]} />
+            <stop offset="1" stopColor={c[0]} />
+          </linearGradient>
+        ))}
+        <linearGradient id="r25-falda" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#000" stopOpacity=".05" />
+          <stop offset="1" stopColor="#000" stopOpacity=".28" />
+        </linearGradient>
+        {Object.entries(NIEBLA).map(([tipo, col]) => (
+          <radialGradient key={tipo} id={`r25-entrada-${tipo}`} cx=".5" cy=".5" r=".5">
+            <stop offset="0" stopColor={col} stopOpacity=".95" />
+            <stop offset=".5" stopColor={col} stopOpacity=".6" />
+            <stop offset="1" stopColor={col} stopOpacity="0" />
+          </radialGradient>
+        ))}
+        {/* Piezas de primer plano (base en 0,0) */}
+        <g id="r25-prop-muralla-0">
+          <ellipse cx="4" cy="1" rx="22" ry="5" fill="#6f84aa" opacity=".35" />
+          <rect x="-2" y="-10" width="4" height="11" fill="#4a3324" />
+          {[0, 1, 2, 3].map((k) => {
+            const w = 20 - k * 4.2;
+            const b = -6 - k * 11;
+            return (
+              <g key={k}>
+                <path d={`M${-w} ${b} L0 ${b - 19} L${w} ${b}Z`} fill={k % 2 ? "#1f3a33" : "#24433a"} />
+                <path d={`M${w} ${b} L0 ${b - 19} L${w * 0.2} ${b}Z`} fill="#3f6656" opacity=".7" />
+                <path d={`M${-w * 0.8} ${b - 2} Q${-w * 0.3} ${b - 7} 0 ${b - 19} Q${w * 0.4} ${b - 6} ${w * 0.9} ${b - 1} Q${w * 0.3} ${b - 5} 0 ${b - 4} Q${-w * 0.3} ${b - 6} ${-w * 0.8} ${b - 2}Z`} fill="#f7faff" />
+              </g>
+            );
+          })}
+        </g>
+        <g id="r25-prop-muralla-1">
+          <ellipse cx="3" cy="1" rx="20" ry="4.5" fill="#6f84aa" opacity=".35" />
+          <path d="M-18 0 L-14 -12 L-4 -19 L8 -16 L17 -6 L18 0Z" fill="#6b6f7c" />
+          <path d="M-4 -19 L8 -16 L17 -6 L18 0 L4 0 L2 -10Z" fill="#9aa0ad" />
+          <path d="M-15 -11 L-4 -19 L8 -16 L12 -11 Q4 -14 -2 -12 Q-8 -9 -15 -11Z" fill="#fbfdff" />
+        </g>
+        <g id="r25-prop-rio-0">
+          <ellipse cx="-3" cy="1" rx="18" ry="4" fill="#8a4a30" opacity=".3" />
+          {[-10, -6, -2, 2, 6, 10, -8, 4].map((x, k) => (
+            <path key={k} d={`M${x * 0.5} 0 Q${x} ${-14 - (k % 3) * 6} ${x * 1.8} ${-26 - (k % 4) * 6}`} fill="none" stroke={k % 2 ? "#7d7a3a" : "#a39a52"} strokeWidth="1.8" strokeLinecap="round" />
+          ))}
+          <circle cx="-6" cy="-30" r="2.4" fill="#d98aa0" />
+          <circle cx="7" cy="-34" r="2" fill="#e6a0b4" />
+        </g>
+        <g id="r25-prop-rio-1">
+          <ellipse cx="-3" cy="1" rx="22" ry="5" fill="#8a4a30" opacity=".3" />
+          <path d="M-20 0 Q-20 -14 -8 -18 Q6 -22 16 -12 Q20 -5 19 0Z" fill="#a8684a" />
+          <path d="M-20 0 Q-20 -14 -8 -18 Q-2 -19 2 -18 Q-6 -10 -4 0Z" fill="#e8b47c" />
+          <path d="M-14 -6 H10 M-10 -11 H12" stroke="#8a4a30" strokeWidth=".8" opacity=".5" />
+        </g>
+        <g id="r25-prop-pincel-0">
+          {[["M0 0 C-6 -16 -20 -26 -34 -30", 3.2], ["M0 0 C2 -18 12 -32 26 -38", 2.6], ["M0 0 C-2 -12 -4 -26 -14 -40", 2.2], ["M0 0 C6 -8 18 -12 30 -10", 1.8]].map(([d, w], k) => (
+            <path key={k} d={d} fill="none" stroke="#1c1a18" strokeWidth={w} strokeLinecap="round" opacity=".85" />
+          ))}
+          <path d="M-4 -14 q-4 -6 0 -9 q4 3 0 9z M2 -16 q2 -7 7 -6 q0 5 -7 6z" fill="#3a3330" />
+          <circle cx="-1" cy="-17" r="1.6" fill="#c8102e" />
+        </g>
+        <g id="r25-prop-pincel-1">
+          <path d="M-24 0 Q-26 -16 -12 -24 Q2 -30 14 -20 Q24 -10 22 0Z" fill="rgba(28,26,24,.72)" />
+          <path d="M-18 -4 Q-18 -16 -8 -20 M4 -24 Q14 -18 16 -6" fill="none" stroke="#efe6d2" strokeWidth="1.4" strokeDasharray="6 4 2 5" opacity=".7" />
+          <path d="M-30 1 H30" stroke="rgba(28,26,24,.35)" strokeWidth="2.4" strokeLinecap="round" />
+        </g>
+        <g id="r25-prop-escalinata-0">
+          <ellipse cx="-3" cy="1" rx="22" ry="5" fill="#2f5a3a" opacity=".3" />
+          <circle cx="-8" cy="-10" r="11" fill="#3f7a4a" />
+          <circle cx="6" cy="-12" r="12" fill="#4f8f55" />
+          <circle cx="-1" cy="-20" r="10" fill="#6aa86a" />
+          <circle cx="-5" cy="-24" r="4" fill="#a8d58a" opacity=".8" />
+          <circle cx="2" cy="-6" r="2" fill="#f4a6c0" />
+          <circle cx="10" cy="-14" r="1.8" fill="#f4a6c0" />
+        </g>
+        <g id="r25-prop-escalinata-1">
+          <ellipse cx="-3" cy="1" rx="20" ry="4.5" fill="#2f5a3a" opacity=".3" />
+          <path d="M-17 0 Q-19 -12 -8 -17 Q4 -21 13 -12 Q18 -6 17 0Z" fill="#8f9a8a" />
+          <path d="M-17 0 Q-19 -12 -8 -17 Q-2 -18 0 -17 Q-8 -8 -6 0Z" fill="#cfd8c8" />
+          <path d="M-12 -12 Q-4 -18 6 -15 Q-2 -12 -12 -12Z" fill="#5f8f55" />
         </g>
         <filter id="r24-desenfoque" x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur stdDeviation="7" />

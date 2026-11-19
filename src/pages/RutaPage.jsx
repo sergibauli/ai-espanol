@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link, useSearchParams } from "react-router";
-import { BookOpenIcon, LockIcon, CheckIcon, StarIcon, XIcon, ChevronRightIcon } from "lucide-react";
+import { BookOpenIcon, LockIcon, CheckIcon, XIcon, ChevronRightIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { GameStats, GoalRing } from "../components/ui/GameStats.jsx";
@@ -12,7 +12,7 @@ import { loadModule, loadModulePlus } from "../lib/examGenerator.js";
 import CATALOG from "../data/modulos/catalog.json";
 import STOPS from "../data/china-stops.json";
 import { Moneda, PanelJade } from "../../packages/imperial/src/index.js";
-import { MundoRuta, EscenaTramo, momentoRuta } from "../components/ruta/MundoRuta.jsx";
+import { MundoRuta, momentoRuta } from "../components/ruta/MundoRuta.jsx";
 
 import { MonoViajero } from "../components/ruta/MonoViajero.jsx";
 import { Celebracion } from "../components/ruta/Celebracion.jsx";
@@ -21,13 +21,14 @@ import { CabeceraRuta } from "../components/ruta/CabeceraRuta.jsx";
 import { SelloPasaporte, FiltroTinta, fechaSello } from "../components/ruta/SelloPasaporte.jsx";
 import { Pictograma, PaisajeBanda, paisajeDe } from "../components/ruta/paisajes.jsx";
 import { ANCHO_CARRIL, FILA, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva, formaDe } from "../components/ruta/geometria.js";
-import { Medallon, SelloHecha, CofreImperial } from "../components/ruta/Medallon.jsx";
+import { Medallon, SelloHecha, CofreImperial, GlifoClase } from "../components/ruta/Medallon.jsx";
 import { Recorrido, RecorridoDefs } from "../components/ruta/Recorrido.jsx";
 import "../styles/v13-ruta-mundos.css";
 import "../styles/v14-ruta.css";
 import "../styles/v22-ruta.css";
 import "../styles/movil-ruta.css";
 import "../styles/v23-ruta-recorridos.css";
+import "../styles/v25-ruta.css";
 
 const STOP = Object.fromEntries(STOPS.map((parada) => [parada.n, parada]));
 const REGION = { A1: ["Pekín y el norte", "北京与华北"], A2: ["La Ruta de la Seda", "丝绸之路"], B1: ["El este de China", "华东"], B2: ["El sur y el oeste", "西南与华南"] };
@@ -174,6 +175,11 @@ export default function RutaPage() {
       sessionStorage.setItem(claveVista(vista.nivel), vista.firma);
     } catch {}
   }, [vista, demo]);
+  // v25 · Un solo Rey Mono en pantalla: en la Ruta manda el viajero (el asistente flotante se oculta)
+  React.useEffect(() => {
+    document.body.classList.add("en-ruta");
+    return () => document.body.classList.remove("en-ruta");
+  }, []);
   React.useEffect(() => {
     const temporizador = setTimeout(() => setListo(true), 900);
     return () => clearTimeout(temporizador);
@@ -229,7 +235,30 @@ export default function RutaPage() {
   }, [listo, pedidoDemo]);
 
   React.useEffect(() => {
-    const temporizador = setTimeout(() => currentRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 400);
+    // v25 · Encuadre: el botón Empezar, la clase actual y el examen de la unidad a la vista sin hacer scroll
+    const encuadrar = () => {
+      const nodo = currentRef.current;
+      if (!nodo) return;
+      const movil = window.innerWidth <= 700;
+      const arriba = movil ? 136 : 24; // barra superior + pestañas de nivel (móvil)
+      const abajo = window.innerHeight - (window.innerWidth <= 1000 ? 100 : 16); // barra inferior del móvil
+      const rNodo = nodo.getBoundingClientRect();
+      const cofre = nodo.closest(".ruta-unit")?.querySelector(".rp-cofre");
+      const rCofre = cofre?.getBoundingClientRect();
+      const bloqueArriba = rNodo.top - (movil ? 84 : 96); // incluye el botón Empezar
+      const bloqueAbajo = rCofre ? rCofre.bottom + 26 : rNodo.bottom + 60;
+      const libre = abajo - arriba - (bloqueAbajo - bloqueArriba);
+      const delta = libre >= 0 ? bloqueArriba - arriba - libre * 0.45 : bloqueArriba - arriba;
+      let contenedor = nodo.parentElement;
+      while (contenedor && contenedor !== document.body) {
+        const estilo = getComputedStyle(contenedor);
+        if (/(auto|scroll)/.test(estilo.overflowY) && contenedor.scrollHeight > contenedor.clientHeight) break;
+        contenedor = contenedor.parentElement;
+      }
+      const destino = contenedor && contenedor !== document.body ? contenedor : window;
+      destino.scrollBy({ top: delta, behavior: sinMovimiento() ? "auto" : "smooth" });
+    };
+    const temporizador = setTimeout(encuadrar, 400);
     return () => clearTimeout(temporizador);
   }, [level]);
 
@@ -361,7 +390,7 @@ export default function RutaPage() {
                   </span>
                   <span className="ru-medallon">
                     <Moneda tamano={esMovil ? 46 : 68} tono="oro" brillo={alcanzada}>
-                      <Emoji3D emoji={parada?.emoji || unidad.icono} size={esMovil ? 22 : 34} />
+                      <Pictograma tipo={paisaje.tipo} tamano={esMovil ? 26 : 38} className="ru-pictograma" />
                     </Moneda>
                     <b className="ru-num" translate="no">
                       {numero}
@@ -403,7 +432,6 @@ export default function RutaPage() {
                     <Pictograma tipo={paisaje.tipo} tamano={260} />
                     <b translate="no">{parada?.lugarZh}</b>
                   </span>
-                  <EscenaTramo nivel={lv.key} idx={idx} />
                   <div className={`ruta-camino rf-${forma.tipo}`} data-forma={forma.tipo} style={{ width: ANCHO_CARRIL, height: alto }}>
                     {/* Cuerpo ilustrado del recorrido: muralla, río con puente, tinta, escalinata o nubes (v24) */}
                     <Recorrido forma={forma} pts={pts} hechas={oroHasta} alcanzada={alcanzada} alto={alto} />
@@ -440,7 +468,7 @@ export default function RutaPage() {
                       const estaAbierta = abierta === clave;
                       const siguiente = clase.lecciones.findIndex((hecha) => !hecha);
                       const estado = isDone ? "done" : isOpen ? "open" : "locked";
-                      const tamanoMoneda = (isCurrent ? 104 : 86) - (esMovil ? 12 : 0);
+                      const tamanoMoneda = Math.round(((isCurrent ? 104 : 86) - (esMovil ? 12 : 0)) * (estado === "locked" ? 0.76 : 1));
                       const abrir = () => {
                         if (!isOpen) setNegada(clave);
                         setAbierta(estaAbierta ? null : clave);
@@ -457,10 +485,16 @@ export default function RutaPage() {
                               <span className="rp-emp-ala izq" />
                               <span className="rp-emp-ala der" />
                               <span className="rp-emp-luz" />
-                              <span className="rp-emp-play" />
-                              <b>{clase.hechas ? "Seguir" : "Empezar"}</b>
+                              <span className="rp-emp-play">
+                                <PincelIcono />
+                              </span>
+                              <span className="rp-emp-textos">
+                                <b>{clase.hechas ? "Seguir" : "Empezar"}</b>
+                                <small>Clase {clase.n}</small>
+                              </span>
                               <span className="rp-emp-zh" translate="no">
                                 {clase.hechas ? "继续" : "开始"}
+                                <small>第{clase.n}课</small>
                               </span>
                             </button>
                           )}
@@ -502,12 +536,12 @@ export default function RutaPage() {
                             {isOpen && !isDone && <span className="ruta-clase-anillo" style={{ "--p": Math.round((clase.hechas / LESSONS_PER_MODULE) * 100) }} aria-hidden="true" />}
                             <span className="rp-moneda">
                               <Medallon tamano={tamanoMoneda} estado={isDone ? "hecha" : isCurrent ? "actual" : isOpen ? "abierta" : "cerrada"}>
-                                {isDone ? clase.nota === 100 ? <StarIcon size={30} fill="currentColor" /> : <CheckIcon size={32} strokeWidth={3.5} /> : isOpen ? <Emoji3D emoji={i === 0 ? unidad.icono : LESSON_META[Math.min(i, 4)].emoji} size={isCurrent ? (esMovil ? 38 : 44) : esMovil ? 30 : 34} /> : null}
+                                {isOpen || isDone ? <GlifoClase n={clase.n} estado={isDone ? "hecha" : isCurrent ? "actual" : "abierta"} tamano={isCurrent ? (esMovil ? 44 : 52) : esMovil ? 34 : 40} /> : null}
                               </Medallon>
                               {isDone && <SelloHecha perfecta={clase.nota === 100} />}
                             </span>
-                            <span className="ruta-clase-sello" translate="no">
-                              第{clase.n}课
+                            <span className="ruta-clase-sello">
+                              Clase {clase.n} <i translate="no">第{clase.n}课</i>
                             </span>
                           </button>
                           {estaAbierta && (
@@ -574,8 +608,17 @@ export default function RutaPage() {
                         </span>
                       </span>
                       <span className="ruta-clase-sello rp-cofre-cartel">
-                        Examen <span translate="no">考试</span>
+                        {unidadGanada ? "Aprobado" : "Examen"} <span translate="no">{unidadGanada ? "通过" : "考试"}</span>
                       </span>
+                      {unidadGanada ? (
+                        <span className="rp-cofre-sello" aria-hidden="true" translate="no">
+                          成
+                        </span>
+                      ) : (
+                        <span className="rp-cofre-premio" title="Al aprobar: sello del pasaporte · 通过后获得护照印章">
+                          +1 sello <i translate="no">印章</i>
+                        </span>
+                      )}
                     </Link>
                     {iMono >= 0 && (
                       <MonoViajero
@@ -812,6 +855,18 @@ function Onboarding({ onDone }) {
         </div>
       </footer>
     </div>
+  );
+}
+
+// v25 · Icono propio del botón Empezar: pincel de caligrafía que traza hacia la derecha
+function PincelIcono() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <path d="M3 19.5c3.2.4 5.6-.6 7-2.6" fill="none" stroke="#8f0c21" strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M9.6 16.4l3.2-4.4 2.6 2.1-3.6 4z" fill="#3b2416" />
+      <path d="M12.8 12l7.4-9 1.6 1.3-6.4 9.8z" fill="#8f0c21" />
+      <path d="M13.6 11.6l6.6-8" stroke="#f6d77e" strokeWidth=".9" strokeLinecap="round" />
+    </svg>
   );
 }
 
