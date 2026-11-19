@@ -2,7 +2,6 @@
 // Oro metálico, laca, luces y sombras con degradados propios de cada portada (ids únicos con useId).
 // Todas las animaciones son CSS (transform/opacity) en styles/juegos-hub.css (.jh-p-*).
 import * as React from "react";
-import { PortadaPinball } from "./PortadaPinball.jsx";
 
 const ROJO = "#c8102e";
 const ORO = "#f2c14e";
@@ -93,6 +92,53 @@ function Defs() {
         [".4", "#7be0a6", ".45"],
         ["1", "#2fae6a", "0"],
       ])}
+      {rad("terciopelo", [
+        ["0", "#3fae6a"],
+        [".6", "#1d6339"],
+        ["1", "#0c3a22"],
+      ])}
+      {lin("cieloNoche", [
+        ["0", "#0b1030"],
+        [".55", "#3a1a4a"],
+        ["1", "#8f0c21"],
+      ])}
+      {lin("atardecer", [
+        ["0", "#3a0a24"],
+        [".45", "#b4232f"],
+        [".8", "#f6b06a"],
+        ["1", "#ffe39a"],
+      ])}
+      {lin("pelo", [
+        ["0", "#fff4dc"],
+        [".35", "#8a6a4a"],
+        [".7", "#1a0e08"],
+        ["1", "#000"],
+      ])}
+      {lin(
+        "lacaH",
+        [
+          ["0", "#6d0a18"],
+          [".45", "#e0485a"],
+          ["1", "#6d0a18"],
+        ],
+        true,
+      )}
+      <radialGradient id={g("mesa")} cx=".5" cy=".35" r=".8">
+        <stop offset="0" stopColor="#d61a36" />
+        <stop offset=".55" stopColor="#7a0a1c" />
+        <stop offset="1" stopColor="#2a0408" />
+      </radialGradient>
+      <radialGradient id={g("farol")} cx=".4" cy=".35" r=".7">
+        <stop offset="0" stopColor="#fff6c8" />
+        <stop offset=".4" stopColor="#ffb347" />
+        <stop offset="1" stopColor="#c8102e" />
+      </radialGradient>
+      <radialGradient id={g("bola")} cx=".35" cy=".3" r=".7">
+        <stop offset="0" stopColor="#fffbe6" />
+        <stop offset=".35" stopColor="#ffe08a" />
+        <stop offset=".8" stopColor="#e0a92a" />
+        <stop offset="1" stopColor="#7a4f12" />
+      </radialGradient>
       <radialGradient id={g("vineta")} cx=".5" cy=".45" r=".75">
         <stop offset=".55" stopColor="#000" stopOpacity="0" />
         <stop offset="1" stopColor="#000" stopOpacity=".6" />
@@ -510,65 +556,7 @@ function Memory() {
 }
 
 /* ---------- 7 · Palacio de las palabras: tablero de laca ---------- */
-function PalacioPalabras() {
-  const g = useG();
-  const bonus = { 2: ["laca", "×2"], 8: ["jade", "×3"], 12: ["azul", "×3"], 17: ["laca", "×2"], 22: ["jade", "×3"], 26: ["azul", "×3"] };
-  const fichas = [
-    [9, "P", "3"],
-    [10, "A", "1"],
-    [11, "Z", "7"],
-    [4, "S", "1"],
-    [18, "L", "1"],
-  ];
-  const pos = (i) => [62 + (i % 7) * 28, 34 + Math.floor(i / 7) * 30];
-  return (
-    <>
-      <rect width="320" height="180" fill={u(g, "madera")} />
-      <rect width="320" height="180" fill="#2a1408" opacity=".4" />
-      <circle cx="160" cy="90" r="140" fill={u(g, "halo")} opacity=".25" />
-      <Sombra cx={160} cy={166} rx={120} ry={10} />
-      <rect x="48" y="22" width="224" height="138" rx="10" fill="#4a0612" />
-      <rect x="48" y="20" width="224" height="134" rx="10" fill={u(g, "laca")} stroke={u(g, "oroH")} strokeWidth="3" />
-      <rect x="56" y="28" width="208" height="120" rx="4" fill="#f3e3bd" />
-      {Array.from({ length: 28 }, (_, i) => {
-        const [x, y] = pos(i);
-        const b = bonus[i];
-        return (
-          <g key={i}>
-            <rect x={x} y={y} width="26" height="28" rx="3" fill={b ? u(g, b[0]) : "rgba(138,90,30,.16)"} />
-            {b && (
-              <text x={x + 13} y={y + 18} textAnchor="middle" fontSize="9" fontWeight="900" fill={CREMA}>
-                {b[1]}
-              </text>
-            )}
-          </g>
-        );
-      })}
-      {fichas.map(([i, l, p], k) => {
-        const [x, y] = pos(i);
-        return (
-          <g key={i} className="jh-p-cae" style={{ "--d": `${k * 0.45}s` }}>
-            <Ficha x={x} y={y - 3} w={26} h={27} letra={l} pts={p} color={TINTA} size={16} />
-          </g>
-        );
-      })}
-      <g className="jh-p-flota" style={{ transformOrigin: "290px 40px" }}>
-        <Sombra cx={290} cy={74} rx={14} ry={3} op={0.5} />
-        <g transform="rotate(14 290 40)">
-          <Ficha x={276} y={22} w={28} h={32} letra="Ñ" pts="6" color={ROJO} size={18} />
-        </g>
-      </g>
-      <Chispas
-        pts={[
-          [22, 30, 0.8],
-          [26, 150, 0.7],
-          [300, 120, 0.8],
-        ]}
-      />
-      <Vineta />
-    </>
-  );
-}
+/* PalacioPalabras: ver «Portadas de los juegos nuevos» más abajo */
 
 /* ---------- 8 · UNO: mesa de terciopelo ---------- */
 function Uno() {
@@ -922,68 +910,178 @@ function FichasPalacio() {
   );
 }
 
-/* ---------- 14 · Brisca del Rey Mono: baraja española sobre tapete de laca ---------- */
-function Brisca() {
-  const g = useG();
-  const carta = (x, y, rot, contenido, key) => (
-    <g key={key} className="jh-p-naipe" transform={`rotate(${rot} ${x + 24} ${y + 72})`} style={{ "--d": `${key * -0.6}s` }}>
-      <rect x={x + 2} y={y + 3} width="48" height="72" rx="6" fill="#000" opacity=".3" />
-      <rect x={x} y={y} width="48" height="72" rx="6" fill={CREMA} stroke={u(g, "oroH")} strokeWidth="1.6" />
-      <rect x={x + 4} y={y + 10} width="40" height="52" rx="2" fill="none" stroke="#c8961e" strokeWidth=".8" />
-      {contenido(x + 24, y + 36)}
+/* =====================================================================
+   Portadas de los juegos nuevos (Brisca, Viaje, Pincel, Pinball, Palacio)
+   Mismo lenguaje que las demás: foco central, halo, rayos, profundidad,
+   piezas reconocibles del juego y un gesto al pasar el ratón.
+   ===================================================================== */
+
+// Cubo isométrico (dado) con puntos: cada cara se dibuja en coordenadas 0..1 con una matriz
+const PIPS = {
+  1: [[0.5, 0.5]],
+  2: [[0.27, 0.27], [0.73, 0.73]],
+  3: [[0.25, 0.25], [0.5, 0.5], [0.75, 0.75]],
+  4: [[0.27, 0.27], [0.73, 0.27], [0.27, 0.73], [0.73, 0.73]],
+  5: [[0.25, 0.25], [0.75, 0.25], [0.5, 0.5], [0.25, 0.75], [0.75, 0.75]],
+  6: [[0.27, 0.22], [0.73, 0.22], [0.27, 0.5], [0.73, 0.5], [0.27, 0.78], [0.73, 0.78]],
+};
+function Dado({ cx, cy, a = 22, caras = [1, 3, 5] }) {
+  const ex = [a * 0.87, a * 0.5];
+  const ey = [-a * 0.87, a * 0.5];
+  const ez = [0, a];
+  const T = [cx, cy - a];
+  const add = (...v) => v.reduce((p, q) => [p[0] + q[0], p[1] + q[1]], [0, 0]);
+  const neg = (v) => [-v[0], -v[1]];
+  const caraG = (O, U, V, fill, n, key) => (
+    <g key={key} transform={`matrix(${U[0]} ${U[1]} ${V[0]} ${V[1]} ${O[0]} ${O[1]})`}>
+      <rect x="0.02" y="0.02" width="0.96" height="0.96" rx="0.16" fill={fill} />
+      {PIPS[n].map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={n === 1 ? 0.13 : 0.09} fill={n === 1 ? ROJO : TINTA} />
+      ))}
     </g>
   );
-  const moneda = (cx, cy) => (
+  return (
     <g>
-      <circle cx={cx} cy={cy} r="14" fill={u(g, "oro")} stroke="#7a4f12" strokeWidth="1.2" />
-      <rect x={cx - 4.5} y={cy - 4.5} width="9" height="9" fill="#8f0c21" stroke="#7a4f12" />
+      <ellipse cx={cx} cy={cy + a * 1.05} rx={a * 1.15} ry={a * 0.32} fill="#000" opacity=".35" />
+      {caraG(T, ex, ey, "#fffaf0", caras[0], "t")}
+      {caraG(add(T, ey), ex, ez, "#e9d6aa", caras[1], "l")}
+      {caraG(add(T, ex, ey), neg(ey), ez, "#c9a76a", caras[2], "r")}
+    </g>
+  );
+}
+
+/* ---------- 14 · Brisca del Rey Mono: abanico de naipes españoles sobre tapete ---------- */
+function Brisca() {
+  const g = useG();
+  // Filete del naipe con «pintas»: oros sin corte, copas 1, espadas 2, bastos 3
+  const filete = (x, y, w, h, cortes) => {
+    const seg = [];
+    const n = cortes + 1;
+    const hueco = 4;
+    const tramo = (w - cortes * hueco) / n;
+    for (let i = 0; i < n; i++) {
+      const sx = x + i * (tramo + hueco);
+      seg.push(`M${sx} ${y}h${tramo}M${sx} ${y + h}h${tramo}`);
+    }
+    return <path d={`${seg.join("")}M${x} ${y}v${h}M${x + w} ${y}v${h}`} stroke="#c8102e" strokeWidth="1" fill="none" />;
+  };
+  const moneda = (cx, cy, r = 11) => (
+    <g>
+      <circle cx={cx} cy={cy} r={r + 1.5} fill="#7a4f12" />
+      <circle cx={cx} cy={cy} r={r} fill={u(g, "oro")} />
+      <circle cx={cx} cy={cy} r={r * 0.68} fill="none" stroke="#a8761e" strokeWidth="1" />
+      <path d={`M${cx} ${cy - r * 0.5}l${r * 0.18} ${r * 0.32}l${r * 0.32} ${r * 0.18}l${-r * 0.32} ${r * 0.18}l${-r * 0.18} ${r * 0.32}l${-r * 0.18} ${-r * 0.32}l${-r * 0.32} ${-r * 0.18}l${r * 0.32} ${-r * 0.18}z`} fill="#c8102e" />
+      <ellipse cx={cx - r * 0.35} cy={cy - r * 0.4} rx={r * 0.35} ry={r * 0.18} fill="#fff" opacity=".55" />
     </g>
   );
   const copa = (cx, cy) => (
     <g>
-      <path d={`M${cx - 12} ${cy - 12}h24c-1 11-6 15-12 16-6-1-11-5-12-16z`} fill="#2f8f52" stroke="#164d2c" />
-      <ellipse cx={cx} cy={cy - 12} rx="12" ry="2.5" fill={u(g, "oro")} />
+      <path d={`M${cx - 12} ${cy - 14}h24c0 12-5 17-12 18-7-1-12-6-12-18z`} fill={u(g, "oro")} stroke="#7a4f12" strokeWidth=".8" />
+      <path d={`M${cx - 9} ${cy - 10}h18c-1 7-4 10-9 11-5-1-8-4-9-11z`} fill="#c8102e" />
+      <ellipse cx={cx} cy={cy - 14} rx="12" ry="2.6" fill="#fff1b8" stroke="#7a4f12" strokeWidth=".6" />
       <rect x={cx - 2} y={cy + 4} width="4" height="7" fill={u(g, "oro")} />
-      <path d={`M${cx - 8} ${cy + 14}q8-4 16 0z`} fill={u(g, "oro")} />
+      <circle cx={cx} cy={cy + 6} r="2.6" fill="#2f8f52" />
+      <path d={`M${cx - 9} ${cy + 15}q9-6 18 0z`} fill={u(g, "oro")} stroke="#7a4f12" strokeWidth=".6" />
     </g>
   );
   const espada = (cx, cy) => (
-    <g>
-      <path d={`M${cx} ${cy - 20}l3 5v20h-6v-20z`} fill="#dfe7f5" stroke="#2a3a58" strokeWidth=".8" />
-      <path d={`M${cx - 8} ${cy + 5}q8-3 16 0q-2 3-8 3t-8-3z`} fill={u(g, "oro")} />
-      <rect x={cx - 2} y={cy + 8} width="4" height="8" fill="#8f0c21" />
-      <path d={`M${cx + 1} ${cy + 17}q5 2 5 7`} stroke={ROJO} strokeWidth="1.6" fill="none" />
+    <g transform={`rotate(-20 ${cx} ${cy})`}>
+      <path d={`M${cx} ${cy - 24}l3.4 6v22h-6.8v-22z`} fill="#e6edf8" stroke="#2a3a58" strokeWidth=".8" />
+      <path d={`M${cx} ${cy - 20}v20`} stroke="#9fb0cc" strokeWidth="1" />
+      <path d={`M${cx - 10} ${cy + 4}q10-4 20 0q-3 4-10 4t-10-4z`} fill={u(g, "oro")} stroke="#7a4f12" strokeWidth=".6" />
+      <rect x={cx - 2} y={cy + 7} width="4" height="9" rx="1" fill="#2c4f8f" />
+      <circle cx={cx} cy={cy + 18} r="2.6" fill={u(g, "oro")} />
+    </g>
+  );
+  const basto = (cx, cy) => (
+    <g transform={`rotate(24 ${cx} ${cy})`}>
+      <path d={`M${cx - 3} ${cy + 20}l-1-30q4-8 8-2l-1 32q-3 3-6 0z`} fill="#8a5a1e" stroke="#4a2a12" strokeWidth=".8" />
+      {[-12, -2, 8].map((dy) => (
+        <circle key={dy} cx={cx + (dy % 2 ? 3 : -3)} cy={cy + dy} r="1.6" fill="#5a3416" />
+      ))}
+      <path d={`M${cx + 3} ${cy - 6}q8-6 10 2q-6 2-10-2z`} fill="#2f8f52" />
+      <path d={`M${cx - 4} ${cy + 2}q-9-3-9 5q6 1 9-5z`} fill="#3fae6a" />
+    </g>
+  );
+  const naipe = (key, a, a2, num, cortes, dibujo, figura = false) => (
+    <g key={key} className="jh-p-abanico" style={{ "--a": `${a}deg`, "--a2": `${a2}deg`, transformOrigin: "160px 176px" }}>
+      <rect x="135" y="60" width="54" height="84" rx="6" fill="#000" opacity=".35" transform="translate(2 3)" />
+      <rect x="133" y="58" width="54" height="84" rx="6" fill={u(g, "crema")} stroke={figura ? u(g, "oroH") : "#b08a48"} strokeWidth={figura ? 2 : 1} />
+      {filete(138, 68, 44, 64, cortes)}
+      <text x="140" y="66" fontSize="8" fontWeight="900" fill={ROJO} fontFamily="Georgia, serif">
+        {num}
+      </text>
+      <text x="180" y="139" textAnchor="end" fontSize="8" fontWeight="900" fill={ROJO} fontFamily="Georgia, serif">
+        {num}
+      </text>
+      {dibujo}
     </g>
   );
   return (
     <>
-      <rect width="320" height="180" fill="#5a0814" />
-      <rect x="10" y="10" width="300" height="160" rx="26" fill="#1c5139" stroke={u(g, "oroH")} strokeWidth="3" />
-      <ellipse cx="160" cy="90" rx="130" ry="70" fill="#2f7a55" opacity=".7" />
-      <circle cx="160" cy="96" r="90" fill={u(g, "halo")} opacity=".35" />
-      <g>
-        {[6, 3, 0].map((o) => (
-          <rect key={o} x={36 + o} y={58 + o} width="44" height="66" rx="6" fill={o ? "#6b0918" : u(g, "laca")} stroke={ORO} strokeWidth="1.2" />
+      <rect width="320" height="180" fill="#3a0610" />
+      <rect width="320" height="180" fill={u(g, "laca")} opacity=".55" />
+      <circle cx="160" cy="84" r="150" fill={u(g, "halo")} opacity=".45" />
+      <Rayos cx={160} cy={90} n={18} op={0.12} />
+      {/* Tapete verde con borde de laca y oro */}
+      <ellipse cx="160" cy="150" rx="176" ry="52" fill="#4a0612" />
+      <ellipse cx="160" cy="146" rx="172" ry="50" fill={u(g, "oroH")} />
+      <ellipse cx="160" cy="146" rx="166" ry="46" fill={u(g, "terciopelo")} />
+      <ellipse cx="160" cy="138" rx="120" ry="26" fill="#7be0a6" opacity=".14" />
+      {/* Mazo con el triunfo cruzado debajo */}
+      <g transform="rotate(-8 52 126)">
+        <g transform="rotate(90 52 128)">
+          <rect x="34" y="102" width="36" height="54" rx="4" fill={u(g, "crema")} stroke="#b08a48" />
+          {copa(52, 128)}
+        </g>
+        {[8, 6, 4, 2, 0].map((o) => (
+          <rect key={o} x={34 - o * 0.4} y={98 - o} width="36" height="54" rx="4" fill={o ? "#6b0918" : u(g, "laca")} stroke={u(g, "oro")} strokeWidth="1" />
         ))}
-        <circle cx="58" cy="91" r="13" fill="#8f0c21" stroke={u(g, "oroH")} strokeWidth="2" />
-        <text x="58" y="97" textAnchor="middle" fontSize="16" fontWeight="700" fill="#fff4dc" fontFamily="STKaiti, KaiTi, serif">
+        <rect x="37" y="91" width="30" height="48" rx="2.5" fill="none" stroke="#ffcf6a" strokeWidth=".8" strokeDasharray="2 2" />
+        <circle cx="52" cy="115" r="10" fill="#8f0c21" stroke={u(g, "oroH")} strokeWidth="1.6" />
+        <text x="52" y="120" textAnchor="middle" fontSize="13" fontWeight="700" fill={CREMA} fontFamily="STKaiti, KaiTi, serif">
           悟
         </text>
       </g>
-      {carta(104, 48, -16, moneda, 0)}
-      {carta(140, 40, 0, copa, 1)}
-      {carta(176, 48, 16, espada, 2)}
-      <g className="jh-p-llave" style={{ transformOrigin: "272px 88px" }}>
-        <rect x="267" y="34" width="10" height="110" rx="5" fill={u(g, "laca")} stroke="#5a0814" />
-        <rect x="265" y="34" width="14" height="14" rx="4" fill={u(g, "oro")} />
-        <rect x="265" y="130" width="14" height="14" rx="4" fill={u(g, "oro")} />
+      {/* Monedas de oro apiladas */}
+      <g>
+        {[0, 1, 2, 3].map((i) => (
+          <g key={i}>
+            <ellipse cx="270" cy={146 - i * 5} rx="15" ry="5" fill="#7a4f12" />
+            <ellipse cx="270" cy={144 - i * 5} rx="15" ry="5" fill={u(g, "oroH")} />
+          </g>
+        ))}
+        <ellipse cx="270" cy="124" rx="15" ry="5" fill="#ffe39a" />
+        <rect x="267" y="122.5" width="6" height="3" fill="#8f0c21" />
       </g>
+      {/* Abanico de naipes: as de oros, copas, espadas, bastos y el Rey Mono de oros */}
+      <circle cx="160" cy="96" r="70" fill={u(g, "halo")} opacity=".55" className="jh-p-latido" style={{ transformOrigin: "160px 96px" }} />
+      {naipe(0, -44, -52, "1", 0, moneda(160, 100, 15))}
+      {naipe(1, -22, -27, "3", 1, copa(160, 100))}
+      {naipe(2, 22, 27, "7", 2, espada(160, 100))}
+      {naipe(3, 44, 52, "5", 3, basto(160, 100))}
+      {naipe(
+        4,
+        0,
+        0,
+        "12",
+        0,
+        <g>
+          <rect x="139" y="70" width="42" height="60" rx="2" fill="#8f0c21" />
+          <rect x="139" y="70" width="42" height="60" rx="2" fill={u(g, "halo")} opacity=".7" />
+          <image href="./mono/guino.webp" x="137" y="70" width="46" height="62" preserveAspectRatio="xMidYMax slice" />
+          <path d="M150 73l3 6 4-7 3 7 4-7 3 6 3-5v7h-20z" fill={u(g, "oro")} stroke="#7a4f12" strokeWidth=".5" />
+          {moneda(176, 124, 6)}
+        </g>,
+        true,
+      )}
       <Chispas
         pts={[
-          [300, 26, 0.7],
-          [24, 30, 0.6],
-          [160, 22, 0.8],
-          [236, 150, 0.6],
+          [212, 54, 0.9],
+          [104, 50, 0.7],
+          [300, 30, 0.6],
+          [22, 40, 0.6],
+          [244, 100, 0.5],
         ]}
       />
       <Vineta />
@@ -991,120 +1089,421 @@ function Brisca() {
   );
 }
 
-// El viaje del Rey Mono: tablero en espiral con el templo en el centro, fichas y dado
+/* ---------- 15 · El viaje del Rey Mono: camino en espiral hasta el Templo del Oeste ---------- */
 function ViajeMono() {
   const g = useG();
-  const celdas = [];
-  const anillo = (a, b) => {
-    for (let c = a; c <= b; c++) celdas.push([c, a]);
-    for (let f = a + 1; f <= b; f++) celdas.push([b, f]);
-    for (let c = b - 1; c >= a; c--) celdas.push([c, b]);
-    for (let f = b - 1; f > a; f--) celdas.push([a, f]);
-  };
-  anillo(0, 6);
-  anillo(1, 5);
-  const T = 21;
-  const x0 = 86;
-  const y0 = 16;
-  const especiales = { 5: "#2c4f8f", 6: "#2f8f52", 10: ROJO, 14: "#2c4f8f", 16: "#3b2416", 23: "#2c4f8f", 26: "#c8961e", 29: "#8f0c21", 32: "#2c4f8f", 37: "#8f0c21" };
+  const N = 19;
+  const casillas = Array.from({ length: N }, (_, k) => {
+    const t = Math.PI * 0.62 + k * 0.5;
+    const s = 1 - k * 0.029;
+    return { k, x: 160 + 132 * s * Math.cos(t), y: 124 + 40 * s * Math.sin(t), r: 4 + 9 * s };
+  });
+  const color = (k) => [CREMA, CREMA, "#2c4f8f", CREMA, ROJO, CREMA, "#2f8f52", CREMA, "#c8961e"][k % 9];
+  const casilla = ({ k, x, y, r }) => (
+    <g key={k}>
+      <ellipse cx={x} cy={y + r * 0.28} rx={r} ry={r * 0.5} fill="#5a3416" />
+      <ellipse cx={x} cy={y} rx={r} ry={r * 0.5} fill={color(k)} stroke={u(g, "oroH")} strokeWidth={0.6 + r * 0.06} />
+      <ellipse cx={x - r * 0.3} cy={y - r * 0.18} rx={r * 0.4} ry={r * 0.14} fill="#fff" opacity=".45" />
+    </g>
+  );
+  const detras = casillas.filter((c) => c.y < 118);
+  const delante = casillas.filter((c) => c.y >= 118).sort((a, b) => a.y - b.y);
+  const tejado = (y, w, h) => (
+    <g>
+      <path d={`M${160 - w / 2 - 9} ${y + h - 3}Q${160 - w / 2} ${y + h} ${160 - w / 2 + 6} ${y}H${160 + w / 2 - 6}Q${160 + w / 2} ${y + h} ${160 + w / 2 + 9} ${y + h - 3}L${160 + w / 2 + 4} ${y + h + 2}H${160 - w / 2 - 4}Z`} fill={u(g, "oro")} stroke="#7a4f12" strokeWidth=".8" />
+      <path d={`M${160 - w / 2 - 4} ${y + h + 2}H${160 + w / 2 + 4}`} stroke="#5a3416" strokeWidth="1.4" />
+    </g>
+  );
+  const peon = (x, y, c, b, k) => (
+    <g key={k} className="jh-p-ficha" style={{ "--d": `${k * 0.7}s`, transformOrigin: `${x}px ${y}px` }}>
+      <ellipse cx={x} cy={y} rx="6" ry="2.6" fill={c} stroke="#ffe08a" strokeWidth=".6" />
+      <path d={`M${x - 4.5} ${y}L${x - 2} ${y - 11}h4L${x + 4.5} ${y}z`} fill={c} />
+      <circle cx={x} cy={y - 13} r="4.4" fill={b} stroke={c} strokeWidth="1.4" />
+      <circle cx={x - 1.4} cy={y - 14.4} r="1.3" fill="#fff" opacity=".8" />
+    </g>
+  );
+  const camino = casillas.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(" ");
   return (
     <>
-      <rect width="320" height="180" fill="#5a0814" />
-      <circle cx="160" cy="90" r="120" fill={u(g, "halo")} opacity=".4" />
-      <rect x={x0 - 8} y={y0 - 8} width={7 * T + 16} height={7 * T + 16} rx="12" fill={u(g, "laca")} stroke={u(g, "oroH")} strokeWidth="2.5" />
-      <rect x={x0 - 2} y={y0 - 2} width={7 * T + 4} height={7 * T + 4} rx="6" fill="#e3cf9e" />
-      <path d={`M${x0 + 4} ${y0 + 120} q20 -30 40 -10 t40 -6 M${x0 + 90} ${y0 + 20} q16 -14 30 -4`} stroke="#3b2416" strokeWidth="1" fill="none" opacity=".35" />
-      <polyline points={celdas.map(([c, f]) => `${x0 + c * T + T / 2},${y0 + f * T + T / 2}`).join(" ")} fill="none" stroke="#8a5a1e" strokeWidth="11" strokeLinejoin="round" />
-      <polyline points={celdas.map(([c, f]) => `${x0 + c * T + T / 2},${y0 + f * T + T / 2}`).join(" ")} fill="none" stroke="#e8cf95" strokeWidth="8" strokeLinejoin="round" />
-      {celdas.map(([c, f], i) => (
-        <g key={i}>
-          <circle cx={x0 + c * T + T / 2} cy={y0 + f * T + T / 2 + 1.6} r={T / 2 - 2} fill="#8a5a1e" />
-          <circle cx={x0 + c * T + T / 2} cy={y0 + f * T + T / 2} r={T / 2 - 2} fill={especiales[i] || CREMA} stroke={ORO} strokeWidth="1.2" />
-        </g>
-      ))}
-      <rect x={x0 + 2 * T + 2} y={y0 + 2 * T + 2} width={3 * T - 4} height={3 * T - 4} rx="8" fill={u(g, "azul")} stroke={u(g, "oroH")} strokeWidth="1.6" />
-      <circle cx={x0 + 3.5 * T} cy={y0 + 3.4 * T} r="24" fill={u(g, "halo")} opacity=".9" />
-      <path d={`M${x0 + 3.5 * T - 22} ${y0 + 3.4 * T} h44 l-6 -7 h-32z M${x0 + 3.5 * T - 15} ${y0 + 3.4 * T - 9} h30 l-5 -7 h-20z`} fill={ORO} stroke="#7a4f12" strokeWidth=".8" />
-      <rect x={x0 + 3.5 * T - 14} y={y0 + 3.4 * T} width="28" height="14" fill={ROJO} />
-      <text x={x0 + 3.5 * T} y={y0 + 4.6 * T} textAnchor="middle" fontSize="12" fill="#ffe08a" fontFamily="STKaiti, KaiTi, serif">西天</text>
+      <rect width="320" height="180" fill={u(g, "cieloNoche")} />
       {[
-        [x0 + 4.5 * T, y0 + 0.4 * T, "#2f8f52", "#7fe0a6"],
-        [x0 + 1.5 * T, y0 + 4.4 * T, "#c8961e", "#fff1b8"],
-      ].map(([cx, cy, c, b], i) => (
-        <g key={i} className="jh-p-naipe" style={{ "--d": `${i * -0.8}s` }}>
-          <ellipse cx={cx} cy={cy + 14} rx="9" ry="3.5" fill={c} stroke="#ffe08a" strokeWidth=".8" />
-          <rect x={cx - 3} y={cy + 2} width="6" height="11" fill={c} />
-          <circle cx={cx} cy={cy} r="7" fill={b} stroke={c} strokeWidth="2" />
-        </g>
+        [30, 20], [70, 44], [118, 14], [214, 12], [262, 40], [300, 18], [16, 70], [292, 74],
+      ].map(([x, y], i) => (
+        <circle key={i} className="jh-p-estrella" style={{ "--d": `${i * 0.35}s` }} cx={x} cy={y} r="1.3" fill="#fff" />
       ))}
-      <g transform="translate(262 108) rotate(-14)">
-        <rect x="-20" y="-20" width="40" height="40" rx="8" fill={CREMA} stroke="#c8961e" strokeWidth="2" />
-        <path d="M20 -20 l8 -6 v40 l-8 6z" fill="#d9c08a" />
-        <path d="M-20 -20 l8 -6 h40 l-8 6z" fill="#fff8e6" />
-        <circle cx="0" cy="0" r="6" fill={ROJO} />
-        <circle cx="-10" cy="-10" r="3.5" fill="#3b2416" />
-        <circle cx="10" cy="10" r="3.5" fill="#3b2416" />
-      </g>
-      <g transform="translate(40 120) rotate(8)">
-        <rect x="-20" y="-20" width="40" height="40" rx="8" fill={CREMA} stroke="#c8961e" strokeWidth="2" />
-        {[[-9, -9], [9, -9], [-9, 9], [9, 9]].map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r="4" fill={ROJO} />
+      <circle cx="272" cy="30" r="30" fill={u(g, "halo")} opacity=".5" />
+      <circle cx="272" cy="30" r="11" fill="#fff4cf" />
+      <path d="M0 104q30-26 56-12t44-16 40 18 40-20 46 16 44-18 50 22v86H0z" fill="#2a1240" opacity=".8" />
+      <path d="M0 116q40-18 70-4t60-10 56 12 60-14 74 12v68H0z" fill="#3a0a24" opacity=".85" />
+      {/* Rayos y halo del templo */}
+      <circle cx="160" cy="70" r="110" fill={u(g, "halo")} opacity=".45" />
+      <Rayos cx={160} cy={66} n={20} op={0.14} />
+      <image className="jh-p-nube" href="./theme/nube-oro.png" x="-10" y="60" width="96" height="34" opacity=".6" />
+      <image className="jh-p-nube is-b" href="./theme/nube-oro.png" x="236" y="66" width="96" height="34" opacity=".55" />
+      {/* Isla-tablero flotante */}
+      <ellipse cx="160" cy="132" rx="150" ry="48" fill="#4a0612" />
+      <ellipse cx="160" cy="126" rx="150" ry="48" fill={u(g, "oroH")} />
+      <ellipse cx="160" cy="124" rx="146" ry="45" fill="#e3cf9e" />
+      <ellipse cx="160" cy="124" rx="146" ry="45" fill={u(g, "halo")} opacity=".35" />
+      <polyline points={camino} fill="none" stroke="#8a5a1e" strokeWidth="3" strokeLinejoin="round" opacity=".7" />
+      <polyline className="jh-p-flecha" points={camino} fill="none" stroke="#ffe08a" strokeWidth="1.2" strokeDasharray="3 4" strokeLinejoin="round" />
+      {detras.map(casilla)}
+      {/* Templo del Oeste */}
+      <g className="jh-p-templo" style={{ transformOrigin: "160px 116px" }}>
+        <ellipse cx="160" cy="117" rx="38" ry="9" fill="#7a4f12" />
+        <ellipse cx="160" cy="113" rx="38" ry="9" fill={u(g, "oroH")} />
+        <ellipse cx="160" cy="111" rx="32" ry="6.5" fill="#fff1b8" />
+        <rect x="136" y="88" width="48" height="22" fill={u(g, "laca")} />
+        {[140, 152, 168, 180].map((x) => (
+          <rect key={x} x={x - 1.5} y="88" width="3" height="22" fill={u(g, "oro")} />
         ))}
+        <path d="M154 110v-12a6 6 0 0 1 12 0v12z" fill="#fff6cf" />
+        <path d="M154 110v-12a6 6 0 0 1 12 0v12z" fill={u(g, "halo")} />
+        {tejado(78, 52, 10)}
+        <rect x="144" y="64" width="32" height="14" fill={u(g, "laca")} />
+        <rect x="153" y="66" width="14" height="9" rx="1" fill="#2a0408" stroke={u(g, "oro")} strokeWidth=".8" />
+        <text x="160" y="73.5" textAnchor="middle" fontSize="6.5" fill="#ffe08a" fontFamily="STKaiti, KaiTi, serif">
+          西天
+        </text>
+        {tejado(54, 36, 10)}
+        <path d="M160 38l3 10h-6z" fill={u(g, "oro")} />
+        <circle cx="160" cy="37" r="3" fill="#fff6cf" />
       </g>
+      {delante.map(casilla)}
+      {peon(casillas[10].x, casillas[10].y, "#2f8f52", "#b6f0c8", 1)}
+      {peon(casillas[15].x, casillas[15].y, "#2c4f8f", "#a8c4f5", 2)}
+      {/* El Rey Mono como ficha */}
+      <g className="jh-p-ficha" style={{ "--d": "0s", transformOrigin: `${casillas[3].x}px ${casillas[3].y}px` }}>
+        <ellipse cx={casillas[3].x} cy={casillas[3].y + 1} rx="13" ry="4" fill={u(g, "haloRojo")} />
+        <image href="./mono/feliz.webp" x={casillas[3].x - 15} y={casillas[3].y - 48} width="30" height="50" />
+      </g>
+      {/* Dados 3D */}
+      <g className="jh-p-dado" style={{ transformOrigin: "276px 140px" }}>
+        <Dado cx={276} cy={138} a={19} caras={[5, 3, 6]} />
+      </g>
+      <g className="jh-p-dado is-b" style={{ transformOrigin: "40px 150px" }}>
+        <Dado cx={40} cy={148} a={14} caras={[1, 4, 2]} />
+      </g>
+      <Chispas
+        pts={[
+          [160, 30, 0.9],
+          [200, 52, 0.6],
+          [120, 56, 0.6],
+          [300, 110, 0.6],
+        ]}
+      />
+      <Vineta />
     </>
   );
 }
 
-/* ---------- 15 · Pincel mágico: pergamino sobre laca, el pincel dorado pinta y cae el sello ---------- */
+/* ---------- 16 · Pincel mágico: el pincel dorado escribe 笔 en la cuadrícula de caligrafía ---------- */
 function PincelMagico() {
   const g = useG();
   return (
     <>
       <rect width="320" height="180" fill="#3a0610" />
-      <rect width="320" height="180" fill={u(g, "laca")} opacity=".5" />
-      <circle cx="150" cy="86" r="140" fill={u(g, "halo")} opacity=".32" />
-      <Rayos cx={150} cy={86} n={20} op={0.08} />
-      <rect x="10" y="10" width="300" height="160" rx="12" fill="none" stroke={ORO} strokeWidth="1.4" opacity=".7" />
-      <rect x="14" y="14" width="292" height="152" rx="10" fill="none" stroke={ORO} strokeWidth=".6" opacity=".5" />
-      <ellipse cx="150" cy="146" rx="118" ry="9" fill={u(g, "sombra")} />
-      {/* Pergamino horizontal */}
-      <rect x="44" y="40" width="212" height="102" fill={u(g, "crema")} />
-      <rect x="44" y="40" width="212" height="102" fill="#e9d3a1" opacity=".25" />
-      <rect x="50" y="46" width="200" height="90" fill="none" stroke="#c8961e" strokeWidth=".7" opacity=".7" />
-      <path d="M60 128q30-18 52-6t46-8 40 4 42-6" stroke="#b9a07a" strokeWidth="1.2" fill="none" opacity=".35" />
-      {[36, 256].map((x) => (
-        <g key={x}>
-          <rect x={x} y="34" width="10" height="114" rx="4" fill={u(g, "madera")} />
-          <rect x={x - 1.5} y="30" width="13" height="8" rx="3" fill={u(g, "oro")} />
-          <rect x={x - 1.5} y="144" width="13" height="8" rx="3" fill={u(g, "oro")} />
+      <rect width="320" height="180" fill={u(g, "laca")} opacity=".55" />
+      <circle cx="160" cy="84" r="150" fill={u(g, "halo")} opacity=".4" />
+      <Rayos cx={160} cy={84} n={22} op={0.1} />
+      <image className="jh-p-nube" href="./theme/nube-oro.png" x="-14" y="18" width="100" height="36" opacity=".5" />
+      <image className="jh-p-nube is-b" href="./theme/nube-oro.png" x="240" y="140" width="96" height="34" opacity=".45" />
+      {/* Mesa de laca y papel de arroz */}
+      <path d="M0 150h320v30H0z" fill="#2a0408" />
+      <path d="M0 148h320v4H0z" fill={u(g, "oroH")} opacity=".8" />
+      <ellipse cx="160" cy="160" rx="110" ry="8" fill={u(g, "sombra")} />
+      <g transform="rotate(-3 160 92)">
+        <rect x="88" y="16" width="144" height="146" fill="#b9a07a" opacity=".5" transform="translate(3 4)" />
+        <rect x="88" y="16" width="144" height="146" fill={u(g, "crema")} />
+        <rect x="88" y="16" width="144" height="146" fill={u(g, "halo")} opacity=".3" />
+        {/* Cuadrícula 米字格 */}
+        <rect x="108" y="30" width="104" height="104" fill="none" stroke="#c8102e" strokeWidth="1.6" />
+        <path d="M108 30l104 104M212 30L108 134M160 30v104M108 82h104" stroke="#c8102e" strokeWidth=".7" strokeDasharray="3 3" opacity=".55" />
+        {/* Carácter que se va pintando */}
+        <defs>
+          <clipPath id={g("revela")}>
+            <rect className="jh-p-revela" x="100" y="24" width="120" height="116" style={{ transformOrigin: "160px 24px" }} />
+          </clipPath>
+        </defs>
+        <g clipPath={u(g, "revela")}>
+          <text x="160" y="119" textAnchor="middle" fontSize="92" fill="none" stroke="#ffd76a" strokeWidth="4" opacity=".45" fontFamily="STKaiti, KaiTi, 'Noto Serif CJK SC', serif" fontWeight="700">
+            笔
+          </text>
+          <text x="160" y="119" textAnchor="middle" fontSize="92" fill="#1a0e08" fontFamily="STKaiti, KaiTi, 'Noto Serif CJK SC', serif" fontWeight="700">
+            笔
+          </text>
         </g>
-      ))}
-      {/* Gato a tinta que se va pintando */}
-      <g stroke={TINTA} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" fill="none" transform="translate(112 52) scale(3.1)">
-        <path className="jh-p-tinta" pathLength="320" strokeDasharray="320" d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z" />
-        <path className="jh-p-tinta is-b" pathLength="320" strokeDasharray="320" d="M8 14v.5M16 14v.5M11.25 16.25h1.5L12 17l-.75-.75Z" />
+        {/* Gotas de tinta */}
+        {[
+          [214, 128, 2.2],
+          [206, 138, 1.4],
+          [222, 120, 1.2],
+        ].map(([x, y, r], i) => (
+          <circle key={i} cx={x} cy={y} r={r} fill="#1a0e08" />
+        ))}
+        {/* Sello 神笔 */}
+        <g className="jh-p-sello" style={{ transformOrigin: "214px 146px" }}>
+          <rect x="203" y="135" width="22" height="22" rx="2" fill={ROJO} />
+          <rect x="205" y="137" width="18" height="18" rx="1" fill="none" stroke={CREMA} strokeWidth=".7" />
+          <text x="214" y="145" textAnchor="middle" fontSize="8" fill={CREMA} fontFamily="STKaiti, KaiTi, serif">
+            神
+          </text>
+          <text x="214" y="154" textAnchor="middle" fontSize="8" fill={CREMA} fontFamily="STKaiti, KaiTi, serif">
+            笔
+          </text>
+        </g>
       </g>
+      {/* Tintero (piedra de tinta) */}
+      <g>
+        <ellipse cx="50" cy="152" rx="32" ry="10" fill="#000" opacity=".4" />
+        <path d="M18 140h64v8q-32 10-64 0z" fill="#2b2b33" />
+        <ellipse cx="50" cy="140" rx="32" ry="9" fill="#44444f" />
+        <ellipse cx="50" cy="140" rx="24" ry="6" fill="#0d0d12" />
+        <ellipse cx="44" cy="138.5" rx="9" ry="1.6" fill="#fff" opacity=".35" />
+        <path d="M26 136q6-10 16-6" stroke={u(g, "oro")} strokeWidth="1.4" fill="none" />
+      </g>
+      {/* Estela dorada */}
+      <path className="jh-p-flecha" d="M206 120q24-6 34-26t32-30" fill="none" stroke="#ffe39a" strokeWidth="1.4" strokeDasharray="2 5" strokeLinecap="round" opacity=".9" />
       {/* Pincel dorado */}
-      <g className="jh-p-pincel" style={{ transformOrigin: "214px 104px" }}>
-        <path d="M206 112c-3-6-2-13 2-17l7 4c-1 6-4 11-9 13z" fill={TINTA} />
-        <rect x="208" y="88" width="12" height="8" rx="2" transform="rotate(30 214 92)" fill={u(g, "oro")} />
-        <rect x="213" y="40" width="8" height="52" rx="3.5" transform="rotate(30 217 66)" fill={u(g, "laca")} stroke="#5a0814" strokeWidth=".6" />
-        <circle cx="206" cy="112" r="3" fill={TINTA} opacity=".7" />
-      </g>
-      {/* Sello 印 */}
-      <g className="jh-p-ficha-cima">
-        <rect x="222" y="112" width="26" height="26" rx="4" fill={ROJO} stroke="#8f0c21" strokeWidth="1.2" />
-        <rect x="225" y="115" width="20" height="20" rx="2" fill="none" stroke={CREMA} strokeWidth=".8" opacity=".8" />
-        <text x="235" y="131" textAnchor="middle" fontSize="15" fontWeight="700" fill={CREMA} fontFamily="STKaiti, KaiTi, serif">
-          印
-        </text>
+      <g className="jh-p-pincel2" style={{ transformOrigin: "200px 122px" }}>
+        <circle cx="200" cy="122" r="22" fill={u(g, "halo")} />
+        <g transform="translate(200 122) rotate(38)">
+          <path d="M0 0c-5-6-7-16-6-26h12c1 10-1 20-6 26z" fill={u(g, "pelo")} />
+          <path d="M-1 -4c-2-6-3-12-2-20" stroke="#fff" strokeWidth=".8" opacity=".35" fill="none" />
+          <rect x="-7.5" y="-34" width="15" height="9" rx="2" fill={u(g, "oroH")} stroke="#7a4f12" strokeWidth=".6" />
+          <rect x="-6" y="-120" width="12" height="88" rx="4" fill={u(g, "lacaH")} stroke="#4a0612" strokeWidth=".6" />
+          {[-112, -78, -44].map((y) => (
+            <rect key={y} x="-6.5" y={y} width="13" height="4" rx="1" fill={u(g, "oroH")} />
+          ))}
+          <rect x="-1.5" y="-110" width="2" height="72" rx="1" fill="#fff" opacity=".35" />
+          <path d="M-5 -122h10l-2 -6h-6z" fill={u(g, "oroH")} />
+          <path d="M0 -128q-8-8 0-14q8 6 0 14" fill="none" stroke={ROJO} strokeWidth="1.6" />
+        </g>
+        <circle cx="200" cy="122" r="3.2" fill="#fff6cf" />
       </g>
       <Chispas
         pts={[
-          [224, 92, 0.9],
-          [60, 30, 0.6],
-          [290, 40, 0.7],
-          [30, 150, 0.5],
+          [222, 104, 0.9],
+          [246, 80, 0.7],
+          [274, 58, 0.6],
+          [30, 90, 0.6],
+          [290, 24, 0.7],
+        ]}
+      />
+      <Vineta />
+    </>
+  );
+}
+
+/* ---------- 17 · Pinball del dragón: mesa de laca en perspectiva, dragón dorado y bola ---------- */
+function PinballDragon() {
+  const g = useG();
+  const linterna = (x, y, i) => (
+    <g key={i} className="jh-p-bumper" style={{ "--d": `${i * 0.4}s`, transformOrigin: `${x}px ${y}px` }}>
+      <circle cx={x} cy={y} r="19" fill={u(g, "haloRojo")} />
+      <ellipse cx={x} cy={y + 6} rx="11" ry="4" fill="#4a0612" />
+      <ellipse cx={x} cy={y} rx="11" ry="10.5" fill={u(g, "farol")} stroke={u(g, "oroH")} strokeWidth="1.6" />
+      <rect x={x - 5} y={y - 13} width="10" height="3.5" rx="1.4" fill={u(g, "oro")} />
+      <rect x={x - 5} y={y + 9.5} width="10" height="3.5" rx="1.4" fill={u(g, "oro")} />
+      <text x={x} y={y + 3.6} textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#8f0c21" fontFamily="STKaiti, KaiTi, serif">
+        福
+      </text>
+    </g>
+  );
+  const placa = (x, y, w, ok) => (
+    <g key={w} className={ok ? "jh-p-latido" : undefined} style={ok ? { transformOrigin: `${x}px ${y}px` } : undefined}>
+      <rect x={x - 25} y={y - 7} width="50" height="17" rx="8.5" fill="#2a0408" />
+      <rect x={x - 25} y={y - 9} width="50" height="17" rx="8.5" fill={ok ? u(g, "jade") : u(g, "crema")} stroke={u(g, "oroH")} strokeWidth="1.6" />
+      <text x={x} y={y + 2.6} textAnchor="middle" fontSize="9" fontWeight="800" fill={ok ? "#fff" : TINTA}>
+        {w}
+      </text>
+    </g>
+  );
+  const luces = Array.from({ length: 11 }, (_, i) => i / 10);
+  return (
+    <>
+      <rect width="320" height="180" fill="#12020a" />
+      <circle cx="160" cy="60" r="160" fill={u(g, "haloRojo")} opacity=".35" />
+      <Rayos cx={160} cy={40} n={16} op={0.1} color="#ffb08a" />
+      {/* Mueble de la mesa */}
+      <path d="M86 2H234Q266 2 274 34L314 180H6L46 34Q54 2 86 2Z" fill="#4a0612" />
+      <path d="M90 6H230Q260 6 267 36L304 180H16L53 36Q60 6 90 6Z" fill={u(g, "oroH")} />
+      <path d="M94 12H226Q254 12 260 40L294 180H26L60 40Q66 12 94 12Z" fill={u(g, "mesa")} />
+      {/* Calles laterales y lanzador */}
+      <path d="M248 40L282 180" stroke={u(g, "oro")} strokeWidth="1.4" opacity=".8" />
+      <path d="M72 40L38 180" stroke={u(g, "oro")} strokeWidth="1.4" opacity=".8" />
+      <path d="M270 150v26" stroke="#c8961e" strokeWidth="5" strokeDasharray="1.4 1.4" />
+      {/* Dragón dorado enroscado */}
+      <circle cx="160" cy="58" r="56" fill={u(g, "halo")} opacity=".55" />
+      <image className="jh-p-dragon" href="./theme/dragon-enroscado.webp" x="102" y="8" width="116" height="110" preserveAspectRatio="xMidYMid meet" style={{ transformOrigin: "160px 60px" }} />
+      {/* Luces del borde */}
+      {luces.map((t, i) => (
+        <g key={i}>
+          <circle className="jh-p-estrella" style={{ "--d": `${i * 0.12}s` }} cx={60 - t * 26} cy={44 + t * 120} r="2.2" fill="#ffd27a" />
+          <circle className="jh-p-estrella" style={{ "--d": `${i * 0.12 + 0.6}s` }} cx={260 + t * 26} cy={44 + t * 120} r="2.2" fill="#ffd27a" />
+        </g>
+      ))}
+      {linterna(110, 62, 0)}
+      {linterna(210, 62, 1)}
+      {/* Placas con palabras */}
+      {placa(108, 106, "hola", false)}
+      {placa(212, 106, "adiós", true)}
+      {placa(160, 128, "gracias", false)}
+      {/* Tirachinas */}
+      <path d="M58 132l26 26-14 4z" fill={u(g, "laca")} stroke={u(g, "oroH")} strokeWidth="1.4" />
+      <path d="M262 132l-26 26 14 4z" fill={u(g, "laca")} stroke={u(g, "oroH")} strokeWidth="1.4" />
+      {/* Flippers de jade */}
+      <g className="jh-p-flipper is-izq" style={{ transformOrigin: "100px 164px" }}>
+        <path d="M96 158L148 168A4.5 4.5 0 0 1 146 177L94 170A6 6 0 0 1 96 158Z" fill={u(g, "jade")} stroke={u(g, "oroH")} strokeWidth="1.4" />
+        <circle cx="100" cy="164" r="3" fill={u(g, "oro")} />
+      </g>
+      <g className="jh-p-flipper is-der" style={{ transformOrigin: "220px 164px" }}>
+        <path d="M224 158L172 168A4.5 4.5 0 0 0 174 177L226 170A6 6 0 0 0 224 158Z" fill={u(g, "jade")} stroke={u(g, "oroH")} strokeWidth="1.4" />
+        <circle cx="220" cy="164" r="3" fill={u(g, "oro")} />
+      </g>
+      {/* Bola dorada con estela */}
+      <g className="jh-p-bola">
+        {[0.12, 0.22, 0.34].map((a, i) => (
+          <circle key={i} cx={252 - (2 - i) * 9} cy={84 + (2 - i) * 8} r={4 + i * 1.2} fill="#ffd27a" opacity={a} />
+        ))}
+        <circle cx="252" cy="84" r="22" fill={u(g, "halo")} />
+        <circle cx="252" cy="84" r="8" fill={u(g, "bola")} />
+        <ellipse cx="249" cy="80.5" rx="3" ry="2" fill="#fff" opacity=".9" />
+      </g>
+      <Chispas
+        pts={[
+          [160, 20, 0.8],
+          [236, 70, 0.7],
+          [20, 30, 0.6],
+          [300, 30, 0.6],
+        ]}
+      />
+      <Vineta />
+    </>
+  );
+}
+
+/* ---------- 7 · Palacio de las palabras: tablero en perspectiva ante el palacio ---------- */
+function PalacioPalabras() {
+  const g = useG();
+  // Tablero 9 × 5 en perspectiva: (col, fila) → punto en el trapecio
+  const C = 9;
+  const F = 5;
+  const top = 96;
+  const bot = 178;
+  const P = (c, f) => {
+    const v = f / F;
+    const yv = top + (bot - top) * (v * (0.7 + 0.3 * v));
+    const half = 92 + 66 * v;
+    return [160 - half + (2 * half * c) / C, yv];
+  };
+  const quad = (c, f, d = 0.06) => {
+    const a = P(c + d, f + d);
+    const b = P(c + 1 - d, f + d);
+    const e = P(c + 1 - d, f + 1 - d);
+    const h = P(c + d, f + 1 - d);
+    return { pts: [a, b, e, h], w: b[0] - a[0], h: h[1] - a[1], cx: (a[0] + b[0] + e[0] + h[0]) / 4, cy: (a[1] + b[1] + e[1] + h[1]) / 4 };
+  };
+  const pts = (arr) => arr.map((p) => p.map((n) => n.toFixed(1)).join(",")).join(" ");
+  const bonus = { "0,0": ["laca", "×3"], "8,0": ["laca", "×3"], "1,4": ["jade", "×2"], "7,4": ["jade", "×2"], "6,1": ["azul", "×2"], "1,1": ["azul", "×2"], "8,3": ["jade", "×2"] };
+  const letras = [
+    [1, 2, "P", 3], [2, 2, "A", 1], [3, 2, "L", 1], [4, 2, "A", 1], [5, 2, "C", 3], [6, 2, "I", 1], [7, 2, "O", 1],
+    [3, 0, "S", 1], [3, 1, "O", 1],
+  ];
+  const fichaQ = (c, f, l, p, k, cae) => {
+    const q = quad(c, f, 0.04);
+    const alto = Math.max(2, q.h * 0.2);
+    const lift = q.pts.map(([x, y]) => [x, y - alto]);
+    return (
+      <g key={k} className={cae ? "jh-p-cae" : undefined} style={cae ? { "--d": `${k * 0.4}s` } : undefined}>
+        <polygon points={pts(q.pts)} fill="#000" opacity=".35" transform="translate(1.5 1.5)" />
+        <polygon points={pts([lift[3], lift[2], q.pts[2], q.pts[3]])} fill="#b07a2a" />
+        <polygon points={pts(lift)} fill={u(g, "crema")} stroke="#c8961e" strokeWidth=".7" />
+        <text x={q.cx} y={q.cy - alto + q.h * 0.26} textAnchor="middle" fontSize={q.h * 0.72} fontWeight="900" fill={TINTA} fontFamily="Georgia, serif">
+          {l}
+        </text>
+        <text x={lift[2][0] - 2} y={lift[2][1] - 1.5} textAnchor="end" fontSize={q.h * 0.26} fontWeight="800" fill="#8a5a1e">
+          {p}
+        </text>
+      </g>
+    );
+  };
+  const tejado = (y, w, h) => (
+    <g>
+      <path d={`M${160 - w / 2 - 14} ${y + h - 4}Q${160 - w / 2} ${y + h} ${160 - w / 2 + 8} ${y}H${160 + w / 2 - 8}Q${160 + w / 2} ${y + h} ${160 + w / 2 + 14} ${y + h - 4}L${160 + w / 2 + 6} ${y + h + 2}H${160 - w / 2 - 6}Z`} fill={u(g, "oro")} stroke="#7a4f12" strokeWidth=".8" />
+      {Array.from({ length: Math.floor(w / 8) }, (_, i) => (
+        <path key={i} d={`M${160 - w / 2 + 8 + i * 8} ${y + 1}v${h - 2}`} stroke="#a8761e" strokeWidth="1" opacity=".7" />
+      ))}
+      <path d={`M${160 - w / 2 - 6} ${y + h + 2}H${160 + w / 2 + 6}`} stroke="#5a3416" strokeWidth="1.6" />
+    </g>
+  );
+  return (
+    <>
+      <rect width="320" height="180" fill={u(g, "atardecer")} />
+      <circle cx="160" cy="62" r="130" fill={u(g, "halo")} opacity=".6" />
+      <Rayos cx={160} cy={56} n={18} op={0.12} />
+      <image className="jh-p-nube" href="./theme/nube-oro.png" x="-12" y="30" width="110" height="38" opacity=".6" />
+      <image className="jh-p-nube is-b" href="./theme/nube-oro.png" x="226" y="22" width="110" height="38" opacity=".55" />
+      {/* Palacio */}
+      <rect x="20" y="78" width="280" height="22" fill="#6d0a18" />
+      <rect x="20" y="76" width="280" height="3" fill={u(g, "oro")} />
+      {tejado(22, 92, 12)}
+      <rect x="114" y="36" width="92" height="20" fill={u(g, "laca")} />
+      {[120, 140, 180, 200].map((x) => (
+        <rect key={x} x={x - 2} y="36" width="4" height="20" fill={u(g, "oro")} opacity=".8" />
+      ))}
+      <rect x="146" y="39" width="28" height="12" rx="1" fill="#2a0408" stroke={u(g, "oro")} strokeWidth=".8" />
+      <text x="160" y="48.5" textAnchor="middle" fontSize="8" fill="#ffe08a" fontFamily="STKaiti, KaiTi, serif">
+        字宫
+      </text>
+      {tejado(54, 150, 14)}
+      <rect x="82" y="70" width="156" height="28" fill={u(g, "laca")} />
+      {[96, 124, 196, 224].map((x) => (
+        <rect key={x} x={x - 2.5} y="70" width="5" height="28" fill="#5a0814" />
+      ))}
+      <path d="M146 98v-16a14 12 0 0 1 28 0v16z" fill="#fff1b8" opacity=".85" />
+      {[56, 264].map((x, i) => (
+        <g key={x} className="jh-p-linterna" style={{ transformOrigin: `${x}px 58px`, "--d": `${-i}s` }}>
+          <line x1={x} y1="58" x2={x} y2="64" stroke={ORO} strokeWidth="1.2" />
+          <circle cx={x} cy="74" r="14" fill={u(g, "haloRojo")} />
+          <ellipse cx={x} cy="74" rx="8" ry="9.5" fill={u(g, "laca")} stroke="#ffcf6a" strokeWidth=".8" />
+          <rect x={x - 3} y="63" width="6" height="2.4" fill={ORO} />
+          <rect x={x - 3} y="83" width="6" height="2.4" fill={ORO} />
+        </g>
+      ))}
+      {/* Tablero en perspectiva */}
+      <polygon points={pts([P(0, 0), P(C, 0), P(C, F), P(0, F)])} fill="#4a0612" transform="translate(0 4)" />
+      <polygon points={pts([P(0, 0), P(C, 0), P(C, F), P(0, F)])} fill={u(g, "laca")} stroke={u(g, "oroH")} strokeWidth="2.4" />
+      {Array.from({ length: C * F }, (_, i) => {
+        const c = i % C;
+        const f = Math.floor(i / C);
+        const q = quad(c, f);
+        const b = bonus[`${c},${f}`];
+        return (
+          <g key={i}>
+            <polygon points={pts(q.pts)} fill={b ? u(g, b[0]) : "#f3e3bd"} opacity={b ? 1 : 0.92} />
+            {b && (
+              <text x={q.cx} y={q.cy + q.h * 0.2} textAnchor="middle" fontSize={q.h * 0.5} fontWeight="900" fill={CREMA}>
+                {b[1]}
+              </text>
+            )}
+          </g>
+        );
+      })}
+      {letras.map(([c, f, l, p], k) => fichaQ(c, f, l, p, k, k >= 7))}
+      {/* Ñ dorada flotante */}
+      <g className="jh-p-flota" style={{ transformOrigin: "286px 40px" }}>
+        <circle cx="286" cy="40" r="24" fill={u(g, "halo")} />
+        <g transform="rotate(12 286 40)">
+          <Ficha x={272} y={22} w={28} h={32} letra="Ñ" pts="8" color={ROJO} size={19} />
+        </g>
+      </g>
+      <Chispas
+        pts={[
+          [160, 16, 0.8],
+          [34, 26, 0.6],
+          [250, 92, 0.6],
+          [70, 92, 0.5],
         ]}
       />
       <Vineta />
@@ -1129,7 +1528,7 @@ const ESCENAS = {
   brisca: Brisca,
   "viaje-mono": ViajeMono,
   "pincel-magico": PincelMagico,
-  "pinball-dragon": PortadaPinball,
+  "pinball-dragon": PinballDragon,
 };
 
 export function Portada({ id, className = "" }) {
