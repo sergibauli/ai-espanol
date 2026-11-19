@@ -123,9 +123,11 @@ export function SalaHero({ prueba, codigo, subtitulo, volverA, modo, onModo, inc
         )}
         {incienso}
         {onPdf && (
-          <button type="button" className="sx-btn-cristal" onClick={onPdf} title="Descargar en PDF · 下载PDF">
+          <button type="button" className="sx-btn-cristal" onClick={onPdf} title="Imprimir / PDF · 打印 / PDF">
             <FileDownIcon size={17} />
-            <span className="t">PDF</span>
+            <span className="t">
+              PDF · <span lang="zh-CN">打印</span>
+            </span>
           </button>
         )}
       </div>

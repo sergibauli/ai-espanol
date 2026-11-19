@@ -1,6 +1,7 @@
 import * as React from "react";
 import { letra, explicacionZh } from "./SalaExamen.jsx";
 import "../../styles/impresion-examen.css";
+import { EstiloPagina } from "../impresion/paginaImpresion.jsx";
 
 // Versión imprimible del examen (Guardar como PDF desde el diálogo de impresión del navegador).
 // variante "corregido": respuestas del alumno, claves, explicaciones y nota. "blanco": examen para hacer en papel.
@@ -129,6 +130,7 @@ export default function ImpresionExamen({ examen, nivel, variante, respuestas, t
   }, [titulo, corregido]);
   return (
     <div className="ix-raiz" lang="es">
+      <EstiloPagina centro={`Nivel ${titulo}`.slice(0, 70)} pieIzquierda={corregido ? "Wukong Español · 悟空西语 — Examen corregido · 批改版" : "Wukong Español · 悟空西语"} />
       <header className="ix-cab">
         <div>
           <h1>{titulo}</h1>

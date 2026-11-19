@@ -1,7 +1,7 @@
 /* ===== v19 · Versión imprimible del examen (PDF con el diálogo de impresión del navegador) ===== */
 .ix-raiz { display: none; }
 @media print {
-  @page { size: A4; margin: 14mm 13mm 16mm; }
+  /* El marco de página (A4, cabecera y pie) lo pone EstiloPagina (components/impresion/paginaImpresion.jsx) */
   html, body { background: #fff !important; }
   body.sx-imprimiendo > *:not(.ix-raiz) { display: none !important; }
   body.sx-imprimiendo .ix-raiz { display: block !important; }
