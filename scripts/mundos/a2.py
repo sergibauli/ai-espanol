@@ -8,7 +8,7 @@ import numpy as np
 
 import arquitectura as ar
 import sprites as sp
-from pincel import (H, W, Capa, Lienzo, borde, desplaza, reflejo_capa, nube_suelta, cielo, cirros, col, desenfoca, desplaza, mezcla, niebla, nube, perfil_picos, sierra,
+from pincel import (H, W, marco_hojas, Capa, Lienzo, borde, desplaza, reflejo_capa, nube_suelta, cielo, cirros, col, desenfoca, desplaza, mezcla, niebla, nube, perfil_picos, sierra,
                     sombra_de, sombra_elipse, spline, suave, volumen)
 
 LUZ = -1
@@ -191,14 +191,19 @@ def pinta(M):
     vc = mezcla(np.broadcast_to(col("#2a3218"), (H, W, 3)), col("#7a7a36"), volumen(vega, 10, LUZ, -0.8)[..., None])
     vc = mezcla(vc, col("#c8784a"), suave(1020, 1220, Y)[..., None] * 0.35)
     vc = mezcla(vc, col("#ffcf80"), (suave(0.55, 0.8, L.ruido(1.4, 44)) * 0.3)[..., None])
+    hierba = L.ruido(1.1, 46, aniso=(1.0, 3.0))
+    matas = suave(0.55, 0.75, desenfoca(L.ruido(2.2, 47), 2))
+    vc = mezcla(vc, col("#141c0c"), (matas * 0.45)[..., None])
+    vc = mezcla(vc, col("#d8b860"), (suave(0.7, 0.9, hierba) * 0.35)[..., None])
+    vc = vc * (0.9 + 0.2 * hierba)[..., None]
     C.pon(vc, vega * suave(0.2, 0.6, desenfoca(vega, 6)))
     sombra_de(C, pab, 930 - abx, 1046 - aby, LUZ, largo=1.4, aplasta=0.2, c="#3a1a3a", f=0.4)
     C.pega(pab, 930 - abx, 1046 - aby)
     lago = L.mascara(lambda P: P.poly(spline([(450, 1120), (560, 1066), (760, 1050), (960, 1062), (1080, 1100), (1060, 1130), (930, 1112), (760, 1112), (600, 1136), (500, 1160)], 10, cerrada=True)))
     y_l = 1050
-    cielo_ref = cielo(L, [(0, "#fde4a8"), (0.68, "#ffd890"), (0.71, "#f08a44"), (0.74, "#c8443e"), (0.77, "#7a2a50"), (1, "#3a1648")])
+    cielo_ref = cielo(L, [(0, "#fde4a8"), (0.68, "#ffd890"), (0.695, "#f08a44"), (0.71, "#b8404a"), (0.73, "#6a2a5a"), (1, "#2a1448")])
     cielo_ref = mezcla(cielo_ref, col("#fff2c0"), (np.exp(-(((X - sx - 420) / 140) ** 2)) * suave(1170, y_l, Y) * 0.55)[..., None])
-    reflejo_capa(C, y_l, 1180, cielo_ref, f=0.7, olas=2.0, seed=45, mascara=lago, brillo="#ffe8b0", oscurece=0.7)
+    reflejo_capa(C, y_l, 1180, cielo_ref, f=0.3, olas=2.0, seed=45, mascara=lago, brillo="#ffe8b0", oscurece=0.7)
     C.pon("#2a3a1a", borde(lago, 0, 3, 1.2) * 0.7)
     C.pon("#fff0c0", borde(lago, 0, -2, 0.8) * 0.5)
     # juncos y hierba en la orilla
@@ -236,6 +241,12 @@ def pinta(M):
     C.pon("#ffcf8a", borde(mat, -LUZ, -1) * 0.7)
     M.capa("frente", C, 1.0)
 
+    # ------------------------------------------------------------ 6 · marco: hojas de palmera desenfocadas en las esquinas
+    C = Capa(L)
+    marco_hojas(C, [(30, 1360, 60, 50, 120, -0.3), (40, 1500, 90, 70, 130, -0.6), (1080, 1380, 60, 50, 120, -2.8), (1060, 1510, 90, 70, 130, -2.5)],
+                "#1a1408", "#6a5a2a", luz=LUZ, punta="#ffb060", desenfoque=7, seed=92)
+    M.capa("marco", C, 1.3)
+
     # ------------------------------------------------------------ piezas animadas
     cw, ch = sp.caravana(M.ruta("caravana.webp"), n=5, alto=40, luz=LUZ)
     # sobre la cresta de la duna central (y de la cresta en x≈450)
@@ -258,6 +269,12 @@ def pinta(M):
     for i, (x, base, s, amp) in enumerate(((470, 1120, 0.7, 1.6), (540, 1084, 0.86, 1.4), (1060, 1090, 0.8, 1.8), (1110, 1108, 0.6, 2.0), (1000, 1560, 1.9, 1.2), (-40, 1590, 1.7, 1.0))):
         w_, h_ = sp_w * s, sp_h * s
         M.actor("oasis" if i < 4 else "frente", "palmera.webp", x - w_ / 2, base - h_, w_, h_, "mece", dur=5 + i * 0.6, retraso=-i, amp=amp, movil=i in (0, 2, 4))
+    sp.gente(M, "oasis", "mercader", 360, 1150, 18, 18, 70, retraso=-12, luz=LUZ)
+    sp.gente(M, "oasis", "viajero", 560, 1200, 20, -14, 64, retraso=-40, luz=LUZ, movil=False)
+    sp.gente(M, "oasis", "monje", 980, 1060, 14, -8, 50, retraso=-5, luz=LUZ, movil=False)
+    sp.sombra_nube(M.ruta("sombra-nube.webp"), 480, 160, "#4a1a3a", 0.3, seed=4)
+    M.actor("dunas", "sombra-nube.webp", -200, 900, 520, 160, "deriva", dur=70, dx=45)
+    M.actor("oasis", "sombra-nube.webp", 600, 1220, 460, 150, "deriva", dur=90, retraso=-40, dx=-40, movil=False)
     for i, (x, y, w, h, dur, dx) in enumerate(((80, 150, 360, 100, 170, 26), (700, 90, 380, 110, 210, -22), (420, 430, 300, 60, 120, 20))):
         nw, nh = nube_suelta(M, f"nube{i}.webp", w, h, 400 + i, sx - x - 180, sy - y, "#ffc890", "#5e2656", "#ffe2a8", base_c="#e8706a", op=0.9)
         M.actor("cielo", f"nube{i}.webp", x, y, nw, nh, "deriva", dur=dur, retraso=-dur * 0.3 * i, dx=dx, movil=i < 2)
