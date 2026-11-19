@@ -1,0 +1,381 @@
+/* ================================================================ Wukong Turbo Rush · HUD de carrera
+   Velocímetro (esfera de reloj imperial: oro, jade y laca, arco de neón, aguja con estela, turbo de fuego)
+   y minimapa circular de laca (gira con el jugador). Se carga después de wukong-diseno.css y lo sobrescribe
+   con selectores más específicos. Tamaños y posiciones solo para la pantalla única
+   (`.hud:not(.wk-split-hud)`); en pantalla partida se respetan los de wukong-diseno.css. */
+
+/* ---------------------------------------------------------------- velocímetro: base común */
+.tkr .hud .hud-speed.wk-vel {
+  filter: none;
+  overflow: visible;
+}
+.tkr .hud .hud-speed.wk-vel::before {
+  content: none;
+  display: none;
+}
+.tkr .hud .wk-vel-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.6));
+}
+.tkr .wk-vel-svg .wk-v-sombra {
+  fill: rgba(10, 3, 4, 0.55);
+}
+.tkr .wk-vel-svg .wk-v-aura {
+  fill: rgba(255, 190, 80, 0.05);
+  transition: fill 0.3s;
+}
+.tkr .wk-vel-svg .wk-v-marca {
+  stroke: rgba(255, 236, 196, 0.55);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}
+.tkr .wk-vel-svg .wk-v-marca.mayor {
+  stroke: #ffe9b0;
+  stroke-width: 2.6;
+}
+.tkr .wk-vel-svg .wk-v-marca.roja {
+  stroke: #ff5a5a;
+}
+.tkr .wk-vel-svg .wk-v-num {
+  fill: #f6dfa6;
+  font: 700 10.5px/1 var(--body, sans-serif);
+  text-anchor: middle;
+  letter-spacing: -0.02em;
+}
+.tkr .wk-vel-svg .wk-v-num.roja {
+  fill: #ff7a6a;
+}
+.tkr .wk-vel-svg .wk-v-carril,
+.tkr .wk-vel-svg .wk-v-zona,
+.tkr .wk-vel-svg .wk-v-brillo,
+.tkr .wk-vel-svg .wk-v-arco {
+  fill: none;
+  stroke-linecap: round;
+}
+.tkr .wk-vel-svg .wk-v-carril {
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 11;
+}
+.tkr .wk-vel-svg .wk-v-zona {
+  stroke: rgba(255, 42, 74, 0.32);
+  stroke-width: 11;
+  stroke-linecap: butt;
+}
+.tkr .wk-vel-svg .wk-v-brillo {
+  stroke-width: 15;
+}
+.tkr .wk-vel-svg .wk-v-arco {
+  stroke-width: 8;
+}
+.tkr .wk-vel-svg .wk-v-chispa-halo {
+  fill: rgba(255, 236, 150, 0.45);
+}
+.tkr .wk-vel-svg .wk-v-hoja {
+  filter: drop-shadow(0 0 3px rgba(255, 60, 60, 0.85));
+}
+
+/* Número grande, elegante, y unidad bilingüe */
+.tkr .hud .wk-vel .speed-inner {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  text-shadow: 0 2px 0 #3a0a0c, 0 0 14px rgba(0, 0, 0, 0.9);
+}
+.tkr .hud .wk-vel .speed-value {
+  font-family: var(--display);
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #ffffff 0%, #fff1c4 45%, #f2c14e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 0 #4a0a12) drop-shadow(0 0 6px rgba(0, 0, 0, 0.9));
+  letter-spacing: 0.02em;
+}
+.tkr .hud .wk-vel .speed-unit {
+  color: #f2d48a;
+  font: 800 9px/1 var(--body), var(--wk-zh, sans-serif);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+/* Zona roja: la esfera respira en rojo */
+.tkr .hud .wk-vel.wk-vel-roja .wk-v-aura {
+  fill: rgba(255, 60, 60, 0.18);
+}
+.tkr .hud .wk-vel.wk-vel-roja .speed-value {
+  filter: drop-shadow(0 2px 0 #4a0a12) drop-shadow(0 0 10px rgba(255, 70, 70, 0.9));
+}
+
+/* TURBO activo: el arco arde, la aguja deja fuego y la esfera late */
+.tkr .hud.boosting .wk-vel .wk-v-brillo {
+  opacity: 1;
+  stroke-width: 20;
+  animation: wk-v-latido 0.45s ease-in-out infinite alternate;
+}
+.tkr .hud.boosting .wk-vel .wk-v-aura {
+  fill: rgba(255, 150, 40, 0.3);
+}
+.tkr .hud.boosting .wk-vel .wk-v-estela {
+  opacity: 1;
+}
+.tkr .hud.boosting .wk-vel .wk-vel-svg {
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 14px rgba(255, 150, 40, 0.75));
+}
+@keyframes wk-v-latido {
+  from { stroke-opacity: 0.65; }
+  to { stroke-opacity: 1; }
+}
+
+/* ---------------------------------------------------------------- velocímetro: pantalla única */
+.tkr .hud:not(.wk-split-hud) .hud-speed.wk-vel {
+  left: auto;
+  right: var(--hud-pad);
+  bottom: calc(var(--hud-pad) + 30px);
+  transform: none;
+  width: clamp(150px, 14vw, 206px);
+}
+.tkr .hud:not(.wk-split-hud) .wk-vel .speed-inner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 57%;
+  transform: none;
+}
+.tkr .hud:not(.wk-split-hud) .wk-vel .speed-value {
+  font-size: clamp(34px, 3.2vw, 48px);
+  line-height: 1;
+}
+/* La aguja SVG sustituye a la de pantalla partida */
+.tkr .hud:not(.wk-split-hud) .wk-vel .wk-aguja {
+  display: none;
+}
+
+/* Turbo: llama de dragón en una placa lacada bajo la esfera */
+.tkr .hud:not(.wk-split-hud) .wk-vel .wk-turbo {
+  left: 2%;
+  right: 2%;
+  bottom: -36px;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 6px;
+  border-radius: 10px 999px 999px 10px;
+  background: linear-gradient(180deg, #8a1a1e 0%, #4a0a10 100%);
+  border: 2px solid #e6b54a;
+  box-shadow: 0 0 0 2px #2f6a56, 0 6px 14px rgba(0, 0, 0, 0.55);
+}
+.tkr .hud:not(.wk-split-hud) .wk-vel .wk-turbo-barra {
+  flex: 1;
+  height: 10px;
+  border-radius: 6px 999px 999px 6px;
+  border: 1px solid rgba(242, 193, 78, 0.7);
+  background: rgba(10, 2, 4, 0.75);
+}
+.tkr .hud .wk-vel .wk-turbo-etq {
+  position: relative;
+  display: grid;
+  white-space: nowrap;
+  font: 900 10px/1 var(--body), var(--wk-zh, sans-serif);
+  letter-spacing: 0.04em;
+  color: #ffe9a8;
+}
+.tkr .hud .wk-vel .wk-turbo-txt,
+.tkr .hud .wk-vel .wk-turbo-on {
+  grid-area: 1 / 1;
+}
+.tkr .hud .wk-vel .wk-turbo-on {
+  visibility: hidden;
+  color: #fff3c0;
+}
+.tkr .hud.boosting .wk-vel .wk-turbo-txt {
+  visibility: hidden;
+}
+.tkr .hud.boosting .wk-vel .wk-turbo-on {
+  visibility: visible;
+  text-shadow: 0 0 6px #ff8a2a, 0 0 12px #ff3a2a;
+  animation: wk-turbo-etq 0.35s ease-in-out infinite alternate;
+}
+.tkr .hud .wk-vel .wk-turbo-barra {
+  position: relative;
+}
+.tkr .hud:not(.wk-split-hud) .wk-vel .wk-turbo-fill {
+  background: linear-gradient(90deg, #ff3a1a 0%, #ff8a2a 35%, #ffd23f 75%, #fffbe0 100%);
+  box-shadow: 0 0 10px #ff8a2a, inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border-radius: inherit;
+}
+/* Tres etapas del derrape (marcas a 1/3 y 2/3) */
+.tkr .hud .wk-vel .wk-turbo-marcas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent calc(33.3% - 1px), rgba(255, 233, 168, 0.8) calc(33.3% - 1px) calc(33.3% + 1px), transparent calc(33.3% + 1px)),
+    linear-gradient(90deg, transparent calc(66.6% - 1px), rgba(255, 233, 168, 0.8) calc(66.6% - 1px) calc(66.6% + 1px), transparent calc(66.6% + 1px));
+}
+.tkr .hud.boosting .wk-vel .wk-turbo {
+  box-shadow: 0 0 0 2px #2f6a56, 0 0 18px rgba(255, 140, 40, 0.9), 0 6px 14px rgba(0, 0, 0, 0.55);
+}
+.tkr .hud.boosting .wk-vel .wk-turbo-fill {
+  background: linear-gradient(90deg, #ff3a1a, #ffb02a, #fff6c0, #ffb02a, #ff3a1a) 0 0 / 200% 100%;
+  animation: wk-turbo-llama 0.5s linear infinite;
+}
+@keyframes wk-turbo-llama {
+  from { background-position: 0 0; }
+  to { background-position: -200% 0; }
+}
+@keyframes wk-turbo-etq {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+/* ---------------------------------------------------------------- velocímetro: pantalla partida
+   (se mantienen 108 px, aguja .wk-aguja y barra 160 × 40 de wukong-diseno.css) */
+.tkr .wk-split-hud .wk-vel .wk-v-aguja .wk-v-hoja,
+.tkr .wk-split-hud .wk-vel .wk-v-numeros {
+  display: none;
+}
+.tkr .wk-split-hud .wk-vel .speed-unit {
+  font-size: 7px;
+  letter-spacing: 0.02em;
+}
+.tkr .wk-split-hud .wk-vel .wk-turbo-etq {
+  font-size: 9px;
+}
+
+/* ---------------------------------------------------------------- minimapa: placa de laca circular */
+.tkr .hud .hud-minimap.wk-mapa {
+  padding: 6px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(30, 80, 64, 0.95) 0%, rgba(12, 40, 32, 0.95) 45%, rgba(26, 8, 8, 0.96) 72%),
+    #12070a;
+  border: 3px solid #e6b54a;
+  box-shadow:
+    0 0 0 3px #8a1a1e,
+    0 0 0 5px #c9a24a,
+    0 0 18px rgba(95, 255, 200, 0.28),
+    0 10px 22px rgba(0, 0, 0, 0.55),
+    inset 0 0 18px rgba(0, 0, 0, 0.75);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.tkr .hud .wk-mapa .minimap-canvas {
+  border-radius: 50%;
+}
+/* Anillo interior de greca y tachones de jade en los cuatro puntos */
+.tkr .hud .hud-minimap.wk-mapa::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px dashed rgba(242, 193, 78, 0.45);
+  pointer-events: none;
+}
+.tkr .hud .hud-minimap.wk-mapa::after {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, #c8ffe6 0 1.5px, #2fbf8a 2.5px 4px, #e6b54a 4.5px 6px, transparent 6.5px) 50% 0 / 14px 14px no-repeat,
+    radial-gradient(circle, #c8ffe6 0 1.5px, #2fbf8a 2.5px 4px, #e6b54a 4.5px 6px, transparent 6.5px) 50% 100% / 14px 14px no-repeat,
+    radial-gradient(circle, #c8ffe6 0 1.5px, #2fbf8a 2.5px 4px, #e6b54a 4.5px 6px, transparent 6.5px) 0 50% / 14px 14px no-repeat,
+    radial-gradient(circle, #c8ffe6 0 1.5px, #2fbf8a 2.5px 4px, #e6b54a 4.5px 6px, transparent 6.5px) 100% 50% / 14px 14px no-repeat;
+}
+
+/* Pantalla única (escritorio): arriba a la derecha bajo vuelta/tiempo, 196 px */
+.tkr .hud:not(.wk-split-hud) .hud-minimap.wk-mapa {
+  top: calc(var(--hud-pad) + 136px);
+  bottom: auto;
+  right: calc(var(--hud-pad) + 4px);
+}
+.tkr .hud:not(.wk-split-hud) .wk-mapa .minimap-canvas {
+  width: clamp(150px, 14vw, 196px) !important;
+  height: clamp(150px, 14vw, 196px) !important;
+}
+
+/* Pantalla partida: 120 × 120 de wukong-diseno.css, pero redondo y lacado */
+.tkr .wk-split-hud .hud-minimap.wk-mapa {
+  padding: 4px;
+  border-radius: 50%;
+  border-width: 2px;
+  box-shadow: 0 0 0 2px #8a1a1e, 0 0 0 4px #c9a24a, 0 0 12px rgba(95, 255, 200, 0.3), inset 0 0 12px rgba(0, 0, 0, 0.7);
+}
+.tkr .wk-split-hud .hud-minimap.wk-mapa::after {
+  inset: -7px;
+}
+
+/* ---------------------------------------------------------------- táctil / móvil: minimapa pequeño en la esquina */
+.tkr #ui.tactil .hud:not(.wk-split-hud) .hud-minimap.wk-mapa {
+  top: calc(var(--hud-pad) + 92px);
+  right: max(10px, env(safe-area-inset-right));
+  padding: 3px;
+  border-width: 2px;
+  box-shadow: 0 0 0 2px #8a1a1e, 0 0 0 3px #c9a24a, 0 6px 14px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.7);
+  opacity: 0.94;
+}
+.tkr #ui.tactil .hud:not(.wk-split-hud) .wk-mapa .minimap-canvas {
+  width: 92px !important;
+  height: 92px !important;
+}
+.tkr #ui.tactil .hud:not(.wk-split-hud) .hud-minimap.wk-mapa::after {
+  display: none;
+}
+@media (max-width: 700px) {
+  .tkr .hud:not(.wk-split-hud) .hud-minimap.wk-mapa {
+    top: calc(var(--hud-pad) + 86px);
+  }
+  .tkr .hud:not(.wk-split-hud) .wk-mapa .minimap-canvas {
+    width: 92px !important;
+    height: 92px !important;
+  }
+}
+
+/* Táctil: velocímetro compacto bajo el minimapa (arriba a la derecha, lejos de los controles de abajo) */
+.tkr #ui.tactil .hud:not(.wk-split-hud) .hud-speed.wk-vel {
+  display: grid;
+  top: calc(var(--hud-pad) + 204px);
+  bottom: auto;
+  right: max(14px, env(safe-area-inset-right));
+  left: auto;
+  width: 88px;
+}
+.tkr #ui.tactil .hud:not(.wk-split-hud) .wk-vel .wk-v-numeros,
+.tkr #ui.tactil .hud:not(.wk-split-hud) .wk-vel .wk-turbo-etq {
+  display: none;
+}
+.tkr #ui.tactil .hud:not(.wk-split-hud) .wk-vel .speed-inner {
+  top: 56%;
+}
+.tkr #ui.tactil .hud:not(.wk-split-hud) .wk-vel .speed-value {
+  font-size: 22px;
+}
+.tkr #ui.tactil .hud:not(.wk-split-hud) .wk-vel .speed-unit {
+  font-size: 7px;
+  letter-spacing: 0;
+}
+.tkr #ui.tactil .hud:not(.wk-split-hud) .wk-vel .wk-turbo {
+  left: 10%;
+  right: 10%;
+  bottom: -12px;
+  padding: 2px;
+  border-width: 1px;
+}
+.tkr #ui.tactil .hud:not(.wk-split-hud) .wk-vel .wk-turbo-barra {
+  height: 5px;
+}
+
+/* ---------------------------------------------------------------- menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .tkr .hud.boosting .wk-vel .wk-v-brillo,
+  .tkr .hud.boosting .wk-vel .wk-turbo-on,
+  .tkr .hud.boosting .wk-vel .wk-turbo-fill {
+    animation: none;
+  }
+}
