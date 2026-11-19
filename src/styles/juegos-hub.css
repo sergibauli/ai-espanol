@@ -728,6 +728,23 @@ svg .jh-p-resp { transform-box: fill-box; transform-origin: center; animation: j
 .jh-p-tinta.is-b { animation-delay: 2s; }
 .jh-p-enlace { animation: jh-hormiga 1s linear infinite; }
 .jh-p-flota { animation: jh-flotar-llave 3.4s ease-in-out infinite; }
+
+/* v22 · Fichas del palacio: dos fichas vuelan a la cima y se funden en oro */
+.jh-p-ficha-vuela { animation: jh-ficha-vuela 3.6s cubic-bezier(0.5, 0, 0.3, 1) infinite; }
+.jh-p-ficha-vuela.is-izq { --fx: 128px; }
+.jh-p-ficha-vuela.is-der { --fx: -128px; }
+.jh-p-destello { opacity: 0; transform-origin: 160px 30px; animation: jh-ficha-destello 3.6s ease-out infinite; }
+.jh-p-ficha-cima { animation: jh-flotar-llave 3.4s ease-in-out infinite; }
+@keyframes jh-ficha-vuela {
+  0%, 25% { transform: translate(0, 0); opacity: 1; }
+  60% { transform: translate(var(--fx), -14px); opacity: 1; }
+  70%, 100% { transform: translate(var(--fx), -14px) scale(0.3); opacity: 0; }
+}
+@keyframes jh-ficha-destello {
+  0%, 58% { opacity: 0; transform: scale(0.3); }
+  68% { opacity: 1; transform: scale(1.6); }
+  90%, 100% { opacity: 0; transform: scale(2.4); }
+}
 .jh-p-vuela { animation: jh-vuela 3.6s ease-in-out infinite; }
 .jh-p-nube { animation: jh-nube 9s ease-in-out infinite; }
 .jh-p-nube.is-b { animation-delay: -4s; }

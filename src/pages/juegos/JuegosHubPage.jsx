@@ -45,6 +45,7 @@ export const READY_GAMES = new Set([
   "/juegos/teatro",
   "/juegos/dragon-jade",
   "/juegos/escape-palacio",
+  "/juegos/fichas-palacio",
 ]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
@@ -261,6 +262,22 @@ const JUEGOS = [
     minutos: 10,
     jugadores: "1",
     path: "/juegos/escape-palacio",
+  },
+  {
+    id: "fichas-palacio",
+    name: "Fichas del palacio",
+    nameCn: "宫殿麻将",
+    desc: "Fichas de marfil apiladas: retira por parejas cada palabra con su traducción o cada pronombre con su verbo.",
+    descCn: "层层叠叠的象牙牌：把单词和翻译、代词和动词一对一对消除。",
+    icon: LayersIcon,
+    sello: "牌",
+    tono: "jade",
+    category: "mesa",
+    habilidad: { es: "Vocabulario y gramática", zh: "词汇与语法" },
+    nivel: 2,
+    minutos: 8,
+    jugadores: "1",
+    path: "/juegos/fichas-palacio",
   },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 
