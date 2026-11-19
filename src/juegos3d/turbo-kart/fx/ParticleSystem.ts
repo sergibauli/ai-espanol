@@ -55,6 +55,11 @@ const S: SpawnParams = {
   gravity: 0, atlas: 0, align: 0, drag: 0,
 };
 
+function smoothstep(e0: number, e1: number, x: number): number {
+  const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0)));
+  return t * t * (3 - 2 * t);
+}
+
 function rnd(min: number, max: number): number {
   return min + Math.random() * (max - min);
 }
@@ -1094,6 +1099,7 @@ export class ParticleSystem implements IParticleSystem {
     const camDist = Math.sqrt(cdx * cdx + cdy * cdy + cdz * cdz);
     const near = camDist < 4 ? 0.5 : 1;
     const maxFlash = Math.max(0.3, 0.28 * camDist);
+    const near2 = smoothstep(2.5, 8.0, camDist) * 0.7 + 0.3;
     // red paper petals (alpha blended so they read as paper, not light)
     for (let i = 0; i < 30; i++) {
       jitterPosition(x, yc, z, 0.35 * s);
@@ -1180,8 +1186,8 @@ export class ParticleSystem implements IParticleSystem {
       this.additive.spawn(S, now);
     }
     // rings + flash (the flat ground shockwave is drawn by the lantern decal)
-    this.ring(x, yc, z, 0.6 * s, Math.min(4.8 * s, 1.2 * camDist), 0.45, rgb(0x3dffc8), 1.5, now);
-    this.ring(x, yc, z, 0.4 * s, Math.min(3.0 * s, 0.8 * camDist), 0.25, rgb(0xffb347), 1.0, now);
+    this.ring(x, yc, z, 0.6 * s, Math.min(4.8 * s, 0.45 * camDist), 0.35, rgb(0x3dffc8), 1.5 * near2, now);
+    this.ring(x, yc, z, 0.4 * s, Math.min(3.0 * s, 0.3 * camDist), 0.25, rgb(0xffb347), 1.0 * near2, now);
     const f1 = Math.min(2.4 * s, maxFlash);
     this.flashSprite(x, yc, z, f1 * 0.5, f1, 0.12, 0.9 * near, 0.4 * near, 0.1 * near, now);
   }
