@@ -44,6 +44,8 @@ export interface KartModelPartsEx extends KartModelParts {
   /** Llamas de los escapes (se avivan con el turbo). */
   flames: THREE.Object3D[];
   flameMaterial: THREE.MeshBasicMaterial;
+  /** Color de las llamas [normal, turbo]. */
+  flameColors: [number, number];
   /** Ojos y perla de la criatura (laten). */
   orbMaterial: THREE.MeshStandardMaterial;
   /**
@@ -55,10 +57,10 @@ export interface KartModelPartsEx extends KartModelParts {
 }
 
 // --- dimensiones (iguales que el kart original: no tocan la física) -------------
-const WHEEL_R_F = 0.2;
-const WHEEL_R_R = 0.22;
-const WHEEL_W_F = 0.18;
-const WHEEL_W_R = 0.22;
+const WHEEL_R_F = 0.23;
+const WHEEL_R_R = 0.25;
+const WHEEL_W_F = 0.24;
+const WHEEL_W_R = 0.28;
 const WHEEL_X = 0.52;
 const WHEEL_Z_F = -0.52;
 const WHEEL_Z_R = 0.5;
@@ -392,34 +394,34 @@ function ruedaFuego(radius: number, width: number): THREE.BufferGeometry {
   let g = ruedas.get(key);
   if (g) return g;
   const b = new Batch();
+  // neumático negro, gordo y con banda de rodadura
   const tube = width * 0.5;
-  const torus = addVertexColor(new THREE.TorusGeometry(radius - tube, tube, 8, 18), 0x22130f);
-  b.add(torus, 0, 0, 0, 0, Math.PI / 2, 0);
+  const torus = addVertexColor(new THREE.TorusGeometry(radius - tube * 0.8, tube, 10, 22), 0x141418);
+  b.add(torus, 0, 0, 0, 0, Math.PI / 2, 0, 1, 1, 1);
   torus.dispose();
-  const tread = addVertexColor(new THREE.CylinderGeometry(radius * 1.005, radius * 1.005, width * 0.4, 20, 1, true), 0x3a1a12);
+  const tread = addVertexColor(new THREE.CylinderGeometry(radius, radius, width * 0.82, 24, 1, true), 0x1c1c22);
   b.add(tread, 0, 0, 0, 0, 0, Math.PI / 2);
   tread.dispose();
-  // aro de oro
-  const aro = addVertexColor(new THREE.TorusGeometry(radius * 0.66, 0.022, 6, 20), 0xffc94a);
-  b.add(aro, width * 0.38, 0, 0, 0, Math.PI / 2, 0);
-  b.add(aro, -width * 0.38, 0, 0, 0, Math.PI / 2, 0);
-  aro.dispose();
-  // disco lacado rojo
-  const disco = addVertexColor(new THREE.CylinderGeometry(radius * 0.64, radius * 0.64, width * 0.7, 16), 0xb3121e);
-  b.add(disco, 0, 0, 0, 0, 0, Math.PI / 2);
-  disco.dispose();
-  // aspas de llama doradas (giran con la rueda)
-  const aspa = addVertexColor(new THREE.ConeGeometry(0.05, radius * 0.6, 4), 0xffb02a);
-  aspa.translate(0, radius * 0.3, 0);
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * Math.PI * 2;
-    b.add(aspa, width * 0.37, 0, 0, a, 0, 0.12, 1, 1, 0.45);
-    b.add(aspa, -width * 0.37, 0, 0, a, 0, -0.12, 1, 1, 0.45);
+  for (const lado of [-1, 1]) {
+    const x = lado * width * 0.4;
+    // llanta dorada
+    const llanta = addVertexColor(new THREE.CylinderGeometry(radius * 0.62, radius * 0.62, 0.03, 20), 0xd9a441);
+    b.add(llanta, x, 0, 0, 0, 0, Math.PI / 2);
+    llanta.dispose();
+    const aro = addVertexColor(new THREE.TorusGeometry(radius * 0.62, 0.016, 6, 22), 0xffd36a);
+    b.add(aro, x + lado * 0.012, 0, 0, 0, Math.PI / 2, 0);
+    aro.dispose();
+    // fondo oscuro y triángulo dorado (como la maqueta)
+    const fondo = addVertexColor(new THREE.CylinderGeometry(radius * 0.48, radius * 0.48, 0.034, 18), 0x2a2018);
+    b.add(fondo, x + lado * 0.004, 0, 0, 0, 0, Math.PI / 2);
+    fondo.dispose();
+    const tri = addVertexColor(new THREE.CylinderGeometry(radius * 0.36, radius * 0.36, 0.04, 3), 0xf2c25a);
+    b.add(tri, x + lado * 0.008, 0, 0, 0, 0, Math.PI / 2);
+    tri.dispose();
+    const buje = addVertexColor(new THREE.CylinderGeometry(radius * 0.1, radius * 0.1, 0.05, 10), 0x3a3030);
+    b.add(buje, x + lado * 0.012, 0, 0, 0, 0, Math.PI / 2);
+    buje.dispose();
   }
-  aspa.dispose();
-  const buje = addVertexColor(new THREE.SphereGeometry(radius * 0.24, 10, 7), 0xffd36a);
-  b.add(buje, 0, 0, 0, 0, 0, 0, 1.9, 1, 1);
-  buje.dispose();
   g = b.build();
   ruedas.set(key, g);
   return g;
@@ -448,8 +450,8 @@ function nubeEstela(): THREE.BufferGeometry {
 // ---------------------------------------------------------------------------------
 // Taller: API para esculpir criaturas
 // ---------------------------------------------------------------------------------
-type MatKey = 'body' | 'second' | 'accent' | 'gold' | 'ivory' | 'dark' | 'eye' | 'cloud' | 'feather' | 'saddle';
-const MAT_KEYS: MatKey[] = ['body', 'second', 'accent', 'gold', 'ivory', 'dark', 'eye', 'cloud', 'feather', 'saddle'];
+type MatKey = 'body' | 'second' | 'accent' | 'gold' | 'ivory' | 'dark' | 'eye' | 'cloud' | 'feather' | 'saddle' | 'metal' | 'chrome' | 'glow' | 'seat';
+const MAT_KEYS: MatKey[] = ['body', 'second', 'accent', 'gold', 'ivory', 'dark', 'eye', 'cloud', 'feather', 'saddle', 'metal', 'chrome', 'glow', 'seat'];
 
 interface OndaCfg {
   /** Eje que mide cuánto se aleja el vértice de la raíz ('z' = hacia atrás, 'y' = hacia arriba). */
@@ -578,6 +580,10 @@ interface Criatura {
   ojo: number;
   segundo: number;
   traje: number;
+  /** Color de las llamas del turbo y de los anillos luminosos del chasis. */
+  llama: number;
+  /** Metalizado del cuerpo (pixiu de oro). */
+  metal?: number;
   aliento: number;
   boca: V3;
   textura: Textura;
@@ -636,12 +642,13 @@ const CRIATURAS: Record<string, Criatura> = {
   zippy: {
     silla: [0.6, 0.2],
     ojo: 0xffe066,
-    segundo: 0xffd27a,
-    traje: 0x7a1020,
+    segundo: 0xffb84a,
+    traje: 0xc41a24,
+    llama: 0xff7a1a,
     aliento: 0xffa52a,
     boca: [0, 1.04, -0.9],
     textura: 'plumas',
-    pluma: 0xff3d5a,
+    pluma: 0xff6a1a,
     construir(t) {
       // torso de ave, pecho dorado
       t.tubo('body', [[0, 0.42, 0.5], [0, 0.48, 0.2], [0, 0.52, -0.15], [0, 0.58, -0.45]], (u) => {
@@ -667,20 +674,19 @@ const CRIATURAS: Record<string, Criatura> = {
       }
       // alas que baten
       t.par((s) => {
-        t.ala(s, [s * 0.24, 0.62, -0.12], { base: 0.28, amp: 0.35, freq: 4.5 });
+        t.ala(s, [s * 0.24, 0.62, -0.12], { base: 0.05, amp: 0.22, freq: 4.5 });
         t.tubo('body', [[s * 0.18, 0.62, -0.12], [s * 0.4, 0.68, -0.08], [s * 0.6, 0.7, 0.02]], () => [0.055, 0.05], 6, 7);
         for (let i = 0; i < 7; i++) {
-          const ang = -0.45 + i * 0.24;
-          const L = 0.78 - Math.abs(i - 2) * 0.06;
-          const B: V3 = [s * (0.3 + i * 0.045), 0.66 - i * 0.004, -0.1 + i * 0.04];
-          const T: V3 = [B[0] + s * Math.cos(ang) * L, B[1] + 0.1 - i * 0.025, B[2] + Math.sin(ang) * L];
-          t.pieza('feather', 'esf', B, T, 0.075, 0.014);
-          t.pieza('accent', 'esf', [lerp(B[0], T[0], 0.62), lerp(B[1], T[1], 0.62) + 0.006, lerp(B[2], T[2], 0.62)], T, 0.05, 0.01);
+          const L = 0.72 - Math.abs(i - 2) * 0.05;
+          const B: V3 = [s * (0.28 + i * 0.03), 0.68 + i * 0.01, -0.12 + i * 0.05];
+          const T: V3 = [B[0] + s * L * (0.42 - i * 0.03), B[1] + L * (0.82 - i * 0.1), B[2] + L * (0.25 + i * 0.12)];
+          t.pieza('feather', 'esf', B, T, 0.08, 0.014, [s, 0, 0]);
+          t.pieza('accent', 'esf', [lerp(B[0], T[0], 0.6), lerp(B[1], T[1], 0.6), lerp(B[2], T[2], 0.6)], T, 0.05, 0.016, [s, 0, 0]);
         }
         for (let i = 0; i < 5; i++) {
           const ang = -0.3 + i * 0.28;
           const B: V3 = [s * 0.26, 0.68, -0.1 + i * 0.03];
-          t.pieza('second', 'esf', B, [B[0] + s * Math.cos(ang) * 0.42, 0.72, B[2] + Math.sin(ang) * 0.42], 0.07, 0.016);
+          t.pieza('second', 'esf', B, [B[0] + s * Math.cos(ang) * 0.18, 0.98, B[2] + 0.1 + Math.sin(ang) * 0.25], 0.07, 0.016, [s, 0, 0]);
         }
       });
       // cola de plumas largas con ojos brillantes
@@ -703,7 +709,8 @@ const CRIATURAS: Record<string, Criatura> = {
     silla: [0.62, 0.1],
     ojo: 0x6ff7ff,
     segundo: 0xfff4ea,
-    traje: 0x1c6f8a,
+    traje: 0x13889a,
+    llama: 0x4fd8ff,
     aliento: 0x6fe8ff,
     boca: [0, 0.42, -1.04],
     textura: 'escamas',
@@ -715,8 +722,9 @@ const CRIATURAS: Record<string, Criatura> = {
       t.toro('second', 0.07, 0.028, 0, 0.42, -1.0);
       t.esf('dark', 0, 0.42, -1.0, 0.06, 0.05, 0.02);
       t.par((s) => {
-        t.esf('gold', s * 0.17, 0.55, -0.78, 0.068);
-        t.esf('eye', s * 0.2, 0.56, -0.82, 0.046, 0.046, 0.03);
+        t.esf('ivory', s * 0.19, 0.56, -0.78, 0.085, 0.085, 0.07);
+        t.esf('dark', s * 0.25, 0.56, -0.8, 0.045, 0.05, 0.04);
+        t.esf('eye', s * 0.275, 0.58, -0.81, 0.014);
         // cuernos que brotan: la carpa se está convirtiendo en dragón
         t.pieza('gold', 'cono', [s * 0.08, 0.66, -0.7], [s * 0.15, 0.88, -0.5], 0.032);
         t.pieza('gold', 'cono', [s * 0.11, 0.77, -0.6], [s * 0.2, 0.82, -0.66], 0.016);
@@ -756,9 +764,10 @@ const CRIATURAS: Record<string, Criatura> = {
   fennec: {
     silla: [0.7, 0.1],
     ojo: 0x5dffd8,
-    segundo: 0xfff0c8,
-    traje: 0x0f6b56,
-    aliento: 0x4dffd2,
+    segundo: 0xfff6e0,
+    traje: 0x23a040,
+    llama: 0xffe9a0,
+    aliento: 0xbfffe0,
     boca: [0, 0.97, -1.0],
     textura: 'escamas',
     construir(t) {
@@ -805,8 +814,9 @@ const CRIATURAS: Record<string, Criatura> = {
     silla: [0.62, 0.12],
     ojo: 0xffe14a,
     segundo: 0xffd27a,
-    traje: 0x5a1015,
-    aliento: 0xff6a1a,
+    traje: 0xb51a24,
+    llama: 0xff2a3a,
+    aliento: 0xff3a3a,
     boca: [0, 0.54, -1.06],
     textura: 'escamas',
     construir(t) {
@@ -850,8 +860,8 @@ const CRIATURAS: Record<string, Criatura> = {
         t.tubo('gold', [[s * 0.07, 0.62, -1.05], [s * 0.25, 0.6, -1.06], [s * 0.45, 0.68, -0.85], [s * 0.55, 0.8, -0.5], [s * 0.5, 0.86, -0.22]], (u) => [lerp(0.016, 0.005, u), lerp(0.016, 0.005, u)], 14, 5);
       });
       // cuerpo serpentino: pasa bajo la silla y ondula detrás
-      t.onda('cola', { eje: 'z', o: 0.35, len: 1.0, amp: 0.14, freq: 3.8, giro: 0.35, vert: 0.5 });
-      const pts: V3[] = [[0, 0.62, -0.6], [0, 0.5, -0.4], [0, 0.4, -0.1], [0, 0.42, 0.25], [0, 0.55, 0.55], [0.18, 0.64, 0.85], [0.05, 0.56, 1.15], [-0.16, 0.6, 1.36]];
+      t.onda('cola', { eje: 'z', o: 0.35, len: 0.6, amp: 0.1, freq: 3.8, giro: 0.3, vert: 0.3 });
+      const pts: V3[] = [[0, 0.62, -0.6], [0, 0.5, -0.4], [0, 0.4, -0.1], [0, 0.42, 0.25], [0, 0.55, 0.55], [0.12, 0.74, 0.82], [0.1, 1.0, 0.98], [-0.02, 1.22, 0.96], [0.02, 1.36, 0.82]];
       const radio = (u: number) => (u < 0.4 ? 0.18 + 0.04 * Math.sin((u / 0.4) * Math.PI * 0.5) : 0.22 * Math.pow(1 - (u - 0.4) / 0.6, 0.8) + 0.02);
       t.tubo('body', pts, (u) => [radio(u), radio(u) * 0.95], 26, 12);
       const curva = new THREE.CatmullRomCurve3(pts.map((p) => new THREE.Vector3(p[0], p[1], p[2])));
@@ -876,8 +886,9 @@ const CRIATURAS: Record<string, Criatura> = {
     silla: [0.68, 0.14],
     ojo: 0x9fd8ff,
     segundo: 0xffffff,
-    traje: 0x3b2a7a,
-    aliento: 0xb48cff,
+    traje: 0x7a2fd0,
+    llama: 0x5aa8ff,
+    aliento: 0x7ac8ff,
     boca: [0, 0.62, -0.97],
     textura: 'rayas',
     construir(t) {
@@ -922,8 +933,9 @@ const CRIATURAS: Record<string, Criatura> = {
   kai: {
     silla: [0.8, 0.12],
     ojo: 0x5ff0ff,
-    segundo: 0x2f6b55,
-    traje: 0x0e2c4a,
+    segundo: 0x3d4a30,
+    traje: 0x23399a,
+    llama: 0x40e8ff,
     aliento: 0x40e8ff,
     boca: [0, 0.45, -1.16],
     textura: 'hex',
@@ -975,9 +987,10 @@ const CRIATURAS: Record<string, Criatura> = {
   bram: {
     silla: [0.7, 0.16],
     ojo: 0xffd84a,
-    segundo: 0x17573c,
-    traje: 0x6a1a14,
-    aliento: 0xffd040,
+    segundo: 0x247a44,
+    traje: 0xc0222a,
+    llama: 0xffa030,
+    aliento: 0xffc040,
     boca: [0, 0.66, -1.0],
     textura: 'piedra',
     texturaSegundo: 'piedra',
@@ -1026,7 +1039,7 @@ const CRIATURAS: Record<string, Criatura> = {
       });
       // bola bordada que rueda delante
       t.bola([0, 0.16, -0.98]);
-      t.esf('accent', 0, 0.16, -0.98, 0.15);
+      t.esf('saddle', 0, 0.16, -0.98, 0.15);
       t.toro('gold', 0.152, 0.012, 0, 0.16, -0.98, 0, Math.PI / 2, 0);
       t.toro('gold', 0.152, 0.012, 0, 0.16, -0.98, 0, 0, 0);
       t.toro('gold', 0.152, 0.012, 0, 0.16, -0.98, Math.PI / 2, 0, 0);
@@ -1043,13 +1056,15 @@ const CRIATURAS: Record<string, Criatura> = {
   // ===================================================================== 貔貅 pixiu
   rosa: {
     silla: [0.72, 0.16],
-    ojo: 0xff5a3a,
+    ojo: 0x2ee6a0,
     segundo: 0xffe2a0,
-    traje: 0x7a0f18,
-    aliento: 0xffc020,
+    traje: 0xb08a3a,
+    llama: 0xffd040,
+    aliento: 0xffd860,
+    metal: 0.45,
     boca: [0, 0.7, -1.02],
     textura: 'escamas',
-    pluma: 0xffb020,
+    pluma: 0xffc84a,
     construir(t) {
       t.tubo('body', [[0, 0.55, 0.58], [0, 0.6, 0.2], [0, 0.6, -0.2], [0, 0.66, -0.48]], (u) => {
         const r = 0.23 + 0.06 * Math.sin(Math.PI * u);
@@ -1064,7 +1079,9 @@ const CRIATURAS: Record<string, Criatura> = {
       t.esf('gold', 0, 0.8, -1.03, 0.045, 0.035, 0.03);
       ojos(t, 0.1, 0.9, -0.88, 0.036, 'gold');
       t.pieza('gold', 'cono', [0, 0.98, -0.78], [0, 1.26, -0.52], 0.045);
-      t.toro('saddle', 0.05, 0.012, 0, 1.03, -0.73, -0.9);
+      t.toro('gold', 0.05, 0.014, 0, 1.0, -0.86, -0.6);
+      t.esf('eye', 0, 1.0, -0.88, 0.035, 0.035, 0.02);
+      t.par((s) => { t.esf('eye', s * 0.27, 0.72, -0.42, 0.045, 0.045, 0.03); t.toro('gold', 0.05, 0.012, s * 0.28, 0.72, -0.42, 0, s * 1.2, 0); });
       t.par((s) => {
         t.pieza('ivory', 'cono', [s * 0.06, 0.72, -0.98], [s * 0.06, 0.63, -1.0], 0.017);
         t.pieza('body', 'cono', [s * 0.14, 0.95, -0.7], [s * 0.24, 1.04, -0.6], 0.05, 0.025);
@@ -1110,46 +1127,48 @@ function criaturaDe(character: CharacterDef): Criatura {
   return CRIATURAS[CRIATURA_POR_INDICE[i % CRIATURA_POR_INDICE.length]];
 }
 
-/** Lo que comparten todas: nubes xiangyun, guardabarros, silla lacada y manillar. */
+/** Lo que comparten todas: chasis de kart oscuro, cilindros luminosos, asiento y escapes. */
 function basesComunes(t: Taller, spec: Criatura) {
-  // nubes bajo el vientre
-  t.esf('cloud', 0, 0.17, 0.0, 0.3, 0.075, 0.62);
+  // bandeja y largueros
+  const bandeja = new RoundedBoxGeometry(0.84, 0.06, 1.5, 1, 0.025);
+  t.add('metal', bandeja, 0, 0.19, 0.0);
+  bandeja.dispose();
   t.par((s) => {
-    for (const [z, r] of [[-0.24, 0.15], [0.0, 0.17], [0.24, 0.15]]) t.esf('cloud', s * 0.34, 0.2, z, r, r * 0.62, r * 1.15);
-    t.toro('gold', 0.06, 0.016, s * 0.47, 0.25, -0.12, 0, s * Math.PI / 2, 0, Math.PI * 1.5);
-    t.toro('gold', 0.05, 0.014, s * 0.47, 0.22, 0.12, 0, s * Math.PI / 2, Math.PI, Math.PI * 1.5);
+    const larguero = new RoundedBoxGeometry(0.08, 0.08, 1.16, 1, 0.02);
+    t.add('metal', larguero, s * 0.38, 0.25, 0.02);
+    larguero.dispose();
+    // motor lateral: cilindro cromado con anillos que brillan del color del turbo
+    t.pieza('chrome', 'cil', [s * 0.34, 0.33, -0.18], [s * 0.34, 0.33, 0.3], 0.075);
+    t.pieza('metal', 'cil', [s * 0.34, 0.33, 0.3], [s * 0.34, 0.33, 0.36], 0.06);
+    for (const z of [-0.08, 0.04, 0.16]) t.toro('glow', 0.078, 0.014, s * 0.34, 0.33, z);
+    t.pieza('glow', 'cil', [s * 0.34, 0.33, -0.2], [s * 0.34, 0.33, -0.18], 0.06);
+    // ejes y manguetas
+    t.pieza('metal', 'cil', [s * 0.12, 0.2, WHEEL_Z_F], [s * (WHEEL_X - 0.1), WHEEL_R_F, WHEEL_Z_F], 0.03);
+    t.pieza('metal', 'cil', [s * 0.12, 0.2, WHEEL_Z_R], [s * (WHEEL_X - 0.12), WHEEL_R_R, WHEEL_Z_R], 0.034);
   });
-  // arcos dorados sobre las ruedas
-  const rs: [number, number, number, number][] = [
-    [WHEEL_X, WHEEL_Z_F, WHEEL_R_F, WHEEL_W_F],
-    [-WHEEL_X, WHEEL_Z_F, WHEEL_R_F, WHEEL_W_F],
-    [WHEEL_X, WHEEL_Z_R, WHEEL_R_R, WHEEL_W_R],
-    [-WHEEL_X, WHEEL_Z_R, WHEEL_R_R, WHEEL_W_R],
-  ];
-  for (const [x, z, r, w] of rs) {
-    // nube que abraza la rueda por dentro
-    t.esf('cloud', x - Math.sign(x) * (w / 2 + 0.02), r + 0.04, z, 0.05, r * 0.7, r * 1.05);
-    t.toro('gold', r + 0.065, 0.016, x + Math.sign(x) * (w / 2 + 0.04), r, z, 0, Math.PI / 2, 0, Math.PI);
-  }
-  // silla lacada con faldones
+  // parachoques delantero y bloque motor trasero
+  const morro = new RoundedBoxGeometry(0.72, 0.08, 0.12, 1, 0.03);
+  t.add('metal', morro, 0, 0.21, -0.82);
+  morro.dispose();
+  const bloque = new RoundedBoxGeometry(0.46, 0.2, 0.26, 1, 0.04);
+  t.add('metal', bloque, 0, 0.32, 0.7);
+  bloque.dispose();
+  t.caja('glow', 0.4, 0.02, 0.01, 0, 0.3, 0.835);
+  // asiento negro de competición con ribete dorado
   const [sy, sz] = spec.silla;
-  const base = new RoundedBoxGeometry(0.4, 0.07, 0.36, 1, 0.025);
-  t.add('saddle', base, 0, sy - 0.03, sz);
+  const base = new RoundedBoxGeometry(0.38, 0.07, 0.34, 1, 0.025);
+  t.add('seat', base, 0, sy - 0.03, sz);
   base.dispose();
-  const resp = new THREE.CylinderGeometry(0.2, 0.18, 0.26, 12, 1, true, -Math.PI / 2, Math.PI);
-  t.add('saddle', resp, 0, sy + 0.1, sz + 0.12, 0.12, 0, 0);
+  const resp = new THREE.CylinderGeometry(0.2, 0.18, 0.34, 12, 1, true, -Math.PI / 2, Math.PI);
+  t.add('seat', resp, 0, sy + 0.13, sz + 0.14, 0.18, 0, 0);
   resp.dispose();
-  t.par((s) => {
-    t.caja('saddle', 0.03, 0.2, 0.3, s * 0.24, sy - 0.12, sz, 0, 0, s * 0.3);
-    t.caja('gold', 0.032, 0.025, 0.31, s * 0.27, sy - 0.215, sz, 0, 0, s * 0.3);
-  });
-  t.toro('gold', 0.19, 0.012, 0, sy + 0.23, sz + 0.12, Math.PI / 2 + 0.12, 0, 0, Math.PI);
-  // escapes: trompetas doradas
-  for (const [x, y, z] of spec.escapes ?? [[-0.17, 0.42, 0.76], [0.17, 0.42, 0.76]]) {
-    const trompa = new THREE.CylinderGeometry(0.062, 0.035, 0.24, 12, 1, true);
-    trompa.translate(0, 0.12, 0);
-    t.add('gold', trompa, x, y, z, Math.PI / 2 - 0.16, 0, 0);
-    trompa.dispose();
+  t.toro('gold', 0.19, 0.012, 0, sy + 0.3, sz + 0.17, Math.PI / 2 + 0.18, 0, 0, Math.PI);
+  // escapes cromados
+  for (const [x, y, z] of spec.escapes ?? [[-0.17, 0.4, 0.78], [0.17, 0.4, 0.78]]) {
+    const tubo = new THREE.CylinderGeometry(0.058, 0.05, 0.24, 12, 1, true);
+    tubo.translate(0, 0.12, 0);
+    t.add('chrome', tubo, x, y, z, Math.PI / 2 - 0.16, 0, 0);
+    tubo.dispose();
   }
 }
 
@@ -1178,8 +1197,8 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     new THREE.MeshPhysicalMaterial({
       color: character.color,
       map: textura(spec.textura),
-      metalness: 0.25,
-      roughness: 0.38,
+      metalness: spec.metal ?? 0.25,
+      roughness: spec.metal ? 0.25 : 0.38,
       clearcoat: 0.8,
       clearcoatRoughness: 0.2,
     }),
@@ -1228,7 +1247,11 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
       side: THREE.DoubleSide,
     }),
   );
-  const ruedaMat = compartido('rueda', () => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.4, metalness: 0.5 }));
+  const metal = compartido('metal', () => new THREE.MeshStandardMaterial({ color: 0x2e2c34, metalness: 0.6, roughness: 0.42, emissive: 0x141218, emissiveIntensity: 1 }));
+  const cromo = compartido('cromo', () => new THREE.MeshStandardMaterial({ color: 0xd8b27a, metalness: 1, roughness: 0.22, emissive: 0x4a3a28, emissiveIntensity: 1 }));
+  const asiento = compartido('asiento', () => new THREE.MeshStandardMaterial({ color: 0x18161c, roughness: 0.7, metalness: 0.1, side: THREE.DoubleSide }));
+  const brillo = compartido(`brillo-${spec.llama}`, () => new THREE.MeshStandardMaterial({ color: spec.llama, emissive: spec.llama, emissiveIntensity: 2.2, toneMapped: false }));
+  const ruedaMat = compartido('rueda', () => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.45, metalness: 0.55 }));
   const MATS: Record<MatKey, THREE.Material> = {
     body: bodyMaterial,
     second: segundo,
@@ -1240,8 +1263,12 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     cloud: nube,
     feather: pluma,
     saddle: laca,
+    metal,
+    chrome: cromo,
+    glow: brillo,
+    seat: asiento,
   };
-  const SOMBRA: Partial<Record<MatKey, boolean>> = { body: true, second: true, saddle: true };
+  const SOMBRA: Partial<Record<MatKey, boolean>> = { body: true, second: true, metal: true };
 
   // --- esculpir -------------------------------------------------------------------
   const taller = new Taller();
@@ -1339,7 +1366,7 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
   root.add(steerPivot);
 
   // --- piloto ---------------------------------------------------------------------
-  const suitMat = mat(new THREE.MeshStandardMaterial({ color: spec.traje, roughness: 0.62, metalness: 0.08 }));
+  const suitMat = mat(new THREE.MeshPhysicalMaterial({ color: spec.traje, roughness: 0.4, metalness: 0.2, clearcoat: 0.6 }));
   const helmetMat = mat(new THREE.MeshPhysicalMaterial({ color: character.driverColor, metalness: 0.15, roughness: 0.28, clearcoat: 1, clearcoatRoughness: 0.08 }));
   const visorMat = compartido('visor', () => new THREE.MeshPhysicalMaterial({ color: 0x0a1424, metalness: 0.55, roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.04 }));
   const driver = new THREE.Group();
@@ -1384,17 +1411,22 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
   const visorGeo = track(new THREE.SphereGeometry(0.16, 12, 6, Math.PI * 1.18, Math.PI * 0.64, Math.PI * 0.36, Math.PI * 0.26));
   visorGeo.translate(0, 0.14, 0);
   driverHead.add(makeMesh(visorGeo, visorMat, 'visor'));
-  // diadema dorada (金箍) y cuernecillos
-  const coronaB = new Batch();
-  const diadema = new THREE.TorusGeometry(0.152, 0.014, 5, 22);
-  coronaB.add(diadema, 0, 0.2, 0, Math.PI / 2 - 0.15, 0, 0);
-  diadema.dispose();
+  // aletas del casco y franja dorada
+  const aletasB = new Batch();
   for (const sx of [-1, 1]) {
-    const c = new THREE.ConeGeometry(0.03, 0.2, 6);
-    coronaB.add(c, sx * 0.1, 0.27, 0.04, 0.6, 0, sx * -0.5);
+    const c = new THREE.ConeGeometry(0.035, 0.12, 4);
+    aletasB.add(c, sx * 0.12, 0.25, 0.03, 0.5, 0, sx * -0.7, 1, 1, 0.4);
     c.dispose();
   }
-  driverHead.add(makeMesh(track(coronaB.build()), oro, 'corona'));
+  const cresta = new THREE.BoxGeometry(0.03, 0.05, 0.2);
+  aletasB.add(cresta, 0, 0.3, 0.02, 0.2, 0, 0);
+  cresta.dispose();
+  driverHead.add(makeMesh(track(aletasB.build()), helmetMat, 'aletasCasco'));
+  const franjaB = new Batch();
+  const franja = new THREE.TorusGeometry(0.157, 0.008, 5, 22, Math.PI);
+  franjaB.add(franja, 0, 0.14, 0, 0, Math.PI / 2, 0);
+  franja.dispose();
+  driverHead.add(makeMesh(track(franjaB.build()), oro, 'franjaCasco'));
   driver.add(driverHead);
   root.add(driver);
 
@@ -1410,7 +1442,7 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
   nucleoGeo.translate(0, 0, 0.38);
   const nucleoMat = compartido('nucleo', () => new THREE.MeshBasicMaterial({ color: 0xfff0c0, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
   const flames: THREE.Object3D[] = [];
-  for (const [x, y, z] of spec.escapes ?? [[-0.17, 0.42, 0.76], [0.17, 0.42, 0.76]]) {
+  for (const [x, y, z] of spec.escapes ?? [[-0.17, 0.4, 0.78], [0.17, 0.4, 0.78]]) {
     const g = new THREE.Group();
     g.name = 'exhaust';
     g.position.set(x, y, z);
@@ -1614,6 +1646,7 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     flames,
     flameMaterial,
     orbMaterial,
+    flameColors: [new THREE.Color(spec.llama).lerp(new THREE.Color(0xff8a3a), 0.35).getHex(), spec.llama],
     animate,
   };
 }
