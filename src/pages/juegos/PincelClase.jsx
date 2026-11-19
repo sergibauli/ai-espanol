@@ -8,7 +8,8 @@ import { useSound } from "../../lib/sound.jsx";
 import { barajar, Sello, etiquetaContenido, usePrefiereMenosMovimiento } from "./jbComun.jsx";
 import { Pergamino, PolvoOro, SelloCae } from "./pincelDibujo.jsx";
 
-const SEGUNDOS = 60;
+const TIEMPOS = [0, 60, 90]; // 0 = sin límite (por defecto)
+const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 const COLORES = [
   { id: "tinta", es: "Tinta", zh: "墨", color: "#1c120c", halo: "rgba(28,18,12,.45)" },
   { id: "laca", es: "Laca", zh: "朱", color: "#c8102e", halo: "rgba(200,16,46,.4)" },
@@ -254,6 +255,8 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
   const [color, setColor] = React.useState("tinta");
   const [goma, setGoma] = React.useState(false);
   const [fin, setFin] = React.useState(0);
+  const [limite, setLimite] = React.useState(0);
+  const [inicioTurno, setInicioTurno] = React.useState(0);
   const [ahora, setAhora] = React.useState(0);
   const [resultado, setResultado] = React.useState(null); // { ok }
   const [galeria, setGaleria] = React.useState([]);
@@ -284,8 +287,9 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
     setVisible(false);
     setColor("tinta");
     setGoma(false);
-    const t = Date.now() + SEGUNDOS * 1000;
-    setFin(t);
+    const t = Date.now() + (limite ? limite * 1000 : 0);
+    setInicioTurno(Date.now());
+    setFin(limite ? t : 0);
     setAhora(Date.now());
     setFase("dibuja");
   };
@@ -295,14 +299,14 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
       const dibujo = lienzo.current?.exportar?.() || null;
       setGaleria((g) => [...g, { palabra, ok, equipo: equipoActual.nombre, equipoZh: zhDe(equipoActual) === equipoActual.nombre ? "" : equipoActual.zh, sello: equipoActual.sello, dibujo }]);
       if (ok) setEquipos((es) => es.map((e, i) => (i === turno % es.length ? { ...e, puntos: e.puntos + 1 } : e)));
-      setResultado({ ok, segundos: Math.max(0, Math.ceil((fin - Date.now()) / 1000)) });
+      setResultado({ ok, segundos: fin ? Math.max(0, Math.ceil((fin - Date.now()) / 1000)) : Math.floor((Date.now() - inicioTurno) / 1000) });
       setFase("resultado");
       if (soundEnabled) {
         ok ? playCorrect?.() : playWrong?.();
         window.setTimeout(() => speak(palabra.es, 0.9), 450);
       }
     },
-    [palabra, equipoActual, turno, fin, soundEnabled, playCorrect, playWrong],
+    [palabra, equipoActual, turno, fin, inicioTurno, soundEnabled, playCorrect, playWrong],
   );
 
   // Reloj de 60 s
@@ -311,6 +315,7 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
     const id = window.setInterval(() => {
       const t = Date.now();
       setAhora(t);
+      if (!fin) return;
       const quedan = Math.ceil((fin - t) / 1000);
       if (quedan <= 10 && quedan > 0 && quedan !== tickRef.current) {
         tickRef.current = quedan;
@@ -335,10 +340,11 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
     setFase("turno");
   };
 
-  const quedan = Math.max(0, Math.ceil((fin - ahora) / 1000));
-  const fraccion = Math.max(0, Math.min(1, (fin - ahora) / (SEGUNDOS * 1000)));
+  const quedan = fin ? Math.max(0, Math.ceil((fin - ahora) / 1000)) : 0;
+  const pasados = Math.max(0, Math.floor((ahora - inicioTurno) / 1000));
+  const fraccion = fin ? Math.max(0, Math.min(1, (fin - ahora) / (limite * 1000))) : 1;
 
-  const Barra = ({ titulo = "Dibuja para la clase", zh = "你画我猜" }) => (
+  const barra = ({ titulo = "Dibuja para la clase", zh = "你画我猜" } = {}) => (
     <div className="pm-barra">
       <button type="button" className="pm-volver" onClick={onSalir}>
         <ArrowLeftIcon size={18} aria-hidden="true" /> <span>Salir · 退出</span>
@@ -353,7 +359,7 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
     </div>
   );
 
-  const Marcador = ({ compacto = false }) => (
+  const marcador = ({ compacto = false } = {}) => (
     <div className={`pm-marcador ${compacto ? "is-compacto" : ""}`} role="group" aria-label="Marcador · 比分">
       {equipos.map((e, i) => (
         <span key={i} className={`pm-equipo is-${i} ${fase !== "final" && i === turno % equipos.length ? "is-turno" : ""}`}>
@@ -371,15 +377,15 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
   if (fase === "equipos")
     return (
       <div className="pm-clase">
-        <Barra />
+        {barra()}
         <section className="pm-prepara">
           <PolvoOro n={12} />
           <h2 className="pm-h2">
             Equipos <span translate="no">分队</span>
           </h2>
           <p className="pm-sub">
-            En cada turno, un alumno del equipo mira la palabra en secreto y la dibuja. Su equipo tiene 60 segundos para decirla en voz alta en español.
-            <span translate="no">每轮由一名队员偷偷看词并画出来，队友要在60秒内用西班牙语大声说出这个词。</span>
+            En cada turno, un alumno del equipo mira la palabra en secreto y la dibuja. Su equipo tiene que decirla en voz alta en español. Sin límite de tiempo, o con 60/90 segundos si queréis más emoción.
+            <span translate="no">每轮由一名队员偷偷看词并画出来，队友要用西班牙语大声说出这个词。默认不限时，也可以设60或90秒。</span>
           </p>
           <ul className="pm-lista-equipos">
             {equipos.map((e, i) => (
@@ -422,9 +428,12 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
             </div>
             <div className="pm-ajuste">
               <span>Tiempo por dibujo · 每幅时间</span>
-              <div className="pm-contador">
-                <TimerIcon size={18} aria-hidden="true" />
-                <b>{SEGUNDOS} s</b>
+              <div className="pm-opciones-tiempo" role="radiogroup" aria-label="Tiempo por dibujo · 每幅时间">
+                {TIEMPOS.map((t) => (
+                  <button key={t} type="button" role="radio" aria-checked={limite === t} className={`pm-op-tiempo ${limite === t ? "is-on" : ""}`} onClick={() => setLimite(t)}>
+                    {t ? `${t} s` : "Sin límite · 不限时"}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -444,8 +453,8 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
   if (fase === "turno")
     return (
       <div className="pm-clase">
-        <Barra />
-        <Marcador />
+        {barra()}
+        {marcador()}
         <section className="pm-turno">
           <PolvoOro n={10} />
           <p className="pm-turno__quien">
@@ -476,7 +485,7 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
             </button>
           </div>
           <button type="button" className="pm-boton-oro pm-boton-oro--grande" onClick={aDibujar}>
-            <BrushIcon size={22} aria-hidden="true" /> ¡A dibujar! {SEGUNDOS} s · 开始画
+            <BrushIcon size={22} aria-hidden="true" /> ¡A dibujar! · 开始画{limite ? ` (${limite} s)` : ""}
           </button>
         </section>
       </div>
@@ -488,7 +497,7 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
     const empate = orden.length > 1 && orden[0].puntos === orden[1].puntos;
     return (
       <div className="pm-clase">
-        <Barra />
+        {barra()}
         <section className="pm-final__tarjeta pm-podio-sec">
           <PolvoOro n={16} />
           <span className="pm-final__rayos" aria-hidden="true" />
@@ -556,13 +565,13 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
   return (
     <div className="pm-clase pm-clase--dibuja">
       <div className="pm-dibuja-cab">
-        <Marcador compacto />
-        <div className={`pm-reloj ${quedan <= 10 && fase === "dibuja" ? "is-prisa" : ""}`} role="timer" aria-label={`${quedan} segundos · 秒`}>
+        {marcador({ compacto: true })}
+        <div className={`pm-reloj ${fin && quedan <= 10 && fase === "dibuja" ? "is-prisa" : ""} ${fin ? "" : "is-libre"}`} role="timer" aria-label={fin ? `${quedan} segundos · 秒` : `${pasados} segundos dibujando · 已画${pasados}秒`}>
           <svg viewBox="0 0 44 44" aria-hidden="true">
             <circle cx="22" cy="22" r="19" className="pm-reloj__fondo" />
             <circle cx="22" cy="22" r="19" className="pm-reloj__tinta" style={{ strokeDasharray: `${119.4 * fraccion} 119.4` }} />
           </svg>
-          <b>{fase === "dibuja" ? quedan : resultado?.segundos ?? 0}</b>
+          <b>{fin ? (fase === "dibuja" ? quedan : resultado?.segundos ?? 0) : mmss(fase === "dibuja" ? pasados : resultado?.segundos ?? 0)}</b>
         </div>
         <button type="button" className={`pm-chivato ${visible ? "is-visible" : ""}`} onClick={() => setVisible((v) => !v)} aria-label={visible ? "Tapar la palabra · 遮住" : "Ver la palabra · 看词"}>
           {visible ? <EyeOffIcon size={18} aria-hidden="true" /> : <EyeIcon size={18} aria-hidden="true" />}
@@ -572,7 +581,8 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
 
       <div className="pm-mesa pm-mesa--lienzo">
         <span className="pm-mesa__luz" aria-hidden="true" />
-        <Pergamino className="pm-pergamino--lienzo">
+        <span className="pm-mesa__suelo" aria-hidden="true" />
+        <Pergamino key={turno} className="pm-pergamino--lienzo is-abre">
           <Lienzo ref={lienzo} color={color} goma={goma} activo={fase === "dibuja"} />
         </Pergamino>
       </div>
@@ -627,7 +637,7 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
                   <Volume2Icon size={18} aria-hidden="true" />
                 </button>
               </p>
-              <Marcador />
+              {marcador()}
               <button type="button" className="pm-boton-oro" onClick={siguienteTurno} autoFocus>
                 {turno + 1 >= Math.min(totalTurnos, cola.length) ? (
                   <>

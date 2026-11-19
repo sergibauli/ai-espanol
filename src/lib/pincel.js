@@ -85,5 +85,7 @@ function mostrarConArticulo(p) {
 export function esCorrecta(respuesta, palabra) {
   const r = normalizar(respuesta);
   if (!r) return false;
-  return palabra.formas.includes(r) || palabra.formas.some((f) => f.replace(/ñ/g, "n") === r.replace(/ñ/g, "n"));
+  const base = (t) => t.replace(/ñ/g, "n").replace(/(es|s)$/, "");
+  // Sin artículo, sin acentos y sin distinguir singular/plural («huevo» vale por «los huevos»)
+  return palabra.formas.some((f) => f === r || f.replace(/ñ/g, "n") === r.replace(/ñ/g, "n") || base(f) === base(r));
 }

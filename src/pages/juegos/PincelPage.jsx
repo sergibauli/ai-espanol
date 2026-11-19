@@ -9,16 +9,16 @@ import { useSound } from "../../lib/sound.jsx";
 import { speak, confetti } from "../../components/lesson/fx.js";
 import { addXp } from "../../lib/gamification.js";
 import { UNIDADES_VOCABULARIO, parametrosJuego } from "../../lib/vocabularioJuegos.js";
-import { ICONOS, palabrasConDibujo, esCorrecta } from "../../lib/pincel.js";
+import { ICONOS, palabrasConDibujo, esCorrecta, normalizar } from "../../lib/pincel.js";
 import { barajar, claveRecord, leerNumero, guardarNumero, usePrefiereMenosMovimiento, SelectorUnidad, Sello, etiquetaContenido } from "./jbComun.jsx";
-import { DibujoTinta, PincelSvg, Pergamino, PolvoOro, SelloCae } from "./pincelDibujo.jsx";
+import { DibujoTinta, PincelSvg, Pergamino, PolvoOro, SelloCae, Destello, Farolillos } from "./pincelDibujo.jsx";
 import { ModoClase } from "./PincelClase.jsx";
 import "../../styles/v13-juegos-b.css";
 import "../../styles/pincel.css";
 
 const RONDAS = 10;
 const DURACION = 8500; // lo que tarda el pincel en dibujar
-const PRORROGA = 6000; // segundos extra con el dibujo terminado
+const MIN_PROPIAS = 4; // por debajo de esto la unidad se completa con palabras de su nivel
 const TECLAS = ["á", "é", "í", "ó", "ú", "ñ", "ü", "¿", "¡"];
 const azar = (lista) => lista[Math.floor(Math.random() * lista.length)];
 
@@ -55,20 +55,30 @@ function useUnidad() {
   }, [location.search, location.pathname]);
 }
 
-/** Palabras de la partida: primero la unidad, luego el mismo nivel y, si hiciera falta, el resto de la tabla */
+/** Palabras de la partida: SOLO las de la unidad elegida; si casi no tiene dibujables, se completa con su nivel */
 function repartoPalabras(unidad) {
   const { propias, nivel, extra } = palabrasConDibujo(unidad.numero, UNIDADES_VOCABULARIO);
-  return { propias, nivel, extra, todas: [...propias, ...nivel, ...extra] };
+  const u = UNIDADES_VOCABULARIO.find((x) => x.numero === unidad.numero);
+  // Vocabulario de la unidad que sirve como opción falsa (palabras sueltas, sin frases)
+  const vocab = (u?.vocabulario || [])
+    .map((v) => String(v.espanol || "").trim())
+    .filter((t) => t && t.length <= 24 && !/[?¿!¡…]|\.\.\./.test(t));
+  const pocas = propias.length < MIN_PROPIAS;
+  const juego = pocas ? [...propias, ...nivel, ...extra] : propias;
+  return { propias, nivel, extra, pocas, juego, vocab, todas: [...propias, ...nivel, ...extra] };
 }
 
 function elegirRondas(reparto) {
-  const lista = [...barajar(reparto.propias), ...barajar(reparto.nivel), ...barajar(reparto.extra)].slice(0, RONDAS);
+  const lista = reparto.pocas
+    ? [...barajar(reparto.propias), ...barajar(reparto.nivel), ...barajar(reparto.extra)].slice(0, 6)
+    : barajar(reparto.propias).slice(0, RONDAS);
   return barajar(lista).map((p) => {
-    const otras = barajar(reparto.todas.filter((x) => x.icono !== p.icono && x.es !== p.es));
-    // Distractores: mejor de la misma categoría (más difícil) y de la unidad si es posible
-    const parecidas = otras.filter((x) => x.cat === p.cat);
-    const opciones = barajar([p, ...[...parecidas, ...otras].filter((x, i, a) => a.findIndex((y) => y.es === x.es) === i).slice(0, 2)]);
-    return { palabra: p, opciones };
+    // Opciones falsas: primero otras palabras dibujables de la misma unidad, luego su vocabulario y, si falta, su nivel
+    const deUnidad = barajar(reparto.propias.filter((x) => x.icono !== p.icono && x.es !== p.es));
+    const delVocab = barajar(reparto.vocab.filter((t) => !p.formas.includes(normalizar(t)))).map((t) => ({ es: t }));
+    const delNivel = barajar(reparto.nivel.filter((x) => x.icono !== p.icono));
+    const falsas = [...deUnidad, ...delVocab, ...delNivel].filter((x, i, a) => a.findIndex((y) => normalizar(y.es) === normalizar(x.es)) === i).slice(0, 2);
+    return { palabra: p, opciones: barajar([p, ...falsas]) };
   });
 }
 
@@ -122,12 +132,13 @@ function Pincel({ unidad }) {
   };
 
   const avisoRelleno =
-    unidad.numero !== "todas" && reparto.propias.length < RONDAS
+    unidad.numero !== "todas" && reparto.pocas
       ? {
-          es: `Esta unidad tiene ${reparto.propias.length} palabra${reparto.propias.length === 1 ? "" : "s"} con dibujo; completamos con palabras de otras unidades del nivel ${unidad.nivel}${reparto.propias.length + reparto.nivel.length < RONDAS ? " y de otros niveles" : ""}.`,
-          zh: `本单元有 ${reparto.propias.length} 个可以画的词，其余的来自 ${unidad.nivel} 级其他单元${reparto.propias.length + reparto.nivel.length < RONDAS ? "和其他级别" : ""}。`,
+          es: `Esta unidad casi no tiene palabras que se puedan dibujar (${reparto.propias.length}); completamos con palabras de otras unidades del nivel ${unidad.nivel}.`,
+          zh: `本单元几乎没有可以画的词（${reparto.propias.length}个），其余的来自 ${unidad.nivel} 级其他单元。`,
         }
       : null;
+  const rondasPartida = reparto.pocas ? 6 : Math.min(RONDAS, reparto.propias.length);
 
   if (modo === "clase")
     return (
@@ -196,8 +207,8 @@ function Pincel({ unidad }) {
               <b>Adivina el dibujo</b>
               <small translate="no">你来猜 · 单人</small>
               <span className="pm-modo__desc">
-                El pincel pinta trazo a trazo. Escribe la palabra antes de que termine: cuanto antes, más puntos. {RONDAS} rondas.
-                <i translate="no">神笔一笔一画地画，在画完之前写出这个词：越快得分越高。共{RONDAS}轮。</i>
+                El pincel pinta trazo a trazo una palabra de esta unidad. Adivínala sin prisa: no hay tiempo límite, pero si aciertas antes de que termine, ganas puntos extra. {rondasPartida} rondas.
+                <i translate="no">神笔一笔一画地画出本单元的一个词。不限时，慢慢猜；在画完之前猜对还有额外加分。共{rondasPartida}轮。</i>
               </span>
               <span className="pm-cta">
                 <PlayIcon size={20} aria-hidden="true" /> Jugar · 开始
@@ -223,8 +234,8 @@ function Pincel({ unidad }) {
               <b>Dibuja para la clase</b>
               <small translate="no">你画我猜 · 全班</small>
               <span className="pm-modo__desc">
-                Un alumno ve la palabra en secreto y la dibuja en 60 segundos; su equipo la dice en voz alta. Para proyector o pasando el móvil.
-                <i translate="no">一个人偷偷看词，60秒内画出来，队友大声说出答案。适合投影或传手机。</i>
+                Un alumno ve la palabra en secreto y la dibuja en el pergamino; su equipo la dice en voz alta. Sin límite de tiempo (o 60/90 s si queréis). Para proyector o pasando el móvil.
+                <i translate="no">一个人偷偷看词并画出来，队友大声说出答案。不限时（也可设60/90秒）。适合投影或传手机。</i>
               </span>
               <span className="pm-cta pm-cta--jade">
                 <UsersIcon size={20} aria-hidden="true" /> Preparar equipos · 分队
@@ -235,7 +246,7 @@ function Pincel({ unidad }) {
 
         <div className="pm-portada__pie">
           <span className="pm-dato">
-            <BrushIcon size={16} aria-hidden="true" /> {reparto.propias.length} palabras con dibujo en esta unidad · 本单元可画词
+            <BrushIcon size={16} aria-hidden="true" /> {reparto.propias.length} palabras de esta unidad tienen dibujo · 本单元有{reparto.propias.length}个可画的词
           </span>
           {record > 0 && (
             <span className="pm-dato pm-dato--oro">
@@ -258,7 +269,7 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
   const { soundEnabled, toggleSound, playCorrect, playWrong, playWin, playClick } = sonido;
   const reducido = usePrefiereMenosMovimiento();
   const [n, setN] = React.useState(0);
-  const [fase, setFase] = React.useState("pinta"); // pinta | prorroga | acierto | fallo
+  const [fase, setFase] = React.useState("pinta"); // pinta | espera | acierto | fallo
   const [texto, setTexto] = React.useState("");
   const [verOpciones, setVerOpciones] = React.useState(false);
   const [puntos, setPuntos] = React.useState(0);
@@ -271,7 +282,6 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
   const [final, setFinal] = React.useState(null);
   const [errorOpcion, setErrorOpcion] = React.useState(null);
   const progresoRef = React.useRef(0);
-  const inicioProrroga = React.useRef(0);
   const inputRef = React.useRef(null);
   const timers = React.useRef(new Set());
   const [, forzar] = React.useState(0);
@@ -283,6 +293,20 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
     setHistorial(historialRef.current);
   };
   const ronda = rondas[n];
+  // Inclinación 3D del pergamino siguiendo el puntero
+  const mesaRef = React.useRef(null);
+  const inclinar = (e) => {
+    if (reducido || e.pointerType !== "mouse") return;
+    const r = mesaRef.current.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    mesaRef.current.style.setProperty("--ry", `${(x * 12).toFixed(2)}deg`);
+    mesaRef.current.style.setProperty("--rx", `${(-y * 9).toFixed(2)}deg`);
+  };
+  const enderezar = () => {
+    mesaRef.current?.style.setProperty("--ry", "0deg");
+    mesaRef.current?.style.setProperty("--rx", "0deg");
+  };
 
   const programar = React.useCallback((fn, ms) => {
     const id = window.setTimeout(() => {
@@ -300,9 +324,9 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
   }
   const decir = (pose, clave2) => setMono({ pose, ...(clave2 ? frase(clave2) : { es: null, zh: null }), id: Math.random() });
 
-  // Barra de tiempo: se redibuja cada 100 ms mientras pinta o en la prórroga
+  // Barra del bonus de rapidez: se redibuja cada 100 ms mientras pinta
   React.useEffect(() => {
-    if (fase !== "pinta" && fase !== "prorroga") return;
+    if (fase !== "pinta") return;
     const id = window.setInterval(() => forzar((x) => x + 1), 100);
     return () => window.clearInterval(id);
   }, [fase]);
@@ -314,16 +338,6 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
     }
   }, [fase, reducido]);
 
-  // Prórroga agotada → fallo
-  React.useEffect(() => {
-    if (fase !== "prorroga") return;
-    const id = programar(() => fallar(), PRORROGA);
-    return () => {
-      window.clearTimeout(id);
-      timers.current.delete(id);
-    };
-  }, [fase, n]); // eslint-disable-line react-hooks/exhaustive-deps
-
   React.useEffect(() => {
     if (window.matchMedia?.("(pointer: fine)").matches) inputRef.current?.focus({ preventScroll: true });
   }, [n]);
@@ -331,8 +345,7 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
   const finDibujo = React.useCallback(() => {
     setFase((f) => {
       if (f !== "pinta") return f;
-      inicioProrroga.current = Date.now();
-      return "prorroga";
+      return "espera";
     });
   }, []);
 
@@ -389,7 +402,8 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
     const h = historialRef.current;
     const aciertos = h.filter((x) => x.ok).length;
     const total = h.reduce((a, x) => a + x.puntos, 0);
-    const estrellas = aciertos >= 9 ? 3 : aciertos >= 6 ? 2 : aciertos >= 3 ? 1 : 0;
+    const ratio = h.length ? aciertos / h.length : 0;
+    const estrellas = ratio >= 0.9 ? 3 : ratio >= 0.6 ? 2 : ratio >= 0.3 ? 1 : 0;
     const xp = 10 + aciertos * 3 + estrellas * 5;
     try {
       addXp(xp);
@@ -406,7 +420,7 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
 
   const comprobar = (e) => {
     e?.preventDefault();
-    if (fase !== "pinta" && fase !== "prorroga") return;
+    if (fase !== "pinta" && fase !== "espera") return;
     if (!texto.trim()) return;
     if (esCorrecta(texto, ronda.palabra)) acertar(false);
     else {
@@ -418,7 +432,7 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
   };
 
   const elegir = (op) => {
-    if (fase !== "pinta" && fase !== "prorroga") return;
+    if (fase !== "pinta" && fase !== "espera") return;
     if (op.es === ronda.palabra.es) acertar(true);
     else {
       setErrorOpcion(op.es);
@@ -440,12 +454,9 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
     });
   };
 
-  // Tiempo restante (para la barra de tinta)
-  let restante = 1;
-  if (fase === "pinta") restante = 1 - progresoRef.current * (DURACION / (DURACION + PRORROGA));
-  else if (fase === "prorroga") restante = Math.max(0, (PRORROGA - (Date.now() - inicioProrroga.current)) / (DURACION + PRORROGA));
-  else restante = 0;
-  const jugando = fase === "pinta" || fase === "prorroga";
+  // Bonus de rapidez que queda (sin tiempo límite: al terminar el dibujo se puede seguir pensando)
+  const restante = fase === "pinta" ? 1 - progresoRef.current : 0;
+  const jugando = fase === "pinta" || fase === "espera";
 
   if (final)
     return <FinalSolo unidad={unidad} final={final} historial={historial} mejorRacha={mejorRacha} record={Math.max(record, final.total)} onSalir={onSalir} onOtra={onOtra} />;
@@ -493,20 +504,24 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
         </span>
       </div>
 
-      <div className="pm-mesa">
+      <div className="pm-mesa" ref={mesaRef} onPointerMove={inclinar} onPointerLeave={enderezar}>
         <span className="pm-mesa__luz" aria-hidden="true" />
+        <span className="pm-mesa__suelo" aria-hidden="true" />
+        <Farolillos />
         <PolvoOro n={14} />
         <Mono estado={mono} className="pm-mono--mesa" />
-        <Pergamino className={tiembla ? "is-tiembla" : ""} estado={fase}>
+        <Pergamino key={n} className={`is-abre ${tiembla ? "is-tiembla" : ""}`} estado={fase}>
           <DibujoTinta
             key={n}
             nodos={ICONOS[ronda.palabra.icono]}
             duracion={DURACION}
+            retraso={reducido ? 0 : 1350}
             onFin={finDibujo}
             progresoRef={progresoRef}
             terminado={!jugando}
-            className="pm-dibujo--grande"
+            className={`pm-dibujo--grande ${fase === "acierto" ? "is-vivo" : ""}`}
           />
+          {fase === "acierto" && <Destello />}
           {fase === "acierto" && <SelloCae />}
           {fase === "fallo" && <SelloCae texto="失" fallo />}
           {!jugando && (
@@ -527,10 +542,22 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
             <span className="pm-origen">{ronda.palabra.origen === "nivel" ? `Del nivel ${unidad.nivel} · 同级词` : "Palabra extra · 补充词"}</span>
           )}
         </Pergamino>
-        <div className="pm-tiempo" aria-hidden="true">
-          <span className={`pm-tiempo__tinta ${fase === "prorroga" ? "is-prisa" : ""}`} style={{ transform: `scaleX(${restante})` }} />
+        <div className={`pm-bonus ${fase === "espera" ? "is-calma" : ""} ${jugando ? "" : "is-oculto"}`}>
+          <span className="pm-bonus__txt">
+            {fase === "espera" ? (
+              <>
+                Sin prisa: piensa lo que necesites <i translate="no">不限时，慢慢想</i>
+              </>
+            ) : (
+              <>
+                Bonus de rapidez <i translate="no">速度奖励</i>
+              </>
+            )}
+          </span>
+          <div className="pm-tiempo" aria-hidden="true">
+            <span className="pm-tiempo__tinta" style={{ transform: `scaleX(${restante})` }} />
+          </div>
         </div>
-        {fase === "prorroga" && <p className="pm-prisa">El pincel ha terminado: ¡última oportunidad! · 画完了，最后机会！</p>}
       </div>
 
       <form className={`pm-respuesta ${tiembla ? "is-tiembla" : ""}`} onSubmit={comprobar}>
@@ -560,7 +587,8 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
             </button>
           ))}
         </div>
-        <p className="pm-nota">Los acentos no cuentan · 重音不扣分 — el artículo es opcional · 冠词可写可不写</p>
+        <p className="pm-nota">Sin artículo, sin acentos, singular o plural: todo vale · 不用写冠词，重音和单复数都不扣分</p>
+        <div className="pm-ayudas">
         {!verOpciones ? (
           <button type="button" className="pm-ver-opciones" onClick={() => setVerOpciones(true)} disabled={!jugando}>
             <ListIcon size={18} aria-hidden="true" /> Ver tres opciones (mitad de puntos) · 看三个选项（得分减半）
@@ -578,6 +606,10 @@ function PartidaSolo({ unidad, rondas, clave, record, onRecord, onSalir, onOtra,
             })}
           </div>
         )}
+        <button type="button" className="pm-rendirse" onClick={() => fallar()} disabled={!jugando}>
+          <EyeIcon size={17} aria-hidden="true" /> Ver la respuesta · 看答案
+        </button>
+        </div>
       </form>
     </div>
   );

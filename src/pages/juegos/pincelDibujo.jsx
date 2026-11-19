@@ -10,17 +10,17 @@ const PUNTA = [-2, -1, 0, 1, 2];
 function Filtros({ id, seco = 0.5 }) {
   return (
     <defs>
-      <filter id={`${id}-borde`} x="-15%" y="-15%" width="130%" height="130%" filterUnits="objectBoundingBox">
+      <filter id={`${id}-borde`} x="-4" y="-4" width="32" height="32" filterUnits="userSpaceOnUse">
         <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="2" seed="7" result="ruido" />
         <feDisplacementMap in="SourceGraphic" in2="ruido" scale="0.38" xChannelSelector="R" yChannelSelector="G" result="movido" />
         <feGaussianBlur in="movido" stdDeviation="0.05" />
       </filter>
-      <filter id={`${id}-sangre`} x="-25%" y="-25%" width="150%" height="150%" filterUnits="objectBoundingBox">
+      <filter id={`${id}-sangre`} x="-4" y="-4" width="32" height="32" filterUnits="userSpaceOnUse">
         <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="2" seed="3" result="ruido" />
         <feDisplacementMap in="SourceGraphic" in2="ruido" scale="0.9" xChannelSelector="R" yChannelSelector="G" result="movido" />
         <feGaussianBlur in="movido" stdDeviation="0.38" />
       </filter>
-      <filter id={`${id}-seco`} x="-10%" y="-10%" width="120%" height="120%" filterUnits="objectBoundingBox">
+      <filter id={`${id}-seco`} x="-4" y="-4" width="32" height="32" filterUnits="userSpaceOnUse">
         <feTurbulence type="fractalNoise" baseFrequency="5 0.6" numOctaves="1" seed="11" result="vetas" />
         <feColorMatrix in="vetas" type="matrix" values={`0 0 0 0 0.96  0 0 0 0 0.91  0 0 0 0 0.8  0 0 0 ${-3.2 * seco} ${1.45 * seco}`} result="papel" />
         <feComposite in="papel" in2="SourceGraphic" operator="in" />
@@ -53,7 +53,7 @@ const ETIQUETAS = { path: "path", circle: "circle", rect: "rect", line: "line", 
  * - terminado: completa el dibujo al instante (el alumno ya acertó).
  * - progresoRef.current: avance 0–1 del dibujo (para puntuar la rapidez).
  */
-export function DibujoTinta({ nodos, duracion = 8000, animar = true, terminado = false, onFin, progresoRef, color = TINTA, pincel = true, className = "", grosor = 1.3 }) {
+export function DibujoTinta({ nodos, duracion = 8000, animar = true, terminado = false, onFin, progresoRef, color = TINTA, pincel = true, className = "", grosor = 1.3, retraso = 0 }) {
   const id = "pm" + React.useId().replace(/[^a-zA-Z0-9]/g, "");
   const svgRef = React.useRef(null);
   const pincelRef = React.useRef(null);
@@ -118,7 +118,12 @@ export function DibujoTinta({ nodos, duracion = 8000, animar = true, terminado =
     let raf = 0;
     let inicio = 0;
     let acabado = false;
+    const arranque = performance.now() + retraso;
     const paso = (ahora) => {
+      if (ahora < arranque && !terminadoRef.current) {
+        raf = requestAnimationFrame(paso);
+        return;
+      }
       if (!inicio) inicio = ahora;
       if (terminadoRef.current) {
         completar();
@@ -234,10 +239,21 @@ export function SelloCae({ texto = "印", fallo = false }) {
   );
 }
 
-/** Pergamino horizontal con rodillos sobre la mesa de laca */
+/** Pergamino horizontal con rodillos sobre la mesa de laca (cae y se desenrolla en 3D con la clase is-abre) */
 export function Pergamino({ children, className = "", estado }) {
+  const ref = React.useRef(null);
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const medir = () => el.style.setProperty("--mitad", `${Math.round(el.clientWidth / 2 - 18)}px`);
+    medir();
+    const ro = new ResizeObserver(medir);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   return (
-    <div className={`pm-pergamino ${className}`} data-estado={estado}>
+    <div ref={ref} className={`pm-pergamino ${className}`} data-estado={estado}>
+      <span className="pm-pergamino__sombra" aria-hidden="true" />
       <span className="pm-rodillo pm-rodillo--izq" aria-hidden="true" />
       <div className="pm-papel">
         <span className="pm-papel__montes" aria-hidden="true" />
@@ -245,6 +261,38 @@ export function Pergamino({ children, className = "", estado }) {
       </div>
       <span className="pm-rodillo pm-rodillo--der" aria-hidden="true" />
     </div>
+  );
+}
+
+/** Estallido de oro cuando el dibujo cobra vida (rayos y chispas que salen hacia la cámara) */
+export function Destello() {
+  return (
+    <span className="pm-destello" aria-hidden="true">
+      <i className="pm-destello__halo" />
+      {Array.from({ length: 12 }, (_, i) => (
+        <i key={`r${i}`} className="pm-destello__rayo" style={{ "--a": `${i * 30}deg` }} />
+      ))}
+      {Array.from({ length: 18 }, (_, i) => (
+        <i key={`c${i}`} className="pm-destello__chispa" style={{ "--a": `${i * 20 + (i % 3) * 7}deg`, "--r": `${90 + (i % 4) * 40}px`, "--z": `${120 + (i % 5) * 60}px`, "--d": `${(i % 6) * 0.04}s` }} />
+      ))}
+    </span>
+  );
+}
+
+/** Farolillos rojos que se balancean en 3D a los lados de la mesa */
+export function Farolillos() {
+  return (
+    <>
+      {["学", "福"].map((t, i) => (
+        <span key={t} className={`pm-farol pm-farol--${i ? "der" : "izq"}`} aria-hidden="true">
+          <i className="pm-farol__cuerda" />
+          <i className="pm-farol__cuerpo" translate="no">
+            <b>{t}</b>
+          </i>
+          <i className="pm-farol__borla" />
+        </span>
+      ))}
+    </>
   );
 }
 
