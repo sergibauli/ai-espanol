@@ -6,6 +6,7 @@ import type { CharacterDef, Difficulty, InputState, RaceSettings, TrackDefinitio
 import { events } from '../core/events';
 import { GAME_TITLE, DEFAULT_LAPS } from '../core/constants';
 import { button, cssHex, cssRgba, el, TextField } from './dom';
+import { PortadaAnimada } from './PortadaAnimada';
 
 export type MenuPanel = 'title' | 'characterSelect' | 'trackSelect';
 
@@ -96,6 +97,8 @@ export class MainMenu {
   private readonly panels: Record<MenuPanel, HTMLElement>;
   private panel: MenuPanel = 'title';
   private visible = false;
+  /** Wukong: portada animada por capas (solo corre con la portada visible). */
+  private readonly portada: PortadaAnimada;
 
   // Character select
   private readonly charCards: HTMLElement[] = [];
@@ -142,6 +145,7 @@ export class MainMenu {
     img.src = ARTE.portada;
     img.alt = `${GAME_TITLE} · 西游极速 · Gran Premio de Palabras · 单词大奖赛`;
     img.draggable = false;
+    this.portada = new PortadaAnimada(arte, img);
     // Interfaz real encima, en las mismas posiciones que en la maqueta.
     const capa = el('div', 'wk-capa', undefined, title);
     const legend = el('div', 'wk-controles', undefined, capa);
@@ -174,6 +178,7 @@ export class MainMenu {
     jade('Circuitos · 赛道选择', 'trackSelect');
     const prompt = el('div', 'press-start wk-enter', undefined, capa);
     el('span', 'press-start-text', 'ENTER O TOCA · 点击开始', prompt);
+    el('span', 'wk-pa-barrido', undefined, prompt);
     el('div', 'version', 'Basado en Turbo Kart Rush de BridgeMind, licencia MIT · 支持手柄', capa);
     title.addEventListener('click', () => {
       if (this.panel === 'title') this.goTo('characterSelect', true);
@@ -322,9 +327,11 @@ export class MainMenu {
   hide(): void {
     this.rootNode.classList.add('hidden');
     this.visible = false;
+    this.portada.stop();
   }
 
   dispose(): void {
+    this.portada.dispose();
     this.rootNode.remove();
   }
 
@@ -397,6 +404,8 @@ export class MainMenu {
         node.classList.add('panel-in');
       }
     }
+    if (this.visible && this.panel === 'title') this.portada.start();
+    else this.portada.stop();
     if (this.panel === 'trackSelect') {
       this.trackRow = 0;
       this.refreshTrackFocus();

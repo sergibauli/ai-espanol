@@ -1,15 +1,15 @@
 /**
- * Post-race standings table with staggered row animation, confetti for a podium
- * finish and Race Again / Change Track / Main Menu actions.
+ * Post-race standings table with staggered row animation and Race Again /
+ * Change Track / Main Menu actions. Wukong: el fondo es el podio animado
+ * (PodioAnimado: dragón en vuelo, fuegos artificiales, confeti) y el puesto
+ * entra con una medalla de oro que golpea el panel.
  */
 import type { InputState, RaceStanding } from '../core/types';
 import { events } from '../core/events';
 import { formatRaceTime, ordinal } from '../core/math';
 import { button, cssHex, el, FocusRing, TextField } from './dom';
 import type { ResumenCarrera } from '../learning/Aprendizaje';
-
-const CONFETTI_COUNT = 56;
-const CONFETTI_COLORS = ['#ffd23f', '#ff3ab8', '#37a8ff', '#7cff6b', '#ff7a2f', '#ffffff'];
+import { PodioAnimado } from './PodioAnimado';
 
 export class ResultsScreen {
   onRaceAgain: (() => void) | null = null;
@@ -22,7 +22,11 @@ export class ResultsScreen {
   private readonly subheading: TextField;
   private readonly table: HTMLElement;
   private readonly palabras: HTMLElement;
-  private readonly confetti: HTMLElement;
+  private readonly podio: PodioAnimado;
+  private readonly medalla: HTMLElement;
+  private readonly medallaNum: TextField;
+  private readonly medallaZh: TextField;
+  private readonly ro: ResizeObserver | null;
   private readonly focus: FocusRing;
   private visible = false;
   /** Wukong: jugadores humanos (pantalla partida). */
@@ -30,8 +34,19 @@ export class ResultsScreen {
 
   constructor(root: HTMLElement) {
     this.rootNode = el('div', 'screen results hidden', undefined, root);
-    this.confetti = el('div', 'confetti', undefined, this.rootNode);
     this.panel = el('div', 'glass panel results-panel', undefined, this.rootNode);
+    this.podio = new PodioAnimado(this.rootNode);
+    this.medalla = el('div', 'wk-medalla', undefined, this.rootNode);
+    this.medalla.setAttribute('aria-hidden', 'true');
+    el('span', 'wk-medalla-rayos', undefined, this.medalla);
+    const disco = el('span', 'wk-medalla-disco', undefined, this.medalla);
+    this.medallaNum = new TextField(el('span', 'wk-medalla-num', '', disco));
+    this.medallaZh = new TextField(el('span', 'wk-medalla-zh', '', disco));
+    el('span', 'wk-medalla-cinta', undefined, this.medalla);
+    // La medalla vive fuera del panel (que tiene scroll) y se engancha a su esquina.
+    this.ro = typeof ResizeObserver === 'function' ? new ResizeObserver(() => this.colocarMedalla()) : null;
+    this.ro?.observe(this.rootNode);
+    this.ro?.observe(this.panel);
     el('div', 'panel-kicker', 'CARRERA TERMINADA · 比赛结束', this.panel);
     this.heading = new TextField(el('h2', 'panel-title results-title', '', this.panel));
     this.subheading = new TextField(el('div', 'results-sub', '', this.panel));
@@ -51,7 +66,6 @@ export class ResultsScreen {
   show(standings: readonly RaceStanding[]): void {
     this.table.replaceChildren();
     this.palabras.replaceChildren();
-    this.confetti.replaceChildren();
     const player = standings.find((s) => s.isPlayer);
     const place = player ? player.place : standings.length;
     const winnerTime = standings.length > 0 ? standings[0].finishTime : 0;
@@ -67,10 +81,13 @@ export class ResultsScreen {
             : 'Carrera dura. ¡A por la revancha! · 比赛不顺，再来复仇！',
     );
     this.panel.classList.toggle('gold', place === 1);
+    this.medallaNum.set(ordinal(place));
+    this.medallaZh.set(`第${place}名`);
+    this.medalla.className = `wk-medalla ${place === 1 ? 'oro' : place === 2 ? 'plata' : place === 3 ? 'bronce' : 'laca'}`;
 
     standings.forEach((s, i) => {
       const row = el('div', 'standing-row', undefined, this.table);
-      row.style.animationDelay = `${0.12 + i * 0.09}s`;
+      row.style.animationDelay = `${0.75 + i * 0.11}s`;
       if (s.isPlayer) row.classList.add('you');
       if (s.place <= 3) row.classList.add(`podium-${s.place}`);
       el('span', 'standing-place', ordinal(s.place), row);
@@ -87,14 +104,22 @@ export class ResultsScreen {
       el('span', 'standing-time', label, row);
     });
 
-    if (place <= 3) this.spawnConfetti();
-
     this.focus.set(0);
     this.rootNode.classList.remove('hidden');
     this.panel.classList.remove('panel-in');
     void this.panel.offsetWidth;
     this.panel.classList.add('panel-in');
     this.visible = true;
+    this.colocarMedalla();
+    this.podio.start(place, this.medalla);
+  }
+
+  /** Esquina superior izquierda del panel (sin contar su animación de entrada). */
+  private colocarMedalla(): void {
+    if (!this.visible) return;
+    const m = this.medalla.style;
+    m.left = `${Math.max(4, this.panel.offsetLeft - 26)}px`;
+    m.top = `${Math.max(4, this.panel.offsetTop - 30)}px`;
   }
 
   /** Wukong Español: words answered right / wrong during the race, with translation. */
@@ -126,7 +151,7 @@ export class ResultsScreen {
 
   hide(): void {
     this.rootNode.classList.add('hidden');
-    this.confetti.replaceChildren();
+    this.podio.stop();
     this.visible = false;
   }
 
@@ -142,6 +167,8 @@ export class ResultsScreen {
   }
 
   dispose(): void {
+    this.ro?.disconnect();
+    this.podio.dispose();
     this.rootNode.remove();
   }
 
@@ -150,18 +177,5 @@ export class ResultsScreen {
     if (i === 0) this.onRaceAgain?.();
     else if (i === 1) this.onChangeTrack?.();
     else this.onMainMenu?.();
-  }
-
-  private spawnConfetti(): void {
-    for (let i = 0; i < CONFETTI_COUNT; i++) {
-      const piece = el('span', 'confetti-piece', undefined, this.confetti);
-      piece.style.left = `${Math.random() * 100}%`;
-      piece.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
-      piece.style.animationDelay = `${Math.random() * 2.5}s`;
-      piece.style.animationDuration = `${3 + Math.random() * 2.5}s`;
-      piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-      piece.style.width = `${6 + Math.random() * 8}px`;
-      piece.style.height = `${10 + Math.random() * 10}px`;
-    }
   }
 }
