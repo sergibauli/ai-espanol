@@ -20,6 +20,7 @@ import { events } from '../core/events';
 import { GRAVITY, ITEM_BOX_RESPAWN_SECONDS, ITEM_ROULETTE_SECONDS, KART_RADIUS } from '../core/constants';
 import { TAU, clamp, lerp, trackDelta, wrap01 } from '../core/math';
 import { baseItemType, buildItemMesh, disposeItemVisualCaches } from './itemVisuals';
+import { LanternBoxes } from './lanternBoxes';
 
 // ---------------------------------------------------------------------------
 // Tuning
@@ -27,7 +28,6 @@ import { baseItemType, buildItemMesh, disposeItemVisualCaches } from './itemVisu
 
 const MAX_HAZARDS = 40;
 const OWNER_GRACE = 0.35;
-const BOX_SIZE = 0.95;
 const BOX_HOVER = 1.05;
 const BOX_PICKUP_RADIUS = KART_RADIUS + 0.9;
 const BOX_SCALE_IN = 0.4;
@@ -146,10 +146,6 @@ const _v3 = new THREE.Vector3();
 const _fwd = new THREE.Vector3();
 const _right = new THREE.Vector3();
 const _up = new THREE.Vector3(0, 1, 0);
-const _q = new THREE.Quaternion();
-const _e = new THREE.Euler();
-const _m = new THREE.Matrix4();
-const _scale = new THREE.Vector3();
 
 function makeQuery(): SurfaceQuery {
   return {
@@ -183,53 +179,6 @@ const _query2 = makeQuery();
 const _sample = makeSample();
 const _sample2 = makeSample();
 
-const BOX_VERT = /* glsl */ `
-varying vec3 vNormal;
-varying vec3 vViewDir;
-varying vec3 vWorldPos;
-void main() {
-  mat4 model = modelMatrix;
-  #ifdef USE_INSTANCING
-    model = modelMatrix * instanceMatrix;
-  #endif
-  vec4 worldPos = model * vec4(position, 1.0);
-  vNormal = normalize(mat3(model) * normal);
-  vWorldPos = worldPos.xyz;
-  vViewDir = normalize(cameraPosition - worldPos.xyz);
-  gl_Position = projectionMatrix * viewMatrix * worldPos;
-}
-`;
-
-const BOX_FRAG = /* glsl */ `
-uniform float uTime;
-varying vec3 vNormal;
-varying vec3 vViewDir;
-varying vec3 vWorldPos;
-vec3 hsv2rgb(vec3 c) {
-  vec3 p = abs(fract(c.xxx + vec3(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0);
-  return c.z * mix(vec3(1.0), clamp(p - 1.0, 0.0, 1.0), c.y);
-}
-void main() {
-  vec3 n = normalize(vNormal);
-  vec3 v = normalize(vViewDir);
-  float ndv = abs(dot(n, v));
-  float fres = pow(1.0 - ndv, 2.2);
-  // Wukong: farolillo de laca roja con nervios dorados que late (no un cubo arcoíris).
-  float ang = atan(n.z, n.x);
-  float nervio = smoothstep(0.86, 0.98, abs(cos(ang * 4.0)));
-  float banda = smoothstep(0.78, 0.9, abs(n.y));
-  float pulso = 0.85 + 0.15 * sin(uTime * 4.0 + vWorldPos.x + vWorldPos.z);
-  vec3 rojo = vec3(1.0, 0.1, 0.06) * pulso;
-  vec3 oro = vec3(1.0, 0.78, 0.3);
-  vec3 col = mix(rojo, oro, max(nervio, banda));
-  col = mix(col, vec3(1.0, 0.85, 0.5), fres * 0.45);
-  float alpha = 0.82 + fres * 0.15;
-  gl_FragColor = vec4(col * 1.1, alpha);
-  #include <tonemapping_fragment>
-  #include <colorspace_fragment>
-}
-`;
-
 let nextHazardId = 1;
 
 export class ItemManager implements IItemManager {
@@ -255,16 +204,8 @@ export class ItemManager implements IItemManager {
   private readonly boxOut: THREE.Vector3[] = [];
   private rowTs: number[] = [];
 
-  private boxMesh: THREE.InstancedMesh | null = null;
-  private innerMesh: THREE.InstancedMesh | null = null;
-  private ringMesh: THREE.InstancedMesh | null = null;
-  private boxMaterial: THREE.ShaderMaterial | null = null;
-  private innerMaterial: THREE.MeshBasicMaterial | null = null;
-  private ringMaterial: THREE.MeshBasicMaterial | null = null;
-  private boxGeometry: THREE.BufferGeometry | null = null;
-  private innerGeometry: THREE.BufferGeometry | null = null;
-  private ringGeometry: THREE.BufferGeometry | null = null;
-  private questionTexture: THREE.CanvasTexture | null = null;
+  /** Silk-lantern visuals of the item boxes (see lanternBoxes.ts). */
+  private lanterns: LanternBoxes | null = null;
 
   /**
    * Wukong Español: when set, every item box the player collects opens a quick
@@ -374,97 +315,14 @@ export class ItemManager implements IItemManager {
       });
     }
 
-    const n = this.boxes.length;
-    this.boxGeometry = new THREE.SphereGeometry(BOX_SIZE * 0.6, 20, 14);
-    this.boxGeometry.scale(1, 0.88, 1);
-    this.boxMaterial = new THREE.ShaderMaterial({
-      vertexShader: BOX_VERT,
-      fragmentShader: BOX_FRAG,
-      uniforms: { uTime: { value: 0 } },
-      transparent: true,
-      depthWrite: false,
-      side: THREE.FrontSide,
-    });
-    this.boxMesh = new THREE.InstancedMesh(this.boxGeometry, this.boxMaterial, n);
-    this.boxMesh.frustumCulled = false;
-    this.boxMesh.renderOrder = 3;
-    this.boxMesh.name = 'itemBoxes';
-    this.object.add(this.boxMesh);
-
-    this.questionTexture = this.makeQuestionTexture();
-    this.innerGeometry = new THREE.CylinderGeometry(0.42, 0.42, 0.5, 4, 1, true);
-    this.innerMaterial = new THREE.MeshBasicMaterial({
-      map: this.questionTexture,
-      side: THREE.DoubleSide,
-      transparent: true,
-      depthWrite: false,
-      toneMapped: false,
-    });
-    this.innerMesh = new THREE.InstancedMesh(this.innerGeometry, this.innerMaterial, n);
-    this.innerMesh.frustumCulled = false;
-    this.innerMesh.renderOrder = 2;
-    this.innerMesh.name = 'itemBoxQuestion';
-    this.object.add(this.innerMesh);
-
-    this.ringGeometry = new THREE.RingGeometry(0.55, 1.0, 24);
-    this.ringMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffc531,
-      transparent: true,
-      opacity: 0.4,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    });
-    this.ringMesh = new THREE.InstancedMesh(this.ringGeometry, this.ringMaterial, n);
-    this.ringMesh.frustumCulled = false;
-    this.ringMesh.renderOrder = 1;
-    this.ringMesh.name = 'itemBoxRings';
-    this.object.add(this.ringMesh);
-
-    this.updateBoxMatrices();
-  }
-
-  private makeQuestionTexture(): THREE.CanvasTexture {
-    const canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 128;
-    const ctx = canvas.getContext('2d');
-    if (ctx) {
-      ctx.clearRect(0, 0, 128, 128);
-      ctx.font = '900 92px "PingFang SC","Noto Sans CJK SC","Microsoft YaHei",serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.lineWidth = 10;
-      ctx.lineJoin = 'round';
-      ctx.strokeStyle = '#5a0610';
-      ctx.strokeText('字', 64, 68);
-      ctx.fillStyle = '#ffe9a8';
-      ctx.fillText('字', 64, 68);
-    }
-    const t = new THREE.CanvasTexture(canvas);
-    t.colorSpace = THREE.SRGBColorSpace;
-    return t;
+    this.lanterns = new LanternBoxes(this.boxes.length);
+    this.object.add(this.lanterns.object);
+    this.lanterns.update(0, this.time, this.boxes);
   }
 
   private disposeBoxes(): void {
-    if (this.boxMesh) this.object.remove(this.boxMesh);
-    if (this.innerMesh) this.object.remove(this.innerMesh);
-    if (this.ringMesh) this.object.remove(this.ringMesh);
-    this.boxMesh?.dispose();
-    this.innerMesh?.dispose();
-    this.ringMesh?.dispose();
-    this.boxGeometry?.dispose();
-    this.innerGeometry?.dispose();
-    this.ringGeometry?.dispose();
-    this.boxMaterial?.dispose();
-    this.innerMaterial?.dispose();
-    this.ringMaterial?.dispose();
-    this.questionTexture?.dispose();
-    this.boxMesh = this.innerMesh = this.ringMesh = null;
-    this.boxGeometry = this.innerGeometry = this.ringGeometry = null;
-    this.boxMaterial = null;
-    this.innerMaterial = this.ringMaterial = null;
-    this.questionTexture = null;
+    this.lanterns?.dispose();
+    this.lanterns = null;
   }
 
   private updateBoxes(dt: number): void {
@@ -481,7 +339,7 @@ export class ItemManager implements IItemManager {
       }
       b.world.set(b.base.x, b.groundY + BOX_HOVER + Math.sin(this.time * 2.1 + b.phase) * 0.12, b.base.z);
     }
-    this.updateBoxMatrices();
+    this.lanterns?.update(dt, this.time, this.boxes);
 
     // pickups
     for (const rec of this.records) {
@@ -516,41 +374,10 @@ export class ItemManager implements IItemManager {
         }
         this.debugCounts.pickup++;
         events.emit('item:pickup', { kartId: s.id, position: b.world.clone(), isPlayer: s.isPlayer });
-        this.particles?.emit('itemBoxBurst', b.world);
+        // the ParticleSystem plays 'itemBoxBurst' from the 'item:pickup' event
         break;
       }
     }
-  }
-
-  private updateBoxMatrices(): void {
-    if (!this.boxMesh || !this.innerMesh || !this.ringMesh) return;
-    if (this.boxMaterial) this.boxMaterial.uniforms.uTime.value = this.time;
-    const pulse = 0.85 + Math.sin(this.time * 3) * 0.15;
-    for (let i = 0; i < this.boxes.length; i++) {
-      const b = this.boxes[i];
-      const sc = b.active ? easeOutBack(b.scale) : 0;
-      _e.set(0, this.time * 1.3 + b.phase * 2, Math.sin(this.time * 2 + b.phase) * 0.12);
-      _q.setFromEuler(_e);
-      _scale.setScalar(sc);
-      _m.compose(b.world, _q, _scale);
-      this.boxMesh.setMatrixAt(i, _m);
-
-      _e.set(0, -this.time * 1.6 + b.phase, 0);
-      _q.setFromEuler(_e);
-      _scale.setScalar(sc);
-      _m.compose(b.world, _q, _scale);
-      this.innerMesh.setMatrixAt(i, _m);
-
-      _v1.set(b.base.x, b.groundY + 0.03, b.base.z);
-      _e.set(-Math.PI / 2, 0, this.time * 0.5);
-      _q.setFromEuler(_e);
-      _scale.setScalar(b.active ? pulse * (0.6 + 0.4 * b.scale) : pulse * 0.5);
-      _m.compose(_v1, _q, _scale);
-      this.ringMesh.setMatrixAt(i, _m);
-    }
-    this.boxMesh.instanceMatrix.needsUpdate = true;
-    this.innerMesh.instanceMatrix.needsUpdate = true;
-    this.ringMesh.instanceMatrix.needsUpdate = true;
   }
 
   getActiveBoxPositions(): readonly THREE.Vector3[] {
@@ -1368,11 +1195,4 @@ export class ItemManager implements IItemManager {
     for (const h of this.hazards) if (!h.hidden) this.hazardOut.push(h);
     return this.hazardOut;
   }
-}
-
-function easeOutBack(x: number): number {
-  const c1 = 1.70158;
-  const c3 = c1 + 1;
-  const t = x - 1;
-  return 1 + c3 * t * t * t + c1 * t * t;
 }
