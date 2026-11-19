@@ -8,7 +8,7 @@ import numpy as np
 
 import arquitectura as ar
 import sprites as sp
-from pincel import (H, W, Capa, Lienzo, borde, cielo, cirros, col, desenfoca, mezcla, niebla, nube, perfil_picos, reflejo_capa, ruido1, sierra,
+from pincel import (H, W, nube_suelta, Capa, Lienzo, borde, cielo, cirros, col, desenfoca, mezcla, niebla, nube, perfil_picos, reflejo_capa, ruido1, sierra,
                     spline, suave, volumen)
 
 LUZ = -1
@@ -18,7 +18,7 @@ SOL = (310, 300)
 def karst(C, picos, base, *, lit, sombra, aire, aire_f, seed, verde=None, niebla_pie=None, filo=0.6, rug=8):
     pf = perfil_picos(C.L, picos, forma="karst", rug=rug, seed=seed, base=base)
     sierra(C, pf, base, luz=LUZ, lit=lit, sombra=sombra, aire=aire, aire_f=aire_f, filo=filo, filo_c="#fff8e0", niebla_pie=niebla_pie, seed=seed,
-           estrias=1.5, karst=True, roca="#c8c0a8", textura=0.14)
+           estrias=1.5, karst=True, roca="#c8c0a8", textura=0.14, verde=verde)
     if verde:
         # vegetación en repisas y cumbres: manchas verdes donde el relieve es «plano»
         L = C.L
@@ -84,7 +84,7 @@ def pinta(M):
         ([(70, 590, 62), (200, 565, 54), (330, 600, 60), (600, 575, 62), (730, 600, 54), (860, 570, 64), (1000, 590, 58), (1110, 560, 54)], 740, "#dce6e2", 0.36),
     ]
     for k, (picos, base, aire, f) in enumerate(filas):
-        karst(C, picos, base, lit="#b8d0c4", sombra="#6f8f94", aire=aire, aire_f=f, seed=200 + k * 7, niebla_pie=("#eef3ec", 70, 0.95), filo=0.5, rug=6)
+        karst(C, picos, base, lit="#b8d0c4", sombra="#6f8f94", aire=aire, aire_f=f, seed=200 + k * 7, niebla_pie=("#eef3ec", 70, 0.95), filo=0.5, rug=11)
         niebla(C, base - 10, 28, "#f2f6ee", 0.8, 210 + k)
     C.tiñe("#fff2d0", np.exp(-(((X - sx) / 400) ** 2 + ((Y - sy - 200) / 240) ** 2)) * 0.4)
     M.capa("lejos", C, 0.14)
@@ -92,7 +92,7 @@ def pinta(M):
     # ------------------------------------------------------------ 2 · picos medios con pagoda y cascada
     C = Capa(L)
     picos = [(-10, 600, 90), (120, 650, 70), (250, 590, 85), (400, 680, 60), (700, 640, 80), (840, 590, 96), (990, 650, 80), (1100, 610, 90)]
-    pf = karst(C, picos, 880, lit="#a8cca8", sombra="#3f6a5e", aire="#d6e4dc", aire_f=0.16, seed=230, verde=("#2f5a3a", "#8cbc6a"), niebla_pie=("#eef3ec", 150, 0.9), filo=0.8, rug=9)
+    pf = karst(C, picos, 880, lit="#a8cca8", sombra="#3f6a5e", aire="#d6e4dc", aire_f=0.16, seed=230, verde=("#2f5a3a", "#8cbc6a"), niebla_pie=("#eef3ec", 150, 0.9), filo=0.8, rug=18)
     # pagoda de piedra en lo alto del pico de x≈250
     pg, (gbx, gby) = ar.salon(34, aleros=3, luz=LUZ, teja=("#2a2a24", "#5a5a4a", "#c8c0a0"), terrazas=1, marmol=("#6a6050", "#c8b898"), rojo=("#4a3a30", "#a88a60"), ncol=3, seed=31)
     C.pega(pg, 250 - gbx, float(pf[250]) + 6 - gby)
@@ -168,6 +168,11 @@ def pinta(M):
     sp.grulla(M.ruta("garza-b.webp"), 1, luz=LUZ)
     for i, (dx, dy, s) in enumerate(((0, 0, 0.6), (50, 22, 0.5), (96, 10, 0.45))):
         M.actor("picos", "garza-a.webp", 1120 + dx, 560 + dy, 60 * s, 35 * s, "vuelo", dur=52, retraso=-30 - i * 0.2, dx=-150, dy=-3, aleteo=1.0 + i * 0.1, src2=f"{M.nivel}/garza-b.webp", movil=i < 2)
+    # segunda cascada lejana y nubes sueltas que derivan
+    M.actor("picos", "cascada.webp", 118, float(pf[120]) + 60, 10, 110, "cascada", dur=2.0, movil=False)
+    for i, (x, y, w, h, dur, dx) in enumerate(((40, 120, 320, 90, 180, 26), (640, 60, 380, 100, 220, -20), (360, 420, 300, 60, 130, 18))):
+        nw, nh = nube_suelta(M, f"nube{i}.webp", w, h, 500 + i, sx - x - 200, sy - y, "#ffffff", "#a8bcc8", "#fff6d8", base_c="#c8d4d4", op=0.85)
+        M.actor("cielo", f"nube{i}.webp", x, y, nw, nh, "deriva", dur=dur, retraso=-dur * 0.3 * i, dx=dx, movil=i < 2)
     M.niebla("lejos", "blanca", 38, 10, 0.8, 160)
     M.niebla("picos", "blanca", 53, 9, 0.75, 110, inversa=True)
     M.niebla("terrazas", "blanca", 66, 9, 0.5, 90, movil=False)
