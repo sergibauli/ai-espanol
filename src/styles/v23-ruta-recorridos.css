@@ -5,11 +5,11 @@
 
 /* ---------- Medallones ---------- */
 .md-medallon { position: relative; display: grid; place-items: center; width: var(--md); height: var(--md); flex: none; }
-.md-medallon > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(0 12px 10px rgba(30,10,0,.38)); transition: filter 260ms; }
-.md-hecha > svg { filter: drop-shadow(0 0 7px rgba(255,214,110,.9)) drop-shadow(0 4px 0 #7a4d12) drop-shadow(0 12px 10px rgba(30,10,0,.38)); }
-.md-actual > svg { filter: drop-shadow(0 0 10px rgba(140,255,190,.95)) drop-shadow(0 0 22px rgba(242,193,78,.75)) drop-shadow(0 5px 0 #6e4210) drop-shadow(0 14px 12px rgba(0,30,10,.4)); }
-.md-abierta > svg { filter: drop-shadow(0 0 6px rgba(255,120,110,.6)) drop-shadow(0 4px 0 #6e4210) drop-shadow(0 12px 10px rgba(30,10,0,.38)); }
-.md-cerrada > svg { filter: drop-shadow(0 4px 0 #2a1a0c) drop-shadow(0 10px 8px rgba(20,10,0,.4)); }
+.md-medallon > svg.md3-cara { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(0 12px 10px rgba(30,10,0,.38)); transition: filter 260ms; }
+.md-hecha > svg.md3-cara { filter: drop-shadow(0 0 7px rgba(255,214,110,.9)) drop-shadow(0 4px 0 #7a4d12) drop-shadow(0 12px 10px rgba(30,10,0,.38)); }
+.md-actual > svg.md3-cara { filter: drop-shadow(0 0 10px rgba(140,255,190,.95)) drop-shadow(0 0 22px rgba(242,193,78,.75)) drop-shadow(0 5px 0 #6e4210) drop-shadow(0 14px 12px rgba(0,30,10,.4)); }
+.md-abierta > svg.md3-cara { filter: drop-shadow(0 0 6px rgba(255,120,110,.6)) drop-shadow(0 4px 0 #6e4210) drop-shadow(0 12px 10px rgba(30,10,0,.38)); }
+.md-cerrada > svg.md3-cara { filter: drop-shadow(0 4px 0 #2a1a0c) drop-shadow(0 10px 8px rgba(20,10,0,.4)); }
 .md-icono { position: relative; z-index: 1; display: grid; place-items: center; line-height: 1; }
 .md-hecha .md-icono { color: #8f0c21; filter: drop-shadow(0 1px 0 #fff6c8) drop-shadow(0 -1px 0 rgba(90,50,10,.35)); }
 .md-actual .md-icono { filter: drop-shadow(0 3px 2px rgba(0,40,20,.55)); animation: mdIcono 2.6s ease-in-out infinite; }
@@ -21,11 +21,11 @@
 .md-hecha .md-brillo::before, .md-actual .md-brillo::before { animation: rpBrilloLento 5.5s linear infinite; }
 .md-actual .md-brillo::before { animation-duration: 3.4s; }
 .rt22 .path-node:not(.locked):is(:hover, :focus-visible) .md-brillo::before { animation: rpBrillo 650ms cubic-bezier(.2,.8,.3,1); }
-.rt22 .path-node:not(.locked):is(:hover, :focus-visible) .md-medallon > svg { filter: drop-shadow(0 0 10px rgba(255,226,140,1)) drop-shadow(0 0 22px rgba(242,193,78,.7)) drop-shadow(0 4px 0 #6e4210) drop-shadow(0 16px 12px rgba(30,10,0,.32)); }
+.rt22 .path-node:not(.locked):is(:hover, :focus-visible) .md-medallon > svg.md3-cara { filter: drop-shadow(0 0 10px rgba(255,226,140,1)) drop-shadow(0 0 22px rgba(242,193,78,.7)) drop-shadow(0 4px 0 #6e4210) drop-shadow(0 16px 12px rgba(30,10,0,.32)); }
 /* Pulsar: se hunde en la peana y rebota al soltar */
 .rt22 .ruta-camino .path-node:active .rp-moneda, .rt22 .ruta-camino .rp-cofre:active .rp-moneda { transform: translateY(4px) scale(.9) !important; transition-duration: 70ms; }
 .rt22 .ruta-camino .path-node:active ~ .rp-peana { transform: scale(.94); }
-.rt22 .path-node.locked:hover .md-medallon > svg { filter: drop-shadow(0 4px 0 #2a1a0c) drop-shadow(0 10px 8px rgba(20,10,0,.4)) brightness(1.06); }
+.rt22 .path-node.locked:hover .md-medallon > svg.md3-cara { filter: drop-shadow(0 4px 0 #2a1a0c) drop-shadow(0 10px 8px rgba(20,10,0,.4)) brightness(1.06); }
 
 /* Sello rojo de clase hecha: se estampa al aparecer */
 .md-sello { position: absolute; z-index: 3; right: -12px; bottom: 2px; display: grid; place-items: center; width: 36px; height: 36px; rotate: -12deg; border-radius: 6px;
@@ -84,9 +84,9 @@
   .md-sello { width: 30px; height: 30px; right: -9px; } .md-sello span { font-size: 18px; }
   .rt22 .rp-parada .rp-empezar { margin-bottom: 28px; padding: 6px 16px 6px 6px; font-size: 14px; }
   .rp-emp-play { width: 28px; height: 28px; } .rp-emp-zh { font-size: 18px; }
-  .md-medallon > svg, .md-cofre > svg { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(0 8px 6px rgba(30,10,0,.3)); }
-  .md-actual > svg { filter: drop-shadow(0 0 10px rgba(140,255,190,.95)) drop-shadow(0 5px 0 #6e4210); }
-  .md-hecha > svg { filter: drop-shadow(0 0 6px rgba(255,214,110,.9)) drop-shadow(0 4px 0 #7a4d12); }
+  .md-medallon > svg.md3-cara, .md-cofre > svg { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(0 8px 6px rgba(30,10,0,.3)); }
+  .md-actual > svg.md3-cara { filter: drop-shadow(0 0 10px rgba(140,255,190,.95)) drop-shadow(0 5px 0 #6e4210); }
+  .md-hecha > svg.md3-cara { filter: drop-shadow(0 0 6px rgba(255,214,110,.9)) drop-shadow(0 4px 0 #7a4d12); }
 }
 
 /* ---------- Sin movimiento ---------- */

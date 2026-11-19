@@ -12,7 +12,7 @@
 .ru-medallon .ru-pictograma { color: #6e4210; filter: drop-shadow(0 1px 0 rgba(255,246,200,.85)) drop-shadow(0 -1px 0 rgba(60,30,0,.35)); }
 
 /* ---------- Bloqueadas: más pequeñas, bronce con verdín apagado, sin aura ---------- */
-.rt22 .ruta-camino .path-node.locked .md-medallon > svg { filter: saturate(.55) brightness(.92) drop-shadow(0 3px 0 #1a1c16) drop-shadow(0 7px 6px rgba(10,10,0,.35)); }
+.rt22 .ruta-camino .path-node.locked .md-medallon > svg.md3-cara { filter: saturate(.55) brightness(.92) drop-shadow(0 3px 0 #1a1c16) drop-shadow(0 7px 6px rgba(10,10,0,.35)); }
 .rt22 .ruta-camino .path-node.locked .ruta-clase-sello { opacity: .82; filter: saturate(.4); }
 .rt22 .ruta-camino .rp-parada.locked .ruta-clase-anillo { display: none; }
 

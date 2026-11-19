@@ -1,6 +1,7 @@
 import * as React from "react";
 import { MonoNube } from "../../../packages/imperial/src/index.js";
 import { ANCHO_CARRIL, tramo } from "./geometria.js";
+import { colocarEn, proyectarEn } from "./camara3d.js";
 
 /*
   El Rey Mono en su nube (筋斗云) viaja por la curva del camino.
@@ -48,7 +49,9 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
   const separacion = tamano * 0.8;
   const ladoDe = (p) => (p[0] > ANCHO_CARRIL / 2 ? -1 : 1);
   // v26 · En reposo pisa el camino justo después de la parada, hacia la siguiente (lado según la siguiente curva)
-  const reposo = (p) => (reposoEn && p === hasta ? [reposoEn[0] + (reposoEn[0] >= p[0] ? 1 : -1) * tamano * 0.3, reposoEn[1] - tamano * 0.1] : [p[0] + ladoDe(p) * separacion, p[1] + tamano * 0.12]);
+  const reposo = (p) => (reposoEn && p === hasta ? reposoEn : [p[0] + ladoDe(p) * separacion, p[1] + tamano * 0.12]);
+  // v27 · Mira siempre hacia la parada junto a la que descansa
+  const mirarA = (p) => (reposo(p)[0] > p[0] ? -1 : 1);
 
   React.useEffect(() => {
     const mover = refMover.current;
@@ -57,7 +60,8 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
     const salto = refSalto.current;
     if (!mover) return undefined;
     const fijar = (x, y, grados = 0) => {
-      mover.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+      // v27 · Cartel de pie en el tablero 3D: posición proyectada y escala por profundidad (la cámara lo recoloca)
+      colocarEn(mover, x, y, "libre");
       inclina.style.transform = `rotate(${grados.toFixed(2)}deg)`;
     };
     const mirar = (sentido) => (giro.style.transform = `scaleX(${sentido})`);
@@ -67,7 +71,7 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
     // Ya está en su sitio (re-render sin cambio de parada)
     if (!salida && igual(posicion.current, hasta)) {
       fijar(llegada[0], llegada[1]);
-      mirar(-ladoDe(hasta));
+      mirar(mirarA(hasta));
       return undefined;
     }
     const previa = posicion.current;
@@ -75,7 +79,7 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
     posicion.current = hasta;
     if (sinMovimiento() || igual(origen, hasta)) {
       fijar(llegada[0], llegada[1]);
-      mirar(-ladoDe(hasta));
+      mirar(mirarA(hasta));
       if (salida) mover.style.opacity = "0";
       avisar.current?.();
       return undefined;
@@ -107,7 +111,8 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
       if (!chispa?.animate) return;
       const bx = x - sentido * tamano * 0.25 + (Math.random() - 0.5) * tamano * 0.4;
       const by = y + tamano * 0.42 + (Math.random() - 0.5) * 14;
-      const base = `translate3d(${bx.toFixed(1)}px, ${by.toFixed(1)}px, 0)`;
+      const pp = proyectarEn(mover, bx, by);
+      const base = `translate3d(${pp.x.toFixed(1)}px, ${pp.y.toFixed(1)}px, 0)`;
       const escala = 0.6 + Math.random() * 0.9;
       chispa.animate(
         [
@@ -161,7 +166,7 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
         else avisar.current?.();
         return;
       }
-      mirar(-ladoDe(hasta));
+      mirar(mirarA(hasta));
       mover.classList.add("aterriza");
       setContento(true);
       avisar.current?.();

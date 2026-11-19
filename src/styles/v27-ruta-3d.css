@@ -1,0 +1,210 @@
+/* ===== v27 · Ruta en 3D (components/ruta/camara3d.js) =====
+   Cada unidad es un tablero inclinado en perspectiva (.r3-suelo) con carteles de pie (medallones, pabellón, Rey Mono)
+   colocados en su punto proyectado. Medallones = monedas 3D con canto real. Ficha de clase en portal.
+   Solo se anima transform y opacity; todo quieto con prefers-reduced-motion. */
+
+/* ---------- Tablero ---------- */
+.r3-on .ruta-camino.r3-tablero { position: relative; }
+.r3-suelo { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 0; transform-origin: 0 0; will-change: transform; pointer-events: none; backface-visibility: hidden; }
+.rt22 .r3-suelo > img.ru-tramo { position: absolute; z-index: 0; left: 50%; top: -70px; width: 760px; max-width: none; translate: -50% 0; pointer-events: none; user-select: none; }
+.r3-suelo > svg.r24 { position: absolute; inset: 0; overflow: visible; pointer-events: none; z-index: 1; }
+.r3-suelo > svg.ruta-carretera { position: absolute; inset: 0; overflow: visible; pointer-events: none; z-index: 1; }
+.r3-suelo > .rc-huella, .r3-suelo > .rc-brillo-camino { z-index: 2; }
+/* Carteles de pie: el director de cámara escribe su transform (posición proyectada + escala por profundidad) */
+.r3-on .ruta-camino > .ruta-node-wrap, .r3-on .ruta-camino > .rp-cofre { left: 0 !important; top: 0 !important; transform-origin: 50% 50%; will-change: transform; }
+.r3-on .ruta-camino > .ruta-node-wrap.locked { z-index: 3; }
+.r3-on .ruta-camino > .ruta-node-wrap.done, .r3-on .ruta-camino > .ruta-node-wrap.open { z-index: 4; }
+.r3-on .ruta-camino > .rp-cofre { z-index: 2; }
+.r3-on .ruta-camino > .ruta-node-wrap.actual { z-index: 8; }
+.r3-on .ruta-camino > .rv { transform-origin: 0 0; will-change: transform; z-index: 9; }
+
+/* Sombras de contacto en el suelo (la inclinación las aplasta en elipse), al lado contrario de la luz del nivel */
+.r3-sombra { position: absolute; z-index: 1; width: 104px; height: 70px; margin: -22px 0 0 -52px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(18,12,30,.5), rgba(18,12,30,.22) 55%, transparent); translate: var(--sx, -10px) 10px; }
+.r3-sombra.templo { width: 280px; height: 150px; margin: 10px 0 0 -140px; background: radial-gradient(closest-side, rgba(18,12,30,.42), rgba(18,12,30,.16) 60%, transparent); }
+.map-A1 .r3-sombra { --sx: -16px; } .map-A2 .r3-sombra { --sx: 16px; } .map-B1 .r3-sombra { --sx: -8px; background: radial-gradient(closest-side, rgba(0,4,16,.6), transparent); } .map-B2 .r3-sombra { --sx: 14px; }
+@media (max-width: 700px) { .r3-sombra { width: 88px; height: 58px; margin: -18px 0 0 -44px; } .r3-sombra.templo { width: 230px; height: 120px; margin-left: -115px; } }
+
+/* El tablero respira hacia la cámara con su propia niebla de lejanía (arriba = lejos) */
+.r3-on .ruta-camino-wrap::before { opacity: .35; }
+
+/* ---------- Paisaje: parallax por puntero / inclinación y profundidad de campo ---------- */
+.r3-on .mr25 .mr-lienzo > img.mr-lejos { transform: translate3d(calc(var(--cam-x, 0) * -8px), calc(var(--cam-y, 0) * -5px), 0) scale(1.03); }
+.r3-on .mr25 .mr-lienzo > img.mr-medio { transform: translate3d(calc(var(--cam-x, 0) * -18px), calc(var(--cam-y, 0) * -10px), 0) scale(1.04); }
+.r3-on .mr25 .mr-lienzo > img.mr-cerca { transform: translate3d(calc(var(--cam-x, 0) * -32px), calc(var(--cam-y, 0) * -16px), 0) scale(1.06); }
+.r3-on .mr25 .mr-particulas-canvas { transform: translate3d(calc(var(--cam-x, 0) * -22px), calc(var(--cam-y, 0) * -12px), 0); }
+@media (min-width: 701px) and (hover: hover) {
+  .r3-on .mr25 .mr-lienzo > img.mr-lejos { filter: blur(2px) saturate(.92); }
+  .r3-on .mr25 .mr-lienzo > img.mr-medio { filter: blur(.8px); }
+  .r3-on .mr25 .mr-tira.t1 { filter: blur(1.5px); }
+}
+
+/* ---------- Medallón = moneda 3D con canto ---------- */
+.md3 { transform-style: preserve-3d; transform: perspective(560px) rotateX(calc(12deg + var(--rx, 0deg))) rotateY(var(--ry, 0deg)); transition: transform 520ms cubic-bezier(.2,.9,.3,1.2); }
+.md3.md3-mira { transition-duration: 90ms; }
+.md3 > .md3-capa { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: translateZ(calc(var(--md) * -.0135 * var(--i))); pointer-events: none; }
+.md3 > .md3-dorso { position: absolute; inset: 0; width: 100%; height: 100%; transform: translateZ(calc(var(--md) * -.115)) rotateY(180deg); backface-visibility: hidden; }
+.md3 > svg.md3-cara { transform: translateZ(.5px); backface-visibility: hidden; }
+.md3 > .md-icono { translate: 0 0 calc(var(--md) * .03); backface-visibility: hidden; }
+.md3 > .md-brillo { translate: 0 0 calc(var(--md) * .035); backface-visibility: hidden; }
+.md-cerrada.md3 > .md3-dorso { transform: translateZ(calc(var(--md) * -.072)) rotateY(180deg); }
+/* Reflejo especular que sigue al puntero */
+.md3 > .md-brillo::after { content: ""; position: absolute; inset: -10%; border-radius: 50%; pointer-events: none; opacity: .75; mix-blend-mode: soft-light;
+  background: radial-gradient(circle at var(--mx, 32%) var(--my, 24%), rgba(255,255,255,.95), rgba(255,255,255,.25) 22%, transparent 48%); transition: opacity 300ms; }
+.md3.md3-mira > .md-brillo::after { opacity: 1; mix-blend-mode: screen; background: radial-gradient(circle at var(--mx) var(--my), rgba(255,250,225,.75), rgba(255,240,200,.18) 20%, transparent 44%); }
+.md-cerrada.md3 > .md-brillo::after { opacity: .3; }
+/* La clase actual se bambolea para enseñar su canto; al pulsar da una vuelta; al completarla, dos */
+.rp-parada.actual .md3:not(.md3-mira):not(.md3-gira) { animation: md3Bambolea 4.2s ease-in-out infinite; }
+@keyframes md3Bambolea { 0%, 100% { transform: perspective(560px) rotateX(12deg) rotateY(-22deg); } 50% { transform: perspective(560px) rotateX(8deg) rotateY(22deg); } }
+.md3.md3-gira { animation: md3Gira 950ms cubic-bezier(.25,.8,.3,1) both; }
+@keyframes md3Gira { from { transform: perspective(560px) rotateX(12deg) rotateY(0deg) translateY(0); } 40% { transform: perspective(560px) rotateX(12deg) rotateY(200deg) translateY(-14px); } to { transform: perspective(560px) rotateX(12deg) rotateY(360deg) translateY(0); } }
+.rp-gira .md3 { animation: md3GiraDoble 1.25s cubic-bezier(.2,.75,.25,1) both !important; }
+@keyframes md3GiraDoble { from { transform: perspective(560px) rotateX(12deg) rotateY(0deg) translateY(0) scale(1); } 45% { transform: perspective(560px) rotateX(16deg) rotateY(420deg) translateY(-34px) scale(1.18); } to { transform: perspective(560px) rotateX(12deg) rotateY(720deg) translateY(0) scale(1); } }
+/* Sin el giro 2D antiguo de la moneda y sin el doble 3D al pasar el ratón: ahora gira la propia moneda */
+.rt14 .path-node:not(.locked):is(:hover, :focus-visible) .rp-moneda { transform: translateY(-8px) scale(1.05) !important; }
+.rt14 .rp-recien .rp-moneda { animation: none; }
+/* Sello 成 que se estampa al completar la clase */
+.rp-sello-estampa { position: absolute; z-index: 6; left: 50%; top: 50%; display: grid; place-items: center; width: 64%; aspect-ratio: 1; translate: -50% -50%; border-radius: 10px; pointer-events: none;
+  font: 700 calc(var(--md, 86px) * .38)/1 "STKaiti", "KaiTi", "Kaiti SC", serif; color: #fff4e6; background: radial-gradient(circle at 40% 35%, #e0283f, #a5112a 70%, #7d0a1d);
+  box-shadow: inset 0 0 0 3px rgba(255,236,220,.85), 0 6px 14px rgba(60,0,10,.5); animation: r3Estampa 1.6s cubic-bezier(.2,1.4,.4,1) 1.05s both; }
+@keyframes r3Estampa { 0% { opacity: 0; transform: scale(2.6) rotate(-24deg); } 22% { opacity: 1; transform: scale(.88) rotate(-8deg); } 32% { transform: scale(1) rotate(-8deg); } 80% { opacity: 1; } 100% { opacity: 0; transform: scale(1.05) rotate(-8deg); } }
+
+/* ---------- Examen: tres estados con escala de jefe ---------- */
+.rp-cadenas-ex { position: absolute; z-index: 3; left: 50%; bottom: 30px; width: 150px; height: 70px; margin-left: -75px; pointer-events: none; }
+.rp-cadenas-ex i { position: absolute; left: -8%; right: -8%; top: 50%; height: 9px; border-radius: 5px;
+  background: repeating-linear-gradient(90deg, #6a5232 0 7px, #d9b46a 7px 9px, #a88a52 9px 15px, #3a2a14 15px 17px); box-shadow: 0 2px 3px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,240,200,.5); }
+.rp-cadenas-ex i:first-child { rotate: 17deg; } .rp-cadenas-ex i:last-child { rotate: -17deg; }
+@media (max-width: 700px) { .rp-cadenas-ex { width: 124px; margin-left: -62px; bottom: 26px; } }
+.rp-cofre.ex-bloqueado .rp-cofre-candado { width: 40px; height: 40px; margin-left: -20px; bottom: 50px; }
+/* Abierto: rayos, latido del cartel y llamada clara */
+.rp-cofre.ex-abierto .rp-cofre-cartel { color: #fff7dc !important; background: linear-gradient(180deg, #e0283f, #8f0c21) !important; box-shadow: 0 0 0 2px #f6d77e, 0 0 0 3.5px #6e0817, 0 4px 0 2px #4a0510, 0 0 26px rgba(255,200,90,.9) !important;
+  animation: r3Llama 1.6s ease-in-out infinite; }
+@keyframes r3Llama { 0%, 100% { scale: 1; } 50% { scale: 1.07; } }
+/* Aprobado: tres estrellas de oro sobre el tejado */
+.rp-estrellas { position: absolute; z-index: 4; left: 50%; top: -8px; display: flex; gap: 4px; translate: -50% 0; pointer-events: none; }
+.rp-estrellas i { width: 26px; height: 26px; background: linear-gradient(180deg, #fff3c4, #f2c14e 55%, #a8741e); clip-path: polygon(50% 0, 62% 35%, 100% 38%, 70% 60%, 80% 100%, 50% 77%, 20% 100%, 30% 60%, 0 38%, 38% 35%); filter: drop-shadow(0 2px 2px rgba(0,0,0,.4)); }
+.rp-estrellas i:nth-child(2) { width: 34px; height: 34px; margin-top: -8px; }
+.rp-cofre.ex-aprobado .rp-cofre-cartel { color: #fff7dc !important; background: linear-gradient(180deg, #2f9a5c, #145a33) !important; box-shadow: 0 0 0 2px #f6d77e, 0 3px 0 2px #0a3b22 !important; }
+/* Pabellón asentado en su peana: sombra de contacto (en el suelo), base fundida y luz del nivel */
+.rt22 .ruta-camino .rp-cofre .rp-moneda::after { height: 54px; bottom: -4px; }
+
+/* ---------- Rey Mono en el camino, hacia la siguiente clase ---------- */
+.r3-on .rv.reposa::after { bottom: -2%; width: 70%; height: 14%; }
+
+/* ---------- Estandarte de la unidad: placa de laca con grosor, que se descuelga al entrar ---------- */
+.r3-on .ruta-unit .ru-estandarte { box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -10px 18px rgba(0,0,0,.28), 0 0 0 1.5px #6e4210, 0 7px 0 -1px #3b2416, 0 9px 0 -1px #c8961e, 0 22px 30px rgba(20,8,0,.45) !important; }
+.r3-on .ruta-unit .ru-estandarte::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(115deg, transparent 30%, rgba(255,250,225,.2) 45%, transparent 58%) -150% 0 / 220% 100% no-repeat; }
+@media (prefers-reduced-motion: no-preference) {
+  .r3-on .ruta-unit:not(.lejana) .ru-estandarte::after { animation: r3Barrido 7s ease-in-out infinite; }
+}
+@keyframes r3Barrido { 0%, 70% { background-position: -150% 0; } 100% { background-position: 250% 0; } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 701px) {
+    .r3-on .ruta-unit .ru-estandarte { transform-origin: 50% 0; animation: r3Descuelga linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
+  }
+}
+@keyframes r3Descuelga { from { transform: perspective(900px) rotateX(-62deg); opacity: .2; } to { transform: perspective(900px) rotateX(0deg); opacity: 1; } }
+
+/* ---------- Pestañas de nivel: «2/54 clases · 课» también en el móvil ---------- */
+@media (max-width: 700px) {
+  .light-page .rt22 .rh-textos small { top: 4px; right: 3px; font-size: 11px !important; text-align: right; line-height: 1.05; }
+  .light-page .rt22 .rh-textos small span { display: block !important; margin-top: 1px; font-size: 9px !important; letter-spacing: 0; white-space: nowrap; }
+}
+
+/* ---------- Botón de inclinación del móvil (opcional; iOS pide permiso) ---------- */
+.r3-inclinar { position: relative; z-index: 6; display: flex; align-items: center; gap: 6px; margin: 4px 12px 8px auto; padding: 6px 12px 6px 6px; border: 0; border-radius: 99px; cursor: pointer;
+  font: 800 12px/1 var(--rt-ui, system-ui); color: #fff3d6; background: linear-gradient(180deg, rgba(60,30,10,.85), rgba(30,14,4,.85)); box-shadow: 0 0 0 1.5px #c8961e, 0 3px 8px rgba(0,0,0,.35); }
+.r3-inclinar span { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; font: 900 11px/1 var(--rt-ui, system-ui); color: #5e0614; background: radial-gradient(circle at 35% 30%, #fff3c4, #f2c14e 60%, #a8741e); }
+.r3-inclinar i { font: 700 13px "STKaiti", "KaiTi", serif; font-style: normal; color: #ffe29a; }
+.r3-inclinar.on span { background: radial-gradient(circle at 35% 30%, #b8f5cf, #2f9a5c 60%, #0d4a2b); color: #fff; }
+
+/* ---------- Ficha de clase (portal en <body>) ---------- */
+.rp-ficha { position: fixed; z-index: 1300; width: 352px; max-height: calc(100vh - 24px); overflow: visible; color: #fff6dc; font-family: var(--im-font-ui, system-ui, sans-serif); text-align: left; border-radius: 18px;
+  background: radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--c) 70%, #fff 0%), transparent 70%), linear-gradient(180deg, color-mix(in srgb, var(--c) 82%, #120804), var(--d) 55%, #170b05);
+  box-shadow: inset 0 0 0 1.5px rgba(255,240,200,.35), 0 0 0 2px #f6d77e, 0 0 0 4px var(--d), 0 0 0 5.5px #c8961e, 0 9px 0 4px #2a1406, 0 34px 60px rgba(10,4,0,.6);
+  transform-origin: 0 var(--flecha, 50%); animation: rfEntra 520ms cubic-bezier(.2,1.15,.3,1) both; }
+.rp-ficha.a-izq { transform-origin: 100% var(--flecha, 50%); animation-name: rfEntraIzq; }
+@keyframes rfEntra { from { opacity: 0; transform: perspective(1000px) rotateY(-70deg) translateX(-24px) scale(.86); } to { opacity: 1; transform: none; } }
+@keyframes rfEntraIzq { from { opacity: 0; transform: perspective(1000px) rotateY(70deg) translateX(24px) scale(.86); } to { opacity: 1; transform: none; } }
+.rp-ficha.cerrada { filter: saturate(.55); }
+.rf-flecha { position: absolute; top: var(--flecha, 50%); left: -11px; width: 20px; height: 20px; margin-top: -10px; rotate: 45deg; background: var(--d); box-shadow: -2px 2px 0 0 #f6d77e, -4px 4px 0 0 #c8961e; }
+.a-izq > .rf-flecha { left: auto; right: -11px; box-shadow: 2px -2px 0 0 #f6d77e, 4px -4px 0 0 #c8961e; }
+.rf-cab { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; min-height: 118px; padding: 16px 46px 14px 16px; overflow: hidden; border-radius: 18px 18px 0 0; isolation: isolate; }
+.rf-paisaje { position: absolute; inset: 0; z-index: -1; background: var(--fondo) 50% 52% / 130% auto no-repeat; opacity: 1;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent); mask-image: linear-gradient(180deg, #000 30%, transparent); }
+.rf-paisaje::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--d) 88%, transparent) 0%, color-mix(in srgb, var(--d) 62%, transparent) 45%, color-mix(in srgb, var(--d) 10%, transparent) 100%); }
+.rf-picto { position: absolute; z-index: -1; right: 14px; bottom: 6px; color: #f6d77e; opacity: .5; filter: drop-shadow(0 2px 2px rgba(0,0,0,.5)); }
+.rf-sello { display: grid; place-items: center; width: 58px; height: 58px; rotate: -6deg; border-radius: 8px; font: 700 18px/1 "STKaiti", "KaiTi", "Kaiti SC", serif; color: #fff4e6;
+  background: radial-gradient(circle at 38% 32%, #e0283f, #a5112a 70%, #7d0a1d); box-shadow: inset 0 0 0 2.5px rgba(255,236,220,.85), 0 0 0 2px #6e0817, 0 5px 10px rgba(0,0,0,.5); }
+.rf-tit { min-width: 0; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.rf-tit small { display: block; font: 800 12px/1.2 var(--im-font-ui, system-ui); letter-spacing: .06em; text-transform: uppercase; color: #f6d77e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rf-tit b { display: block; margin-top: 2px; font: 700 26px/1.05 var(--im-font-display, Georgia, serif); color: #fffaf0; }
+.rf-tema { display: block; margin-top: 3px; font: 700 14px/1.25 var(--im-font-ui, system-ui); color: #fff1cc; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.rf-datos { display: block; margin-top: 4px; font: 700 12px/1.25 var(--im-font-ui, system-ui); color: #ffe7b0; }
+.rf-datos i { font: 700 13px "STKaiti", "KaiTi", serif; font-style: normal; color: #ffe29a; margin-left: 4px; }
+.rf-cerrar { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 50%; cursor: pointer; color: #3b2416;
+  background: radial-gradient(circle at 35% 30%, #fff8e0, #f2c14e 60%, #a8741e); box-shadow: 0 0 0 1.5px #6e4210, 0 3px 6px rgba(0,0,0,.45); transition: transform 200ms; }
+.rf-cerrar:hover { transform: rotate(90deg) scale(1.08); }
+.rf-progreso { display: flex; align-items: center; gap: 10px; padding: 4px 16px 10px; }
+.rf-barra { flex: 1; height: 9px; border-radius: 5px; background: rgba(0,0,0,.4); box-shadow: inset 0 1px 2px rgba(0,0,0,.6), 0 0 0 1px rgba(246,215,126,.55); overflow: hidden; }
+.rf-barra i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(180deg, #fff3c4, #f2c14e 55%, #a8741e); box-shadow: 0 0 8px rgba(242,193,78,.9); }
+.rf-progreso b { font: 900 13px/1 var(--im-font-ui, system-ui); color: #fff3d6; white-space: nowrap; }
+.rf-progreso b span { font: 700 12.5px "STKaiti", "KaiTi", serif; color: #f6d77e; margin-left: 2px; }
+.rf-lecciones { display: grid; gap: 6px; margin: 0; padding: 0 12px; list-style: none; }
+.rf-lecciones li { animation: rfFila 420ms cubic-bezier(.2,1.1,.3,1) both; animation-delay: calc(120ms + var(--k) * 55ms); }
+@keyframes rfFila { from { opacity: 0; transform: translateX(-18px) rotateY(-30deg); } }
+.rf-leccion { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; align-items: center; gap: 10px; width: 100%; min-height: 50px; padding: 6px 10px 6px 7px; border: 0; border-radius: 12px; cursor: pointer; text-align: left; color: #fff;
+  background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04)); box-shadow: inset 0 0 0 1px rgba(246,215,126,.35), 0 2px 0 rgba(0,0,0,.25); transition: transform 160ms, background 160ms; }
+.rf-leccion:hover:not(:disabled) { transform: translateX(4px); background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.08)); }
+.rf-leccion:active:not(:disabled) { transform: scale(.97); }
+.rf-leccion:focus-visible { outline: 3px solid #f2c14e; outline-offset: 2px; }
+.rf-leccion:disabled { cursor: not-allowed; }
+.rf-leccion.bloqueada { opacity: .55; }
+.rf-ficha-n { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; font: 700 17px/1 "STKaiti", "KaiTi", serif; color: #6e0817;
+  background: radial-gradient(circle at 35% 30%, #fffbe6, #f6d77e 55%, #c8961e); box-shadow: 0 0 0 1.5px #6e4210, 0 3px 0 #6e4210, 0 4px 6px rgba(0,0,0,.4); }
+.rf-leccion.hecha .rf-ficha-n { color: #fff; background: radial-gradient(circle at 35% 30%, #7fe0a8, #1f8a52 60%, #0a4a2a); box-shadow: 0 0 0 1.5px #f6d77e, 0 3px 0 #0a3b22, 0 4px 6px rgba(0,0,0,.4); }
+.rf-nombre { min-width: 0; }
+.rf-nombre b { display: block; font: 800 14.5px/1.15 var(--im-font-ui, system-ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rf-nombre em { display: block; margin-top: 1px; font: 700 13.5px/1.2 "STKaiti", "KaiTi", serif; font-style: normal; color: #ffe29a; }
+.rf-estado { font: 800 12px/1 var(--im-font-ui, system-ui); color: #fff1cc; white-space: nowrap; }
+.rf-leccion.siguiente { color: #3b2416; background: linear-gradient(180deg, #fffaf0, #f2dca8); box-shadow: inset 0 0 0 1.5px #c8961e, 0 0 0 2px rgba(246,215,126,.6), 0 0 18px rgba(255,214,120,.65), 0 3px 0 #8a5a1e; }
+.rf-leccion.siguiente .rf-nombre em { color: #8f0c21; }
+.rf-leccion.siguiente .rf-estado { padding: 5px 8px; border-radius: 99px; color: #fff7dc; background: linear-gradient(180deg, #e0283f, #8f0c21); box-shadow: 0 0 0 1px #f6d77e; }
+.rf-acciones { display: grid; gap: 10px; padding: 14px 14px 16px; }
+.rf-cta { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 58px; padding: 8px 16px 10px 8px; border: 0; border-radius: 14px; cursor: pointer; text-align: left; color: #fff7dc;
+  font: 900 17px/1.1 var(--im-font-ui, system-ui); letter-spacing: .03em; background: linear-gradient(180deg, #e8364c, #b3122b 55%, #8f0c21);
+  box-shadow: inset 0 0 0 2px #fff0b8, inset 0 0 0 3.5px #b07a1c, inset 0 -8px 10px rgba(60,0,10,.35), 0 0 0 2px #6e4210, 0 6px 0 2px #4a0510, 0 0 26px rgba(255,200,90,.45), 0 14px 18px rgba(40,0,5,.45);
+  transition: transform 140ms, box-shadow 140ms; animation: rfFila 420ms cubic-bezier(.2,1.1,.3,1) 450ms both; }
+.rf-cta:hover:not(:disabled) { transform: translateY(-2px); }
+.rf-cta:active:not(:disabled) { transform: translateY(4px); box-shadow: inset 0 0 0 2px #fff0b8, inset 0 0 0 3.5px #b07a1c, 0 0 0 2px #6e4210, 0 2px 0 2px #4a0510; }
+.rf-cta i { display: block; margin-top: 3px; font: 700 14px/1 "STKaiti", "KaiTi", serif; font-style: normal; letter-spacing: .02em; color: #ffe29a; }
+.rf-cta-play { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: #a5112a; background: radial-gradient(circle at 35% 30%, #fffbe6, #f6d77e 55%, #c8961e); box-shadow: 0 0 0 2px #6e4210, 0 3px 0 #4a2a08; }
+.rf-cta-play svg { margin-left: 3px; }
+.rf-cta.repaso { background: linear-gradient(180deg, #3fae68, #1f8a52 55%, #0d4a2b); box-shadow: inset 0 0 0 2px #fff0b8, inset 0 0 0 3.5px #b07a1c, 0 0 0 2px #6e4210, 0 6px 0 2px #0a3b22, 0 14px 18px rgba(0,30,10,.45); }
+.rf-cta.repaso .rf-cta-play { color: #1f8a52; }
+.rf-cta.repaso .rf-cta-play svg { margin-left: 0; }
+.rf-abrir { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 40px; border-radius: 10px; font: 800 13.5px/1.2 var(--im-font-ui, system-ui); color: #f6d77e; text-decoration: none; box-shadow: inset 0 0 0 1px rgba(246,215,126,.4); }
+.rf-abrir:hover { background: rgba(255,255,255,.08); color: #fff3c4; }
+.rf-bloqueo { display: flex; align-items: center; gap: 14px; padding: 16px 18px 20px; }
+.rf-candado { flex: none; display: grid; place-items: center; width: 66px; height: 66px; border-radius: 50%; color: #3a2410; background: radial-gradient(circle at 35% 28%, #fff3c4, #d9a43a 60%, #8a5a1e); box-shadow: 0 0 0 2.5px #6e4210, 0 5px 0 #3a2410, 0 8px 14px rgba(0,0,0,.45); animation: rfCandado 2.4s ease-in-out infinite; }
+@keyframes rfCandado { 0%, 100% { rotate: 0deg; } 8% { rotate: -10deg; } 16% { rotate: 8deg; } 24% { rotate: 0deg; } }
+.rf-bloqueo p { margin: 0; font: 700 14px/1.35 var(--im-font-ui, system-ui); color: #fff1cc; }
+.rf-bloqueo p b { display: block; font: 700 19px/1.15 var(--im-font-display, Georgia, serif); color: #fffaf0; margin-bottom: 3px; }
+.rf-bloqueo p span { display: block; margin-top: 4px; font: 700 14.5px "STKaiti", "KaiTi", serif; color: #f6d77e; }
+/* Móvil: hoja inferior a todo el ancho, con velo; tapa la barra inferior */
+.rf-velo { position: fixed; inset: 0; z-index: 1299; background: rgba(12,6,0,.5); animation: rfVelo 260ms ease-out both; }
+@keyframes rfVelo { from { opacity: 0; } }
+.rp-ficha.hoja { left: 0; right: 0; bottom: 0; width: auto; max-height: 86vh; overflow-y: auto; overscroll-behavior: contain; border-radius: 22px 22px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: inset 0 0 0 1.5px rgba(255,240,200,.35), 0 -2px 0 0 #f6d77e, 0 -4px 0 0 var(--d), 0 -5.5px 0 0 #c8961e, 0 -20px 40px rgba(10,4,0,.5); transform-origin: 50% 100%; animation: rfSube 440ms cubic-bezier(.2,1.05,.3,1) both; }
+@keyframes rfSube { from { transform: perspective(900px) translateY(70%) rotateX(24deg); opacity: .4; } to { transform: none; opacity: 1; } }
+.rp-ficha.hoja .rf-flecha { display: none; }
+.rf-asa { position: absolute; z-index: 2; left: 50%; top: 7px; width: 44px; height: 5px; margin-left: -22px; border-radius: 3px; background: rgba(255,240,200,.6); }
+.rp-ficha.hoja .rf-cab { padding-top: 20px; }
+.rp-ficha.hoja .rf-leccion { min-height: 52px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .md3, .md3.md3-gira, .rp-gira .md3, .rp-parada.actual .md3 { animation: none !important; transition: none !important; }
+  .rp-sello-estampa { animation: none; opacity: 0; }
+  .rp-ficha, .rp-ficha.hoja, .rf-lecciones li, .rf-cta, .rf-velo, .rf-candado, .rp-cofre.ex-abierto .rp-cofre-cartel, .r3-on .ruta-unit .ru-estandarte, .r3-on .ruta-unit .ru-estandarte::after { animation: none !important; }
+  .r3-on .mr25 .mr-lienzo > img, .r3-on .mr25 .mr-particulas-canvas { transform: none !important; }
+}

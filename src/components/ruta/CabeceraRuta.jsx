@@ -220,7 +220,7 @@ export function CabeceraRuta({ region, tema, niveles, marcado, onCambiar }) {
                   <i style={{ transform: `scaleX(${pct / 100})` }} />
                 </span>
                 <small title="Clases hechas · 已完成课程">
-                  {nivel.hechas}/{nivel.total} <span>clases · 课</span>
+                  {nivel.hechas}/{nivel.total} <span>clases <i translate="no">课</i></span>
                 </small>
               </span>
             </button>

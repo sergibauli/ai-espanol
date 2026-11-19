@@ -46,10 +46,10 @@
 /* ---------- B1 es de noche: sin rayos diurnos; luz de farolillos ---------- */
 .mr25.mr-B1 .mr-rayos { display: none; }
 .ruta-main.map-B1 .md-haz { display: none !important; }
-.ruta-main.map-B1 .rp-parada .md-medallon > svg { filter: drop-shadow(0 0 12px rgba(255,170,90,.55)) drop-shadow(-4px 6px 4px rgba(0,8,20,.6)); }
+.ruta-main.map-B1 .rp-parada .md-medallon > svg.md3-cara { filter: drop-shadow(0 0 12px rgba(255,170,90,.55)) drop-shadow(-4px 6px 4px rgba(0,8,20,.6)); }
 
 /* ---------- Medallones: bloqueada = oro envejecido con candado en la esquina; hecha = check de jade ---------- */
-.rt22 .ruta-camino .path-node.locked .md-medallon > svg { filter: saturate(.5) drop-shadow(0 3px 0 #3a2c1a) drop-shadow(0 7px 6px rgba(10,10,0,.3)) !important; }
+.rt22 .ruta-camino .path-node.locked .md-medallon > svg.md3-cara { filter: saturate(.5) drop-shadow(0 3px 0 #3a2c1a) drop-shadow(0 7px 6px rgba(10,10,0,.3)) !important; }
 .md-candado { position: absolute; z-index: 3; right: -4px; top: -4px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
   color: #fff3d6; background: radial-gradient(circle at 35% 28%, #6a5038, #3a2614); box-shadow: 0 0 0 1.5px #d9b46a, 0 2px 4px rgba(0,0,0,.45); }
 .md-marca { position: absolute; z-index: 3; right: -5px; top: -3px; width: 26px; height: 26px; padding: 3px; border-radius: 50%;
@@ -66,10 +66,10 @@
 /* La clase actual ya la anuncia el botón: sin píldora */
 .rt22 .ruta-camino .rp-parada.actual .path-node .ruta-clase-sello { display: none; }
 /* Medallones con la sombra al lado contrario de la luz del nivel */
-.ruta-main.map-A1 .rp-parada:not(.locked) .md-medallon > svg { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(-8px 10px 6px rgba(40,55,95,.4)); }
-.ruta-main.map-A2 .rp-parada:not(.locked) .md-medallon > svg { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(8px 10px 6px rgba(110,40,50,.4)); }
-.ruta-main.map-B2 .rp-parada:not(.locked) .md-medallon > svg { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(8px 10px 6px rgba(20,50,35,.4)); }
-.ruta-main .rp-parada.actual .md-medallon > svg { filter: drop-shadow(0 0 10px rgba(140,255,190,.9)) drop-shadow(0 0 24px rgba(242,193,78,.7)) drop-shadow(0 5px 0 #6e4210) !important; }
+.ruta-main.map-A1 .rp-parada:not(.locked) .md-medallon > svg.md3-cara { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(-8px 10px 6px rgba(40,55,95,.4)); }
+.ruta-main.map-A2 .rp-parada:not(.locked) .md-medallon > svg.md3-cara { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(8px 10px 6px rgba(110,40,50,.4)); }
+.ruta-main.map-B2 .rp-parada:not(.locked) .md-medallon > svg.md3-cara { filter: drop-shadow(0 4px 0 rgba(90,50,10,.75)) drop-shadow(8px 10px 6px rgba(20,50,35,.4)); }
+.ruta-main .rp-parada.actual .md-medallon > svg.md3-cara { filter: drop-shadow(0 0 10px rgba(140,255,190,.9)) drop-shadow(0 0 24px rgba(242,193,78,.7)) drop-shadow(0 5px 0 #6e4210) !important; }
 
 /* ---------- Botón «EMPEZAR 开始» con lo que se hará; placa con grosor, play claro y cola al medallón ---------- */
 .rt22 .rp-parada .rp-empezar { width: auto; min-width: 230px; margin-bottom: 16px; padding: 8px 20px 10px 8px; gap: 11px; border-radius: 14px;

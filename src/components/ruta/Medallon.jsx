@@ -41,8 +41,20 @@ export function Medallon({ estado = "abierta", tamano = 84, children, className 
   const p = PALETAS[estado] || PALETAS.abierta;
   const cerrada = estado === "cerrada";
   return (
-    <span className={`md-medallon md-${estado} ${className}`} style={{ "--md": `${tamano}px` }}>
-      <svg viewBox="0 0 120 120" aria-hidden="true">
+    <span className={`md-medallon md3 md-${estado} ${className}`} style={{ "--md": `${tamano}px` }}>
+      {/* v27 · Moneda 3D: canto con grosor real (capas apiladas en Z), dorso y cara; gira con preserve-3d */}
+      {Array.from({ length: cerrada ? 5 : 8 }, (_, i) => (
+        <svg key={`c${i}`} className="md3-capa" viewBox="0 0 120 120" style={{ "--i": i + 1 }} aria-hidden="true">
+          <path d={MARCO} fill={i % 2 ? p.canto[2] : p.lomo} />
+        </svg>
+      ))}
+      <svg className="md3-dorso" viewBox="0 0 120 120" aria-hidden="true">
+        <path d={MARCO} fill={p.canto[2]} stroke={p.lomo} strokeWidth="1.5" />
+        <circle cx="60" cy="60" r="41" fill={p.canto[1]} stroke={p.filete} strokeWidth="1.6" />
+        <circle cx="60" cy="60" r="34" fill="none" stroke={p.lomo} strokeOpacity=".4" strokeDasharray="2.6 2.2" />
+        <text x="60" y="74" textAnchor="middle" fontSize="40" fontFamily="STKaiti, KaiTi, serif" fill={p.lomo} opacity=".8">悟</text>
+      </svg>
+      <svg className="md3-cara" viewBox="0 0 120 120" aria-hidden="true">
         <defs>
           <linearGradient id={`${uid}k`} x1="0" y1="0" x2=".7" y2="1">
             <stop offset="0" stopColor={p.canto[0]} />

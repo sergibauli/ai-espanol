@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link, useSearchParams } from "react-router";
-import { BookOpenIcon, LockIcon, CheckIcon, XIcon, ChevronRightIcon } from "lucide-react";
+import { BookOpenIcon, LockIcon } from "lucide-react";
 import { LightShell } from "../components/layout/LightShell.jsx";
 import { Emoji3D } from "../components/ui/Emoji3D.jsx";
 import { GameStats, GoalRing } from "../components/ui/GameStats.jsx";
@@ -24,6 +24,8 @@ import { Pictograma, PaisajeBanda, paisajeDe } from "../components/ruta/paisajes
 import { ANCHO_CARRIL, FILA, ajustarFila, ARRIBA, ENTRADA, puntosCamino, trazado, tramo, puntoCurva, formaDe } from "../components/ruta/geometria.js";
 import { Medallon, MarcaHecha, CofreImperial, GlifoClase } from "../components/ruta/Medallon.jsx";
 import { Recorrido, RecorridoDefs } from "../components/ruta/Recorrido.jsx";
+import { FichaClase } from "../components/ruta/FichaClase.jsx";
+import { camaraBase, crearDirector, transformCartel, transformSuelo } from "../components/ruta/camara3d.js";
 import "../styles/v13-ruta-mundos.css";
 import "../styles/v14-ruta.css";
 import "../styles/v22-ruta.css";
@@ -31,6 +33,7 @@ import "../styles/movil-ruta.css";
 import "../styles/v23-ruta-recorridos.css";
 import "../styles/v25-ruta.css";
 import "../styles/v26-ruta.css";
+import "../styles/v27-ruta-3d.css";
 
 const BASE_URL = import.meta.env.BASE_URL || "./";
 const STOP = Object.fromEntries(STOPS.map((parada) => [parada.n, parada]));
@@ -129,6 +132,9 @@ export default function RutaPage() {
   const [listo, setListo] = React.useState(false);
   const currentRef = React.useRef(null);
   const fiestaRef = React.useRef(null);
+  const mainRef = React.useRef(null);
+  const director = React.useRef(null);
+  const [inclinar, setInclinar] = React.useState(false); // inclinación del móvil (opcional)
   const [onboarded, setOnboarded] = React.useState(() => {
     try {
       const created = window.Clerk?.user?.createdAt ? new Date(window.Clerk.user.createdAt).getTime() : 0;
@@ -253,8 +259,11 @@ export default function RutaPage() {
       const rNodo = nodo.getBoundingClientRect();
       const cofre = nodo.closest(".ruta-unit")?.querySelector(".rp-cofre");
       const rCofre = cofre?.getBoundingClientRect();
-      const bloqueArriba = rNodo.top - (movil ? 66 : 96); // incluye el botón Empezar
-      const bloqueAbajo = rCofre ? rCofre.bottom + (movil ? 44 : 56) : rNodo.bottom + 60; // cartel «Examen» y premio
+      // v27 · Medidas reales (el tablero está en perspectiva): del botón Empezar al cartel del premio del examen
+      const rEmpezar = nodo.querySelector(".rp-empezar")?.getBoundingClientRect();
+      const rPremio = cofre?.querySelector(".rp-cofre-premio, .rp-cofre-cartel")?.getBoundingClientRect();
+      const bloqueArriba = rEmpezar ? rEmpezar.top - 8 : rNodo.top - (movil ? 66 : 96);
+      const bloqueAbajo = rPremio ? rPremio.bottom + 10 : rCofre ? rCofre.bottom + (movil ? 44 : 56) : rNodo.bottom + 60;
       const libre = abajo - arriba - (bloqueAbajo - bloqueArriba);
       const delta = libre >= 0 ? bloqueArriba - arriba - libre * 0.45 : bloqueArriba - arriba;
       let contenedor = nodo.parentElement;
@@ -266,15 +275,46 @@ export default function RutaPage() {
       const destino = contenedor && contenedor !== document.body ? contenedor : window;
       destino.scrollBy({ top: delta, behavior: sinMovimiento() ? "auto" : "smooth" });
     };
-    const temporizador = setTimeout(encuadrar, 400);
+    // v27 · Se mide con los tableros en su postura de reposo y luego la cámara vuela: acercamiento a la clase actual
+    // al cargar, vuelo desde lo alto al cambiar de nivel
+    const temporizador = setTimeout(() => {
+      const dir = director.current;
+      if (dir) dir.medirEnReposo(encuadrar);
+      else encuadrar();
+      dir?.volar(nivelPrevio.current && nivelPrevio.current !== level ? "vuelo" : "acercar", currentRef.current);
+      nivelPrevio.current = level;
+    }, 400);
     return () => clearTimeout(temporizador);
   }, [level]);
+  const nivelPrevio = React.useRef(null);
+
+  // v27 · Director de la cámara 3D (una rAF para toda la página; duerme cuando no hay nada que mover)
+  React.useEffect(() => {
+    const dir = crearDirector(mainRef.current);
+    director.current = dir;
+    dir.sincronizar();
+    return () => {
+      dir.destruir();
+      director.current = null;
+    };
+  }, []);
+  React.useEffect(() => {
+    director.current?.sincronizar();
+  });
+  const alternarInclinacion = async () => {
+    const dir = director.current;
+    if (!dir) return;
+    if (inclinar) {
+      dir.desactivarInclinacion();
+      setInclinar(false);
+    } else setInclinar(await dir.activarInclinacion());
+  };
 
   // Popover: se cierra al tocar fuera o con Escape (y devuelve el foco a la moneda)
   React.useEffect(() => {
     if (!abierta) return undefined;
     const alTocar = (evento) => {
-      if (!evento.target.closest?.(".ruta-node-wrap.abierto")) setAbierta(null);
+      if (!evento.target.closest?.(".ruta-node-wrap.abierto, .rp-ficha")) setAbierta(null);
     };
     const alTeclear = (evento) => {
       if (evento.key !== "Escape") return;
@@ -283,18 +323,7 @@ export default function RutaPage() {
     };
     document.addEventListener("pointerdown", alTocar);
     document.addEventListener("keydown", alTeclear);
-    // Que el popover quede entero a la vista (por encima de la barra inferior del móvil)
-    const ajuste = setTimeout(() => {
-      const parada = document.querySelector(".ruta-node-wrap.abierto");
-      const pop = parada?.querySelector(".rp-pop");
-      if (!pop) return;
-      // Altura real del popover (su animación de entrada lo escala): parte de la caja de la parada
-      const abajo = parada.getBoundingClientRect().bottom + 40 + pop.offsetHeight;
-      const limite = window.innerHeight - (window.innerWidth <= 1000 ? 104 : 18);
-      if (abajo > limite) window.scrollBy({ top: abajo - limite, behavior: sinMovimiento() ? "auto" : "smooth" });
-    }, 40);
     return () => {
-      clearTimeout(ajuste);
       document.removeEventListener("pointerdown", alTocar);
       document.removeEventListener("keydown", alTeclear);
     };
@@ -337,15 +366,16 @@ export default function RutaPage() {
     return { hechas: unidades.reduce((suma, progreso) => suma + progreso.completadas, 0), total: unidades.reduce((suma, progreso) => suma + progreso.total, 0) };
   };
   const nivelMarcado = transicion?.destino || lv.key;
-  const tamanoMono = esMovil ? 100 : 140;
+  const tamanoMono = esMovil ? 90 : 140;
   // El nivel (map-XX) y el momento del día van en .ruta-main: el CSS los lee de ahí en vez de con :has()
   const momento = momentoRuta();
   const progresoModulos = getModuleProgress();
+  const anclaFicha = React.useCallback(() => document.querySelector(".ruta-node-wrap.abierto .rp-moneda"), []);
 
   return (
     <LightShell>
       <div className="ruta-layout rt14 rt16 rt22">
-        <main className={`ruta-main map-${lv.key} mr-on`} data-momento={momento}>
+        <main ref={mainRef} className={`ruta-main map-${lv.key} mr-on r3-on`} data-momento={momento}>
           <MundoRuta key={lv.key} nivel={lv.key} momento={momento} fiesta={Boolean(fiesta) && !fiesta.saltada} />
           <RecorridoDefs />
           <TransicionNivel destino={transicion?.destino} clave={transicion?.clave} onCubre={irANivel} onFin={() => setTransicion(null)} />
@@ -357,6 +387,11 @@ export default function RutaPage() {
             niveles={LEVELS.map((nivel) => ({ key: nivel.key, region: REGION[nivel.key][0], ...resumenNivel(nivel) }))}
           />
 
+          {esMovil && typeof window !== "undefined" && "DeviceOrientationEvent" in window && (
+            <button type="button" className={`r3-inclinar ${inclinar ? "on" : ""}`} onClick={alternarInclinacion} aria-pressed={inclinar} title="Mover el mapa al inclinar el móvil · 倾斜手机看3D">
+              <span aria-hidden="true">3D</span> {inclinar ? "Inclinación activada" : "Inclinar el móvil"} <i translate="no">体感</i>
+            </button>
+          )}
           {mods.map((unidad, idx) => {
             const numero = unidad.numero;
             const idxActual = Math.max(0, mods.findIndex((m) => current && current.startsWith(`${m.numero}-`)));
@@ -367,6 +402,8 @@ export default function RutaPage() {
             const pts = puntosCamino(idx, paradas, forma);
             const alcanzada = unlocked(idx, 1);
             const alto = ARRIBA + paradas * FILA + 78;
+            const cam = camaraBase(alto, esMovil); // postura de reposo del tablero 3D (el director la anima)
+            const cartel = (x, y, alza = 0, extra = null) => ({ "data-gx": x, "data-gy": y, "data-alza": alza, style: { ...extra, transform: transformCartel(cam, x, y, "centro", alza) } });
             const enFiesta = fiesta?.numero === numero;
             // Durante el sello de la celebración el mapa enseña todavía el estado anterior
             const retenida = enFiesta && fiesta.fase !== "viaje";
@@ -445,7 +482,9 @@ export default function RutaPage() {
                     <Pictograma tipo={paisaje.tipo} tamano={260} />
                     <b translate="no">{parada?.lugarZh}</b>
                   </span>
-                  <div className={`ruta-camino rf-${forma.tipo}`} data-forma={forma.tipo} style={{ width: ANCHO_CARRIL, height: alto }}>
+                  <div className={`ruta-camino r3-tablero rf-${forma.tipo}`} data-forma={forma.tipo} data-alto={alto} style={{ width: ANCHO_CARRIL, height: alto }}>
+                    {/* v27 · Suelo del tablero 3D: todo lo que va pintado en el plano (se inclina en perspectiva) */}
+                    <div className="r3-suelo" style={{ transform: transformSuelo(cam) }}>
                     {/* v26 · Camino y terreno PINTADOS con el mismo pintor que el fondo (scripts/tramos-ruta.py) */}
                     <img className="ru-tramo" src={`${BASE_URL}theme/ruta/tramos/${lv.key}-v${forma.variante}-p${Math.min(3, Math.max(2, paradas))}-f${FILA}.webp`} alt="" aria-hidden="true" decoding="async" style={{ height: alto + 220 }} />
                     {/* Cuerpo ilustrado del recorrido: muralla, río con puente, tinta, escalinata o nubes (v24) */}
@@ -474,6 +513,11 @@ export default function RutaPage() {
                         const [x, y] = puntoCurva(pts[iActual], pts[iActual + 1], t, forma);
                         return <span key={t} className="rc-huella" style={{ left: x, top: y, "--k": k, "--lado": x > ANCHO_CARRIL / 2 ? 1 : -1 }} aria-hidden="true" />;
                       })}
+                    {/* Sombras de contacto de lo que está de pie (medallones y pabellón): elipses en el suelo, opuestas a la luz */}
+                    {pts.map(([x, y], i) => (
+                      <span key={`s${i}`} className={`r3-sombra ${i === paradas ? "templo" : ""}`} style={{ left: x, top: y }} aria-hidden="true" />
+                    ))}
+                    </div>
                     {prog.clases.map((clase, i) => {
                       const clave = `${numero}-${clase.n}`;
                       const esLaDeFiesta = enFiesta && fiesta.n === clase.n;
@@ -491,8 +535,8 @@ export default function RutaPage() {
                       return (
                         <div
                           key={clave}
-                          className={`ruta-node-wrap rp-parada ${estado} ${isCurrent ? "actual" : ""} ${estaAbierta ? "abierto" : ""} ${esLaDeFiesta ? "rp-recien" : ""} ${negada === clave ? "rp-niega" : ""} ${iDesbloquea === i ? "rp-desbloquea" : ""}`}
-                          style={{ left: pts[i][0], top: pts[i][1] }}
+                          className={`ruta-node-wrap rp-parada ${estado} ${isCurrent ? "actual" : ""} ${estaAbierta ? "abierto" : ""} ${esLaDeFiesta ? "rp-recien" : ""} ${esLaDeFiesta && fiesta.monedaHecha ? "rp-gira" : ""} ${negada === clave ? "rp-niega" : ""} ${iDesbloquea === i ? "rp-desbloquea" : ""}`}
+                          {...cartel(pts[i][0], pts[i][1], esMovil ? 8 : 10)}
                           ref={esLaDeFiesta ? fiestaRef : isCurrent ? currentRef : null}
                         >
                           {isCurrent && (
@@ -536,6 +580,9 @@ export default function RutaPage() {
                             type="button"
                             className={`path-node ${estado} ${isCurrent ? "current" : ""}`}
                             onClick={abrir}
+                            onPointerMove={inclinarMoneda}
+                            onPointerLeave={soltarMoneda}
+                            onPointerDown={girarMoneda}
                             aria-expanded={estaAbierta}
                             aria-label={`Clase ${clase.n} de la unidad ${numero}${isDone ? ", completada" : isOpen ? "" : ", bloqueada"} · 第${clase.n}课`}
                           >
@@ -552,6 +599,11 @@ export default function RutaPage() {
                                 <GlifoClase n={clase.n} estado={isDone ? "hecha" : isCurrent ? "actual" : isOpen ? "abierta" : "cerrada"} tamano={isCurrent ? (esMovil ? 44 : 52) : isOpen || isDone ? (esMovil ? 34 : 40) : esMovil ? 26 : 30} />
                               </Medallon>
                               {isDone && <MarcaHecha perfecta={clase.nota === 100} />}
+                              {esLaDeFiesta && fiesta.monedaHecha && !fiesta.saltada && (
+                                <span className="rp-sello-estampa" aria-hidden="true" translate="no">
+                                  成
+                                </span>
+                              )}
                               {estado === "locked" && (
                                 <span className="md-candado" aria-hidden="true">
                                   <LockIcon size={esMovil ? 11 : 13} strokeWidth={3} />
@@ -563,49 +615,23 @@ export default function RutaPage() {
                             </span>
                           </button>
                           {estaAbierta && (
-                            <div className={`rp-pop ${isOpen ? "" : "cerrada"}`} role="dialog" aria-label={`Clase ${clase.n} · 第${clase.n}课`} style={{ "--c": isOpen ? lv.color : "#5a4632", "--d": isOpen ? lv.dark : "#2b1d10", "--dx": `${ANCHO_CARRIL / 2 - pts[i][0]}px` }}>
-                              <header>
-                                <span className="rp-pop-sello" translate="no">
-                                  第{clase.n}课
-                                </span>
-                                <div>
-                                  <b>Clase {clase.n}</b>
-                                  <span>
-                                    {clase.titulo ? `${clase.titulo} · ` : ""}~{clase.minutos || 50} min · 分钟
-                                  </span>
-                                </div>
-                                <button type="button" className="rp-pop-cerrar" onClick={() => setAbierta(null)} aria-label="Cerrar · 关闭">
-                                  <XIcon size={18} />
-                                </button>
-                              </header>
-                              {isOpen ? (
-                                <>
-                                  <div className="rp-pop-lecciones">
-                                    {LESSON_META.map((meta, k) => {
-                                      const hecha = clase.lecciones[k];
-                                      const disponible = k === 0 || hecha || clase.lecciones[k - 1];
-                                      return (
-                                        <button key={meta.key} type="button" className={`rp-pop-leccion ${hecha ? "hecha" : ""} ${k === siguiente ? "siguiente" : ""}`} style={{ "--k": k }} disabled={loading || !disponible} onClick={() => start(numero, clase.n, k)}>
-                                          <i>{hecha ? <CheckIcon size={14} strokeWidth={4} /> : k + 1}</i>
-                                          <span>
-                                            {meta.es} <em>{meta.zh}</em>
-                                          </span>
-                                          <small>{hecha ? "otra vez · 再练" : k === siguiente ? "+10 XP" : disponible ? "" : <LockIcon size={13} />}</small>
-                                        </button>
-                                      );
-                                    })}
-                                  </div>
-                                  <Link className="rp-pop-abrir" style={{ "--k": LESSON_META.length }} to={`/modulos/modulo-${numero}?clase=${clase.n}`}>
-                                    Abrir la clase completa · 打开本课 <ChevronRightIcon size={16} />
-                                  </Link>
-                                </>
-                              ) : (
-                                <p className="rp-pop-aviso">
-                                  <LockIcon size={18} /> Termina la clase anterior para desbloquearla.
-                                  <span>完成上一课后解锁</span>
-                                </p>
-                              )}
-                            </div>
+                            <FichaClase
+                              ancla={anclaFicha}
+                              abierta={isOpen}
+                              nivel={lv.key}
+                              color={lv.color}
+                              oscuro={lv.dark}
+                              numero={numero}
+                              clase={clase}
+                              titulo={clase.titulo || titulo}
+                              lugar={parada?.ciudad || ""}
+                              paisaje={paisaje.tipo}
+                              siguiente={siguiente}
+                              cargando={loading}
+                              movil={esMovil}
+                              onEmpezar={(k) => start(numero, clase.n, k)}
+                              onCerrar={() => setAbierta(null)}
+                            />
                           )}
                         </div>
                       );
@@ -613,7 +639,7 @@ export default function RutaPage() {
                     <Link
                       to={`/modulos/modulo-${numero}?tab=examen&examen=unidad&clase=${paradas}`}
                       className={`ruta-chest rp-cofre ex-${estadoExamen} ${unidadGanada ? "ganado" : ""}`}
-                      style={{ left: pts[paradas][0], top: pts[paradas][1], "--orden": idx % 4 }}
+                      {...cartel(pts[paradas][0], pts[paradas][1], 0, { "--orden": idx % 4 })}
                       title="Examen de la unidad · 单元考试"
                       aria-label={`Examen de la unidad ${numero}${estadoExamen === "bloqueado" ? ", bloqueado" : estadoExamen === "aprobado" ? ", aprobado" : ""} · 单元考试`}
                     >
@@ -623,6 +649,19 @@ export default function RutaPage() {
                         <span className="rp-templo-cofre">
                           <CofreImperial abierto={estadoExamen !== "bloqueado"} tamano={esMovil ? 50 : 58} />
                         </span>
+                        {estadoExamen === "bloqueado" && (
+                          <span className="rp-cadenas-ex" aria-hidden="true">
+                            <i />
+                            <i />
+                          </span>
+                        )}
+                        {estadoExamen === "aprobado" && (
+                          <span className="rp-estrellas" aria-hidden="true">
+                            <i />
+                            <i />
+                            <i />
+                          </span>
+                        )}
                         {estadoExamen === "bloqueado" && (
                           <span className="rp-cofre-candado" aria-hidden="true">
                             <LockIcon size={esMovil ? 16 : 18} strokeWidth={2.6} />
@@ -635,7 +674,7 @@ export default function RutaPage() {
                         )}
                       </span>
                       <span className="ruta-clase-sello rp-cofre-cartel">
-                        {estadoExamen === "aprobado" ? "Aprobado" : "Examen"} <span translate="no">{estadoExamen === "aprobado" ? "通过" : "考试"}</span>
+                        {estadoExamen === "aprobado" ? "Aprobado" : estadoExamen === "abierto" ? "¡A por el examen!" : "Examen"} <span translate="no">{estadoExamen === "aprobado" ? "通过" : estadoExamen === "abierto" ? "去考试" : "考试"}</span>
                       </span>
                       {estadoExamen === "bloqueado" ? (
                         <span className="rp-cofre-premio bloqueado">
@@ -660,6 +699,7 @@ export default function RutaPage() {
                         retraso={fiesta ? 0 : 700}
                         seguir={Boolean(fiesta)}
                         forma={forma}
+                        reposoEn={iMono >= 0 && iMono < paradas && !monoSeVa ? reposoMono(pts[iMono], pts[iMono + 1], tamanoMono, esMovil) : null}
                         onLlegada={monoSeVa ? () => setFiesta((actual) => (actual ? { ...actual, monoSalio: true } : actual)) : undefined}
                       />
                     )}
@@ -782,6 +822,51 @@ export default function RutaPage() {
       {lesson && <LessonPlayer lesson={lesson} onClose={() => setLesson(null)} />}
     </LightShell>
   );
+}
+
+// v27 · Rey Mono: siempre junto a la clase actual, en el lado CONTRARIO al que sigue el camino (nunca tapa la
+// siguiente parada ni el botón Empezar) y mirando a la moneda
+function reposoMono(actual, siguiente, tamano, movil) {
+  let lado = siguiente[0] < actual[0] - 4 ? 1 : siguiente[0] > actual[0] + 4 ? -1 : actual[0] > ANCHO_CARRIL / 2 ? 1 : -1;
+  const x = actual[0] + lado * tamano * 0.74;
+  // En el móvil no hay margen fuera del carril: si no cabe, se queda del lado de dentro, a la altura de la moneda
+  const holgura = movil ? 8 : 150;
+  if (x - tamano * 0.45 < -holgura || x + tamano * 0.45 > ANCHO_CARRIL + holgura) {
+    return [actual[0] - lado * tamano * 0.8, actual[1] + tamano * 0.42];
+  }
+  return [x, actual[1] + tamano * 0.1];
+}
+
+// v27 · Moneda 3D: se inclina hacia el puntero (con el reflejo siguiéndolo) y da una vuelta al pulsarla
+function monedaDe(evento) {
+  return sinMovimiento() ? null : evento.currentTarget.querySelector(".md3");
+}
+function inclinarMoneda(evento) {
+  const moneda = monedaDe(evento);
+  if (!moneda) return;
+  const caja = moneda.getBoundingClientRect();
+  const x = Math.max(0, Math.min(1, (evento.clientX - caja.left) / caja.width));
+  const y = Math.max(0, Math.min(1, (evento.clientY - caja.top) / caja.height));
+  moneda.style.setProperty("--ry", `${((x - 0.5) * 46).toFixed(1)}deg`);
+  moneda.style.setProperty("--rx", `${((0.5 - y) * 40).toFixed(1)}deg`);
+  moneda.style.setProperty("--mx", `${(x * 100).toFixed(0)}%`);
+  moneda.style.setProperty("--my", `${(y * 100).toFixed(0)}%`);
+  moneda.classList.add("md3-mira");
+}
+function soltarMoneda(evento) {
+  const moneda = monedaDe(evento);
+  if (!moneda) return;
+  moneda.classList.remove("md3-mira");
+  for (const v of ["--rx", "--ry", "--mx", "--my"]) moneda.style.removeProperty(v);
+}
+function girarMoneda(evento) {
+  const moneda = monedaDe(evento);
+  if (!moneda) return;
+  moneda.classList.remove("md3-gira");
+  void moneda.offsetWidth; // reinicia la animación
+  moneda.classList.add("md3-gira");
+  clearTimeout(moneda.__gira);
+  moneda.__gira = setTimeout(() => moneda.classList.remove("md3-gira"), 1000);
 }
 
 // Fecha (ms) de la última lección hecha de la unidad: la fecha del sello del pasaporte
