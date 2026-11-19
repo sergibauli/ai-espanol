@@ -375,12 +375,6 @@ export default function WelcomePage() {
 
         <div className="pc-intro">
           <MarcaWukong />
-          <p className="pc-ceja">
-            <i aria-hidden="true" />
-            <span>A1 – B2</span>
-            <span lang="zh-Hans">西班牙语备考</span>
-            <i aria-hidden="true" />
-          </p>
           <h1 id="pc-titulo" className="pc-titulo">
             <span className="pc-titulo-es" aria-label="Cruza la puerta del español">
               {"Cruza la puerta del español".split(" ").map((palabra, indice) => (
@@ -394,8 +388,8 @@ export default function WelcomePage() {
             </span>
           </h1>
           <p className="pc-sub">
-            Lecciones cortas, historias con voz real, juegos y preparación de exámenes, todo explicado en chino.
-            <span lang="zh-Hans">短课、真人语音故事、游戏和考试备考，全部中文讲解。</span>
+            Lecciones cortas, historias con voces reales, juegos y práctica, todo explicado en chino.
+            <span lang="zh-Hans">短课、真人语音故事、游戏和练习，全部中文讲解。</span>
           </p>
           <div className="pc-intro-acciones">
             <button type="button" className="pc-btn pc-btn-laca" onClick={signIn}>
@@ -427,8 +421,8 @@ export default function WelcomePage() {
             <span lang="zh-Hans">登录</span>
           </h2>
           <p className="pc-panel-texto">
-            Entra con la cuenta que te ha dado tu academia y sigue tu ruta hacia el examen.
-            <span lang="zh-Hans">使用学校为你开通的账号登录，继续你的备考之路。</span>
+            Entra con la cuenta que te ha dado tu academia y sigue aprendiendo español.
+            <span lang="zh-Hans">使用学校为你开通的账号登录，继续学习西班牙语。</span>
           </p>
           <button type="button" className="pc-btn pc-btn-laca pc-btn-ancho" onClick={signIn}>
             <LogInIcon size={20} strokeWidth={2.6} aria-hidden="true" />
@@ -504,7 +498,7 @@ export default function WelcomePage() {
           <NotaWeChat conQr={false} />
         </div>
         <p className="pc-pie">
-          Wukong Español · <span lang="zh-Hans">西班牙语学习与考试备考</span>
+          Wukong Español · <span lang="zh-Hans">西班牙语学习</span>
         </p>
       </section>
     </div>
