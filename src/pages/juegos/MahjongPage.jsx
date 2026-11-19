@@ -4,17 +4,25 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router";
-import { LightbulbIcon, ShuffleIcon, Undo2Icon, RotateCcwIcon, TimerIcon, Volume2Icon, VolumeXIcon, StarIcon, PlayIcon, LayersIcon, SparklesIcon, TrophyIcon, ArrowLeftIcon } from "lucide-react";
+import { LightbulbIcon, ShuffleIcon, Undo2Icon, RotateCcwIcon, TimerIcon, Volume2Icon, VolumeXIcon, StarIcon, PlayIcon, LayersIcon, SparklesIcon, TrophyIcon, ArrowLeftIcon, GraduationCapIcon } from "lucide-react";
 import { useSound } from "../../lib/sound.jsx";
 import { speak, confetti } from "../../components/lesson/fx.js";
 import { addXp } from "../../lib/gamification.js";
 import { todasLasPalabras } from "../../lib/contenidoJuego.js";
-import { DISPOSICIONES, TIPOS, disposicion, posicionesDe, medidas, elegirParejas, repartir, validas, emparejan, libres, jugadas, rebarajar, candidatas } from "../../lib/mahjong.js";
+import { DISPOSICIONES, TIPOS, disposicion, posicionesDe, medidas, elegirParejas, repartir, validas, emparejan, libres, jugadas, rebarajar, candidatas, TUTORIAL } from "../../lib/mahjong.js";
 import { useContenidoJuego, claveRecord, leerNumero, guardarNumero, usePrefiereMenosMovimiento, SelectorUnidad, Sello, etiquetaContenido } from "./jbComun.jsx";
 import "../../styles/v13-juegos-b.css";
 import "../../styles/mahjong.css";
 
 const CLAVE_DISP = "dele_mahjong_disposicion";
+const CLAVE_TUTORIAL = "dele_mahjong_tutorial_visto";
+const tutorialVisto = () => {
+  try {
+    return localStorage.getItem(CLAVE_TUTORIAL) === "1";
+  } catch {
+    return true;
+  }
+};
 const GRAMATICA = new Set(["conj", "art", "qa", "rel"]);
 const formatoTiempo = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 const azar = (lista) => lista[Math.floor(Math.random() * lista.length)];
@@ -82,7 +90,7 @@ function MiniDisposicion({ disp }) {
 }
 
 // ---------- Ficha de marfil ----------
-const Ficha = React.memo(function Ficha({ f, libre, sel, pista, tiembla, onPulsar, w, h, d, capas }) {
+const Ficha = React.memo(function Ficha({ f, libre, sel, pista, tiembla, guia, onPulsar, w, h, d, capas }) {
   const grammar = GRAMATICA.has(f.kind);
   const tono = f.lang === "zh" ? "zh" : grammar && f.lado === "a" ? "jade" : "es";
   const n = [...f.t].length;
@@ -94,8 +102,8 @@ const Ficha = React.memo(function Ficha({ f, libre, sel, pista, tiembla, onPulsa
     <button
       type="button"
       data-id={f.id}
-      className={`mj-ficha mj-ficha--${tono} ${libre ? "is-libre" : "is-bloq"} ${sel ? "is-sel" : ""} ${pista ? "is-pista" : ""} ${tiembla ? "is-tiembla" : ""}`}
-      style={{ left, top, zIndex: f.z * 1000 + f.y * 20 + f.x + 30, "--z": f.z, "--fs": `${Math.max(9, w * factor)}px` }}
+      className={`mj-ficha mj-ficha--${tono} ${libre ? "is-libre" : "is-bloq"} ${sel ? "is-sel" : ""} ${pista ? "is-pista" : ""} ${tiembla ? "is-tiembla" : ""} ${guia ? "is-guia" : ""}`}
+      style={{ left, top, zIndex: f.z * 1000 + f.y * 20 + f.x + 30, "--z": f.z, "--k": f.id, "--fs": `${Math.max(9, w * factor)}px` }}
       onClick={() => onPulsar(f)}
       aria-pressed={sel}
       aria-label={`${f.t} · ${tipo.es} ${tipo.zh} · ${libre ? "libre 可选" : "bloqueada 被挡住"}`}
@@ -109,6 +117,11 @@ const Ficha = React.memo(function Ficha({ f, libre, sel, pista, tiembla, onPulsa
         </span>
         <span className="mj-orla" aria-hidden="true" />
       </span>
+      {guia && (
+        <span className="mj-flecha" aria-hidden="true">
+          ▼
+        </span>
+      )}
     </button>
   );
 });
@@ -117,7 +130,7 @@ const Ficha = React.memo(function Ficha({ f, libre, sel, pista, tiembla, onPulsa
 function Mono({ estado }) {
   if (!estado) return null;
   return (
-    <div className={`mj-mono is-${estado.pose}`} key={estado.id} aria-live="polite">
+    <div className={`mj-mono is-${estado.pose} ${estado.fijo ? "is-fijo" : ""}`} key={estado.id} aria-live="polite">
       <img src={`./mono/${estado.pose}.webp`} alt="" aria-hidden="true" />
       {estado.es && (
         <p className="mj-bocadillo">
@@ -157,6 +170,8 @@ function JuegoMahjong({ contenido }) {
   const [sinJugadas, setSinJugadas] = React.useState(false);
   const [resultado, setResultado] = React.useState(null);
   const [barajando, setBarajando] = React.useState(false);
+  const [entrada, setEntrada] = React.useState(false);
+  const [hechas, setHechas] = React.useState([]); // parejas retiradas, para el repaso final
   const [area, setArea] = React.useState({ w: 0, h: 0 });
   const areaRef = React.useRef(null);
   const combo = React.useRef({ n: 0, t: 0 });
@@ -238,6 +253,11 @@ function JuegoMahjong({ contenido }) {
       } catch {}
       setDispId(id);
       setPartida({ fichas, conjunto, total: fichas.length / 2, girar });
+      setHechas([]);
+      if (!reducido) {
+        setEntrada(true);
+        programar(() => setEntrada(false), 1800);
+      }
       setHistorial([]);
       setSel(null);
       setPista(null);
@@ -252,14 +272,50 @@ function JuegoMahjong({ contenido }) {
       setFase("juego");
       decirMono("saluda", "inicio");
     },
-    [contenido, dispId, decirMono],
+    [contenido, dispId, decirMono, reducido, programar],
   );
+
+  // Tutorial: mesa de 6 fichas con tres parejas fáciles de la unidad y el Rey Mono guiando
+  const decirFijo = React.useCallback((pose, es, zh) => setMono({ pose, es, zh, id: Math.random(), fijo: true }), []);
+  const empezarTutorial = React.useCallback(() => {
+    const posiciones = posicionesDe(TUTORIAL);
+    const respaldo = contenido.numero === "todas" ? [] : todasLasPalabras();
+    // Solo palabras y expresiones cortas: lo importante aquí es entender la regla
+    const sencillo = { ...contenido, teoria: [], dialogos: [], ejercicios: {}, vocabulario: (contenido.vocabulario || []).filter((v) => String(v.espanol || "").length <= 12) };
+    const parejas = elegirParejas(sencillo, 3, Math.random, respaldo);
+    const conjunto = validas(parejas);
+    const reparto = new Map();
+    TUTORIAL.guion.forEach(([p, q], i) => {
+      reparto.set(p, { par: parejas[i], lado: "a" });
+      reparto.set(q, { par: parejas[i], lado: "b" });
+    });
+    const fichas = posiciones.map((pos) => {
+      const { par, lado } = reparto.get(pos.id);
+      return { ...pos, pareja: par.id, kind: par.kind, lado, t: par[lado].t, lang: par[lado].lang, vivo: true };
+    });
+    setPartida({ fichas, conjunto, total: 3, girar: false, tutorial: true });
+    setHechas([]);
+    setHistorial([]);
+    setSel(null);
+    setPista(null);
+    setVuelos([]);
+    setStats({ pistas: 0, barajadas: 0, deshechas: 0, errores: 0 });
+    setResultado(null);
+    setSinJugadas(false);
+    const t = Date.now();
+    setInicio(t);
+    setAhora(t);
+    setFase("juego");
+    decirFijo("saluda", "Las fichas claras están libres. Toca la de arriba, la que brilla.", "亮的牌是可选的。点最上面发光的那张。");
+  }, [contenido, decirFijo]);
 
   const fichas = partida?.fichas || [];
   const vivas = React.useMemo(() => fichas.filter((f) => f.vivo), [fichas]);
   const libresSet = React.useMemo(() => new Set(libres(vivas).map((f) => f.id)), [vivas]);
   const posibles = React.useMemo(() => (partida ? jugadas(fichas, partida.conjunto) : []), [fichas, partida]);
   const retiradas = partida ? partida.total - vivas.length / 2 : 0;
+  const pasoTutorial = partida?.tutorial ? Math.min(TUTORIAL.guion.length - 1, retiradas) : -1;
+  const guiaId = partida?.tutorial && vivas.length ? TUTORIAL.guion[pasoTutorial].find((id) => id !== sel) : null;
 
   // Medidas de las fichas para el área disponible
   const geo = React.useMemo(() => {
@@ -273,9 +329,9 @@ function JuegoMahjong({ contenido }) {
     const cols = anchoMedias / 2;
     const filas = altoMedias / 2;
     const margen = estrecho ? 10 : 28;
-    const lateral = estrecho ? 0 : 250; // sitio para el Rey Mono a la izquierda (y simetría a la derecha)
+    const lateral = estrecho || partida.tutorial ? 0 : 250; // sitio para el Rey Mono a la izquierda (y simetría a la derecha)
     let w = Math.min((area.w - margen - lateral) / (cols + (capas - 1) * kd + kt), (area.h - margen) / (filas * ratio + (capas - 1) * kd + kt));
-    w = Math.max(30, Math.min(w, 96));
+    w = Math.max(30, Math.min(w, partida.tutorial ? 124 : 96));
     const h = w * ratio;
     const d = w * kd;
     const t = w * kt;
@@ -285,6 +341,18 @@ function JuegoMahjong({ contenido }) {
   // ¿Fin de partida o sin jugadas?
   React.useEffect(() => {
     if (fase !== "juego" || !partida) return;
+    if (vivas.length === 0 && partida.tutorial) {
+      try {
+        localStorage.setItem(CLAVE_TUTORIAL, "1");
+      } catch {}
+      programar(() => {
+        soundEnabled && playWin();
+        setResultado({ tutorial: true, fin: Date.now() });
+        setFase("final");
+      }, reducido ? 200 : 900);
+      setFase("fin");
+      return;
+    }
     if (vivas.length === 0) {
       const fin = Date.now();
       const total = (fin - inicio) / 1000;
@@ -322,6 +390,8 @@ function JuegoMahjong({ contenido }) {
     setSel(null);
     setPista(null);
     soundEnabled && playCorrect();
+    const [pa1, pb1] = a.lado === "a" ? [a, b] : [b, a];
+    setHechas((hs) => (hs.some((x) => x.a === pa1.t && x.b === pb1.t) ? hs : [...hs, { a: pa1.t, b: pb1.t, la: pa1.lang, lb: pb1.lang, kind: a.kind }]));
     // Pronuncia la parte española (o las dos si son pronombre + verbo, artículo + nombre…)
     const es = [a, b].filter((f) => f.lang === "es");
     const ordenadas = es.sort((x, y) => (x.lado === "a" ? -1 : 1));
@@ -337,6 +407,12 @@ function JuegoMahjong({ contenido }) {
       setVuelos((v) => [...v, { id, a: { ...a, ...pa }, b: { ...b, ...pb }, mx, my }]);
       programar(() => setVuelos((v) => v.filter((x) => x.id !== id)), reducido ? 350 : 1100);
     }
+    if (partida.tutorial) {
+      const quedan = vivas.length - 2;
+      if (quedan === 4) decirFijo("feliz", "¡Muy bien! La ficha de la izquierda ya no tiene nada encima: ahora está libre.", "很好！左边那张上面没有牌了，现在可以选。");
+      else if (quedan === 2) decirFijo("guino", "Las dos últimas tienen un lado vacío. ¡Emparéjalas!", "最后两张都有一侧是空的。配对吧！");
+      return;
+    }
     const ahoraMs = Date.now();
     combo.current = ahoraMs - combo.current.t < 5000 ? { n: combo.current.n + 1, t: ahoraMs } : { n: 1, t: ahoraMs };
     if (combo.current.n >= 3 && combo.current.n % 3 === 0) {
@@ -351,12 +427,14 @@ function JuegoMahjong({ contenido }) {
     if (fase !== "juego" || !f.vivo) return;
     if (!libresSet.has(f.id)) {
       temblar([f.id]);
-      decirMono("serio", "bloqueada");
+      if (partida.tutorial) decirFijo("serio", "Esa está atrapada: tiene una ficha encima o fichas a los dos lados.", "这张被挡住了：上面有牌，或者左右两边都有牌。");
+      else decirMono("serio", "bloqueada");
       return;
     }
     if (sel === null) {
       setSel(f.id);
       soundEnabled && playClick?.();
+      if (partida.tutorial) decirFijo("guino", `«${f.t}»: ahora toca su pareja, la que brilla.`, `「${f.t}」：现在点它的配对（发光的那张）。`);
       return;
     }
     if (sel === f.id) {
@@ -512,9 +590,14 @@ function JuegoMahjong({ contenido }) {
               ))}
           </div>
 
-          <button type="button" className="mj-empezar" onClick={() => nuevaPartida(dispId)}>
-            <PlayIcon size={22} aria-hidden="true" /> Empezar · 开始
-          </button>
+          <div className="mj-intro__acciones">
+            <button type="button" className="mj-empezar" onClick={() => (tutorialVisto() ? nuevaPartida(dispId) : empezarTutorial())}>
+              <PlayIcon size={22} aria-hidden="true" /> {tutorialVisto() ? "Empezar · 开始" : "Aprender a jugar · 学玩法"}
+            </button>
+            <button type="button" className="mj-boton mj-boton--claro mj-intro__tuto" onClick={empezarTutorial}>
+              <GraduationCapIcon size={19} aria-hidden="true" /> ¿Cómo se juega? · 怎么玩？
+            </button>
+          </div>
         </section>
       </div>
     );
@@ -552,6 +635,7 @@ function JuegoMahjong({ contenido }) {
           <SparklesIcon size={17} aria-hidden="true" /> <b>{posibles.length}</b>
           <small>libres · 可配</small>
         </span>
+        {!partida?.tutorial && (
         <div className="mj-herramientas">
           <button type="button" className="mj-boton" onClick={pedirPista} aria-label="Pista · 提示">
             <LightbulbIcon size={19} aria-hidden="true" />
@@ -573,9 +657,10 @@ function JuegoMahjong({ contenido }) {
             {soundEnabled ? <Volume2Icon size={19} aria-hidden="true" /> : <VolumeXIcon size={19} aria-hidden="true" />}
           </button>
         </div>
+        )}
       </div>
 
-      <div className="mj-placa" aria-live="polite">
+      <div className={`mj-placa ${mono.fijo && !seleccionada ? "is-fijo" : ""}`} aria-live="polite">
         {seleccionada ? (
           <>
             <span className={`mj-placa__tipo ${GRAMATICA.has(seleccionada.kind) ? "is-jade" : ""}`} translate="no">
@@ -607,9 +692,24 @@ function JuegoMahjong({ contenido }) {
       <div className="mj-mesa" ref={areaRef}>
         <span className="mj-mesa__nube mj-mesa__nube--1" aria-hidden="true" />
         <span className="mj-mesa__nube mj-mesa__nube--2" aria-hidden="true" />
+        <span className="mj-mesa__tejado" aria-hidden="true" />
+        {[0, 1].map((i) => (
+          <span key={i} className={`mj-farol mj-farol--${i ? "der" : "izq"}`} aria-hidden="true">
+            <i className="mj-farol__cuerda" />
+            <i className="mj-farol__cuerpo" translate="no">
+              {i ? "福" : "学"}
+            </i>
+            <i className="mj-farol__borla" />
+          </span>
+        ))}
+        <span className="mj-polvo" aria-hidden="true">
+          {Array.from({ length: 16 }, (_, i) => (
+            <i key={i} style={{ "--x": `${(i * 37) % 100}%`, "--d": `${(i * 0.73) % 6}s`, "--s": `${6 + (i % 5)}s` }} />
+          ))}
+        </span>
         {geo && (
           <div
-            className={`mj-tablero ${barajando ? "is-barajando" : ""}`}
+            className={`mj-tablero ${barajando ? "is-barajando" : ""} ${entrada ? "is-entrada" : ""} ${partida?.tutorial ? "is-tutorial" : ""}`}
             style={{ width: geo.ancho, height: geo.alto, "--w": `${geo.w}px`, "--h": `${geo.h}px`, "--t": `${geo.t}px` }}
             role="group"
             aria-label={`Tablero · 牌桌: ${vivas.length} fichas`}
@@ -622,6 +722,7 @@ function JuegoMahjong({ contenido }) {
                 sel={sel === f.id}
                 pista={!!pista?.includes(f.id)}
                 tiembla={tiembla.includes(f.id)}
+                guia={guiaId === f.id}
                 onPulsar={pulsar}
                 w={geo.w}
                 h={geo.h}
@@ -643,6 +744,13 @@ function JuegoMahjong({ contenido }) {
                     </span>
                   </span>
                 ))}
+                <span className="mj-sentido" style={{ left: v.mx + geo.w / 2, top: v.my }} aria-hidden="true">
+                  {(v.a.lado === "a" ? [v.a, v.b] : [v.b, v.a]).map((f, i) => (
+                    <b key={i} className={f.lang === "zh" ? "is-zh" : ""}>
+                      {f.t}
+                    </b>
+                  ))}
+                </span>
                 <span className="mj-destello" style={{ left: v.mx + geo.w / 2, top: v.my + geo.h / 2 }} aria-hidden="true">
                   <i className="mj-destello__luz" />
                   <i className="mj-destello__aro" />
@@ -682,7 +790,45 @@ function JuegoMahjong({ contenido }) {
         )}
 
       {fase === "final" &&
+        resultado?.tutorial &&
+        createPortal(
+          <div className={`mj-modal gm-no-adapt ${reducido ? "is-reducido" : ""}`} role="dialog" aria-modal="true" aria-labelledby="mj-tuto-titulo">
+            <div className="mj-tarjeta mj-tarjeta--fin">
+              <span className="mj-fin__rayos" aria-hidden="true" />
+              <img className="mj-fin__mono" src="./mono/feliz.webp" alt="" aria-hidden="true" />
+              <h2 id="mj-tuto-titulo" className="mj-tarjeta__titulo">
+                ¡Ya sabes jugar!
+                <span>你学会了！</span>
+              </h2>
+              <ul className="mj-resumen-reglas">
+                <li>Solo se cogen fichas sin nada encima y con un lado libre. · 只能选上面没有牌、且一侧为空的牌。</li>
+                <li>Une cada palabra con su pareja. · 把每个词和它的配对连起来。</li>
+                <li>¿Atascado? Pista, barajar o deshacer. · 卡住了？用提示、洗牌或撤销。</li>
+              </ul>
+              <div className="mj-tarjeta__botones">
+                <button
+                  type="button"
+                  className="mj-empezar"
+                  onClick={() => {
+                    const facil = "patio";
+                    nuevaPartida(facil);
+                  }}
+                  autoFocus
+                >
+                  <PlayIcon size={20} aria-hidden="true" /> Jugar en el Patio · 开始游戏
+                </button>
+                <button type="button" className="mj-boton mj-boton--claro" onClick={() => setFase("inicio")}>
+                  <LayersIcon size={19} aria-hidden="true" /> Elegir disposición · 选布局
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
+
+      {fase === "final" &&
         resultado &&
+        !resultado.tutorial &&
         createPortal(
           <div className={`mj-modal gm-no-adapt ${reducido ? "is-reducido" : ""}`} role="dialog" aria-modal="true" aria-labelledby="mj-fin-titulo">
             <div className="mj-tarjeta mj-tarjeta--fin">
@@ -729,6 +875,25 @@ function JuegoMahjong({ contenido }) {
                   </>
                 )}
               </p>
+              {hechas.length > 0 && (
+                <details className="mj-repaso" open>
+                  <summary>
+                    Repasa las parejas · 复习配对 <span>{hechas.length}</span>
+                  </summary>
+                  <ul>
+                    {hechas.map((x, i) => (
+                      <li key={i}>
+                        <span className={x.la === "zh" ? "is-zh" : ""}>{x.a}</span>
+                        <i aria-hidden="true">⟷</i>
+                        <span className={x.lb === "zh" ? "is-zh" : ""}>{x.b}</span>
+                        <button type="button" onClick={() => speak([x.a, x.b].filter((_, k) => (k ? x.lb : x.la) === "es").join(x.kind === "qa" || x.kind === "rel" ? ". " : " "), 0.9)} aria-label={`Escuchar · 听: ${x.a}`}>
+                          <Volume2Icon size={15} aria-hidden="true" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
               <div className="mj-tarjeta__botones">
                 <button type="button" className="mj-empezar" onClick={() => nuevaPartida(dispId)} autoFocus>
                   <RotateCcwIcon size={20} aria-hidden="true" /> Otra vez · 再来一局

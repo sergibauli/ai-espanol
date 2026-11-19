@@ -37,6 +37,16 @@ const rango = (desde, hasta, paso = 2) => {
 
 export const DISPOSICIONES = [
   {
+    id: "patio",
+    es: "Patio",
+    zh: "庭院",
+    sello: "院",
+    nivel: { es: "Muy fácil", zh: "入门" },
+    rotable: true,
+    // una sola capa: nunca hay fichas encima, solo cuentan los lados
+    fichas: [...fila(0, 0, rango(2, 10)), ...fila(0, 2, rango(0, 12)), ...fila(0, 4, rango(0, 12)), ...fila(0, 6, rango(2, 10))],
+  },
+  {
     id: "pagoda",
     es: "Pagoda",
     zh: "宝塔",
@@ -136,6 +146,21 @@ export const DISPOSICIONES = [
   },
 ];
 
+/** Mesa del tutorial: 5 fichas en fila y una encima de las dos centrales-izquierdas. */
+export const TUTORIAL = {
+  id: "tutorial",
+  es: "Aprende a jugar",
+  zh: "学玩法",
+  rotable: false,
+  fichas: [...fila(0, 0, [0, 2, 4, 6, 8]), ...fila(1, 0, [3])],
+  // orden en que se retiran (ids de posición): primero la de arriba con la del extremo izquierdo…
+  guion: [
+    [5, 0],
+    [1, 4],
+    [2, 3],
+  ],
+};
+
 export function disposicion(id) {
   return DISPOSICIONES.find((d) => d.id === id) || DISPOSICIONES[0];
 }
@@ -179,6 +204,12 @@ export function libres(vivas) {
 
 // ---------------------------------------------------------------- Parejas
 const claveTexto = (t) => limpiar(t).toLowerCase();
+
+// Términos de gramática (metalenguaje) y traducciones con notas: solo si no hay nada mejor
+const METALENGUAJE = new Set(
+  "singular plural verbo verbos raíz terminación terminaciones pronombre pronombres conjugar conjugación persona sustantivo adjetivo adverbio artículo masculino femenino infinitivo sujeto objeto género número regular irregular tiempo modo presente pasado futuro preposición".split(" "),
+);
+export const esFloja = (p) => /[()（）]/.test(p.a.t + p.b.t) || METALENGUAJE.has(claveTexto(p.a.t)) || METALENGUAJE.has(claveTexto(p.b.t));
 
 /** Conjunto de combinaciones válidas por texto (así dos fichas iguales son intercambiables). */
 export function validas(parejas) {
@@ -292,9 +323,12 @@ export function elegirParejas(c, n, rnd = Math.random, extra = []) {
       lado.add(kb);
     }
   };
-  barajar(gram, rnd).slice(0, Math.round(n * 0.4)).forEach(tomar);
-  [...porTipo("vocab"), ...porTipo("frase")].forEach(tomar);
-  gram.forEach(tomar);
+  const buenas = (l) => l.filter((p) => !esFloja(p));
+  barajar(buenas(gram), rnd).slice(0, Math.round(n * 0.4)).forEach(tomar);
+  buenas([...porTipo("vocab"), ...porTipo("frase")]).forEach(tomar);
+  buenas(gram).forEach(tomar);
+  // Si aún faltan, primero repite buenas antes de recurrir a las flojas
+  if (elegidas.length < Math.ceil(n / 3)) [...porTipo("vocab"), ...porTipo("frase"), ...gram].forEach(tomar);
   // Muy poco contenido: completa con vocabulario de respaldo
   if (elegidas.length < Math.ceil(n / 3))
     for (const v of barajar(extra, rnd)) {

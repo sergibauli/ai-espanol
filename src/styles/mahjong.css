@@ -1436,6 +1436,449 @@ main.game-bg .mj-raiz button.mj-placa__oir {
   }
 }
 
+
+/* ===== v22.1 · más espectáculo: farolillos, polvo de oro, entrada, guía, significado, repaso ===== */
+.mj-intro__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+.mj-intro .mj-intro__acciones .mj-empezar {
+  margin: 0;
+}
+.mj-intro__tuto {
+  min-height: 50px;
+}
+/* Alero dorado y farolillos */
+.mj-mesa__tejado {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 16px;
+  background:
+    repeating-linear-gradient(90deg, rgba(122, 79, 18, 0.55) 0 2px, transparent 2px 12px),
+    linear-gradient(180deg, #fff1b0, #f2c14e 45%, #8a5a1e);
+  clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  opacity: 0.9;
+  pointer-events: none;
+}
+.mj-farol {
+  position: absolute;
+  top: 0;
+  width: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+  animation: mj-farol 4.2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+.mj-farol--izq {
+  left: 46px;
+}
+.mj-farol--der {
+  right: 46px;
+  animation-delay: -2.1s;
+}
+.mj-farol i {
+  font-style: normal;
+}
+.mj-farol__cuerda {
+  width: 2px;
+  height: 26px;
+  background: linear-gradient(#f2c14e, #8a5a1e);
+}
+.mj-farol__cuerpo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 52px;
+  border-radius: 46% / 50%;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.12) 0 2px, transparent 2px 9px),
+    radial-gradient(circle at 40% 35%, #ffb36a, #e8344f 40%, #a50f25 75%, #6d0a18);
+  color: #ffe39a;
+  font-family: var(--mj-kai);
+  font-size: 20px;
+  box-shadow:
+    0 0 26px 8px rgba(255, 120, 60, 0.45),
+    inset 0 0 10px rgba(255, 220, 120, 0.5);
+}
+.mj-farol__cuerpo::before,
+.mj-farol__cuerpo::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  height: 6px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #fff1b0, #c8961e);
+}
+.mj-farol__cuerpo::before {
+  top: -3px;
+}
+.mj-farol__cuerpo::after {
+  bottom: -3px;
+}
+.mj-farol__borla {
+  width: 6px;
+  height: 22px;
+  margin-top: 2px;
+  border-radius: 0 0 3px 3px;
+  background: repeating-linear-gradient(90deg, #ffcf6a 0 1px, #c8102e 1px 2px);
+}
+@keyframes mj-farol {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+/* Polvo de oro que sube */
+.mj-polvo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mj-polvo i {
+  position: absolute;
+  left: var(--x);
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffe9a0;
+  box-shadow: 0 0 8px 2px rgba(255, 210, 100, 0.8);
+  opacity: 0;
+  animation: mj-polvo var(--s) linear var(--d) infinite;
+}
+@keyframes mj-polvo {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(30px, -110vh);
+    opacity: 0;
+  }
+}
+.mj-tablero {
+  z-index: 2;
+}
+/* Entrada: las fichas caen por capas */
+.mj-tablero.is-entrada .mj-ficha {
+  animation: mj-cae 0.55s cubic-bezier(0.3, 1.4, 0.5, 1) backwards;
+  animation-delay: calc(var(--z) * 0.25s + var(--k) * 14ms);
+}
+@keyframes mj-cae {
+  from {
+    transform: translateY(-60px) scale(1.15) rotate(-6deg);
+    opacity: 0;
+  }
+}
+/* Cara de marfil: esquinas grabadas en oro */
+.mj-cara::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--w) * 0.09);
+  border-radius: calc(var(--w) * 0.07);
+  background:
+    radial-gradient(circle at 0 0, transparent calc(var(--w) * 0.08), rgba(200, 150, 30, 0.45) calc(var(--w) * 0.08), rgba(200, 150, 30, 0.45) calc(var(--w) * 0.095), transparent calc(var(--w) * 0.095)) top left / 40% 40% no-repeat,
+    radial-gradient(circle at 100% 100%, transparent calc(var(--w) * 0.08), rgba(200, 150, 30, 0.45) calc(var(--w) * 0.08), rgba(200, 150, 30, 0.45) calc(var(--w) * 0.095), transparent calc(var(--w) * 0.095)) bottom right / 40% 40% no-repeat;
+  pointer-events: none;
+}
+/* Guía del tutorial */
+.mj-ficha.is-guia .mj-cara {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9),
+    var(--grosor),
+    0 0 0 3px #f2c14e,
+    0 0 26px 10px rgba(255, 210, 90, 0.85);
+  animation: mj-latido 0.9s ease-in-out infinite;
+}
+.mj-flecha {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--w) * -0.55);
+  z-index: 3;
+  transform: translateX(-50%);
+  color: #ffe39a;
+  font-size: calc(var(--w) * 0.4);
+  text-shadow:
+    0 0 10px #f2c14e,
+    0 2px 0 #8a5a1e;
+  animation: mj-flecha 0.8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes mj-flecha {
+  50% {
+    transform: translate(-50%, -8px);
+  }
+}
+.mj-tablero.is-tutorial .mj-ficha.is-libre:not(.is-guia) .mj-cara {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9),
+    var(--grosor),
+    0 0 0 2px rgba(95, 224, 154, 0.8);
+}
+/* Cartel con el significado de la pareja */
+.mj-sentido {
+  position: absolute;
+  z-index: 9002;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #fffaf0, #f6e3b0);
+  box-shadow:
+    inset 0 0 0 1px #c8961e,
+    inset 0 0 0 3px #fffaf0,
+    inset 0 0 0 4px rgba(200, 150, 30, 0.6),
+    0 10px 24px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(255, 210, 90, 0.6);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: mj-sentido 1.5s ease 0.5s forwards;
+  pointer-events: none;
+}
+.mj-sentido b {
+  font-family: var(--mj-serif);
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--mj-tinta);
+}
+.mj-sentido b + b {
+  font-size: 15px;
+  color: var(--mj-jade);
+}
+.mj-sentido b.is-zh {
+  font-family: var(--mj-kai);
+  font-size: 19px;
+  color: var(--mj-rojo);
+}
+@keyframes mj-sentido {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.6);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -70%) scale(1.05);
+  }
+  75% {
+    opacity: 1;
+    transform: translate(-50%, -90%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -130%) scale(0.95);
+  }
+}
+/* Mensajes fijos del tutorial */
+.mj-bocadillo {
+  animation-fill-mode: forwards;
+}
+.mj-mono.is-fijo .mj-bocadillo {
+  animation: mj-mono-entra 0.4s ease both;
+}
+.mj-placa.is-fijo .mj-placa__mono,
+.mj-placa.is-fijo .mj-placa__dice {
+  display: block;
+}
+.mj-placa.is-fijo .mj-placa__instr {
+  display: none;
+}
+.mj-placa.is-fijo .mj-placa__dice b {
+  font-size: 16px;
+}
+@media (min-width: 761px) {
+  .mj-placa.is-fijo ~ .mj-mesa .mj-mono .mj-bocadillo {
+    display: none;
+  }
+}
+/* Fin: resumen de reglas y repaso */
+.mj-resumen-reglas {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.mj-resumen-reglas li {
+  position: relative;
+  margin: 6px 0;
+  padding: 8px 10px 8px 34px;
+  border-radius: 10px;
+  background: rgba(255, 252, 242, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(200, 150, 30, 0.45);
+}
+.mj-resumen-reglas li::before {
+  content: "✓";
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  color: var(--mj-jade-cl);
+  font-weight: 900;
+}
+.mj-repaso {
+  margin-top: 12px;
+  text-align: left;
+  border-radius: 12px;
+  background: rgba(255, 252, 242, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(200, 150, 30, 0.5);
+}
+.mj-repaso summary {
+  cursor: pointer;
+  padding: 10px 12px;
+  font-weight: 900;
+  color: var(--mj-rojo-osc);
+}
+.mj-repaso summary span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 22px;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 99px;
+  background: var(--mj-rojo);
+  color: #fff4dc;
+  font-size: 12px;
+}
+.mj-repaso ul {
+  max-height: 180px;
+  overflow: auto;
+  margin: 0;
+  padding: 0 10px 10px;
+  list-style: none;
+}
+.mj-repaso li {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr 32px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  border-top: 1px dashed rgba(200, 150, 30, 0.45);
+  font-weight: 800;
+  font-size: 14.5px;
+}
+.mj-repaso li i {
+  font-style: normal;
+  color: #c8961e;
+}
+.mj-repaso li .is-zh {
+  font-family: var(--mj-kai);
+  color: var(--mj-rojo);
+  font-size: 16px;
+}
+.mj-repaso li button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--mj-rojo);
+  color: #fff4dc;
+  cursor: pointer;
+}
+/* Fuegos artificiales en la tarjeta final */
+.mj-tarjeta--fin::before,
+.mj-tarjeta--fin::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow:
+    0 -46px 0 #f2c14e,
+    33px -33px 0 #e8344f,
+    46px 0 0 #f2c14e,
+    33px 33px 0 #5fd08a,
+    0 46px 0 #f2c14e,
+    -33px 33px 0 #e8344f,
+    -46px 0 0 #f2c14e,
+    -33px -33px 0 #5fd08a;
+  animation: mj-fuego 1.6s ease-out infinite;
+}
+.mj-tarjeta--fin::before {
+  left: 22%;
+  top: 70px;
+}
+.mj-tarjeta--fin::after {
+  right: 24%;
+  top: 130px;
+  animation-delay: 0.8s;
+}
+@keyframes mj-fuego {
+  0% {
+    transform: scale(0.1);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+@media (max-width: 760px) {
+  .mj-repaso ul {
+    max-height: 132px;
+  }
+  .mj-modal .mj-fin__mono {
+    width: 92px;
+  }
+  .mj-tarjeta {
+    padding: 18px 14px 16px;
+  }
+  .mj-farol,
+  .mj-mesa__tejado {
+    display: none;
+  }
+  .mj-sentido b {
+    font-size: 15px;
+  }
+  .mj-intro__acciones {
+    flex-direction: column;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mj-polvo,
+  .mj-sentido,
+  .mj-tarjeta--fin::before,
+  .mj-tarjeta--fin::after {
+    display: none;
+  }
+}
+.mj-raiz.is-reducido .mj-polvo,
+.mj-raiz.is-reducido .mj-sentido {
+  display: none;
+}
+main.game-bg .mj-modal button {
+  font-size: inherit;
+}
+
 /* ---------- Menos movimiento ---------- */
 .mj-raiz.is-reducido *,
 .mj-modal.is-reducido * {
