@@ -585,3 +585,21 @@
 .tkr .version {
   color: var(--ink-dim);
 }
+
+@media (max-width: 700px) {
+  .tkr .menu > section.panel-select {
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding-top: 14px;
+  }
+  .tkr .select-header {
+    padding-right: 120px;
+    flex-shrink: 0;
+  }
+  .tkr .card-grid {
+    flex-shrink: 0;
+  }
+  .tkr .version {
+    bottom: 6px;
+  }
+}
