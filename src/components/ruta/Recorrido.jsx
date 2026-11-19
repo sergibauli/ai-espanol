@@ -331,7 +331,7 @@ function pincel({ M, forma, pts }) {
     <g>
       <path className="r24-aguada" d={cinta(m, (q) => ancho(q) * 3.2)} />
       <path className="r24-tinta-borde" d={cinta(m, (q) => ancho(q) + 9, 2, 3)} />
-      <path className="r24-tinta" d={cinta(m, ancho)} />
+      <path className="r24-tinta" d={cinta(m, (q) => ancho(q) + 2.2 * Math.sin(q.s / 2.3) + 1.4 * Math.sin(q.s / 5.1))} />
       {/* Pincel seco (飞白): vetas de papel que asoman dentro del trazo */}
       {secos.map(({ f, k }) => (
         <path
@@ -362,12 +362,12 @@ function PiedraTinta({ x, y }) {
   return (
     <g className="r24-piedra-tinta">
       <rect className="r24-sombra" x={x - hw + 8} y={top + 16} width={hw * 2 + 8} height={fondo - top + 6} rx="22" />
-      <rect x={x - hw} y={top + G} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "#231c20" }} />
-      <rect x={x - hw} y={top + G / 2} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "#3b3036" }} />
+      <rect x={x - hw} y={top + G} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "#3a2f35" }} />
+      <rect x={x - hw} y={top + G / 2} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "#5a4b53" }} />
       <rect x={x - hw} y={top} width={hw * 2} height={fondo - top} rx="20" style={{ fill: "url(#r24-duan)" }} />
       <rect x={x - hw + 2} y={top + 2} width={hw * 2 - 4} height={fondo - top - 4} rx="18" style={{ fill: "url(#r24-grano)", opacity: 0.45 }} />
       {/* Superficie de moler, rehundida y satinada */}
-      <rect x={x - hw + 10} y={top + 8} width={hw * 2 - 20} height={fondo - top - 16} rx="14" style={{ fill: "#2a2226" }} />
+      <rect x={x - hw + 10} y={top + 8} width={hw * 2 - 20} height={fondo - top - 16} rx="14" style={{ fill: "#40353b" }} />
       <rect x={x - hw + 11} y={top + 9.5} width={hw * 2 - 22} height={fondo - top - 18} rx="13" style={{ fill: "url(#r24-moler)" }} />
       {/* Charco de tinta (墨池) arriba, en media luna */}
       <path d={`M${x - 40} ${top + 13}h80q-6 14-40 14t-40-14z`} style={{ fill: "url(#r24-charco)" }} />
@@ -506,17 +506,37 @@ function nubes({ M, forma, pts }) {
 function Explanada({ x, y, tipo }) {
   const cy = y + 54;
   if (tipo === "nube") return <use href="#r24-nube-grande" transform={`translate(${x} ${cy - 2}) scale(1.35 1.15)`} className="r24-nube-parada" />;
-  const mat = { piedra: ["url(#r24-losas-explanada)", "#7a6e5b", "#5a4f40"], madera: ["url(#r24-tarima)", "#6b3c1a", "#4a2810"], tinta: ["url(#r24-pizarra)", "#2b2927", "#141312"], marmol: ["url(#r24-marmol)", "#cfc6b2", "#8f0c21"] }[tipo];
+  const mat = {
+    piedra: ["url(#r24-losas-explanada)", "#a3967c", "#6b5d47", "#e7dfcc"],
+    madera: ["url(#r24-tarima)", "#7a4520", "#4a2810", "#a5112a"],
+    tinta: ["url(#r24-duan)", "#6a5a63", "#3a2f35", "#b3a4ad"],
+    marmol: ["url(#r24-marmol)", "#d9cfb8", "#8f0c21", "#fbf8ef"],
+  }[tipo];
+  // Dos gradas elípticas (la inferior más ancha) con canto en sombra, filete dorado y escalinata frontal
+  const grada = (rx, ry, dy, alto, k) => (
+    <g key={k}>
+      <ellipse cx={x} cy={cy + dy + alto} rx={rx} ry={ry} style={{ fill: mat[2] }} />
+      <rect x={x - rx} y={cy + dy} width={rx * 2} height={alto} style={{ fill: mat[1] }} />
+      <rect x={x - rx} y={cy + dy} width={rx * 2} height={alto} style={{ fill: "url(#r24-cara-torre)" }} />
+      <ellipse cx={x} cy={cy + dy} rx={rx} ry={ry} style={{ fill: mat[0] }} />
+      <ellipse cx={x} cy={cy + dy} rx={rx - 2} ry={ry - 2} style={{ fill: "url(#r24-grano)", opacity: tipo === "marmol" ? 0.12 : 0.35 }} />
+      <ellipse cx={x} cy={cy + dy} rx={rx} ry={ry} style={{ fill: "url(#r24-luz-redonda)" }} />
+      <ellipse cx={x} cy={cy + dy} rx={rx - 0.5} ry={ry - 0.5} style={{ fill: "none", stroke: mat[3], strokeWidth: 1.6, strokeOpacity: 0.8 }} />
+    </g>
+  );
   return (
     <g className="r24-explanada">
-      <ellipse className="r24-sombra" cx={x + 12} cy={cy + 22} rx="112" ry="22" />
-      <ellipse cx={x} cy={cy + 12} rx="104" ry="30" style={{ fill: mat[2] }} />
-      <ellipse cx={x} cy={cy + 6} rx="104" ry="30" style={{ fill: mat[1] }} />
-      <ellipse cx={x} cy={cy} rx="104" ry="30" style={{ fill: mat[0] }} />
-      <ellipse cx={x} cy={cy} rx="102" ry="28" style={{ fill: "url(#r24-grano)", opacity: tipo === "marmol" ? 0.15 : 0.4 }} />
-      <ellipse cx={x} cy={cy} rx="104" ry="30" style={{ fill: "url(#r24-luz-redonda)" }} />
-      <ellipse cx={x} cy={cy} rx="96" ry="25" style={{ fill: "none", stroke: "#f2c14e", strokeWidth: 2, strokeOpacity: 0.85 }} />
-      <ellipse cx={x} cy={cy} rx="91" ry="22.5" style={{ fill: "none", stroke: "#f2c14e", strokeWidth: 0.8, strokeOpacity: 0.6 }} />
+      <ellipse className="r24-sombra" cx={x + 14} cy={cy + 30} rx="122" ry="26" />
+      {grada(112, 32, 10, 12, 0)}
+      {grada(92, 25, -2, 9, 1)}
+      <ellipse cx={x} cy={cy - 2} rx="84" ry="21" style={{ fill: "none", stroke: "#f2c14e", strokeWidth: 1.6, strokeOpacity: 0.9 }} />
+      {/* Escalones delanteros */}
+      {[0, 1, 2].map((k) => (
+        <g key={k}>
+          <rect x={x - 26 + k * 3} y={cy + 20 + k * 6} width={52 - k * 6} height="6" rx="1" style={{ fill: mat[3] }} />
+          <rect x={x - 26 + k * 3} y={cy + 24 + k * 6} width={52 - k * 6} height="2" style={{ fill: mat[2], opacity: 0.6 }} />
+        </g>
+      ))}
     </g>
   );
 }
@@ -622,15 +642,15 @@ export function RecorridoDefs() {
           <stop offset="1" stopColor="#3d3530" stopOpacity=".8" />
         </linearGradient>
         <linearGradient id="r24-duan" x1="0" y1="0" x2=".6" y2="1">
-          <stop offset="0" stopColor="#8a7884" />
-          <stop offset=".5" stopColor="#5d4d57" />
-          <stop offset="1" stopColor="#3a2f36" />
+          <stop offset="0" stopColor="#b3a4ad" />
+          <stop offset=".5" stopColor="#80707a" />
+          <stop offset="1" stopColor="#56474f" />
         </linearGradient>
         <linearGradient id="r24-moler" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#4a3e45" />
-          <stop offset=".45" stopColor="#3a3036" />
-          <stop offset=".55" stopColor="#52464d" />
-          <stop offset="1" stopColor="#2c2428" />
+          <stop offset="0" stopColor="#6e6068" />
+          <stop offset=".45" stopColor="#564a51" />
+          <stop offset=".55" stopColor="#74666e" />
+          <stop offset="1" stopColor="#463a41" />
         </linearGradient>
         <radialGradient id="r24-charco" cx=".4" cy=".3" r=".8">
           <stop offset="0" stopColor="#4a4a4e" />
@@ -640,8 +660,8 @@ export function RecorridoDefs() {
         <linearGradient id="r24-peldano" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#7a6c50" stopOpacity="0" />
           <stop offset=".62" stopColor="#7a6c50" stopOpacity="0" />
-          <stop offset=".7" stopColor="#7a6c50" stopOpacity=".38" />
-          <stop offset="1" stopColor="#7a6c50" stopOpacity=".12" />
+          <stop offset=".7" stopColor="#6a5a3c" stopOpacity=".55" />
+          <stop offset="1" stopColor="#6a5a3c" stopOpacity=".2" />
         </linearGradient>
         <linearGradient id="r24-luz-rampa" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#fff" stopOpacity=".45" />

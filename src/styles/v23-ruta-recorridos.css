@@ -212,3 +212,13 @@
 .md-aura::before { -webkit-mask-image: radial-gradient(closest-side, transparent 40%, #000 52%, transparent 92%); mask-image: radial-gradient(closest-side, transparent 40%, #000 52%, transparent 92%); opacity: .7; }
 .md-haz { height: 300px; bottom: 50%; opacity: .55; }
 @keyframes mdHaz { 0%, 100% { opacity: .38; } 50% { opacity: .6; } }
+
+/* ===== v24 · Estandarte: el monumento de la banda no se monta sobre el título ===== */
+.rt22 .ru-paisaje .ru-banda { transform: translateX(16%) scale(1.04); transform-origin: 50% 100%; }
+.rt22 .ru-paisaje::after { background: linear-gradient(90deg, color-mix(in srgb, var(--pd) 97%, transparent) 0%, color-mix(in srgb, var(--pd) 90%, transparent) 42%, color-mix(in srgb, var(--pd) 35%, transparent) 60%, transparent 72%, color-mix(in srgb, var(--pd) 55%, transparent) 100%), linear-gradient(180deg, rgba(255,255,255,.18), transparent 40%) !important; }
+@media (max-width: 700px) { .rt22 .ru-paisaje .ru-banda { transform: translateX(24%); } }
+.rt22 .ruta-camino.rf-escalinata .md-haz, .rt22 .ruta-camino.rf-pincel .md-haz { display: none; }
+.r24-escalinata { filter: drop-shadow(0 0 1px rgba(90,70,40,.35)); }
+@media (max-width: 700px) {
+  .rt22 .ru-paisaje::after { background: linear-gradient(90deg, color-mix(in srgb, var(--pd) 97%, transparent) 0%, color-mix(in srgb, var(--pd) 92%, transparent) 70%, color-mix(in srgb, var(--pd) 55%, transparent) 100%) !important; }
+}
