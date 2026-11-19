@@ -47,6 +47,7 @@ export const READY_GAMES = new Set([
   "/juegos/escape-palacio",
   "/juegos/fichas-palacio",
   "/juegos/brisca",
+  "/juegos/viaje-mono",
 ]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
@@ -295,6 +296,22 @@ const JUEGOS = [
     minutos: 10,
     jugadores: "1",
     path: "/juegos/brisca",
+  },
+  {
+    id: "viaje-mono",
+    name: "El viaje del Rey Mono",
+    nameCn: "美猴王之旅",
+    desc: "Tablero de recorrido: acierta una pregunta de la unidad para tirar el dado y llega al Templo del Oeste.",
+    descCn: "答对本单元的题才能掷骰子，一路走到西天。",
+    icon: Dice5Icon,
+    sello: "旅",
+    tono: "laca",
+    category: "mesa",
+    habilidad: { es: "Repaso completo", zh: "综合复习" },
+    nivel: 2,
+    minutos: 12,
+    jugadores: "1–4",
+    path: "/juegos/viaje-mono",
   },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 

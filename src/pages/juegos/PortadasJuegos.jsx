@@ -990,6 +990,65 @@ function Brisca() {
   );
 }
 
+// El viaje del Rey Mono: tablero en espiral con el templo en el centro, fichas y dado
+function ViajeMono() {
+  const g = useG();
+  const celdas = [];
+  const anillo = (a, b) => {
+    for (let c = a; c <= b; c++) celdas.push([c, a]);
+    for (let f = a + 1; f <= b; f++) celdas.push([b, f]);
+    for (let c = b - 1; c >= a; c--) celdas.push([c, b]);
+    for (let f = b - 1; f > a; f--) celdas.push([a, f]);
+  };
+  anillo(0, 6);
+  anillo(1, 5);
+  const T = 21;
+  const x0 = 86;
+  const y0 = 16;
+  const especiales = { 5: "#2c4f8f", 6: "#2f8f52", 10: ROJO, 14: "#2c4f8f", 16: "#3b2416", 23: "#2c4f8f", 26: "#c8961e", 29: "#8f0c21", 32: "#2c4f8f", 37: "#8f0c21" };
+  return (
+    <>
+      <rect width="320" height="180" fill="#5a0814" />
+      <circle cx="160" cy="90" r="120" fill={u(g, "halo")} opacity=".4" />
+      <rect x={x0 - 8} y={y0 - 8} width={7 * T + 16} height={7 * T + 16} rx="12" fill={u(g, "laca")} stroke={u(g, "oroH")} strokeWidth="2.5" />
+      <rect x={x0 - 2} y={y0 - 2} width={7 * T + 4} height={7 * T + 4} rx="6" fill="#f3e2bb" />
+      <polyline points={celdas.map(([c, f]) => `${x0 + c * T + T / 2},${y0 + f * T + T / 2}`).join(" ")} fill="none" stroke={ORO} strokeWidth="4" strokeLinejoin="round" />
+      {celdas.map(([c, f], i) => (
+        <rect key={i} x={x0 + c * T + 2} y={y0 + f * T + 2} width={T - 4} height={T - 4} rx="4" fill={especiales[i] || (i % 2 ? CREMA : "#ecd8ad")} stroke="#c8961e" strokeWidth=".8" />
+      ))}
+      <rect x={x0 + 2 * T + 2} y={y0 + 2 * T + 2} width={3 * T - 4} height={3 * T - 4} rx="8" fill={u(g, "azul")} stroke={u(g, "oroH")} strokeWidth="1.6" />
+      <circle cx={x0 + 3.5 * T} cy={y0 + 3.4 * T} r="24" fill={u(g, "halo")} opacity=".9" />
+      <path d={`M${x0 + 3.5 * T - 22} ${y0 + 3.4 * T} h44 l-6 -7 h-32z M${x0 + 3.5 * T - 15} ${y0 + 3.4 * T - 9} h30 l-5 -7 h-20z`} fill={ORO} stroke="#7a4f12" strokeWidth=".8" />
+      <rect x={x0 + 3.5 * T - 14} y={y0 + 3.4 * T} width="28" height="14" fill={ROJO} />
+      <text x={x0 + 3.5 * T} y={y0 + 4.6 * T} textAnchor="middle" fontSize="12" fill="#ffe08a" fontFamily="STKaiti, KaiTi, serif">西天</text>
+      {[
+        [x0 + 4.5 * T, y0 + 0.4 * T, "#2f8f52", "#7fe0a6"],
+        [x0 + 1.5 * T, y0 + 4.4 * T, "#c8961e", "#fff1b8"],
+      ].map(([cx, cy, c, b], i) => (
+        <g key={i} className="jh-p-naipe" style={{ "--d": `${i * -0.8}s` }}>
+          <ellipse cx={cx} cy={cy + 14} rx="9" ry="3.5" fill={c} stroke="#ffe08a" strokeWidth=".8" />
+          <rect x={cx - 3} y={cy + 2} width="6" height="11" fill={c} />
+          <circle cx={cx} cy={cy} r="7" fill={b} stroke={c} strokeWidth="2" />
+        </g>
+      ))}
+      <g transform="translate(262 108) rotate(-14)">
+        <rect x="-20" y="-20" width="40" height="40" rx="8" fill={CREMA} stroke="#c8961e" strokeWidth="2" />
+        <path d="M20 -20 l8 -6 v40 l-8 6z" fill="#d9c08a" />
+        <path d="M-20 -20 l8 -6 h40 l-8 6z" fill="#fff8e6" />
+        <circle cx="0" cy="0" r="6" fill={ROJO} />
+        <circle cx="-10" cy="-10" r="3.5" fill="#3b2416" />
+        <circle cx="10" cy="10" r="3.5" fill="#3b2416" />
+      </g>
+      <g transform="translate(40 120) rotate(8)">
+        <rect x="-20" y="-20" width="40" height="40" rx="8" fill={CREMA} stroke="#c8961e" strokeWidth="2" />
+        {[[-9, -9], [9, -9], [-9, 9], [9, 9]].map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r="4" fill={ROJO} />
+        ))}
+      </g>
+    </>
+  );
+}
+
 const ESCENAS = {
   kahoot: Kahoot,
   ruleta: Ruleta,
@@ -1005,6 +1064,7 @@ const ESCENAS = {
   "escape-palacio": EscapePalacio,
   "fichas-palacio": FichasPalacio,
   brisca: Brisca,
+  "viaje-mono": ViajeMono,
 };
 
 export function Portada({ id, className = "" }) {
