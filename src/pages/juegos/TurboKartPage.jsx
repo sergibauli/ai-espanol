@@ -1,4 +1,4 @@
-// Turbo Kart Rush · 极速卡丁车 — carreras de karts 3D (Three.js) con retos de vocabulario de la unidad:
+// Wukong Turbo Rush · 悟空极速赛车 — carreras de karts 3D (Three.js) con retos de vocabulario de la unidad:
 // las cajas de objetos hacen una pregunta (acierto = objeto) y las puertas de palabras dan turbo.
 // Basado en Turbo Kart Rush de BridgeMind (licencia MIT). El motor vive en src/juegos3d/turbo-kart/ y se
 // descarga solo al entrar (import dinámico), junto con three.
@@ -48,8 +48,8 @@ export default function TurboKartPage() {
     return (
       <ElegirUnidadJuego
         juego={{
-          titulo: "Turbo Kart Rush",
-          tituloZh: "极速卡丁车",
+          titulo: "Wukong Turbo Rush",
+          tituloZh: "悟空极速赛车",
           sello: "车",
           desc: "Carreras de karts 3D: acierta la palabra de cada caja para recibir objeto y cruza las puertas correctas para ganar turbo · 3D卡丁车：答对道具箱的词才能拿到道具，穿过正确的单词门获得加速。",
         }}
