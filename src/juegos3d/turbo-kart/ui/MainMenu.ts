@@ -7,6 +7,7 @@ import { events } from '../core/events';
 import { GAME_TITLE, DEFAULT_LAPS } from '../core/constants';
 import { button, cssHex, cssRgba, el, TextField } from './dom';
 import { PortadaAnimada } from './PortadaAnimada';
+import { PortadaVideo } from './PortadaVideo';
 
 export type MenuPanel = 'title' | 'characterSelect' | 'trackSelect';
 
@@ -99,6 +100,8 @@ export class MainMenu {
   private visible = false;
   /** Wukong: portada animada por capas (solo corre con la portada visible). */
   private readonly portada: PortadaAnimada;
+  /** Cinemática del dueño como portada; si no puede reproducirse, queda la portada por capas. */
+  private readonly portadaVideo: PortadaVideo;
 
   // Character select
   private readonly charCards: HTMLElement[] = [];
@@ -146,6 +149,7 @@ export class MainMenu {
     img.alt = `${GAME_TITLE} · 西游极速 · Gran Premio de Palabras · 单词大奖赛`;
     img.draggable = false;
     this.portada = new PortadaAnimada(arte, img);
+    this.portadaVideo = new PortadaVideo(title);
     // Interfaz real encima, en las mismas posiciones que en la maqueta.
     const capa = el('div', 'wk-capa', undefined, title);
     const legend = el('div', 'wk-controles', undefined, capa);
@@ -328,10 +332,12 @@ export class MainMenu {
     this.rootNode.classList.add('hidden');
     this.visible = false;
     this.portada.stop();
+    this.portadaVideo.stop();
   }
 
   dispose(): void {
     this.portada.dispose();
+    this.portadaVideo.dispose();
     this.rootNode.remove();
   }
 
@@ -404,8 +410,12 @@ export class MainMenu {
         node.classList.add('panel-in');
       }
     }
-    if (this.visible && this.panel === 'title') this.portada.start();
-    else this.portada.stop();
+    if (this.visible && this.panel === 'title') {
+      if (!this.portadaVideo.start()) this.portada.start();
+    } else {
+      this.portada.stop();
+      this.portadaVideo.stop();
+    }
     if (this.panel === 'trackSelect') {
       this.trackRow = 0;
       this.refreshTrackFocus();

@@ -1,0 +1,181 @@
+/* Wukong Turbo Rush · portada en vídeo (ver PortadaVideo.ts) */
+.tkr .wk-titulo.wk-con-video .wk-arte {
+  visibility: hidden;
+}
+.tkr .wk-pv {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #070b1a;
+  pointer-events: none;
+}
+.tkr .wk-titulo:not(.wk-con-video) .wk-pv:not(.wk-pv-fijo) {
+  display: none;
+}
+.tkr .wk-pv.wk-pv-fijo {
+  display: none;
+}
+/* fondo: el mismo vídeo en miniatura, desenfocado y oscurecido */
+.tkr .wk-pv-fondo {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  filter: blur(34px) saturate(1.35) brightness(0.62);
+  transform: scale(1.05);
+}
+/* vídeo vertical centrado a toda altura, con bordes que se funden y filo dorado */
+.tkr .wk-pv-marco {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  transform: translateX(-50%);
+  animation: tkr-wk-pv-entra 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.tkr .wk-pv-marco::before,
+.tkr .wk-pv-marco::after {
+  content: '';
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, #ffd36a 20%, #fff2c0 50%, #ffd36a 80%, transparent);
+  box-shadow: 0 0 18px 3px rgba(255, 190, 80, 0.55);
+  opacity: 0.85;
+  z-index: 1;
+  animation: tkr-wk-pv-filo 3.2s ease-in-out infinite;
+}
+.tkr .wk-pv-marco::before {
+  left: 0;
+}
+.tkr .wk-pv-marco::after {
+  right: 0;
+  animation-delay: -1.6s;
+}
+.tkr .wk-pv-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+.tkr .wk-pv-vineta {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(4, 6, 18, 0.55) 100%),
+    linear-gradient(180deg, transparent 70%, rgba(6, 4, 16, 0.55) 100%);
+}
+.tkr .wk-pv-destello {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 236, 170, 0.95), rgba(255, 170, 60, 0.4) 35%, transparent 70%);
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+.tkr .wk-pv-destello.activo {
+  animation: tkr-wk-pv-destello 0.9s ease-out;
+}
+/* botón de sonido */
+.tkr .wk-pv-sonido {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  z-index: 6;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 211, 106, 0.7);
+  background: rgba(20, 12, 30, 0.6);
+  color: #ffe9b0;
+  font: 600 13px/1.2 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.tkr .wk-titulo:not(.wk-con-video) .wk-pv-sonido {
+  display: none;
+}
+.tkr .wk-pv-sonido:hover,
+.tkr .wk-pv-sonido:focus-visible {
+  background: rgba(60, 30, 20, 0.75);
+  box-shadow: 0 0 14px rgba(255, 190, 80, 0.5);
+}
+
+/* pantalla vertical o casi: el vídeo ocupa toda la pantalla */
+@media (max-aspect-ratio: 4 / 5) {
+  .tkr .wk-pv-marco {
+    left: 0;
+    width: 100%;
+    aspect-ratio: auto;
+    transform: none;
+  }
+  .tkr .wk-pv-marco::before,
+  .tkr .wk-pv-marco::after,
+  .tkr .wk-pv-fondo {
+    display: none;
+  }
+  .tkr .wk-pv-video {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+@keyframes tkr-wk-pv-entra {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.06);
+    filter: brightness(1.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    filter: none;
+  }
+}
+@media (max-aspect-ratio: 4 / 5) {
+  .tkr .wk-pv-marco {
+    animation-name: tkr-wk-pv-entra-movil;
+  }
+}
+@keyframes tkr-wk-pv-entra-movil {
+  from {
+    opacity: 0;
+    filter: brightness(1.8);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+@keyframes tkr-wk-pv-filo {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes tkr-wk-pv-destello {
+  0% {
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tkr .wk-pv-marco,
+  .tkr .wk-pv-marco::before,
+  .tkr .wk-pv-marco::after {
+    animation: none;
+  }
+}
