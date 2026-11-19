@@ -54,6 +54,7 @@ const BriscaPage = React.lazy(() => import("./pages/juegos/BriscaPage.jsx"));
 const ViajeMonoPage = React.lazy(() => import("./pages/juegos/ViajeMonoPage.jsx"));
 const PincelPage = React.lazy(() => import("./pages/juegos/PincelPage.jsx"));
 const PinballDragonPage = React.lazy(() => import("./pages/juegos/PinballDragonPage.jsx"));
+const TurboKartPage = React.lazy(() => import("./pages/juegos/TurboKartPage.jsx"));
 const MapaMentalPage = React.lazy(() => import("./pages/juegos/MapaMentalPage.jsx"));
 const TeatroDialogosPage = React.lazy(() => import("./pages/juegos/TeatroDialogosPage.jsx"));
 const ExamGeneratorPage = React.lazy(() => import("./pages/ExamGeneratorPage.jsx"));
@@ -399,6 +400,7 @@ function AppRoutes() {
           <Route path="/juegos/viaje-mono" element={<RequireAuth><ViajeMonoPage /></RequireAuth>} />
           <Route path="/juegos/pincel-magico" element={<RequireAuth><PincelPage /></RequireAuth>} />
           <Route path="/juegos/pinball-dragon" element={<RequireAuth><PinballDragonPage /></RequireAuth>} />
+          <Route path="/juegos/turbo-kart" element={<RequireAuth><TurboKartPage /></RequireAuth>} />
           <Route
             path="/juegos/scramble"
             element={

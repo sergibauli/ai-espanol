@@ -1,0 +1,587 @@
+/* Wukong Español · capa de aprendizaje, controles táctiles y ajustes móviles de Turbo Kart Rush. */
+
+.tkr .oculto {
+  display: none !important;
+}
+
+.tkr {
+  --wk-zh: 'PingFang SC', 'Noto Sans CJK SC', 'Noto Sans SC', 'Microsoft YaHei', 'Source Han Sans SC', sans-serif;
+}
+
+/* ---------------------------------------------------------------- reto de la caja */
+.tkr .wk-reto {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(70px, 14vh, 150px);
+  z-index: 30;
+  pointer-events: none;
+}
+
+.tkr .wk-reto-tarjeta {
+  pointer-events: auto;
+  width: min(92vw, 560px);
+  padding: 16px 18px 14px;
+  border-radius: 20px;
+  text-align: center;
+  background: linear-gradient(160deg, rgba(28, 14, 40, 0.9), rgba(10, 12, 30, 0.92));
+  border: 2px solid rgba(255, 197, 49, 0.75);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(255, 197, 49, 0.25);
+  animation: tkr-wk-pop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.tkr .wk-reto-tarjeta.ok {
+  border-color: #5cff8a;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 50px rgba(92, 255, 138, 0.45);
+}
+
+.tkr .wk-reto-tarjeta.ko {
+  border-color: #ff4d5e;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 50px rgba(255, 77, 94, 0.45);
+}
+
+@keyframes tkr-wk-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tkr .wk-reto-kicker {
+  font: 800 12px/1.2 var(--body);
+  letter-spacing: 2px;
+  color: #ffc531;
+  margin-bottom: 4px;
+}
+
+.tkr .wk-reto-palabra {
+  font: 900 clamp(34px, 7vw, 56px) / 1.1 var(--wk-zh);
+  color: #fff;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.4), 0 0 24px rgba(255, 255, 255, 0.25);
+}
+
+.tkr .wk-reto-palabra.audio {
+  cursor: pointer;
+  animation: tkr-press-pulse 1.2s ease-in-out infinite;
+}
+
+.tkr .wk-reto-pista {
+  margin: 4px 0 12px;
+  font: 600 14px/1.35 var(--body), var(--wk-zh);
+  color: rgba(244, 246, 255, 0.8);
+}
+
+.tkr .wk-reto-opciones {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tkr .wk-reto-opcion {
+  flex: 1 1 140px;
+  max-width: 200px;
+  min-height: 52px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font: 800 18px/1.15 var(--body);
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+  transition: transform 0.12s, background 0.12s, border-color 0.12s;
+}
+
+.tkr .wk-reto-opcion:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.tkr .wk-reto-opcion.ok {
+  background: rgba(92, 255, 138, 0.3);
+  border-color: #5cff8a;
+}
+
+.tkr .wk-reto-opcion.ko {
+  background: rgba(255, 77, 94, 0.3);
+  border-color: #ff4d5e;
+}
+
+.tkr .wk-reto-tiempo {
+  margin-top: 12px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.tkr .wk-reto-tiempo-barra {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4d5e, #ffc531, #5cff8a);
+  transform-origin: left center;
+}
+
+/* ---------------------------------------------------------------- puertas */
+.tkr .wk-aviso {
+  position: absolute;
+  top: calc(var(--hud-pad, 20px) + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 18px 9px;
+  border-radius: 16px;
+  background: rgba(16, 10, 6, 0.78);
+  border: 2px solid #e7b54a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  z-index: 12;
+  pointer-events: none;
+  text-align: center;
+}
+
+.tkr .wk-aviso-kicker {
+  font: 800 11px/1.2 var(--body), var(--wk-zh);
+  letter-spacing: 1.5px;
+  color: #ffc531;
+}
+
+.tkr .wk-aviso-zh {
+  font: 900 30px/1.1 var(--wk-zh);
+  color: #ffe9a8;
+}
+
+.tkr .wk-aviso-hint {
+  font: 600 11px/1.2 var(--body), var(--wk-zh);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.tkr .wk-flash {
+  position: absolute;
+  left: 50%;
+  top: 34%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 14px;
+  font: 900 clamp(20px, 3.4vw, 34px) / 1.1 var(--body), var(--wk-zh);
+  color: #fff;
+  white-space: nowrap;
+  z-index: 25;
+  pointer-events: none;
+  animation: tkr-wk-flash 1.6s ease-out both;
+}
+
+.tkr .wk-flash.ok {
+  background: rgba(30, 160, 80, 0.85);
+  box-shadow: 0 0 40px rgba(92, 255, 138, 0.55);
+}
+
+.tkr .wk-flash.ko {
+  background: rgba(180, 30, 50, 0.85);
+}
+
+@keyframes tkr-wk-flash {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.9);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.05);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -6px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -16px) scale(1);
+  }
+}
+
+/* ---------------------------------------------------------------- resumen */
+.tkr .wk-resumen {
+  margin: 12px 0 4px;
+  text-align: left;
+}
+
+.tkr .wk-resumen:empty {
+  display: none;
+}
+
+.tkr .wk-resumen-cab {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.tkr .wk-resumen-titulo {
+  font: 800 13px/1.2 var(--body), var(--wk-zh);
+  letter-spacing: 1.5px;
+  color: #ffc531;
+}
+
+.tkr .wk-resumen-datos {
+  font: 800 14px/1.2 var(--body);
+  color: #fff;
+}
+
+.tkr .wk-resumen-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-height: 24vh;
+  overflow: auto;
+}
+
+.tkr .wk-resumen-col {
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tkr .wk-resumen-col.ok {
+  border-color: rgba(92, 255, 138, 0.4);
+}
+
+.tkr .wk-resumen-col.ko {
+  border-color: rgba(255, 77, 94, 0.4);
+}
+
+.tkr .wk-resumen-col-tit {
+  font: 800 12px/1.3 var(--body), var(--wk-zh);
+  margin-bottom: 4px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tkr .wk-resumen-fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 0;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  font-size: 14px;
+}
+
+.tkr .wk-es {
+  font-weight: 700;
+  color: #fff;
+}
+
+.tkr .wk-zh {
+  font-family: var(--wk-zh);
+  color: #ffe9a8;
+  text-align: right;
+}
+
+.tkr .wk-resumen-vacio {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------------------------------------------------------------- controles táctiles */
+.tkr .wk-tactil {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.tkr .wk-tactil-izq,
+.tkr .wk-tactil-der {
+  position: absolute;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: flex;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.tkr .wk-tactil-izq {
+  left: max(12px, env(safe-area-inset-left));
+}
+
+.tkr .wk-tactil-der {
+  right: max(12px, env(safe-area-inset-right));
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-areas:
+    'objeto derrape'
+    'freno acel';
+  gap: 10px;
+  align-items: end;
+}
+
+.tkr .wk-tactil-btn {
+  pointer-events: auto;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: rgba(12, 14, 34, 0.45);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.tkr .wk-tactil-btn.grande {
+  width: 78px;
+  height: 78px;
+}
+
+.tkr .wk-tactil-btn.acel {
+  grid-area: acel;
+  width: 78px;
+  height: 78px;
+  border-color: rgba(92, 255, 138, 0.7);
+}
+
+.tkr .wk-tactil-btn.freno {
+  grid-area: freno;
+  border-color: rgba(255, 77, 94, 0.7);
+}
+
+.tkr .wk-tactil-btn.derrape {
+  grid-area: derrape;
+  border-color: rgba(55, 168, 255, 0.75);
+}
+
+.tkr .wk-tactil-btn.objeto {
+  grid-area: objeto;
+  border-color: rgba(255, 197, 49, 0.85);
+}
+
+.tkr .wk-tactil-btn.pulsado {
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(0.94);
+}
+
+.tkr .wk-tactil-icono {
+  font: 900 24px/1 var(--body);
+}
+
+.tkr .wk-tactil-etq {
+  font: 700 9px/1 var(--body);
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+}
+
+.tkr .wk-tactil-arriba {
+  position: absolute;
+  top: 50%;
+  right: max(10px, env(safe-area-inset-right));
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.tkr .wk-tactil-auto,
+.tkr .wk-tactil-pausa {
+  pointer-events: auto;
+  touch-action: manipulation;
+  min-width: 52px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: rgba(12, 14, 34, 0.55);
+  color: #fff;
+  font: 800 12px/1 var(--body);
+}
+
+.tkr .wk-tactil-auto.on {
+  border-color: #5cff8a;
+  color: #5cff8a;
+}
+
+/* ---------------------------------------------------------------- crédito + ajustes de pantalla pequeña */
+.tkr .version {
+  text-transform: none;
+}
+
+.tkr #ui.tactil .hud-minimap .minimap-canvas {
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.tkr #ui.tactil .hud-minimap {
+  bottom: auto;
+  top: calc(var(--hud-pad) + 92px);
+}
+
+.tkr #ui.tactil .hud-speed {
+  display: none;
+}
+
+.tkr #ui.tactil .hud-place {
+  bottom: auto;
+  top: calc(var(--hud-pad) + 120px);
+}
+
+.tkr #ui.tactil .hud-place .place-num {
+  font-size: 64px;
+}
+
+@media (max-width: 700px) {
+  .tkr .card-grid.char-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .tkr .card-grid.track-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .tkr .panel-select {
+    overflow-y: auto;
+  }
+  .tkr .select-header .panel-title {
+    font-size: 28px;
+  }
+  .tkr .controls-legend {
+    display: none;
+  }
+  .tkr .logo-sub {
+    font-size: 14px;
+  }
+  .tkr .wk-aviso-zh {
+    font-size: 24px;
+  }
+  .tkr .wk-reto {
+    padding-top: 92px;
+  }
+  .tkr .wk-reto-opcion {
+    font-size: 16px;
+    min-height: 48px;
+    flex-basis: 100px;
+  }
+  .tkr .wk-resumen-cols {
+    grid-template-columns: 1fr;
+  }
+  .tkr .results-panel {
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+  .tkr .standings {
+    max-height: 26vh;
+  }
+  .tkr .hud-topright {
+    transform: scale(0.8);
+    transform-origin: top right;
+  }
+  .tkr .hud-item {
+    transform: scale(0.8);
+    transform-origin: top left;
+  }
+}
+
+@media (max-width: 420px) {
+  .tkr .wk-tactil-btn {
+    width: 58px;
+    height: 58px;
+  }
+  .tkr .wk-tactil-btn.grande,
+  .tkr .wk-tactil-btn.acel {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* Textos bilingües más largos que los originales: botones sin cortes y tarjetas más compactas */
+.tkr .btn {
+  white-space: nowrap;
+  letter-spacing: 0.08em;
+}
+.tkr .select-footer .btn {
+  padding: 12px 20px;
+}
+.tkr .char-card .card-tag {
+  display: none;
+}
+.tkr .track-card .card-name {
+  font-size: clamp(16px, 1.5vw, 21px);
+}
+.tkr .press-start-text {
+  letter-spacing: 0.2em;
+}
+
+/* Resultados: con el resumen de palabras el panel debe caber en pantalla */
+.tkr .results-title {
+  font-size: clamp(30px, 4.6vw, 56px);
+  line-height: 1.05;
+}
+.tkr .results-panel {
+  max-height: 96vh;
+  overflow-y: auto;
+}
+.tkr .results-panel .standings {
+  max-height: 30vh;
+}
+.tkr .results-panel .standing-row {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+/* Mientras hay un reto, el aviso de puerta se oculta (no se pisan) */
+.tkr .wk-reto:not(.oculto) ~ .wk-aviso {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .tkr .select-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .tkr .select-footer .actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tkr .select-footer .btn {
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+  .tkr .segmented .seg {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .tkr .version {
+    left: 12px;
+    right: 12px;
+    text-align: center;
+    white-space: normal;
+    font-size: 10px;
+  }
+  .tkr .wk-aviso {
+    top: 236px;
+    padding: 6px 12px;
+  }
+  .tkr .wk-reto {
+    padding-top: 150px;
+  }
+}
+
+.tkr .version {
+  color: var(--ink-dim);
+}

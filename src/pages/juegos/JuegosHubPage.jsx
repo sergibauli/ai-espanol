@@ -23,6 +23,7 @@ import {
   CompassIcon,
   BrushIcon,
   CircleDotIcon,
+  CarIcon,
 } from "lucide-react";
 import * as React from "react";
 import { flushSync } from "react-dom";
@@ -52,6 +53,7 @@ export const READY_GAMES = new Set([
   "/juegos/viaje-mono",
   "/juegos/pincel-magico",
   "/juegos/pinball-dragon",
+  "/juegos/turbo-kart",
 ]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
@@ -348,6 +350,22 @@ const JUEGOS = [
     minutos: 6,
     jugadores: "1",
     path: "/juegos/pinball-dragon",
+  },
+  {
+    id: "turbo-kart",
+    name: "Turbo Kart Rush",
+    nameCn: "极速卡丁车",
+    desc: "Carreras de karts en 3D: acierta la palabra de cada caja para conseguir objeto y cruza la puerta correcta para ganar turbo.",
+    descCn: "3D卡丁车比赛：答对道具箱的词才能拿到道具，穿过正确的单词门获得加速。",
+    icon: CarIcon,
+    sello: "车",
+    tono: "noche",
+    category: "aventura",
+    habilidad: { es: "Vocabulario y escucha", zh: "词汇与听力" },
+    nivel: 2,
+    minutos: 8,
+    jugadores: "1",
+    path: "/juegos/turbo-kart",
   },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 
