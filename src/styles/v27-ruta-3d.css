@@ -213,3 +213,8 @@
 
 /* El chino del cartel del examen abierto, legible sobre la laca roja */
 .rp-cofre.ex-abierto .rp-cofre-cartel span, .rp-cofre.ex-aprobado .rp-cofre-cartel span { color: #ffe29a !important; }
+
+/* Tramo pintado con máscara que sigue el camino (TramoPintado.jsx): sin bordes ni panel sobre el paisaje */
+.r3-suelo > svg.ru-tramo-svg { position: absolute; z-index: 0; overflow: visible; pointer-events: none; }
+/* Sin velos sobre el tablero: la bruma de lo pendiente lavaba el terreno (el hilo de oro ya marca lo recorrido) */
+.r3-suelo > svg.r24 { display: none; }

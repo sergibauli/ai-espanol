@@ -25,6 +25,7 @@ import { ANCHO_CARRIL, FILA, ajustarFila, ARRIBA, ENTRADA, puntosCamino, trazado
 import { Medallon, MarcaHecha, CofreImperial, GlifoClase } from "../components/ruta/Medallon.jsx";
 import { Recorrido, RecorridoDefs } from "../components/ruta/Recorrido.jsx";
 import { FichaClase } from "../components/ruta/FichaClase.jsx";
+import { TramoPintado } from "../components/ruta/TramoPintado.jsx";
 import { camaraBase, crearDirector, transformCartel, transformSuelo } from "../components/ruta/camara3d.js";
 import "../styles/v13-ruta-mundos.css";
 import "../styles/v14-ruta.css";
@@ -486,7 +487,7 @@ export default function RutaPage() {
                     {/* v27 · Suelo del tablero 3D: todo lo que va pintado en el plano (se inclina en perspectiva) */}
                     <div className="r3-suelo" style={{ transform: transformSuelo(cam) }}>
                     {/* v26 · Camino y terreno PINTADOS con el mismo pintor que el fondo (scripts/tramos-ruta.py) */}
-                    <img className="ru-tramo" src={`${BASE_URL}theme/ruta/tramos/${lv.key}-v${forma.variante}-p${Math.min(3, Math.max(2, paradas))}-f${FILA}.webp`} alt="" aria-hidden="true" decoding="async" style={{ height: alto + 220 }} />
+                    <TramoPintado src={`${BASE_URL}theme/ruta/tramos/${lv.key}-v${forma.variante}-p${Math.min(3, Math.max(2, paradas))}-f${FILA}.webp`} pts={pts} forma={forma} alto={alto} carril={ANCHO_CARRIL} />
                     {/* Cuerpo ilustrado del recorrido: muralla, río con puente, tinta, escalinata o nubes (v24) */}
                     <Recorrido forma={forma} pts={pts} hechas={oroHasta} alcanzada={alcanzada} alto={alto} soloBruma />
                     <svg className="ruta-carretera" width={ANCHO_CARRIL} height={alto} aria-hidden="true">
