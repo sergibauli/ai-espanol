@@ -45,3 +45,19 @@ Capturas con progreso sembrado (unidad 1 hecha, 2 actual) en 1366×860 y 390×84
   al 76 % con bronce apagado y candado chino de latón; «Clase N · 第N课»; Empezar con la clase («Empezar · Clase 1 /
   开始 第1课»), icono de pincel, ~50 % del ancho y a 10 px de la parada; encuadre inicial con la clase y el examen a la
   vista; examen con «+1 sello 印章» y estado «Aprobado 通过» con sello 成; estandarte móvil en dos líneas; un solo Rey Mono.
+
+## v26 · Ronda 2 (camino y paisaje, una sola ilustración)
+- El camino y su terreno se PINTAN en raster con el mismo pintor que el fondo: `node scripts/geometria-tramos.mjs`
+  (exporta las curvas de `geometria.js`) y `python3 scripts/tramos-ruta.py` (usa las funciones de `fondos-ruta.py`:
+  misma paleta, luz clave, grano, sombras proyectadas, perspectiva aérea y niebla). 48 tramos en
+  `public/theme/ruta/tramos/<N>-v<0-2>-p<2|3>-f<150|120>.webp` (2,9 MB). Regenerar si cambian pasos o curvas.
+- Formas sacadas del paisaje: A1 Gran Muralla en la cresta nevada con torres; A2 senda entre dunas (las dunas con la
+  misma `cordillera(forma="duna")` del fondo); B1 puente de piedra en zigzag 九曲桥 de noche con islas, farolillos,
+  reflejo y espuma; B2 escalones tallados en la caliza entre torres kársticas, bambú y bruma. 3 variantes por nivel.
+- Examen con escala de jefe y 3 estados (bloqueado con candado y «Completa las clases · 0/2», abierto con brillo y
+  «Gana el sello de <ciudad>», aprobado con sello 成 en la peana), según `getModuleProgress()[modulo-N].completed`.
+- Medallones: bloqueadas en oro envejecido con la cifra atenuada y candado en la esquina; hechas con check de jade;
+  etiquetas crema con texto marrón ≥ 12 px; la clase actual sin píldora (la anuncia «EMPEZAR 开始 · 5 lecciones ·
+  ~50 min»). Sombras de medallones y pabellón al lado contrario de la luz del nivel; B1 sin rayos (luz de farolillos).
+- Estandarte: «U2» bajo la moneda, barra segmentada (clases + examen) con «0/2 clases 课»; en móvil, compacto y fijo
+  bajo las pestañas. Escritorio sin filetes rojos. Rey Mono más grande (100/140 px) con sombra de contacto.

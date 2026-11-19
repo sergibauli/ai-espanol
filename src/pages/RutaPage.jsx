@@ -660,7 +660,6 @@ export default function RutaPage() {
                         retraso={fiesta ? 0 : 700}
                         seguir={Boolean(fiesta)}
                         forma={forma}
-                        reposoEn={!monoSeVa && iMono < paradas ? puntoCurva(pts[iMono], pts[iMono + 1], 0.52, forma) : null}
                         onLlegada={monoSeVa ? () => setFiesta((actual) => (actual ? { ...actual, monoSalio: true } : actual)) : undefined}
                       />
                     )}

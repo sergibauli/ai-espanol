@@ -45,10 +45,10 @@ export function MonoViajero({ desde, hasta, pose = "saluda", tamano = 118, salid
   const numToques = React.useRef(Math.floor(Math.random() * FRASES.length));
 
   // Lado en el que descansa respecto a la parada (hacia el centro del carril) y separación
-  const separacion = tamano * 0.85;
+  const separacion = tamano * 0.8;
   const ladoDe = (p) => (p[0] > ANCHO_CARRIL / 2 ? -1 : 1);
   // v26 · En reposo pisa el camino justo después de la parada, hacia la siguiente (lado según la siguiente curva)
-  const reposo = (p) => (reposoEn && p === hasta ? [reposoEn[0] + (reposoEn[0] >= p[0] ? 1 : -1) * tamano * 0.3, reposoEn[1] - tamano * 0.1] : [p[0] + ladoDe(p) * separacion, p[1] + tamano * 0.3]);
+  const reposo = (p) => (reposoEn && p === hasta ? [reposoEn[0] + (reposoEn[0] >= p[0] ? 1 : -1) * tamano * 0.3, reposoEn[1] - tamano * 0.1] : [p[0] + ladoDe(p) * separacion, p[1] + tamano * 0.12]);
 
   React.useEffect(() => {
     const mover = refMover.current;

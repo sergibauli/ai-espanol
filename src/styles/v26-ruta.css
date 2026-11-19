@@ -138,3 +138,12 @@
 .rt22 .ru-estandarte h2 .ru-titulo { white-space: normal !important; overflow: visible !important; line-height: 1.08; }
 .rt22 .ru-estandarte h2 small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 700px) { .rt22 .ru-estandarte { grid-template-columns: auto minmax(0, 1fr) auto !important; } }
+/* Pabellón del examen dentro de la atmósfera: contraste algo menor y niebla del nivel en la base */
+.rt22 .ruta-camino .rp-cofre .rp-moneda::after { content: ""; position: absolute; z-index: 2; left: -10%; right: -10%; bottom: 2px; height: 44px; pointer-events: none;
+  background: radial-gradient(ellipse 50% 60% at 50% 100%, var(--niebla-ex, rgba(240,244,248,.75)), transparent 72%); }
+.ruta-main.map-A1 { --niebla-ex: rgba(240,244,250,.7); }
+.ruta-main.map-A2 { --niebla-ex: rgba(250,214,160,.6); }
+.ruta-main.map-B1 { --niebla-ex: rgba(40,56,100,.55); }
+.ruta-main.map-B2 { --niebla-ex: rgba(238,244,238,.75); }
+.ruta-main.map-A1 .rp-cofre:not(.ex-bloqueado) .rp-templo { filter: drop-shadow(-12px 10px 8px rgba(40,55,95,.4)) saturate(.78) contrast(.92) brightness(1.03); }
+.ruta-main.map-B2 .rp-cofre:not(.ex-bloqueado) .rp-templo { filter: drop-shadow(12px 10px 8px rgba(20,50,35,.35)) saturate(.72) contrast(.9) brightness(1.02); }
