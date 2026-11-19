@@ -21,6 +21,7 @@ import {
   TypeIcon,
   SpadeIcon,
   CompassIcon,
+  BrushIcon,
 } from "lucide-react";
 import * as React from "react";
 import { flushSync } from "react-dom";
@@ -47,6 +48,7 @@ export const READY_GAMES = new Set([
   "/juegos/escape-palacio",
   "/juegos/fichas-palacio",
   "/juegos/brisca",
+  "/juegos/pincel-magico",
 ]);
 
 // Tonos de laca para los medallones (coherentes con la estética imperial)
@@ -295,6 +297,22 @@ const JUEGOS = [
     minutos: 10,
     jugadores: "1",
     path: "/juegos/brisca",
+  },
+  {
+    id: "pincel-magico",
+    name: "Pincel mágico",
+    nameCn: "神笔",
+    desc: "El pincel del Rey Mono pinta una palabra trazo a trazo: adivínala antes de que termine. Y en clase, dibuja tú y que tu equipo la diga.",
+    descCn: "美猴王的神笔一笔一画地画出一个词，在画完前猜出来！课堂上还可以你画我猜。",
+    icon: BrushIcon,
+    sello: "笔",
+    tono: "laca",
+    category: "concurso",
+    habilidad: { es: "Vocabulario y escritura", zh: "词汇与拼写" },
+    nivel: 1,
+    minutos: 6,
+    jugadores: "1+",
+    path: "/juegos/pincel-magico",
   },
 ].map((game) => ({ ...game, gradient: TONOS[game.tono] }));
 

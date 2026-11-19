@@ -990,6 +990,63 @@ function Brisca() {
   );
 }
 
+/* ---------- 15 · Pincel mágico: pergamino sobre laca, el pincel dorado pinta y cae el sello ---------- */
+function PincelMagico() {
+  const g = useG();
+  return (
+    <>
+      <rect width="320" height="180" fill="#3a0610" />
+      <rect width="320" height="180" fill={u(g, "laca")} opacity=".5" />
+      <circle cx="150" cy="86" r="140" fill={u(g, "halo")} opacity=".32" />
+      <Rayos cx={150} cy={86} n={20} op={0.08} />
+      <rect x="10" y="10" width="300" height="160" rx="12" fill="none" stroke={ORO} strokeWidth="1.4" opacity=".7" />
+      <rect x="14" y="14" width="292" height="152" rx="10" fill="none" stroke={ORO} strokeWidth=".6" opacity=".5" />
+      <ellipse cx="150" cy="146" rx="118" ry="9" fill={u(g, "sombra")} />
+      {/* Pergamino horizontal */}
+      <rect x="44" y="40" width="212" height="102" fill={u(g, "crema")} />
+      <rect x="44" y="40" width="212" height="102" fill="#e9d3a1" opacity=".25" />
+      <rect x="50" y="46" width="200" height="90" fill="none" stroke="#c8961e" strokeWidth=".7" opacity=".7" />
+      <path d="M60 128q30-18 52-6t46-8 40 4 42-6" stroke="#b9a07a" strokeWidth="1.2" fill="none" opacity=".35" />
+      {[36, 256].map((x) => (
+        <g key={x}>
+          <rect x={x} y="34" width="10" height="114" rx="4" fill={u(g, "madera")} />
+          <rect x={x - 1.5} y="30" width="13" height="8" rx="3" fill={u(g, "oro")} />
+          <rect x={x - 1.5} y="144" width="13" height="8" rx="3" fill={u(g, "oro")} />
+        </g>
+      ))}
+      {/* Gato a tinta que se va pintando */}
+      <g stroke={TINTA} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" fill="none" transform="translate(112 52) scale(3.1)">
+        <path className="jh-p-tinta" pathLength="320" strokeDasharray="320" d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z" />
+        <path className="jh-p-tinta is-b" pathLength="320" strokeDasharray="320" d="M8 14v.5M16 14v.5M11.25 16.25h1.5L12 17l-.75-.75Z" />
+      </g>
+      {/* Pincel dorado */}
+      <g className="jh-p-pincel" style={{ transformOrigin: "214px 104px" }}>
+        <path d="M206 112c-3-6-2-13 2-17l7 4c-1 6-4 11-9 13z" fill={TINTA} />
+        <rect x="208" y="88" width="12" height="8" rx="2" transform="rotate(30 214 92)" fill={u(g, "oro")} />
+        <rect x="213" y="40" width="8" height="52" rx="3.5" transform="rotate(30 217 66)" fill={u(g, "laca")} stroke="#5a0814" strokeWidth=".6" />
+        <circle cx="206" cy="112" r="3" fill={TINTA} opacity=".7" />
+      </g>
+      {/* Sello 印 */}
+      <g className="jh-p-ficha-cima">
+        <rect x="222" y="112" width="26" height="26" rx="4" fill={ROJO} stroke="#8f0c21" strokeWidth="1.2" />
+        <rect x="225" y="115" width="20" height="20" rx="2" fill="none" stroke={CREMA} strokeWidth=".8" opacity=".8" />
+        <text x="235" y="131" textAnchor="middle" fontSize="15" fontWeight="700" fill={CREMA} fontFamily="STKaiti, KaiTi, serif">
+          印
+        </text>
+      </g>
+      <Chispas
+        pts={[
+          [224, 92, 0.9],
+          [60, 30, 0.6],
+          [290, 40, 0.7],
+          [30, 150, 0.5],
+        ]}
+      />
+      <Vineta />
+    </>
+  );
+}
+
 const ESCENAS = {
   kahoot: Kahoot,
   ruleta: Ruleta,
@@ -1005,6 +1062,7 @@ const ESCENAS = {
   "escape-palacio": EscapePalacio,
   "fichas-palacio": FichasPalacio,
   brisca: Brisca,
+  "pincel-magico": PincelMagico,
 };
 
 export function Portada({ id, className = "" }) {

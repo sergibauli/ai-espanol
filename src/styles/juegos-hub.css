@@ -725,6 +725,8 @@ svg .jh-p-resp { transform-box: fill-box; transform-origin: center; animation: j
 .jh-p-brilla { animation: jh-brilla 2.6s ease-in-out infinite; animation-delay: var(--d); }
 .jh-p-interroga { animation: jh-ocultar 3s ease-in-out infinite; animation-delay: var(--d); }
 .jh-p-tinta { stroke-dashoffset: 320; animation: jh-tinta 4s ease-in-out infinite; }
+.jh-p-pincel { animation: jh-pincel 4s ease-in-out infinite; }
+@keyframes jh-pincel { 0%, 100% { transform: translate(0, 0) rotate(0); } 20% { transform: translate(-30px, -16px) rotate(-6deg); } 40% { transform: translate(-6px, -24px) rotate(3deg); } 60% { transform: translate(-40px, 6px) rotate(-4deg); } 80% { transform: translate(-12px, -4px) rotate(2deg); } }
 .jh-p-tinta.is-b { animation-delay: 2s; }
 .jh-p-enlace { animation: jh-hormiga 1s linear infinite; }
 .jh-p-flota { animation: jh-flotar-llave 3.4s ease-in-out infinite; }
