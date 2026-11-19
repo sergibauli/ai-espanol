@@ -320,3 +320,198 @@ export function playChord(
   }
   return end;
 }
+
+// ---------------------------------------------------------------------------
+// Generated samples: plucked strings (Karplus-Strong) and a reverb impulse
+// ---------------------------------------------------------------------------
+
+export type PluckKind = 'zheng' | 'pipa';
+
+export interface PluckSample {
+  buffer: AudioBuffer;
+  /** Exact fundamental of the rendered string (Hz), for playbackRate tuning. */
+  freq: number;
+}
+
+interface PluckSpec {
+  seconds: number;
+  /** T60 decay time (seconds) at the sample's fundamental. */
+  t60: number;
+  /** Loop-filter weight of the older sample (0.5 = classic dull KS, lower = brighter). */
+  damp: number;
+  /** One-pole lowpass coefficient applied to the excitation (0 = raw white noise). */
+  soften: number;
+  /** Pluck position along the string (0..0.5): a comb notch on the excitation. */
+  pick: number;
+  /** Extra nail/plectrum click mixed into the first milliseconds. */
+  click: number;
+}
+
+const PLUCK_SPECS: Record<PluckKind, PluckSpec> = {
+  // Guzheng: long, shimmering sustain, plucked with finger picks.
+  zheng: { seconds: 2.2, t60: 2.6, damp: 0.36, soften: 0.25, pick: 0.13, click: 0.25 },
+  // Pipa: short, bright and percussive (struck near the bridge with a nail).
+  pipa: { seconds: 1.1, t60: 0.75, damp: 0.42, soften: 0.1, pick: 0.08, click: 0.5 },
+};
+
+/** Base pitches of the generated samples; every note is pitched from the nearest one. */
+const PLUCK_BASES = [43, 48, 53, 58, 63, 68, 73, 78, 83, 88, 93];
+
+const pluckCache = new WeakMap<BaseAudioContext, Map<string, PluckSample>>();
+
+function renderPluck(sr: number, freq: number, spec: PluckSpec, seconds: number): { data: Float32Array; freq: number } {
+  // Loop delay N plus the fractional delay of the two-point loop filter.
+  const n = Math.max(8, Math.floor(sr / freq - spec.damp));
+  const actual = sr / (n + spec.damp);
+  const length = Math.max(n + 2, Math.floor(sr * seconds));
+  const out = new Float32Array(length);
+  // Excitation: softened noise with a pick-position comb notch, DC removed.
+  const exc = new Float32Array(n);
+  let lp = 0;
+  for (let i = 0; i < n; i++) {
+    lp = lp * spec.soften + (Math.random() * 2 - 1) * (1 - spec.soften);
+    exc[i] = lp;
+  }
+  const pickOffset = Math.max(1, Math.round(n * spec.pick));
+  const shaped = new Float32Array(n);
+  let mean = 0;
+  for (let i = 0; i < n; i++) {
+    shaped[i] = exc[i] - (i >= pickOffset ? exc[i - pickOffset] : 0) * 0.9;
+    mean += shaped[i];
+  }
+  mean /= n;
+  const rho = Math.pow(10, -3 / (spec.t60 * actual));
+  const a = 1 - spec.damp;
+  const b = spec.damp;
+  for (let i = 0; i < length; i++) {
+    const x = i < n ? shaped[i] - mean : 0;
+    const y1 = i >= n ? out[i - n] : 0;
+    const y2 = i >= n + 1 ? out[i - n - 1] : 0;
+    out[i] = x + rho * (a * y1 + b * y2);
+  }
+  const clickLen = Math.floor(sr * 0.004);
+  for (let i = 0; i < clickLen && i < length; i++) {
+    out[i] += (Math.random() * 2 - 1) * spec.click * (1 - i / clickLen);
+  }
+  let peak = 0;
+  for (let i = 0; i < length; i++) peak = Math.max(peak, Math.abs(out[i]));
+  const norm = peak > 0 ? 0.9 / peak : 1;
+  const fade = Math.floor(sr * 0.05);
+  for (let i = 0; i < length; i++) {
+    const tail = length - i;
+    out[i] *= norm * (tail < fade ? tail / fade : 1);
+  }
+  return { data: out, freq: actual };
+}
+
+/**
+ * Plucked-string sample for `kind`, closest to `midi`. Samples are rendered
+ * once per context (Karplus-Strong) and pitched with `playbackRate`, so a whole
+ * instrument costs a handful of short buffers.
+ */
+export function pluckSample(ctx: BaseAudioContext, kind: PluckKind, midi: number): PluckSample {
+  let base = PLUCK_BASES[0];
+  for (const b of PLUCK_BASES) if (Math.abs(b - midi) < Math.abs(base - midi)) base = b;
+  let map = pluckCache.get(ctx);
+  if (!map) {
+    map = new Map();
+    pluckCache.set(ctx, map);
+  }
+  const key = `${kind}:${base}`;
+  const cached = map.get(key);
+  if (cached) return cached;
+  const spec = PLUCK_SPECS[kind];
+  // High strings ring for less time: keep those buffers short.
+  const seconds = spec.seconds * (base >= 75 ? 0.65 : 1);
+  const { data, freq } = renderPluck(ctx.sampleRate, midiToFreq(base), spec, seconds);
+  const buffer = ctx.createBuffer(1, data.length, ctx.sampleRate);
+  buffer.getChannelData(0).set(data);
+  const sample = { buffer, freq };
+  map.set(key, sample);
+  return sample;
+}
+
+export interface ReverbNet {
+  input: GainNode;
+  output: AudioNode;
+  /** Every node of the network, for teardown. */
+  nodes: AudioNode[];
+}
+
+/**
+ * Cheap stereo reverb (Freeverb-style): per channel, six damped feedback
+ * combs in parallel and two allpasses in series, built from DelayNodes. Much
+ * lighter on mobile CPUs than a ConvolverNode with a long impulse.
+ */
+export function createReverb(ctx: BaseAudioContext, roomSize = 0.76, dampHz = 2400): ReverbNet {
+  const nodes: AudioNode[] = [];
+  const own = <T extends AudioNode>(n: T): T => {
+    nodes.push(n);
+    return n;
+  };
+  const input = own(ctx.createGain());
+  input.gain.value = 0.25;
+  // Mono into the network: half the work of a stereo comb bank.
+  input.channelCount = 1;
+  input.channelCountMode = 'explicit';
+  // Keep lows out of the tail (no mud under the sub).
+  const hp = own(ctx.createBiquadFilter());
+  hp.type = 'highpass';
+  hp.frequency.value = 280;
+  input.connect(hp);
+  const merger = own(ctx.createChannelMerger(2));
+  const combs = [1116, 1188, 1277, 1356, 1422, 1557];
+  const allpasses = [556, 341];
+  for (let ch = 0; ch < 2; ch++) {
+    const spread = ch === 0 ? 0 : 23;
+    const sum = own(ctx.createGain());
+    sum.gain.value = 4 / combs.length;
+    for (const c of combs) {
+      const d = own(ctx.createDelay(0.1));
+      d.delayTime.value = (c + spread) / 44100;
+      const damp = own(ctx.createBiquadFilter());
+      damp.type = 'lowpass';
+      damp.frequency.value = dampHz;
+      damp.Q.value = 0.5;
+      const fb = own(ctx.createGain());
+      fb.gain.value = roomSize;
+      hp.connect(d);
+      d.connect(damp);
+      damp.connect(fb);
+      fb.connect(d);
+      damp.connect(sum);
+    }
+    // Schroeder allpass: s = x + g*D(s); y = D(s) - g*s.
+    let head: AudioNode = sum;
+    for (const a of allpasses) {
+      const g = 0.5;
+      const s = own(ctx.createGain());
+      const d = own(ctx.createDelay(0.05));
+      d.delayTime.value = (a + spread) / 44100;
+      const fb = own(ctx.createGain());
+      fb.gain.value = g;
+      const ff = own(ctx.createGain());
+      ff.gain.value = -g;
+      const out = own(ctx.createGain());
+      head.connect(s);
+      s.connect(d);
+      d.connect(fb);
+      fb.connect(s);
+      d.connect(out);
+      s.connect(ff);
+      ff.connect(out);
+      head = out;
+    }
+    head.connect(merger, 0, ch);
+  }
+  return { input, output: merger, nodes };
+}
+
+/** Next note of `scale` (pitch classes) above (`dir` = 1) or below (-1) `midi`. */
+export function scaleStep(midi: number, scale: readonly number[], dir: 1 | -1): number {
+  let m = midi + dir;
+  for (let i = 0; i < 12; i++, m += dir) {
+    if (scale.includes(((m % 12) + 12) % 12)) return m;
+  }
+  return midi + dir * 2;
+}

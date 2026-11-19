@@ -23,8 +23,12 @@ const ATLAS_HEX = 7;
 const ATLAS_FLAME = 8;
 const ATLAS_SHARD = 9;
 const ATLAS_DOT = 10;
+const ATLAS_PETAL = 11;
+const ATLAS_ZI = 12;
 
 const ADDITIVE_CAPACITY = 6144;
+/** Matches BREAK_SECONDS in items/lanternBoxes.ts. */
+const ITEM_BOX_BREAK_DELAY = 0.08;
 const ALPHA_CAPACITY = 4096;
 const MAX_KARTS = Math.max(KART_COUNT, 16);
 const MAX_PER_EMITTER_PER_FRAME = 14;
@@ -302,6 +306,37 @@ function buildAtlas(): THREE.CanvasTexture {
     c.fillRect(-h, -h, h * 2, h * 2);
   });
 
+  // 11 paper petal (item-box lantern burst): pointed teardrop with a crease
+  withCell(ATLAS_PETAL, (c, h) => {
+    c.rotate(-0.5);
+    c.beginPath();
+    c.moveTo(0, -h * 0.88);
+    c.bezierCurveTo(h * 0.62, -h * 0.45, h * 0.56, h * 0.5, 0, h * 0.8);
+    c.bezierCurveTo(-h * 0.56, h * 0.5, -h * 0.62, -h * 0.45, 0, -h * 0.88);
+    c.closePath();
+    const g = c.createLinearGradient(-h * 0.6, 0, h * 0.6, 0);
+    g.addColorStop(0, 'rgba(205,205,205,1)');
+    g.addColorStop(0.5, 'rgba(255,255,255,1)');
+    g.addColorStop(1, 'rgba(170,170,170,1)');
+    c.fillStyle = g;
+    c.fill();
+    c.strokeStyle = 'rgba(120,120,120,0.9)';
+    c.lineWidth = h * 0.05;
+    c.beginPath();
+    c.moveTo(0, -h * 0.7);
+    c.quadraticCurveTo(h * 0.08, 0, 0, h * 0.65);
+    c.stroke();
+  });
+
+  // 12 字 glyph released by the item-box lantern
+  withCell(ATLAS_ZI, (c, h) => {
+    c.font = `900 ${Math.round(h * 1.35)}px "PingFang SC","Noto Sans CJK SC","Microsoft YaHei",serif`;
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    c.fillStyle = '#fff';
+    c.fillText('字', 0, h * 0.06);
+  });
+
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.NoColorSpace;
   tex.minFilter = THREE.LinearMipmapLinearFilter;
@@ -523,6 +558,8 @@ export class ParticleSystem implements IParticleSystem {
 
   // Scratch
   private readonly camPos = new THREE.Vector3();
+  /** Item-box bursts waiting for the end of the lantern's anticipation. */
+  private readonly pendingBoxBursts: { x: number; y: number; z: number; due: number }[] = [];
   private readonly camFwd = new THREE.Vector3();
   private readonly camRight = new THREE.Vector3();
   private readonly camUp = new THREE.Vector3();
@@ -571,7 +608,10 @@ export class ParticleSystem implements IParticleSystem {
       if (e.otherId === null) this.emit('hitSparks', e.position, { scale: s, color: 0xffe08a });
       else this.emit('hitSparks', e.position, { scale: s * 0.6, color: 0xffffff });
     }));
-    u.push(events.on('item:pickup', (e) => this.emit('itemBoxBurst', e.position)));
+    u.push(events.on('item:pickup', (e) => {
+      // The lantern swells and flares for ITEM_BOX_BREAK_DELAY first (items/lanternBoxes.ts).
+      this.pendingBoxBursts.push({ x: e.position.x, y: e.position.y, z: e.position.z, due: this.time + ITEM_BOX_BREAK_DELAY });
+    }));
     u.push(events.on('race:finish', (e) => {
       if (!e.isPlayer) return;
       this.playerPodiumPlace = e.place <= 3 ? e.place : 0;
@@ -678,6 +718,12 @@ export class ParticleSystem implements IParticleSystem {
     }
 
     if (this.confettiTimer > 0) this.updateResultsConfetti(dt, now);
+    for (let i = this.pendingBoxBursts.length - 1; i >= 0; i--) {
+      const b = this.pendingBoxBursts[i];
+      if (b.due > now) continue;
+      this.itemBoxBurst(b.x, b.y, b.z, 1, now);
+      this.pendingBoxBursts.splice(i, 1);
+    }
 
     this.additive.flush();
     this.alpha.flush();
@@ -1037,32 +1083,107 @@ export class ParticleSystem implements IParticleSystem {
   }
 
   private itemBoxBurst(x: number, y: number, z: number, s: number, now: number): void {
-    // Rainbow glass shards: big and bright for a beat, gone within ~0.6 s.
-    for (let i = 0; i < 36; i++) {
-      jitterPosition(x, y, z, 0.25);
-      randomSphereVelocity(rnd(3, 7.5) * s, 2.5);
-      S.life = rnd(0.32, 0.6);
-      S.size0 = rnd(0.22, 0.36) * s; S.size1 = 0.06;
-      const c = hslToRgb(i / 36, 1, 0.55);
-      S.r0 = c.r * 1.8; S.g0 = c.g * 1.8; S.b0 = c.b * 1.8;
-      S.r1 = c.r; S.g1 = c.g; S.b1 = c.b;
+    // Silk lantern bursting: red paper petals that tumble and float down, gold
+    // paper flakes, golden sparks, twinkling stars, jade embers and rings, and a
+    // warm flash. No rainbow: lacquer red, gold and jade only.
+    // lantern centre (LANTERN_LIFT above the pickup point)
+    const yc = y + 0.5 * s;
+    // Close to the camera (the player's own pickup): halve the light and keep
+    // the flash under ~20 % of the screen height.
+    const cdx = this.camPos.x - x, cdy = this.camPos.y - yc, cdz = this.camPos.z - z;
+    const camDist = Math.sqrt(cdx * cdx + cdy * cdy + cdz * cdz);
+    const near = camDist < 4 ? 0.5 : 1;
+    const maxFlash = Math.max(0.3, 0.28 * camDist);
+    // red paper petals (alpha blended so they read as paper, not light)
+    for (let i = 0; i < 30; i++) {
+      jitterPosition(x, yc, z, 0.35 * s);
+      randomSphereVelocity(rnd(2.5, 6.5) * s, rnd(2.0, 4.0) * s);
+      S.life = rnd(1.0, 1.6);
+      S.size0 = rnd(0.26, 0.42) * s; S.size1 = S.size0 * 0.8;
+      const deep = Math.random();
+      S.r0 = 0.70 - deep * 0.2; S.g0 = 0.03; S.b0 = 0.04;
+      S.r1 = 0.42; S.g1 = 0.015; S.b1 = 0.025;
+      S.a0 = 1; S.a1 = 0.85;
+      S.rot = rnd(0, TAU); S.rotSpeed = rnd(-7, 7);
+      S.gravity = 0.22; S.atlas = ATLAS_PETAL; S.align = 0; S.drag = 2.2;
+      this.alpha.spawn(S, now);
+    }
+    // gold paper flakes
+    for (let i = 0; i < 10; i++) {
+      jitterPosition(x, yc, z, 0.3 * s);
+      randomSphereVelocity(rnd(2, 5.5) * s, rnd(2.5, 4.5) * s);
+      S.life = rnd(0.9, 1.4);
+      S.size0 = rnd(0.16, 0.26) * s; S.size1 = S.size0 * 0.7;
+      S.r0 = 1.0; S.g0 = 0.72; S.b0 = 0.22; S.r1 = 0.8; S.g1 = 0.5; S.b1 = 0.12;
+      S.a0 = 1; S.a1 = 0.7;
+      S.rot = rnd(0, TAU); S.rotSpeed = rnd(-10, 10);
+      S.gravity = 0.3; S.atlas = i % 2 === 0 ? ATLAS_SQUARE : ATLAS_PETAL; S.align = 0; S.drag = 2;
+      this.alpha.spawn(S, now);
+    }
+    // golden sparks (fast, velocity aligned)
+    const sparks = Math.round(34 * near);
+    for (let i = 0; i < sparks; i++) {
+      jitterPosition(x, yc, z, 0.15 * s);
+      randomSphereVelocity(rnd(5, 11) * s, 2.5 * s);
+      S.life = rnd(0.35, 0.75);
+      S.size0 = rnd(0.22, 0.34) * s; S.size1 = 0.05 * s;
+      S.r0 = 1.5 * near; S.g0 = 0.95 * near; S.b0 = 0.25 * near; S.r1 = 1.1 * near; S.g1 = 0.35 * near; S.b1 = 0.05 * near;
       S.a0 = 1; S.a1 = 0;
-      S.rot = rnd(0, TAU); S.rotSpeed = rnd(-9, 9);
-      S.gravity = 0.9; S.atlas = i % 3 === 0 ? ATLAS_SQUARE : ATLAS_SHARD; S.align = 0; S.drag = 1.4;
+      S.rot = 0; S.rotSpeed = 0;
+      S.gravity = 0.8; S.atlas = ATLAS_STREAK; S.align = 1; S.drag = 1.6;
       this.additive.spawn(S, now);
     }
+    // twinkling gold stars that hang in the air
     for (let i = 0; i < 8; i++) {
-      jitterPosition(x, y, z, 0.4);
-      randomSphereVelocity(rnd(0.5, 1.5), 0.8);
-      S.life = rnd(0.22, 0.4);
-      S.size0 = 0.32 * s; S.size1 = 0.02;
-      S.r0 = 1.8; S.g0 = 1.8; S.b0 = 2.0; S.r1 = 1.0; S.g1 = 1.0; S.b1 = 1.5;
+      jitterPosition(x, yc, z, 0.6 * s);
+      randomSphereVelocity(rnd(0.8, 2.4) * s, 1.0 * s);
+      S.life = rnd(0.6, 1.0);
+      S.size0 = rnd(0.3, 0.5) * s; S.size1 = 0.05;
+      S.r0 = 1.35; S.g0 = 0.9; S.b0 = 0.3; S.r1 = 0.9; S.g1 = 0.45; S.b1 = 0.08;
       S.a0 = 1; S.a1 = 0;
-      S.rot = rnd(0, TAU); S.rotSpeed = rnd(-3, 3);
-      S.gravity = -0.1; S.atlas = ATLAS_SHIELD; S.align = 0; S.drag = 1;
+      S.rot = rnd(0, TAU); S.rotSpeed = rnd(-4, 4);
+      S.gravity = -0.05; S.atlas = ATLAS_SHIELD; S.align = 0; S.drag = 2.5;
       this.additive.spawn(S, now);
     }
-    this.ring(x, y, z, 0.5 * s, 4.0 * s, 0.3, rgb(0xffffff), 1.4, now);
+    // jade embers rising
+    for (let i = 0; i < 14; i++) {
+      jitterPosition(x, y - 0.2 * s, z, 0.7 * s);
+      S.vx = rnd(-0.8, 0.8) * s; S.vy = rnd(2.0, 4.0) * s; S.vz = rnd(-0.8, 0.8) * s;
+      S.life = rnd(0.7, 1.2);
+      S.size0 = rnd(0.12, 0.2) * s; S.size1 = 0.03;
+      S.r0 = 0.3; S.g0 = 1.6; S.b0 = 1.2; S.r1 = 0.1; S.g1 = 0.8; S.b1 = 0.7;
+      S.a0 = 1; S.a1 = 0;
+      S.rot = 0; S.rotSpeed = 0;
+      S.gravity = -0.12; S.atlas = ATLAS_CIRCLE; S.align = 0; S.drag = 1.2;
+      this.additive.spawn(S, now);
+    }
+    // the lantern's 字 is released: a big gold glyph that rises, grows and fades
+    S.x = x; S.y = yc + 0.6 * s; S.z = z;
+    S.vx = 0; S.vy = 3.2 * s; S.vz = 0;
+    S.life = 0.6;
+    S.size0 = 0.8 * s; S.size1 = 1.4 * s;
+    S.r0 = 1.45; S.g0 = 0.8; S.b0 = 0.16; S.r1 = 0.9; S.g1 = 0.3; S.b1 = 0.04;
+    S.a0 = 1; S.a1 = 0.2;
+    S.rot = 0; S.rotSpeed = 0;
+    S.gravity = 0; S.atlas = ATLAS_ZI; S.align = 0; S.drag = 2.5;
+    this.additive.spawn(S, now);
+    // short fountain of golden light shooting upwards
+    for (let i = 0; i < 6; i++) {
+      S.x = x + rnd(-0.25, 0.25) * s; S.y = yc; S.z = z + rnd(-0.25, 0.25) * s;
+      S.vx = rnd(-1.5, 1.5) * s; S.vy = rnd(9, 14) * s; S.vz = rnd(-1.5, 1.5) * s;
+      S.life = rnd(0.3, 0.45);
+      S.size0 = rnd(0.45, 0.65) * s; S.size1 = 0.12 * s;
+      S.r0 = 1.3; S.g0 = 0.8; S.b0 = 0.25; S.r1 = 0.6; S.g1 = 0.25; S.b1 = 0.05;
+      S.a0 = 0.8; S.a1 = 0;
+      S.rot = 0; S.rotSpeed = 0;
+      S.gravity = 0.5; S.atlas = ATLAS_STREAK; S.align = 1; S.drag = 2;
+      this.additive.spawn(S, now);
+    }
+    // rings + flash (the flat ground shockwave is drawn by the lantern decal)
+    this.ring(x, yc, z, 0.6 * s, Math.min(4.8 * s, 1.2 * camDist), 0.45, rgb(0x3dffc8), 1.5, now);
+    this.ring(x, yc, z, 0.4 * s, Math.min(3.0 * s, 0.8 * camDist), 0.25, rgb(0xffb347), 1.0, now);
+    const f1 = Math.min(2.4 * s, maxFlash);
+    this.flashSprite(x, yc, z, f1 * 0.5, f1, 0.12, 0.9 * near, 0.4 * near, 0.1 * near, now);
   }
 
   private confetti(x: number, y: number, z: number, s: number, now: number): void {
@@ -1277,6 +1398,7 @@ export class ParticleSystem implements IParticleSystem {
   // -------------------------------------------------------------------------
 
   reset(): void {
+    this.pendingBoxBursts.length = 0;
     this.additive.clear();
     this.alpha.clear();
     this.accDrift.fill(0);
