@@ -28,6 +28,8 @@ async function preparar() {
   mapa.qr = "/promo-douyin/film/qr-web.png";
   await M.precargar(mapa);
   for (let i = 0; i < 6; i++) moviles.push(new M.Movil());
+  M.crearDecor();
+  M.crearEscenario(M.sprite("dragon-luz", 2.4, { aditivo: true, onda: 0.06 }));
   S.mono = M.sprite("mono-grande", 1.9);
   S.monoLift = M.sprite("mono-lift", 1.6);
   S.guino = M.sprite("mono-guino", 1.5);
@@ -424,6 +426,8 @@ window.pintar = async (t) => {
   const P = M.particulas.material.uniforms; P.uK.value = 1; P.uVel.value = 0.25; P.uExplota.value = 0; P.uWarp.value = 0;
   const sec = SECCIONES.find((s) => t >= s.ini * BAR && t < s.fin * BAR) || SECCIONES[SECCIONES.length - 1];
   const lt = t - sec.ini * BAR;
+  M.decor.k = ["gancho", "cierre", "turbo", "beneficios"].includes(sec.id) ? 0 : clamp(lt * 2.5);
+  M.animarDecor(t);
   POST = []; M.VIDA.t = t; M.VIDA.k = ["juegos", "turbo"].includes(sec.id) ? 0.6 : 1;
   await ESC[sec.id](lt, sec);
   M.camara.lookAt(0, M.camara.position.y * 0.5, 0);

@@ -359,3 +359,96 @@ export function texturasCanvas() {
   const th = new THREE.CanvasTexture(h); th.colorSpace = THREE.SRGBColorSpace; TEX.halo = th;
 }
 export { THREE, ESCALA, PUB };
+
+// ---------------- decorado 3D de fondo (mandala, farolillos, fichas) ----------------
+export const decor = { k: 0, grupo: new THREE.Group() };
+escena.add(decor.grupo);
+function texMandala() {
+  const c = document.createElement("canvas"); c.width = c.height = 1024; const x = c.getContext("2d");
+  x.translate(512, 512); x.strokeStyle = "#ffd57a"; x.fillStyle = "#ffd57a"; x.lineCap = "round";
+  for (const [r, w] of [[500, 6], [470, 2], [400, 4], [300, 3], [292, 1.5], [180, 4]]) { x.lineWidth = w; x.beginPath(); x.arc(0, 0, r, 0, 7); x.stroke(); }
+  for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2; x.save(); x.rotate(a); x.lineWidth = 3; x.beginPath(); x.moveTo(0, -470); x.lineTo(0, -410); x.stroke(); if (i % 2 === 0) { x.strokeRect(-14, -395, 28, 28); x.strokeRect(-7, -388, 14, 14); } x.restore(); }
+  for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; x.save(); x.rotate(a); x.lineWidth = 3; x.beginPath(); x.moveTo(0, -292); x.bezierCurveTo(40, -250, 40, -210, 0, -180); x.bezierCurveTo(-40, -210, -40, -250, 0, -292); x.stroke(); x.restore(); }
+  x.font = "150px 'Ma Shan Zheng'"; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText("悟", 0, 10);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+function texFicha(es, zh) {
+  const c = document.createElement("canvas"); c.width = 512; c.height = 256; const x = c.getContext("2d");
+  const g = x.createLinearGradient(0, 0, 0, 256); g.addColorStop(0, "#d8203c"); g.addColorStop(1, "#7a0a1a");
+  x.fillStyle = g; x.beginPath(); x.roundRect(12, 12, 488, 232, 40); x.fill(); x.lineWidth = 10; x.strokeStyle = "#f2c14e"; x.stroke();
+  x.fillStyle = "#fff4d0"; x.textAlign = "center"; x.font = "900 86px 'Cinzel'"; x.fillText(es, 256, 125); x.fillStyle = "#ffd54a"; x.font = "64px 'Ma Shan Zheng'"; x.fillText(zh, 256, 205);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+export function crearDecor() {
+  const tm = texMandala();
+  decor.anillos = [0, 1].map((i) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(i ? 4.6 : 6.4, i ? 4.6 : 6.4), new THREE.MeshBasicMaterial({ map: tm, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.35, toneMapped: false }));
+    decor.grupo.add(m); return m;
+  });
+  const rr = aleatorio(4242);
+  const capa = new THREE.MeshStandardMaterial({ color: 0xe8b860, metalness: 1, roughness: 0.3 });
+  const papelRojo = new THREE.MeshStandardMaterial({ color: 0xc8102e, emissive: 0xff2a1a, emissiveIntensity: 0.55, roughness: 0.6 });
+  const tHalo = TEX.halo;
+  decor.faroles = Array.from({ length: 14 }, (_, i) => {
+    const g = new THREE.Group();
+    const cuerpo = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 14), papelRojo); cuerpo.scale.set(1, 0.82, 1); g.add(cuerpo);
+    for (const y of [0.19, -0.19]) { const c = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.05, 16), capa); c.position.y = y; g.add(c); }
+    const borla = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.03, 0.22, 6), capa); borla.position.y = -0.33; g.add(borla);
+    const halo = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.4), new THREE.MeshBasicMaterial({ map: tHalo, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.5, toneMapped: false })); halo.position.z = -0.05; g.add(halo);
+    g.userData = { x: (rr() * 2 - 1) * 3.2, z: -2.5 - rr() * 6, v: 0.18 + rr() * 0.25, f: rr() * 10, s: 0.7 + rr() * 0.8 };
+    decor.grupo.add(g); return g;
+  });
+  const PALS = [["¡Hola!", "你好"], ["Gracias", "谢谢"], ["España", "西班牙"], ["Vamos", "我们走"], ["Amigo", "朋友"]];
+  decor.fichas = PALS.map(([es, zh], i) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 0.5), new THREE.MeshBasicMaterial({ map: texFicha(es, zh), transparent: true, depthWrite: false, toneMapped: false, side: THREE.DoubleSide }));
+    m.userData = { x: (rr() < 0.5 ? -1 : 1) * (1.6 + rr() * 1.6), y0: rr() * 12, z: -5 - rr() * 4, v: 0.22 + rr() * 0.15, f: rr() * 6 };
+    decor.grupo.add(m); return m;
+  });
+}
+function texSuelo() {
+  const c = document.createElement("canvas"); c.width = c.height = 1024; const x = c.getContext("2d");
+  x.strokeStyle = "rgba(255,205,110,1)"; x.lineWidth = 3;
+  for (let i = 0; i <= 16; i++) { const p = i * 64; x.beginPath(); x.moveTo(p, 0); x.lineTo(p, 1024); x.stroke(); x.beginPath(); x.moveTo(0, p); x.lineTo(1024, p); x.stroke(); }
+  x.fillStyle = "rgba(255,230,160,1)"; for (let i = 0; i <= 16; i++) for (let j = 0; j <= 16; j++) { x.beginPath(); x.arc(i * 64, j * 64, 5, 0, 7); x.fill(); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(5, 5); t.anisotropy = 8; return t;
+}
+function texHaz() {
+  const c = document.createElement("canvas"); c.width = 128; c.height = 512; const x = c.getContext("2d");
+  const g = x.createLinearGradient(0, 0, 0, 512); g.addColorStop(0, "rgba(255,230,170,0.9)"); g.addColorStop(1, "rgba(255,180,80,0)");
+  x.fillStyle = g; x.beginPath(); x.moveTo(54, 0); x.lineTo(74, 0); x.lineTo(128, 512); x.lineTo(0, 512); x.closePath(); x.fill();
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+export function crearEscenario(spriteDragon) {
+  // suelo de plató con rejilla dorada que se desvanece a lo lejos
+  const suelo = new THREE.Mesh(new THREE.PlaneGeometry(26, 26), new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false,
+    uniforms: { uMap: { value: texSuelo() }, uOff: { value: 0 }, uK: { value: 1 } },
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
+    fragmentShader: `varying vec2 vUv; uniform sampler2D uMap; uniform float uOff, uK;
+      void main(){ vec4 c = texture2D(uMap, vUv * 5. + vec2(0., uOff)); float d = length(vUv - vec2(.5, .62));
+        float a = c.a * smoothstep(.55, .05, d) * .55 * uK; gl_FragColor = vec4(c.rgb * vec3(1., .78, .42) * a, a);
+        #include <colorspace_fragment>
+      }`,
+  }));
+  suelo.rotation.x = -Math.PI / 2; suelo.position.set(0, -2.75, -6);
+  decor.grupo.add(suelo); decor.suelo = suelo;
+  // brillo del mandala (copia más grande y suave)
+  decor.brillo = new THREE.Mesh(new THREE.PlaneGeometry(7.4, 7.4), new THREE.MeshBasicMaterial({ map: decor.anillos[0].material.map, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.12, toneMapped: false }));
+  decor.grupo.add(decor.brillo);
+  // focos que barren
+  const th = texHaz();
+  decor.focos = [-1, 1].map((l) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 9.5), new THREE.MeshBasicMaterial({ map: th, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.22, toneMapped: false, side: THREE.DoubleSide })); m.userData.l = l; decor.grupo.add(m); return m; });
+  decor.dragon = spriteDragon;
+}
+export function animarDecor(t, cy = -0.6) {
+  const k = decor.k; decor.grupo.visible = k > 0.01; if (decor.dragon) decor.dragon.visible = false; if (!decor.grupo.visible) return;
+  if (decor.suelo) {
+    decor.suelo.material.uniforms.uOff.value = t * 0.22; decor.suelo.material.uniforms.uK.value = k;
+    decor.brillo.position.set(0, cy, -2.25); decor.brillo.rotation.copy(decor.anillos[0].rotation); decor.brillo.material.opacity = 0.14 * k * (0.8 + 0.2 * Math.sin(t * 2));
+    decor.focos.forEach((m) => { const l = m.userData.l; m.position.set(l * 1.6, 2.6, -4.5); m.rotation.set(0, 0, Math.PI + l * (0.35 + 0.28 * Math.sin(t * 0.7 + l))); m.material.opacity = 0.2 * k; });
+    if (decor.dragon) { const ciclo = (t % 14) / 14; const d = decor.dragon; d.visible = true; d.position.set(lerp(-5, 5, ciclo), 1.2 + Math.sin(ciclo * 6.28) * 0.5, -7); d.rotation.set(0, Math.PI, -0.15); d.scale.setScalar(1.6); const u = d.material.uniforms; u.uA.value = 0.55 * k * Math.sin(Math.PI * ciclo); u.uT.value = t; }
+  }
+  decor.anillos.forEach((m, i) => { m.position.set(0, cy, -2.2 - i * 0.6); m.rotation.set(-0.35 + 0.1 * Math.sin(t * 0.4 + i), 0.25 * Math.sin(t * 0.3 + i * 2), (i ? -1 : 1) * t * 0.22); m.material.opacity = (i ? 0.28 : 0.4) * k; });
+  decor.faroles.forEach((g) => { const u = g.userData; const fase = ((u.f + t * u.v) % 5.5) / 5.5; const y = fase * 5.5 - 4.5; const fade = Math.min(1, fase * 6, (1 - fase) * 6); g.position.set(u.x + Math.sin(t * 0.6 + u.f) * 0.2, y, u.z); g.rotation.set(0, t * 0.8 + u.f, Math.sin(t + u.f) * 0.12); g.scale.setScalar(u.s * k * 0.8 * Math.max(0.001, fade)); });
+  decor.fichas.forEach((m) => { const u = m.userData; const y = ((u.y0 + t * u.v) % 7) - 5; m.position.set(u.x, y, u.z); m.rotation.set(Math.sin(t * 0.7 + u.f) * 0.4, t * 0.5 + u.f, Math.sin(t * 0.5 + u.f) * 0.2); m.material.opacity = 0.85 * k; });
+}
