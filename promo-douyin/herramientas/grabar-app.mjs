@@ -117,4 +117,50 @@ await sesion("correccion", "#/oficial/A2", async (p, graba) => {
   await clicTxt(p, "Corregir todo", false); await p.waitForTimeout(1800);
   await rueda(p, 14, 45); await p.waitForTimeout(800); await rueda(p, 10, 45); await p.waitForTimeout(800);
 }, { semilla: true });
+await sesion("tv", "#/tv", async (p, graba) => {
+  await p.addStyleTag({ content: ".tv-ia,.tv-aviso-ia{display:none!important}" });
+  await p.waitForTimeout(800);
+  await graba(); await p.waitForTimeout(900);
+  await rueda(p, 12, 45, 50); await p.waitForTimeout(600);
+  await p.locator("video").first().evaluate((v) => { v.muted = true; v.currentTime = 6; return v.play(); }).catch(() => {});
+  await p.waitForTimeout(1600);
+  await rueda(p, 16, 50, 50); await p.waitForTimeout(500);
+  for (let i = 0; i < 3; i++) { await p.locator('button[aria-label*="iguiente"], .tv-carrusel button:last-of-type').first().click({ timeout: 1500 }).catch(() => {}); await p.waitForTimeout(700); }
+});
+await sesion("pinball", "#/juegos/pinball-dragon", async (p, graba) => {
+  await clicTxt(p, "Hola y Adiós - Saludos", false); await p.waitForTimeout(1200);
+  for (const t of ["Jugar", "Empezar", "¡A jugar!"]) await p.getByText(t, { exact: false }).first().click({ timeout: 800 }).catch(() => {});
+  await p.waitForTimeout(1500); await graba(); await p.waitForTimeout(300);
+  await p.keyboard.down(" "); await p.waitForTimeout(900); await p.keyboard.up(" ");
+  for (let i = 0; i < 14; i++) { const k = i % 2 ? "ArrowRight" : "ArrowLeft"; await p.keyboard.down(k); await p.waitForTimeout(160); await p.keyboard.up(k); await p.waitForTimeout(230); }
+});
+await sesion("ruta3", "#/ruta", async (p, graba) => {
+  await graba(); await p.waitForTimeout(400);
+  await rueda(p, 40, 40, 45); await p.waitForTimeout(300); await rueda(p, 40, -40, 30);
+  for (const n of ["A2", "B1", "B2"]) { await clicTxt(p, n); await p.waitForTimeout(1300); }
+});
+await sesion("viaje", "#/juegos/viaje-mono", async (p, graba) => {
+  await clicTxt(p, "Hola y Adiós - Saludos", false); await p.waitForTimeout(1500);
+  await p.locator(".vm-empezar").first().click({ timeout: 4000 }).catch(() => console.log("sin empezar"));
+  await p.waitForTimeout(1500);
+  const correcta = () => p.evaluate(() => {
+    const el = document.querySelector(".vm-q-opciones"); if (!el) return null;
+    const k = Object.keys(el).find((x) => x.startsWith("__reactFiber")); let f = el[k];
+    while (f) { const pr = f.memoizedProps; if (pr && pr.q && pr.q.p && pr.q.p.correcta) return pr.q.p.correcta; f = f.return; }
+    return null; });
+  await graba();
+  for (let turno = 0; turno < 2; turno++) {
+    await p.waitForSelector(".vm-q-opciones", { timeout: 12000 }).catch(() => {});
+    await p.waitForTimeout(900);
+    const c = await correcta(); console.log("correcta:", c);
+    if (c) await p.locator(".vm-q-opcion", { hasText: c }).first().click().catch(() => {});
+    await p.waitForTimeout(1200);
+    await p.locator(".vm-q-seguir").first().click({ timeout: 2500 }).catch(() => {});
+    await p.waitForTimeout(700);
+    const bt = p.locator(".vm-tiro-boton:not([disabled])").first();
+    if (await bt.count()) { await bt.focus(); await p.keyboard.press("Enter"); } else { const bt2 = p.locator(".vm-tiro-boton").first(); const bb = await bt2.boundingBox().catch(() => null); console.log("dado deshabilitado", !!bb); if (bb) { await p.mouse.move(bb.x + bb.width / 2, bb.y + bb.height / 2); await p.mouse.down(); await p.waitForTimeout(500); await p.mouse.up(); } }
+    await p.waitForTimeout(4200);
+    if (turno === 0) await p.waitForTimeout(500);
+  }
+});
 await b.close();

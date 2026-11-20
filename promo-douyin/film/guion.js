@@ -150,10 +150,10 @@ ESC.aprender = async (lt) => {
   fondo({ c1: ["#1f6b4a", "#b3122b", "#25407a", "#4a2a8a"][lt < 2 * B ? 0 : i], c2: "#06080a", rayos: 0.3, nubes: 0.4, img: T["ruta" + nivel], imgK: 0.6, asp: 1, blur: 5.5, brillo: 0.6 });
   const k = eOut(seg(lt, 0, 0.6));
   const cambio = lt >= 2 * B ? golpeBeat(lt - 2 * B, 1.1) : 0;
-  const img = await seq("ruta2", 8 + lt * 30 * 2.2);
+  const img = lt < 1.2 * BAR ? await seq("ruta3", lt * 30 * 2.0) : await seq("ruta3", 300 + (lt - 1.2 * BAR) * 30 * 3.2);
   const orb = eInOut(seg(lt, 0.5, BAR * 2));
   moviles[0].poner({ x: lerp(2.5, 0.25, k) - orb * 0.3, y: -0.7, z: cambio * 0.4, rx: -0.14, ry: lerp(-1.3, -0.42, k) + orb * 0.7, rz: lerp(0.3, 0.02, k), s: 1.36, img, flash: cambio * 0.3 });
-  M.sacarTarjeta(0, moviles[0], await seq("ruta2", 8), { x: 0.0, y: 0.045, w: 1.0, h: 0.075 }, seg(lt, 0.9, 1.5), { x: 0, y: 0.62, z: 1.7, rx: -0.25, ry: -0.18 + orb * 0.3, rz: 0.03, s: 1.12 });
+  M.sacarTarjeta(0, moviles[0], await seq("ruta3", 0), { x: 0.0, y: 0.072, w: 1.0, h: 0.053 }, seg(lt, 0.9, 1.5), { x: 0, y: 0.62, z: 1.7, rx: -0.25, ry: -0.18 + orb * 0.3, rz: 0.03, s: 1.12 });
   C.texto("a1", "A1→B2 <em>闯关地图</em>", "tit2", lt, 0.1, BAR * 2, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("a1es", "RUTA DE APRENDIZAJE · A1–B2", "es-peq", lt, 0.1 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("a2", "<em>四大世界</em>，一关关往上闯", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
@@ -291,14 +291,16 @@ ESC.tutor = async (lt) => {
 
 // 9 · TV: la serie del Rey Mono (móvil en horizontal)
 ESC.tv = async (lt) => {
-  fondo({ c1: "#25407a", c2: "#05070f", rayos: 0.5, nubes: 0.6 });
-  const kg = eInOut(seg(lt, 0.1, 0.75));
-  const fr = SEQ.tv ? await seq("tv", lt * 30) : T.tv;
-  moviles[0].poner({ x: -0.07, y: -0.35, z: 0.2, rz: kg * Math.PI / 2, ry: Math.sin(lt * 1.2) * 0.08, rx: -0.05, s: lerp(1.0, 0.95, kg), img: kg > 0.5 ? fr : T.tvLista, apaisado: kg > 0.5, halo: 0.5 });
-  C.texto("tv1", "美猴王<em>动画</em>", "tit2", lt, 0.05, BAR, { y: 200, entrada: "golpe", temblor: 6 });
-  C.texto("tv1es", "SERIE ORIGINAL · WUKONG TV", "es-peq", lt, 0.05 + 0.15, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("tv2", "<em>追剧</em>也能学西语", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
-  C.chip("tv3", "¡Hola, Wukong!", "", lt, 2 * B, BAR, { x: 540, y: 1330, cls: "oro" });
+  fondo({ rayos: 0.4 });
+  const k = eOut(seg(lt, 0, 0.5));
+  const img = await seq("tvV", lt * 30 * 2.4);
+  const orb = eInOut(seg(lt, 0.4, 2 * BAR));
+  moviles[0].poner({ x: lerp(2.4, 0.2, k) - orb * 0.35, y: -0.72, rx: -0.12, ry: lerp(-1.1, -0.4, k) + orb * 0.75, s: 1.32, img, halo: 0.6 });
+  M.sacarTarjeta(0, moviles[0], await seq("tvV", 0), { x: 0.04, y: 0.075, w: 0.92, h: 0.125 }, seg(lt, 0.8 * B, 1.4 * B) * (1 - seg(lt, 4.2 * B, 4.7 * B)), { x: 0, y: 0.55, z: 1.9, rx: -0.15, ry: -0.2 + orb * 0.3, rz: 0.02, s: 1.15 });
+  C.texto("tv1", "美猴王<em>动画</em>", "tit2", lt, 0.05, 2 * BAR, { y: 200, entrada: "golpe", temblor: 6 });
+  C.texto("tv1es", "SERIE ORIGINAL · WUKONG TV", "es-peq", lt, 0.2, 2 * BAR, { y: 292, entrada: "pincel", dur: 0.4 });
+  C.texto("tv2", "<em>追剧</em>也能学西语", "sub", lt, 0.5 * B, 2 * BAR, { y: 378, entrada: "letras" });
+  C.chip("tv3", "¡Hola, Wukong!", "你好，悟空！", lt, 5 * B, 2 * BAR, { x: 540, y: 1470, cls: "oro", rot: -3 });
 };
 
 // 10 · JUEGOS: carrusel 3D de seis móviles
@@ -306,23 +308,23 @@ ESC.juegos = async (lt, sec) => {
   fondo({ rayos: 0.3 });
   const nb = sec ? sec.fin - sec.ini : 3;
   // partidas reales: concurso de preguntas → ahorcado → ruleta (un compás cada una)
-  const JS = nb >= 3 ? [["concurso", "抢答竞赛", 95, 1.8], ["ahorcado", "猜词游戏", 8, 2.0], ["ruleta", "单词轮盘", 45, 3.6]] : [["ahorcado", "猜词游戏", 8, 2.0]];
-  const j = clamp(Math.floor(lt / BAR), 0, JS.length - 1);
-  const [nombre, zh, f0, vel] = JS[j];
-  const ZJ = { concurso: [0.5, 0.52, 0.45, 0.85], ahorcado: [0.5, 0.33, 0.45, 0.95], ruleta: [0.5, 0.4, 0.05, 0.55] }[nombre];
-  const lj = lt - j * BAR;
-  const SAL = { concurso: [{ x: 0.5, y: 0.38, w: 0.5, h: 0.16 }, 150, 0.45], ahorcado: [{ x: 0.08, y: 0.2, w: 0.84, h: 0.3 }, 100, 0.55], ruleta: [{ x: 0.0, y: 0.03, w: 1.0, h: 0.13 }, 330, 0.6] }[nombre];
+  const JS = nb >= 4 ? [["concurso", "抢答竞赛", 95, 1.8, 0, 1], ["ahorcado", "猜词游戏", 30, 2.4, 1, 1.75], ["ruleta", "单词轮盘", 90, 4.2, 1.75, 2.5], ["viaje", "美猴王之旅", 125, 3.4, 2.5, 4]] : [["ahorcado", "猜词游戏", 8, 2.0, 0, 1]];
+  let j = JS.findIndex((x) => lt / BAR >= x[4] && lt / BAR < x[5]); if (j < 0) j = JS.length - 1;
+  const [nombre, zh, f0, vel, b0, b1] = JS[j];
+  const ZJ = { concurso: [0.5, 0.52, 0.45, 0.85], ahorcado: [0.5, 0.33, 0.45, 0.95], ruleta: [0.5, 0.4, 0.05, 0.55], viaje: [0.5, 0.42, 0.05, 0.9] }[nombre];
+  const lj = lt - b0 * BAR, durJ = (b1 - b0) * BAR;
+  const SAL = { concurso: [{ x: 0.5, y: 0.38, w: 0.5, h: 0.16 }, 150, 0.45], ahorcado: [{ x: 0.08, y: 0.2, w: 0.84, h: 0.3 }, 100, 0.55], ruleta: [{ x: 0.0, y: 0.03, w: 1.0, h: 0.13 }, 330, 0.6], viaje: [{ x: 0.02, y: 0.72, w: 0.96, h: 0.1 }, 560, 0.62] }[nombre];
   const fs = await seq(nombre, SAL[1]);
-  M.sacarTarjeta(0, moviles[0], fs, SAL[0], seg(lj / BAR, SAL[2], SAL[2] + 0.18) * (1 - seg(lj / BAR, 0.92, 1)), { x: 0.15, y: 0.45, z: 2.0, rx: -0.1, ry: -0.3, rz: 0.04, s: nombre === "concurso" ? 1.5 : 1.0 });
+  M.sacarTarjeta(0, moviles[0], fs, SAL[0], seg(lj / durJ, SAL[2], SAL[2] + 0.12) * (1 - seg(lj / durJ, 0.94, 1)), { x: 0.15, y: 0.45, z: 2.0, rx: -0.1, ry: -0.3, rz: 0.04, s: nombre === "concurso" ? 1.5 : 1.0 });
   const img = await seq(nombre, f0 + lj * 30 * vel);
   const kg = eOut(seg(lj, 0, 0.35));
   const giro = j === 0 ? (1 - eOut(seg(lt, 0, 0.5))) * 1.3 : (1 - kg) * Math.PI;
-  const kzj = Math.sin(Math.PI * seg(lj / BAR, ZJ[2], ZJ[3]));
-  moviles[0].poner({ x: -0.05, y: -0.7, z: kzj * 0.35, rx: -0.12, ry: 0.4 - seg(lj, 0, BAR) * 0.6 + giro, s: 1.32, img, halo: 0.6, zoom: kzj > 0.01 ? { cx: ZJ[0], cy: ZJ[1], s: 1 + 0.5 * kzj } : null, flash: j > 0 ? 0.3 * (1 - seg(lj, 0, 0.25)) : 0 });
+  const kzj = Math.sin(Math.PI * seg(lj / durJ, ZJ[2], ZJ[3]));
+  moviles[0].poner({ x: -0.05, y: -0.7, z: kzj * 0.35, rx: -0.12, ry: 0.4 - seg(lj, 0, durJ) * 0.6 + giro, s: 1.32, img, halo: 0.6, zoom: kzj > 0.01 ? { cx: ZJ[0], cy: ZJ[1], s: 1 + 0.5 * kzj } : null, flash: j > 0 ? 0.3 * (1 - seg(lj, 0, 0.25)) : 0 });
   C.texto("j1", `${CIFRAS.juegos} 款<em>小游戏</em>`, "tit2", lt, 0.05, BAR * nb, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("j1es", "APRENDE JUGANDO", "es-peq", lt, 0.2, BAR * nb, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("j2", "<em>边玩边学</em>，单词越玩越熟", "sub", lt, 0.5 * B, BAR * nb, { y: 378, entrada: "letras" });
-  JS.forEach(([n, z], i) => C.chip("jn" + i, z, "", lt, i * BAR + 0.15, (i + 1) * BAR - 0.05, { x: 300, y: 1470, cls: "oro", rot: -4 }));
+  JS.forEach(([n, z, , , a0, a1], i) => C.chip("jn" + i, z, "", lt, a0 * BAR + 0.15, a1 * BAR - 0.05, { x: 300, y: 1470, cls: "oro", rot: -4 }));
   M.camara.position.y += golpeBeat(lt) * 0.015;
 };
 

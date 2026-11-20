@@ -18,11 +18,11 @@ const LARGA = [
   { id: "correccion", ini: 14, fin: 16 },
   { id: "progreso", ini: 16, fin: 17 },
   { id: "tutor", ini: 17, fin: 19 },
-  { id: "tv", ini: 19, fin: 20 },
-  { id: "juegos", ini: 20, fin: 23 },
-  { id: "turbo", ini: 23, fin: 25 },
-  { id: "beneficios", ini: 25, fin: 27 },
-  { id: "cierre", ini: 27, fin: 31 },
+  { id: "tv", ini: 19, fin: 21 },
+  { id: "juegos", ini: 21, fin: 25 },
+  { id: "turbo", ini: 25, fin: 27 },
+  { id: "beneficios", ini: 27, fin: 29 },
+  { id: "cierre", ini: 29, fin: 33 },
 ];
 const CORTA_SEC = [
   { id: "gancho", ini: 0, fin: 2 },
@@ -32,5 +32,5 @@ const CORTA_SEC = [
   { id: "cierre", ini: 6, fin: 8 },
 ];
 export const SECCIONES = CORTA ? CORTA_SEC : LARGA;
-export const COMPASES = CORTA ? 8 : 31;
+export const COMPASES = CORTA ? 8 : 33;
 export const DURACION = COMPASES * BAR + (CORTA ? 1.6 : 2.6); // incluye la cola del gong final

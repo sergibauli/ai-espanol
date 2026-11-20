@@ -47,6 +47,9 @@ export const SEQ = {
   portadaV: { n: 390, url: (i) => `${C}v2/portada/f_${pad(i + 1)}.jpg` },
   turboP: { n: 181, url: (i) => `/promo-douyin/film/recursos/turbo-portada/f_${pad(i + 1)}.jpg` },
   correccionV: { n: 364, url: (i) => `${C}v2/correccion/f_${pad(i + 1)}.jpg` },
+  tvV: { n: 276, url: (i) => `${C}v2/tv/f_${pad(i + 1)}.jpg` },
+  ruta3: { n: 427, url: (i) => `${C}v2/ruta3/f_${pad(i + 1)}.jpg` },
+  viaje: { n: 815, url: (i) => `${C}v2/viaje/f_${pad(i + 1)}.jpg` },
   acierto: { n: 90, url: (i) => `${C}aprender/seq-acierto-hola/f${pad(i)}.jpg` },
 };
 export const ZOOM = { tap: { x: 0.69, y: 0.47 } };
