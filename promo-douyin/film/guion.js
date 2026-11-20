@@ -307,10 +307,15 @@ ESC.juegos = async (lt) => {
 // 11 · TURBO RUSH 3D: velocidad
 ESC.turbo = async (lt) => {
   fondo({ c1: "#ff6a1a", c2: "#3a0505", rayos: 1.0, nubes: 0.3, cy: 0.45 });
-  const fr = SEQ.turbo ? await seq("turbo", lt * (SEQ.turbo.fps || 30)) : T.turbo;
+  // planos: logo → salida de la carrera → primer plano del fénix → carrera
+  const plano = lt < 1.5 * B ? 0 : lt < 4 * B ? 1 : lt < 6 * B ? 2 : 3;
+  const ini = [0, 1.5 * B, 4 * B, 6 * B][plano], fin = [1.5 * B, 4 * B, 6 * B, 8 * B][plano];
+  const kp = seg(lt, ini, fin);
+  const img = [T.turboLogo, T.turbo, T.turbo2, T.turbo][plano];
+  const zoom = [{ cx: 0.5, cy: 0.45, s: 1.0 + kp * 0.12 }, { cx: 0.45, cy: 0.42, s: 1.08 + kp * 0.4 }, { cx: 0.42, cy: 0.5, s: 1.1 + kp * 0.35 }, { cx: 0.55, cy: 0.45, s: 1.45 - kp * 0.3 }][plano];
   const k = eOut(seg(lt, 0, 0.4));
   const vol = Math.sin(lt * 2.6) * 0.16;
-  moviles[0].poner({ x: vol * 0.6, y: -0.5, z: lerp(-8, 0.55, k), rz: vol * 0.6, ry: vol * 0.5, rx: -0.08, s: 1.28, img: fr, halo: 0.8, apaisado: !!(SEQ.turbo && SEQ.turbo.apaisado) });
+  moviles[0].poner({ x: vol * 0.6, y: -0.6, z: lerp(-8, 0.4, k), rz: vol * 0.6, ry: vol * 0.5, rx: -0.08, s: 1.22, img, zoom, halo: 0.8, flash: 0.35 * golpeBeat(lt - ini, 99) * (plano > 0 ? 1 : 0) });
   C.velocidad(0.9 * k, lt, 540, 1000);
   M.particulas.material.uniforms.uWarp.value = lt * 6; M.particulas.material.uniforms.uK.value = 1.4;
   const sh = golpeBeat(lt) * 0.05;

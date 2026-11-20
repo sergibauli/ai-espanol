@@ -18,7 +18,7 @@ const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
   log('racing');
   await page.waitForTimeout(4000);
   const t0 = Date.now(); let n = 0;
-  while (n < 90 && Date.now() - t0 < 300000) {
+  while (n < 75 && Date.now() - t0 < 300000) {
     n++;
     await page.screenshot({ path: `${O}/turbo/f_${String(n).padStart(4, '0')}.jpg`, type: 'jpeg', quality: 88, timeout: 180000 });
     if (n % 20 === 0) {

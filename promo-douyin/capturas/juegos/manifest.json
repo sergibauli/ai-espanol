@@ -1,0 +1,225 @@
+[
+ {
+  "archivo": "turbo_portada.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Intro animada de Wukong Turbo Rush (1170×2532): remolino dorado de sellos con el Rey Mono en el centro, botones Empezar/Pilotos/Circuitos y «ENTER O TOCA · 点击开始». Tapar la línea de licencia de abajo",
+  "detalle_zoom": {
+   "x": 0.0,
+   "y": 0.15,
+   "w": 1.0,
+   "h": 0.6
+  },
+  "titulo_zh": "西游极速开跑",
+  "subtitulo_zh": "点一下，3D赛车开局",
+  "ejemplo_es": "Empezar",
+  "puntuacion": 8,
+  "tapar": [
+   {
+    "x": 0,
+    "y": 0.965,
+    "w": 1,
+    "h": 0.035
+   }
+  ]
+ },
+ {
+  "archivo": "turbo_carrera_390.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Wukong Turbo Rush 3D: salida de la carrera en la Ciudad del Dragón, karts-criatura (fénix, carpa, qilin…), HUD imperial con vuelta 1/3, puesto, minimapa y velocímetro, mandos táctiles. OJO: 390×844 (resolución baja, escalar)",
+  "detalle_zoom": {
+   "x": 0.0,
+   "y": 0.3,
+   "w": 1.0,
+   "h": 0.45
+  },
+  "titulo_zh": "3D赛车学单词",
+  "subtitulo_zh": "答对道具箱的词才能拿道具",
+  "ejemplo_es": "Derrape",
+  "puntuacion": 9
+ },
+ {
+  "archivo": "turbo_carrera2_390.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Turbo Rush: primer plano del kart fénix y un qilin dorado en la pista de jade (390×844, escalar)",
+  "detalle_zoom": {
+   "x": 0.0,
+   "y": 0.35,
+   "w": 1.0,
+   "h": 0.45
+  },
+  "titulo_zh": "边飙车边背词",
+  "subtitulo_zh": "八只神兽赛车任你选",
+  "ejemplo_es": "Objeto",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "turbo_portada_390.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Portada de Wukong Turbo Rush (logo dorado) con botones Empezar/Pilotos/Circuitos. Abajo hay una línea de licencia MIT: recortar (390×844)",
+  "detalle_zoom": {
+   "x": 0.0,
+   "y": 0.33,
+   "w": 1.0,
+   "h": 0.3
+  },
+  "titulo_zh": "西游极速",
+  "subtitulo_zh": "西语单词大奖赛开跑",
+  "ejemplo_es": "Empezar",
+  "puntuacion": 7,
+  "tapar": [
+   {
+    "x": 0,
+    "y": 0.965,
+    "w": 1,
+    "h": 0.035
+   }
+  ]
+ },
+ {
+  "archivo": "mahjong.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Fichas del palacio (mahjong solitario, disposición Dragón): fichas de marfil con palabras en español y su traducción en chino para emparejar",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.31,
+   "w": 0.94,
+   "h": 0.58
+  },
+  "titulo_zh": "麻将也能学西语",
+  "subtitulo_zh": "西语和中文配成一对就消",
+  "ejemplo_es": "¿De dónde eres?",
+  "puntuacion": 9
+ },
+ {
+  "archivo": "palacio_b.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Palacio de las palabras (tipo scrabble 13×13 contra el Rey Mono): tablero de laca con DEJEMOS, CHECAIS, DECIAN, marcador Tú 36 · Rey Mono 63 y atril de letras",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.2,
+   "w": 0.94,
+   "h": 0.45
+  },
+  "titulo_zh": "和美猴王拼单词",
+  "subtitulo_zh": "词典里的任何西语词都算",
+  "ejemplo_es": "dejemos",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "pinball.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Pinball del dragón: mesa roja con dragón dorado, farolillos 福 y dianas con frases en español; arriba la frase china a buscar",
+  "detalle_zoom": {
+   "x": 0.17,
+   "y": 0.11,
+   "w": 0.66,
+   "h": 0.7
+  },
+  "titulo_zh": "弹球打中对的词",
+  "subtitulo_zh": "龙之弹球，越打越上头",
+  "ejemplo_es": "Encantado",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "dragon_jade.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Dragón de jade: guías al dragón por un cielo nocturno y te comes el farolillo con la traducción correcta de 她是 (Ella es / Esta es)",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.12,
+   "w": 0.94,
+   "h": 0.66
+  },
+  "titulo_zh": "玉龙吃对的词",
+  "subtitulo_zh": "她是＝Ella es，快去吃！",
+  "ejemplo_es": "Ella es",
+  "puntuacion": 9
+ },
+ {
+  "archivo": "brisca.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Brisca del Rey Mono: baraja española (copas, espadas, sota) contra el Rey Mono; cada carta trae un reto (La carta, Artículo, Traducir)",
+  "detalle_zoom": {
+   "x": 0.05,
+   "y": 0.4,
+   "w": 0.9,
+   "h": 0.25
+  },
+  "titulo_zh": "西班牙纸牌对战",
+  "subtitulo_zh": "每出一张牌就答一道题",
+  "ejemplo_es": "copas",
+  "puntuacion": 7
+ },
+ {
+  "archivo": "viaje_mono.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "El viaje del Rey Mono (tipo oca): tablero al fondo y pergamino con reto de escucha «Escucha y elige el significado», 4 opciones en chino",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.27,
+   "w": 0.94,
+   "h": 0.45
+  },
+  "titulo_zh": "答对才能掷骰子",
+  "subtitulo_zh": "陪美猴王一路走到西天",
+  "ejemplo_es": "Escuchar otra vez",
+  "puntuacion": 6
+ },
+ {
+  "archivo": "memoria.png",
+  "tipo": "png",
+  "fps": null,
+  "que_muestra": "Memory: tablero 4×4 de cartas rojas con el sello 忆 (partida empezada, cartas boca abajo; una se está girando y se ve vacía)",
+  "detalle_zoom": {
+   "x": 0.0,
+   "y": 0.13,
+   "w": 1.0,
+   "h": 0.5
+  },
+  "titulo_zh": "翻牌记单词",
+  "subtitulo_zh": "西语和中文翻开配成对",
+  "ejemplo_es": "",
+  "puntuacion": 4
+ },
+ {
+  "archivo": "pabellon_alta.png",
+  "tipo": "alta",
+  "fps": null,
+  "que_muestra": "Pabellón de juegos completo (1170×7590): cabecera «Aprende jugando · 17 juegos», juego del día (Sopa de letras) y las 16 tarjetas ilustradas. Para scroll vertical",
+  "detalle_zoom": {
+   "x": 0.0,
+   "y": 0.38,
+   "w": 1.0,
+   "h": 0.45
+  },
+  "titulo_zh": "17款游戏学西语",
+  "subtitulo_zh": "边玩边学，单词全记住",
+  "ejemplo_es": "Sopa de letras",
+  "puntuacion": 8,
+  "tapar": [
+   {
+    "x": 0.03,
+    "y": 0.343,
+    "w": 0.47,
+    "h": 0.07
+   },
+   {
+    "x": 0.03,
+    "y": 0.578,
+    "w": 0.47,
+    "h": 0.075
+   }
+  ],
+  "nota_tapar": "Tarjetas «Kahoot Quiz» y «UNO» (marcas registradas)"
+ }
+]

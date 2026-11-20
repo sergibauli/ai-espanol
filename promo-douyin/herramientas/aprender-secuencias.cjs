@@ -25,13 +25,18 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
   // Las animaciones CSS van en tiempo real (no las controla el reloj falso): mientras se graba se pausan todas
   // y se colocan a mano en el tiempo virtual de cada fotograma (Web Animations API)
   const virtual = async (dt) => page.evaluate((dt) => {
+    const primera = !window.__virt;
     const v = window.__virt || (window.__virt = { t: 0, born: new Map() });
     v.t += dt;
     for (const a of document.getAnimations()) {
-      if (!v.born.has(a)) { v.born.set(a, v.t - dt - (a.currentTime || 0)); a.pause(); }
+      // las que ya existían conservan su avance; las nuevas nacen en el fotograma anterior
+      if (!v.born.has(a)) { v.born.set(a, primera ? v.t - (a.currentTime || 0) : v.t - dt); a.pause(); }
       try { a.currentTime = v.t - v.born.get(a); } catch {}
     }
   }, dt);
+  // clock.install() deja el reloj corriendo en tiempo real: para grabar se para y solo avanza con runFor
+  const congelar = async () => { const ahora = await page.evaluate(() => Date.now()); await page.clock.pauseAt(ahora + 20); await virtual(0); };
+  const soltar = async () => { await page.evaluate(() => { for (const a of document.getAnimations()) a.play(); window.__virt = null; }); await page.clock.resume(); };
   let frameN = {};
   const grabar = async (dir, frames) => {
     frameN[dir] = frameN[dir] || 0;
@@ -62,8 +67,8 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
   // La lección se baraja con Date.now(): solo sirve si el primer ejercicio de imágenes tiene la respuesta en la fila de arriba
   const primeraImg = lesson.steps.find((x) => x.type === 'pictures');
   console.log('pictures', primeraImg && primeraImg.prompt, primeraImg && primeraImg.answer);
-  if (!primeraImg || primeraImg.answer > 1) { await browser.close(); process.exit(2); }
-  let grabadoAcierto = false;
+  // si no sirve, no se graba el acierto (solo la pantalla final)
+  let grabadoAcierto = !primeraImg || primeraImg.answer > 1;
   for (let i = 0; i < lesson.steps.length; i++) {
     const s = lesson.steps[i];
     await tick(900);
@@ -75,12 +80,12 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
             const c = document.querySelectorAll('.ej-parejas__col')[col];
             [...c.querySelectorAll('button')].find((b) => b.textContent.trim() === txt).click();
           }, [col, txt]);
+          if (p === s.pairs[s.pairs.length - 1] && col === 0) await congelar();
           if (p === s.pairs[s.pairs.length - 1] && col === 1) break;
           await tick(200);
         }
       }
       // última pareja: tiempo virtual desde ya; se graba desde 0,5 s (pergamino que se cierra) hasta la pantalla final
-      await virtual(0);
       for (let k = 0; k < 15; k++) { await page.clock.runFor(33.33); await virtual(33.33); }
       break; // la última pareja cierra la lección sola (onDone)
     }
@@ -101,12 +106,11 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
     await tick(500);
     if (s.type === 'pictures' && !grabadoAcierto) {
       // 0,4 s con la opción elegida, pulsar «Comprobar» y 2,6 s de sello y feedback
+      await congelar();
       await grabar(dirAcierto, 12);
       await clic('.lp-foot .lp-btn');
-      await virtual(0);
       await grabar(dirAcierto, 78);
-      // vuelve al tiempo real
-      await page.evaluate(() => { for (const a of document.getAnimations()) a.play(); window.__virt = null; });
+      await soltar();
       grabadoAcierto = true;
     } else {
       await clic('.lp-foot .lp-btn');

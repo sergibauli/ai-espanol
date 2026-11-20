@@ -20,7 +20,7 @@ export const CAP = {
   examen: C + "practica/examen_lectura_portada.png", impresionPanel: C + "practica/impresion_pdf.png", impresion: "/promo-douyin/film/recursos/hoja-pdf.jpg",
   tutor: C + "practica/examinador_oral.png", tutorChat: C + "practica/tutor_conversacion.png", examenOk: C + "practica/examen_pregunta_correcta.png", tvLista: C + "practica/tv_episodios.png", tv: C + "practica/tv/ep_060.jpg",
   progreso: C + "practica/mi_progreso.png", progreso2: C + "practica/mi_progreso_cuatro_pruebas.png", generador: C + "practica/generador_examen_generado.png",
-  juego0: C + "juegos/mahjong.png", juego1: C + "juegos/brisca.png", juego2: C + "juegos/palacio_a.png", juego3: C + "juegos/viaje_mono.png", juego4: C + "juegos/memoria.png", juego5: C + "juegos/pinball.png", turbo: C + "juegos/pinball.png",
+  juego0: C + "juegos/mahjong.png", juego1: C + "juegos/brisca.png", juego2: C + "juegos/palacio_b.png", juego3: C + "juegos/viaje_mono.png", juego4: C + "juegos/dragon_jade.png", juego5: C + "juegos/pinball.png", turbo: C + "juegos/turbo_carrera_390.png", turbo2: C + "juegos/turbo_carrera2_390.png", turboLogo: C + "juegos/turbo_portada_390.png",
 };
 const pad = (n, w = 3) => String(n).padStart(w, "0");
 export const SEQ = {
@@ -32,10 +32,10 @@ export const SEQ = {
 export const ZOOM = { tap: { x: 0.25, y: 0.69 } };
 export const JUEGOS = [
   { clave: "juego0", zh: "宫殿麻将" }, { clave: "juego1", zh: "美猴王纸牌" }, { clave: "juego2", zh: "字母宫殿" },
-  { clave: "juego3", zh: "美猴王之旅" }, { clave: "juego4", zh: "记忆配对" }, { clave: "juego5", zh: "龙之弹球" },
+  { clave: "juego3", zh: "美猴王之旅" }, { clave: "juego4", zh: "玉龙" }, { clave: "juego5", zh: "龙之弹球" },
 ];
 export const CIFRAS = {
   unidades: 90, modelos: 88, juegos: 17, palabras: 1969, dialogos: 420,
   leccion: "每课 5 步 · 约 60 分钟",
-  turboSub: "<em>答对单词</em>就能加速", turboPalabra: "¡Rápido!", turboPalabraZh: "快！",
+  turboSub: "<em>冲对单词门</em>，立刻加速！", turboPalabra: "¡Rápido!", turboPalabraZh: "快！",
 };
