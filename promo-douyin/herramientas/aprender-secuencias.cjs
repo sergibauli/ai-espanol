@@ -22,14 +22,28 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
     if (!ok) throw new Error('no ' + sel);
   };
   const espera = async (sel) => { for (let i = 0; i < 100; i++) { if (await page.$(sel)) return; await tick(200); } throw new Error('timeout ' + sel); };
+  // Las animaciones CSS van en tiempo real (no las controla el reloj falso): mientras se graba se pausan todas
+  // y se colocan a mano en el tiempo virtual de cada fotograma (Web Animations API)
+  const virtual = async (dt) => page.evaluate((dt) => {
+    const v = window.__virt || (window.__virt = { t: 0, born: new Map() });
+    v.t += dt;
+    for (const a of document.getAnimations()) {
+      if (!v.born.has(a)) { v.born.set(a, v.t - dt - (a.currentTime || 0)); a.pause(); }
+      try { a.currentTime = v.t - v.born.get(a); } catch {}
+    }
+  }, dt);
+  let frameN = {};
   const grabar = async (dir, frames) => {
+    frameN[dir] = frameN[dir] || 0;
     for (let f = 0; f < frames; f++) {
       await page.clock.runFor(33.33);
-      await page.screenshot({ path: `${dir}/f${String(f).padStart(3, '0')}.jpg`, type: 'jpeg', quality: 90 });
+      await virtual(33.33);
+      await page.screenshot({ path: `${dir}/f${String(frameN[dir]++).padStart(3, '0')}.jpg`, type: 'jpeg', quality: 90 });
     }
   };
   await page.goto('http://127.0.0.1:5173/#/ruta?nivel=A1', { waitUntil: 'networkidle' }).catch(() => {});
   await tick(5000);
+  await page.evaluate(() => { const o = window.requestAnimationFrame.bind(window); window.requestAnimationFrame = (cb) => o(() => cb(performance.now())); });
   await espera('.rp-empezar');
   await clic('.rp-empezar');
   await tick(1500);
@@ -85,10 +99,10 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
       // 0,4 s con la opción elegida, pulsar «Comprobar» y 2,6 s de sello y feedback
       await grabar(dirAcierto, 12);
       await clic('.lp-foot .lp-btn');
-      for (let f = 12; f < 90; f++) {
-        await page.clock.runFor(33.33);
-        await page.screenshot({ path: `${dirAcierto}/f${String(f).padStart(3, '0')}.jpg`, type: 'jpeg', quality: 90 });
-      }
+      await virtual(0);
+      await grabar(dirAcierto, 78);
+      // vuelve al tiempo real
+      await page.evaluate(() => { for (const a of document.getAnimations()) a.play(); window.__virt = null; });
       grabadoAcierto = true;
     } else {
       await clic('.lp-foot .lp-btn');
@@ -97,8 +111,8 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
     await clic('.lp-foot .lp-btn');
   }
   // fin: la última pareja llama a onDone a los 650 ms; graba desde ahí
-  await page.clock.runFor(600);
-  for (let i = 0; i < 20 && !(await page.$('.lp-end')); i++) await page.clock.runFor(33.33);
+  for (let i = 0; i < 60 && !(await page.$('.lp-end')); i++) { await page.clock.runFor(33.33); await virtual(33.33); }
+  console.log('fin', await page.evaluate(() => ({ canvas: document.querySelectorAll('body > canvas').length, now: performance.now() })));
   await grabar(dirFin, 90);
   await browser.close();
 })();

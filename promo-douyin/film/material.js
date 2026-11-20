@@ -18,7 +18,7 @@ export const CAP = {
   idiomas: C + "unidades/11_idiomas_selector.png",
   examA1: C + "practica/mundo_A1_bambu.png", examA2: C + "practica/mundo_A2_linternas.png", examB1: C + "practica/mundo_B1_tinta.png", examB2: C + "practica/mundo_B2_ciudad_prohibida.png",
   examen: C + "practica/examen_lectura_portada.png", impresionPanel: C + "practica/impresion_pdf.png", impresion: "/promo-douyin/film/recursos/hoja-pdf.jpg",
-  tutor: C + "practica/examinador_oral.png", tvLista: C + "practica/tv_episodios.png", tv: C + "practica/tv/ep_060.jpg",
+  tutor: C + "practica/examinador_oral.png", tutorChat: C + "practica/tutor_conversacion.png", examenOk: C + "practica/examen_pregunta_correcta.png", tvLista: C + "practica/tv_episodios.png", tv: C + "practica/tv/ep_060.jpg",
   progreso: C + "practica/mi_progreso.png", progreso2: C + "practica/mi_progreso_cuatro_pruebas.png", generador: C + "practica/generador_examen_generado.png",
   juego0: PH, juego1: PH, juego2: PH, juego3: PH, juego4: PH, juego5: PH, turbo: PH,
 };
@@ -35,7 +35,7 @@ export const JUEGOS = [
   { clave: "juego3", zh: "飞行棋" }, { clave: "juego4", zh: "记忆翻牌" }, { clave: "juego5", zh: "神龙弹珠" },
 ];
 export const CIFRAS = {
-  unidades: 90, modelos: 80, juegos: 17, palabras: 1969, dialogos: 420,
+  unidades: 90, modelos: 88, juegos: 17, palabras: 1969, dialogos: 420,
   leccion: "5 个关卡 · 约 60 分钟",
   turboSub: "<em>答对单词</em>就能加速", turboPalabra: "¡Rápido!", turboPalabraZh: "快！",
 };

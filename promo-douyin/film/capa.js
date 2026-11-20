@@ -171,3 +171,67 @@ export function ondas(k, t, x, y, ancho = 260, color = "#f2c14e") {
   fx.restore();
 }
 export { fx };
+
+/** Rótulo explicativo (caja roja: título chino + línea en español) con línea guía dorada hasta un punto */
+export function rotulo(id, zh, es, lt, ini, fin, { x = 200, y = 900, punto = null, lado = "izq" } = {}) {
+  if (lt < ini || lt > fin) return null;
+  const el = nodo(id, `<b>${zh}</b><span>${es}</span>`, "rotulo");
+  const a = seg(lt, ini, ini + 0.3), b = seg(lt, fin - 0.2, fin);
+  el.style.left = "0px"; el.style.top = "0px";
+  el.style.opacity = clamp(a * 3) * (1 - b);
+  const w = el.offsetWidth, h = el.offsetHeight;
+  el.style.transform = `translate(${x - w / 2 + (1 - eOut(a)) * (lado === "izq" ? -80 : 80)}px, ${y - h / 2}px)`;
+  el.style.clipPath = `inset(0 ${(1 - eOut(a)) * 100}% 0 0)`;
+  if (punto && a > 0.3) {
+    const k = seg(lt, ini + 0.15, ini + 0.45) * (1 - b);
+    const x0 = lado === "izq" ? x + w / 2 : x - w / 2, y0 = y;
+    const xm = x0 + (punto.x - x0) * 0.35;
+    fx.save(); fx.strokeStyle = "#f2c14e"; fx.lineWidth = 5; fx.shadowColor = "rgba(0,0,0,.6)"; fx.shadowBlur = 8;
+    fx.beginPath(); fx.moveTo(x0, y0); fx.lineTo(xm, y0);
+    const ex = xm + (punto.x - xm) * eOut(k), ey = y0 + (punto.y - y0) * eOut(k);
+    fx.lineTo(ex, ey); fx.stroke();
+    if (k > 0.95) { fx.fillStyle = "#fff3c4"; fx.beginPath(); fx.arc(punto.x, punto.y, 11, 0, 7); fx.fill();
+      fx.strokeStyle = "rgba(242,193,78,.8)"; fx.lineWidth = 4; fx.beginPath(); fx.arc(punto.x, punto.y, 18 + 10 * Math.sin(lt * 8), 0, 7); fx.stroke(); }
+    fx.restore();
+  }
+  return el;
+}
+/** Tarjeta-lupa: recorte ampliado de una captura que sale de la pantalla */
+export function lupa(id, url, r, lt, ini, fin, { x = 540, y = 900, ancho = 620, rot = -3, desde = null } = {}) {
+  if (lt < ini || lt > fin) return null;
+  const alto = Math.round(ancho * (r.h * 2532) / (r.w * 1170));
+  const el = nodo(id, "", "lupa");
+  el.style.width = ancho + "px"; el.style.height = alto + "px";
+  el.style.backgroundImage = `url(${url})`;
+  el.style.backgroundSize = `${100 / r.w}% ${100 / r.h}%`;
+  el.style.backgroundPosition = `${(r.x / (1 - r.w || 1)) * 100}% ${(r.y / (1 - r.h || 1)) * 100}%`;
+  const a = eBack(seg(lt, ini, ini + 0.45), 1.5), b = seg(lt, fin - 0.2, fin);
+  const ox = desde ? (desde.x - x) * (1 - clamp(a)) : 0, oy = desde ? (desde.y - y) * (1 - clamp(a)) : 0;
+  el.style.left = "0px"; el.style.top = "0px";
+  el.style.opacity = clamp(a * 3) * (1 - b);
+  el.style.transform = `translate(${x - ancho / 2 + ox}px, ${y - alto / 2 + oy}px) rotate(${rot}deg) scale(${0.25 + 0.75 * a})`;
+  return el;
+}
+/** Barrido diagonal de luz dorada (transición entre secciones) */
+export function barrido(k) {
+  if (k <= 0 || k >= 1) return;
+  fx.save();
+  const x = -600 + k * 2400;
+  const g = fx.createLinearGradient(x - 260, 0, x + 260, 0);
+  g.addColorStop(0, "rgba(255,200,80,0)"); g.addColorStop(0.45, "rgba(255,226,140,0.55)"); g.addColorStop(0.5, "rgba(255,250,225,0.95)"); g.addColorStop(0.55, "rgba(255,226,140,0.55)"); g.addColorStop(1, "rgba(255,200,80,0)");
+  fx.translate(540, 960); fx.rotate(0.38); fx.translate(-540, -960);
+  fx.fillStyle = g; fx.fillRect(-800, -800, 2700, 3600);
+  fx.restore();
+}
+/** Barra de búsqueda de Douyin que se escribe sola */
+export function buscador(id, texto, lt, ini, fin, { y = 1260 } = {}) {
+  if (lt < ini || lt > fin) return null;
+  const n = Math.floor(clamp((lt - ini - 0.3) / 0.9) * texto.length);
+  const cursor = Math.floor(lt * 3) % 2 ? "|" : "&nbsp;";
+  const el = nodo(id, "", "buscador");
+  el.innerHTML = `<span class="lupa-ico"></span><span class="txt">${texto.slice(0, n)}<i>${cursor}</i></span><span class="btn">搜索</span>`;
+  const a = seg(lt, ini, ini + 0.3);
+  el.style.left = "0px"; el.style.top = "0px"; el.style.opacity = clamp(a * 3);
+  el.style.transform = `translate(${540 - el.offsetWidth / 2}px, ${y - el.offsetHeight / 2 + (1 - eOut(a)) * 40}px)`;
+  return el;
+}

@@ -1,0 +1,323 @@
+[
+ {
+  "archivo": "practica_cuatro_mundos.png",
+  "tipo": "png",
+  "que_muestra": "Práctica · «Elige tu nivel»: los cuatro mundos de examen en tarjetas-pabellón (A1 Jardín de bambú 竹林春晓, A2 Festival de linternas 元宵灯会, B1 Montañas de tinta 水墨山河, B2 Ciudad Prohibida 紫禁之巅) con progreso sembrado (12/22 hechos, media 88).",
+  "detalle_zoom": {
+   "x": 0.02,
+   "y": 0.09,
+   "w": 0.96,
+   "h": 0.8
+  },
+  "titulo_zh": "四关闯西语",
+  "subtitulo_zh": "竹林·灯会·水墨·紫禁城",
+  "ejemplo_es": "Elige tu nivel",
+  "puntuacion": 9
+ },
+ {
+  "archivo": "examen_pregunta_correcta.png",
+  "tipo": "png",
+  "que_muestra": "Examen A2 modelo 01, Tarea 1 de comprensión de lectura: pregunta «¿Dónde está el piso que han alquilado?», opción C marcada, sello verde 对 y explicación ¡Correcto! en español + chino.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.18,
+   "w": 0.94,
+   "h": 0.62
+  },
+  "titulo_zh": "答对盖章！",
+  "subtitulo_zh": "每题都有中文解析",
+  "ejemplo_es": "¿Dónde está el piso que han alquilado?",
+  "puntuacion": 9
+ },
+ {
+  "archivo": "tutor_conversacion.png",
+  "tipo": "png",
+  "que_muestra": "Tutor Rey Mono (nivel A2): el alumno escribe «Corrige: Yo soy cansado hoy» y el Rey Mono corrige «Hoy estoy cansado.» con la explicación en chino; sigue la charla. Respuestas del tutor simuladas en el navegador de captura (no se llamó a ningún servicio).",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.21,
+   "w": 0.94,
+   "h": 0.58
+  },
+  "titulo_zh": "说错马上改",
+  "subtitulo_zh": "ser还是estar？猴王教你",
+  "ejemplo_es": "Hoy estoy cansado.",
+  "puntuacion": 10
+ },
+ {
+  "archivo": "tv_reproduciendo.png",
+  "tipo": "png",
+  "que_muestra": "Wukong TV: serie «El Rey Mono y el Dragón Dorado · 美猴王与金龙», episodio 4 en el televisor dorado, fotograma del Rey Mono gritando ante la puerta de luz con subtítulo 就是现在！开门！.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.27,
+   "w": 0.94,
+   "h": 0.27
+  },
+  "titulo_zh": "美猴王开门！",
+  "subtitulo_zh": "看西语短剧，边看边学",
+  "ejemplo_es": "¡Ahora! ¡Abre la puerta!",
+  "puntuacion": 9,
+  "tapar": [
+   {
+    "x": 0.515,
+    "y": 0.298,
+    "w": 0.41,
+    "h": 0.038,
+    "motivo": "chapa «Creado con IA · AI生成» sobre el vídeo"
+   },
+   {
+    "x": 0.04,
+    "y": 0.918,
+    "w": 0.92,
+    "h": 0.038,
+    "motivo": "línea «Serie creada con inteligencia artificial · 本剧由人工智能生成»"
+   }
+  ]
+ },
+ {
+  "archivo": "tv_episodios.png",
+  "tipo": "png",
+  "que_muestra": "Wukong TV: carrusel de episodios (Ep. 4 «¡La puerta se abre! 门开了！», en pantalla) y ficha del episodio con resumen bilingüe y «Frases del episodio» con botón de audio.",
+  "detalle_zoom": {
+   "x": 0.0,
+   "y": 0.03,
+   "w": 1.0,
+   "h": 0.55
+  },
+  "titulo_zh": "猴王追剧中",
+  "subtitulo_zh": "每集都配西语金句",
+  "ejemplo_es": "¡La puerta se abre!",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "practica_hub.png",
+  "tipo": "png",
+  "que_muestra": "Portada de Práctica: «Exámenes para practicar mi nivel», 88 modelos · 18 hechos · nota media 85, «Tu siguiente paso», Examen rápido, Generador y Mi progreso; debajo empiezan los mundos A1 y A2.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.05,
+   "w": 0.94,
+   "h": 0.36
+  },
+  "titulo_zh": "88套模拟卷",
+  "subtitulo_zh": "从入门到高阶，一键开练",
+  "ejemplo_es": "Exámenes para practicar mi nivel",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "mundo_B2_ciudad_prohibida.png",
+  "tipo": "png",
+  "que_muestra": "Mundo B2 «Ciudad Prohibida · 紫禁之巅» (tema morado, sello 龙): duración por prueba, filtro de modelos y tarjeta del Modelo 01 «La oficina en casa: nuevas reglas · 居家办公：新规则» con el Rey Mono.",
+  "detalle_zoom": {
+   "x": 0.02,
+   "y": 0.05,
+   "w": 0.96,
+   "h": 0.68
+  },
+  "titulo_zh": "登顶紫禁城",
+  "subtitulo_zh": "B2高阶：职场话题也能聊",
+  "ejemplo_es": "La oficina en casa: nuevas reglas",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "mundo_A1_bambu.png",
+  "tipo": "png",
+  "que_muestra": "Mundo A1 «Jardín de bambú · 竹林春晓» (verde, sello 竹): 12/22 hechos (55 %), modelos con sello 成 y nota (92 %, 88 %), barras de Lectura 94 % y Audición 89 %.",
+  "detalle_zoom": {
+   "x": 0.02,
+   "y": 0.05,
+   "w": 0.96,
+   "h": 0.68
+  },
+  "titulo_zh": "竹林春晓",
+  "subtitulo_zh": "A1入门：成绩一眼看清",
+  "ejemplo_es": "Fiesta sorpresa en secreto",
+  "puntuacion": 7
+ },
+ {
+  "archivo": "mundo_A2_linternas.png",
+  "tipo": "png",
+  "que_muestra": "Mundo A2 «Festival de linternas · 元宵灯会» (sello 灯): 5/23 hechos, Modelo 01 «Se alquila piso con luz · 出租：阳光公寓» con sello 成 78 %.",
+  "detalle_zoom": {
+   "x": 0.02,
+   "y": 0.05,
+   "w": 0.96,
+   "h": 0.68
+  },
+  "titulo_zh": "元宵灯会",
+  "subtitulo_zh": "A2基础：话题贴近生活",
+  "ejemplo_es": "Se alquila piso con luz",
+  "puntuacion": 7
+ },
+ {
+  "archivo": "mundo_B1_tinta.png",
+  "tipo": "png",
+  "que_muestra": "Mundo B1 «Montañas de tinta · 水墨山河» (azul tinta, sello 山): 1/21 hechos, Modelo 01 «Manos que tejen barrio · 编织街区的双手».",
+  "detalle_zoom": {
+   "x": 0.02,
+   "y": 0.05,
+   "w": 0.96,
+   "h": 0.68
+  },
+  "titulo_zh": "水墨山河",
+  "subtitulo_zh": "B1进阶：社会话题全覆盖",
+  "ejemplo_es": "Manos que tejen barrio",
+  "puntuacion": 7
+ },
+ {
+  "archivo": "examen_lectura_portada.png",
+  "tipo": "png",
+  "que_muestra": "Examen A2 · 01 abierto: cronómetro 59:53, modos Práctica/Examen, «Comprensión de lectura · 阅读理解» con dragón dorado y las cinco pruebas en medallones 读 听 写 说 评.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.07,
+   "w": 0.94,
+   "h": 0.46
+  },
+  "titulo_zh": "读听写说评",
+  "subtitulo_zh": "四项考试，计时模考",
+  "ejemplo_es": "Comprensión de lectura",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "impresion_pdf.png",
+  "tipo": "png",
+  "que_muestra": "Vista «Imprimir / PDF · 打印 / 保存为PDF» abierta sobre un examen generado: opciones (hoja de respuestas, solucionario, traducciones al chino, espacio para escribir) y portada A4 del examen «Wukong Español · 悟空西语» con sello 试.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.46,
+   "w": 0.94,
+   "h": 0.54
+  },
+  "titulo_zh": "一键打印试卷",
+  "subtitulo_zh": "答题卡+答案+中文翻译",
+  "ejemplo_es": "Hoja de respuestas del alumno",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "mi_progreso.png",
+  "tipo": "png",
+  "que_muestra": "Mi progreso · «Tu camino al APTO»: medalla de probabilidad de aprobar 94 % (A2), explicación bilingüe, selector de nivel y Tarea de hoy. Datos de progreso sembrados de demostración.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.04,
+   "w": 0.94,
+   "h": 0.32
+  },
+  "titulo_zh": "通过率预测",
+  "subtitulo_zh": "练得越多，预测越准",
+  "ejemplo_es": "Tu camino al APTO",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "tutor_rey_mono.png",
+  "tipo": "png",
+  "que_muestra": "Tutor Rey Mono: retrato animado (vídeo tutor-mono.mp4) en marco dorado, estado «Tu turno · 轮到你了», usos del tutor 4/5, selector de nivel A1–B2 y temas (En un café, Examen oral).",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.07,
+   "w": 0.94,
+   "h": 0.3
+  },
+  "titulo_zh": "美猴王当老师",
+  "subtitulo_zh": "选级别、挑话题就开聊",
+  "ejemplo_es": "Tu turno",
+  "puntuacion": 8
+ },
+ {
+  "archivo": "mi_progreso_cuatro_pruebas.png",
+  "tipo": "png",
+  "que_muestra": "Mi progreso · «Las cuatro pruebas 四项考试 · A2»: nota prevista por prueba (19.3/25, 18.3/25, 18.3/25, 17/25) con «Vas bien · 不错» y totales por grupo.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.07,
+   "w": 0.94,
+   "h": 0.75
+  },
+  "titulo_zh": "四项分数预测",
+  "subtitulo_zh": "读听写说，哪项弱一目了然",
+  "ejemplo_es": "Expresión oral",
+  "puntuacion": 7
+ },
+ {
+  "archivo": "mi_progreso_destrezas.png",
+  "tipo": "png",
+  "que_muestra": "Mi progreso · Reto del mes «Mes de la constancia · 坚持月» 300/300 y barras de Destrezas (lectura 77 %, auditiva 73 %, vocabulario 83 %…), inicio del Cuaderno de errores.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.08,
+   "w": 0.94,
+   "h": 0.62
+  },
+  "titulo_zh": "能力条拉满",
+  "subtitulo_zh": "月度挑战+六项能力追踪",
+  "ejemplo_es": "Mes de la constancia",
+  "puntuacion": 7
+ },
+ {
+  "archivo": "examinador_oral.png",
+  "tipo": "png",
+  "que_muestra": "Examinador oral · 口语考官: cabecera «Examen oral · 模拟口语考试», pasos Elegir–Preparar–Monólogo–Conversación–Corrección y selector de nivel A2.",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.07,
+   "w": 0.94,
+   "h": 0.45
+  },
+  "titulo_zh": "口语模考官",
+  "subtitulo_zh": "准备·独白·对话·批改",
+  "ejemplo_es": "Examen oral",
+  "puntuacion": 7
+ },
+ {
+  "archivo": "generador_examenes.png",
+  "tipo": "png",
+  "que_muestra": "Generador automático · 自动出题: «Un examen nuevo cada vez · 每次一份新试卷» con el Rey Mono y botones Generar examen / Repaso de mis módulos. (El texto de la app dice «más de 5.000 preguntas»: no lo he verificado para el generador, mejor no citarlo.)",
+  "detalle_zoom": {
+   "x": 0.05,
+   "y": 0.12,
+   "w": 0.9,
+   "h": 0.72
+  },
+  "titulo_zh": "每次一份新卷",
+  "subtitulo_zh": "选级别选单元，自动出题",
+  "ejemplo_es": "Un examen nuevo cada vez",
+  "puntuacion": 7
+ },
+ {
+  "archivo": "generador_examen_generado.png",
+  "tipo": "png",
+  "que_muestra": "Examen generado A1 · 5 módulos: 25 preguntas, 30 min, cronómetro 29:51, botones PDF · 打印 y Entregar · 交卷, navegación de preguntas y comprensión lectora «Mi familia y los números».",
+  "detalle_zoom": {
+   "x": 0.03,
+   "y": 0.07,
+   "w": 0.94,
+   "h": 0.55
+  },
+  "titulo_zh": "30分钟模考",
+  "subtitulo_zh": "25道题，限时交卷",
+  "ejemplo_es": "Entregar",
+  "puntuacion": 6
+ },
+ {
+  "archivo": "tv/ep_%03d.jpg",
+  "tipo": "secuencia",
+  "fotogramas": 120,
+  "fps": 30,
+  "tamano": "1280x720 (horizontal)",
+  "origen": "public/tv/rey-mono/s1e04.mp4, 25.5–29.5 s",
+  "audio": "tv/ep_audio.mp3 (mismo tramo)",
+  "que_muestra": "Episodio 4: el Rey Mono a lomos del Dragón Dorado grita ante la puerta de anillos de luz, se abre con un haz dorado y entran. Subtítulo quemado 就是现在！开门！",
+  "detalle_zoom": {
+   "x": 0.45,
+   "y": 0.05,
+   "w": 0.55,
+   "h": 0.95
+  },
+  "titulo_zh": "就是现在！开门！",
+  "subtitulo_zh": "看剧学西语，金龙陪你闯关",
+  "ejemplo_es": "¡Ahora! ¡Abre la puerta!",
+  "puntuacion": 9
+ }
+]

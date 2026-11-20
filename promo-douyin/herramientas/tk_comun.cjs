@@ -27,3 +27,11 @@ async function avanzar(page, ms, paso = 100, real = 15) {
 }
 const estado = (page) => page.evaluate(() => window.__tkr?.game?.state ?? null);
 module.exports = { abrir, avanzar, estado };
+// Clic sin esperas de Playwright (con reloj falso, el chequeo de estabilidad usa rAF y se cuelga).
+async function pulsar(page, texto, selector = 'button') {
+  return page.evaluate(([texto, selector]) => {
+    const el = [...document.querySelectorAll(selector)].find((b) => (b.innerText || '').includes(texto));
+    if (!el) return false; el.click(); return true;
+  }, [texto, selector]);
+}
+module.exports.pulsar = pulsar;

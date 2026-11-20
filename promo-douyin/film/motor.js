@@ -271,6 +271,12 @@ function rectApaisado(t) {
   if (asp < pant) { const h = asp / pant; return new THREE.Vector4(0, (1 - h) / 2, 1, h); }
   const w = pant / asp; return new THREE.Vector4((1 - w) / 2, 0, w, 1);
 }
+// punto de la pantalla (u, v de arriba a abajo) → píxel del lienzo 1080×1920
+Movil.prototype.punto = function (u, v) {
+  this.g.updateMatrixWorld(true);
+  const p = new THREE.Vector3((u - 0.5) * SW, (0.5 - v) * SH, MD / 2 + 0.03).applyMatrix4(this.g.matrixWorld).project(camara);
+  return { x: (p.x + 1) * 540, y: (1 - p.y) * 960 };
+};
 // rectángulo de UV (coordenadas de arriba a abajo) para una imagen alta + zoom
 function rectDe(t, scroll, zoom) {
   const iw = t.image.width, ih = t.image.height;

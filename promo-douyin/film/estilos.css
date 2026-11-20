@@ -55,3 +55,18 @@ html, body { margin: 0; background: #000; overflow: hidden; }
 .fantasma { font-family: 'Cinzel', serif; font-weight: 700; font-size: 58px; color: rgba(255,240,220,.22); }
 .etq { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 46px; color: #ffe9a8; -webkit-text-stroke: 9px #3b0a0a; paint-order: stroke fill; }
 .sello.doble { width: auto; height: auto; padding: 14px 22px; font-size: 76px; border-radius: 18px; }
+.rotulo { position: absolute; display: flex; flex-direction: column; gap: 4px; padding: 16px 24px 16px; border-radius: 10px;
+  background: linear-gradient(180deg, #c8102e, #8f0c21); border: 4px solid #f2c14e; box-shadow: 0 12px 26px rgba(0,0,0,.55); will-change: transform, opacity; max-width: 460px; }
+.rotulo b { font-family: "Noto Sans SC", sans-serif; font-weight: 900; font-size: 52px; color: #fff; line-height: 1.15; white-space: nowrap; }
+.rotulo span { font-family: "Noto Sans SC", sans-serif; font-weight: 700; font-size: 29px; color: #ffd54a; white-space: nowrap; }
+.lupa { position: absolute; border-radius: 22px; border: 6px solid #f2c14e; background-repeat: no-repeat; box-shadow: 0 0 0 4px #5a0410, 0 24px 50px rgba(0,0,0,.6), 0 0 50px rgba(255,200,80,.35); will-change: transform, opacity; }
+.es-peq { font-family: 'Cinzel', serif; font-weight: 700; font-size: 30px; color: #f6d27a; letter-spacing: 5px; text-shadow: 0 3px 8px rgba(0,0,0,.7); }
+.buscador { position: absolute; display: flex; align-items: center; gap: 18px; width: 760px; height: 104px; padding: 0 12px 0 34px; box-sizing: border-box; border-radius: 999px;
+  background: #fff; border: 5px solid #f2c14e; box-shadow: 0 0 0 5px #8f0c21, 0 16px 34px rgba(0,0,0,.5); }
+.buscador .lupa-ico { width: 40px; height: 40px; border: 7px solid #3b2416; border-radius: 50%; box-sizing: border-box; position: relative; flex: none; }
+.buscador .lupa-ico::after { content: ""; position: absolute; width: 7px; height: 20px; background: #3b2416; right: -9px; bottom: -14px; transform: rotate(-45deg); border-radius: 3px; }
+.buscador .txt { flex: 1; font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 50px; color: #3b2416; }
+.buscador .txt i { font-style: normal; color: #c8102e; font-weight: 400; }
+.buscador .btn { flex: none; padding: 16px 38px; border-radius: 999px; background: linear-gradient(180deg, #e0213f, #8f0c21); color: #fff; font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 40px; }
+.marco-qr img { width: 300px; height: 300px; }
+.sub.banda { left: 0; right: 0; margin: 0 auto; width: fit-content; padding: 8px 46px 14px; background: linear-gradient(180deg, #e0213f, #8f0c21); border: 5px solid #f2c14e; border-radius: 14px; -webkit-text-stroke: 0; box-shadow: 0 12px 30px rgba(0,0,0,.5); }
