@@ -186,22 +186,14 @@ ESC.lecciones = async (lt) => {
 ESC.unidades = async (lt) => {
   fondo({ rayos: 0.2 });
   const k = eOut(seg(lt, 0, 0.5));
-  const fase = lt < 3.5 * B ? 0 : lt < 5.5 * B ? 1 : 2;
-  const img = [T.unidadPortada, T.vocabulario, T.dialogo][fase];
-  const ini = [0, 3.5 * B, 5.5 * B][fase];
-  moviles[0].poner({ x: lerp(-2.4, 0.18, k), y: -0.62, z: 0, rx: -0.05, ry: lerp(1.1, -0.16, k) + Math.sin(lt * 1.3) * 0.05, s: 1.4, img,
-    scroll: 0, zoom: fase === 0 ? { cx: 0.5, cy: 0.42, s: 1 + eInOut(seg(lt, 0.3, 3.4 * B)) * 0.25 } : null, flash: fase > 0 ? 0.35 * (1 - seg(lt, ini, ini + 0.25)) : 0 });
+  const img = await seq("unidad1", lt * 30 * 2.0);
+  moviles[0].poner({ x: lerp(-2.4, 0.18, k), y: -0.62, z: 0, rx: -0.05, ry: lerp(1.1, -0.16, k) + Math.sin(lt * 1.3) * 0.05, s: 1.4, img });
   C.texto("u1", `${CIFRAS.unidades} 个<em>单元</em>`, "tit2", lt, 0.1, BAR * 2, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("u1es", "DEL A1 AL B2 · TEORÍA EN CHINO", "es-peq", lt, 0.25, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("u2", "语法·词汇·对话，<em>中文讲解</em>", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
-  post(() => {
-    const m = moviles[0];
-    C.rotulo("u3", "每个单元一个场景", "Cada unidad, una escena", lt, 0.8 * B, 3.4 * B, { x: 215, y: 640, punto: m.punto(0.5, 0.3) });
-    C.lupa("u4", CAP.vocabulario, { x: 0.08, y: 0.5, w: 0.84, h: 0.17 }, lt, 3.7 * B, 5.45 * B, { x: 520, y: 1300, ancho: 760, rot: -2, desde: m.punto(0.5, 0.58) });
-    C.rotulo("u5", "单词卡 · 点击发音", "Tarjetas con audio", lt, 3.6 * B, 5.45 * B, { x: 215, y: 640, punto: m.punto(0.82, 0.38) });
-  });
-  C.libre("u6", "¿Y de segundo?<small>第二道菜要什么？</small>", "burbuja", lt, 5.8 * B, BAR * 2, { x: 330, y: 1240, rot: -3 });
-  C.libre("u7", "El pollo asado, por favor.<small>请给我烤鸡。</small>", "burbuja der", lt, 6.6 * B, BAR * 2, { x: 600, y: 1420, rot: 3 });
+  post(() => C.rotulo("u3", "从第一课学起", "Unidad 1 · Hola y adiós", lt, 0.6 * B, 3 * B, { x: 215, y: 640, punto: moviles[0].punto(0.5, 0.35) }));
+  C.chip("u4", "¡Hola!", "你好", lt, 4.2 * B, BAR * 2, { x: 290, y: 1420, rot: -5 });
+  C.chip("u5", "Buenos días", "早上好", lt, 5.2 * B, BAR * 2, { x: 700, y: 1500, rot: 4, cls: "oro" });
 };
 
 // 6 · HERRAMIENTAS: pronunciación, diccionario, repaso
@@ -274,34 +266,23 @@ ESC.tv = async (lt) => {
 };
 
 // 10 · JUEGOS: carrusel 3D de seis móviles
-ESC.juegos = async (lt) => {
-  fondo({ c1: "#d4182f", c2: "#2a0207", rayos: 0.8, nubes: 0.6 });
-  const JUEGOS = CAP_JUEGOS;
-  if (lt < 4 * B) { // primer compás: el pabellón de juegos con scroll
-    const k = eOut(seg(lt, 0, 0.45));
-    moviles[0].poner({ x: lerp(2.4, 0.15, k), y: -0.62, rx: -0.05, ry: lerp(-1.1, -0.15, k), s: 1.4, img: T.pabellon, scroll: eInOut(seg(lt, 0.4, 4 * B)) * 0.42 });
-    C.texto("j1", `${CIFRAS.juegos} 款<em>小游戏</em>`, "tit2", lt + 4 * B, 0.05, BAR * 2, { y: 200, entrada: "golpe", temblor: 6 });
-    C.texto("j1es", "APRENDE JUGANDO", "es-peq", lt, 0.2, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
-    C.texto("j2", "<em>边玩边学</em>，单词越玩越熟", "sub", lt, 0.5 * B, BAR * 2, { y: 378, entrada: "letras" });
-    post(() => C.rotulo("j3", "用你学过的词", "Con las palabras de tus unidades", lt, 1 * B, 4 * B, { x: 215, y: 640, punto: moviles[0].punto(0.5, 0.2) }));
-    return;
-  }
-  lt -= 4 * B;
-  const paso = Math.floor(lt / B), fr = (lt / B) % 1;
-  const ang0 = (paso + eOut(clamp(fr * 2.2))) * (Math.PI * 2 / 6);
-  const R = 1.45;
-  JUEGOS.forEach((j, i) => {
-    const a = i * (Math.PI * 2 / 6) - ang0 + Math.PI * 2 / 6;
-    const x = Math.sin(a) * R, z = Math.cos(a) * R - R;
-    moviles[i].poner({ x, y: -0.66, z, ry: a, s: 1.12, img: T[j.clave], brillo: 0.55 + 0.45 * Math.max(0, Math.cos(a)), halo: Math.cos(a) > 0.9 ? 0.6 : 0 });
-  });
-  const actual = JUEGOS[((paso + 1) % 6 + 6) % 6];
-  C.texto("j1", `${CIFRAS.juegos} 款<em>小游戏</em>`, "tit2", lt + 4 * B, 0.05, BAR * 2, { y: 200, entrada: "golpe", temblor: 6 });
-  C.texto("j1es", "APRENDE JUGANDO", "es-peq", lt + 4 * B, 0.2, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("j2", "<em>边玩边学</em>，单词越玩越熟", "sub", lt + 4 * B, 0.5 * B, BAR * 2, { y: 378, entrada: "letras" });
-  JUEGOS.slice(0, 4).forEach((j, i) => C.chip("jn" + i, j.zh, "", lt, i * B + 0.08, (i + 1) * B + 0.05, { x: 540, y: 1500, cls: "oro" }));
-  M.camara.position.y += golpeBeat(lt) * 0.02;
-  void actual;
+ESC.juegos = async (lt, sec) => {
+  fondo({ rayos: 0.3 });
+  const nb = sec ? sec.fin - sec.ini : 3;
+  // partidas reales: concurso de preguntas → ahorcado → ruleta (un compás cada una)
+  const JS = nb >= 3 ? [["concurso", "抢答竞赛", 95, 1.8], ["ahorcado", "猜词游戏", 8, 2.0], ["ruleta", "单词轮盘", 45, 3.6]] : [["ahorcado", "猜词游戏", 8, 2.0]];
+  const j = clamp(Math.floor(lt / BAR), 0, JS.length - 1);
+  const [nombre, zh, f0, vel] = JS[j];
+  const lj = lt - j * BAR;
+  const img = await seq(nombre, f0 + lj * 30 * vel);
+  const kg = eOut(seg(lj, 0, 0.35));
+  const giro = j === 0 ? (1 - eOut(seg(lt, 0, 0.5))) * 1.3 : (1 - kg) * Math.PI;
+  moviles[0].poner({ x: 0.12, y: -0.62, rx: -0.05, ry: -0.14 + giro + Math.sin(lt * 1.4) * 0.04, s: 1.4, img, halo: 0.6, flash: j > 0 ? 0.3 * (1 - seg(lj, 0, 0.25)) : 0 });
+  C.texto("j1", `${CIFRAS.juegos} 款<em>小游戏</em>`, "tit2", lt, 0.05, BAR * nb, { y: 200, entrada: "golpe", temblor: 6 });
+  C.texto("j1es", "APRENDE JUGANDO", "es-peq", lt, 0.2, BAR * nb, { y: 292, entrada: "pincel", dur: 0.4 });
+  C.texto("j2", "<em>边玩边学</em>，单词越玩越熟", "sub", lt, 0.5 * B, BAR * nb, { y: 378, entrada: "letras" });
+  JS.forEach(([n, z], i) => C.chip("jn" + i, z, "", lt, i * BAR + 0.15, (i + 1) * BAR - 0.05, { x: 300, y: 1470, cls: "oro", rot: -4 }));
+  M.camara.position.y += golpeBeat(lt) * 0.015;
 };
 
 // 11 · TURBO RUSH 3D: velocidad
@@ -352,7 +333,7 @@ ESC.idiomas = async (lt) => {
   L.forEach((l, i) => {
     const a = i / L.length * Math.PI * 2 + lt * 0.9;
     const p = proy(Math.sin(a) * 1.05, -0.45 + Math.cos(a * 2) * 0.12 + (i % 2 ? 0.55 : -0.55) * 0, Math.cos(a) * 1.0 - 0.4);
-    const el = C.chip("id" + i, l, "", lt, 0.1 + i * 0.07, BAR, { x: Math.max(240, Math.min(780, p.x)), y: p.y + (i - 3) * 95, cls: i === 0 ? "oro" : "tinta", flota: 0, escala: 0.85 });
+    const el = C.chip("id" + i, l, "", lt, 0.1 + i * 0.07, BAR, { x: Math.max(330, Math.min(760, p.x)), y: p.y + (i - 3) * 95, cls: i === 0 ? "oro" : "tinta", flota: 0, escala: 0.85 });
     if (el) { el.style.zIndex = Math.cos(a) > 0 ? 5 : 0; el.style.filter = Math.cos(a) > 0 ? "none" : "brightness(.6)"; }
   });
   C.texto("i1", "7 种<em>讲解语言</em>", "tit2", lt, 0.05, BAR, { y: 200, entrada: "pincel", dur: 0.4 });
@@ -430,7 +411,7 @@ window.pintar = async (t) => {
   const sec = SECCIONES.find((s) => t >= s.ini * BAR && t < s.fin * BAR) || SECCIONES[SECCIONES.length - 1];
   const lt = t - sec.ini * BAR;
   POST = [];
-  await ESC[sec.id](lt);
+  await ESC[sec.id](lt, sec);
   M.camara.lookAt(0, M.camara.position.y * 0.5, 0);
   M.camara.updateMatrixWorld(true);
   for (const fn of POST) fn();

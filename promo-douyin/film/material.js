@@ -32,6 +32,10 @@ export const SEQ = {
   turbo: { n: 14, url: (i) => `${C}juegos/turbo/f_${String(i + 1).padStart(4, "0")}.jpg` },
   ruta: { n: 90, url: (i) => `${C}aprender/seq-ruta-scroll-A1/f${pad(i)}.jpg` },
   fin: { n: 90, url: (i) => `${C}aprender/seq-fin-leccion/f${pad(i)}.jpg` },
+  unidad1: { n: 228, url: (i) => `${C}v2/unidad1/f_${pad(i + 1)}.jpg` },
+  concurso: { n: 235, url: (i) => `${C}v2/concurso/f_${pad(i + 1)}.jpg` },
+  ahorcado: { n: 138, url: (i) => `${C}v2/ahorcado/f_${pad(i + 1)}.jpg` },
+  ruleta: { n: 338, url: (i) => `${C}v2/ruleta/f_${pad(i + 1)}.jpg` },
   acierto: { n: 90, url: (i) => `${C}aprender/seq-acierto-hola/f${pad(i)}.jpg` },
 };
 export const ZOOM = { tap: { x: 0.69, y: 0.47 } };
