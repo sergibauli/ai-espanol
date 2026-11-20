@@ -133,7 +133,9 @@ ESC.revelacion = async (lt) => {
   C.destello(1 - eOut(seg(lt, 0, 0.45)));
   const k = eOut(seg(lt, 0.05, 1.3));
   const m = moviles[0];
-  m.poner({ x: 0, y: lerp(1.2, -0.82, k) + Math.sin(lt * 2) * 0.025, z: lerp(-16, 0, k), rx: (1 - k) * 0.8, ry: (1 - k) * Math.PI * 4 + Math.sin(lt * 1.4) * 0.12 * k, rz: (1 - k) * 0.4, s: 1.22, img: pv, halo: 0.7 });
+  const orb = seg(lt, 1.2, BAR * 2);
+  m.poner({ x: lerp(0, 0.18, orb), y: lerp(1.2, -0.86, k), z: lerp(-16, 0, k), rx: (1 - k) * 0.8 - 0.1 * k, ry: (1 - k) * Math.PI * 4 + k * lerp(0.42, -0.32, eInOut(orb)), rz: (1 - k) * 0.4, s: 1.2, img: pv, halo: 0.7 });
+  M.sacarTarjeta(0, m, await seq("portadaV", 10), { x: 0.02, y: 0.025, w: 0.96, h: 0.13 }, seg(lt, 1.5, 2.1), { x: -0.12, y: 0.12, z: 1.6, rx: -0.12, ry: 0.32, rz: -0.04, s: 1.05 });
   const kd = seg(lt, 0.6, BAR * 2);
 
   C.texto("r1", "悟空西语", "tit grande", lt, 2 * B, BAR * 2, { y: 245, entrada: "golpe", temblor: 8 });
@@ -149,12 +151,14 @@ ESC.aprender = async (lt) => {
   const k = eOut(seg(lt, 0, 0.6));
   const cambio = lt >= 2 * B ? golpeBeat(lt - 2 * B, 1.1) : 0;
   const img = await seq("ruta2", 8 + lt * 30 * 2.2);
-  moviles[0].poner({ x: lerp(2.5, 0.32, k), y: -0.62, z: cambio * 0.4, zoom: { cx: 0.5, cy: 0.45, s: 1.05 + 0.12 * Math.sin(lt * 1.7) ** 2 }, rx: -0.08, ry: lerp(-1.3, -0.24, k) + Math.sin(lt) * 0.05, rz: lerp(0.3, 0.02, k), s: 1.4, img, flash: cambio * 0.3 });
+  const orb = eInOut(seg(lt, 0.5, BAR * 2));
+  moviles[0].poner({ x: lerp(2.5, 0.25, k) - orb * 0.3, y: -0.7, z: cambio * 0.4, rx: -0.14, ry: lerp(-1.3, -0.42, k) + orb * 0.7, rz: lerp(0.3, 0.02, k), s: 1.36, img, flash: cambio * 0.3 });
+  M.sacarTarjeta(0, moviles[0], await seq("ruta2", 8), { x: 0.0, y: 0.045, w: 1.0, h: 0.075 }, seg(lt, 0.9, 1.5), { x: 0, y: 0.62, z: 1.7, rx: -0.25, ry: -0.18 + orb * 0.3, rz: 0.03, s: 1.12 });
   C.texto("a1", "A1→B2 <em>闯关地图</em>", "tit2", lt, 0.1, BAR * 2, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("a1es", "RUTA DE APRENDIZAJE · A1–B2", "es-peq", lt, 0.1 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("a2", "<em>四大世界</em>，一关关往上闯", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
 
-  post(() => C.rotulo("a3", "每级一个新世界", "Un mundo por nivel", lt, 1.0 * B, BAR * 2, { x: 205, y: 540, punto: moviles[0].punto(0.5, 0.11) }));
+
   M.camara.position.y += golpeBeat(lt) * 0.015;
 };
 
@@ -422,11 +426,14 @@ window.pintar = async (t) => {
   const lt = t - sec.ini * BAR;
   M.decor.k = ["gancho", "cierre", "turbo", "beneficios"].includes(sec.id) ? 0 : clamp(lt * 2.5);
   M.animarDecor(t);
+  M.ocultarTarjetas();
   POST = []; M.VIDA.t = t; M.VIDA.k = ["juegos", "turbo"].includes(sec.id) ? 0.6 : 1;
   await ESC[sec.id](lt, sec);
   M.camara.lookAt(0, M.camara.position.y * 0.5, 0);
   M.camara.updateMatrixWorld(true);
   for (const fn of POST) fn();
+  const tFin = sec.fin * BAR, kSal = seg(t, tFin - 0.3, tFin);
+  if (kSal > 0 && !["gancho", "cierre", "beneficios"].includes(sec.id) && moviles[0].g.visible) { moviles[0].g.position.z += eIn(kSal) * 6.5; moviles[0].g.rotation.z += eIn(kSal) * 0.4; C.destello(eIn(kSal) * 0.85); }
   if (!["gancho", "problema"].includes(sec.id)) C.barrido(seg(lt, 0, 0.42));
   if (!["gancho", "problema", "cierre"].includes(sec.id)) C.nubesOro(t);
   M.render(t);

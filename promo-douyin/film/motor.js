@@ -452,3 +452,55 @@ export function animarDecor(t, cy = -0.6) {
   decor.faroles.forEach((g) => { const u = g.userData; const fase = ((u.f + t * u.v) % 5.5) / 5.5; const y = fase * 5.5 - 4.5; const fade = Math.min(1, fase * 6, (1 - fase) * 6); g.position.set(u.x + Math.sin(t * 0.6 + u.f) * 0.2, y, u.z); g.rotation.set(0, t * 0.8 + u.f, Math.sin(t + u.f) * 0.12); g.scale.setScalar(u.s * k * 0.8 * Math.max(0.001, fade)); });
   decor.fichas.forEach((m) => { const u = m.userData; const y = ((u.y0 + t * u.v) % 7) - 5; m.position.set(u.x, y, u.z); m.rotation.set(Math.sin(t * 0.7 + u.f) * 0.4, t * 0.5 + u.f, Math.sin(t * 0.5 + u.f) * 0.2); m.material.opacity = 0.85 * k; });
 }
+
+// ---------------- tarjetas 3D que salen de la pantalla ----------------
+const FRAG_TARJ = `
+  varying vec2 vUv; uniform sampler2D uTex; uniform vec4 uRect; uniform float uA, uAsp, uBrillo;
+  void main(){
+    vec2 p = vUv; vec2 S = vec2(uAsp, 1.); float rad = .06;
+    vec2 q = abs((p - .5) * S) - (S * .5 - rad);
+    float d = length(max(q, 0.)) + min(max(q.x, q.y), 0.) - rad;
+    float dentro = 1. - smoothstep(-.004, .0, d);
+    float borde = smoothstep(.0, -.004, d) - smoothstep(-.012, -.016, d);
+    vec2 u = uRect.xy + vec2(p.x, 1. - p.y) * uRect.zw;
+    vec3 c = texture2D(uTex, vec2(u.x, 1. - u.y)).rgb * uBrillo;
+    c = mix(c, vec3(1., .82, .38), clamp(borde, 0., 1.));
+    float glare = smoothstep(.12, 0., abs(p.x * .7 + p.y - 1.1)) * .18;
+    gl_FragColor = vec4(c + glare, dentro * uA);
+    #include <colorspace_fragment>
+  }`;
+const tarjetas = [];
+export function tarjeta(i) {
+  while (tarjetas.length <= i) {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.ShaderMaterial({ transparent: true, toneMapped: false, depthWrite: false, side: THREE.DoubleSide,
+      uniforms: { uTex: { value: null }, uRect: { value: new THREE.Vector4() }, uA: { value: 1 }, uAsp: { value: 1 }, uBrillo: { value: 1.05 } },
+      vertexShader: VERT_PANT, fragmentShader: FRAG_TARJ }));
+    const sombra = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: TEX.halo, color: 0x000000, transparent: true, opacity: 0.5, depthWrite: false }));
+    m.renderOrder = 5; sombra.renderOrder = 4;
+    escena.add(m); escena.add(sombra); m.userData.sombra = sombra; m.visible = sombra.visible = false;
+    tarjetas.push(m);
+  }
+  return tarjetas[i];
+}
+export function ocultarTarjetas() { tarjetas.forEach((m) => (m.visible = m.userData.sombra.visible = false)); }
+/** Saca de la pantalla del móvil el recorte r={x,y,w,h} (normalizado) y lo hace flotar hacia la cámara.
+ *  k: 0 = pegado a la pantalla, 1 = fuera. dest: {x,y,z,ry,rz,s} posición final en el mundo. */
+export function sacarTarjeta(i, movil, img, r, k, dest) {
+  const m = tarjeta(i); if (k <= 0.001) { m.visible = m.userData.sombra.visible = false; return; }
+  m.visible = m.userData.sombra.visible = true;
+  const u = m.material.uniforms; u.uTex.value = img; u.uRect.value.set(r.x, r.y, r.w, r.h); u.uA.value = Math.min(1, k * 3);
+  const anchoMundo = r.w * SW, altoMundo = r.h * SH; u.uAsp.value = anchoMundo / altoMundo;
+  // origen: centro del recorte sobre la pantalla del móvil
+  movil.g.updateMatrixWorld(true);
+  const o = new THREE.Vector3((r.x + r.w / 2 - 0.5) * SW, (0.5 - r.y - r.h / 2) * SH, MD / 2 + 0.05).applyMatrix4(movil.g.matrixWorld);
+  const qo = new THREE.Quaternion(); movil.g.getWorldQuaternion(qo);
+  const so = movil.g.scale.x;
+  const kk = eBack(Math.min(1, k), 1.3);
+  const d = new THREE.Vector3(dest.x, dest.y, dest.z);
+  m.position.lerpVectors(o, d, kk);
+  const qd = new THREE.Quaternion().setFromEuler(new THREE.Euler(dest.rx || 0, dest.ry || 0, dest.rz || 0));
+  m.quaternion.slerpQuaternions(qo, qd, Math.min(1, kk));
+  const esc = lerp(so, so * (dest.s || 1.25), kk);
+  m.scale.set(anchoMundo * esc, altoMundo * esc, 1);
+  const sh = m.userData.sombra; sh.position.copy(m.position).add(new THREE.Vector3(0.08, -0.12, -0.12)); sh.quaternion.copy(m.quaternion); sh.scale.set(anchoMundo * esc * 1.25, altoMundo * esc * 1.4, 1); sh.material.opacity = 0.55 * Math.min(1, k * 2);
+}
