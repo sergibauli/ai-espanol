@@ -70,3 +70,6 @@ html, body { margin: 0; background: #000; overflow: hidden; }
 .buscador .btn { flex: none; padding: 16px 38px; border-radius: 999px; background: linear-gradient(180deg, #e0213f, #8f0c21); color: #fff; font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 40px; }
 .marco-qr img { width: 300px; height: 300px; }
 .sub.banda { left: 0; right: 0; margin: 0 auto; width: fit-content; padding: 8px 46px 14px; background: linear-gradient(180deg, #e0213f, #8f0c21); border: 5px solid #f2c14e; border-radius: 14px; -webkit-text-stroke: 0; box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+.cifra { position: absolute; white-space: nowrap; font-size: 200px; }
+.url { font-size: 34px; }
+.etq.banda2 { display: block; left: 0; right: 0; margin: 0 auto; width: fit-content; padding: 4px 26px 8px; border-radius: 10px; background: rgba(90,4,16,.85); border: 3px solid #f2c14e; -webkit-text-stroke: 0; color: #ffe08a; font-size: 40px; }

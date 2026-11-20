@@ -300,7 +300,8 @@ export const cristales = new THREE.Group();
     const borde = i === 0 || j === 0 || i === cols || j === filas;
     pts.push([(i / cols - 0.5) * w + (borde ? 0 : (r() - 0.5) * w / cols * 0.8), (j / filas - 0.5) * h + (borde ? 0 : (r() - 0.5) * h / filas * 0.8)]);
   }
-  const matC = new THREE.MeshPhysicalMaterial({ color: 0x1a0e08, metalness: 0.9, roughness: 0.08, clearcoat: 1, side: THREE.DoubleSide, emissive: 0x3a1a00, emissiveIntensity: 0.4 });
+  const matC = new THREE.MeshPhysicalMaterial({ color: 0xf2c14e, metalness: 1, roughness: 0.12, clearcoat: 1, side: THREE.DoubleSide, emissive: 0x9a6a14, emissiveIntensity: 0.7, transparent: true });
+  cristales.userData.mat = matC;
   for (let j = 0; j < filas; j++) for (let i = 0; i < cols; i++) {
     const a = pts[j * (cols + 1) + i], b = pts[j * (cols + 1) + i + 1], c = pts[(j + 1) * (cols + 1) + i], d = pts[(j + 1) * (cols + 1) + i + 1];
     for (const tri of (r() > 0.5 ? [[a, b, d], [a, d, c]] : [[a, b, c], [b, d, c]])) {
@@ -318,6 +319,7 @@ export const cristales = new THREE.Group();
 }
 export function ponerCristales(k, z = 2.2) { // k: 0 = intacto, >0 = estallando (segundos)
   cristales.visible = k >= 0;
+  if (cristales.userData.mat) cristales.userData.mat.opacity = 1 - Math.min(1, Math.max(0, (k - 0.2) / 0.35));
   cristales.children.forEach((m) => {
     const u = m.userData, tt = Math.max(0, k);
     m.position.set(u.cx + u.vx * tt * 1.2, u.cy + u.vy * tt - 4.5 * tt * tt, z + u.vz * tt);

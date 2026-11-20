@@ -68,11 +68,11 @@ export function texto(id, html, cls, lt, ini, fin, { y = 300, x = null, entrada 
 }
 
 /** Píldora con palabra en español + traducción. pos = centro. */
-export function chip(id, es, zh, lt, ini, fin, { x = 540, y = 1400, cls = "", rot = 0, flota = 1 } = {}) {
+export function chip(id, es, zh, lt, ini, fin, { x = 540, y = 1400, cls = "", rot = 0, flota = 1, escala = 1 } = {}) {
   if (lt < ini || lt > fin) return null;
   const el = nodo(id, `<b>${es}</b>${zh ? `<i>${zh}</i>` : ""}`, "chip " + cls);
   const a = seg(lt, ini, ini + 0.35), b = seg(lt, fin - 0.2, fin);
-  const sc = eBack(a, 2.6) * (1 - 0.3 * b);
+  const sc = eBack(a, 2.6) * (1 - 0.3 * b) * escala;
   const fy = Math.sin((lt - ini) * 2.4) * 8 * flota;
   el.style.opacity = clamp(a * 4) * (1 - b);
   el.style.left = "0px"; el.style.top = "0px";
