@@ -73,3 +73,8 @@ html, body { margin: 0; background: #000; overflow: hidden; }
 .cifra { position: absolute; white-space: nowrap; font-size: 200px; }
 .url { font-size: 34px; }
 .etq.banda2 { display: block; left: 0; right: 0; margin: 0 auto; width: fit-content; padding: 4px 26px 8px; border-radius: 10px; background: rgba(90,4,16,.85); border: 3px solid #f2c14e; -webkit-text-stroke: 0; color: #ffe08a; font-size: 40px; }
+.precio { position: absolute; display: flex; flex-direction: column; align-items: center; padding: 6px 54px 14px; border-radius: 20px;
+  background: linear-gradient(180deg, #e0213f, #8f0c21); border: 6px solid #f2c14e; box-shadow: 0 0 0 5px #5a0410, 0 16px 36px rgba(0,0,0,.55), 0 0 60px rgba(255,200,80,.55); white-space: nowrap; }
+.precio b { font-family: 'Cinzel', serif; font-weight: 900; font-size: 116px; line-height: 1.05; color: #ffe08a;
+  background: linear-gradient(180deg, #fffbe6, #f2c14e 55%, #c8961e); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 0 #5a0410); }
+.precio span { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 36px; color: #fff4d0; letter-spacing: 2px; }

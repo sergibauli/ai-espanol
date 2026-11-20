@@ -20,7 +20,7 @@ Salida: `salida/wukong-espanol-douyin.mp4`, versión de unos 56 s en vertical 10
 | 38,8–40,6 | Progreso | La probabilidad de aprobar, con lupa |
 | 40,6–42,5 | Idiomas | Respiro con el erhu: siete idiomas de ayuda en órbita |
 | 42,5–46,2 | Cifras | 90 单元 · 88 套模拟题 · 17 款游戏 · 7 种讲解语言 |
-| 46,2–56,2 | Cierre | Panel de cine con el vuelo y el dragón dorado. Después el sello 悟, el logo, el QR de la web, el QR de WeChat, la URL y «今天就开口说西语！» |
+| 46,2–56,2 | Cierre | Panel de cine con el vuelo y el dragón dorado. Después el sello 悟, el logo, el precio ¥39 (一次付费 · 永久使用), el QR de la web, el QR de WeChat, la URL y «今天就开口说西语！» |
 
 ## Cómo se hace
 - `audio/musica.mjs`: banda sonora compuesta y sintetizada aquí, libre de derechos. Lleva guzheng (Karplus-Strong), erhu, taikos, gong, 808 y beat 4×4 en la escala pentatónica yu. Se genera con `node audio/musica.mjs`; para la versión corta, `VERSION=corta node audio/musica.mjs`.

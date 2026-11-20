@@ -397,15 +397,16 @@ ESC.cierre = async (lt) => {
   // logo y llamada a la acción (desde el compás 27)
   const l = lt - PANEL;
   C.destello(fase2 ? 1 - eOut(seg(l, 0, 0.4)) : 0);
-  C.libre("c3", "悟", "sello", l, 0, 99, { x: 540, y: 250, entrada: "golpe", escala: 1.15, rot: -4 });
-  C.texto("c4", "悟空西语", "tit grande", l, 0.15, 99, { y: 455, entrada: "golpe", temblor: 8 });
-  C.texto("c5", "WUKONG ESPAÑOL", "es", l, 0.4, 99, { y: 610, entrada: "pincel", dur: 0.45 });
-  C.libre("c6", `<img src="/promo-douyin/film/qr-web.png">`, "marco-qr", l, 2 * B, 99, { x: 310, y: 900, entrada: "pop", rot: -3 });
-  C.libre("c6b", `<img src="/promo-douyin/film/recursos/qr-wechat.png">`, "marco-qr", l, 2.5 * B, 99, { x: 730, y: 900, entrada: "pop", rot: 3 });
-  C.texto("c7", "扫码<em>进入网站</em>", "sub peq", l, 2.5 * B, 99, { x: 310, y: 1105, entrada: "sube" });
-  C.texto("c7b", "微信扫码<em>咨询</em>", "sub peq", l, 3 * B, 99, { x: 730, y: 1105, entrada: "sube" });
-  C.texto("c9", "sergibauli.github.io/wukong-espanol", "url", l, 3.5 * B, 99, { y: 1205, entrada: "sube" });
-  C.texto("c10", "今天就<em>开口说西语</em>！", "sub grande", l, 4.5 * B, 99, { y: 1330, entrada: "letras" });
+  C.libre("c3", "悟", "sello", l, 0, 99, { x: 540, y: 225, entrada: "golpe", escala: 0.85, rot: -4 });
+  C.texto("c4", "悟空西语", "tit grande", l, 0.15, 99, { y: 400, entrada: "golpe", temblor: 8 });
+  C.texto("c5", "WUKONG ESPAÑOL", "es", l, 0.4, 99, { y: 545, entrada: "pincel", dur: 0.45 });
+  C.libre("c6", `<img src="/promo-douyin/film/qr-web.png">`, "marco-qr", l, 2 * B, 99, { x: 310, y: 995, entrada: "pop", rot: -3 });
+  C.libre("c6b", `<img src="/promo-douyin/film/recursos/qr-wechat.png">`, "marco-qr", l, 2.5 * B, 99, { x: 730, y: 995, entrada: "pop", rot: 3 });
+  C.libre("c11", "<b>¥39</b><span>一次付费 · 永久使用</span>", "precio", l, 1.2 * B, 99, { x: 540, y: 690, entrada: "golpe", dur: 0.3, rot: -2 });
+  C.texto("c7", "扫码<em>进入网站</em>", "sub peq", l, 2.5 * B, 99, { x: 310, y: 1198, entrada: "sube" });
+  C.texto("c7b", "微信扫码<em>咨询</em>", "sub peq", l, 3 * B, 99, { x: 730, y: 1198, entrada: "sube" });
+  C.texto("c9", "sergibauli.github.io/wukong-espanol", "url", l, 3.5 * B, 99, { y: 1282, entrada: "sube" });
+  C.texto("c10", "今天就<em>开口说西语</em>！", "sub grande", l, 4.5 * B, 99, { y: 1388, entrada: "letras" });
   spr(S.saluda, { x: -1.15, y: -1.6, z: 0.7, a: fase2 ? clamp(l * 3) : 0, t: lt, esc: eBack(seg(l, 0.3, 0.8)), rz: Math.sin(lt * 2.5) * 0.06 });
   spr(S.dragon2, { x: 1.25, y: lerp(-3, -1.25, eOut(seg(l, 0.3, 1.2))), z: 0.2, ry: Math.PI, a: fase2 ? 1 : 0, t: lt, rz: 0.1 });
   nubes(lt, fase2 ? 1 : 0.5, -1);
