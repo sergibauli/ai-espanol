@@ -19,7 +19,7 @@ Salida: `salida/wukong-espanol-douyin.mp4`, versión de unos 56 s en vertical 10
 | 35,1–38,8 | Turbo Rush | Fotogramas reales de la carrera con cortes a corchea y líneas de velocidad. «3D 极速赛车 · 冲对单词门，立刻加速！» |
 | 38,8–40,6 | Progreso | La probabilidad de aprobar, con lupa |
 | 40,6–42,5 | Idiomas | Respiro con el erhu: siete idiomas de ayuda en órbita |
-| 42,5–46,2 | Cifras | 90 单元 · 88 套模拟题 · 17 款游戏 · 7 种讲解语言 |
+| 42,5–46,2 | Cifras | Placas imperiales de laca con sello dorado que giran en 3D: 90 个单元 · 88 套模拟题 · 17 款小游戏 · 7 种讲解语言 · «从 A1 到 B2，一路陪你进阶» |
 | 46,2–56,2 | Cierre | Panel de cine con el vuelo y el dragón dorado. Después el sello 悟, el logo, el precio ¥39 (一次付费 · 永久使用), el QR de la web, el QR de WeChat, la URL y «今天就开口说西语！» |
 
 ## Cómo se hace

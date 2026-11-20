@@ -361,24 +361,28 @@ ESC.idiomas = async (lt) => {
 
 // 14 · BENEFICIOS: cifras
 ESC.beneficios = async (lt) => {
-  fondo({ c1: "#d4182f", c2: "#2a0207", rayos: 0.9, nubes: 0.6 });
-  const i = clamp(Math.floor(lt / (2 * B)), 0, 3);
-  const C4 = [[CIFRAS.unidades, "个单元", "UNIDADES"], [CIFRAS.modelos, "套模拟题", "EXÁMENES"], [CIFRAS.juegos, "款游戏", "JUEGOS"], ["7", "种讲解语言", "IDIOMAS"]];
-  const POS = [[290, 640], [770, 640], [290, 1030], [770, 1030]];
-  C4.forEach(([n, zh, es], j) => {
-    const ini = j * 2 * B, fin = BAR * 2;
-    const valor = Math.round(+n * eOut(seg(lt, ini, ini + 0.4)));
-    const [x, y] = POS[j];
-    const elN = C.libre("bn" + j, "", "cifra", lt, ini, fin, { x, y, entrada: "golpe", dur: 0.25 });
-    if (elN) { elN.textContent = String(valor); C.libre("bn" + j, "", "cifra", lt, ini, fin, { x, y, entrada: "golpe", dur: 0.25 }); }
-    C.texto("bz" + j, zh, "sub", lt, ini + 0.1, fin, { x, y: y + 150, entrada: "golpe" });
-    C.texto("be" + j, es, "es-peq", lt, ini + 0.2, fin, { x, y: y + 225, entrada: "pincel", dur: 0.3 });
+  fondo({ c1: "#a50f27", c2: "#1a0204", rayos: 0.55, nubes: 0.5, cy: 0.42 });
+  M.particulas.material.uniforms.uK.value = 1.2;
+  const C4 = [[CIFRAS.unidades, "个单元", "UNIDADES", "单"], [CIFRAS.modelos, "套模拟题", "EXÁMENES", "考"], [CIFRAS.juegos, "款小游戏", "JUEGOS", "戏"], ["7", "种讲解语言", "IDIOMAS", "语"]];
+  const POS = [[310, 760], [730, 760], [310, 1140], [730, 1140]];
+  C4.forEach(([n, zh, es, sello], j) => {
+    const ini = j * 1.5 * B + 0.1;
+    if (lt < ini) return;
+    const el = C.libre("pl" + j, `<span class="sl">${sello}</span><span class="n"></span><span class="z">${zh}</span><span class="e">${es}</span><span class="brillo"></span>`, "placa", lt, ini, BAR * 2, { x: POS[j][0], y: POS[j][1], entrada: "sube", dur: 0.01 });
+    if (!el) return;
+    const k = seg(lt, ini, ini + 0.45);
+    const giro = (1 - eBack(k, 1.6)) * 100; // gira en 3D desde el canto
+    const flota = Math.sin(lt * 2.2 + j) * 6;
+    const sale = seg(lt, BAR * 2 - 0.22, BAR * 2);
+    el.style.opacity = clamp(k * 4) * (1 - sale);
+    el.style.transform = `translate(${POS[j][0] - 190}px, ${POS[j][1] - 165 + flota}px) perspective(1100px) rotateY(${(j % 2 ? -1 : 1) * giro}deg) rotateX(${(1 - eOut(k)) * 18}deg) scale(${0.85 + 0.15 * eOut(k)})`;
+    el.querySelector(".n").textContent = String(Math.round(+n * eOut(seg(lt, ini + 0.1, ini + 0.55))));
+    el.style.setProperty("--b", `${lerp(-220, 520, seg(lt, ini + 0.35, ini + 0.85))}px`);
   });
-  spr(S.trofeo, { x: 0, y: -1.75, z: 0.5, a: 1, t: lt, esc: 1 + golpeBeat(lt, 2) * 0.12, rz: Math.sin(lt * 3) * 0.05 });
-  spr(S.luzI, { x: -1.2, y: 0.4, z: -1.5, a: 0.7, t: lt, rz: 0.2 });
-  spr(S.luzD, { x: 1.2, y: 0.4, z: -1.5, ry: Math.PI, a: 0.7, t: lt + 1, rz: -0.2 });
-  C.texto("bt", "一个网站，全部搞定", "sub grande", lt, 0, BAR * 2, { y: 330, entrada: "letras" });
-  void i;
+  C.texto("bt", "一个网站 全部搞定", "tit medio", lt, 0.05, BAR * 2, { y: 300, entrada: "pincel", dur: 0.4 });
+  C.texto("bte", "TODO EN UNA SOLA WEB", "es-peq", lt, 0.25, BAR * 2, { y: 405, entrada: "pincel", dur: 0.4 });
+  C.texto("bts", "从 <em>A1</em> 到 <em>B2</em>，一路陪你进阶", "sub", lt, 4.8 * B, BAR * 2, { y: 1410, entrada: "letras" });
+  spr(S.trofeo, { x: 0, y: -1.9, z: 0.6, a: clamp(lt * 3), t: lt, esc: 1 + golpeBeat(lt, 1.5) * 0.08, rz: Math.sin(lt * 3) * 0.05 });
 };
 
 // 15 · CIERRE: vuelo con el dragón + logo + QR
