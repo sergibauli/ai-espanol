@@ -235,3 +235,21 @@ export function buscador(id, texto, lt, ini, fin, { y = 1260 } = {}) {
   el.style.transform = `translate(${540 - el.offsetWidth / 2}px, ${y - el.offsetHeight / 2 + (1 - eOut(a)) * 40}px)`;
   return el;
 }
+
+/** Nubes auspiciosas (xiangyun) de trazo dorado en las esquinas inferiores */
+function nubeOro(x, y, esc, espejo) {
+  fx.save(); fx.translate(x, y); fx.scale(espejo ? -esc : esc, esc);
+  const g = fx.createLinearGradient(0, -60, 0, 40); g.addColorStop(0, "#ffe9a6"); g.addColorStop(1, "#c8961e");
+  fx.lineWidth = 5; fx.strokeStyle = "#7a4e0e"; fx.fillStyle = g;
+  fx.beginPath();
+  fx.moveTo(-120, 30); fx.arc(-80, 0, 40, Math.PI * 0.9, Math.PI * 1.75); fx.arc(-10, -25, 52, Math.PI * 1.15, Math.PI * 1.9);
+  fx.arc(70, -2, 40, Math.PI * 1.3, Math.PI * 0.2); fx.lineTo(-120, 30); fx.closePath(); fx.fill(); fx.stroke();
+  fx.lineWidth = 4; fx.strokeStyle = "#8a5a12";
+  for (const [cx, cy, r] of [[-80, 0, 20], [-10, -25, 28], [70, -2, 20]]) { fx.beginPath(); fx.arc(cx, cy, r, Math.PI * 1.1, Math.PI * 2.4); fx.stroke(); }
+  fx.restore();
+}
+export function nubesOro(t) {
+  const d = Math.sin(t * 0.8) * 6;
+  nubeOro(110 + d, 1850, 1.1, false); nubeOro(250 - d, 1890, 0.8, false);
+  nubeOro(970 - d, 1840, 1.05, true); nubeOro(830 + d, 1895, 0.75, true);
+}

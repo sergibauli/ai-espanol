@@ -93,3 +93,11 @@ html, body { margin: 0; background: #000; overflow: hidden; }
   filter: drop-shadow(0 5px 0 #4a0510) drop-shadow(0 0 18px rgba(255,200,80,.5)); }
 .placa .z { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 50px; color: #fff4d6; letter-spacing: 2px; margin-top: 6px; text-shadow: 0 3px 0 #4a0510; }
 .placa .e { font-family: 'Cinzel', serif; font-weight: 700; font-size: 25px; color: #ffd54a; letter-spacing: 6px; margin-top: 6px; }
+/* v2 · títulos como el tráiler anterior: blanco + rojo luminoso */
+.tit2 { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 104px; line-height: 1.1; color: #fff6e8; letter-spacing: 2px;
+  text-shadow: 0 0 2px #000, 0 6px 16px rgba(0,0,0,.85), 0 0 30px rgba(255,210,140,.25); }
+.tit2 em { font-style: normal; color: #ff3d52; text-shadow: 0 0 3px #ffb3bd, 0 0 16px rgba(255,40,60,.95), 0 0 40px rgba(255,30,50,.7), 0 5px 0 #4a0410; }
+.tit2.grande { font-size: 150px; }
+.marco-qr.grande img { width: 380px; height: 380px; }
+.franja { left: 0; width: 1080px; padding: 18px 0 24px; background: linear-gradient(180deg, #d4182f, #8f0c21); border-top: 5px solid #f2c14e; border-bottom: 5px solid #f2c14e;
+  font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 56px; color: #fff; letter-spacing: 4px; box-shadow: 0 14px 30px rgba(0,0,0,.5); }

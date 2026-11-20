@@ -12,6 +12,7 @@ export const CAP = {
   teoria: C + "unidades/03_unidad29_teoria_frases.png",
   vocabulario: C + "unidades/04_unidad29_vocabulario.png",
   dialogo: C + "unidades/05_unidad29_dialogo_voces.png",
+  recorrido: C + "unidades/15_unidades_recorrido_alta.png", pabellon: "/promo-douyin/film/recursos/pabellon-tapado.jpg",
   pronunciacion: C + "unidades/08_pronunciacion_templo.png",
   diccionario: C + "unidades/07_diccionario_ficha_agua.png",
   repaso: C + "unidades/10_repaso_espaciado.png",
@@ -28,6 +29,7 @@ export const SEQ = {
   vuelo: { n: 165, url: (i) => `/promo-douyin/film/recursos/vuelo/f_${pad(i + 1)}.jpg` },
   tv: { n: 121, url: (i) => `${C}practica/tv/ep_${pad(i + 1)}.jpg` },
   turbo: { n: 14, url: (i) => `${C}juegos/turbo/f_${String(i + 1).padStart(4, "0")}.jpg` },
+  ruta: { n: 90, url: (i) => `${C}aprender/seq-ruta-scroll-A1/f${pad(i)}.jpg` },
   fin: { n: 90, url: (i) => `${C}aprender/seq-fin-leccion/f${pad(i)}.jpg` },
   acierto: { n: 90, url: (i) => `${C}aprender/seq-acierto-hola/f${pad(i)}.jpg` },
 };

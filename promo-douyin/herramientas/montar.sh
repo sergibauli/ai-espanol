@@ -2,7 +2,7 @@
 # Monta el MP4 final: fotogramas JPEG + música → H.264/AAC 1080×1920 30 fps.
 # Uso: sh herramientas/montar.sh [fotogramas] [musica.wav] [salida.mp4]
 cd "$(dirname "$0")/.."
-F=${1:-fotogramas}; A=${2:-audio/musica.wav}; O=${3:-salida/wukong-espanol-douyin.mp4}
+F=${1:-fotogramas}; A=${2:-audio/mezcla.wav}; O=${3:-salida/wukong-espanol-douyin.mp4}
 N=$(ls $F | wc -l); D=$(echo "$N / 30" | bc -l)
 mkdir -p "$(dirname "$O")"
 ffmpeg -y -loglevel error -framerate 30 -i "$F/f_%05d.jpg" -i "$A" \
