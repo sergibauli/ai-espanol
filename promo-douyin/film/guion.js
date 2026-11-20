@@ -314,7 +314,7 @@ ESC.turbo = async (lt) => {
   const ini = plano < 0 ? 0 : 1.5 * B + corte * 0.5 * B;
   const kp = plano < 0 ? seg(lt, 0, 1.5 * B) : seg(lt, ini, ini + 0.5 * B);
   const img = plano < 0 ? T.turboLogo : await seq("turbo", plano);
-  const zoom = plano < 0 ? { cx: 0.5, cy: 0.45, s: 1.0 + kp * 0.12 } : { cx: 0.5, cy: 0.55, s: 1.04 + kp * 0.08 + (plano < 3 ? 0.1 : 0) };
+  const zoom = plano < 0 ? { cx: 0.5, cy: 0.42, s: 1.1 + kp * 0.12 } : { cx: 0.5, cy: 0.55, s: 1.04 + kp * 0.08 + (plano < 3 ? 0.1 : 0) };
   const k = eOut(seg(lt, 0, 0.4));
   const vol = Math.sin(lt * 2.6) * 0.16;
   moviles[0].poner({ x: vol * 0.6, y: -0.6, z: lerp(-8, 0.4, k), rz: vol * 0.6, ry: vol * 0.5, rx: -0.08, s: 1.22, img, zoom, halo: 0.8, flash: plano === 0 ? 0.5 * (1 - seg(lt, ini, ini + 0.25)) : 0 });
@@ -369,7 +369,8 @@ ESC.beneficios = async (lt) => {
     const ini = j * 2 * B, fin = BAR * 2;
     const valor = Math.round(+n * eOut(seg(lt, ini, ini + 0.4)));
     const [x, y] = POS[j];
-    C.libre("bn" + j, String(valor), "cifra", lt, ini, fin, { x, y, entrada: "golpe", dur: 0.25 });
+    const elN = C.libre("bn" + j, "", "cifra", lt, ini, fin, { x, y, entrada: "golpe", dur: 0.25 });
+    if (elN) { elN.textContent = String(valor); C.libre("bn" + j, "", "cifra", lt, ini, fin, { x, y, entrada: "golpe", dur: 0.25 }); }
     C.texto("bz" + j, zh, "sub", lt, ini + 0.1, fin, { x, y: y + 150, entrada: "golpe" });
     C.texto("be" + j, es, "es-peq", lt, ini + 0.2, fin, { x, y: y + 225, entrada: "pincel", dur: 0.3 });
   });
