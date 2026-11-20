@@ -1,0 +1,57 @@
+html, body { margin: 0; background: #000; overflow: hidden; }
+#escenario { position: relative; width: 1080px; height: 1920px; overflow: hidden; transform-origin: 0 0; }
+#gl, #fx, #capa, #destello { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+#capa { pointer-events: none; }
+#destello { background: radial-gradient(circle at 50% 45%, #fff8e0 0%, #ffd56a 35%, rgba(255,170,40,0) 75%); opacity: 0; mix-blend-mode: screen; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; will-change: transform, opacity; white-space: nowrap; }
+/* Título caligráfico dorado */
+.tit { font-family: 'Ma Shan Zheng', 'STKaiti', serif; font-size: 150px; line-height: 1.05; color: #ffe08a;
+  background: linear-gradient(180deg, #fffbe6 0%, #ffe28a 30%, #f2c14e 55%, #c8961e 78%, #fff1b8 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 2px #5a0410) drop-shadow(0 0 2px #5a0410) drop-shadow(0 7px 0 #7a0a1a) drop-shadow(0 0 28px rgba(255,190,60,.55)); }
+.tit.grande { font-size: 210px; }
+.tit.enorme { font-size: 260px; }
+.tit.medio { font-size: 120px; }
+/* Subtítulo estilo Douyin: blanco con trazo grueso */
+.sub { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 64px; color: #fff; letter-spacing: 2px;
+  -webkit-text-stroke: 14px #3b0a0a; paint-order: stroke fill; text-shadow: 0 8px 18px rgba(0,0,0,.55); }
+.sub em { font-style: normal; color: #ffd54a; }
+.sub.peq { font-size: 50px; -webkit-text-stroke: 11px #3b0a0a; }
+.sub.grande { font-size: 84px; -webkit-text-stroke: 16px #3b0a0a; }
+/* Golpe: tipografía display de impacto */
+.golpe { font-family: 'ZCOOL QingKe HuangYou', 'Noto Sans SC', sans-serif; font-size: 170px; color: #fff3c4;
+  -webkit-text-stroke: 18px #8f0c21; paint-order: stroke fill; text-shadow: 0 12px 0 #3b0a0a, 0 0 50px rgba(255,200,80,.8); }
+.golpe.rojo { color: #ffffff; -webkit-text-stroke: 18px #c8102e; }
+.golpe em { font-style: normal; color: #ffd54a; }
+/* Píldora con palabra en español */
+.chip { position: absolute; display: inline-flex; align-items: center; gap: 18px; padding: 16px 34px 18px; border-radius: 999px;
+  background: linear-gradient(180deg, #e0213f, #8f0c21); border: 5px solid #f2c14e; box-shadow: 0 0 0 4px #5a0410, 0 14px 30px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.35);
+  white-space: nowrap; will-change: transform, opacity; }
+.chip b { font-family: 'Cinzel', serif; font-weight: 900; font-size: 54px; color: #fff6d8; letter-spacing: 1px; }
+.chip i { font-style: normal; font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 40px; color: #ffd54a; }
+.chip.jade { background: linear-gradient(180deg, #2c9a6a, #0d5a3c); }
+.chip.tinta { background: linear-gradient(180deg, #4a3020, #1d120a); }
+/* Sello rojo con caligrafía */
+.sello { position: absolute; width: 150px; height: 150px; border-radius: 22px; background: #c8102e; color: #fff4dc; display: grid; place-items: center;
+  font-family: 'Ma Shan Zheng', serif; font-size: 110px; box-shadow: inset 0 0 0 7px #c8102e, inset 0 0 0 11px #fff1d0, 0 10px 24px rgba(0,0,0,.45); }
+/* Cifra grande */
+.cifra { font-family: 'Cinzel', serif; font-weight: 900; font-size: 240px; line-height: 1; color: #ffe08a;
+  background: linear-gradient(180deg, #fffbe6, #f2c14e 50%, #c8961e 80%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 2px #5a0410) drop-shadow(0 8px 0 #7a0a1a) drop-shadow(0 0 30px rgba(255,190,60,.6)); }
+.marco-qr { position: absolute; padding: 22px; background: #fdf6e3; border-radius: 30px; border: 8px solid #f2c14e; box-shadow: 0 0 0 6px #8f0c21, 0 20px 50px rgba(0,0,0,.55), 0 0 80px rgba(255,200,80,.5); }
+.marco-qr img { display: block; width: 330px; height: 330px; }
+.url { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 40px; color: #fff; -webkit-text-stroke: 9px #3b0a0a; paint-order: stroke fill; letter-spacing: 1px; }
+.burbuja { position: absolute; padding: 22px 34px; border-radius: 36px; background: #fffaf0; border: 5px solid #f2c14e; box-shadow: 0 12px 28px rgba(0,0,0,.45);
+  font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 48px; color: #3b2416; white-space: nowrap; will-change: transform, opacity; }
+.burbuja small { display: block; font-size: 32px; color: #8f0c21; font-weight: 700; margin-top: 4px; }
+.burbuja.der { background: linear-gradient(180deg, #e0213f, #8f0c21); color: #fff6d8; }
+.burbuja.der small { color: #ffd54a; }
+.ch { display: inline-block; will-change: transform, opacity; }
+.chip.morado { background: linear-gradient(180deg, #5b3bb0, #2a1866); }
+.chip.azul { background: linear-gradient(180deg, #2f5fb3, #142c66); }
+.chip.oro { background: linear-gradient(180deg, #f6d36b, #c8961e); }
+.chip.oro b, .chip.oro i { color: #3b0a0a; }
+.es { font-family: 'Cinzel', serif; font-weight: 900; font-size: 64px; color: #fff3c4; letter-spacing: 6px; -webkit-text-stroke: 10px #5a0410; paint-order: stroke fill; text-shadow: 0 0 30px rgba(255,200,80,.6); }
+.fantasma { font-family: 'Cinzel', serif; font-weight: 700; font-size: 58px; color: rgba(255,240,220,.22); }
+.etq { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 46px; color: #ffe9a8; -webkit-text-stroke: 9px #3b0a0a; paint-order: stroke fill; }
+.sello.doble { width: auto; height: auto; padding: 14px 22px; font-size: 76px; border-radius: 18px; }
