@@ -31,6 +31,20 @@ export function sfx(kind) {
     else if (kind === "bad") [220, 175].forEach((f, i) => tone(f, i * 0.12, 0.22, "square", 0.06));
     else if (kind === "tap") tone(880, 0, 0.05, "sine", 0.05);
     else if (kind === "win") [523, 659, 784, 1046, 784, 1046].forEach((f, i) => tone(f, i * 0.1, 0.25, "triangle", 0.1));
+    // Golpe del sello: un tambor grave y un brillo de campanilla
+    else if (kind === "sello") {
+      tone(110, 0, 0.16, "sine", 0.22);
+      tone(70, 0.01, 0.22, "triangle", 0.12);
+      tone(1568, 0.05, 0.35, "sine", 0.04);
+    }
+    // Racha: arpegio que sube un tono más con cada acierto seguido
+    else if (kind === "racha") [659, 784, 988, 1319].forEach((f, i) => tone(f, i * 0.06, 0.16, "triangle", 0.06));
+    // Corazón perdido: dos notas que caen
+    else if (kind === "corazon") [392, 294].forEach((f, i) => tone(f, i * 0.1, 0.2, "sine", 0.07));
+    // Pergamino que se abre: soplo suave
+    else if (kind === "rollo") [330, 440].forEach((f, i) => tone(f, i * 0.05, 0.12, "sine", 0.025));
+    // Fuegos artificiales del final
+    else if (kind === "fuego") tone(180 + Math.random() * 60, 0, 0.3, "triangle", 0.05);
   } catch {}
 }
 
@@ -243,4 +257,161 @@ export function confetti({ count = 140, duration = 2600 } = {}) {
     else c.remove();
   };
   requestAnimationFrame(frame);
+}
+
+// ---------- Partículas de las lecciones (v34) ----------
+// Un único canvas a pantalla completa que vive solo mientras hay partículas: monedas de oro con agujero cuadrado,
+// chispas, pétalos de tinta y cohetes del final. Sin dependencias; se apaga con prefers-reduced-motion.
+const sinMovimiento = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+let lienzo = null;
+let particulas = [];
+let bucle = 0;
+function asegurarLienzo() {
+  if (lienzo) return lienzo;
+  const c = document.createElement("canvas");
+  c.className = "lx-lienzo";
+  c.setAttribute("aria-hidden", "true");
+  c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2147483000";
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  c.width = innerWidth * dpr;
+  c.height = innerHeight * dpr;
+  const g = c.getContext("2d");
+  g.scale(dpr, dpr);
+  document.body.appendChild(c);
+  lienzo = { c, g };
+  return lienzo;
+}
+function pintarMoneda(g, p) {
+  const r = p.r;
+  g.save();
+  g.translate(p.x, p.y);
+  g.rotate(p.a);
+  g.scale(Math.cos(p.giro) || 0.05, 1);
+  const grad = g.createRadialGradient(-r * 0.3, -r * 0.3, r * 0.1, 0, 0, r);
+  grad.addColorStop(0, "#fffbe0");
+  grad.addColorStop(0.45, "#f6d77e");
+  grad.addColorStop(1, "#a8741e");
+  g.fillStyle = grad;
+  g.beginPath();
+  g.arc(0, 0, r, 0, Math.PI * 2);
+  g.fill();
+  g.strokeStyle = "#7a4c10";
+  g.lineWidth = 1;
+  g.stroke();
+  g.fillStyle = "#7a4c10";
+  g.fillRect(-r * 0.28, -r * 0.28, r * 0.56, r * 0.56);
+  g.restore();
+}
+function cuadro(t) {
+  const { c, g } = lienzo;
+  g.clearRect(0, 0, innerWidth, innerHeight);
+  const vivas = [];
+  const nuevas = [];
+  for (const p of particulas) {
+    const edad = t - p.t0;
+    if (edad < 0) {
+      vivas.push(p);
+      continue;
+    }
+    if (edad > p.vida) {
+      if (p.alFinal) nuevas.push(...p.alFinal(p));
+      continue;
+    }
+    p.vy += p.grav;
+    p.vx *= p.roce;
+    p.vy *= p.roce;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.a += p.va;
+    p.giro += 0.18;
+    const k = 1 - edad / p.vida;
+    g.globalAlpha = Math.min(1, k * 1.6);
+    if (p.tipo === "moneda") pintarMoneda(g, p);
+    else if (p.tipo === "chispa") {
+      g.fillStyle = p.color;
+      g.beginPath();
+      // Estrella de cuatro puntas
+      const r = p.r * (0.6 + 0.4 * k);
+      g.moveTo(p.x, p.y - r);
+      g.quadraticCurveTo(p.x, p.y, p.x + r, p.y);
+      g.quadraticCurveTo(p.x, p.y, p.x, p.y + r);
+      g.quadraticCurveTo(p.x, p.y, p.x - r, p.y);
+      g.quadraticCurveTo(p.x, p.y, p.x, p.y - r);
+      g.fill();
+    } else if (p.tipo === "cohete") {
+      g.fillStyle = "#fff3c4";
+      g.fillRect(p.x - 1.5, p.y - 6, 3, 10);
+    } else {
+      // punto (fuegos)
+      g.fillStyle = p.color;
+      g.beginPath();
+      g.arc(p.x, p.y, p.r * (0.5 + 0.5 * k), 0, Math.PI * 2);
+      g.fill();
+    }
+    vivas.push(p);
+  }
+  g.globalAlpha = 1;
+  particulas = vivas.concat(nuevas);
+  if (particulas.length) bucle = requestAnimationFrame(cuadro);
+  else {
+    bucle = 0;
+    c.remove();
+    lienzo = null;
+  }
+}
+function lanzar(lista) {
+  if (sinMovimiento() || typeof document === "undefined") return;
+  asegurarLienzo();
+  // Tope de partículas para no bajar de 60 fps en móviles modestos
+  particulas = particulas.concat(lista).slice(-260);
+  if (!bucle) bucle = requestAnimationFrame(cuadro);
+}
+
+/** Lluvia de monedas y chispas desde un punto (acierto). `fuerza` crece con la racha. */
+export function estallido(x, y, { fuerza = 1, monedas = 14, chispas = 18 } = {}) {
+  const ahora = performance.now();
+  const lista = [];
+  const nM = Math.round(monedas * Math.min(2.2, fuerza));
+  const nC = Math.round(chispas * Math.min(2.2, fuerza));
+  for (let i = 0; i < nM; i++) {
+    const ang = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.3;
+    const v = 6 + Math.random() * 7 * Math.min(1.6, fuerza);
+    lista.push({ tipo: "moneda", x, y, vx: Math.cos(ang) * v, vy: Math.sin(ang) * v, grav: 0.38, roce: 0.985, r: 7 + Math.random() * 5, a: Math.random() * 6, va: (Math.random() - 0.5) * 0.2, giro: Math.random() * 6, t0: ahora + i * 8, vida: 1300 + Math.random() * 500 });
+  }
+  for (let i = 0; i < nC; i++) {
+    const ang = (i / nC) * Math.PI * 2 + Math.random() * 0.3;
+    const v = 3 + Math.random() * 6;
+    lista.push({ tipo: "chispa", x, y, vx: Math.cos(ang) * v, vy: Math.sin(ang) * v, grav: 0.05, roce: 0.94, r: 4 + Math.random() * 6, a: 0, va: 0, giro: 0, color: ["#fff3c4", "#f2c14e", "#ffd76a", "#ffffff"][i % 4], t0: ahora, vida: 650 + Math.random() * 350 });
+  }
+  lanzar(lista);
+}
+
+/** Fuegos artificiales del final: cohetes que suben y estallan en oro, laca y jade. */
+export function fuegos({ cohetes = 6, duracion = 2600 } = {}) {
+  if (sinMovimiento()) return;
+  const ahora = performance.now();
+  const colores = [["#f2c14e", "#fff3c4"], ["#ff4d5e", "#ffd0d6"], ["#4fc27c", "#d8ffe6"], ["#ffb347", "#fff1b8"]];
+  const lista = [];
+  for (let i = 0; i < cohetes; i++) {
+    const x = innerWidth * (0.18 + Math.random() * 0.64);
+    const alto = innerHeight * (0.14 + Math.random() * 0.26);
+    const retraso = (i / cohetes) * duracion * 0.7 + Math.random() * 200;
+    const vy = -Math.sqrt(2 * 0.22 * (innerHeight - alto));
+    const [c1, c2] = colores[i % colores.length];
+    lista.push({
+      tipo: "cohete", x, y: innerHeight + 10, vx: (Math.random() - 0.5) * 1.2, vy, grav: 0.22, roce: 1, r: 2, a: 0, va: 0, giro: 0, t0: ahora + retraso, vida: Math.abs(vy / 0.22) * 16.7,
+      alFinal: (p) => {
+        sfx("fuego");
+        const n = 46;
+        const chispas = [];
+        for (let k = 0; k < n; k++) {
+          const ang = (k / n) * Math.PI * 2;
+          const v = 2.5 + Math.random() * 3.5;
+          chispas.push({ tipo: "punto", x: p.x, y: p.y, vx: Math.cos(ang) * v, vy: Math.sin(ang) * v, grav: 0.06, roce: 0.97, r: 2.6, a: 0, va: 0, giro: 0, color: k % 3 ? c1 : c2, t0: performance.now(), vida: 900 + Math.random() * 500 });
+        }
+        return chispas;
+      },
+    });
+  }
+  lanzar(lista);
 }

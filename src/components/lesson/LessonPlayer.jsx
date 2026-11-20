@@ -1,9 +1,8 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { XIcon, HeartIcon, Volume2Icon, SnailIcon, CheckIcon, ZapIcon, TargetIcon, ClockIcon, MicIcon } from "lucide-react";
-import { MonoNube } from "../../../packages/imperial/src/index.js";
+import { XIcon, Volume2Icon, SnailIcon, CheckIcon, ZapIcon, TargetIcon, MicIcon } from "lucide-react";
 import { Emoji3D } from "../ui/Emoji3D.jsx";
-import { sfx, speak, confetti } from "./fx.js";
+import { sfx, speak, estallido } from "./fx.js";
 import { addXp, loseHeart, refillHearts, getGame } from "../../lib/gamification.js";
 import { recordAnswer } from "../../lib/progresoDele.js";
 import CATALOG from "../../data/modulos/catalog.json";
@@ -11,7 +10,9 @@ import CATALOG from "../../data/modulos/catalog.json";
 const levelOf = (n) => CATALOG.find((m) => m.numero === Number(n))?.nivel || "A1";
 import { Pergamino, FondoCielo } from "./Pergamino.jsx";
 import "../../styles/v28-ejercicios.css";
-import { IconoTipo, IcoBorrar, IcoRacha, TrazoBien, TrazoMal } from "./IconosEjercicio.jsx";
+import "../../styles/v34-leccion.css";
+import { BarraViaje, Corazones, Racha, NubeVoladora, SelloResultado, TintaFallo, TituloPincel, BandaSeda, FinLeccion, sinMovimiento } from "./EscenaLeccion.jsx";
+import { IconoTipo, IcoBorrar, TrazoBien, TrazoMal } from "./IconosEjercicio.jsx";
 import { useModalAccesible } from "../../lib/useModalAccesible.js";
 
 const TEACH = new Set(["learn", "tip", "dialog", "speak"]);
@@ -53,6 +54,7 @@ function parecido(a, b) {
 function Pronunciar({ texto, level, onExito, pequeno = false }) {
   const [estado, setEstado] = React.useState("listo");
   const [oido, setOido] = React.useState("");
+  const boton = React.useRef(null);
   if (!SR) return null;
   const escuchar = () => {
     if (estado === "escucha") return;
@@ -71,13 +73,17 @@ function Pronunciar({ texto, level, onExito, pequeno = false }) {
       setEstado(ok ? "bien" : "mal");
       sfx(ok ? "ok" : "bad");
       recordAnswer({ skill: "oral", level, ok, src: "pronunciación", error: ok ? undefined : { prompt: texto, given: alts[0], correct: texto, speak: texto, type: "speak" } });
-      if (ok) onExito?.();
+      if (ok) {
+        const r = boton.current?.getBoundingClientRect();
+        if (r) estallido(r.left + r.width / 2, r.top + r.height / 2, { fuerza: pequeno ? 0.5 : 0.9 });
+        onExito?.();
+      }
     };
     r.start();
   };
   return (
     <div className={`lp-pron ${estado} ${pequeno ? "peq" : ""}`}>
-      <button className="lp-pron-btn" onClick={escuchar} aria-label="Pronunciar">
+      <button className="lp-pron-btn" ref={boton} onClick={escuchar} aria-label="Pronunciar">
         <MicIcon size={pequeno ? 16 : 22} />
         {!pequeno && <span>{estado === "escucha" ? "Te escucho… · 我在听" : "Pronuncia · 跟读"}</span>}
       </button>
@@ -99,17 +105,18 @@ function Learn({ step, level, onNext }) {
   const avance = React.useRef(null);
   React.useEffect(() => () => clearTimeout(avance.current), []);
   return (
-    <div className="lp-center">
+    <div className="lp-center lx-ficha">
       <Cabecera tipo="learn" es="Palabra nueva" zh="新词" />
       <Pergamino className="lp-rollo">
-        <Emoji3D emoji={step.emoji} size={96} float />
-        <div className="lp-word">{step.es}</div>
-        <div className="lp-zh-big">{step.zh}</div>
+        <span className="lx-halo">
+          <Emoji3D emoji={step.emoji} size={96} float />
+        </span>
+        <TituloPincel texto={step.es} zh={step.zh} />
         <div className="lp-acciones">
           <SpeakButtons text={step.es} big />
           <Pronunciar texto={step.es} level={level} onExito={() => (avance.current = setTimeout(onNext, 1400))} />
         </div>
-        {step.example && <div className="lp-example">{step.example}</div>}
+        {step.example && <BandaSeda>{step.example}</BandaSeda>}
       </Pergamino>
       {SR && <div className="lp-pista">Di la palabra en voz alta para pasar a la siguiente · 读出这个词就能继续</div>}
     </div>
@@ -121,12 +128,22 @@ function Hablar({ step, level, onNext }) {
   const avance = React.useRef(null);
   React.useEffect(() => () => clearTimeout(avance.current), []);
   return (
-    <div className="lp-center">
+    <div className="lp-center lx-ficha lx-ficha--voz">
       <Cabecera tipo="speak" es="Di en voz alta" zh="读出来" />
       <Pergamino className="lp-rollo">
-        {step.emoji && <Emoji3D emoji={step.emoji} size={80} float />}
-        <div className="lp-word">{step.es}</div>
-        <div className="lp-zh-big">{step.zh}</div>
+        {step.emoji && (
+          <span className="lx-halo">
+            <Emoji3D emoji={step.emoji} size={80} float />
+          </span>
+        )}
+        <span className="lx-ondas-voz" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
+        <TituloPincel texto={step.es} zh={step.zh} />
         <div className="lp-acciones">
           <SpeakButtons text={step.es} big />
           <Pronunciar texto={step.es} level={level} onExito={() => (avance.current = setTimeout(onNext, 1300))} />
@@ -255,16 +272,31 @@ function Choice({ step, value, onChange, locked }) {
     }
   }, [step]);
   const escucha = step.type === "listen";
+  const [sonando, setSonando] = React.useState(0);
+  React.useEffect(() => {
+    if (!sonando) return;
+    const t = setTimeout(() => setSonando(0), 1500);
+    return () => clearTimeout(t);
+  }, [sonando]);
+  const tocarGong = (lento) => {
+    setSonando((n) => n + 1);
+    speak(step.speak, lento ? 0.55 : undefined);
+  };
   return (
     <div className={`ej ej--${escucha ? "listen" : "choice"}`}>
       <Cabecera tipo={escucha ? "listen" : "choice"} es={escucha ? "Escucha y elige" : "Elige la respuesta"} zh={escucha ? "听音选择" : "选择正确答案"} />
       {escucha ? (
-        <div className="ej-gong">
-          <button className="ej-gong__btn" onClick={() => speak(step.speak)} aria-label="Escuchar · 听">
+        <div className={`ej-gong ${sonando ? "is-sonando" : ""}`} key={sonando}>
+          <button className="ej-gong__btn" onClick={() => tocarGong(false)} aria-label="Escuchar · 听">
             <span className="ej-gong__ondas" aria-hidden="true" />
+            <span className="lx-gong-anillos" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
             <Volume2Icon size={40} />
           </button>
-          <button className="ej-gong__lento" onClick={() => speak(step.speak, 0.55)} aria-label="Escuchar despacio · 慢速">
+          <button className="ej-gong__lento" onClick={() => tocarGong(true)} aria-label="Escuchar despacio · 慢速">
             <SnailIcon size={20} />
             <span>Despacio · 慢速</span>
           </button>
@@ -381,16 +413,117 @@ function Pictures({ step, value, onChange, locked }) {
   );
 }
 
+// Ordenar: las fichas vuelan al tablero (FLIP) o se arrastran; cerca del tablero, un imán las atrae
 function Build({ step, value = [], onChange, locked }) {
   const used = new Set(value);
+  const raiz = React.useRef(null);
+  const tablero = React.useRef(null);
+  const vuelo = React.useRef(null);
+  const arrastre = React.useRef(null);
+  const ignorarClic = React.useRef(false);
+  const [iman, setIman] = React.useState(false);
+
+  // Vuelo de la ficha desde donde estaba hasta su nuevo sitio
+  React.useLayoutEffect(() => {
+    const v = vuelo.current;
+    vuelo.current = null;
+    if (!v || sinMovimiento()) return;
+    const el = raiz.current?.querySelector(`[data-ficha="${v.destino}-${v.ti}"]`);
+    if (!el?.animate) return;
+    const r = el.getBoundingClientRect();
+    const dx = v.rect.left - r.left;
+    const dy = v.rect.top - r.top;
+    el.animate(
+      [
+        { transform: `translate(${dx}px, ${dy}px) scale(${v.escala || 1})` },
+        { transform: `translate(${dx * 0.12}px, ${dy * 0.12 - 10}px) scale(1.1) rotate(${dx > 0 ? -3 : 3}deg)`, offset: 0.72 },
+        { transform: "none" },
+      ],
+      { duration: 420, easing: "cubic-bezier(.2,.8,.3,1)" },
+    );
+  }, [value]);
+
+  const poner = (i, rect, escala) => {
+    vuelo.current = { ti: i, destino: "tablero", rect, escala };
+    sfx("tap");
+    speak(step.tiles[i], 1);
+    onChange([...value, i]);
+  };
+  const quitar = (ti, rect) => {
+    vuelo.current = { ti, destino: "bandeja", rect };
+    onChange(value.filter((x) => x !== ti));
+  };
+
+  // Arrastrar con el dedo o el ratón (tocar sigue funcionando igual)
+  const empieza = (e, i) => {
+    if (locked || used.has(i) || e.button > 0 || sinMovimiento()) return;
+    arrastre.current = { i, x0: e.clientX, y0: e.clientY, el: e.currentTarget, activo: false, dx: 0, dy: 0, cerca: false };
+    window.addEventListener("pointermove", mueve);
+    window.addEventListener("pointerup", suelta, { once: true });
+    window.addEventListener("pointercancel", suelta, { once: true });
+  };
+  const mueve = (e) => {
+    const a = arrastre.current;
+    if (!a) return;
+    let dx = e.clientX - a.x0;
+    let dy = e.clientY - a.y0;
+    if (!a.activo) {
+      if (Math.hypot(dx, dy) < 8) return;
+      a.activo = true;
+      a.el.classList.add("is-arrastrada");
+      a.base = a.el.getBoundingClientRect();
+    }
+    const t = tablero.current?.getBoundingClientRect();
+    if (t) {
+      const cx = a.base.left + a.base.width / 2 + dx;
+      const cy = a.base.top + a.base.height / 2 + dy;
+      const ox = Math.max(t.left - cx, 0, cx - t.right);
+      const oy = Math.max(t.top - cy, 0, cy - t.bottom);
+      const dist = Math.hypot(ox, oy);
+      const cerca = dist < 80;
+      if (cerca) {
+        // Imán: la ficha se deja llevar hacia el tablero
+        const tira = dist === 0 ? 0.15 : 0.45 * (1 - dist / 80);
+        const tx = Math.min(Math.max(cx, t.left + 30), t.right - 30);
+        const ty = t.top + t.height / 2;
+        dx += (tx - cx) * tira;
+        dy += (ty - cy) * tira;
+      }
+      if (cerca !== a.cerca) {
+        a.cerca = cerca;
+        setIman(cerca);
+      }
+    }
+    a.dx = dx;
+    a.dy = dy;
+    a.el.style.transform = `translate(${dx}px, ${dy}px) scale(1.1) rotate(${Math.max(-8, Math.min(8, dx / 30))}deg)`;
+  };
+  const suelta = () => {
+    window.removeEventListener("pointermove", mueve);
+    window.removeEventListener("pointercancel", suelta);
+    window.removeEventListener("pointerup", suelta);
+    const a = arrastre.current;
+    arrastre.current = null;
+    if (!a?.activo) return;
+    ignorarClic.current = true;
+    setTimeout(() => (ignorarClic.current = false), 0);
+    const rect = a.el.getBoundingClientRect();
+    a.el.classList.remove("is-arrastrada");
+    a.el.style.transform = "";
+    setIman(false);
+    if (a.cerca) poner(a.i, rect, 1.1);
+    else a.el.animate?.([{ transform: `translate(${a.dx}px, ${a.dy}px) scale(1.1)` }, { transform: "none" }], { duration: 320, easing: "cubic-bezier(.3,1.4,.5,1)" });
+  };
+  React.useEffect(() => () => window.removeEventListener("pointermove", mueve), []);
+
   return (
-    <div className="ej ej--build">
+    <div className="ej ej--build" ref={raiz}>
       <Cabecera tipo="build" es="Ordena la frase" zh="排列句子" />
       <Character text={step.prompt} />
-      <div className={`ej-tablero ${value.length ? "" : "is-vacio"}`}>
-        {value.length === 0 && <span className="ej-tablero__pista">Toca las fichas en orden · 按顺序点击</span>}
+      <div ref={tablero} className={`ej-tablero ${value.length ? "" : "is-vacio"} ${iman ? "is-iman" : ""}`}>
+        {value.length === 0 && <span className="ej-tablero__pista">Toca o arrastra las fichas en orden · 按顺序点击或拖动</span>}
         {value.map((ti) => (
-          <button key={ti} className="ej-ficha is-puesta" disabled={locked} onClick={() => onChange(value.filter((x) => x !== ti))}>
+          <button key={ti} data-ficha={`tablero-${ti}`} className="ej-ficha is-puesta" disabled={locked} onClick={(e) => quitar(ti, e.currentTarget.getBoundingClientRect())}>
             {step.tiles[ti]}
           </button>
         ))}
@@ -399,13 +532,14 @@ function Build({ step, value = [], onChange, locked }) {
         {step.tiles.map((t, i) => (
           <button
             key={i}
+            data-ficha={`bandeja-${i}`}
             style={{ "--i": i }}
-            className={`ej-ficha ${used.has(i) ? "is-hueco" : ""}`}
+            className={`ej-ficha lx-arrastrable ${used.has(i) ? "is-hueco" : ""}`}
             disabled={locked || used.has(i)}
-            onClick={() => {
-              sfx("tap");
-              speak(t, 1);
-              onChange([...value, i]);
+            onPointerDown={(e) => empieza(e, i)}
+            onClick={(e) => {
+              if (ignorarClic.current) return;
+              poner(i, e.currentTarget.getBoundingClientRect());
             }}
           >
             {t}
@@ -504,12 +638,27 @@ function Match({ step, onDone }) {
   const [sel, setSel] = React.useState(null);
   const [done, setDone] = React.useState([]);
   const [bad, setBad] = React.useState(null);
+  const caja = React.useRef(null);
+  const [hilos, setHilos] = React.useState([]);
+  // Hilo de oro que une la pareja acertada, con chispas en el centro
+  const unir = (i) => {
+    const c = caja.current;
+    const a = c?.querySelector(`[data-par="a-${i}"]`)?.getBoundingClientRect();
+    const b = c?.querySelector(`[data-par="b-${i}"]`)?.getBoundingClientRect();
+    if (!c || !a || !b) return;
+    const r = c.getBoundingClientRect();
+    const h = { id: `${i}-${Date.now()}`, x1: a.left + a.width / 2 - r.left, y1: a.top + a.height / 2 - r.top, x2: b.left + b.width / 2 - r.left, y2: b.top + b.height / 2 - r.top };
+    setHilos((l) => [...l, h]);
+    setTimeout(() => setHilos((l) => l.filter((x) => x.id !== h.id)), 1100);
+    estallido(r.left + (h.x1 + h.x2) / 2, r.top + (h.y1 + h.y2) / 2, { monedas: 4, chispas: 12, fuerza: 0.8 });
+  };
   const pick = (side, item) => {
     if (done.includes(item.i)) return;
     if (side === "a") speak(item.t, 1);
     if (!sel || sel.side === side) return setSel({ side, ...item });
     if (sel.i === item.i) {
       sfx("ok");
+      unir(item.i);
       const next = [...done, item.i];
       setDone(next);
       setSel(null);
@@ -534,47 +683,28 @@ function Match({ step, onDone }) {
           {done.length}/{step.pairs.length}
         </span>
       </div>
-      <div className="ej-parejas">
+      <div className="ej-parejas" ref={caja}>
+        <svg className="lx-hilos" aria-hidden="true">
+          {hilos.map((h) => (
+            <path key={h.id} d={`M${h.x1} ${h.y1} C${(h.x1 + h.x2) / 2} ${h.y1 - 18}, ${(h.x1 + h.x2) / 2} ${h.y2 + 18}, ${h.x2} ${h.y2}`} pathLength="1" />
+          ))}
+        </svg>
         <div className="ej-parejas__col">
           {left.map((x) => (
-            <button key={x.i} style={{ "--i": x.i }} className={cls("a", x)} onClick={() => pick("a", x)}>
+            <button key={x.i} data-par={`a-${x.i}`} style={{ "--i": x.i }} className={cls("a", x)} onClick={() => pick("a", x)}>
               {x.t}
             </button>
           ))}
         </div>
         <div className="ej-parejas__col">
           {right.map((x) => (
-            <button key={x.i} style={{ "--i": x.i }} className={cls("b", x)} onClick={() => pick("b", x)} lang="zh">
+            <button key={x.i} data-par={`b-${x.i}`} style={{ "--i": x.i }} className={cls("b", x)} onClick={() => pick("b", x)} lang="zh">
               {x.t}
             </button>
           ))}
         </div>
       </div>
     </div>
-  );
-}
-
-// Sello que cae sobre el pergamino al comprobar, con destello dorado (acierto) o salpicadura de tinta (fallo)
-function SelloResultado({ ok }) {
-  return (
-    <aside className={`ej-resultado ${ok ? "es-bien" : "es-mal"}`} aria-hidden="true">
-      <span className="ej-resultado__rayos" />
-      <span className="ej-resultado__sello">
-        <b lang="zh">
-          {[...(ok ? "正确" : "再试")].map((c) => (
-            <span key={c}>{c}</span>
-          ))}
-        </b>
-        <small>{ok ? "¡Bien!" : "Otra vez"}</small>
-      </span>
-      {ok && (
-        <span className="ej-resultado__chispas">
-          {Array.from({ length: 10 }, (_, k) => (
-            <i key={k} style={{ "--a": `${k * 36}deg`, "--d": `${(k % 3) * 40}ms` }} />
-          ))}
-        </span>
-      )}
-    </aside>
   );
 }
 
@@ -634,8 +764,8 @@ export function LessonPlayer({ lesson, onClose }) {
     const perfect = mistakes === 0;
     const xp = 10 + (perfect ? 5 : 0);
     const r = addXp(xp, { lessonId: lesson.id, score: accuracy, perfect });
+    // Fanfarria; los fuegos artificiales los lanza la pantalla final (FinLeccion)
     sfx("win");
-    confetti();
     // ¿Con esta lección se completa la clase? (sus 5 lecciones hechas; la clase 1 usa los ids antiguos mN-lI)
     const partes = String(lesson.id).match(/^m(\d+)(?:-c(\d+))?-l\d+$/);
     const unit = partes?.[1];
@@ -686,7 +816,9 @@ export function LessonPlayer({ lesson, onClose }) {
         setQueue((q) => [...q, q[pos]]);
       }
     }
-    setFeedback({ ...res, explain: step.explain });
+    // Lo que contestó el alumno, legible (solo para enseñarlo tachado junto a la solución)
+    const tuya = step.type === "build" ? (value || []).map((i) => step.tiles[i]).join(" ") : step.type === "tf" ? (value ? "Verdadero" : "Falso") : step.options ? step.options[value] : String(value ?? "");
+    setFeedback({ ...res, explain: step.explain, tuya });
   };
 
   // Tras comprobar, la opción correcta queda a la vista por encima del panel de corrección (en móvil lo tapaba)
@@ -708,50 +840,19 @@ export function LessonPlayer({ lesson, onClose }) {
   });
 
   const progress = result ? 100 : Math.round((pos / queue.length) * 100);
+  const nivel = levelOf(lesson.modulo);
   const outOfHearts = hearts <= 0 && !result && feedback && !feedback.ok;
 
   const body = result ? (
-    <div className={`lp-center lp-end ${result.unitDone ? "unit-done" : ""}`}>
-      <div className="lp-reward">
-        <span className="lp-reward-rays" />
-        <img className="lp-reward-mono" src={`./mono/${result.unitDone || result.perfect ? "trofeo" : "feliz"}.webp`} alt="" />
-        <span className="lp-reward-seal">{result.unitDone ? "单元" : result.perfect ? "满分" : "完成"}</span>
-        {Array.from({ length: Math.min(6, Math.round(result.xp / 3)) }, (_, i) => (
-          <i key={i} className="lp-coin" style={{ "--i": i }} />
-        ))}
-      </div>
-      <h2 className="lp-word" style={{ fontSize: 34 }}>
-        {result.unitDone ? `¡Clase ${result.clase} de la unidad ${result.unit} completada! · 第${result.clase}课完成` : result.perfect ? "¡Lección perfecta!" : "¡Lección completada!"}
-      </h2>
-      <div className="lp-zh-big">{result.unitDone ? "单元完成！获得印章" : result.perfect ? "满分完成！" : "课程完成！"}</div>
-      <div className="lp-stats lp-scroll-stats">
-        <div className="lp-stat xp">
-          <small>XP</small>
-          <b>
-            <ZapIcon size={18} /> +{result.xp}
-          </b>
-        </div>
-        <div className="lp-stat ok">
-          <small>Precisión · 正确率</small>
-          <b>
-            <TargetIcon size={18} /> {result.accuracy}%
-          </b>
-        </div>
-        <div className="lp-stat time">
-          <small>Tiempo · 用时</small>
-          <b>
-            <ClockIcon size={18} /> {Math.floor(result.seconds / 60)}:{String(result.seconds % 60).padStart(2, "0")}
-          </b>
-        </div>
-      </div>
-      {result.levelUp && <div className="ui-chip is-on" style={{ fontSize: 15 }}><ZapIcon size={16} /> ¡Subes de nivel! · 升级了！</div>}
-      {result.goalReached && <div className="ui-chip ok" style={{ fontSize: 15 }}><TargetIcon size={16} /> ¡Meta diaria cumplida! · 完成今日目标</div>}
+    <FinLeccion result={result}>
+      {result.levelUp && <div className="ui-chip is-on lx-logro" style={{ fontSize: 15 }}><ZapIcon size={16} /> ¡Subes de nivel! · 升级了！</div>}
+      {result.goalReached && <div className="ui-chip ok lx-logro" style={{ fontSize: 15 }}><TargetIcon size={16} /> ¡Meta diaria cumplida! · 完成今日目标</div>}
       {result.newBadges?.map((b) => (
-        <div key={b.id} className="ui-chip warn" style={{ fontSize: 15 }}>
+        <div key={b.id} className="ui-chip warn lx-logro" style={{ fontSize: 15 }}>
           <Emoji3D emoji={b.emoji} size={22} /> Logro: {b.es} · {b.zh}
         </div>
       ))}
-    </div>
+    </FinLeccion>
   ) : outOfHearts ? (
     <div className="lp-center">
       <img className="ej-sin-vidas" src="./mono/serio.webp" alt="" />
@@ -784,40 +885,41 @@ export function LessonPlayer({ lesson, onClose }) {
   );
 
   return createPortal(
-    <div className={`lp-root ${!result && ["dialog", "tip"].includes(step?.type) ? "lp-fondo-pergamino" : "lp-fondo-paisaje"} lp-paso-${result ? "fin" : step?.type} ${cerrando ? "pg-cierra" : ""}`} ref={raiz} role="dialog" aria-modal="true" aria-label={lesson.es}>
-      {!(!result && ["dialog", "tip"].includes(step?.type)) && <FondoCielo />}
+    <div
+      className={`lp-root lx lx-mundo-${nivel} ${!result && ["dialog", "tip"].includes(step?.type) ? "lp-fondo-pergamino" : "lp-fondo-paisaje"} lp-paso-${result ? "fin" : step?.type} ${cerrando ? "pg-cierra" : ""} ${feedback && !result ? (feedback.ok ? "lx-hay-acierto" : "lx-hay-fallo") : ""} ${racha >= 3 ? `lx-en-racha lx-racha-${Math.min(3, Math.floor(racha / 3))}` : ""}`}
+      ref={raiz}
+      role="dialog"
+      aria-modal="true"
+      aria-label={lesson.es}
+    >
+      {!(!result && ["dialog", "tip"].includes(step?.type)) && <FondoCielo mundo={nivel} progreso={progress} paso={pos} />}
+      <NubeVoladora racha={racha} />
       <header className="lp-top">
         <button className="lp-close" onClick={() => onClose(null)} aria-label="Salir">
           <XIcon size={22} />
         </button>
-        <div className="lp-bar-wrap">
-          <div className="lp-bar">
-            <i style={{ width: `${progress}%` }} />
-          </div>
-          <MonoNube pose={result ? "trofeo" : "poder"} tamano={54} className="lp-bar-mono" style={{ left: `${progress}%` }} />
-        </div>
-        {racha >= 2 && !result && (
-          <div className="ej-racha" key={racha} title="Aciertos seguidos · 连续答对">
-            <IcoRacha size={20} />
-            <b>×{racha}</b>
-            <span lang="zh">连对</span>
-          </div>
-        )}
-        <div className="lp-hearts">
-          <HeartIcon size={20} fill="currentColor" /> {hearts}
-        </div>
+        <BarraViaje progress={progress} fin={Boolean(result)} />
+        {!result && <Racha racha={racha} />}
+        <Corazones hearts={hearts} />
       </header>
       <main className={`lp-main ${feedback && !result ? (feedback.ok ? "ej-acierto" : "ej-fallo") : ""}`} key={result ? "end" : `${pos}-${queue[pos]}`}>
         {conPergamino && !["learn", "speak"].includes(step.type) ? <Pergamino>{body}</Pergamino> : body}
-        {feedback && !result && !outOfHearts && <SelloResultado ok={feedback.ok} />}
+        {feedback && !result && !outOfHearts && <SelloResultado ok={feedback.ok} racha={racha} />}
+        {feedback && !feedback.ok && !result && !outOfHearts && <TintaFallo />}
       </main>
       <footer className={`lp-foot ${feedback ? (feedback.ok ? "ok" : "bad") : ""}`}>
         <div className="lp-foot-inner">
           {feedback && !result && !outOfHearts && (
             <div className="lp-feedback" role="status">
-              <img className="lp-mono" src={`./mono/${feedback.ok ? (pos % 2 ? "guino" : "feliz") : "serio"}.webp`} alt="" />
+              <img className={`lp-mono lx-mono ${feedback.ok ? "lx-mono--salta" : "lx-mono--niega"}`} src={`./mono/${feedback.ok ? (racha >= 3 ? "poder" : pos % 2 ? "guino" : "feliz") : "serio"}.webp`} alt="" />
               <div>
                 <b>{feedback.ok ? (feedback.accent ? "¡Bien! Ojo con la tilde · 注意重音" : "¡Correcto! · 正确！") : "Solución correcta · 正确答案"}</b>
+                {!feedback.ok && feedback.tuya && (
+                  <div className="lx-tuya">
+                    <small>Tu respuesta · 你的答案</small>
+                    <s>{feedback.tuya}</s>
+                  </div>
+                )}
                 {(!feedback.ok || feedback.accent) && (
                   <div className="lp-solution">
                     <small>Respuesta · 答案</small>
