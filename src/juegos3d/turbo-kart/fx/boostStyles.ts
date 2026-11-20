@@ -41,13 +41,13 @@ export interface BoostStyle {
 
 export const BOOST_STYLES: readonly BoostStyle[] = [
   // MINI: azul celeste → índigo
-  { a: 0x2fb8ff, b: 0x7b5cff, spark: 0xbfeaff, glyph: 0, kick: 0.32, vignette: 0.45, wiggle: 1.0, flare: 0.1, trailLife: 0.3, width: 0.2 },
+  { a: 0x1f9dff, b: 0x7a4dff, spark: 0xbfeaff, glyph: 0, kick: 0.32, vignette: 0.45, wiggle: 1.0, flare: 0.1, trailLife: 0.3, width: 0.2 },
   // SUPER: oro anaranjado → bermellón
   { a: 0xffa63a, b: 0xff3b2a, spark: 0xffd36b, glyph: 1, kick: 0.5, vignette: 0.6, wiggle: 0.55, flare: 0.75, trailLife: 0.36, width: 0.22 },
   // ULTRA: oro imperial ↔ rosa
   { a: 0xffcf4d, b: 0xff4fb8, spark: 0xffe08a, glyph: 1, kick: 0.72, vignette: 0.8, wiggle: 1.0, flare: 0.45, trailLife: 0.44, width: 0.24 },
   // NEON: jade ↔ rosa neón
-  { a: 0x36f0cc, b: 0xff55d6, spark: 0xffd36b, glyph: 0, kick: 0.55, vignette: 0.6, wiggle: 0.85, flare: 0.25, trailLife: 0.4, width: 0.22 },
+  { a: 0x36f0cc, b: 0xff55d6, spark: 0xffd36b, glyph: 0, kick: 0.45, vignette: 0.6, wiggle: 0.85, flare: 0.25, trailLife: 0.4, width: 0.22 },
 ];
 
 /** Duraciones de los turbos de derrape en Kart.ts: 0.7 · 1.2 · 1.8 s. */

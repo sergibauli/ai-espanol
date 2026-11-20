@@ -1069,9 +1069,10 @@ export class ParticleSystem implements IParticleSystem {
     S.x = p.x + fx * 0.3; S.y = p.y + 1.75 * shrink; S.z = p.z + fz * 0.3;
     S.vx = st.velocity.x; S.vy = 1.1; S.vz = st.velocity.z;
     S.life = 0.5;
-    S.size0 = 0.42 * sc; S.size1 = 0.7 * sc;
-    setColor0(cs, 1.25); setColor1(cb, 0.5);
-    S.a0 = 0.8; S.a1 = 0;
+    S.size0 = 0.55 * sc; S.size1 = 0.9 * sc;
+    // el carácter siempre en oro imperial, se apaga hacia el color del turbo
+    S.r0 = 1.35; S.g0 = 0.95; S.b0 = 0.35; setColor1(cb, 0.5);
+    S.a0 = 0.9; S.a1 = 0;
     S.rot = 0; S.rotSpeed = 0;
     S.gravity = 0; S.atlas = style.glyph === 0 ? ATLAS_GLYPH_SU : ATLAS_GLYPH_CHONG; S.align = 0; S.drag = 0;
     this.additive.spawn(S, now);
