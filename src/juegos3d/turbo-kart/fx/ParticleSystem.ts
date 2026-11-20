@@ -1017,20 +1017,20 @@ export class ParticleSystem implements IParticleSystem {
     const vx = st.velocity.x;
     const vz = st.velocity.z;
 
-    // aro de choque del color del turbo
-    S.x = bx; S.y = by; S.z = bz;
+    // aro de choque del color del turbo, centrado en el kart
+    S.x = p.x; S.y = p.y + 0.6 * shrink; S.z = p.z;
     S.vx = vx; S.vy = 0; S.vz = vz;
-    S.life = 0.36;
-    S.size0 = 0.8 * sc; S.size1 = 3.4 * sc;
-    setColor0(ca, 1.1); setColor1(cb, 0.55);
-    S.a0 = 0.75; S.a1 = 0;
+    S.life = 0.32;
+    S.size0 = 0.7 * sc; S.size1 = 2.6 * sc;
+    setColor0(ca, 0.9); setColor1(cb, 0.45);
+    S.a0 = 0.6; S.a1 = 0;
     S.rot = 0; S.rotSpeed = 0;
     S.gravity = 0; S.atlas = ATLAS_RING; S.align = 0; S.drag = 0;
     this.additive.spawn(S, now);
-    // aro fino blanco por delante, más rápido
-    S.life = 0.22; S.size0 = 0.5 * sc; S.size1 = 2.6 * sc;
-    S.r0 = 0.9; S.g0 = 0.86; S.b0 = 0.8; setColor1(ca, 0.4);
-    S.a0 = 0.55; S.rotSpeed = 0; S.atlas = ATLAS_RING;
+    // aro fino interior, más rápido
+    S.life = 0.18; S.size0 = 0.4 * sc; S.size1 = 1.7 * sc;
+    S.r0 = 0.8; S.g0 = 0.76; S.b0 = 0.7; setColor1(ca, 0.35);
+    S.a0 = 0.4; S.rotSpeed = 0; S.atlas = ATLAS_RING;
     this.additive.spawn(S, now);
     // destello en los escapes
     this.flashSprite(bx, by - 0.15 * shrink, bz, 0.5 * sc, 1.2 * sc, 0.1, ca.r * 1.1 + 0.2, ca.g * 1.1 + 0.2, ca.b * 1.1 + 0.2, now);
