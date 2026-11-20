@@ -30,6 +30,7 @@ import { flushSync } from "react-dom";
 import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Portada } from "./PortadasJuegos.jsx";
+import { TurboRushDestacado } from "./TurboRushDestacado.jsx";
 import "../../styles/juegos-hub.css";
 import "../../styles/movil-juegos.css";
 
@@ -681,6 +682,9 @@ function JuegosHubPage() {
             )}
           </div>
         </section>
+
+        {/* Juego estrella: Wukong Turbo Rush */}
+        <TurboRushDestacado onJugar={() => rememberGame("turbo-kart")} />
 
         {/* Catálogo: filtros con identidad + portadas */}
         <section className="jh-catalogo" aria-labelledby="jh-catalogo-titulo">
