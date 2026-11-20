@@ -237,7 +237,7 @@ ESC.practica = async (lt) => {
   const fase2 = seg(lt, 4 * B, 5 * B);
   // primer compás: los cuatro mundos de examen a golpe de beat; segundo: el examen y el PDF
   const img = await seq("examenes", 4 + lt * 30 * 1.45);
-  moviles[0].poner({ x: lerp(0, -0.55, eInOut(fase2)), y: -0.62, z: lerp(0, -0.6, eInOut(fase2)), ry: (1 - kf) * Math.PI + Math.sin(lt * 1.5) * 0.08 + eInOut(fase2) * 0.35, rx: -0.05, s: 1.4, img, flash: lt < 4 * B ? golpeBeat(lt) * 0.25 : 0 });
+  moviles[0].poner({ x: lerp(0, -0.55, eInOut(fase2)), y: -0.7, rx: -0.12, z: lerp(0, -0.6, eInOut(fase2)), ry: (1 - kf) * Math.PI + Math.sin(lt * 1.5) * 0.08 + eInOut(fase2) * 0.35, rx: -0.05, s: 1.4, img, flash: lt < 4 * B ? golpeBeat(lt) * 0.25 : 0 });
   // la hoja impresa sale del móvil
   const kp = eOut(seg(lt, 5 * B, 6.4 * B));
   papel.visible = lt > 5 * B; papel.material.map = T.impresion;
@@ -260,28 +260,31 @@ ESC.correccion = async (lt) => {
   const kz = fase2 ? Math.sin(Math.PI * seg(lt, 3 * B, 5.2 * B)) : 0;
   moviles[0].poner({ x: lerp(2.4, 0.15, k), y: -0.62, ry: lerp(-1.1, -0.15, k), rx: -0.05, s: 1.4, img, flash: fase2 ? 0.4 * (1 - seg(lt, 3 * B, 3 * B + 0.25)) : 0,
     zoom: kz > 0.01 ? { cx: 0.72, cy: 0.25, s: 1 + 0.7 * kz } : null });
+  M.sacarTarjeta(0, moviles[0], T.examenOk, { x: 0.05, y: 0.52, w: 0.9, h: 0.2 }, seg(lt, 5.3 * B, 5.9 * B), { x: 0.15, y: -1.3, z: 2.0, rx: 0.08, ry: -0.3, rz: -0.03, s: 1.0 });
+  M.sacarTarjeta(1, moviles[0], T.examenOk, { x: 0.72, y: 0.18, w: 0.22, h: 0.1 }, seg(lt, 3.5 * B, 4.0 * B), { x: 0.5, y: 0.55, z: 2.2, rx: 0, ry: -0.2, rz: 0.15, s: 1.8 });
   C.texto("co1", "自动<em>批改</em>", "tit2", lt, 0.05, BAR * 2, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("co1es", "CORRECCIÓN AUTOMÁTICA", "es-peq", lt, 0.2, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("co2", "做完就批改，<em>错在哪</em>一目了然", "sub", lt, 0.5 * B, BAR * 2, { y: 378, entrada: "letras" });
   post(() => {
     const m = moviles[0];
     C.rotulo("co3", "对错一秒出", "Aciertos y fallos al instante", lt, 3.3 * B, BAR * 2, { x: 215, y: 640, punto: m.punto(0.85, 0.23) });
-    C.lupa("co4", CAP.examenOk, { x: 0.05, y: 0.52, w: 0.9, h: 0.2 }, lt, 5.3 * B, BAR * 2, { x: 520, y: 1290, ancho: 820, rot: -2, desde: m.punto(0.5, 0.62) });
   });
   C.chip("co5", "¡Correcto!", "回答正确", lt, 4 * B, 5.2 * B, { x: 300, y: 1420, cls: "jade", rot: -5 });
 };
 
 // 8 · TUTOR: conversación con el Rey Mono
 ESC.tutor = async (lt) => {
+  const ftu = await seq("tutorV", 190);
   fondo({ c1: "#c8102e", c2: "#260206", rayos: 0.7, nubes: 0.5 });
   const k = eOut(seg(lt, 0, 0.45));
   moviles[0].poner({ x: lerp(0, 0.28, k), y: -0.62, z: lerp(-6, 0, k), ry: -0.2 + Math.sin(lt * 1.7) * 0.05, rx: -0.04, s: 1.4, img: await seq("tutorV", 30 + lt * 30 * 1.45), halo: 0.6 + golpeBeat(lt) * 0.4 });
+  M.sacarTarjeta(0, moviles[0], ftu, { x: 0.2, y: 0.52, w: 0.72, h: 0.2 }, seg(lt, 4.6 * B, 5.2 * B), { x: 0.2, y: -1.35, z: 2.0, rx: 0.08, ry: -0.3, rz: -0.03, s: 1.25 });
+  M.sacarTarjeta(1, moviles[0], ftu, { x: 0.25, y: 0.43, w: 0.68, h: 0.07 }, seg(lt, 3.6 * B, 4.1 * B), { x: 0.3, y: 0.55, z: 1.9, rx: -0.1, ry: -0.3, rz: 0.04, s: 1.3 });
   C.texto("tu1", "口语<em>陪练</em>", "tit2", lt, 0.05, 2 * BAR, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("tu1es", "TUTOR ORAL · REY MONO", "es-peq", lt, 0.05 + 0.15, 2 * BAR, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("tu2", "和<em>美猴王</em>对话，模拟口语考试", "sub", lt, 0.5 * B, 2 * BAR, { y: 378, entrada: "letras" });
   post(() => {
     const m = moviles[0];
-    C.lupa("tu3", CAP.tutorChat, { x: 0.22, y: 0.345, w: 0.68, h: 0.17 }, lt, 5.2 * B, 2 * BAR, { x: 470, y: 1250, ancho: 760, rot: -2, desde: m.punto(0.56, 0.43) });
     C.rotulo("tu4", "说错马上改", "Te corrige al momento", lt, 0.6 * B, 2 * BAR, { x: 205, y: 560, punto: m.punto(0.5, 0.25) });
   });
 };
@@ -308,11 +311,14 @@ ESC.juegos = async (lt, sec) => {
   const [nombre, zh, f0, vel] = JS[j];
   const ZJ = { concurso: [0.5, 0.52, 0.45, 0.85], ahorcado: [0.5, 0.33, 0.45, 0.95], ruleta: [0.5, 0.4, 0.05, 0.55] }[nombre];
   const lj = lt - j * BAR;
+  const SAL = { concurso: [{ x: 0.5, y: 0.38, w: 0.5, h: 0.16 }, 150, 0.45], ahorcado: [{ x: 0.08, y: 0.2, w: 0.84, h: 0.3 }, 100, 0.55], ruleta: [{ x: 0.0, y: 0.03, w: 1.0, h: 0.13 }, 330, 0.6] }[nombre];
+  const fs = await seq(nombre, SAL[1]);
+  M.sacarTarjeta(0, moviles[0], fs, SAL[0], seg(lj / BAR, SAL[2], SAL[2] + 0.18) * (1 - seg(lj / BAR, 0.92, 1)), { x: 0.15, y: 0.45, z: 2.0, rx: -0.1, ry: -0.3, rz: 0.04, s: nombre === "concurso" ? 1.5 : 1.0 });
   const img = await seq(nombre, f0 + lj * 30 * vel);
   const kg = eOut(seg(lj, 0, 0.35));
   const giro = j === 0 ? (1 - eOut(seg(lt, 0, 0.5))) * 1.3 : (1 - kg) * Math.PI;
   const kzj = Math.sin(Math.PI * seg(lj / BAR, ZJ[2], ZJ[3]));
-  moviles[0].poner({ x: 0.12, y: -0.62, z: kzj * 0.35, rx: -0.05, ry: -0.14 + giro + Math.sin(lt * 1.4) * 0.04, s: 1.4, img, halo: 0.6, zoom: kzj > 0.01 ? { cx: ZJ[0], cy: ZJ[1], s: 1 + 0.5 * kzj } : null, flash: j > 0 ? 0.3 * (1 - seg(lj, 0, 0.25)) : 0 });
+  moviles[0].poner({ x: -0.05, y: -0.7, z: kzj * 0.35, rx: -0.12, ry: 0.4 - seg(lj, 0, BAR) * 0.6 + giro, s: 1.32, img, halo: 0.6, zoom: kzj > 0.01 ? { cx: ZJ[0], cy: ZJ[1], s: 1 + 0.5 * kzj } : null, flash: j > 0 ? 0.3 * (1 - seg(lj, 0, 0.25)) : 0 });
   C.texto("j1", `${CIFRAS.juegos} 款<em>小游戏</em>`, "tit2", lt, 0.05, BAR * nb, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("j1es", "APRENDE JUGANDO", "es-peq", lt, 0.2, BAR * nb, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("j2", "<em>边玩边学</em>，单词越玩越熟", "sub", lt, 0.5 * B, BAR * nb, { y: 378, entrada: "letras" });
