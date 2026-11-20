@@ -219,6 +219,7 @@ const FRAG_PANT = `
     #include <colorspace_fragment>
   }`;
 
+export const VIDA = { t: 0, k: 1 }; // movimiento continuo del móvil (flota e inclina)
 export class Movil {
   constructor() {
     this.g = new THREE.Group();
@@ -248,8 +249,9 @@ export class Movil {
     escena.add(this.g);
   }
   // estado por fotograma
-  poner({ x = 0, y = 0, z = 0, rx = 0, ry = 0, rz = 0, s = 1, img, img2, mezcla = 0, scroll = 0, scroll2 = 0, zoom = null, hi = null, hiK = 0, tap = null, flash = 0, brillo = 1, halo = 0.55, encendido = 1, apaisado = false } = {}) {
+  poner({ quieto = false, x = 0, y = 0, z = 0, rx = 0, ry = 0, rz = 0, s = 1, img, img2, mezcla = 0, scroll = 0, scroll2 = 0, zoom = null, hi = null, hiK = 0, tap = null, flash = 0, brillo = 1, halo = 0.55, encendido = 1, apaisado = false } = {}) {
     const g = this.g; g.visible = true;
+    if (!quieto) { const v = VIDA.t, k = VIDA.k; ry += 0.09 * k * Math.sin(v * 1.05); rx += 0.045 * k * Math.sin(v * 1.6 + 1); rz += 0.02 * k * Math.sin(v * 0.8 + 2); y += 0.03 * k * Math.sin(v * 1.9); }
     g.position.set(x, y, z); g.rotation.set(rx, ry, rz); g.scale.setScalar(s);
     const u = this.mat.uniforms;
     u.uRot.value = apaisado ? 1 : 0;

@@ -125,15 +125,15 @@ ESC.problema = async (lt) => {
 
 // 2 · REVELACIÓN: el móvil sale de la puerta (drop)
 ESC.revelacion = async (lt) => {
-  fondo({ libre: true, c1: "#7a0c1c", c2: "#060102", rayos: 0.5, nubes: 0.35 });
+  fondo({ libre: true, c1: "#7a0c1c", c2: "#060102", rayos: 0.45, nubes: 0.2, img: T.paisaje, imgK: 0.85, asp: 1598 / 1000, blur: 1.2, zoom: 1.15 + lt * 0.04, brillo: 0.7, off: [0.05, 0] });
+  const pv = await seq("portadaV", 10 + Math.max(0, lt - 1.2) * 30 * 2.3);
   M.particulas.material.uniforms.uK.value = 1.1;
   C.destello(1 - eOut(seg(lt, 0, 0.45)));
   const k = eOut(seg(lt, 0.05, 1.3));
   const m = moviles[0];
-  m.poner({ x: 0, y: lerp(1.2, -0.82, k) + Math.sin(lt * 2) * 0.025, z: lerp(-16, 0, k), rx: (1 - k) * 0.8, ry: (1 - k) * Math.PI * 4 + Math.sin(lt * 1.4) * 0.12 * k, rz: (1 - k) * 0.4, s: 1.22, img: T.portada, halo: 0.7 });
+  m.poner({ x: 0, y: lerp(1.2, -0.82, k) + Math.sin(lt * 2) * 0.025, z: lerp(-16, 0, k), rx: (1 - k) * 0.8, ry: (1 - k) * Math.PI * 4 + Math.sin(lt * 1.4) * 0.12 * k, rz: (1 - k) * 0.4, s: 1.22, img: pv, halo: 0.7 });
   const kd = seg(lt, 0.6, BAR * 2);
-  spr(S.luzI, { x: -1.15, y: lerp(-2.5, -0.3, eOut(kd)), z: -1.2, rz: 0.15, a: 0.85 * clamp(kd * 3), t: lt });
-  spr(S.luzD, { x: 1.15, y: lerp(-2.6, -0.4, eOut(kd)), z: -1.2, ry: Math.PI, rz: -0.15, a: 0.85 * clamp(kd * 3), t: lt + 1 });
+
   C.texto("r1", "悟空西语", "tit grande", lt, 2 * B, BAR * 2, { y: 245, entrada: "golpe", temblor: 8 });
   C.texto("r2", "WUKONG ESPAÑOL", "es", lt, 3 * B, BAR * 2, { y: 410, entrada: "pincel", dur: 0.45 });
   C.texto("r3", "专为<em>中国学生</em>打造的西语神器", "sub", lt, 3.5 * B, BAR * 2, { y: 520, entrada: "letras" });
@@ -147,7 +147,7 @@ ESC.aprender = async (lt) => {
   const k = eOut(seg(lt, 0, 0.6));
   const cambio = lt >= 2 * B ? golpeBeat(lt - 2 * B, 1.1) : 0;
   const img = await seq("ruta2", 8 + lt * 30 * 2.2);
-  moviles[0].poner({ x: lerp(2.5, 0.32, k), y: -0.62, z: cambio * 0.15, rx: -0.08, ry: lerp(-1.3, -0.24, k) + Math.sin(lt) * 0.05, rz: lerp(0.3, 0.02, k), s: 1.4, img, flash: cambio * 0.3 });
+  moviles[0].poner({ x: lerp(2.5, 0.32, k), y: -0.62, z: cambio * 0.4, zoom: { cx: 0.5, cy: 0.45, s: 1.05 + 0.12 * Math.sin(lt * 1.7) ** 2 }, rx: -0.08, ry: lerp(-1.3, -0.24, k) + Math.sin(lt) * 0.05, rz: lerp(0.3, 0.02, k), s: 1.4, img, flash: cambio * 0.3 });
   C.texto("a1", "A1→B2 <em>闯关地图</em>", "tit2", lt, 0.1, BAR * 2, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("a1es", "RUTA DE APRENDIZAJE · A1–B2", "es-peq", lt, 0.1 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("a2", "<em>四大世界</em>，一关关往上闯", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
@@ -168,7 +168,7 @@ ESC.lecciones = async (lt) => {
   moviles[0].poner({
     x: lerp(-2.4, 0, k), y: -0.62 + salto, z: kz * 0.5, rx: -0.05, ry: lerp(1.2, 0.12, k) - kz * 0.12, rz: lerp(-0.3, 0, k), s: 1.4,
     img: lt >= fin ? frFin : fr,
-    zoom: kz > 0 ? { cx: 0.5, cy: lerp(0.5, 0.4, kz), s: 1 + kz * 0.35 } : null,
+    zoom: kz > 0 ? { cx: 0.5, cy: lerp(0.5, 0.4, kz), s: 1 + kz * 0.35 } : (lt > cambio - 0.05 && lt < cambio + 1.3 * B ? { cx: 0.7, cy: 0.24, s: 1 + 0.75 * Math.sin(Math.PI * seg(lt, cambio - 0.05, cambio + 1.3 * B)) } : null),
     tap: lt > 1.2 * B && lt < cambio + 0.1 ? { x: ZOOM.tap.x, y: ZOOM.tap.y, k: seg(lt, 1.2 * B, cambio) } : null,
     flash: (lt > cambio ? 0.3 * (1 - seg(lt, cambio, cambio + 0.3)) : 0) + (lt > fin ? 0.4 * (1 - seg(lt, fin, fin + 0.3)) : 0),
   });
@@ -270,11 +270,13 @@ ESC.juegos = async (lt, sec) => {
   const JS = nb >= 3 ? [["concurso", "抢答竞赛", 95, 1.8], ["ahorcado", "猜词游戏", 8, 2.0], ["ruleta", "单词轮盘", 45, 3.6]] : [["ahorcado", "猜词游戏", 8, 2.0]];
   const j = clamp(Math.floor(lt / BAR), 0, JS.length - 1);
   const [nombre, zh, f0, vel] = JS[j];
+  const ZJ = { concurso: [0.5, 0.52, 0.45, 0.85], ahorcado: [0.5, 0.33, 0.45, 0.95], ruleta: [0.5, 0.4, 0.05, 0.55] }[nombre];
   const lj = lt - j * BAR;
   const img = await seq(nombre, f0 + lj * 30 * vel);
   const kg = eOut(seg(lj, 0, 0.35));
   const giro = j === 0 ? (1 - eOut(seg(lt, 0, 0.5))) * 1.3 : (1 - kg) * Math.PI;
-  moviles[0].poner({ x: 0.12, y: -0.62, rx: -0.05, ry: -0.14 + giro + Math.sin(lt * 1.4) * 0.04, s: 1.4, img, halo: 0.6, flash: j > 0 ? 0.3 * (1 - seg(lj, 0, 0.25)) : 0 });
+  const kzj = Math.sin(Math.PI * seg(lj / BAR, ZJ[2], ZJ[3]));
+  moviles[0].poner({ x: 0.12, y: -0.62, z: kzj * 0.35, rx: -0.05, ry: -0.14 + giro + Math.sin(lt * 1.4) * 0.04, s: 1.4, img, halo: 0.6, zoom: kzj > 0.01 ? { cx: ZJ[0], cy: ZJ[1], s: 1 + 0.5 * kzj } : null, flash: j > 0 ? 0.3 * (1 - seg(lj, 0, 0.25)) : 0 });
   C.texto("j1", `${CIFRAS.juegos} 款<em>小游戏</em>`, "tit2", lt, 0.05, BAR * nb, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("j1es", "APRENDE JUGANDO", "es-peq", lt, 0.2, BAR * nb, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("j2", "<em>边玩边学</em>，单词越玩越熟", "sub", lt, 0.5 * B, BAR * nb, { y: 378, entrada: "letras" });
@@ -290,10 +292,10 @@ ESC.turbo = async (lt) => {
   const ini = plano < 0 ? 0 : 1.5 * B;
   const kp = plano < 0 ? seg(lt, 0, 1.5 * B) : seg(lt, ini, BAR * 2);
   const pos = plano < 0 ? 0 : (lt - ini) / (0.45 * B); // un fotograma real cada ~0,2 s con fundido corto
-  const img = plano < 0 ? T.turboLogo : await seq("turbo", Math.floor(pos));
-  const img2 = plano < 0 ? null : await seq("turbo", Math.min(SEQ.turbo.n - 1, Math.floor(pos) + 1));
-  const mezclaT = plano < 0 ? 0 : seg(pos % 1, 0.6, 1);
-  const zoom = plano < 0 ? { cx: 0.5, cy: 0.42, s: 1.1 + kp * 0.12 } : { cx: 0.5, cy: 0.55, s: 1.05 + kp * 0.12 };
+  const img = await seq("turboP", lt * 30 * 1.5);
+  const img2 = null, mezclaT = 0;
+  M.fondo.uniforms.uImg.value = img; M.fondo.uniforms.uImgK.value = 0.55; M.fondo.uniforms.uImgAsp.value = 540 / 960; M.fondo.uniforms.uImgBlur.value = 3; M.fondo.uniforms.uImgZoom.value = 1.1; M.fondo.uniforms.uBrillo.value = 0.7;
+  const zoom = false ? null : { cx: 0.5, cy: 0.5, s: 1.0 + kp * 0.18 };
   const k = eOut(seg(lt, 0, 0.4));
   const vol = Math.sin(lt * 2.6) * 0.16;
   moviles[0].poner({ x: vol * 0.6, y: -0.6, z: lerp(-8, 0.4, k), rz: vol * 0.6, ry: vol * 0.5, rx: -0.08, s: 1.3, img, img2: img2 || undefined, mezcla: mezclaT, zoom, halo: 0.8, flash: plano === 0 ? 0.5 * (1 - seg(lt, ini, ini + 0.25)) : 0 });
@@ -407,7 +409,7 @@ window.pintar = async (t) => {
   const P = M.particulas.material.uniforms; P.uK.value = 1; P.uVel.value = 0.25; P.uExplota.value = 0; P.uWarp.value = 0;
   const sec = SECCIONES.find((s) => t >= s.ini * BAR && t < s.fin * BAR) || SECCIONES[SECCIONES.length - 1];
   const lt = t - sec.ini * BAR;
-  POST = [];
+  POST = []; M.VIDA.t = t; M.VIDA.k = ["juegos", "turbo"].includes(sec.id) ? 0.6 : 1;
   await ESC[sec.id](lt, sec);
   M.camara.lookAt(0, M.camara.position.y * 0.5, 0);
   M.camara.updateMatrixWorld(true);

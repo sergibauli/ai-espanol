@@ -14,6 +14,7 @@ export const CAP = {
   dialogo: C + "unidades/05_unidad29_dialogo_voces.png",
   recorrido: C + "unidades/15_unidades_recorrido_alta.png", pabellon: "/promo-douyin/film/recursos/pabellon-tapado.jpg",
   unidadPortada: C + "unidades/02_unidad29_portada.png", rr: C + "unidades/09_pronunciacion_rr.png", cuatroMundos: C + "practica/practica_cuatro_mundos.png", tutorRetrato: C + "practica/tutor_rey_mono.png",
+  paisaje: "/public/theme/paisaje-leccion.webp",
   pronunciacion: C + "unidades/08_pronunciacion_templo.png",
   diccionario: C + "unidades/07_diccionario_ficha_agua.png",
   repaso: C + "unidades/10_repaso_espaciado.png",
@@ -42,6 +43,8 @@ export const SEQ = {
   pron: { n: 120, url: (i) => `${C}v2/pronunciacion/f_${pad(i + 1)}.jpg` },
   examenes: { n: 168, url: (i) => `${C}v2/examenes/f_${pad(i + 1)}.jpg` },
   progreso: { n: 90, url: (i) => `${C}v2/progreso/f_${pad(i + 1)}.jpg` },
+  portadaV: { n: 390, url: (i) => `${C}v2/portada/f_${pad(i + 1)}.jpg` },
+  turboP: { n: 181, url: (i) => `/promo-douyin/film/recursos/turbo-portada/f_${pad(i + 1)}.jpg` },
   acierto: { n: 90, url: (i) => `${C}aprender/seq-acierto-hola/f${pad(i)}.jpg` },
 };
 export const ZOOM = { tap: { x: 0.69, y: 0.47 } };

@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const d = path.dirname(fileURLToPath(import.meta.url));
 const version = process.argv[2] || "larga";
 const lineas = JSON.parse(fs.readFileSync(path.join(d, "locucion.json"), "utf8"))[version];
-const musica = path.join(d, version === "corta" ? "musica-15s.wav" : "musica.wav");
+const musica = path.join(d, process.env.MUSICA || (version === "corta" ? "musica-15s.wav" : "musica.wav"));
 const salida = path.join(d, version === "corta" ? "mezcla-15s.wav" : "mezcla.wav");
 const TEMPO = +(process.env.TEMPO || 1.2);
 const limpia = "silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse";

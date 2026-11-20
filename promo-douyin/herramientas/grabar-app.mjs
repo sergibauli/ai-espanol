@@ -16,10 +16,10 @@ const quita = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase();
 
 const b = await chromium.launch();
 const SOLO = process.argv.slice(2);
-async function sesion(nombre, ruta, accion, { tutor = false, semilla = false, w = 0 } = {}) {
+async function sesion(nombre, ruta, accion, { tutor = false, semilla = false, w = 0, nologin = false } = {}) {
   if (SOLO.length && !SOLO.includes(nombre)) return;
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
-  await ctx.addInitScript(() => { let sem = 20261120; Math.random = () => ((sem = (sem * 1664525 + 1013904223) >>> 0) / 4294967296); sessionStorage.setItem("dele_auth", "true"); sessionStorage.setItem("dele_expiry", String(Date.now() + 3e6)); });
+  if (!nologin) await ctx.addInitScript(() => { let sem = 20261120; Math.random = () => ((sem = (sem * 1664525 + 1013904223) >>> 0) / 4294967296); sessionStorage.setItem("dele_auth", "true"); sessionStorage.setItem("dele_expiry", String(Date.now() + 3e6)); });
   if (semilla) await ctx.addInitScript({ path: path.join(RAIZ, "herramientas/semilla-progreso.js") });
   await ctx.addInitScript(() => { sessionStorage.setItem("mono-fab-pista", "1"); const st = () => { const s = document.createElement("style"); s.textContent = ".mf{display:none!important}"; document.head.appendChild(s); }; if (document.head) st(); else document.addEventListener("DOMContentLoaded", st); });
   if (tutor) {
@@ -101,4 +101,8 @@ await sesion("idiomas", "#/modulos/modulo-16", async (p, graba) => {
   await p.locator('button:has-text("文A"), button[aria-label*="dioma"], .selector-idioma button').first().click().catch(() => console.log("sin selector"));
   await p.waitForTimeout(1300); await clicTxt(p, "English", false); await p.waitForTimeout(1800); await rueda(p, 8, 50); await p.waitForTimeout(600);
 });
+await sesion("portada", "#/", async (p, graba) => {
+  await graba(); await p.waitForTimeout(1500);
+  await rueda(p, 30, 40, 50); await p.waitForTimeout(700); await rueda(p, 20, 45, 50); await p.waitForTimeout(600);
+}, { nologin: true });
 await b.close();

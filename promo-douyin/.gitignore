@@ -9,3 +9,4 @@ film/recursos/vuelo/
 film/prueba.*
 capturas/**/*.mp3
 audio/voz/
+audio/*.mp3
