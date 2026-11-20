@@ -9,7 +9,7 @@ const version = process.argv[2] || "larga";
 const lineas = JSON.parse(fs.readFileSync(path.join(d, "locucion.json"), "utf8"))[version];
 const musica = path.join(d, version === "corta" ? "musica-15s.wav" : "musica.wav");
 const salida = path.join(d, version === "corta" ? "mezcla-15s.wav" : "mezcla.wav");
-const TEMPO = 1.2;
+const TEMPO = +(process.env.TEMPO || 1.2);
 const limpia = "silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse";
 // duración real de cada frase ya recortada y acelerada
 const dur = lineas.map((_, i) => {
