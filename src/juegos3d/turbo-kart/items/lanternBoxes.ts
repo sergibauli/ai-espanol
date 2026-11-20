@@ -132,7 +132,7 @@ void main() {
   vec3 gold = vec3(1.0, 0.62, 0.16) * (0.35 + 0.75 * ndv) + vec3(0.8, 0.55, 0.2) * fres;
   float g = max(rib, band * (0.55 + 0.45 * bandPat));
   col = mix(col, gold, g);
-  col = mix(col, vec3(1.3, 0.8, 0.45), vFx.y * 0.35); // flare before bursting
+  col = mix(col, vec3(1.4, 0.45, 0.08), vFx.y * 0.4); // incandescent before bursting
   gl_FragColor = vec4(col, 1.0);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -263,10 +263,12 @@ attribute vec3 aState; // visible (0..1), burst age (s, <0 none), appear (0..1)
 varying vec2 vP;
 varying vec3 vState;
 varying float vPhase;
+varying float vDist;
 void main() {
   vec4 wp = modelMatrix * instanceMatrix * vec4(position, 1.0);
   vec3 c = (modelMatrix * instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
   vPhase = c.x * 0.37 + c.z * 0.61;
+  vDist = distance(cameraPosition, c);
   vP = (uv - 0.5) * 2.0;
   vState = aState;
   gl_Position = projectionMatrix * viewMatrix * wp;
@@ -278,6 +280,7 @@ uniform float uTime;
 varying vec2 vP;
 varying vec3 vState;
 varying float vPhase;
+varying float vDist;
 void main() {
   float r = length(vP);
   if (r > 1.0) discard;
@@ -297,9 +300,11 @@ void main() {
   float age = vState.y;
   if (age >= 0.0 && age < ${BURST_SECONDS.toFixed(2)}) {
     float k = age / ${BURST_SECONDS.toFixed(2)};
-    float R = 0.08 + 0.92 * (1.0 - pow(1.0 - k, 3.0));
-    float fade = pow(1.0 - k, 1.6);
-    float wave = exp(-pow((r - R) / (0.025 + 0.03 * k), 2.0));
+    // close to the camera (own pickup) the wave stays small and dim: no jade veil
+    float nk = mix(0.35, 1.0, smoothstep(3.0, 9.0, vDist));
+    float R = (0.08 + 0.92 * (1.0 - pow(1.0 - k, 3.0))) * nk;
+    float fade = pow(1.0 - k, 1.6) * nk;
+    float wave = exp(-pow((r - R) / (0.02 + 0.02 * k), 2.0));
     float inner = smoothstep(R, 0.0, r) * 0.25;
     col += (vec3(0.30, 1.6, 1.15) * wave + vec3(1.2, 0.45, 0.10) * inner) * fade * 2.0;
     float spokes = pow(abs(sin(a * 6.0 + age * 3.0)), 24.0) * smoothstep(R, R * 0.4, r) * fade;
@@ -312,11 +317,13 @@ void main() {
 /** Signature column of gold light above each lantern (camera-facing, additive). */
 const BEAM_VERT = /* glsl */ `
 varying vec2 vUv;
+varying float vDist;
 ${DIST_SCALE}
 void main() {
   vec3 c = (modelMatrix * instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
   float k = distScale(c);
   float s = length(instanceMatrix[0].xyz);
+  vDist = distance(cameraPosition, c);
   vec3 toCam = cameraPosition - c;
   toCam.y = 0.0;
   vec3 side = normalize(cross(vec3(0.0, 1.0, 0.0), normalize(toCam + vec3(1e-4, 0.0, 0.0))));
@@ -331,13 +338,16 @@ void main() {
 const BEAM_FRAG = /* glsl */ `
 uniform float uTime;
 varying vec2 vUv;
+varying float vDist;
 void main() {
   float x = vUv.x * 2.0 - 1.0;
   float across = 1.0 - x * x;
   float h = vUv.y;
   float fade = pow(1.0 - h, 1.6) * smoothstep(0.0, 0.06, h);
   float shimmer = 0.85 + 0.15 * sin(h * 18.0 - uTime * 4.0);
-  vec3 col = vec3(1.0, 0.54, 0.067) * 0.35 * across * fade * shimmer;
+  // 0.2 up close, 0.5 from ~25 m on (where it matters for spotting the boxes)
+  float alpha = mix(0.2, 0.5, smoothstep(20.0, 35.0, vDist));
+  vec3 col = vec3(1.0, 0.54, 0.067) * alpha * across * fade * shimmer;
   gl_FragColor = vec4(col, 1.0);
 }
 `;
