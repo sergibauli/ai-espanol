@@ -149,16 +149,19 @@ const FRAG = /* glsl */ `
 #include <fog_pars_fragment>
 uniform sampler2D map;
 uniform float uTime;
+uniform float uAnim;
 varying vec2 vUv;
 varying float vF;
 void main() {
   vec4 t = texture2D(map, vUv);
   if (t.a < 0.1) discard;
   float lum = max(t.r, max(t.g, t.b));
-  float parp = 0.9 + 0.1 * sin(uTime * (2.0 + fract(vF * 7.0) * 3.0) + vF * 20.0);
+  // pulso lento, con fase y velocidad propias de cada rótulo
+  float parp = 0.92 + 0.08 * sin(uTime * (0.7 + fract(vF * 7.0) * 1.3) + vF * 20.0);
   // de vez en cuando un rótulo titila (tubo de neón viejo)
-  float corte = step(0.97, fract(sin(floor(uTime * 7.0 + vF * 31.0)) * 43758.5453));
-  parp *= 1.0 - corte * 0.55;
+  float corte = step(0.98, fract(sin(floor(uTime * 3.0 + vF * 31.0)) * 43758.5453));
+  parp *= 1.0 - corte * 0.45;
+  parp = mix(1.0, parp, uAnim);
   // solo el tubo de neón pasa del umbral de bloom; el resto queda oscuro
   vec3 col = t.rgb * (0.55 + 1.15 * lum * lum) * parp;
   gl_FragColor = vec4(col, 1.0);
@@ -222,7 +225,7 @@ export class RotulosNeon {
       vertexShader: VERT,
       fragmentShader: FRAG,
       fog: true,
-      uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { map: { value: null }, uTime: { value: 0 } }]),
+      uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { map: { value: null }, uTime: { value: 0 }, uAnim: { value: 1 } }]),
     });
     this.mat.uniforms.map.value = this.tex;
   }
@@ -269,14 +272,14 @@ export class RotulosNeon {
       this.marcos.push(col(new THREE.BoxGeometry(0.9, H, 0.9).translate(x, H / 2, 0), 0x1a0c14));
       this.marcos.push(col(new THREE.BoxGeometry(1.4, 0.6, 1.4).translate(x, 0.3, 0), 0xf2c14e, 0.9));
       this.marcos.push(col(new THREE.ConeGeometry(0.5, 1.1, 4).rotateY(Math.PI / 4).translate(x, H + 1.3, 0), 0xf2c14e, 1.1));
-      this.tubos.push(col(new THREE.BoxGeometry(0.12, H, 0.12).translate(x - l * 0.52, H / 2, -0.5), 0xff3a8c, 2.4));
-      this.tubos.push(col(new THREE.BoxGeometry(0.12, H, 0.12).translate(x - l * 0.52, H / 2, 0.5), 0xff3a8c, 2.4));
+      this.tubos.push(col(new THREE.BoxGeometry(0.12, H, 0.12).translate(x - l * 0.52, H / 2, -0.5), 0xff3a8c, 1.3));
+      this.tubos.push(col(new THREE.BoxGeometry(0.12, H, 0.12).translate(x - l * 0.52, H / 2, 0.5), 0xff3a8c, 1.3));
     }
     const ancho = semiancho * 2 + 1.6;
     this.marcos.push(col(new THREE.BoxGeometry(ancho + 0.9, 0.7, 1.0).translate(0, H + 0.4, 0), 0x1a0c14));
     this.marcos.push(col(new THREE.BoxGeometry(ancho + 1.4, 0.18, 1.2).translate(0, H + 0.8, 0), 0xf2c14e, 0.9));
-    this.tubos.push(col(new THREE.BoxGeometry(ancho, 0.1, 0.1).translate(0, H + 0.05, 0.55), 0x3ff0ff, 2.2));
-    this.tubos.push(col(new THREE.BoxGeometry(ancho, 0.1, 0.1).translate(0, H + 0.05, -0.55), 0x3ff0ff, 2.2));
+    this.tubos.push(col(new THREE.BoxGeometry(ancho, 0.1, 0.1).translate(0, H + 0.05, 0.55), 0x7ffff0, 1.2));
+    this.tubos.push(col(new THREE.BoxGeometry(ancho, 0.1, 0.1).translate(0, H + 0.05, -0.55), 0x7ffff0, 1.2));
     // panel central por ambas caras
     const panel = centro.clone().add(new THREE.Vector3(0, H - 1.4, 0));
     this.poner('portal', panel.clone().addScaledVector(fondo, -0.56), fondo.clone().negate(), 3.4);
@@ -361,6 +364,11 @@ export class RotulosNeon {
 
   update(tiempo: number): void {
     this.mat.uniforms.uTime.value = tiempo;
+  }
+
+  /** Calidad baja: rótulos fijos, sin pulso ni titileo. */
+  setCalidad(alta: boolean): void {
+    this.mat.uniforms.uAnim.value = alta ? 1 : 0;
   }
 
   dispose(): void {
