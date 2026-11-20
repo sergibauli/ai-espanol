@@ -75,9 +75,13 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
             const c = document.querySelectorAll('.ej-parejas__col')[col];
             [...c.querySelectorAll('button')].find((b) => b.textContent.trim() === txt).click();
           }, [col, txt]);
+          if (p === s.pairs[s.pairs.length - 1] && col === 1) break;
           await tick(200);
         }
       }
+      // última pareja: tiempo virtual desde ya; se graba desde 0,5 s (pergamino que se cierra) hasta la pantalla final
+      await virtual(0);
+      for (let k = 0; k < 15; k++) { await page.clock.runFor(33.33); await virtual(33.33); }
       break; // la última pareja cierra la lección sola (onDone)
     }
     if (['choice', 'listen'].includes(s.type)) await clic('.ej-opcion', s.answer);
@@ -111,7 +115,6 @@ const [dirAcierto, dirFin, hora = '2026-11-20T10:00:00'] = process.argv.slice(2)
     await clic('.lp-foot .lp-btn');
   }
   // fin: la última pareja llama a onDone a los 650 ms; graba desde ahí
-  for (let i = 0; i < 60 && !(await page.$('.lp-end')); i++) { await page.clock.runFor(33.33); await virtual(33.33); }
   console.log('fin', await page.evaluate(() => ({ canvas: document.querySelectorAll('body > canvas').length, now: performance.now() })));
   await grabar(dirFin, 90);
   await browser.close();

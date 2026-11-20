@@ -159,9 +159,9 @@ ESC.aprender = async (lt) => {
   moviles[0].poner({ x: lerp(2.5, 0.32, k), y: -0.7, z: cambio * 0.15, rx: -0.08, ry: lerp(-1.3, -0.24, k) + Math.sin(lt) * 0.05, rz: lerp(0.3, 0.02, k), s: 1.28, img: T["ruta" + nivel], flash: cambio * 0.3 });
   C.texto("a1", "A1→B2 闯关地图", "tit medio", lt, 0.1, BAR * 2, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("a1es", "RUTA DE APRENDIZAJE · A1–B2", "es-peq", lt, 0.1 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("a2", "<em>四大世界</em>，一关一关往上升", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
+  C.texto("a2", "<em>四大世界</em>，一关关往上闯", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
   chipsNivel(lt, 2 * B - 0.05, [[205, 720], [210, 900], [205, 1080], [215, 1260]], 1.25);
-  post(() => C.rotulo("a3", "一级一个世界", "Un mundo por nivel", lt, 1.0 * B, BAR * 2, { x: 205, y: 540, punto: moviles[0].punto(0.5, 0.075) }));
+  post(() => C.rotulo("a3", "每级一个新世界", "Un mundo por nivel", lt, 1.0 * B, BAR * 2, { x: 205, y: 540, punto: moviles[0].punto(0.5, 0.075) }));
   M.camara.position.y += golpeBeat(lt) * 0.015;
 };
 
@@ -183,7 +183,7 @@ ESC.lecciones = async (lt) => {
   M.particulas.material.uniforms.uWarp.value = lt > cambio ? 3 * (1 - Math.exp(-(lt - cambio) * 3)) : 0;
   C.texto("l1", "边学边练", "tit medio", lt, 0.1, BAR * 2, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("l1es", "LECCIONES INTERACTIVAS", "es-peq", lt, 0.1 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("l2", "答对<em>立刻反馈</em>，越学越上瘾", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
+  C.texto("l2", "<em>即时反馈</em>，越学越上瘾", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
   C.chip("l3", "¡Correcto!", "答对了", lt, cambio, fin, { x: 300, y: 1360, cls: "jade", rot: -6 });
   post(() => C.rotulo("l6", "答错马上纠正", "Corrección al instante", lt, cambio + 0.6 * B, fin, { x: 210, y: 1150, punto: moviles[0].punto(0.27, 0.87) }));
   C.chip("l4", "¡Perfecto!", "满分", lt, fin, BAR * 2, { x: 300, y: 1360, cls: "oro", rot: -6 });
@@ -210,7 +210,7 @@ ESC.unidades = async (lt) => {
   C.libre("u4", "¿Y de segundo?<small>第二道菜要什么？</small>", "burbuja", lt, 5 * B, BAR * 2, { x: 330, y: 1240, rot: -3 });
   C.libre("u5", "El pollo asado, por favor.<small>请给我烤鸡。</small>", "burbuja der", lt, 6 * B, BAR * 2, { x: 650, y: 1420, rot: 3 });
   C.ondas(seg(lt, 5 * B, 5 * B + 0.2), lt, 540, 1580, 300);
-  C.texto("u6", "<em>地道发音</em>，一点就听", "sub peq", lt, 5 * B, BAR * 2, { y: 505, entrada: "sube" });
+  C.texto("u6", "<em>西班牙口音</em>，点一下就能听", "sub peq", lt, 5 * B, BAR * 2, { y: 505, entrada: "sube" });
 };
 
 // 6 · HERRAMIENTAS: pronunciación, diccionario, repaso
@@ -249,7 +249,7 @@ ESC.practica = async (lt) => {
   papel.scale.setScalar(lerp(0.3, 1, kp));
   C.texto("x1", "A1–B2 分级模考", "tit medio", lt, 0.05, BAR * 2, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("x1es", "EXÁMENES POR NIVEL", "es-peq", lt, 0.05 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("x2", "听·说·读·写 <em>四项全练</em>", "sub", lt, B, 4 * B, { y: 378, entrada: "letras" });
+  C.texto("x2", "听说读写，<em>四项全练</em>", "sub", lt, B, 4 * B, { y: 378, entrada: "letras" });
   C.texto("x3", "<em>一键打印</em> PDF 试卷", "sub", lt, 4 * B + 0.15, BAR * 2, { y: 378, entrada: "letras" });
   ["A1", "A2", "B1", "B2"].forEach((n, i) => C.chip("xn" + n, n, "", lt, i * B, 4 * B, { x: 170 + i * 0, y: 760 + i * 170, cls: ["jade", "", "azul", "morado"][i], rot: -5 }));
   C.chip("x4", `${CIFRAS.modelos} 套模拟题`, "", lt, 6.2 * B, BAR * 2, { x: 300, y: 1500, cls: "oro", rot: -4 });
@@ -298,7 +298,7 @@ ESC.juegos = async (lt) => {
   const actual = JUEGOS[((paso + 1) % 6 + 6) % 6];
   C.texto("j1", `${CIFRAS.juegos} 款小游戏`, "tit medio", lt, 0.05, BAR * 2, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("j1es", "APRENDE JUGANDO", "es-peq", lt, 0.05 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("j2", "<em>边玩边学</em>，单词自动记牢", "sub", lt, 0.5 * B, BAR * 2, { y: 378, entrada: "letras" });
+  C.texto("j2", "<em>边玩边学</em>，单词越玩越熟", "sub", lt, 0.5 * B, BAR * 2, { y: 378, entrada: "letras" });
   JUEGOS.forEach((j, i) => C.chip("jn" + i, j.zh, "", lt, (i + 0) * B + 0.08, (i + 1) * B + 0.05, { x: 540, y: 1500, cls: "oro" }));
   M.camara.position.y += golpeBeat(lt) * 0.02;
   void actual;
@@ -329,8 +329,8 @@ ESC.progreso = async (lt) => {
   spr(S.trofeo, { x: 0.95, y: -1.55, z: 0.9, a: k, t: lt, esc: eBack(seg(lt, B, B + 0.4)), rz: Math.sin(lt * 4) * 0.05 });
   C.texto("pg1", "学习进度", "tit medio", lt, 0.05, BAR, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("pg1es", "MI PROGRESO", "es-peq", lt, 0.05 + 0.15, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("pg2", "<em>通过概率</em>实时预测", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
-  C.chip("pg3", "¡Apto!", "通过", lt, 2 * B, BAR, { x: 280, y: 1400, cls: "jade", rot: -6 });
+  C.texto("pg2", "预测你的<em>通过概率</em>", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
+  C.chip("pg3", "¡Apto!", "合格！", lt, 2 * B, BAR, { x: 280, y: 1400, cls: "jade", rot: -6 });
   post(() => C.lupa("pg4", CAP.progreso, { x: 0.03, y: 0.04, w: 0.36, h: 0.17 }, lt, 0.6 * B, 2 * B, { x: 300, y: 640, ancho: 420, rot: -4, desde: moviles[0].punto(0.2, 0.12) }));
 };
 
@@ -347,7 +347,7 @@ ESC.idiomas = async (lt) => {
     const el = C.chip("id" + i, l, "", lt, 0.1 + i * 0.07, BAR, { x: p.x, y: p.y + (i - 3) * 60, cls: i === 0 ? "oro" : "tinta", flota: 0 });
     if (el) { el.style.zIndex = Math.cos(a) > 0 ? 5 : 0; el.style.filter = Math.cos(a) > 0 ? "none" : "brightness(.6)"; }
   });
-  C.texto("i1", "7 种辅助语言", "tit medio", lt, 0.05, BAR, { y: 200, entrada: "pincel", dur: 0.4 });
+  C.texto("i1", "7 种讲解语言", "tit medio", lt, 0.05, BAR, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("i1es", "7 IDIOMAS DE AYUDA", "es-peq", lt, 0.05 + 0.15, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("i2", "讲解<em>随心切换</em>，看不懂也不怕", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
 };
@@ -356,7 +356,7 @@ ESC.idiomas = async (lt) => {
 ESC.beneficios = async (lt) => {
   fondo({ c1: "#d4182f", c2: "#2a0207", rayos: 0.9, nubes: 0.6 });
   const i = clamp(Math.floor(lt / (2 * B)), 0, 3);
-  const C4 = [[CIFRAS.unidades, "个单元", "unidades"], [CIFRAS.modelos, "套模拟题", "exámenes"], [CIFRAS.juegos, "款游戏", "juegos"], ["7", "种辅助语言", "idiomas"]];
+  const C4 = [[CIFRAS.unidades, "个单元", "unidades"], [CIFRAS.modelos, "套模拟题", "exámenes"], [CIFRAS.juegos, "款游戏", "juegos"], ["7", "种讲解语言", "idiomas"]];
   C4.forEach(([n, zh, es], j) => {
     const ini = j * 2 * B, fin = j === 3 ? BAR * 2 : (j + 1) * 2 * B;
     const kk = seg(lt, ini, ini + 0.5);
@@ -368,7 +368,7 @@ ESC.beneficios = async (lt) => {
   spr(S.trofeo, { x: 0, y: -1.75, z: 0.5, a: 1, t: lt, esc: 1 + golpeBeat(lt, 2) * 0.12, rz: Math.sin(lt * 3) * 0.05 });
   spr(S.luzI, { x: -1.2, y: 0.4, z: -1.5, a: 0.7, t: lt, rz: 0.2 });
   spr(S.luzD, { x: 1.2, y: 0.4, z: -1.5, ry: Math.PI, a: 0.7, t: lt + 1, rz: -0.2 });
-  C.texto("bt", "一个 App，全部搞定", "sub", lt, 0, BAR * 2, { y: 300, entrada: "letras" });
+  C.texto("bt", "一个网站，全部搞定", "sub", lt, 0, BAR * 2, { y: 300, entrada: "letras" });
   void i;
 };
 
