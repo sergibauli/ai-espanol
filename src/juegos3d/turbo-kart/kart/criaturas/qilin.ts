@@ -26,8 +26,8 @@ export const qilin: Criatura = {
     // cuello corto y robusto
     t.tubo('body', [[0, 0.64, -0.4], [0, 0.78, -0.56], [0, 0.88, -0.64]], (u) => [lerp(0.15, 0.115, u), lerp(0.16, 0.115, u)], 10, 12);
     // crin abundante de llamas de jade (luminosa)
-    for (let i = 0; i < 7; i++) {
-      const b: V3 = [0, 0.72 + i * 0.04, -0.4 - i * 0.04];
+    for (let i = 0; i < 5; i++) {
+      const b: V3 = [0, 0.72 + i * 0.055, -0.4 - i * 0.04];
       melena(t, b, [0, b[1] + 0.26, b[2] + 0.26], 0.075);
       t.par((s) => melena(t, [s * 0.05, b[1] - 0.02, b[2]], [s * 0.2, b[1] + 0.16, b[2] + 0.24], 0.06));
     }

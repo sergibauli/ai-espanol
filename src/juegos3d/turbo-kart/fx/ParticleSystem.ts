@@ -5,11 +5,13 @@
  * from birth time / velocity / gravity, so per-frame cost is one uniform.
  */
 import * as THREE from 'three';
-import type { IKart, IParticleSystem, ItemType, KartState, ParticlePreset, BoostSource } from '../core/types';
+import type { IKart, IParticleSystem, ItemType, KartState, ParticlePreset } from '../core/types';
 import { events } from '../core/events';
 import { BASE_TOP_SPEED, GRAVITY, KART_COUNT } from '../core/constants';
 import { clamp01, TAU } from '../core/math';
 import { PARTICLE_FRAGMENT, PARTICLE_VERTEX } from './shaders';
+import { BoostTrails } from './BoostTrails';
+import { BOOST_STYLES, TIER_MINI, TIER_NEON, TIER_ULTRA, boostTier, type BoostTier } from './boostStyles';
 
 // Sprite atlas indices (4x4 grid, row-major from the top-left).
 const ATLAS_CIRCLE = 0;
@@ -25,6 +27,10 @@ const ATLAS_SHARD = 9;
 const ATLAS_DOT = 10;
 const ATLAS_PETAL = 11;
 const ATLAS_ZI = 12;
+// Turbo (Wukong): caracteres 速 / 冲 y nube xiangyun.
+const ATLAS_GLYPH_SU = 13;
+const ATLAS_GLYPH_CHONG = 14;
+const ATLAS_CLOUD = 15;
 
 const ADDITIVE_CAPACITY = 6144;
 /** Matches BREAK_SECONDS in items/lanternBoxes.ts. */
@@ -342,6 +348,62 @@ function buildAtlas(): THREE.CanvasTexture {
     c.fillText('字', 0, h * 0.06);
   });
 
+  // --- Turbo (Wukong): caracteres 速 / 冲, aro de nubes xiangyun y nube suelta ---
+  const glyph = (index: number, ch: string): void => {
+    withCell(index, (c, h) => {
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.font = `900 ${Math.round(h * 1.45)}px "STKaiti","KaiTi","Kaiti SC","Noto Serif SC","Source Han Serif SC","Songti SC","SimSun","WenQuanYi Zen Hei","Noto Sans CJK SC",serif`;
+      c.shadowColor = 'rgba(255,255,255,0.9)';
+      c.shadowBlur = h * 0.16;
+      c.fillStyle = '#fff';
+      c.fillText(ch, 0, h * 0.04);
+      c.shadowBlur = 0;
+      c.fillText(ch, 0, h * 0.04);
+    });
+  };
+  glyph(ATLAS_GLYPH_SU, '速');
+  glyph(ATLAS_GLYPH_CHONG, '冲');
+
+  /** Voluta de nube (espiral de Arquímedes) centrada en (x, y). */
+  const curl = (c: CanvasRenderingContext2D, x: number, y: number, r: number, dir: number, rot: number): void => {
+    c.beginPath();
+    const turns = 1.35;
+    const steps = 28;
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const a = rot + dir * t * turns * TAU;
+      const rr = r * (1 - t * 0.78);
+      const px = x + Math.cos(a) * rr;
+      const py = y + Math.sin(a) * rr;
+      if (i === 0) c.moveTo(px, py);
+      else c.lineTo(px, py);
+    }
+    c.stroke();
+  };
+  const strokeGlow = (c: CanvasRenderingContext2D, w: number, draw: () => void): void => {
+    c.lineCap = 'round';
+    c.lineJoin = 'round';
+    c.strokeStyle = 'rgba(255,255,255,0.25)';
+    c.lineWidth = w * 2.6;
+    draw();
+    c.strokeStyle = 'rgba(255,255,255,1)';
+    c.lineWidth = w;
+    draw();
+  };
+
+  // nube xiangyun suelta: dos volutas y una cola
+  withCell(ATLAS_CLOUD, (c, h) => {
+    strokeGlow(c, h * 0.07, () => {
+      curl(c, -h * 0.28, 0, h * 0.34, 1, 0);
+      curl(c, h * 0.3, h * 0.06, h * 0.26, -1, Math.PI);
+      c.beginPath();
+      c.moveTo(-h * 0.62, h * 0.34);
+      c.quadraticCurveTo(0, h * 0.5, h * 0.7, h * 0.32);
+      c.stroke();
+    });
+  });
+
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.NoColorSpace;
   tex.minFilter = THREE.LinearMipmapLinearFilter;
@@ -515,24 +577,6 @@ class ParticleGroup {
 // Particle system
 // ---------------------------------------------------------------------------
 
-const BOOST_SOURCE_NONE = 0;
-const BOOST_SOURCE_DRIFT = 1;
-const BOOST_SOURCE_NITRO = 2;
-const BOOST_SOURCE_PAD = 3;
-
-function boostSourceCode(source: BoostSource): number {
-  switch (source) {
-    case 'nitro':
-    case 'golden':
-      return BOOST_SOURCE_NITRO;
-    case 'pad':
-    case 'start':
-      return BOOST_SOURCE_PAD;
-    default:
-      return BOOST_SOURCE_DRIFT;
-  }
-}
-
 const CONFETTI_COLORS = [0xff4b4b, 0xffd23f, 0x3ddc84, 0x3ec6ff, 0xff5ce1, 0x8f7bff, 0xffffff, 0xff9a2e];
 const DRIFT_STAGE_COLORS = [0xffffff, 0x3ec6ff, 0xff9a2e, 0xd64dff];
 
@@ -552,8 +596,12 @@ export class ParticleSystem implements IParticleSystem {
   private readonly accSmoke = new Float32Array(MAX_KARTS);
   private readonly accDust = new Float32Array(MAX_KARTS);
   private readonly accShield = new Float32Array(MAX_KARTS);
+  private readonly accSpark = new Float32Array(MAX_KARTS);
   private accStreak = 0;
-  private readonly boostSource = new Uint8Array(MAX_KARTS);
+  /** Estilo del turbo activo de cada kart (mini/super/ultra/neón). */
+  private readonly boostTier = new Uint8Array(MAX_KARTS);
+  private readonly trails: BoostTrails;
+  private readonly slotFn = (id: number): number => this.slot(id);
 
   // Results-screen confetti shower (player podium). 0 = idle.
   private confettiTimer = 0;
@@ -579,6 +627,8 @@ export class ParticleSystem implements IParticleSystem {
     root.matrixAutoUpdate = false;
     root.add(this.alpha.points);
     root.add(this.additive.points);
+    this.trails = new BoostTrails(MAX_KARTS);
+    root.add(this.trails.mesh);
     this.object = root;
     this.subscribe();
   }
@@ -648,13 +698,12 @@ export class ParticleSystem implements IParticleSystem {
     }));
     u.push(events.on('kart:boost', (e) => {
       const idx = this.slot(e.kartId);
-      this.boostSource[idx] = boostSourceCode(e.source);
+      const tier = boostTier(e.source, e.strength, e.duration);
+      this.boostTier[idx] = tier;
+      this.trails.setTier(idx, tier);
       const k = this.kartById(e.kartId);
       if (!k) return;
-      const color = e.source === 'nitro' || e.source === 'golden' ? 0xff9a2e : e.source === 'pad' ? 0x3ef2ff : 0x9fd8ff;
-      this.tmp.copy(k.state.position);
-      this.tmp.y += 0.4;
-      this.emit('boostRing', this.tmp, { color, scale: 0.6 + clamp01(e.strength) * 0.8 });
+      this.boostBurst(k.state, tier, e.strength);
     }));
     u.push(events.on('kart:shrink', (e) => {
       const k = this.kartById(e.kartId);
@@ -713,14 +762,17 @@ export class ParticleSystem implements IParticleSystem {
     for (let i = 0; i < karts.length; i++) {
       const st = karts[i].state;
       if (st.finished && !st.isBoosting && !st.isDrifting) continue;
+      if (st.isBoosting) this.trails.computeExhausts(karts[i]);
       this.updateKartEmitters(dt, st, now);
       // Camera streaks only for a strong boost at genuinely high speed.
       if (st.isPlayer && st.isBoosting && st.boostStrength >= 0.35 && Math.abs(st.speed) > BASE_TOP_SPEED * 1.12) {
-        this.updateSpeedStreaks(dt, now);
+        this.updateSpeedStreaks(dt, now, this.boostTier[this.slot(st.id)] as BoostTier);
       } else if (st.isPlayer) {
         this.accStreak = 0;
       }
     }
+
+    this.trails.update(now, karts, this.slotFn);
 
     if (this.confettiTimer > 0) this.updateResultsConfetti(dt, now);
     for (let i = this.pendingBoxBursts.length - 1; i >= 0; i--) {
@@ -804,42 +856,12 @@ export class ParticleSystem implements IParticleSystem {
       this.accSmoke[idx] = 0;
     }
 
-    // --- boost flames from the exhausts ------------------------------------
+    // --- turbo: llamas de los escapes + chispas doradas -------------------
     if (st.isBoosting) {
-      // Short, tight jets: coloured core (never white) with a quick fade so the
-      // kart stays readable under bloom.
-      const n = this.take(this.accFlame, idx, 72, dt);
-      const src = this.boostSource[idx];
-      for (let k = 0; k < n; k++) {
-        const side = k % 2 === 0 ? 1 : -1;
-        S.x = p.x - fx * 0.9 + rx * 0.25 * side + rnd(-0.025, 0.025);
-        S.y = p.y + 0.42 * shrink + rnd(-0.025, 0.025);
-        S.z = p.z - fz * 0.9 + rz * 0.25 * side + rnd(-0.025, 0.025);
-        // Inherit most of the kart velocity so the jet stays attached to the
-        // exhaust instead of leaving a long dotted trail on the road.
-        const back = rnd(4, 7);
-        S.vx = st.velocity.x * 0.8 - fx * back + rnd(-0.3, 0.3);
-        S.vy = rnd(-0.1, 0.5);
-        S.vz = st.velocity.z * 0.8 - fz * back + rnd(-0.3, 0.3);
-        S.life = rnd(0.09, 0.18);
-        S.size0 = 0.24 * shrink; S.size1 = 0.05;
-        if (src === BOOST_SOURCE_NITRO) {
-          S.r0 = 1.5; S.g0 = 0.72; S.b0 = 0.2; S.r1 = 0.9; S.g1 = 0.2; S.b1 = 0.02;
-        } else if (src === BOOST_SOURCE_PAD) {
-          S.r0 = 0.45; S.g0 = 1.2; S.b0 = 1.5; S.r1 = 0.08; S.g1 = 0.5; S.b1 = 0.9;
-        } else {
-          S.r0 = 0.7; S.g0 = 0.95; S.b0 = 1.5; S.r1 = 0.2; S.g1 = 0.4; S.b1 = 1.1;
-        }
-        S.a0 = 0.7; S.a1 = 0;
-        S.rot = 0; S.rotSpeed = 0;
-        S.gravity = -0.03;
-        S.atlas = k % 3 === 0 ? ATLAS_CIRCLE : ATLAS_FLAME;
-        S.align = 1;
-        S.drag = 4;
-        this.additive.spawn(S, now);
-      }
+      this.boostFlames(dt, st, idx, now);
     } else {
       this.accFlame[idx] = 0;
+      this.accSpark[idx] = 0;
     }
 
     // --- off-road dust --------------------------------------------------------
@@ -899,7 +921,186 @@ export class ParticleSystem implements IParticleSystem {
     }
   }
 
-  private updateSpeedStreaks(dt: number, now: number): void {
+  /**
+   * Llamas del turbo en cada escape: un núcleo blanco caliente pegado a la
+   * boca, lenguas de fuego del color del estilo y chispas doradas que saltan
+   * hacia atrás. Las cintas largas (cola de dragón) las pinta BoostTrails.
+   */
+  private boostFlames(dt: number, st: KartState, idx: number, now: number): void {
+    const tier = this.boostTier[idx] as BoostTier;
+    const style = BOOST_STYLES[tier];
+    const ca = rgb(style.a);
+    const cb = rgb(style.b);
+    const cs = rgb(style.spark);
+    const ex = this.trails.exhaustWorld;
+    const h = st.heading;
+    const fx = -Math.sin(h);
+    const fz = -Math.cos(h);
+    const shrink = st.isShrunk ? 0.6 : 1;
+    const busy = st.isPlayer ? 1 : 0.55;
+    const fade = Math.min(1, 0.35 + st.boostTimer / 0.25);
+
+    // núcleo blanco + lenguas de color
+    const n = this.take(this.accFlame, idx, 96 * busy, dt);
+    for (let k = 0; k < n; k++) {
+      const e = ex[k & 1];
+      const core = k % 3 === 0;
+      S.x = e.x + rnd(-0.02, 0.02);
+      S.y = e.y + rnd(-0.02, 0.02);
+      S.z = e.z + rnd(-0.02, 0.02);
+      const back = core ? rnd(1.5, 3) : rnd(5, 8.5);
+      S.vx = st.velocity.x * 0.85 - fx * back + rnd(-0.35, 0.35);
+      S.vy = rnd(-0.05, 0.45);
+      S.vz = st.velocity.z * 0.85 - fz * back + rnd(-0.35, 0.35);
+      if (core) {
+        S.life = rnd(0.05, 0.09);
+        S.size0 = 0.2 * shrink; S.size1 = 0.08 * shrink;
+        S.r0 = 1.25; S.g0 = 1.18; S.b0 = 1.05;
+        setColor1(ca, 0.9);
+        S.a0 = 0.85 * fade; S.a1 = 0;
+        S.atlas = ATLAS_CIRCLE; S.align = 0;
+      } else {
+        S.life = rnd(0.1, 0.18) * (tier === TIER_ULTRA ? 1.25 : 1);
+        S.size0 = (0.3 + style.flare * 0.08) * shrink; S.size1 = 0.06;
+        const c0 = (tier === TIER_ULTRA || tier === TIER_NEON) && k % 2 === 0 ? cb : ca;
+        setColor0(c0, 1.25);
+        setColor1(c0 === ca ? cb : ca, 0.55);
+        S.a0 = 0.75 * fade; S.a1 = 0;
+        S.atlas = ATLAS_FLAME; S.align = 1;
+      }
+      S.rot = 0; S.rotSpeed = 0;
+      S.gravity = -0.03;
+      S.drag = 4;
+      this.additive.spawn(S, now);
+    }
+
+    // chispas doradas
+    const ns = this.take(this.accSpark, idx, (tier === TIER_MINI ? 22 : 38) * busy, dt);
+    for (let k = 0; k < ns; k++) {
+      const e = ex[k & 1];
+      S.x = e.x; S.y = e.y; S.z = e.z;
+      const back = rnd(3, 7);
+      const side = rnd(-2.2, 2.2);
+      S.vx = st.velocity.x * 0.6 - fx * back - fz * side;
+      S.vy = rnd(0.8, 3.2);
+      S.vz = st.velocity.z * 0.6 - fz * back + fx * side;
+      S.life = rnd(0.22, 0.48);
+      S.size0 = rnd(0.11, 0.17) * shrink; S.size1 = 0.03;
+      const c = k % 3 === 2 ? cb : cs;
+      setColor0(c, 2.0); setColor1(c, 0.9);
+      S.a0 = fade; S.a1 = 0;
+      S.rot = 0; S.rotSpeed = 0;
+      S.gravity = 0.9;
+      S.atlas = ATLAS_STREAK; S.align = 1;
+      S.drag = 1.6;
+      this.additive.spawn(S, now);
+    }
+  }
+
+  /**
+   * Onda de choque al activar el turbo: aro de nubes xiangyun, nubes que se
+   * abren en abanico, un carácter 速/冲 que sube y una lluvia de chispas.
+   * Los karts de la IA solo hacen el aro (menos ruido y menos partículas).
+   */
+  private boostBurst(st: KartState, tier: BoostTier, strength: number): void {
+    const now = this.time;
+    const style = BOOST_STYLES[tier];
+    const ca = rgb(style.a);
+    const cb = rgb(style.b);
+    const cs = rgb(style.spark);
+    const p = st.position;
+    const h = st.heading;
+    const fx = -Math.sin(h);
+    const fz = -Math.cos(h);
+    const shrink = st.isShrunk ? 0.6 : 1;
+    const sc = (0.75 + clamp01(strength) * 0.6) * shrink * (tier === TIER_ULTRA ? 1.15 : 1);
+    const bx = p.x - fx * 0.6;
+    const by = p.y + 0.55 * shrink;
+    const bz = p.z - fz * 0.6;
+    // Todo lo de la onda de choque viaja con el kart (sin arrastre): si se
+    // quedara atrás, pasaría enorme por delante de la cámara.
+    const vx = st.velocity.x;
+    const vz = st.velocity.z;
+
+    // aro de choque del color del turbo, centrado en el kart
+    S.x = p.x; S.y = p.y + 0.6 * shrink; S.z = p.z;
+    S.vx = vx; S.vy = 0; S.vz = vz;
+    S.life = 0.32;
+    S.size0 = 0.7 * sc; S.size1 = 2.6 * sc;
+    setColor0(ca, 0.9); setColor1(cb, 0.45);
+    S.a0 = 0.6; S.a1 = 0;
+    S.rot = 0; S.rotSpeed = 0;
+    S.gravity = 0; S.atlas = ATLAS_RING; S.align = 0; S.drag = 0;
+    this.additive.spawn(S, now);
+    // aro fino interior, más rápido
+    S.life = 0.18; S.size0 = 0.4 * sc; S.size1 = 1.7 * sc;
+    S.r0 = 0.8; S.g0 = 0.76; S.b0 = 0.7; setColor1(ca, 0.35);
+    S.a0 = 0.4; S.rotSpeed = 0; S.atlas = ATLAS_RING;
+    this.additive.spawn(S, now);
+    // destello en los escapes
+    this.flashSprite(bx, by - 0.15 * shrink, bz, 0.5 * sc, 1.2 * sc, 0.1, ca.r * 1.1 + 0.2, ca.g * 1.1 + 0.2, ca.b * 1.1 + 0.2, now);
+
+    if (!st.isPlayer) return;
+
+    // Anillo de nubes xiangyun: volutas repartidas en un aro perpendicular a
+    // la marcha (de cara a la cámara) que se abre alrededor del kart. Solo el
+    // arco superior, para que ninguna se meta bajo el asfalto.
+    const clouds = tier === TIER_MINI ? 6 : 8;
+    const rxv = Math.cos(h), rzv = -Math.sin(h);
+    for (let i = 0; i < clouds; i++) {
+      const a = (-0.35 + (i / (clouds - 1)) * (Math.PI + 0.7)) + rnd(-0.08, 0.08);
+      const ca2 = Math.cos(a), sa2 = Math.sin(a);
+      const r0 = 0.5 * sc;
+      const sp = rnd(2.2, 2.8) * sc;
+      S.x = bx + rxv * ca2 * r0; S.y = by + 0.2 + sa2 * r0; S.z = bz + rzv * ca2 * r0;
+      S.vx = vx + rxv * ca2 * sp; S.vy = sa2 * sp * 0.8; S.vz = vz + rzv * ca2 * sp;
+      S.life = rnd(0.42, 0.52);
+      S.size0 = 0.3 * sc; S.size1 = 0.7 * sc;
+      const c = i % 2 === 0 ? ca : cb;
+      setColor0(c, 1.0); setColor1(c, 0.4);
+      S.a0 = 0.8; S.a1 = 0;
+      // la voluta se inclina siguiendo el aro
+      S.rot = a - Math.PI / 2; S.rotSpeed = 0;
+      S.gravity = 0; S.atlas = ATLAS_CLOUD; S.align = 0; S.drag = 0;
+      this.additive.spawn(S, now);
+    }
+
+    // carácter 速 / 冲 en oro que sube y se desvanece por encima del kart
+    S.x = p.x + fx * 0.3; S.y = p.y + 1.75 * shrink; S.z = p.z + fz * 0.3;
+    S.vx = st.velocity.x; S.vy = 1.1; S.vz = st.velocity.z;
+    S.life = 0.5;
+    S.size0 = 0.55 * sc; S.size1 = 0.9 * sc;
+    // el carácter siempre en oro imperial, se apaga hacia el color del turbo
+    S.r0 = 1.35; S.g0 = 0.95; S.b0 = 0.35; setColor1(cb, 0.5);
+    S.a0 = 0.9; S.a1 = 0;
+    S.rot = 0; S.rotSpeed = 0;
+    S.gravity = 0; S.atlas = style.glyph === 0 ? ATLAS_GLYPH_SU : ATLAS_GLYPH_CHONG; S.align = 0; S.drag = 0;
+    this.additive.spawn(S, now);
+
+    // lluvia de chispas doradas desde los escapes
+    const sparks = tier === TIER_MINI ? 18 : 30;
+    for (let i = 0; i < sparks; i++) {
+      S.x = bx; S.y = by - 0.1; S.z = bz;
+      const a = rnd(0, TAU);
+      const sp = rnd(3, 8) * sc;
+      S.vx = vx * 0.8 - fx * rnd(2, 6) + Math.cos(a) * sp * 0.6;
+      S.vy = rnd(1.5, 5);
+      S.vz = vz * 0.8 - fz * rnd(2, 6) + Math.sin(a) * sp * 0.6;
+      S.life = rnd(0.35, 0.7);
+      S.size0 = rnd(0.14, 0.22) * sc; S.size1 = 0.03;
+      const c = i % 4 === 3 ? cb : cs;
+      setColor0(c, 2.1); setColor1(c, 0.9);
+      S.a0 = 1; S.a1 = 0;
+      S.rot = 0; S.rotSpeed = 0;
+      S.gravity = 1; S.atlas = ATLAS_STREAK; S.align = 1; S.drag = 1.2;
+      this.additive.spawn(S, now);
+    }
+  }
+
+  private updateSpeedStreaks(dt: number, now: number, tier: BoostTier): void {
+    const style = BOOST_STYLES[tier];
+    const ca = rgb(style.a);
+    const cb = rgb(style.b);
     this.accStreak += 38 * dt;
     let n = Math.floor(this.accStreak);
     this.accStreak -= n;
@@ -921,10 +1122,14 @@ export class ParticleSystem implements IParticleSystem {
       const spd = rnd(36, 52);
       S.vx = -f.x * spd; S.vy = -f.y * spd; S.vz = -f.z * spd;
       S.life = rnd(0.14, 0.22);
-      S.size0 = 0.26; S.size1 = 0.12;
-      S.r0 = 0.85; S.g0 = 0.9; S.b0 = 1.0;
-      S.r1 = 0.6; S.g1 = 0.65; S.b1 = 0.8;
-      S.a0 = 0.16; S.a1 = 0;
+      S.size0 = 0.16; S.size1 = 0.08;
+      // Mitad blancas, mitad del color del turbo: hilos de seda, no nieve.
+      const c = k % 3 === 0 ? ca : k % 3 === 1 ? cb : null;
+      if (c) { setColor0(c, 1.1); setColor1(c, 0.7); } else {
+        S.r0 = 0.85; S.g0 = 0.9; S.b0 = 1.0;
+        S.r1 = 0.6; S.g1 = 0.65; S.b1 = 0.8;
+      }
+      S.a0 = 0.15; S.a1 = 0;
       S.rot = 0; S.rotSpeed = 0;
       S.gravity = 0;
       S.atlas = ATLAS_STREAK;
@@ -1412,7 +1617,9 @@ export class ParticleSystem implements IParticleSystem {
     this.accSmoke.fill(0);
     this.accDust.fill(0);
     this.accShield.fill(0);
-    this.boostSource.fill(BOOST_SOURCE_NONE);
+    this.accSpark.fill(0);
+    this.boostTier.fill(TIER_MINI);
+    this.trails.clear();
     this.accStreak = 0;
     this.confettiTimer = 0;
     this.accConfetti = 0;
@@ -1424,6 +1631,7 @@ export class ParticleSystem implements IParticleSystem {
     this.unsubs.length = 0;
     this.additive.dispose();
     this.alpha.dispose();
+    this.trails.dispose();
     this.atlas.dispose();
     this.object.removeFromParent();
     this.karts = [];

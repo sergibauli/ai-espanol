@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import type { IKart, ITrack, SurfaceQuery } from '../core/types';
 import { events } from '../core/events';
 import { clamp, clamp01, damp, angleDelta, smoothstep, wrapAngle, lerp } from '../core/math';
+import { BOOST_STYLES, boostTier, movimientoReducido } from '../fx/boostStyles';
 
 const CHASE_DISTANCE = 4.3; // Wukong: cámara más cerca y baja, como en la maqueta
 const CHASE_HEIGHT = 1.75;
@@ -24,6 +25,12 @@ const DRIFT_OFFSET = (12 * Math.PI) / 180;
 const MIN_GROUND_CLEARANCE = 0.6;
 const MAX_ROLL = 0.045;
 const SHAKE_DECAY = 5.5;
+/** Turbo: el golpe de FOV sube en ~40 ms y vuelve con suavidad en ~0.8 s. */
+const BOOST_KICK_RISE = 0.04;
+const BOOST_KICK_FALL = 0.32;
+/** Vibración sutil mientras dura el turbo (metros) y extra en la activación. */
+const BOOST_RUMBLE = 0.012;
+const BOOST_RUMBLE_KICK = 0.05;
 
 function makeSurfaceScratch(): SurfaceQuery {
   return {
@@ -55,6 +62,13 @@ export class FollowCamera {
 
   private shakeAmp = 0;
   private shakePhase = 0;
+
+  // Turbo: golpe de FOV (fracción de fovMax − fovMin de ESTA cámara) y vibración.
+  private boostKickAge = 1e3;
+  private boostKickAmt = 0;
+  private boostKickDeg = 0;
+  private boostRumble = 0;
+  private boostPhase = 0;
 
   private cine = false;
   private cineTime = 0;
@@ -96,6 +110,16 @@ export class FollowCamera {
         if (e.kartId !== this.followKartId) return;
         this.shake(e.item === 'emp' ? 0.35 : 0.65);
       }),
+      events.on('kart:boost', (e) => {
+        if (e.kartId !== this.followKartId) return;
+        const style = BOOST_STYLES[boostTier(e.source, e.strength, e.duration)];
+        // Un turbo encadenado no reinicia el golpe si el anterior aún está arriba.
+        const amt = style.kick * (movimientoReducido() ? 0.45 : 1);
+        if (this.boostKickAge > 0.25 || amt > this.boostKickAmt) {
+          this.boostKickAmt = amt;
+          this.boostKickAge = 0;
+        }
+      }),
       events.on('item:explosion', (e) => {
         // Nearby explosions rumble the camera a little even if we weren't hit.
         const d = this.pos.distanceTo(e.position);
@@ -117,6 +141,9 @@ export class FollowCamera {
     this.roll = 0;
     this.lookBackBlend = 0;
     this.shakeAmp = 0;
+    this.boostKickAge = 1e3;
+    this.boostKickDeg = 0;
+    this.boostRumble = 0;
     this.computeChase(kart, 0, this.desired, this.desiredLook);
     this.pos.copy(this.desired);
     this.look.copy(this.desiredLook);
@@ -196,7 +223,8 @@ export class FollowCamera {
       // --- FOV: speed + boost -----------------------------------------------
       const boostAmount = s.isBoosting ? clamp01(0.5 + s.boostStrength) : 0;
       const targetFov = lerp(this.fovMin, this.fovMax, clamp01(speedNorm * speedNorm * 0.7 + boostAmount * 0.5));
-      this.fov = damp(this.fov, targetFov, 4, dt);
+      // Sube con decisión y, al acabar el turbo, vuelve despacio (sin «rebote»).
+      this.fov = damp(this.fov, targetFov, targetFov > this.fov ? 5 : 2.4, dt);
 
       // --- roll with steering -----------------------------------------------
       const steer = s.steerVisual * (1 - 2 * lb);
@@ -210,6 +238,15 @@ export class FollowCamera {
       const minY = q.groundY + MIN_GROUND_CLEARANCE;
       if (this.pos.y < minY) this.pos.y = minY;
     }
+
+    // --- turbo: golpe de FOV y vibración -------------------------------------
+    this.boostKickAge += dt;
+    const ka = this.boostKickAge;
+    const env = this.cine ? 0 : (1 - Math.exp(-ka / BOOST_KICK_RISE)) * Math.exp(-ka / BOOST_KICK_FALL);
+    this.boostKickDeg = env * this.boostKickAmt * Math.max(4, this.fovMax - this.fovMin);
+    const rumbleTarget = movimientoReducido() || this.cine ? 0 : (s.isBoosting ? BOOST_RUMBLE : 0) + env * BOOST_RUMBLE_KICK;
+    this.boostRumble = damp(this.boostRumble, rumbleTarget, 14, dt);
+    this.boostPhase += dt * 47;
 
     // --- shake --------------------------------------------------------------
     if (this.shakeAmp > 0.001) {
@@ -259,11 +296,20 @@ export class FollowCamera {
       );
       cam.position.add(this.tmp);
     }
+    if (this.boostRumble > 0.0005) {
+      // Vibración de motor: alta frecuencia, casi toda vertical.
+      const a = this.boostRumble;
+      const p = this.boostPhase;
+      cam.position.y += (Math.sin(p) * 0.6 + Math.sin(p * 2.3 + 1.1) * 0.4) * a;
+      this.tmp.set(Math.sin(p * 1.7 + 0.4), 0, Math.cos(p * 1.3)).multiplyScalar(a * 0.35);
+      cam.position.add(this.tmp);
+    }
     cam.up.set(0, 1, 0);
     cam.lookAt(this.look);
     if (this.roll !== 0) cam.rotateZ(this.roll);
-    if (Math.abs(cam.fov - this.fov) > 0.01) {
-      cam.fov = this.fov;
+    const fov = this.fov + this.boostKickDeg;
+    if (Math.abs(cam.fov - fov) > 0.01) {
+      cam.fov = fov;
       cam.updateProjectionMatrix();
     }
   }

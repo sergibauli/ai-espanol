@@ -141,5 +141,5 @@ export function rizo(t: Taller, k: string, x: number, y: number, z: number, R: n
   }
   const m = new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, ry, rz)), new THREE.Vector3(1, 1, 1));
   const local = pts.map((p) => new THREE.Vector3(p[0], p[1], p[2]).applyMatrix4(m));
-  t.det(() => t.tubo(k, local.map((v) => [v.x, v.y, v.z] as V3), (u) => [grosor * (1 - u * 0.5), grosor * (1 - u * 0.5)], 14, 5));
+  t.det(() => t.tubo(k, local.map((v) => [v.x, v.y, v.z] as V3), (u) => [grosor * (1 - u * 0.5), grosor * (1 - u * 0.5)], 10, 4));
 }

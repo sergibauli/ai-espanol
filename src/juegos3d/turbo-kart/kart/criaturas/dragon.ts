@@ -34,7 +34,7 @@ export const dragon: Criatura = {
     const P = new THREE.Vector3();
     const T = new THREE.Vector3();
     const placas = (a: number, b: number) => {
-      for (let u = a; u < b; u += 0.05) {
+      for (let u = a; u < b; u += 0.07) {
         curva.getPointAt(u, P);
         curva.getTangentAt(u, T);
         const r = radio(u);
@@ -48,7 +48,7 @@ export const dragon: Criatura = {
     t.tubo('body', cortar(0.4, 1), (u) => [radio(lerp(0.4, 1, u)), radio(lerp(0.4, 1, u)) * 0.95], 24, 12);
     placas(0.44, 0.97);
     curva.getPointAt(1, P);
-    for (const [dx, dy] of [[0, 0.14], [0.11, 0.06], [-0.11, 0.06], [0, -0.06]]) llamaDoble(t, [P.x, P.y, P.z - 0.04], [P.x + dx, P.y + dy, P.z + 0.26], 0.055);
+    for (const [dx, dy] of [[0, 0.14], [0.11, 0.04], [-0.11, 0.04]]) llamaDoble(t, [P.x, P.y, P.z - 0.04], [P.x + dx, P.y + dy, P.z + 0.26], 0.055);
     t.estatico();
     // patas con garras de oro
     t.par((s) => {
@@ -58,7 +58,6 @@ export const dragon: Criatura = {
         g.dispose();
         t.esf('secondTex', s * 0.31, 0.27, z - 0.09, 0.065, 0.045, 0.075);
         for (const dz of [-0.045, 0, 0.045]) t.pieza('gold', 'cono', [s * 0.34, 0.26, z - 0.09 + dz], [s * 0.42, 0.2, z - 0.1 + dz * 1.5], 0.015);
-        llamaDoble(t, [s * 0.2, 0.44, z + 0.02], [s * 0.3, 0.52, z + 0.2], 0.035);
       }
     });
     // ---------------------------------------------------------------- cabeza
@@ -93,8 +92,8 @@ export const dragon: Criatura = {
       llamaDoble(t, [Math.cos(a) * 0.08, 0.6 + Math.sin(a) * 0.08, -1.04], [Math.cos(a) * 0.13, 0.6 + Math.sin(a) * 0.13 + 0.025, -0.98], 0.024);
     }
     // melena de llamas detrás de la cabeza y barba
-    for (let i = 0; i < 11; i++) {
-      const a = -1.8 + (i / 10) * 3.6;
+    for (let i = 0; i < 8; i++) {
+      const a = -1.8 + (i / 7) * 3.6;
       const b: V3 = [Math.sin(a) * 0.16, 0.74 + Math.cos(a) * 0.13, -0.6];
       llamaDoble(t, b, [b[0] + Math.sin(a) * 0.2, b[1] + Math.cos(a) * 0.12 + 0.03, -0.32], 0.05, [0, 0.03, 0]);
     }

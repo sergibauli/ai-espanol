@@ -8,7 +8,7 @@ import type { CharacterDef } from '../../core/types';
 import { CHARACTERS } from '../roster';
 import { Taller, CAPAS, type Acabado, type Capa, type HuesoDef } from './taller';
 import { compartido, entorno, inyectarUber, materialUber, materialVelo, textura } from './materiales';
-import { chasis, rueda, ESCAPES_DEF, WHEEL_R_F, WHEEL_R_R, WHEEL_W_F, WHEEL_W_R, WHEEL_X, WHEEL_Z_F, WHEEL_Z_R } from './chasis';
+import { chasis, rueda, buje, ESCAPES_DEF, WHEEL_R_F, WHEEL_R_R, WHEEL_W_F, WHEEL_W_R, WHEEL_X, WHEEL_Z_F, WHEEL_Z_R } from './chasis';
 import { piloto } from './piloto';
 import type { Criatura } from '../criaturas/comun';
 import { CRIATURAS, CRIATURA_POR_INDICE } from '../criaturas';
@@ -142,8 +142,8 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
         bumpScale: 2.2,
         metalness: 0,
         roughness: 1,
-        clearcoat: spec.metal ? 0.3 : 0.75,
-        clearcoatRoughness: 0.22,
+        clearcoat: spec.metal ? 0.4 : 1,
+        clearcoatRoughness: 0.08,
         envMap: env,
         envMapIntensity: 1.1,
       }),
@@ -186,7 +186,7 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     accentTip: { capa: 'accent', color: 0xfff8e8, m: 0, r: 0.4, e: 1.1 },
     accentRoot: { capa: 'accent', color: 0xb8b0b0, m: 0.1, r: 0.35, e: 0.05 },
     tancho: { capa: 'uber', color: 0xe8201a, m: 0.1, r: 0.25 },
-    gold: { capa: 'uber', color: 0xffc24a, m: 1, r: 0.22, e: 0.05 },
+    gold: { capa: 'uber', color: 0xffc24a, m: 1, r: 0.2, e: 0.03, cc: 0 },
     goldDark: { capa: 'uber', color: 0xc07a28, m: 1, r: 0.32 },
     ivory: { capa: 'uber', color: 0xfff4e0, m: 0, r: 0.3, e: 0.08 },
     dark: { capa: 'uber', color: 0x16111a, m: 0.2, r: 0.3 },
@@ -197,20 +197,36 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     cloud: { capa: 'uber', color: 0xf4ead8, m: 0, r: 0.8, e: 0.12 },
     feather: { capa: 'uber', color: plumaColor, m: 0.35, r: 0.32, e: 0.12, i: 0.75 },
     saddle: { capa: 'uber', color: 0xb3121e, m: 0.15, r: 0.2 },
-    metal: { capa: 'uber', color: 0x1a1820, m: 0.55, r: 0.26 },
-    chrome: { capa: 'uber', color: 0xd8a060, m: 1, r: 0.18 },
+    metal: { capa: 'uber', color: 0x16141c, m: 0.35, r: 0.28, cc: 1 },
+    chrome: { capa: 'uber', color: 0xe4e4ea, m: 1, r: 0.07, cc: 0 },
+    bronze: { capa: 'uber', color: 0xd8a060, m: 1, r: 0.2, br: 1, cc: 0 },
+    goldBrush: { capa: 'uber', color: 0xffc860, m: 1, r: 0.2, br: 1, cc: 0 },
+    tireSide: { capa: 'uber', color: 0x2a2a30, m: 0, r: 0.55, cc: 0 },
+    rimBarrel: { capa: 'uber', color: 0x2a2a30, m: 0.8, r: 0.35, cc: 0 },
+    disc: { capa: 'uber', color: 0xc4c4cc, m: 0.9, r: 0.3, br: 1, cc: 0, sinAO: true },
+    caliper: { capa: 'uber', color: spec.llama, m: 0.2, r: 0.25, cc: 1, e: 0.35, sinAO: true },
+    arm: { capa: 'uber', color: 0x2a2830, m: 0.7, r: 0.3, cc: 0 },
+    shock: { capa: 'uber', color: 0xd6a030, m: 0.9, r: 0.22, cc: 0 },
+    spring: { capa: 'uber', color: spec.llama, m: 0.3, r: 0.25, e: 0.25, cc: 1 },
+    seam: { capa: 'uber', color: 0x0c0a0e, m: 0.2, r: 0.6, cc: 0 },
+    grille: { capa: 'uber', color: 0x8a8a92, m: 0.9, r: 0.3, cc: 0 },
+    hose: { capa: 'uber', color: 0x16141a, m: 0, r: 0.7, cc: 0 },
+    lens: { capa: 'uber', color: 0xf4f8ff, m: 0, r: 0.05, e: 3.2, cc: 1, sinAO: true },
+    brakeLight: { capa: 'uber', color: 0xff2a24, m: 0, r: 0.1, e: 2.2, cc: 1, sinAO: true },
+    exhaust: { capa: 'uber', color: 0xc8c4be, grad: 0x7a5ac8, m: 1, r: 0.14, e: 0, eTip: 0.12, cc: 0 },
+    sombra: { capa: 'velo', color: 0x000000, m: 0, r: 1, a: 0.75, cc: 0, sinAO: true },
     glow: { capa: 'uber', color: spec.llama, m: 0, r: 0.5, e: 2.6 },
     glowCore: { capa: 'uber', color: 0xffffff, m: 0, r: 0.5, e: 3 },
     seat: { capa: 'uber', color: 0x1a161c, m: 0.1, r: 0.55 },
-    tire: { capa: 'uber', color: 0x141317, m: 0, r: 0.72 },
+    tire: { capa: 'uber', color: 0x18171b, m: 0, r: 0.88, cc: 0 },
     rimDark: { capa: 'uber', color: 0x8a1018, m: 0.4, r: 0.25 },
-    rimLlama: { capa: 'uber', color: spec.llama, m: 0.3, r: 0.25, e: 0.9 },
+    rimLlama: { capa: 'uber', color: spec.llama, m: 0.55, r: 0.22, e: 0.3 },
     guardaLlama: { capa: 'uber', color: spec.llama, m: 0.3, r: 0.22, e: 0.35 },
     lacaOscura: { capa: 'uber', color: 0x3a0d10, m: 0.2, r: 0.2 },
     jade: { capa: 'uber', color: 0x2fd08f, m: 0.1, r: 0.1, e: 0.35 },
     tongue: { capa: 'uber', color: 0xd8405a, m: 0, r: 0.35 },
     mane: { capa: 'accent', color: 0xffffff, m: 0.05, r: 0.35, e: 0.55 },
-    accentFin: { capa: 'velo', color: 0xff8a3d, grad: 0x9ff4ff, m: 0.05, r: 0.3, e: 0.05, eTip: 0.4, i: 0.4 },
+    accentFin: { capa: 'velo', color: 0xff8a3d, grad: 0x9ff4ff, m: 0.05, r: 0.3, e: 0.05, eTip: 0.4, i: 0.4, a: 0.6 },
     noseTiger: { capa: 'uber', color: 0x2a1e26, m: 0.2, r: 0.25 },
     serpent: { capa: 'uber', color: 0x2f7050, m: 0.35, r: 0.2, i: 0.5 },
     serpBelly: { capa: 'uber', color: 0xc8d890, m: 0.1, r: 0.35 },
@@ -297,9 +313,25 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     ruedasDef.forEach(([x, y, z, isFront], i) => {
       t.declarar(`rueda${i}`, null, [x, y, z], { externo: wheels[i] });
       t.marco(wheels[i].matrixWorld);
-      rueda(t, isFront ? WHEEL_R_F : WHEEL_R_R, isFront ? WHEEL_W_F : WHEEL_W_R, isFront ? 'rimDark' : 'rimLlama');
+      const fuera = Math.sign(x);
+      rueda(t, isFront ? WHEEL_R_F : WHEEL_R_R, isFront ? WHEEL_W_F : WHEEL_W_R, isFront ? 'rimDark' : 'rimLlama', fuera);
+      // lo que gira con la dirección pero no con la rueda
+      const piv = wheels[i].parent as THREE.Object3D;
+      t.declarar(`buje${i}`, null, [x, y, z], { externo: piv });
+      t.marco(piv.matrixWorld);
+      buje(t, isFront ? WHEEL_R_F : WHEEL_R_R, isFront ? WHEEL_W_F : WHEEL_W_R, fuera);
       t.marco(null);
     });
+    // sombra de contacto bajo el kart (no se mueve con la suspensión)
+    t.declarar('suelo', null, [0, 0, 0]);
+    t.alfa = (px, _py, pz) => {
+      const d = Math.sqrt((px / 0.78) ** 2 + (pz / 1.12) ** 2);
+      return Math.max(0, 1 - d) ** 1.4;
+    };
+    const disco = new THREE.CircleGeometry(1, bajo ? 12 : 28);
+    t.add('sombra', disco, 0, 0.015, 0.02, -Math.PI / 2, 0, 0, 0.78, 1.12, 1);
+    disco.dispose();
+    t.alfa = null;
     // manillar de riendas
     t.declarar('manillar', null, steeringWheel.getWorldPosition(new THREE.Vector3()), { externo: steeringWheel });
     t.marco(steeringWheel.matrixWorld);
@@ -315,13 +347,15 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     // piloto
     t.declarar('piloto', null, driver.position, { externo: driver });
     t.declarar('casco', null, headPos, { externo: driverHead });
-    piloto(t, spec.piloto, driver.matrixWorld, driverHead.matrixWorld, headPos);
+    piloto(t, spec.piloto, driver.matrixWorld, driverHead.matrixWorld.clone().multiply(new THREE.Matrix4().makeScale(0.88, 0.88, 0.88)), headPos);
     // criatura
     t.estatico();
     spec.construir(t);
     return t.montar();
   };
   const { geos, huesos } = esculpir(false);
+  const g0 = globalThis as unknown as { __tallerInforme?: unknown; __tallerAlto?: unknown };
+  g0.__tallerAlto = g0.__tallerInforme;
   // versión lejana (rivales a más de LOD_DIST m): misma silueta, sin detalles finos
   const lejos = esculpir(true);
 
@@ -355,6 +389,9 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     f.add(b);
     bones.push(b);
   });
+  // masa suspendida: piloto, manillar y escapes cuelgan del chasis (hueso 'raiz', en el origen)
+  const bRaiz = huesoPor.get('raiz') as THREE.Bone;
+  for (const o of [driver, steerPivot, ...exhausts]) bRaiz.add(o);
   root.updateMatrixWorld(true);
   const skeleton = new THREE.Skeleton(bones);
   const esfera = new THREE.Sphere(new THREE.Vector3(0, 0.6, 0.15), 1.75);
@@ -510,6 +547,9 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
   // --- animación -------------------------------------------------------------------
   let giro = 0;
   let girosBola = 0;
+  let velPrev = 0;
+  let acel = 0;
+  const bRaizA = huesoPor.get('raiz') as THREE.Bone;
   let derrape = 0;
   let turbo = 0;
   let acentoBase = accentMaterial.emissiveIntensity;
@@ -521,9 +561,16 @@ export function buildKartModel(character: CharacterDef): KartModelPartsEx {
     derrape += (Math.abs(drift) - derrape) * Math.min(1, dt * 5);
     turbo += (boost - turbo) * Math.min(1, dt * 8);
 
-    // cuerpo: respiración, rebote de suspensión e inclinación hacia la curva
+    // suspensión: la masa suspendida (chasis, criatura y piloto) se balancea sobre las ruedas
+    if (dt > 1e-4) acel += ((speed01 - velPrev) / dt - acel) * Math.min(1, dt * 6);
+    velPrev = speed01;
+    const firme = Math.min(1, speed01 * 1.4);
+    bRaizA.rotation.z = giro * firme * 0.05; // balanceo hacia fuera de la curva
+    bRaizA.rotation.x = Math.max(-0.05, Math.min(0.05, acel * 0.05)) + turbo * 0.025; // cabeceo al acelerar/frenar
+    bRaizA.position.y = -Math.abs(giro) * firme * 0.014 - derrape * 0.01 + (Math.sin(time * 23.1) * 0.6 + Math.sin(time * 13.7 + 2) * 0.4) * 0.004 * speed01;
+    // cuerpo: respiración, rebote e inclinación hacia la curva
     const resp = Math.sin(time * (2.2 + speed01 * 4));
-    const rebote = (Math.sin(time * 17.3) * 0.6 + Math.sin(time * 9.1 + 1.3) * 0.4) * 0.008 * speed01;
+    const rebote = (Math.sin(time * 17.3) * 0.6 + Math.sin(time * 9.1 + 1.3) * 0.4) * 0.004 * speed01;
     bCuerpo.scale.set(1 + resp * 0.008, 1 + resp * 0.02 + turbo * 0.02, 1 - turbo * 0.02);
     bCuerpo.position.y = cuerpoY + rebote + derrape * 0.015;
     bCuerpo.rotation.z = -objetivo * 0.06;

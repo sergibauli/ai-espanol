@@ -35,19 +35,19 @@ export function piloto(t: Taller, p: PilotoSpec, driverM: THREE.Matrix4, headM: 
     hombrera.dispose();
     t.toro('ribete', 0.083, 0.01, s * 0.17, 0.31, 0.02, Math.PI / 2, -s * 0.5, 0, Math.PI * 2, 1, 1.1, 1);
     // brazos hacia el manillar
-    const up = limbGeometry(s * 0.19, 0.31, 0.02, s * 0.21, 0.2, -0.13, 0.048, t.bajo ? 5 : 7);
+    const up = limbGeometry(s * 0.19, 0.31, 0.02, s * 0.21, 0.2, -0.13, 0.048, t.bajo ? 5 : 6);
     t.add('suit', up);
     up.dispose();
-    const fo = limbGeometry(s * 0.21, 0.2, -0.13, s * 0.14, 0.195, -0.25, 0.043, t.bajo ? 5 : 7);
+    const fo = limbGeometry(s * 0.21, 0.2, -0.13, s * 0.14, 0.195, -0.25, 0.043, t.bajo ? 5 : 6);
     t.add('suit', fo);
     fo.dispose();
     t.toro('ribete', 0.042, 0.01, s * 0.15, 0.196, -0.235, 0, s * 1.0, 0);
     t.esf('glove', s * 0.13, 0.195, -0.27, 0.05, 0.045, 0.055);
     // piernas y botas
-    const th = limbGeometry(s * 0.1, 0.02, -0.02, s * 0.19, -0.04, -0.28, 0.058, t.bajo ? 5 : 7);
+    const th = limbGeometry(s * 0.1, 0.02, -0.02, s * 0.19, -0.04, -0.28, 0.058, t.bajo ? 5 : 6);
     t.add('suit', th);
     th.dispose();
-    const sh = limbGeometry(s * 0.19, -0.04, -0.28, s * 0.22, -0.22, -0.26, 0.05, t.bajo ? 5 : 7);
+    const sh = limbGeometry(s * 0.19, -0.04, -0.28, s * 0.22, -0.22, -0.26, 0.05, t.bajo ? 5 : 6);
     t.add('suit', sh);
     sh.dispose();
     t.esf('boot', s * 0.225, -0.25, -0.3, 0.055, 0.05, 0.08);

@@ -124,6 +124,12 @@ uniform float uHit;
 uniform float uFlash;
 uniform vec3 uFlashColor;
 uniform float uGrain;
+uniform vec3 uBoostColorA;
+uniform vec3 uBoostColorB;
+uniform float uKick;      // 1 al activar el turbo → 0 en ~0.7 s
+uniform float uKickAge;   // segundos desde la activación
+uniform float uVignette;  // intensidad de la viñeta de color del estilo
+uniform float uMotion;    // 1 normal, ~0.35 con movimiento reducido
 
 varying vec2 vUv;
 
@@ -140,24 +146,26 @@ float hash21(vec2 p) {
   return fract((p3.x + p3.y) * p3.z);
 }
 
-// Thin radial streaks in randomly chosen angular sectors, dashed segments
-// racing outward from the centre. Returns 0..1 intensity.
-float speedLines(vec2 adir, float r, float t) {
+// Líneas de velocidad finas y afiladas: segmentos que corren hacia fuera en
+// sectores aleatorios, solo en el anillo exterior (el centro queda limpio).
+// Devuelve intensidad (x) y qué color usar (y: 0 = A, 1 = B).
+vec2 speedLines(vec2 adir, float r, float t) {
   float a = atan(adir.y, adir.x);
-  const float SECTORS = 120.0;
+  const float SECTORS = 150.0;
   float sa = (a + 3.14159265) / 6.2831853 * SECTORS;
   float id = floor(sa);
   float fr = fract(sa);
   float rnd = hash11(id * 0.731 + 0.13);
   float rnd2 = hash11(id * 1.317 + 7.7);
-  float w = 0.02 + 0.035 * rnd2;
+  float speed = 3.0 + 3.0 * rnd2;
+  float seg = fract(r * (1.2 + 1.6 * rnd) - t * speed + rnd * 13.0);
+  // cabeza brillante y cola larga que se afila
+  float body = smoothstep(0.0, 0.55, seg) * (1.0 - smoothstep(0.55, 0.62, seg));
+  float w = (0.012 + 0.03 * rnd2) * (0.35 + 0.65 * body);
   float line = 1.0 - smoothstep(0.0, w, abs(fr - 0.5));
-  float speed = 2.5 + 2.5 * rnd2;
-  float seg = fract(r * (2.0 + 2.0 * rnd) - t * speed + rnd * 13.0);
-  float dash = smoothstep(0.3, 0.6, seg) * (1.0 - smoothstep(0.7, 1.0, seg));
-  float mask = smoothstep(0.42, 0.9, r);
-  float on = step(0.55, rnd);
-  return line * dash * mask * on;
+  float mask = smoothstep(0.5, 0.95, r);
+  float on = step(0.6, rnd);
+  return vec2(line * body * mask * on, step(0.5, hash11(id * 3.71)));
 }
 
 void main() {
@@ -170,13 +178,14 @@ void main() {
 
   vec3 col;
   float boost = uBoost;
-  // Radial blur + chromatic aberration only kick in past a moderate boost so a
-  // light drift turbo doesn't smear the picture.
-  float smear = smoothstep(0.25, 1.0, boost);
+  // Desenfoque radial + aberración: solo con turbo fuerte y siempre más
+  // suave en el centro; el golpe de activación añade un tirón breve.
+  float smear = (smoothstep(0.25, 1.0, boost) + uKick * 0.35) * uMotion;
   if (smear > 0.003) {
     vec2 dn = dir / max(length(dir), 1e-4);
-    float ca = smear * 0.0035 * rn * rn;
-    float blur = smear * 0.016 * rn * rn;
+    float edge = smoothstep(0.18, 1.0, rn);
+    float ca = smear * 0.0032 * edge * rn;
+    float blur = smear * 0.013 * edge * rn;
     col = vec3(0.0);
     for (int i = 0; i < 5; i++) {
       float f = (float(i) / 4.0 - 0.5) * blur;
@@ -190,17 +199,29 @@ void main() {
     col = texture2D(tDiffuse, uv).rgb;
   }
 
-  // Speed lines: none until the kart is well past cruising speed, thin and
-  // low-alpha even at full boost.
-  float slAmt = smoothstep(0.6, 1.0, uSpeed) * 0.08 + boost * 0.16;
+  // Líneas de velocidad teñidas con los colores del turbo.
+  float slAmt = (smoothstep(0.6, 1.0, uSpeed) * 0.07 + boost * 0.2 + uKick * 0.12) * mix(0.5, 1.0, uMotion);
   if (slAmt > 0.002) {
-    float sl = speedLines(adir, r, uTime);
-    col += vec3(sl * slAmt) * vec3(0.95, 0.97, 1.05);
+    vec2 sl = speedLines(adir, r, uTime);
+    vec3 tint = mix(vec3(0.95, 0.97, 1.05), mix(uBoostColorA, uBoostColorB, sl.y) * 1.4 + 0.25, clamp(boost * 1.4, 0.0, 1.0));
+    col += tint * sl.x * slAmt;
   }
 
-  // Light vignette: untouched inside ~55% radius, ~15% darker in the corners.
+  // Viñeta: oscurece un poco las esquinas…
   float vig = smoothstep(1.25, 0.55, rn * (1.0 + 0.08 * uSpeed));
   col *= mix(1.0, vig, 0.22 + 0.16 * uSpeed);
+
+  // …y con el turbo se tiñe del color del estilo (sin quemar: mezcla, no suma).
+  float vb = clamp(boost * 0.35 + uKick * uVignette, 0.0, 1.0);
+  if (vb > 0.002) {
+    float edgeMask = smoothstep(0.62, 1.32, rn);
+    vec3 tint = mix(uBoostColorA, uBoostColorB, 0.5 + 0.5 * sin(atan(dir.y, dir.x) * 2.0 + uTime * 1.5));
+    col = mix(col, col * 0.78 + tint * 0.16, edgeMask * vb * 0.8);
+    // Onda de choque en pantalla: un aro fino que sale hacia los bordes.
+    float ringR = 0.35 + uKickAge * 1.9;
+    float ring = exp(-pow((rn - ringR) * 9.0, 2.0)) * uKick * smoothstep(0.3, 0.6, rn);
+    col += tint * ring * 0.18;
+  }
 
   if (uHit > 0.001) {
     float pulse = 0.8 + 0.2 * sin(uTime * 28.0);
