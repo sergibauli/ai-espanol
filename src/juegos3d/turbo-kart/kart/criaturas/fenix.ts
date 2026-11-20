@@ -54,7 +54,7 @@ export const fenix: Criatura = {
       t.tubo('body', [[s * 0.16, 0.62, -0.12], [s * 0.42, 0.74, -0.06], [s * 0.66, 0.9, 0.06]], () => [0.06, 0.055], 6, 8);
       t.esf('gold', s * 0.66, 0.9, 0.06, 0.045);
       // primarias largas en abanico hacia arriba y atrás
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 7; i++) {
         const L = 0.78 - Math.abs(i - 2.5) * 0.06;
         const B: V3 = [s * (0.26 + i * 0.05), 0.7 + i * 0.026, -0.1 + i * 0.03];
         const T: V3 = [B[0] + s * L * (0.5 - i * 0.04), B[1] + L * (0.86 - i * 0.08), B[2] + L * (0.18 + i * 0.1)];
@@ -62,8 +62,8 @@ export const fenix: Criatura = {
         llamaDoble(t, [lerp(B[0], T[0], 0.62), lerp(B[1], T[1], 0.62), lerp(B[2], T[2], 0.62)], [T[0] + s * 0.04, T[1] + 0.12, T[2] + 0.05], 0.04);
       }
       // coberteras doradas
-      for (let i = 0; i < 6; i++) {
-        const ang = -0.3 + i * 0.25;
+      for (let i = 0; i < 4; i++) {
+        const ang = -0.3 + i * 0.38;
         const B: V3 = [s * 0.26, 0.7, -0.1 + i * 0.035];
         t.pieza('secondTex', 'esf', B, [B[0] + s * Math.cos(ang) * 0.2, 1.0, B[2] + 0.1 + Math.sin(ang) * 0.24], 0.075, 0.02, [s, 0, 0]);
       }

@@ -13,8 +13,15 @@
  * - `criaturas/*.ts`: las ocho criaturas.
  * - `modelo/construir.ts`: montaje, esqueleto y animación.
  *
- * Rendimiento: cada kart es una única malla con esqueleto partida en 4 capas de material (uber,
- * pellejo, acentos, orbes) + las llamas: ~6 llamadas de dibujo por kart y ~20–30 k triángulos.
+ * Realismo: material uber PBR con barniz por vértice (laca), metal cepillado, cromo, goma mate,
+ * cristal; reflejos de un cielo nocturno; oclusión ambiental horneada y sombra de contacto. Mecánica
+ * visible: suspensión de doble trapecio con amortiguador y muelle (se estira entre chasis y buje),
+ * discos y pinzas de freno, radiadores, admisión, colectores con tinte de calor, remaches, faros y
+ * pilotos. La masa suspendida (hueso 'raiz') balancea en curvas y cabecea al acelerar o frenar.
+ *
+ * Rendimiento: cada kart es una única malla con esqueleto partida en 5 capas de material (uber,
+ * pellejo, acentos, orbes, velo translúcido) + las llamas: ~6 llamadas de dibujo por kart y ≤30 k
+ * triángulos; los rivales a más de 20 m usan una versión ligera (LOD, ~10–13 k).
  * Colas, alas, cabeza, ruedas, piloto y manillar son huesos (animación en GPU, sin tocar vértices
  * en CPU). Materiales, texturas y geometrías unitarias se comparten entre instancias.
  */

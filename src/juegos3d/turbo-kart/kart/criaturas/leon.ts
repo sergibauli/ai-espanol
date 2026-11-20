@@ -57,7 +57,7 @@ export const leon: Criatura = {
     // melena de rizos en dos anillos con remate de oro
     for (let anillo = 0; anillo < 2; anillo++) {
       const R = 0.22 + anillo * 0.085;
-      const n = 11 + anillo * 4;
+      const n = 9 + anillo * 3;
       for (let i = 0; i < n; i++) {
         const a = (i / n) * Math.PI * 2 + anillo * 0.2;
         const x = Math.cos(a) * R;

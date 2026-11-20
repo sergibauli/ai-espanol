@@ -68,8 +68,8 @@ export function entorno(): THREE.Texture {
 }
 
 // --- inyección «uber» en el shader estándar --------------------------------------
-const VERT_DECL = 'attribute vec4 pbr;\nvarying vec4 vPbr;\n';
-const FRAG_DECL = 'varying vec4 vPbr;\n';
+const VERT_DECL = 'attribute vec4 pbr;\nattribute vec2 pbr2;\nvarying vec4 vPbr;\nvarying vec2 vPbr2;\nvarying vec3 vLoc;\n';
+const FRAG_DECL = 'varying vec4 vPbr;\nvarying vec2 vPbr2;\nvarying vec3 vLoc;\n';
 
 /**
  * Añade al material el atributo por vértice `pbr`. `emisionVertice` = la emisión sale del color del
@@ -80,10 +80,14 @@ export function inyectarUber<T extends THREE.MeshStandardMaterial>(mat: T, clave
   mat.onBeforeCompile = (sh) => {
     sh.vertexShader = sh.vertexShader
       .replace('#include <common>', `#include <common>\n${VERT_DECL}`)
-      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPbr = pbr;');
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPbr = pbr;\nvPbr2 = pbr2;\nvLoc = position;');
     sh.fragmentShader = sh.fragmentShader
       .replace('#include <common>', `#include <common>\n${FRAG_DECL}`)
-      .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = vPbr.y;')
+      .replace(
+        '#include <roughnessmap_fragment>',
+        // metal cepillado: rayas finas de rugosidad a lo largo de la pieza
+        '#include <roughnessmap_fragment>\nroughnessFactor = clamp(vPbr.y + vPbr2.y * 0.2 * (0.5 + 0.5 * sin(vLoc.y * 900.0 + sin(vLoc.x * 37.0 + vLoc.z * 23.0) * 4.0)), 0.04, 1.0);',
+      )
       .replace('#include <metalnessmap_fragment>', '#include <metalnessmap_fragment>\nmetalnessFactor = vPbr.x;')
       .replace(
         '#include <normal_fragment_maps>',
@@ -95,7 +99,9 @@ export function inyectarUber<T extends THREE.MeshStandardMaterial>(mat: T, clave
           diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * 0.35 + irid * 0.75, clamp(fr2 * 1.6, 0.0, 1.0) * vPbr.w);
         }`,
       )
-      .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += diffuseColor.rgb * vPbr.z;');
+      .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += diffuseColor.rgb * vPbr.z;')
+      // barniz (clearcoat) por vértice: laca de coche sí, goma y tela no
+      .replace('#include <lights_physical_fragment>', '#include <lights_physical_fragment>\n#ifdef USE_CLEARCOAT\nmaterial.clearcoat *= vPbr2.x;\n#endif');
   };
   mat.customProgramCacheKey = () => `tk-uber-${clave}`;
   return mat;
@@ -111,10 +117,18 @@ export function compartido<T extends THREE.Material>(key: string, crear: () => T
 }
 
 /** El material uber (compartido por todos los karts: nunca se libera). */
-export function materialUber(): THREE.MeshStandardMaterial {
-  return compartido('tk-uber', () =>
+export function materialUber(): THREE.MeshPhysicalMaterial {
+  return compartido('tk-uber2', () =>
     inyectarUber(
-      new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0, roughness: 1, envMap: entorno(), envMapIntensity: 1.15 }),
+      new THREE.MeshPhysicalMaterial({
+        vertexColors: true,
+        metalness: 0,
+        roughness: 1,
+        clearcoat: 1,
+        clearcoatRoughness: 0.06,
+        envMap: entorno(),
+        envMapIntensity: 1.2,
+      }),
       'u',
     ),
   );
@@ -314,14 +328,14 @@ export function textura(nombre: Textura): THREE.Texture {
 
 /** Velo translúcido (aletas de seda del koi), compartido. */
 export function materialVelo(): THREE.MeshStandardMaterial {
-  return compartido('tk-velo', () =>
+  return compartido('tk-velo2', () =>
     inyectarUber(
       new THREE.MeshStandardMaterial({
         vertexColors: true,
         metalness: 0,
         roughness: 1,
         transparent: true,
-        opacity: 0.55,
+        opacity: 1,
         side: THREE.DoubleSide,
         depthWrite: false,
         envMap: entorno(),

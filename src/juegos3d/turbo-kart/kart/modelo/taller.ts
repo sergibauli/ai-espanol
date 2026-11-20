@@ -30,6 +30,14 @@ export interface Acabado {
   /** Degradado a lo largo de la pieza (y local): color y emisión en la punta. */
   grad?: number;
   eTip?: number;
+  /** barniz 0..1 (por defecto: 1 en lacas y metales pintados, 0 en lo rugoso) */
+  cc?: number;
+  /** metal cepillado 0..1 */
+  br?: number;
+  /** opacidad (solo capa velo) */
+  a?: number;
+  /** sin oclusión ambiental horneada */
+  sinAO?: boolean;
 }
 
 export interface AlaCfg {
@@ -77,6 +85,14 @@ interface Parte {
   capa: Capa;
   hueso: string;
   cadena: string | null;
+  puente: Puente | null;
+}
+/** Pieza estirada entre dos huesos según |x| (brazos de suspensión, amortiguadores). */
+interface Puente {
+  a: string;
+  b: string;
+  x0: number;
+  x1: number;
 }
 
 const _m = new THREE.Matrix4();
@@ -96,12 +112,12 @@ export function unidades() {
   if (!_unid) {
     const cono = new THREE.ConeGeometry(1, 1, 7);
     cono.translate(0, 0.5, 0);
-    const esf = new THREE.SphereGeometry(1, 8, 6);
+    const esf = new THREE.SphereGeometry(1, 7, 5);
     esf.scale(1, 0.5, 1);
     esf.translate(0, 0.5, 0);
     const cil = new THREE.CylinderGeometry(1, 1, 1, 7);
     cil.translate(0, 0.5, 0);
-    const bola = new THREE.SphereGeometry(1, 18, 12);
+    const bola = new THREE.SphereGeometry(1, 16, 10);
     const bolaM = new THREE.SphereGeometry(1, 12, 8);
     const bolaB = new THREE.SphereGeometry(1, 8, 6);
     _unid = { cono, esf, cil, bola, bolaM, bolaB };
@@ -231,6 +247,9 @@ export class Taller {
   private readonly cadenas = new Map<string, CadenaCfg>();
   private hueso = 'cuerpo';
   private cadena: string | null = null;
+  private puenteCfg: Puente | null = null;
+  /** Opacidad por vértice para la capa velo (sombra de contacto). */
+  alfa: ((x: number, y: number, z: number) => number) | null = null;
   private marcoM: THREE.Matrix4 | null = null;
   private readonly _t = new THREE.Matrix4();
   /** Versión lejana (LOD): menos segmentos y sin detalles pequeños. */
@@ -259,6 +278,13 @@ export class Taller {
   }
   usar(nombre: string): this {
     this.hueso = nombre;
+    this.cadena = null;
+    this.puenteCfg = null;
+    return this;
+  }
+  /** Las piezas siguientes se reparten entre los huesos a (|x| ≤ x0) y b (|x| ≥ x1). */
+  puente(a: string, b: string, x0: number, x1: number): this {
+    this.puenteCfg = { a, b, x0, x1 };
     this.cadena = null;
     return this;
   }
@@ -329,26 +355,39 @@ export class Taller {
       }
     }
     const n = g.attributes.position.count;
+    const velo = ac.capa === 'velo';
+    const cc = ac.cc ?? ((ac.r ?? 0.45) < 0.36 ? 1 : 0);
     const tip = ac.grad !== undefined ? new THREE.Color(ac.grad) : null;
-    const col = new Float32Array(n * 3);
+    const nc = velo ? 4 : 3;
+    const col = new Float32Array(n * nc);
     const pbr = new Float32Array(n * 4);
+    const pbr2 = new Float32Array(n * 2);
+    const ao = !ac.sinAO && ac.capa !== 'orb' && !velo && (ac.e ?? 0) < 0.5;
     const base = new THREE.Color(ac.color);
     const pos = g.attributes.position as THREE.BufferAttribute;
     for (let i = 0; i < n; i++) {
       _c.copy(base);
       if (tip && yLoc) _c.lerp(tip, yLoc[i]);
       if (this.pintor && ac.capa === 'body') this.pintor(pos.getX(i), pos.getY(i), pos.getZ(i), _c);
-      col[i * 3] = _c.r;
-      col[i * 3 + 1] = _c.g;
-      col[i * 3 + 2] = _c.b;
+      const px = pos.getX(i);
+      const py = pos.getY(i);
+      const pz = pos.getZ(i);
+      if (ao && Math.abs(px) < 0.66 && Math.abs(pz) < 1.05) _c.multiplyScalar(0.42 + 0.58 * smooth(0.02, 0.4, py));
+      col[i * nc] = _c.r;
+      col[i * nc + 1] = _c.g;
+      col[i * nc + 2] = _c.b;
+      if (velo) col[i * nc + 3] = (ac.a ?? 1) * (this.alfa ? this.alfa(px, py, pz) : 1);
+      pbr2[i * 2] = cc;
+      pbr2[i * 2 + 1] = ac.br ?? 0;
       pbr[i * 4] = ac.m ?? 0.1;
       pbr[i * 4 + 1] = ac.r ?? 0.45;
       pbr[i * 4 + 2] = yLoc && ac.eTip !== undefined ? lerpN(ac.e ?? 0, ac.eTip, yLoc[i]) : ac.e ?? 0;
       pbr[i * 4 + 3] = ac.i ?? 0;
     }
-    g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    g.setAttribute('color', new THREE.BufferAttribute(col, nc));
     g.setAttribute('pbr', new THREE.BufferAttribute(pbr, 4));
-    this.partes.push({ geo: g, capa: ac.capa, hueso: this.hueso, cadena: this.cadena });
+    g.setAttribute('pbr2', new THREE.BufferAttribute(pbr2, 2));
+    this.partes.push({ geo: g, capa: ac.capa, hueso: this.hueso, cadena: this.cadena, puente: this.puenteCfg });
     return this;
   }
   add(k: string | Acabado, geo: THREE.BufferGeometry, x = 0, y = 0, z = 0, rx = 0, ry = 0, rz = 0, sx = 1, sy = 1, sz = 1): this {
@@ -359,7 +398,7 @@ export class Taller {
   esf(k: string | Acabado, x: number, y: number, z: number, rx: number, ry = rx, rz = rx, ax = 0, ay = 0, az = 0): this {
     const u = unidades();
     const r = Math.max(rx, ry, rz);
-    const geo = this.bajo ? (r < 0.13 ? u.bolaB : u.bolaM) : r < 0.05 ? u.bolaB : r < 0.13 ? u.bolaM : u.bola;
+    const geo = this.bajo ? (r < 0.13 ? u.bolaB : u.bolaM) : r < 0.05 ? u.bolaB : r < 0.16 ? u.bolaM : u.bola;
     return this.add(k, geo, x, y, z, ax, ay, az, rx, ry, rz);
   }
   /** Pieza unitaria orientada de a a b (cono = cuernos, garras, llamas; esf = plumas, aletas; cil = barras). */
@@ -377,7 +416,7 @@ export class Taller {
     return this;
   }
   toro(k: string | Acabado, R: number, r: number, x: number, y: number, z: number, ax = 0, ay = 0, az = 0, arc = Math.PI * 2, sx = 1, sy = 1, sz = 1, seg = 16): this {
-    const g = this.bajo ? new THREE.TorusGeometry(R, r, 3, Math.max(6, Math.ceil(seg / 2)), arc) : new THREE.TorusGeometry(R, r, r < 0.022 ? 4 : 6, seg, arc);
+    const g = this.bajo ? new THREE.TorusGeometry(R, r, 3, Math.max(6, Math.ceil(seg / 2)), arc) : new THREE.TorusGeometry(R, r, r < 0.022 ? 4 : 6, r < 0.02 ? Math.min(seg, 12) : seg, arc);
     this.add(k, g, x, y, z, ax, ay, az, sx, sy, sz);
     g.dispose();
     return this;
@@ -484,6 +523,18 @@ export class Taller {
           sw[i * 4 + 1] = wPrev;
           si[i * 4 + 2] = idxNext;
           sw[i * 4 + 2] = wNext;
+        }
+      } else if (p.puente) {
+        const pb = p.puente;
+        const ia = indice.get(pb.a) ?? 0;
+        const ib = indice.get(pb.b) ?? 0;
+        const pos = p.geo.attributes.position as THREE.BufferAttribute;
+        for (let i = 0; i < n; i++) {
+          const w = smooth(pb.x0, pb.x1, Math.abs(pos.getX(i)));
+          si[i * 4] = ia;
+          sw[i * 4] = 1 - w;
+          si[i * 4 + 1] = ib;
+          sw[i * 4 + 1] = w;
         }
       } else {
         const idx = indice.get(p.hueso) ?? 0;
