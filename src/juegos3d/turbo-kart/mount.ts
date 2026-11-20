@@ -9,6 +9,7 @@
 import './style.css';
 import './learning/wukong.css';
 import './learning/wukong-diseno.css';
+import './learning/wukong-hud.css';
 import './ui/animado.css';
 import './learning/wukong-circuitos.css';
 import './learning/wukong-retos.css';
