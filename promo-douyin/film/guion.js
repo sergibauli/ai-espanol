@@ -135,7 +135,6 @@ ESC.revelacion = async (lt) => {
   const m = moviles[0];
   const orb = seg(lt, 1.2, BAR * 2);
   m.poner({ x: lerp(0, 0.18, orb), y: lerp(1.2, -0.86, k), z: lerp(-16, 0, k), rx: (1 - k) * 0.8 - 0.1 * k, ry: (1 - k) * Math.PI * 4 + k * lerp(0.42, -0.32, eInOut(orb)), rz: (1 - k) * 0.4, s: 1.2, img: pv, halo: 0.7 });
-  M.sacarTarjeta(0, m, await seq("portadaV", 10), { x: 0.02, y: 0.025, w: 0.96, h: 0.13 }, seg(lt, 1.5, 2.1), { x: -0.12, y: 0.12, z: 1.6, rx: -0.12, ry: 0.32, rz: -0.04, s: 1.05 });
   const kd = seg(lt, 0.6, BAR * 2);
 
   C.texto("r1", "悟空西语", "tit grande", lt, 2 * B, BAR * 2, { y: 245, entrada: "golpe", temblor: 8 });
@@ -153,7 +152,6 @@ ESC.aprender = async (lt) => {
   const img = lt < 1.2 * BAR ? await seq("ruta3", lt * 30 * 2.0) : await seq("ruta3", 300 + (lt - 1.2 * BAR) * 30 * 3.2);
   const orb = eInOut(seg(lt, 0.5, BAR * 2));
   moviles[0].poner({ x: lerp(2.5, 0.25, k) - orb * 0.3, y: -0.7, z: cambio * 0.4, rx: -0.14, ry: lerp(-1.3, -0.42, k) + orb * 0.7, rz: lerp(0.3, 0.02, k), s: 1.36, img, flash: cambio * 0.3 });
-  M.sacarTarjeta(0, moviles[0], await seq("ruta3", 0), { x: 0.0, y: 0.072, w: 1.0, h: 0.053 }, seg(lt, 0.9, 1.5), { x: 0, y: 0.62, z: 1.7, rx: -0.25, ry: -0.18 + orb * 0.3, rz: 0.03, s: 1.12 });
   C.texto("a1", "A1→B2 <em>闯关地图</em>", "tit2", lt, 0.1, BAR * 2, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("a1es", "RUTA DE APRENDIZAJE · A1–B2", "es-peq", lt, 0.1 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("a2", "<em>四大世界</em>，一关关往上闯", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
