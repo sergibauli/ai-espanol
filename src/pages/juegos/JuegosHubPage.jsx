@@ -30,9 +30,9 @@ import { flushSync } from "react-dom";
 import { Link, useNavigate } from "react-router";
 import { LightShell } from "../../components/layout/LightShell.jsx";
 import { Portada } from "./PortadasJuegos.jsx";
-import { TurboRushDestacado } from "./TurboRushDestacado.jsx";
 import "../../styles/juegos-hub.css";
 import "../../styles/movil-juegos.css";
+import "../../styles/turbo-portada.css";
 
 // Los juegos de la app (el resto se retiró para quedarnos solo con los mejores).
 // `gradient` e `icon` los usa también la pestaña de juegos de cada unidad (UnitPage).
@@ -665,9 +665,6 @@ function JuegosHubPage() {
             )}
           </div>
         </section>
-
-        {/* Juego estrella: Wukong Turbo Rush */}
-        <TurboRushDestacado onJugar={() => rememberGame("turbo-kart")} />
 
         {/* Catálogo: filtros con identidad + portadas */}
         <section className="jh-catalogo" aria-labelledby="jh-catalogo-titulo">

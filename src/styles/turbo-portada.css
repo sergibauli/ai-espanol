@@ -1,0 +1,23 @@
+/* Wukong Turbo Rush · animación de la portada en el catálogo de juegos */
+/* Portada de la tarjeta de Turbo Rush en el catálogo */
+.jh-poster--turbo-kart .jh-tk-kart {
+  transition: transform 0.35s ease-out;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.5));
+}
+.jh-poster--turbo-kart .jh-tk-lineas line {
+  stroke-dasharray: 50 60;
+  animation: tr-poster-linea 1.2s linear infinite;
+}
+.jh-poster--turbo-kart .jh-tk-lineas line:nth-child(2) { animation-delay: -0.4s; }
+.jh-poster--turbo-kart .jh-tk-lineas line:nth-child(3) { animation-delay: -0.8s; }
+@keyframes tr-poster-linea {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 110; }
+}
+.jh-card:hover .jh-poster--turbo-kart .jh-tk-kart {
+  transform: translateX(10px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .jh-poster--turbo-kart .jh-tk-lineas line { animation: none; }
+  .jh-card:hover .jh-poster--turbo-kart .jh-tk-kart { transform: none; }
+}
