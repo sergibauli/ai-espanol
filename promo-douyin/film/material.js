@@ -13,6 +13,7 @@ export const CAP = {
   vocabulario: C + "unidades/04_unidad29_vocabulario.png",
   dialogo: C + "unidades/05_unidad29_dialogo_voces.png",
   recorrido: C + "unidades/15_unidades_recorrido_alta.png", pabellon: "/promo-douyin/film/recursos/pabellon-tapado.jpg",
+  unidadPortada: C + "unidades/02_unidad29_portada.png", rr: C + "unidades/09_pronunciacion_rr.png", cuatroMundos: C + "practica/practica_cuatro_mundos.png", tutorRetrato: C + "practica/tutor_rey_mono.png",
   pronunciacion: C + "unidades/08_pronunciacion_templo.png",
   diccionario: C + "unidades/07_diccionario_ficha_agua.png",
   repaso: C + "unidades/10_repaso_espaciado.png",
