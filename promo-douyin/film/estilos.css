@@ -101,3 +101,5 @@ html, body { margin: 0; background: #000; overflow: hidden; }
 .marco-qr.grande img { width: 380px; height: 380px; }
 .franja { left: 0; width: 1080px; padding: 18px 0 24px; background: linear-gradient(180deg, #d4182f, #8f0c21); border-top: 5px solid #f2c14e; border-bottom: 5px solid #f2c14e;
   font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 56px; color: #fff; letter-spacing: 4px; box-shadow: 0 14px 30px rgba(0,0,0,.5); }
+.logo-juego { position: absolute; }
+.logo-juego img { display: block; width: 620px; filter: drop-shadow(0 10px 22px rgba(0,0,0,.6)) drop-shadow(0 0 30px rgba(255,180,60,.55)); }

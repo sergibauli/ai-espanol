@@ -309,21 +309,15 @@ ESC.juegos = async (lt, sec) => {
 // 11 · TURBO RUSH 3D: velocidad
 ESC.turbo = async (lt) => {
   fondo({ rayos: 0.8 });
-  const fase = lt < 3.5 * B ? 0 : lt < 5.75 * B ? 1 : 2; // vídeo de portada → menú → pilotos
-  const ini = [0, 3.5 * B, 5.75 * B][fase];
-  const img = fase === 0 ? await seq("turboP", lt * 30 * 1.2) : fase === 1 ? T.turboMenu : T.turboPilotos;
-  if (fase === 0) { const F = M.fondo.uniforms; F.uImg.value = img; F.uImgK.value = 0.55; F.uImgAsp.value = 540 / 960; F.uImgBlur.value = 3; F.uImgZoom.value = 1.1; F.uBrillo.value = 0.75; }
+  // solo el vídeo de la portada del juego, con su logo oficial encima
+  const img = await seq("turboP", lt * 30 * 1.55);
+  const F = M.fondo.uniforms; F.uImg.value = img; F.uImgK.value = 0.6; F.uImgAsp.value = 540 / 960; F.uImgBlur.value = 3.5; F.uImgZoom.value = 1.1 + lt * 0.03; F.uBrillo.value = 0.7;
   const k = eOut(seg(lt, 0, 0.45));
-  const kp = seg(lt, ini, fase === 2 ? 8 * B : [3.5, 5.75][fase] * B);
-  const zoom = fase === 0 ? { cx: 0.5, cy: 0.5, s: 1 + kp * 0.15 } : fase === 1 ? { cx: 0.5, cy: 0.4, s: 1.05 + kp * 0.2 } : { cx: 0.5, cy: 0.45, s: 1.1 + kp * 0.25 };
-  moviles[0].poner({ x: 0.1, y: -0.62, z: lerp(-8, 0.2, k), ry: -0.12 + (fase > 0 ? (1 - eOut(seg(lt, ini, ini + 0.35))) * Math.PI : 0), rx: -0.06, s: 1.36, img, zoom, halo: 0.8, flash: fase > 0 ? 0.35 * (1 - seg(lt, ini, ini + 0.25)) : 0 });
-  C.velocidad(fase === 0 ? 0.8 * k : 0.3, lt, 540, 1050);
+  moviles[0].poner({ x: 0, y: -0.78, z: lerp(-8, 0.1, k), ry: -0.08, rx: -0.06, s: 1.26, img, zoom: { cx: 0.5, cy: 0.52, s: 1.02 + seg(lt, 0, 2 * BAR) * 0.15 }, halo: 0.8 });
+  C.velocidad(0.6 * k, lt, 540, 1150);
   M.particulas.material.uniforms.uWarp.value = lt * 4;
-  // nombre del juego bien grande encima
-  C.texto("tr1", "西游<em>极速</em>", "tit2 grande", lt, 0.05, BAR * 2, { y: 230, entrada: "golpe", temblor: 14 });
-  C.texto("tr2", "WUKONG TURBO RUSH", "es", lt, 0.4 * B, BAR * 2, { y: 385, entrada: "pincel", dur: 0.4 });
-  C.texto("tr3", "<em>3D 赛车</em>，冲对单词门就加速！", "sub", lt, 1.5 * B, BAR * 2, { y: 480, entrada: "letras" });
-  C.chip("tr4", "Elige piloto", "选择赛车手", lt, 5.9 * B, BAR * 2, { x: 300, y: 1450, cls: "oro", rot: -5 });
+  C.libre("tr1", `<img src="/promo-douyin/film/recursos/turbo-logo.png">`, "logo-juego", lt, 0.15, BAR * 2, { x: 540, y: 285, entrada: "golpe", dur: 0.35, rot: -2 });
+  C.texto("tr3", "<em>西游极速</em> · 冲对单词就加速！", "sub", lt, 1.2 * B, BAR * 2, { y: 555, entrada: "letras" });
 };
 
 // 12 · PROGRESO
