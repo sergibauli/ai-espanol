@@ -28,7 +28,8 @@
 /* ================================================================ TARJETA DEL RETO */
 .tkr .wk-rt .wk-reto-tarjeta {
   position: relative;
-  width: min(92vw, 580px);
+  --rt-mitad: min(30vw, 390px);
+  width: min(60vw, 780px);
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -81,12 +82,12 @@
 }
 @keyframes tkr-rt-eje-izq {
   from {
-    translate: calc(min(46vw, 290px) - 8px) 0;
+    translate: calc(var(--rt-mitad) - 8px) 0;
   }
 }
 @keyframes tkr-rt-eje-der {
   from {
-    translate: calc(-1 * min(46vw, 290px) + 8px) 0;
+    translate: calc(-1 * var(--rt-mitad) + 8px) 0;
   }
 }
 
@@ -1107,6 +1108,84 @@
     0 0 36px rgba(255, 50, 70, 0.55);
 }
 
+/* ================================================================ COLOCACIÓN
+   Petición del dueño: que el reto no tape el centro ni la pista. Escritorio: banda compacta
+   arriba (≤ ~22 % del alto), palabra a la izquierda y opciones en fila a la derecha. */
+.tkr .wk-rt .wk-rt-papel {
+  display: grid;
+  grid-template-columns: minmax(140px, auto) 1fr;
+  grid-template-areas:
+    'cab cab'
+    'pal opc'
+    'pis pis'
+    'tie tie';
+  column-gap: 18px;
+  align-items: center;
+  padding: 12px 22px 14px;
+}
+.tkr .wk-rt .wk-rt-cab {
+  grid-area: cab;
+}
+.tkr .wk-rt .wk-reto-palabra {
+  grid-area: pal;
+  margin: 0;
+  font-size: clamp(34px, 3.8vw, 54px);
+  white-space: nowrap;
+}
+.tkr .wk-rt .wk-reto-palabra.audio {
+  margin: 4px auto;
+  width: 72px;
+  height: 72px;
+}
+.tkr .wk-rt .wk-reto-pista {
+  grid-area: pis;
+  margin: 6px 0 0;
+}
+.tkr .wk-rt .wk-reto-opciones {
+  grid-area: opc;
+  flex-wrap: nowrap;
+}
+.tkr .wk-rt .wk-reto-opciones .wk-reto-opcion {
+  flex: 1 1 0;
+  max-width: none;
+  min-width: 0;
+  font-size: 16px;
+}
+.tkr .wk-rt .wk-reto-opciones .wk-rt-txt {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.tkr .wk-rt .wk-reto-opciones {
+  min-width: min(440px, 100%);
+}
+.tkr .wk-rt .wk-reto-tiempo {
+  grid-area: tie;
+  margin-top: 10px;
+}
+.tkr .wk-rt .wk-reto-tarjeta.ok .wk-reto-palabra.audio,
+.tkr .wk-rt .wk-reto-tarjeta.ko .wk-reto-palabra.audio {
+  margin: 0;
+  font-size: clamp(40px, 4.4vw, 60px);
+}
+.tkr .wk-rt .wk-rt-veredicto {
+  /* a la izquierda de la banda: a la derecha están vuelta y tiempo */
+  top: -8px;
+  right: auto;
+  left: -40px;
+}
+/* Un solo jugador: la banda va arriba, entre el objeto (izq.) y vuelta/tiempo (der.) */
+.tkr #ui > .wk-reto.wk-rt {
+  padding-top: calc(var(--hud-pad, 20px) + 4px);
+}
+.tkr #ui > .wk-reto.wk-rt .wk-reto-tarjeta {
+  width: clamp(440px, calc(100vw - 2 * (var(--hud-pad, 20px) + 250px)), 780px);
+  --rt-mitad: calc(clamp(440px, calc(100vw - 2 * (var(--hud-pad, 20px) + 250px)), 780px) / 2);
+}
+/* El mensaje al cruzar una puerta, más arriba (no encima del kart) */
+.tkr .wk-flash {
+  top: 24%;
+}
+
 /* ================================================================ PANTALLA PARTIDA */
 .tkr #ui.wk-split-2 .wk-cuadrante .wk-reto {
   padding-top: 64px;
@@ -1147,7 +1226,47 @@
 /* ================================================================ MÓVIL */
 @media (max-width: 700px) {
   .tkr .wk-rt .wk-rt-papel {
-    padding: 12px 16px 16px;
+    padding: 10px 14px 12px;
+    grid-template-columns: 1fr;
+    grid-template-areas: 'cab' 'pal' 'pis' 'opc' 'tie';
+  }
+  .tkr #ui > .wk-reto.wk-rt {
+    padding-top: calc(var(--hud-pad, 16px) + 96px);
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-tarjeta {
+    width: calc(100vw - 28px);
+    --rt-mitad: calc(50vw - 14px);
+  }
+  /* la pista solo sale con la corrección: menos alto */
+  .tkr .wk-rt .wk-reto-tarjeta:not(.ok):not(.ko) .wk-reto-pista {
+    display: none;
+  }
+  .tkr .wk-rt .wk-reto-tarjeta.ok .wk-reto-pista,
+  .tkr .wk-rt .wk-reto-tarjeta.ko .wk-reto-pista {
+    margin: 2px 0 6px;
+  }
+  .tkr .wk-rt .wk-reto-tiempo {
+    margin-top: 10px;
+  }
+  .tkr .wk-rt .wk-reto-opciones {
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .tkr .wk-rt .wk-reto-palabra.audio {
+    width: 62px;
+    height: 62px;
+  }
+  .tkr .wk-rt .wk-reto-palabra.audio::before {
+    width: 32px;
+    height: 32px;
+  }
+  /* táctil: el estandarte arriba (debajo de vuelta/tiempo); el minimapa se aparta mientras */
+  .tkr #ui.tactil > .wk-aviso.wk-av {
+    top: calc(var(--hud-pad, 16px) + 100px);
+    max-width: calc(100vw - 110px);
+  }
+  .tkr #ui.tactil:has(> .wk-aviso:not(.oculto)) [class*='minimap'] {
+    opacity: 0;
   }
   .tkr .wk-rt .wk-reto-palabra {
     font-size: clamp(32px, 9.5vw, 50px);
@@ -1216,13 +1335,13 @@
     height: 24px;
   }
   .tkr .wk-rt .wk-rt-veredicto {
-    right: -6px;
-    top: -18px;
-    scale: 0.78;
+    left: auto;
+    right: -12px;
+    top: 30px;
+    scale: 0.72;
   }
-  /* táctil: el estandarte cuelga justo por debajo del minimapa (120 px) */
-  .tkr #ui.tactil .wk-aviso.wk-av {
-    top: calc(var(--hud-pad, 20px) + 236px);
+  .tkr .wk-rt .wk-reto-palabra {
+    white-space: normal;
   }
   .tkr .wk-rt .wk-rt-rayos {
     width: 520px;
@@ -1250,6 +1369,128 @@
   }
   .tkr .wk-av .wk-av-borla {
     height: 34px;
+  }
+}
+
+/* ================================================================ MÓVIL HORIZONTAL
+   Tarjeta estrecha en la columna izquierda, entre el objeto y los botones de abajo. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .tkr #ui > .wk-reto.wk-rt {
+    justify-content: flex-start;
+    padding: calc(var(--hud-pad, 16px) + 94px) 0 0 calc(var(--hud-pad, 16px) + 2px);
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-tarjeta {
+    width: 224px;
+    --rt-mitad: 112px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-rt-eje {
+    top: -6px;
+    bottom: -6px;
+    width: 12px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-rt-papel {
+    padding: 8px 12px 9px;
+    grid-template-columns: 1fr;
+    grid-template-areas: 'cab' 'pal' 'pis' 'opc' 'tie';
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-rt-cab {
+    display: none;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-kicker {
+    font-size: 9px;
+    letter-spacing: 0.8px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-kicker::before,
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-kicker::after {
+    display: none;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-palabra {
+    font-size: 26px;
+    white-space: normal;
+    text-wrap: balance;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-palabra.audio {
+    width: 48px;
+    height: 48px;
+    margin: 2px auto;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-palabra.audio::before {
+    width: 26px;
+    height: 26px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-tarjeta:not(.ko) .wk-reto-pista {
+    display: none; /* en horizontal solo se ve la corrección */
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-pista,
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-tarjeta.ko .wk-reto-pista {
+    font-size: 11px;
+    margin: 1px 0 4px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-opciones,
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-opciones.tres {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-opcion,
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-opciones.tres .wk-reto-opcion {
+    min-height: 30px;
+    padding: 2px 10px 2px 4px;
+    font-size: 13px;
+    line-height: 1.1;
+    justify-content: flex-start;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-rt-num,
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-opciones.tres .wk-rt-num {
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-reto-tiempo {
+    margin-top: 7px;
+    height: 8px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-rt-esq {
+    width: 16px;
+    height: 16px;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-rt-veredicto {
+    top: -6px;
+    left: auto;
+    right: -22px;
+    scale: 0.6;
+  }
+  .tkr #ui > .wk-reto.wk-rt .wk-rt-rayos {
+    width: 420px;
+    height: 420px;
+    margin: -210px 0 0 -210px;
+  }
+  /* el aviso de puerta también a la izquierda, sin tapar la pista */
+  .tkr #ui > .wk-aviso.wk-av {
+    left: calc(var(--hud-pad, 16px) + 14px);
+    top: calc(var(--hud-pad, 16px) + 96px);
+    transform: none;
+    min-width: 0;
+    max-width: 230px;
+  }
+  .tkr #ui > .wk-aviso.wk-av .wk-av-tela {
+    --cola: 10px;
+    padding: 6px 12px calc(var(--cola) + 6px);
+  }
+  .tkr #ui > .wk-aviso.wk-av .wk-aviso-zh {
+    font-size: 28px;
+  }
+  .tkr #ui > .wk-aviso.wk-av .wk-aviso-kicker {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .tkr #ui > .wk-aviso.wk-av .wk-aviso-hint {
+    font-size: 10.5px;
+    white-space: normal;
+  }
+  .tkr #ui > .wk-aviso.wk-av .wk-av-borla {
+    height: 28px;
   }
 }
 
