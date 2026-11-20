@@ -163,4 +163,295 @@ await sesion("viaje", "#/juegos/viaje-mono", async (p, graba) => {
     if (turno === 0) await p.waitForTimeout(500);
   }
 });
+// ===== Examen de práctica (A2 · modelo 1): las cuatro pruebas =====
+const EXAMEN = "#/oficial/A2/1";
+// Desplaza la página con la rueda, en pasos cortos, hasta que el elemento quede a `off` px del borde superior
+const irA = async (p, sel, off = 120, paso = 55, ms = 28) => {
+  const y = await p.evaluate((s) => { const e = document.querySelector(s); return e ? e.getBoundingClientRect().top : null; }, sel);
+  if (y == null) return console.log("sin elemento:", sel);
+  const d = y - off; const n = Math.max(1, Math.ceil(Math.abs(d) / paso));
+  for (let i = 0; i < n; i++) { await p.mouse.wheel(0, d / n); await p.waitForTimeout(ms); }
+  await p.waitForTimeout(120);
+};
+// Respuesta correcta de una pregunta, leída de las props de React (PreguntaSX → item.correcta)
+const correctaDe = (p, key) => p.evaluate((k) => {
+  const el = document.getElementById(`q-${k}`); if (!el) return null;
+  const fk = Object.keys(el).find((x) => x.startsWith("__reactFiber")); let f = el[fk];
+  while (f) { const pr = f.memoizedProps; if (pr && pr.item && "correcta" in pr.item) return pr.item.correcta; f = f.return; }
+  return null;
+}, key);
+// Toque en el centro del elemento, sin que Playwright desplace la página
+const toca = async (p, sel) => {
+  const bb = await p.locator(sel).first().boundingBox().catch(() => null);
+  if (!bb) return console.log("sin elemento para tocar:", sel);
+  await p.mouse.click(bb.x + bb.width / 2, bb.y + bb.height / 2);
+};
+const responde = async (p, key) => {
+  const c = await correctaDe(p, key); console.log(key, "correcta →", c);
+  await toca(p, `#q-${key} .sx-opt[data-opcion="${c}"]`);
+  await p.waitForTimeout(420);
+  await toca(p, `#q-${key} .sx-qpie button`);
+};
+// Palabras que no deben verse en el tráiler
+const vigila = async (p, nombre) => {
+  const hits = await p.evaluate(() => {
+    const out = []; const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) { const t = w.currentNode.nodeValue; if (/\b(DELE|IA|AI)\b/.test(t)) { const r = w.currentNode.parentElement.getBoundingClientRect(); if (r.width && r.bottom > 0 && r.top < innerHeight) out.push(t.trim().slice(0, 80)); } }
+    return out;
+  });
+  console.log(nombre, hits.length ? "VISIBLE PROHIBIDO: " + JSON.stringify(hits) : "sin DELE/IA/AI en pantalla");
+};
+// .corr-pen: se oculta la penalización por extensión (el texto tecleado es corto a propósito).
+// Legibilidad en el tráiler: la ficha de corrección usa grises pensados para fondo oscuro y sobre el papel quedan muy pálidos.
+const CSS_EXAMEN = [
+  ".mf,[class*='mono-flot']{display:none!important} .corr-pen{display:none!important}",
+  ".sx-veredicto .text-white\\/80{color:#2b2118!important} .sx-veredicto .text-white\\/60{color:#3b2f25!important}",
+  ".sx-veredicto .text-white\\/30{color:#5f4d3c!important} .sx-veredicto .text-red-400\\/60{color:#c0392b!important;font-size:13px!important}",
+].join("\n");
+// Corrector simulado: nada sale a la red; respuestas fijas en el formato JSON que espera CorrectionDisplay
+const CORR_ESCRITA = {
+  criterios: [
+    { criterio: "Adecuación a la tarea", banda: "Apto", nota: 2, comentario: "回应了朋友的邮件：感谢、评价房子、问价格、约时间。" },
+    { criterio: "Coherencia y cohesión", banda: "Apto", nota: 2, comentario: "结构清楚，但连接词偏少，可以多用 además、por eso。" },
+    { criterio: "Corrección gramatical y léxica", banda: "Casi apto", nota: 1, comentario: "ser / estar 混用，过去的事用了现在时。" },
+    { criterio: "Alcance", banda: "Apto", nota: 2, comentario: "词汇够用，句子可以再丰富一些。" },
+  ],
+  errores: [
+    { original: "Yo soy muy contento", correccion: "Estoy muy contento", tipo: "gramática", explicacion: "表示心情、状态用 estar，不用 ser；主语 yo 可以省略。" },
+    { original: "el piso es cerca de mi trabajo", correccion: "el piso está cerca de mi trabajo", tipo: "gramática", explicacion: "表示位置要用 estar：estar cerca de…" },
+    { original: "Ayer yo veo otro, pero es caro", correccion: "Ayer vi otro, pero era caro", tipo: "gramática", explicacion: "ayer 说的是过去已完成的动作，要用简单过去时 vi；描述用 era。" },
+  ],
+  sugerencias: [
+    "多用连接词：además（另外）、por eso（所以）、la verdad es que…，文章会更连贯。",
+    "西语的动词已经表明人称，不必每句都说 yo。",
+    "再写两三句：说说你最喜欢这个房子的哪一点（el balcón, las habitaciones…），字数要达到 60–70 词。",
+  ],
+  fortalezas: ["开头和结尾符合朋友之间的邮件格式。", "问题提得很自然：¿Cuánto cuesta?"],
+  nivelCERL: "A2",
+  textoCorregido: "¡Hola, Queralt! Gracias por tu mensaje. Estoy muy contento porque el piso está cerca de mi trabajo. Ayer vi otro, pero era caro. ¿Cuánto cuesta? El sábado puedo ir. ¡Un abrazo!",
+};
+const CORR_ORAL = {
+  puntuacion: 72,
+  criterios: [
+    { criterio: "Coherencia", banda: "Apto", nota: 2, comentario: "按顺序介绍了身份、外貌、性格和你们一起做的事。" },
+    { criterio: "Fluidez", banda: "Casi apto", nota: 1, comentario: "句子很短，停顿较多；试着把两三个短句连成一句。" },
+    { criterio: "Corrección", banda: "Apto", nota: 2, comentario: "大部分句子正确，过去的状态要用过去未完成时。" },
+    { criterio: "Alcance", banda: "Apto", nota: 2, comentario: "描述外貌和性格的词汇用得很合适。" },
+  ],
+  errores: [
+    { original: "Antes ella es profesora", correccion: "Antes era profesora", tipo: "gramática", explicacion: "过去的职业、状态用过去未完成时 (imperfecto)：era。" },
+    { original: "tiene pelo blanco", correccion: "tiene el pelo blanco", tipo: "gramática", explicacion: "描述头发、眼睛时要加定冠词：tener el pelo / los ojos…" },
+    { original: "Ella se llama Lin", correccion: "Se llama Lin", tipo: "registro", explicacion: "上下文已经清楚是谁，省略 ella 听起来更地道。" },
+  ],
+  sugerencias: [
+    "想词的时候别沉默，用自然的填充语争取时间：pues…, bueno…, la verdad es que…",
+    "把短句连起来说：Es baja y tiene el pelo blanco, pero es muy activa. 多用 y、pero、porque、además。",
+    "讲一个具体的小故事（Recuerdo que un domingo…），独白更生动，也更容易说满 2–3 分钟。",
+  ],
+  fortalezas: ["发音清楚，语速稳定。", "讲到了五个要点中的四个，内容完整。"],
+  nivelCERL: "A2",
+  textoCorregido: "Una persona muy importante para mí es mi abuela. Se llama Lin y vive en Chengdu. Es baja, tiene el pelo blanco y es muy simpática. Antes era profesora de matemáticas. Todos los domingos cocinamos juntos y hablamos mucho. Es importante para mí porque me enseña a ser paciente.",
+};
+const TRANSCRIPCION_ORAL = "Una persona muy importante para mí es mi abuela. Ella se llama Lin y vive en Chengdu. Es baja, tiene pelo blanco y es muy simpática. Antes ella es profesora de matemáticas. Cada domingo nosotros cocinamos juntos y hablamos mucho. Es importante porque me enseña a ser paciente.";
+async function correctorSimulado(p) {
+  await p.route(/deepseek\.com|\/ai\/chat/, async (route) => {
+    let cuerpo = {}; try { cuerpo = JSON.parse(route.request().postData() || "{}"); } catch {}
+    const sistema = cuerpo.messages?.[0]?.content || ""; const alumno = cuerpo.messages?.at(-1)?.content || "";
+    let json;
+    if (/abuela/i.test(alumno)) json = CORR_ORAL;
+    else {
+      // la app resta por extensión (que aquí se oculta): se compensa para que la nota visible sea 66
+      const palabras = Number((sistema.match(/PALABRAS DEL TEXTO[^:]*:\s*(\d+)/) || [])[1] || 0);
+      const min = Number((sistema.match(/EXTENSIÓN EXIGIDA:\s*(\d+)/) || [])[1] || 0);
+      const pen = min && palabras < min ? Math.min(30, Math.round(((min - palabras) / min) * 40)) : 0;
+      json = { puntuacion: 66 + pen, ...CORR_ESCRITA };
+    }
+    await new Promise((r) => setTimeout(r, 900));
+    await route.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify({ choices: [{ message: { role: "assistant", content: JSON.stringify(json) }, finish_reason: "stop" }] }) });
+  });
+}
+await sesion("exlectura", EXAMEN, async (p, graba) => {
+  p.on("dialog", (d) => d.accept());
+  await p.addStyleTag({ content: CSS_EXAMEN });
+  await p.evaluate(() => { const h = document.querySelector(".sx-hoja"); h && window.scrollTo(0, h.getBoundingClientRect().top + scrollY - 70); });
+  await p.waitForTimeout(600);
+  await graba(); await p.waitForTimeout(500);
+  await rueda(p, 26, 50, 38); await p.waitForTimeout(250);
+  await irA(p, "#q-p1-1-1", 110);
+  await p.waitForTimeout(250);
+  await responde(p, "p1-1-1"); await p.waitForTimeout(1300);
+  await irA(p, "#q-p1-1-2", 110);
+  await responde(p, "p1-1-2"); await p.waitForTimeout(1500);
+  await vigila(p, "exlectura");
+}, { semilla: true });
+await sesion("exauditiva", EXAMEN, async (p, graba) => {
+  p.on("dialog", (d) => d.accept());
+  await p.addStyleTag({ content: CSS_EXAMEN });
+  await graba(); await p.waitForTimeout(500);
+  await p.locator(".sx-medallas .sx-med").nth(1).click(); await p.waitForTimeout(1100);
+  await irA(p, ".sx-gong-caja", 150, 50, 28); await p.waitForTimeout(250);
+  await p.locator(".sx-gong-boton").click().catch(() => console.log("sin gong")); await p.waitForTimeout(1800);
+  await vigila(p, "exauditiva-audio");
+  await irA(p, "#q-p2-1-1", 110, 60, 26);
+  await responde(p, "p2-1-1"); await p.waitForTimeout(1600);
+  await rueda(p, 4, 45, 40); await p.waitForTimeout(500);
+  await vigila(p, "exauditiva");
+}, { semilla: true });
+await sesion("exescrita", EXAMEN, async (p, graba) => {
+  p.on("dialog", (d) => d.accept());
+  await p.addStyleTag({ content: CSS_EXAMEN });
+  await correctorSimulado(p);
+  await p.locator(".sx-medallas .sx-med").nth(2).click(); await p.waitForTimeout(1500);
+  await p.evaluate(() => { const t = document.querySelector(".sx-lienzo"); t && window.scrollTo(0, t.getBoundingClientRect().top + scrollY - 230); });
+  await p.waitForTimeout(600);
+  await graba(); await p.waitForTimeout(400);
+  await p.locator("textarea.sx-renglones").click(); await p.waitForTimeout(150);
+  await p.keyboard.type("¡Hola, Queralt! Gracias por tu mensaje. Yo soy muy contento porque el piso es cerca de mi trabajo. Ayer yo veo otro, pero es caro. ¿Cuánto cuesta? El sábado puedo ir. ¡Un abrazo!", { delay: 8 });
+  await p.waitForTimeout(300);
+  await irA(p, ".sx-iabar", 330, 50, 26);
+  await p.locator(".sx-iabar button.sx-btn").click().catch(() => console.log("sin corregir"));
+  await p.waitForSelector(".sx-veredicto", { timeout: 6000 }).catch(() => console.log("sin veredicto"));
+  await p.waitForTimeout(250);
+  await irA(p, ".sx-veredicto", 70, 50, 26); await p.waitForTimeout(900);
+  await vigila(p, "exescrita-nota");
+  await irA(p, ".sx-veredicto .corr-criterios", 70, 40, 28); await p.waitForTimeout(800);
+  await rueda(p, 14, 50, 40); await p.waitForTimeout(800);
+  await rueda(p, 9, 50, 40); await p.waitForTimeout(700);
+  await vigila(p, "exescrita");
+}, { tutor: true, semilla: true });
+await sesion("exoral", EXAMEN, async (p, graba) => {
+  p.on("dialog", (d) => d.accept());
+  await p.addStyleTag({ content: CSS_EXAMEN });
+  await correctorSimulado(p);
+  // Micrófono simulado: el reconocimiento de voz «oye» la transcripción palabra a palabra
+  await p.evaluate((texto) => {
+    class ReconocimientoSimulado {
+      start() { const pal = texto.split(" "); let i = 0; this.txt = ""; this.t = setInterval(() => { if (i >= pal.length) return; this.txt = pal.slice(0, ++i).join(" "); const r = [{ transcript: this.txt }]; r.isFinal = false; this.onresult?.({ resultIndex: 0, results: [r] }); setTimeout(() => { const ta = document.querySelector("textarea.sx-renglones.oral"); if (ta) ta.scrollTop = ta.scrollHeight; }, 20); }, 62); }
+      stop() { clearInterval(this.t); const r = [{ transcript: this.txt }]; r.isFinal = true; this.onresult?.({ resultIndex: 0, results: [r] }); setTimeout(() => this.onend?.(), 30); }
+      abort() { this.stop(); }
+    }
+    window.SpeechRecognition = ReconocimientoSimulado; window.webkitSpeechRecognition = ReconocimientoSimulado;
+  }, TRANSCRIPCION_ORAL);
+  await p.locator(".sx-medallas .sx-med").nth(3).click(); await p.waitForTimeout(1500);
+  await p.evaluate(() => { const t = document.querySelector(".sx-estudio"); t && window.scrollTo(0, t.getBoundingClientRect().top + scrollY - 110); });
+  await p.waitForTimeout(600);
+  await graba(); await p.waitForTimeout(250);
+  await toca(p, ".sx-fases button.sx-fase"); await p.waitForTimeout(2700);
+  await vigila(p, "exoral-prep");
+  await toca(p, ".sx-fases button.sx-fase"); await p.waitForTimeout(250);
+  await toca(p, ".sx-micb"); await p.waitForTimeout(3300);
+  await toca(p, ".sx-micb"); await p.waitForTimeout(400);
+  await irA(p, ".sx-estudio .sx-iabar", 560, 50, 26);
+  await p.locator(".sx-estudio .sx-iabar button.sx-btn").click().catch(() => console.log("sin corregir"));
+  await p.waitForSelector(".sx-veredicto", { timeout: 6000 }).catch(() => console.log("sin veredicto"));
+  await p.waitForTimeout(250);
+  await irA(p, ".sx-veredicto", 70, 50, 26); await p.waitForTimeout(800);
+  await irA(p, ".sx-veredicto .corr-criterios", 70, 40, 28); await p.waitForTimeout(900);
+  await vigila(p, "exoral-nota");
+  await irA(p, ".sx-veredicto .mb-5:has(.line-through)", 90, 45, 30); await p.waitForTimeout(700);
+  await vigila(p, "exoral-errores");
+  await rueda(p, 9, 50, 40); await p.waitForTimeout(1000);
+  await vigila(p, "exoral");
+}, { tutor: true, semilla: true });
+// ===== Tráiler: unidad (guía con doble toque, palabras, diálogos, práctica), templo de los sonidos y diccionario-libro =====
+// Comprueba que en la pantalla no se ve «DELE», «IA» ni «AI»
+const sinPalabrasVetadas = async (p, nombre) => {
+  const hits = await p.evaluate(() => {
+    const out = []; const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) { const t = w.currentNode.nodeValue; if (/\b(DELE|IA|AI)\b/.test(t)) { const el = w.currentNode.parentElement; const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); if (r.width && r.bottom > 0 && r.top < innerHeight && cs.visibility !== "hidden" && cs.opacity !== "0") out.push(t.trim().slice(0, 80)); } }
+    return out;
+  });
+  console.log(nombre, hits.length ? "VISIBLE PROHIBIDO: " + JSON.stringify(hits) : "sin DELE/IA/AI en pantalla");
+};
+// Rueda hasta dejar el elemento a `off` px del borde superior
+const ruedaHasta = async (p, loc, off = 200, paso = 55, ms = 30) => {
+  const caja = await loc.boundingBox().catch(() => null);
+  if (!caja) return console.log("sin elemento para la rueda");
+  const d = caja.y - off; const n = Math.max(1, Math.ceil(Math.abs(d) / paso));
+  for (let i = 0; i < n; i++) { await p.mouse.wheel(0, d / n); await p.waitForTimeout(ms); }
+  await p.waitForTimeout(150);
+};
+// Ejercicio abierto en LessonPlayer: lee el paso (props de React) y lo contesta bien
+async function contestaPaso(p) {
+  const paso = await p.evaluate(() => {
+    const el = document.querySelector(".lp-root .ej-opcion, .lp-root .ej-sello-btn, .lp-root .ej-carta, .lp-root .ej-tecla, .lp-root input");
+    if (!el) return null;
+    const k = Object.keys(el).find((x) => x.startsWith("__reactFiber")); let f = el[k];
+    while (f) { const pr = f.memoizedProps; if (pr && pr.step && pr.step.type) return { type: pr.step.type, answer: pr.step.answer }; f = f.return; }
+    return null;
+  });
+  console.log("ejercicio:", JSON.stringify(paso));
+  if (!paso) return;
+  if (["choice", "listen"].includes(paso.type)) await p.locator(".lp-root .ej-opcion").nth(paso.answer).click().catch(() => {});
+  else if (paso.type === "pictures") await p.locator(".lp-root .ej-carta").nth(paso.answer).click().catch(() => {});
+  else if (paso.type === "tf") await p.locator(`.lp-root .ej-sello-btn.${paso.answer ? "es-verdad" : "es-falso"}`).click().catch(() => {});
+  else if (paso.type === "type") {
+    for (const c of String(paso.answer).split(/\s*\/\s*/)[0]) {
+      const tecla = c === " " ? p.locator(".lp-root .ej-tecla.es-ancha") : p.locator(".lp-root .ej-tecla", { hasText: new RegExp(`^${c.toLowerCase()}$`) });
+      await tecla.first().click({ timeout: 800 }).catch(() => {});
+      await p.waitForTimeout(170);
+    }
+  }
+  await p.waitForTimeout(450);
+  await p.getByText("Comprobar", { exact: false }).first().click({ timeout: 2000 }).catch(() => console.log("sin comprobar"));
+}
+await sesion("unidadnav", "#/modulos/modulo-1", async (p, graba) => {
+  await p.addStyleTag({ content: ".mf,[class*='mono-flot']{display:none!important}" });
+  await graba(); await p.waitForTimeout(500);
+  // Guía: scroll suave hasta la ficha de teoría
+  const frase = p.locator(".gx-cuerpo .vt").nth(1); // «Buenos días · De la mañana hasta el mediodía»
+  await ruedaHasta(p, frase, 420, 40, 34); await p.waitForTimeout(450);
+  // Doble toque → la frase gira y se ve en chino
+  await frase.dblclick(); await p.waitForTimeout(1500);
+  const frase2 = p.locator(".gx-cuerpo .vt").nth(2);
+  await frase2.dblclick(); await p.waitForTimeout(1300);
+  await sinPalabrasVetadas(p, "unidadnav-guia");
+  // Palabras: una tarjeta gira con su ejemplo
+  await p.locator("#tab-palabras").click(); await p.waitForTimeout(800);
+  await p.locator(".ud-palabra-main").nth(1).click(); await p.waitForTimeout(1100);
+  await rueda(p, 7, 45, 40); await p.waitForTimeout(400);
+  await sinPalabrasVetadas(p, "unidadnav-palabras");
+  // Diálogos: se abre el primero y avanza dos frases
+  await p.locator("#tab-dialogos").click(); await p.waitForTimeout(700);
+  await rueda(p, 4, 40, 40); await p.waitForTimeout(250);
+  await p.locator(".td-card").first().click(); await p.waitForTimeout(1500);
+  for (let i = 0; i < 2; i++) { await p.getByText("Siguiente · 下一句", { exact: false }).first().click({ timeout: 2000 }).catch(() => console.log("sin siguiente")); await p.waitForTimeout(1000); }
+  await sinPalabrasVetadas(p, "unidadnav-dialogo");
+  await p.locator(".lp-root .lp-close").click().catch(() => {}); await p.waitForTimeout(600);
+  // Práctica: sala de entrenamiento y primer ejercicio contestado
+  await p.locator("#tab-practica").click(); await p.waitForTimeout(800);
+  await rueda(p, 6, 45, 40); await p.waitForTimeout(400);
+  await sinPalabrasVetadas(p, "unidadnav-practica");
+  await p.getByText("Practicar ahora", { exact: false }).first().click(); await p.waitForTimeout(1200);
+  await contestaPaso(p); await p.waitForTimeout(1600);
+  await sinPalabrasVetadas(p, "unidadnav-ejercicio");
+});
+await sesion("pronanim", "#/pronunciacion", async (p, graba) => {
+  await p.addStyleTag({ content: ".mf,[class*='mono-flot']{display:none!important}" });
+  await graba(); await p.waitForTimeout(900);
+  // Templo del trueno (r / rr)
+  await p.locator(".ph-templo.is-trueno").click(); await p.waitForTimeout(1700);
+  await p.locator('.pv-nav-btn[aria-label*="siguiente"]').click(); await p.waitForTimeout(1100);
+  // RR: onda viva y boca en perfil
+  await p.locator(".pe-onda").click(); await p.waitForTimeout(1500);
+  await sinPalabrasVetadas(p, "pronanim-rr");
+  // Botica de sílabas: se abre el cajón «rri»
+  await ruedaHasta(p, p.locator(".pe-botica"), 120, 50, 30); await p.waitForTimeout(400);
+  await p.locator(".pe-cajon").nth(2).click(); await p.waitForTimeout(1400);
+  // Tarjeta de la sílaba: sello con aros y palabra de ejemplo
+  await ruedaHasta(p, p.locator(".pe-ficha"), 110, 55, 28); await p.waitForTimeout(300);
+  await p.locator(".pe-ficha__sello").click(); await p.waitForTimeout(1100);
+  await p.locator(".pe-ficha__ej").click(); await p.waitForTimeout(1200);
+  await sinPalabrasVetadas(p, "pronanim-ficha");
+});
+await sesion("diccilibro", "#/diccionarios", async (p, graba) => {
+  await p.addStyleTag({ content: ".mf,[class*='mono-flot']{display:none!important}" });
+  await graba(); await p.waitForTimeout(700);
+  // El A1 ya está abierto: se elige el «Tomo de Linternas» (A2) para ver la apertura del libro
+  await p.locator(".dz-tomo--a2").click(); await p.waitForTimeout(3300);
+  await p.locator(".dz-ficha").first().click(); await p.waitForTimeout(1700);
+  await sinPalabrasVetadas(p, "diccilibro-ficha");
+  for (let i = 0; i < 4; i++) { await p.getByText("Siguiente · 下一个", { exact: false }).first().click().catch(() => console.log("sin siguiente")); await p.waitForTimeout(1050); }
+  await sinPalabrasVetadas(p, "diccilibro-fin");
+});
 await b.close();
