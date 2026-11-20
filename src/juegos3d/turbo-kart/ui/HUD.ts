@@ -78,6 +78,7 @@ export class HUD {
   // Place / lap / timer / speed
   private readonly placeNode: HTMLElement;
   private readonly placeNum: TextField;
+  private readonly placeDelta: TextField;
   private readonly placeSuffix: TextField;
   private lastPlace = 0;
   private readonly lapText: TextField;
@@ -131,9 +132,14 @@ export class HUD {
     this.timerText = new TextField(el('div', 'hud-timer glass', '0:00.000', topRight));
 
     // Bottom-left: place
-    this.placeNode = el('div', 'hud-place', undefined, this.rootNode);
+    // Puesto: placa de laca con numeral de oro en relieve; destello y rebote al ganar o perder puestos.
+    this.placeNode = el('div', 'hud-place wk-puesto', undefined, this.rootNode);
+    el('span', 'wk-puesto-placa', undefined, this.placeNode).setAttribute('aria-hidden', 'true');
+    el('span', 'wk-puesto-rayos', undefined, this.placeNode).setAttribute('aria-hidden', 'true');
+    el('span', 'wk-puesto-etq', 'PUESTO · 名次', this.placeNode);
     this.placeNum = new TextField(el('span', 'place-num', '', this.placeNode));
     this.placeSuffix = new TextField(el('span', 'place-suffix', '', this.placeNode));
+    this.placeDelta = new TextField(el('span', 'wk-puesto-delta', '', this.placeNode));
 
     // Velocímetro: esfera de reloj imperial (oro y jade) con arco de neón, escala, aguja con estela y turbo.
     const speedWrap = el('div', 'hud-speed wk-vel', undefined, this.rootNode);
@@ -203,14 +209,24 @@ export class HUD {
     // Place numeral
     const place = s.place > 0 ? s.place : karts.length;
     if (place !== this.lastPlace) {
+      const antes = this.lastPlace;
       this.lastPlace = place;
       const ord = ordinal(place);
       this.placeNum.set(String(place));
+      this.placeNum.node.dataset.n = String(place);
       this.placeSuffix.set(ord.slice(String(place).length));
       this.placeNode.classList.toggle('gold', place === 1);
       this.placeNode.classList.toggle('silver', place === 2);
       this.placeNode.classList.toggle('bronze', place === 3);
-      restartAnimation(this.placeNode, 'punch');
+      if (antes > 0 && place !== antes) {
+        const sube = place < antes;
+        const n = Math.abs(antes - place);
+        this.placeDelta.set(sube ? `▲ ${n} · 升` : `▼ ${n} · 降`);
+        this.placeNode.classList.remove('wk-sube', 'wk-baja', 'punch');
+        restartAnimation(this.placeNode, sube ? 'wk-sube' : 'wk-baja');
+      } else {
+        restartAnimation(this.placeNode, 'punch');
+      }
     }
 
     // Lap + timer
