@@ -16,7 +16,6 @@ const PAGINAS = [
   [/^\/juegos\/scramble/, () => import("../pages/juegos/ScramblePage.jsx")],
   [/^\/juegos\/(palacio-palabras|apalabrados)/, () => import("../pages/juegos/PalacioPalabrasPage.jsx")],
   [/^\/juegos\/dragon-jade/, () => import("../pages/juegos/DragonJadePage.jsx")],
-  [/^\/juegos\/escape-palacio/, () => import("../pages/juegos/EscapePalacioPage.jsx")],
   [/^\/juegos\/brisca/, () => import("../pages/juegos/BriscaPage.jsx")],
   [/^\/juegos\/mapa-mental/, () => import("../pages/juegos/MapaMentalPage.jsx")],
   [/^\/juegos\/teatro/, () => import("../pages/juegos/TeatroDialogosPage.jsx")],

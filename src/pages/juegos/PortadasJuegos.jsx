@@ -1561,61 +1561,19 @@ function PalacioPalabras() {
   );
 }
 
+// Wukong Turbo Rush: arte real del juego (fondo de la Ciudad del Dragón, kart dragón y logo recortados)
 function TurboKart() {
-  const g = useG();
-  const kart = (x, y, s, c1, c2, k) => (
-    <g key={k} transform={`translate(${x} ${y}) scale(${s})`}>
-      <ellipse cx="0" cy="17" rx="30" ry="5" fill="#000" opacity=".35" />
-      <rect x="-24" y="4" width="13" height="13" rx="4" fill="#15151c" />
-      <rect x="11" y="4" width="13" height="13" rx="4" fill="#15151c" />
-      <path d="M-26 6L-20 -6H20L26 6Z" fill={c1} stroke="#0b0b14" strokeWidth="1.6" />
-      <path d="M-16 -6L-10 -14H10L16 -6Z" fill={c2} stroke="#0b0b14" strokeWidth="1.4" />
-      <circle cx="0" cy="-17" r="7" fill="#fff" stroke="#0b0b14" strokeWidth="1.4" />
-      <rect x="-6" y="-19" width="12" height="4" rx="2" fill="#37a8ff" />
-    </g>
-  );
   return (
     <>
-      <rect width="320" height="180" fill="#0b0b1a" />
-      <rect width="320" height="92" fill="#1d2a5c" />
-      <circle cx="250" cy="40" r="60" fill="#ff3ab8" opacity=".18" />
-      <circle cx="70" cy="30" r="50" fill="#37a8ff" opacity=".16" />
-      {/* Pista en perspectiva */}
-      <path d="M128 92H192L320 180H0Z" fill="#2b2f45" />
-      <path d="M128 92L0 180H-10L120 92Z" fill="#c8102e" />
-      <path d="M192 92L320 180H330L200 92Z" fill="#c8102e" />
-      <path d="M159 96H161L166 180H154Z" fill="#fff" opacity=".5" strokeDasharray="6 6" />
-      {/* Puerta de palabras */}
-      <rect x="96" y="40" width="6" height="58" fill="#c8102e" />
-      <rect x="218" y="40" width="6" height="58" fill="#c8102e" />
-      <rect x="92" y="38" width="136" height="6" fill="#2a2f45" />
-      <rect x="128" y="18" width="64" height="18" rx="5" fill="#140c06" stroke="#e7b54a" strokeWidth="1.6" />
-      <text x="160" y="31.5" textAnchor="middle" fontSize="12" fontWeight="800" fill="#ffe9a8" fontFamily="PingFang SC, sans-serif">
-        苹果
-      </text>
-      {[
-        [106, "#37e3ff", "pera"],
-        [145, "#ff4fd8", "manzana"],
-        [184, "#ffc531", "uva"],
-      ].map(([x, c, w]) => (
-        <g key={w}>
-          <rect x={x} y="48" width="32" height="12" rx="3" fill="#0a0c1c" stroke={c} strokeWidth="1.4" />
-          <text x={x + 16} y="57" textAnchor="middle" fontSize="6.5" fontWeight="800" fill="#fff">
-            {w}
-          </text>
-          <rect x={x + 1} y="62" width="30" height="34" fill={c} opacity=".14" />
-        </g>
-      ))}
-      {/* Caja de objetos y bola de energía */}
-      <g className="jh-p-latido" style={{ transformOrigin: "62px 118px" }}>
-        <rect x="50" y="106" width="24" height="24" rx="4" fill="#ffc531" opacity=".85" transform="rotate(18 62 118)" />
-        <text x="62" y="123" textAnchor="middle" fontSize="15" fontWeight="900" fill="#7a4400">?</text>
+      <image href="./turbo-kart/circuito-ciudad-dragon.webp" x="-10" y="-6" width="340" height="212" preserveAspectRatio="xMidYMid slice" />
+      <rect x="0" y="0" width="320" height="180" fill="#14060c" opacity="0.18" />
+      <g className="jh-tk-lineas" stroke="#7ff0ff" strokeWidth="1.4" strokeLinecap="round" opacity="0.75">
+        <line x1="20" y1="120" x2="70" y2="120" />
+        <line x1="8" y1="138" x2="62" y2="138" stroke="#ff5abe" />
+        <line x1="30" y1="154" x2="80" y2="154" />
       </g>
-      <circle cx="262" cy="118" r="11" fill="#3dff7a" opacity=".35" />
-      <circle cx="262" cy="118" r="7" fill="#eaffd8" />
-      {kart(160, 140, 1.25, "#ff3ab8", "#37a8ff", "a")}
-      {kart(214, 112, 0.7, "#ffd23f", "#ff7a2f", "b")}
-      {kart(112, 110, 0.6, "#5cff8a", "#2b8fff", "c")}
+      <image className="jh-tk-kart" href="./turbo-kart/anim/kart.webp" x="34" y="66" width="200" height="105" />
+      <image className="jh-tk-logo" href="./turbo-kart/anim/logo.webp" x="196" y="10" width="112" height="66" />
     </>
   );
 }

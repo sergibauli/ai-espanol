@@ -48,7 +48,6 @@ const KahootPage = React.lazy(() => import("./pages/juegos/KahootPage.jsx"));
 const PalacioPalabrasPage = React.lazy(() => import("./pages/juegos/PalacioPalabrasPage.jsx"));
 const UnoPage = React.lazy(() => import("./pages/juegos/UnoPage.jsx"));
 const DragonJadePage = React.lazy(() => import("./pages/juegos/DragonJadePage.jsx"));
-const EscapePalacioPage = React.lazy(() => import("./pages/juegos/EscapePalacioPage.jsx"));
 const MahjongPage = React.lazy(() => import("./pages/juegos/MahjongPage.jsx"));
 const BriscaPage = React.lazy(() => import("./pages/juegos/BriscaPage.jsx"));
 const ViajeMonoPage = React.lazy(() => import("./pages/juegos/ViajeMonoPage.jsx"));
@@ -394,7 +393,7 @@ function AppRoutes() {
             }
           />
           <Route path="/juegos/dragon-jade" element={<RequireAuth><DragonJadePage /></RequireAuth>} />
-          <Route path="/juegos/escape-palacio" element={<RequireAuth><EscapePalacioPage /></RequireAuth>} />
+          <Route path="/juegos/escape-palacio" element={<Navigate to="/juegos/turbo-kart" replace />} />
           <Route path="/juegos/fichas-palacio" element={<RequireAuth><MahjongPage /></RequireAuth>} />
           <Route path="/juegos/brisca" element={<RequireAuth><BriscaPage /></RequireAuth>} />
           <Route path="/juegos/viaje-mono" element={<RequireAuth><ViajeMonoPage /></RequireAuth>} />
