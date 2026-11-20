@@ -103,6 +103,7 @@ void main() {
 
 const VERT_NUBE = /* glsl */ `
 uniform float uTime;
+uniform float uDeriva;
 attribute vec2 esquina;
 attribute vec2 tam;
 attribute float alfa;
@@ -111,8 +112,8 @@ varying float vA;
 void main() {
   vec3 p = position;
   // deriva lenta de las nubes
-  p.x += sin(uTime * 0.12 + position.z * 0.031) * 2.5;
-  p.z += cos(uTime * 0.1 + position.x * 0.027) * 2.5;
+  p.x += sin(uTime * 0.12 + position.z * 0.031) * 2.5 * uDeriva;
+  p.z += cos(uTime * 0.1 + position.x * 0.027) * 2.5 * uDeriva;
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   mv.xy += esquina * tam;
   vUv = esquina * 0.5 + 0.5;
@@ -665,10 +666,10 @@ export class CiudadElevada {
         const d = s.wallHalfWidth + 7 + r() * 14;
         x = s.position.x + s.binormal.x * d * lado;
         z = s.position.z + s.binormal.z * d * lado;
-        y = s.position.y - 4.2 + r() * 1.5;
+        y = s.position.y - 1.8 + r() * 1.2;
         if (this.cercania(x, z).d < 5) y -= 9;
-        w = 14 + r() * 14;
-        a = 0.4 + r() * 0.1;
+        w = 16 + r() * 12;
+        a = 0.45;
       } else if (i < 75) {
         // Junto a la pista, por debajo del tablero: «la pista sobre las nubes».
         this.muestra(r(), s);
@@ -710,6 +711,7 @@ export class CiudadElevada {
         uniforms: {
           map: { value: tex },
           uTime: { value: 0 },
+          uDeriva: { value: 1 },
           uColor: { value: new THREE.Color(0x7d7096) },
           uLuz: { value: new THREE.Color(0xb9a8c8) },
           uRosa: { value: new THREE.Color(0xff6aa8) },
@@ -841,7 +843,7 @@ export class CiudadElevada {
       c.fillStyle = '#9a1020';
       c.fillRect(0, 0, 128, 64);
       for (let i = 0; i < 4; i++) {
-        c.fillStyle = i === 2 ? '#3a1a10' : '#ffb04a';
+        c.fillStyle = i === 2 ? '#3a1a10' : i === 1 ? '#d48a32' : '#e89a3a';
         c.fillRect(8 + i * 30, 14, 22, 38);
         c.strokeStyle = '#6a2a06';
         c.lineWidth = 2;
@@ -865,7 +867,7 @@ export class CiudadElevada {
       // ventanas ámbar #ffb04a; ~30 % apagadas
       for (let i = 0; i < 4; i++) {
         if (i === 2) continue;
-        c.fillStyle = i === 1 ? '#c9822f' : '#ffb04a';
+        c.fillStyle = i === 1 ? '#b87a2c' : i === 3 ? '#f0a848' : '#e89a3a';
         c.fillRect(8 + i * 30, 14, 22, 38);
       }
     }, false);
@@ -1041,6 +1043,13 @@ export class CiudadElevada {
       });
       this.focos.instanceMatrix.needsUpdate = true;
     }
+  }
+
+  /** Calidad baja (móvil): nubes quietas, rótulos sin pulso y sin focos de luz. */
+  setCalidad(alta: boolean): void {
+    if (this.matNubes) this.matNubes.uniforms.uDeriva.value = alta ? 1 : 0;
+    this.rotulos.setCalidad(alta);
+    if (this.focos) this.focos.visible = alta;
   }
 
   dispose(): void {

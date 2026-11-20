@@ -550,6 +550,13 @@ body .module-experience .module-tile > span:first-of-type + span { padding-right
    14. RONDA 6 — Global: nada se sale por la derecha en el móvil
    ============================================================ */
 html, body { overflow-x: clip; }
+/* Bloqueo de scroll de las capas a pantalla completa (diálogos, lecciones, historias…),
+   que ponen `body.style.overflow = "hidden"`. Con el `overflow-x: clip` de `html` ese
+   `hidden` ya no pasa a la ventana: `body` se volvía un contenedor de scroll quieto, el
+   menú lateral (sticky) se anclaba a él y la ventana seguía desplazándose, llevándose el
+   menú y dejando un hueco. Se bloquea la ventana (en `html`) y `body` no crea scroll. */
+html:has(> body[style*="overflow: hidden"]) { overflow: hidden; }
+body[style*="overflow: hidden"] { overflow: clip !important; }
 .mobile-nav-item[href="#/examenes"] { display: none !important; }
 
 /* ============================================================
