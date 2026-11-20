@@ -3,10 +3,10 @@ const C = "/promo-douyin/capturas/";
 const PH = C + "_juegos.png"; // marcador provisional
 export const CAP = {
   portada: C + "aprender/01-portada-puerta-rey-mono.png",
-  rutaA1: C + "aprender/02-ruta-A1-bambu-muralla.png",
-  rutaA2: C + "aprender/03-ruta-A2-linternas.png",
-  rutaB1: C + "aprender/04-ruta-B1-tinta-noche.png",
-  rutaB2: C + "aprender/05-ruta-B2-montanas.png",
+  rutaA1: C + "aprender/02-ruta-A1-muralla-nieve.png",
+  rutaA2: C + "aprender/03-ruta-A2-atardecer.png",
+  rutaB1: C + "aprender/04-ruta-B1-ciudad-noche.png",
+  rutaB2: C + "aprender/05-ruta-B2-montanas-verdes.png",
   perfecta: C + "aprender/11-fin-leccion-perfecta.png",
   palabraHola: C + "aprender/07-leccion-palabra-hola.png",
   teoria: C + "unidades/03_unidad29_teoria_frases.png",
@@ -27,9 +27,11 @@ export const SEQ = {
   puerta: { n: 160, url: (i) => `/promo-douyin/film/recursos/puerta/f_${pad(i + 1)}.jpg` },
   vuelo: { n: 165, url: (i) => `/promo-douyin/film/recursos/vuelo/f_${pad(i + 1)}.jpg` },
   tv: { n: 121, url: (i) => `${C}practica/tv/ep_${pad(i + 1)}.jpg` },
+  turbo: { n: 14, url: (i) => `${C}juegos/turbo/f_${String(i + 1).padStart(4, "0")}.jpg` },
+  fin: { n: 90, url: (i) => `${C}aprender/seq-fin-leccion/f${pad(i)}.jpg` },
   acierto: { n: 90, url: (i) => `${C}aprender/seq-acierto-hola/f${pad(i)}.jpg` },
 };
-export const ZOOM = { tap: { x: 0.25, y: 0.69 } };
+export const ZOOM = { tap: { x: 0.69, y: 0.47 } };
 export const JUEGOS = [
   { clave: "juego0", zh: "宫殿麻将" }, { clave: "juego1", zh: "美猴王纸牌" }, { clave: "juego2", zh: "字母宫殿" },
   { clave: "juego3", zh: "美猴王之旅" }, { clave: "juego4", zh: "玉龙" }, { clave: "juego5", zh: "龙之弹球" },

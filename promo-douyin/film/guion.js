@@ -170,13 +170,14 @@ ESC.lecciones = async (lt) => {
   const cambio = 2.5 * B, fin = 5 * B;
   fondo({ c1: lt > cambio ? "#1f8a5a" : "#c8102e", c2: "#2a0207", rayos: 0.5, nubes: 0.5 });
   const k = eOut(seg(lt, 0, 0.5));
-  const fr = await seq("acierto", lt < cambio ? 0 : 4 + (lt - cambio) * 30);
+  const fr = await seq("acierto", lt < cambio ? 0 : 7 + (lt - cambio) * 30);
+  const frFin = lt >= fin ? await seq("fin", 14 + (lt - fin) * 30) : null;
   const kz = eInOut(seg(lt, fin, fin + 0.6));
   const salto = lt > cambio ? Math.sin(seg(lt, cambio, cambio + 0.3) * Math.PI) * 0.12 : 0;
   moviles[0].poner({
     x: lerp(-2.4, 0, k), y: -0.7 + salto, z: kz * 0.5, rx: -0.05, ry: lerp(1.2, 0.12, k) - kz * 0.12, rz: lerp(-0.3, 0, k), s: 1.28,
-    img: fr, img2: T.perfecta, mezcla: seg(lt, fin, fin + 0.15),
-    zoom: kz > 0 ? { cx: 0.5, cy: lerp(0.5, 0.36, kz), s: 1 + kz * 0.55 } : null,
+    img: lt >= fin ? frFin : fr,
+    zoom: kz > 0 ? { cx: 0.5, cy: lerp(0.5, 0.4, kz), s: 1 + kz * 0.35 } : null,
     tap: lt > 1.2 * B && lt < cambio + 0.1 ? { x: ZOOM.tap.x, y: ZOOM.tap.y, k: seg(lt, 1.2 * B, cambio) } : null,
     flash: (lt > cambio ? 0.3 * (1 - seg(lt, cambio, cambio + 0.3)) : 0) + (lt > fin ? 0.4 * (1 - seg(lt, fin, fin + 0.3)) : 0),
   });
@@ -186,7 +187,7 @@ ESC.lecciones = async (lt) => {
   C.texto("l2", "<em>即时反馈</em>，越学越上瘾", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
   C.chip("l3", "¡Correcto!", "答对了", lt, cambio, fin, { x: 300, y: 1360, cls: "jade", rot: -6 });
   post(() => C.rotulo("l6", "答错马上纠正", "Corrección al instante", lt, cambio + 0.6 * B, fin, { x: 210, y: 1150, punto: moviles[0].punto(0.27, 0.87) }));
-  C.chip("l4", "¡Perfecto!", "满分", lt, fin, BAR * 2, { x: 300, y: 1360, cls: "oro", rot: -6 });
+  C.chip("l4", "¡Perfecto!", "满分", lt, fin, BAR * 2, { x: 700, y: 1480, cls: "oro", rot: 5 });
   C.texto("l5", CIFRAS.leccion, "sub peq", lt, fin + 0.2, BAR * 2, { y: 505, entrada: "sube" });
 };
 
@@ -307,15 +308,16 @@ ESC.juegos = async (lt) => {
 // 11 · TURBO RUSH 3D: velocidad
 ESC.turbo = async (lt) => {
   fondo({ c1: "#ff6a1a", c2: "#3a0505", rayos: 1.0, nubes: 0.3, cy: 0.45 });
-  // planos: logo → salida de la carrera → primer plano del fénix → carrera
-  const plano = lt < 1.5 * B ? 0 : lt < 4 * B ? 1 : lt < 6 * B ? 2 : 3;
-  const ini = [0, 1.5 * B, 4 * B, 6 * B][plano], fin = [1.5 * B, 4 * B, 6 * B, 8 * B][plano];
-  const kp = seg(lt, ini, fin);
-  const img = [T.turboLogo, T.turbo, T.turbo2, T.turbo][plano];
-  const zoom = [{ cx: 0.5, cy: 0.45, s: 1.0 + kp * 0.12 }, { cx: 0.45, cy: 0.42, s: 1.08 + kp * 0.4 }, { cx: 0.42, cy: 0.5, s: 1.1 + kp * 0.35 }, { cx: 0.55, cy: 0.45, s: 1.45 - kp * 0.3 }][plano];
+  // logo y después la carrera real, un fotograma por corchea (a ritmo)
+  const corte = Math.floor((lt - 1.5 * B) / (0.5 * B));
+  const plano = lt < 1.5 * B ? -1 : clamp(corte, 0, SEQ.turbo.n - 1);
+  const ini = plano < 0 ? 0 : 1.5 * B + corte * 0.5 * B;
+  const kp = plano < 0 ? seg(lt, 0, 1.5 * B) : seg(lt, ini, ini + 0.5 * B);
+  const img = plano < 0 ? T.turboLogo : await seq("turbo", plano);
+  const zoom = plano < 0 ? { cx: 0.5, cy: 0.45, s: 1.0 + kp * 0.12 } : { cx: 0.5, cy: 0.55, s: 1.04 + kp * 0.08 + (plano < 3 ? 0.1 : 0) };
   const k = eOut(seg(lt, 0, 0.4));
   const vol = Math.sin(lt * 2.6) * 0.16;
-  moviles[0].poner({ x: vol * 0.6, y: -0.6, z: lerp(-8, 0.4, k), rz: vol * 0.6, ry: vol * 0.5, rx: -0.08, s: 1.22, img, zoom, halo: 0.8, flash: 0.35 * golpeBeat(lt - ini, 99) * (plano > 0 ? 1 : 0) });
+  moviles[0].poner({ x: vol * 0.6, y: -0.6, z: lerp(-8, 0.4, k), rz: vol * 0.6, ry: vol * 0.5, rx: -0.08, s: 1.22, img, zoom, halo: 0.8, flash: plano === 0 ? 0.5 * (1 - seg(lt, ini, ini + 0.25)) : 0 });
   C.velocidad(0.9 * k, lt, 540, 1000);
   M.particulas.material.uniforms.uWarp.value = lt * 6; M.particulas.material.uniforms.uK.value = 1.4;
   const sh = golpeBeat(lt) * 0.05;
