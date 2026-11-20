@@ -9,21 +9,20 @@ export const CORTA = (typeof process !== "undefined" && process.env && process.e
 // Secciones en compases [ini, fin)
 const LARGA = [
   { id: "gancho", ini: 0, fin: 2 },
-  { id: "problema", ini: 2, fin: 4 },
-  { id: "revelacion", ini: 4, fin: 6 },
-  { id: "aprender", ini: 6, fin: 8 },
-  { id: "lecciones", ini: 8, fin: 10 },
-  { id: "unidades", ini: 10, fin: 12 },
-  { id: "herramientas", ini: 12, fin: 13 },
-  { id: "practica", ini: 13, fin: 15 },
-  { id: "tutor", ini: 15, fin: 16 },
-  { id: "tv", ini: 16, fin: 17 },
-  { id: "juegos", ini: 17, fin: 20 },
-  { id: "turbo", ini: 20, fin: 21 },
-  { id: "progreso", ini: 21, fin: 22 },
-  { id: "idiomas", ini: 22, fin: 23 },
-  { id: "beneficios", ini: 23, fin: 25 },
-  { id: "cierre", ini: 25, fin: 29 },
+  { id: "revelacion", ini: 2, fin: 4 },
+  { id: "aprender", ini: 4, fin: 6 },
+  { id: "lecciones", ini: 6, fin: 8 },
+  { id: "unidades", ini: 8, fin: 10 },
+  { id: "herramientas", ini: 10, fin: 12 },
+  { id: "practica", ini: 12, fin: 14 },
+  { id: "correccion", ini: 14, fin: 16 },
+  { id: "progreso", ini: 16, fin: 17 },
+  { id: "tutor", ini: 17, fin: 19 },
+  { id: "tv", ini: 19, fin: 20 },
+  { id: "juegos", ini: 20, fin: 23 },
+  { id: "turbo", ini: 23, fin: 25 },
+  { id: "beneficios", ini: 25, fin: 27 },
+  { id: "cierre", ini: 27, fin: 31 },
 ];
 const CORTA_SEC = [
   { id: "gancho", ini: 0, fin: 2 },
@@ -33,5 +32,5 @@ const CORTA_SEC = [
   { id: "cierre", ini: 6, fin: 8 },
 ];
 export const SECCIONES = CORTA ? CORTA_SEC : LARGA;
-export const COMPASES = CORTA ? 8 : 29;
+export const COMPASES = CORTA ? 8 : 31;
 export const DURACION = COMPASES * BAR + (CORTA ? 1.6 : 2.6); // incluye la cola del gong final

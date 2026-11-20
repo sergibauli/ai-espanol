@@ -93,7 +93,7 @@ ESC.gancho = async (lt) => {
   C.texto("g2", "留学 · 工作 · 旅行？", "sub grande banda", lt, 1.5 * B, BAR * 2 - 0.08, { y: 470, entrada: "pincel", dur: 0.3 });
   C.texto("g3", "<em>零基础</em>也能学会！", "golpe", lt, 4 * B, BAR * 2 - 0.08, { y: 1180, entrada: "golpe", temblor: 12, escala: 0.62, salida: "golpe" });
   C.texto("g4", "悟空西语 · 从 A1 到 B2", "franja", lt, 2.5 * B, BAR * 2 - 0.08, { y: 1400, entrada: "pincel", dur: 0.35 });
-  C.tinta(eIn(seg(lt, BAR * 2 - 0.16, BAR * 2 - 0.01)));
+  C.destello(eIn(seg(lt, BAR * 2 - 0.2, BAR * 2)));
 };
 
 // 1 · PROBLEMA: las dudas del estudiante, en tinta
@@ -199,17 +199,17 @@ ESC.unidades = async (lt) => {
 // 6 · HERRAMIENTAS: pronunciación, diccionario, repaso
 ESC.herramientas = async (lt) => {
   fondo({ rayos: 0.25 });
-  const vids = [await seq("pron", 10 + lt * 30 * 2.4), await seq("dicc", 5 + lt * 30 * 2.6)];
+  const vids = [await seq("pron", 10 + lt * 30 * 1.2), await seq("dicc", 5 + lt * 30 * 1.3)];
   ["发音神殿", "西汉词典"].forEach((nom, i) => {
     const k = eBack(seg(lt, i * 0.35 * B, i * 0.35 * B + 0.45), 1.5);
     const x = i ? 0.6 : -0.6;
     moviles[i].poner({ x, y: lerp(-5, -0.5, k), z: 0, ry: (i ? -1 : 1) * 0.18 + Math.sin(lt * 2 + i) * 0.04, rx: -0.05, s: 0.98, img: vids[i], halo: 0.35 });
     const p = proy(x, -0.5 - 1.12 * 0.98 - 0.1, 0);
-    C.libre("hn" + i, nom, "sello doble", lt, i * 0.35 * B + 0.2, BAR, { x: Math.max(220, Math.min(p.x, 820)), y: Math.min(p.y + 25, 1470), escala: 0.9, rot: i ? 4 : -4 });
+    C.libre("hn" + i, nom, "sello doble", lt, i * 0.35 * B + 0.2, 2 * BAR, { x: Math.max(220, Math.min(p.x, 820)), y: Math.min(p.y + 25, 1470), escala: 0.9, rot: i ? 4 : -4 });
   });
-  C.texto("h1", "发音·<em>词典</em>", "tit2", lt, 0.05, BAR, { y: 200, entrada: "pincel", dur: 0.35 });
-  C.texto("h1es", "PRONUNCIACIÓN · DICCIONARIO", "es-peq", lt, 0.2, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("h2", "<em>一站搞定</em>，随时随地学", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
+  C.texto("h1", "发音·<em>词典</em>", "tit2", lt, 0.05, 2 * BAR, { y: 200, entrada: "pincel", dur: 0.35 });
+  C.texto("h1es", "PRONUNCIACIÓN · DICCIONARIO", "es-peq", lt, 0.2, 2 * BAR, { y: 292, entrada: "pincel", dur: 0.4 });
+  C.texto("h2", "<em>一站搞定</em>，随时随地学", "sub", lt, 0.5 * B, 2 * BAR, { y: 378, entrada: "letras" });
 };
 
 // 7 · PRÁCTICA: exámenes por nivel + PDF
@@ -235,18 +235,38 @@ ESC.practica = async (lt) => {
   C.chip("x4", `${CIFRAS.modelos} 套模拟题`, "", lt, 6.2 * B, BAR * 2, { x: 300, y: 1500, cls: "oro", rot: -4 });
 };
 
+// 7b · CORRECCIÓN: el examen se corrige solo (aciertos, fallos y explicación en chino)
+ESC.correccion = async (lt) => {
+  fondo({ rayos: 0.25 });
+  const k = eOut(seg(lt, 0, 0.5));
+  const fase2 = lt >= 3 * B;
+  const img = fase2 ? T.examenOk : await seq("correccionV", lt * 30 * 1.6);
+  const kz = fase2 ? Math.sin(Math.PI * seg(lt, 3 * B, 5.2 * B)) : 0;
+  moviles[0].poner({ x: lerp(2.4, 0.15, k), y: -0.62, ry: lerp(-1.1, -0.15, k), rx: -0.05, s: 1.4, img, flash: fase2 ? 0.4 * (1 - seg(lt, 3 * B, 3 * B + 0.25)) : 0,
+    zoom: kz > 0.01 ? { cx: 0.72, cy: 0.25, s: 1 + 0.7 * kz } : null });
+  C.texto("co1", "自动<em>批改</em>", "tit2", lt, 0.05, BAR * 2, { y: 200, entrada: "golpe", temblor: 6 });
+  C.texto("co1es", "CORRECCIÓN AUTOMÁTICA", "es-peq", lt, 0.2, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
+  C.texto("co2", "做完就批改，<em>错在哪</em>一目了然", "sub", lt, 0.5 * B, BAR * 2, { y: 378, entrada: "letras" });
+  post(() => {
+    const m = moviles[0];
+    C.rotulo("co3", "对错一秒出", "Aciertos y fallos al instante", lt, 3.3 * B, BAR * 2, { x: 215, y: 640, punto: m.punto(0.85, 0.23) });
+    C.lupa("co4", CAP.examenOk, { x: 0.05, y: 0.52, w: 0.9, h: 0.2 }, lt, 5.3 * B, BAR * 2, { x: 520, y: 1290, ancho: 820, rot: -2, desde: m.punto(0.5, 0.62) });
+  });
+  C.chip("co5", "¡Correcto!", "回答正确", lt, 4 * B, 5.2 * B, { x: 300, y: 1420, cls: "jade", rot: -5 });
+};
+
 // 8 · TUTOR: conversación con el Rey Mono
 ESC.tutor = async (lt) => {
   fondo({ c1: "#c8102e", c2: "#260206", rayos: 0.7, nubes: 0.5 });
   const k = eOut(seg(lt, 0, 0.45));
-  moviles[0].poner({ x: lerp(0, 0.28, k), y: -0.62, z: lerp(-6, 0, k), ry: -0.2 + Math.sin(lt * 1.7) * 0.05, rx: -0.04, s: 1.4, img: await seq("tutorV", 30 + lt * 30 * 2.9), halo: 0.6 + golpeBeat(lt) * 0.4 });
-  C.texto("tu1", "口语<em>陪练</em>", "tit2", lt, 0.05, BAR, { y: 200, entrada: "golpe", temblor: 6 });
-  C.texto("tu1es", "TUTOR ORAL · REY MONO", "es-peq", lt, 0.05 + 0.15, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("tu2", "和<em>美猴王</em>对话，模拟口语考试", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
+  moviles[0].poner({ x: lerp(0, 0.28, k), y: -0.62, z: lerp(-6, 0, k), ry: -0.2 + Math.sin(lt * 1.7) * 0.05, rx: -0.04, s: 1.4, img: await seq("tutorV", 30 + lt * 30 * 1.45), halo: 0.6 + golpeBeat(lt) * 0.4 });
+  C.texto("tu1", "口语<em>陪练</em>", "tit2", lt, 0.05, 2 * BAR, { y: 200, entrada: "golpe", temblor: 6 });
+  C.texto("tu1es", "TUTOR ORAL · REY MONO", "es-peq", lt, 0.05 + 0.15, 2 * BAR, { y: 292, entrada: "pincel", dur: 0.4 });
+  C.texto("tu2", "和<em>美猴王</em>对话，模拟口语考试", "sub", lt, 0.5 * B, 2 * BAR, { y: 378, entrada: "letras" });
   post(() => {
     const m = moviles[0];
-    C.lupa("tu3", CAP.tutorChat, { x: 0.22, y: 0.345, w: 0.68, h: 0.17 }, lt, 2.6 * B, BAR, { x: 470, y: 1250, ancho: 760, rot: -2, desde: m.punto(0.56, 0.43) });
-    C.rotulo("tu4", "说错马上改", "Te corrige al momento", lt, 0.6 * B, BAR, { x: 205, y: 560, punto: m.punto(0.5, 0.25) });
+    C.lupa("tu3", CAP.tutorChat, { x: 0.22, y: 0.345, w: 0.68, h: 0.17 }, lt, 5.2 * B, 2 * BAR, { x: 470, y: 1250, ancho: 760, rot: -2, desde: m.punto(0.56, 0.43) });
+    C.rotulo("tu4", "说错马上改", "Te corrige al momento", lt, 0.6 * B, 2 * BAR, { x: 205, y: 560, punto: m.punto(0.5, 0.25) });
   });
 };
 
@@ -286,27 +306,22 @@ ESC.juegos = async (lt, sec) => {
 
 // 11 · TURBO RUSH 3D: velocidad
 ESC.turbo = async (lt) => {
-  fondo({ c1: "#ff6a1a", c2: "#3a0505", rayos: 1.0, nubes: 0.3, cy: 0.45 });
-  // logo y después la carrera real, un fotograma por corchea (a ritmo)
-  const plano = lt < 1.5 * B ? -1 : 0;
-  const ini = plano < 0 ? 0 : 1.5 * B;
-  const kp = plano < 0 ? seg(lt, 0, 1.5 * B) : seg(lt, ini, BAR * 2);
-  const pos = plano < 0 ? 0 : (lt - ini) / (0.45 * B); // un fotograma real cada ~0,2 s con fundido corto
-  const img = await seq("turboP", lt * 30 * 1.5);
-  const img2 = null, mezclaT = 0;
-  M.fondo.uniforms.uImg.value = img; M.fondo.uniforms.uImgK.value = 0.55; M.fondo.uniforms.uImgAsp.value = 540 / 960; M.fondo.uniforms.uImgBlur.value = 3; M.fondo.uniforms.uImgZoom.value = 1.1; M.fondo.uniforms.uBrillo.value = 0.7;
-  const zoom = false ? null : { cx: 0.5, cy: 0.5, s: 1.0 + kp * 0.18 };
-  const k = eOut(seg(lt, 0, 0.4));
-  const vol = Math.sin(lt * 2.6) * 0.16;
-  moviles[0].poner({ x: vol * 0.6, y: -0.6, z: lerp(-8, 0.4, k), rz: vol * 0.6, ry: vol * 0.5, rx: -0.08, s: 1.3, img, img2: img2 || undefined, mezcla: mezclaT, zoom, halo: 0.8, flash: plano === 0 ? 0.5 * (1 - seg(lt, ini, ini + 0.25)) : 0 });
-  C.velocidad(0.9 * k, lt, 540, 1000);
-  M.particulas.material.uniforms.uWarp.value = lt * 6; M.particulas.material.uniforms.uK.value = 1.4;
-  const sh = golpeBeat(lt) * 0.05;
-  M.camara.position.x += Math.sin(lt * 60) * sh; M.camara.position.y += Math.cos(lt * 47) * sh;
-  C.texto("tr1", "3D <em>极速赛车</em>", "tit2", lt, 0.05, BAR * 2, { y: 260, entrada: "golpe", temblor: 14, escala: 1 });
-  C.texto("tr2", "WUKONG TURBO RUSH", "es", lt, B, BAR * 2, { y: 435, entrada: "pincel", dur: 0.4 });
-  C.texto("tr3", CIFRAS.turboSub, "sub", lt, 3 * B, BAR * 2, { y: 535, entrada: "letras" });
-  C.chip("tr4", CIFRAS.turboPalabra, CIFRAS.turboPalabraZh, lt, 5 * B, BAR * 2, { x: 300, y: 1450, cls: "oro", rot: -6 });
+  fondo({ rayos: 0.8 });
+  const fase = lt < 3.5 * B ? 0 : lt < 5.75 * B ? 1 : 2; // vídeo de portada → menú → pilotos
+  const ini = [0, 3.5 * B, 5.75 * B][fase];
+  const img = fase === 0 ? await seq("turboP", lt * 30 * 1.2) : fase === 1 ? T.turboMenu : T.turboPilotos;
+  if (fase === 0) { const F = M.fondo.uniforms; F.uImg.value = img; F.uImgK.value = 0.55; F.uImgAsp.value = 540 / 960; F.uImgBlur.value = 3; F.uImgZoom.value = 1.1; F.uBrillo.value = 0.75; }
+  const k = eOut(seg(lt, 0, 0.45));
+  const kp = seg(lt, ini, fase === 2 ? 8 * B : [3.5, 5.75][fase] * B);
+  const zoom = fase === 0 ? { cx: 0.5, cy: 0.5, s: 1 + kp * 0.15 } : fase === 1 ? { cx: 0.5, cy: 0.4, s: 1.05 + kp * 0.2 } : { cx: 0.5, cy: 0.45, s: 1.1 + kp * 0.25 };
+  moviles[0].poner({ x: 0.1, y: -0.62, z: lerp(-8, 0.2, k), ry: -0.12 + (fase > 0 ? (1 - eOut(seg(lt, ini, ini + 0.35))) * Math.PI : 0), rx: -0.06, s: 1.36, img, zoom, halo: 0.8, flash: fase > 0 ? 0.35 * (1 - seg(lt, ini, ini + 0.25)) : 0 });
+  C.velocidad(fase === 0 ? 0.8 * k : 0.3, lt, 540, 1050);
+  M.particulas.material.uniforms.uWarp.value = lt * 4;
+  // nombre del juego bien grande encima
+  C.texto("tr1", "西游<em>极速</em>", "tit2 grande", lt, 0.05, BAR * 2, { y: 230, entrada: "golpe", temblor: 14 });
+  C.texto("tr2", "WUKONG TURBO RUSH", "es", lt, 0.4 * B, BAR * 2, { y: 385, entrada: "pincel", dur: 0.4 });
+  C.texto("tr3", "<em>3D 赛车</em>，冲对单词门就加速！", "sub", lt, 1.5 * B, BAR * 2, { y: 480, entrada: "letras" });
+  C.chip("tr4", "Elige piloto", "选择赛车手", lt, 5.9 * B, BAR * 2, { x: 300, y: 1450, cls: "oro", rot: -5 });
 };
 
 // 12 · PROGRESO

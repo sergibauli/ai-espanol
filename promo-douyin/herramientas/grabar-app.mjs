@@ -105,4 +105,16 @@ await sesion("portada", "#/", async (p, graba) => {
   await graba(); await p.waitForTimeout(1500);
   await rueda(p, 30, 40, 50); await p.waitForTimeout(700); await rueda(p, 20, 45, 50); await p.waitForTimeout(600);
 }, { nologin: true });
+await sesion("correccion", "#/oficial/A2", async (p, graba) => {
+  await clicTxt(p, "Empezar"); await p.waitForTimeout(2500);
+  await graba(); await p.waitForTimeout(500);
+  await rueda(p, 10, 50); await p.waitForTimeout(500);
+  await clicTxt(p, "En Prado del Roble", false); await p.waitForTimeout(700);
+  await rueda(p, 6, 50); await p.waitForTimeout(300);
+  const ops = p.locator("button:visible", { hasText: /^[ABC]\b/ }); const n = await ops.count(); console.log("opciones", n);
+  for (const i of [3, 7]) if (i < n) { await ops.nth(i).click().catch(() => {}); await p.waitForTimeout(500); }
+  await p.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" })); await p.waitForTimeout(900);
+  await clicTxt(p, "Corregir todo", false); await p.waitForTimeout(1800);
+  await rueda(p, 14, 45); await p.waitForTimeout(800); await rueda(p, 10, 45); await p.waitForTimeout(800);
+}, { semilla: true });
 await b.close();
