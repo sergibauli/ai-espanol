@@ -277,15 +277,15 @@ ESC.tutor = async (lt) => {
   const ftu = await seq("tutorV", 190);
   fondo({ c1: "#c8102e", c2: "#260206", rayos: 0.7, nubes: 0.5 });
   const k = eOut(seg(lt, 0, 0.45));
-  moviles[0].poner({ x: lerp(0, 0.28, k), y: -0.62, z: lerp(-6, 0, k), ry: -0.2 + Math.sin(lt * 1.7) * 0.05, rx: -0.04, s: 1.4, img: await seq("tutorV", 30 + lt * 30 * 1.45), halo: 0.6 + golpeBeat(lt) * 0.4 });
-  M.sacarTarjeta(0, moviles[0], ftu, { x: 0.2, y: 0.52, w: 0.72, h: 0.2 }, seg(lt, 4.6 * B, 5.2 * B), { x: 0.2, y: -1.35, z: 2.0, rx: 0.08, ry: -0.3, rz: -0.03, s: 1.25 });
-  M.sacarTarjeta(1, moviles[0], ftu, { x: 0.25, y: 0.43, w: 0.68, h: 0.07 }, seg(lt, 3.6 * B, 4.1 * B), { x: 0.3, y: 0.55, z: 1.9, rx: -0.1, ry: -0.3, rz: 0.04, s: 1.3 });
-  C.texto("tu1", "口语<em>陪练</em>", "tit2", lt, 0.05, 2 * BAR, { y: 200, entrada: "golpe", temblor: 6 });
-  C.texto("tu1es", "TUTOR ORAL · REY MONO", "es-peq", lt, 0.05 + 0.15, 2 * BAR, { y: 292, entrada: "pincel", dur: 0.4 });
-  C.texto("tu2", "和<em>美猴王</em>对话，模拟口语考试", "sub", lt, 0.5 * B, 2 * BAR, { y: 378, entrada: "letras" });
+  moviles[0].poner({ x: lerp(0, 0.28, k), y: -0.62, z: lerp(-6, 0, k), ry: -0.2 + Math.sin(lt * 1.7) * 0.05, rx: -0.04, s: 1.4, img: await seq("tutorV", 30 + lt * 30 * 2.9), halo: 0.6 + golpeBeat(lt) * 0.4 });
+  M.sacarTarjeta(0, moviles[0], ftu, { x: 0.2, y: 0.52, w: 0.72, h: 0.2 }, seg(lt, 2.3 * B, 2.7 * B), { x: 0.2, y: -1.35, z: 2.0, rx: 0.08, ry: -0.3, rz: -0.03, s: 1.25 });
+  M.sacarTarjeta(1, moviles[0], ftu, { x: 0.25, y: 0.43, w: 0.68, h: 0.07 }, seg(lt, 1.6 * B, 2.0 * B), { x: 0.3, y: 0.55, z: 1.9, rx: -0.1, ry: -0.3, rz: 0.04, s: 1.3 });
+  C.texto("tu1", "口语<em>陪练</em>", "tit2", lt, 0.05, BAR, { y: 200, entrada: "golpe", temblor: 6 });
+  C.texto("tu1es", "TUTOR ORAL · REY MONO", "es-peq", lt, 0.05 + 0.15, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
+  C.texto("tu2", "和<em>美猴王</em>对话，模拟口语考试", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
   post(() => {
     const m = moviles[0];
-    C.rotulo("tu4", "说错马上改", "Te corrige al momento", lt, 0.6 * B, 2 * BAR, { x: 205, y: 560, punto: m.punto(0.5, 0.25) });
+    C.rotulo("tu4", "说错马上改", "Te corrige al momento", lt, 0.6 * B, BAR, { x: 205, y: 560, punto: m.punto(0.5, 0.25) });
   });
 };
 
@@ -427,6 +427,47 @@ ESC.cierre = async (lt) => {
   spr(S.dragon2, { x: 1.25, y: lerp(-3, -1.25, eOut(seg(l, 0.3, 1.2))), z: 0.2, ry: Math.PI, a: fase2 ? 1 : 0, t: lt, rz: 0.1 });
   nubes(lt, fase2 ? 1 : 0.5, -1);
 };
+
+
+// ---------- escenas grabadas por tramos (vídeo real de la app + elementos 3D) ----------
+async function tramos(nombre, T_, lt) { // T_: [[f0, f1, dur], ...] → fotograma y tramo actual
+  let t0 = 0;
+  for (let i = 0; i < T_.length; i++) { const [a, b, d] = T_[i]; if (lt < t0 + d || i === T_.length - 1) { const k = clamp((lt - t0) / d); return { img: await seq(nombre, a + (b - a) * k), i, lt: lt - t0, d }; } t0 += T_[i][2]; }
+}
+function escenaVideo(cfg) {
+  return async (lt, sec) => {
+    const dur = (sec.fin - sec.ini) * BAR;
+    fondo({ rayos: 0.3 });
+    const k = eOut(seg(lt, 0, 0.5));
+    const tr = await tramos(cfg.seq, cfg.tramos, lt);
+    const orb = eInOut(seg(lt, 0.4, dur));
+    const lado = cfg.lado || 1;
+    const cambio = tr.i > 0 ? 0.35 * (1 - seg(tr.lt, 0, 0.25)) : 0;
+    moviles[0].poner({ x: lado * (lerp(-2.4, -0.22, k) + orb * 0.35), y: -0.72, rx: -0.12, ry: lado * (lerp(1.1, 0.42, k) - orb * 0.75), s: 1.32, img: tr.img, flash: cambio, halo: 0.6 });
+    (cfg.tarjetas || []).forEach((c, i) => M.sacarTarjeta(i, moviles[0], T["_" + cfg.seq + i] || tr.img, c.r, seg(lt, c.t0, c.t0 + 0.5) * (1 - seg(lt, c.t1 - 0.3, c.t1)), c.d));
+    C.texto(sec.id + "t", cfg.tit, "tit2", lt, 0.05, dur, { y: 200, entrada: "golpe", temblor: 6 });
+    C.texto(sec.id + "e", cfg.es, "es-peq", lt, 0.2, dur, { y: 292, entrada: "pincel", dur: 0.4 });
+    C.texto(sec.id + "s", cfg.sub, "sub", lt, 0.5 * B, dur, { y: 378, entrada: "letras" });
+    (cfg.chips || []).forEach((c, i) => C.chip(sec.id + "c" + i, c.es, c.zh, lt, c.t0, c.t1 || dur, { x: c.x || 540, y: c.y || 1480, cls: c.cls || "oro", rot: c.rot || -3 }));
+  };
+}
+const Bb = 0.4615; // BEAT en s (para las tablas)
+ESC.unidades = escenaVideo({ seq: "unidadnav", tit: `${CIFRAS.unidades} 个<em>单元</em>`, es: "DEL A1 AL B2 · TEORÍA EN CHINO", sub: "<em>双击</em>句子，马上看中文",
+  tramos: [[10, 60, 0.9], [100, 180, 1.9], [195, 245, 1.0], [305, 420, 1.9], [455, 586, 1.68]],
+  chips: [{ es: "doble toque", zh: "双击看翻译", t0: 1.0, t1: 2.8 }, { es: "Palabras", zh: "单词", t0: 2.85, t1: 3.8 }, { es: "Diálogos", zh: "情景对话", t0: 3.85, t1: 5.7 }, { es: "Práctica", zh: "练习", t0: 5.75 }] });
+ESC.pronunciacion = escenaVideo({ seq: "pronanim", tit: "发音<em>神殿</em>", es: "PRONUNCIACIÓN", sub: "<em>大舌音 rr</em> 也能练会", lado: -1,
+  tramos: [[40, 75, 0.7], [125, 290, 2.99]], chips: [{ es: "rr · rra · rri", zh: "大舌音", t0: 1.2 }] });
+ESC.diccionario = escenaVideo({ seq: "diccilibro", tit: "西汉<em>词典</em>", es: "DICCIONARIO ESPAÑOL–CHINO", sub: "像<em>翻书</em>一样查单词",
+  tramos: [[25, 110, 1.6], [150, 215, 1.0], [215, 355, 1.09]], chips: [{ es: "4409", zh: "个词条", t0: 1.7 }] });
+ESC.exlectura = escenaVideo({ seq: "exlectura", tit: "阅读<em>理解</em>", es: "COMPRENSIÓN DE LECTURA", sub: "答完<em>马上批改</em>，还有中文解析",
+  tramos: [[15, 217, 3.69]], tarjetas: [{ r: { x: 0.74, y: 0.1, w: 0.24, h: 0.1 }, t0: 2.05, t1: 3.69, d: { x: 0.55, y: 0.75, z: 2.3, ry: -0.2, rz: 0.15, s: 1.8 } }, { r: { x: 0.1, y: 0.37, w: 0.82, h: 0.35 }, t0: 2.35, t1: 3.69, d: { x: 0.15, y: -1.2, z: 2.0, rx: 0.08, ry: -0.3, s: 0.95 } }] });
+ESC.exauditiva = escenaVideo({ seq: "exauditiva", tit: "听力<em>理解</em>", es: "COMPRENSIÓN AUDITIVA", sub: "<em>西班牙口音</em>，反复练耳", lado: -1,
+  tramos: [[35, 220, 1.85]] });
+ESC.exescrita = escenaVideo({ seq: "exescrita", tit: "写作<em>批改</em>", es: "EXPRESIÓN ESCRITA", sub: "<em>错误标红</em>，还给建议",
+  tramos: [[1, 252, 3.69]], tarjetas: [{ r: { x: 0.08, y: 0.14, w: 0.84, h: 0.15 }, t0: 2.75, t1: 3.69, d: { x: 0.12, y: -1.2, z: 2.0, rx: 0.08, ry: -0.3, s: 1.0 } }],
+  chips: [{ es: "Estoy muy contento", zh: "✓ 正确用法", t0: 2.8, cls: "jade", y: 1520 }] });
+ESC.exoral = escenaVideo({ seq: "exoral", tit: "口语<em>考试</em>", es: "EXPRESIÓN ORAL", sub: "限时准备，<em>说完打分</em>", lado: -1,
+  tramos: [[20, 60, 0.8], [75, 160, 1.3], [225, 338, 1.59]], tarjetas: [{ r: { x: 0.06, y: 0.6, w: 0.88, h: 0.28 }, t0: 2.75, t1: 3.69, d: { x: -0.1, y: -1.25, z: 2.0, rx: 0.08, ry: 0.3, s: 0.95 } }] });
 
 // ---------------- bucle principal ----------------
 let CAP_ZOOM, CAP_JUEGOS;

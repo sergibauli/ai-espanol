@@ -50,6 +50,13 @@ export const SEQ = {
   tvV: { n: 276, url: (i) => `${C}v2/tv/f_${pad(i + 1)}.jpg` },
   ruta3: { n: 427, url: (i) => `${C}v2/ruta3/f_${pad(i + 1)}.jpg` },
   viaje: { n: 815, url: (i) => `${C}v2/viaje/f_${pad(i + 1)}.jpg` },
+  unidadnav: { n: 586, url: (i) => `${C}v2/unidadnav/f_${pad(i + 1)}.jpg` },
+  pronanim: { n: 421, url: (i) => `${C}v2/pronanim/f_${pad(i + 1)}.jpg` },
+  diccilibro: { n: 356, url: (i) => `${C}v2/diccilibro/f_${pad(i + 1)}.jpg` },
+  exlectura: { n: 217, url: (i) => `${C}v2/exlectura/f_${pad(i + 1)}.jpg` },
+  exauditiva: { n: 234, url: (i) => `${C}v2/exauditiva/f_${pad(i + 1)}.jpg` },
+  exescrita: { n: 252, url: (i) => `${C}v2/exescrita/f_${pad(i + 1)}.jpg` },
+  exoral: { n: 338, url: (i) => `${C}v2/exoral/f_${pad(i + 1)}.jpg` },
   acierto: { n: 90, url: (i) => `${C}aprender/seq-acierto-hola/f${pad(i)}.jpg` },
 };
 export const ZOOM = { tap: { x: 0.69, y: 0.47 } };

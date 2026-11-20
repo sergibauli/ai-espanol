@@ -266,7 +266,7 @@ async function correctorSimulado(p) {
       const pen = min && palabras < min ? Math.min(30, Math.round(((min - palabras) / min) * 40)) : 0;
       json = { puntuacion: 66 + pen, ...CORR_ESCRITA };
     }
-    await new Promise((r) => setTimeout(r, 900));
+    await new Promise((r) => setTimeout(r, 700));
     await route.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify({ choices: [{ message: { role: "assistant", content: JSON.stringify(json) }, finish_reason: "stop" }] }) });
   });
 }
@@ -304,19 +304,19 @@ await sesion("exescrita", EXAMEN, async (p, graba) => {
   await p.locator(".sx-medallas .sx-med").nth(2).click(); await p.waitForTimeout(1500);
   await p.evaluate(() => { const t = document.querySelector(".sx-lienzo"); t && window.scrollTo(0, t.getBoundingClientRect().top + scrollY - 230); });
   await p.waitForTimeout(600);
-  await graba(); await p.waitForTimeout(400);
-  await p.locator("textarea.sx-renglones").click(); await p.waitForTimeout(150);
-  await p.keyboard.type("¡Hola, Queralt! Gracias por tu mensaje. Yo soy muy contento porque el piso es cerca de mi trabajo. Ayer yo veo otro, pero es caro. ¿Cuánto cuesta? El sábado puedo ir. ¡Un abrazo!", { delay: 8 });
+  await p.locator("textarea.sx-renglones").click(); await p.keyboard.insertText("¡Hola, Queralt! Gracias por tu mensaje. "); await p.waitForTimeout(500);
+  await graba(); await p.waitForTimeout(350);
+  // tecleo rápido (2 caracteres por pulsación): con el screencast a 3× cada tecla de keyboard.type tarda ~40 ms
+  for (const trozo of "Yo soy muy contento porque el piso es cerca de mi trabajo. Ayer yo veo otro, pero es caro. ¿Cuánto cuesta? El sábado puedo ir. ¡Un abrazo!".match(/.{1,2}/gsu)) { await p.keyboard.insertText(trozo); await p.waitForTimeout(18); }
   await p.waitForTimeout(300);
   await irA(p, ".sx-iabar", 330, 50, 26);
   await p.locator(".sx-iabar button.sx-btn").click().catch(() => console.log("sin corregir"));
   await p.waitForSelector(".sx-veredicto", { timeout: 6000 }).catch(() => console.log("sin veredicto"));
   await p.waitForTimeout(250);
-  await irA(p, ".sx-veredicto", 70, 50, 26); await p.waitForTimeout(900);
+  await irA(p, ".sx-veredicto", 70, 50, 26); await p.waitForTimeout(1300);
   await vigila(p, "exescrita-nota");
-  await irA(p, ".sx-veredicto .corr-criterios", 70, 40, 28); await p.waitForTimeout(800);
-  await rueda(p, 14, 50, 40); await p.waitForTimeout(800);
-  await rueda(p, 9, 50, 40); await p.waitForTimeout(700);
+  await irA(p, ".sx-veredicto .mb-5:has(.line-through)", 90, 45, 30); await p.waitForTimeout(1000);
+  await rueda(p, 5, 50, 40); await p.waitForTimeout(900);
   await vigila(p, "exescrita");
 }, { tutor: true, semilla: true });
 await sesion("exoral", EXAMEN, async (p, graba) => {
@@ -326,7 +326,7 @@ await sesion("exoral", EXAMEN, async (p, graba) => {
   // Micrófono simulado: el reconocimiento de voz «oye» la transcripción palabra a palabra
   await p.evaluate((texto) => {
     class ReconocimientoSimulado {
-      start() { const pal = texto.split(" "); let i = 0; this.txt = ""; this.t = setInterval(() => { if (i >= pal.length) return; this.txt = pal.slice(0, ++i).join(" "); const r = [{ transcript: this.txt }]; r.isFinal = false; this.onresult?.({ resultIndex: 0, results: [r] }); setTimeout(() => { const ta = document.querySelector("textarea.sx-renglones.oral"); if (ta) ta.scrollTop = ta.scrollHeight; }, 20); }, 62); }
+      start() { const pal = texto.split(" "); let i = 0; this.txt = ""; this.t = setInterval(() => { if (i >= pal.length) return; this.txt = pal.slice(0, ++i).join(" "); const r = [{ transcript: this.txt }]; r.isFinal = false; this.onresult?.({ resultIndex: 0, results: [r] }); setTimeout(() => { const ta = document.querySelector("textarea.sx-renglones.oral"); if (ta) ta.scrollTop = ta.scrollHeight; }, 20); }, 50); }
       stop() { clearInterval(this.t); const r = [{ transcript: this.txt }]; r.isFinal = true; this.onresult?.({ resultIndex: 0, results: [r] }); setTimeout(() => this.onend?.(), 30); }
       abort() { this.stop(); }
     }
@@ -336,21 +336,20 @@ await sesion("exoral", EXAMEN, async (p, graba) => {
   await p.evaluate(() => { const t = document.querySelector(".sx-estudio"); t && window.scrollTo(0, t.getBoundingClientRect().top + scrollY - 110); });
   await p.waitForTimeout(600);
   await graba(); await p.waitForTimeout(250);
-  await toca(p, ".sx-fases button.sx-fase"); await p.waitForTimeout(2700);
+  await toca(p, ".sx-fases button.sx-fase"); await p.waitForTimeout(2150);
   await vigila(p, "exoral-prep");
   await toca(p, ".sx-fases button.sx-fase"); await p.waitForTimeout(250);
-  await toca(p, ".sx-micb"); await p.waitForTimeout(3300);
+  await toca(p, ".sx-micb"); await p.waitForTimeout(2700);
   await toca(p, ".sx-micb"); await p.waitForTimeout(400);
   await irA(p, ".sx-estudio .sx-iabar", 560, 50, 26);
   await p.locator(".sx-estudio .sx-iabar button.sx-btn").click().catch(() => console.log("sin corregir"));
   await p.waitForSelector(".sx-veredicto", { timeout: 6000 }).catch(() => console.log("sin veredicto"));
   await p.waitForTimeout(250);
-  await irA(p, ".sx-veredicto", 70, 50, 26); await p.waitForTimeout(800);
-  await irA(p, ".sx-veredicto .corr-criterios", 70, 40, 28); await p.waitForTimeout(900);
+  await irA(p, ".sx-veredicto", 70, 50, 26); await p.waitForTimeout(1300);
   await vigila(p, "exoral-nota");
-  await irA(p, ".sx-veredicto .mb-5:has(.line-through)", 90, 45, 30); await p.waitForTimeout(700);
+  await irA(p, ".sx-veredicto .mb-5:has(.line-through)", 90, 45, 30); await p.waitForTimeout(900);
   await vigila(p, "exoral-errores");
-  await rueda(p, 9, 50, 40); await p.waitForTimeout(1000);
+  await rueda(p, 5, 50, 40); await p.waitForTimeout(900);
   await vigila(p, "exoral");
 }, { tutor: true, semilla: true });
 // ===== Tráiler: unidad (guía con doble toque, palabras, diálogos, práctica), templo de los sonidos y diccionario-libro =====
@@ -400,48 +399,49 @@ await sesion("unidadnav", "#/modulos/modulo-1", async (p, graba) => {
   await graba(); await p.waitForTimeout(500);
   // Guía: scroll suave hasta la ficha de teoría
   const frase = p.locator(".gx-cuerpo .vt").nth(1); // «Buenos días · De la mañana hasta el mediodía»
-  await ruedaHasta(p, frase, 420, 40, 34); await p.waitForTimeout(450);
+  await ruedaHasta(p, frase, 420, 60, 24); await p.waitForTimeout(300);
   // Doble toque → la frase gira y se ve en chino
-  await frase.dblclick(); await p.waitForTimeout(1500);
+  await frase.dblclick(); await p.waitForTimeout(1300);
   const frase2 = p.locator(".gx-cuerpo .vt").nth(2);
-  await frase2.dblclick(); await p.waitForTimeout(1300);
+  await frase2.dblclick(); await p.waitForTimeout(1000);
   await sinPalabrasVetadas(p, "unidadnav-guia");
   // Palabras: una tarjeta gira con su ejemplo
-  await p.locator("#tab-palabras").click(); await p.waitForTimeout(800);
-  await p.locator(".ud-palabra-main").nth(1).click(); await p.waitForTimeout(1100);
-  await rueda(p, 7, 45, 40); await p.waitForTimeout(400);
+  await p.locator("#tab-palabras").click(); await p.waitForTimeout(600);
+  await p.locator(".ud-palabra-main").nth(1).click(); await p.waitForTimeout(1000);
+  await rueda(p, 6, 45, 35); await p.waitForTimeout(250);
   await sinPalabrasVetadas(p, "unidadnav-palabras");
   // Diálogos: se abre el primero y avanza dos frases
-  await p.locator("#tab-dialogos").click(); await p.waitForTimeout(700);
+  await p.locator("#tab-dialogos").click(); await p.waitForTimeout(600);
   await rueda(p, 4, 40, 40); await p.waitForTimeout(250);
-  await p.locator(".td-card").first().click(); await p.waitForTimeout(1500);
-  for (let i = 0; i < 2; i++) { await p.getByText("Siguiente · 下一句", { exact: false }).first().click({ timeout: 2000 }).catch(() => console.log("sin siguiente")); await p.waitForTimeout(1000); }
+  await p.locator(".td-card").first().click(); await p.waitForTimeout(1300);
+  for (let i = 0; i < 2; i++) { await p.getByText("Siguiente · 下一句", { exact: false }).first().click({ timeout: 2000 }).catch(() => console.log("sin siguiente")); await p.waitForTimeout(900); }
   await sinPalabrasVetadas(p, "unidadnav-dialogo");
-  await p.locator(".lp-root .lp-close").click().catch(() => {}); await p.waitForTimeout(600);
+  await p.locator(".dlg-top .dlg-icon, .lp-root .lp-close").first().click({ timeout: 2000 }).catch(() => console.log("sin cerrar diálogo")); await p.waitForTimeout(400);
   // Práctica: sala de entrenamiento y primer ejercicio contestado
-  await p.locator("#tab-practica").click(); await p.waitForTimeout(800);
-  await rueda(p, 6, 45, 40); await p.waitForTimeout(400);
+  await p.locator("#tab-practica").click(); await p.waitForTimeout(600);
+  await rueda(p, 6, 45, 35); await p.waitForTimeout(300);
   await sinPalabrasVetadas(p, "unidadnav-practica");
-  await p.getByText("Practicar ahora", { exact: false }).first().click(); await p.waitForTimeout(1200);
-  await contestaPaso(p); await p.waitForTimeout(1600);
+  await p.getByText("Practicar ahora", { exact: false }).first().click(); await p.waitForTimeout(1000);
+  await contestaPaso(p); await p.waitForTimeout(1500);
   await sinPalabrasVetadas(p, "unidadnav-ejercicio");
 });
 await sesion("pronanim", "#/pronunciacion", async (p, graba) => {
   await p.addStyleTag({ content: ".mf,[class*='mono-flot']{display:none!important}" });
-  await graba(); await p.waitForTimeout(900);
+  await graba(); await p.waitForTimeout(500);
   // Templo del trueno (r / rr)
-  await p.locator(".ph-templo.is-trueno").click(); await p.waitForTimeout(1700);
-  await p.locator('.pv-nav-btn[aria-label*="siguiente"]').click(); await p.waitForTimeout(1100);
-  // RR: onda viva y boca en perfil
-  await p.locator(".pe-onda").click(); await p.waitForTimeout(1500);
+  await p.locator(".ph-templo.is-trueno").click(); await p.waitForTimeout(1600);
+  await p.locator('.pv-nav-btn[aria-label*="siguiente"]').click(); await p.waitForTimeout(1000);
+  // RR: onda viva y boca en perfil; luego la botica entera suena cajón a cajón
+  await ruedaHasta(p, p.locator(".pe-onda"), 70, 45, 26);
+  await p.locator(".pe-onda").click(); await p.waitForTimeout(900);
+  await p.locator(".pe-cajon.is-todas").click(); await p.waitForTimeout(2900);
   await sinPalabrasVetadas(p, "pronanim-rr");
-  // Botica de sílabas: se abre el cajón «rri»
-  await ruedaHasta(p, p.locator(".pe-botica"), 120, 50, 30); await p.waitForTimeout(400);
-  await p.locator(".pe-cajon").nth(2).click(); await p.waitForTimeout(1400);
-  // Tarjeta de la sílaba: sello con aros y palabra de ejemplo
-  await ruedaHasta(p, p.locator(".pe-ficha"), 110, 55, 28); await p.waitForTimeout(300);
-  await p.locator(".pe-ficha__sello").click(); await p.waitForTimeout(1100);
-  await p.locator(".pe-ficha__ej").click(); await p.waitForTimeout(1200);
+  // Cajón «rri»: la página sube a la onda y suena
+  await p.locator(".pe-cajon").nth(2).click(); await p.waitForTimeout(1300);
+  // Tarjeta de la sílaba: rr + i = rri, sello y palabra de ejemplo
+  await ruedaHasta(p, p.locator(".pe-ficha"), 230, 60, 24); await p.waitForTimeout(200);
+  await p.locator(".pe-ficha__sello").click(); await p.waitForTimeout(800);
+  await p.locator(".pe-ficha__ej").click(); await p.waitForTimeout(1000);
   await sinPalabrasVetadas(p, "pronanim-ficha");
 });
 await sesion("diccilibro", "#/diccionarios", async (p, graba) => {
