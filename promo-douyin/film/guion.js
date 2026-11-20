@@ -165,25 +165,28 @@ ESC.aprender = async (lt) => {
 // 4 · LECCIONES: ejercicio → ¡correcto! → ¡lección perfecta!
 ESC.lecciones = async (lt) => {
   const cambio = 2.5 * B, fin = 5 * B;
-  fondo({ c1: lt > cambio ? "#1f8a5a" : "#c8102e", c2: "#2a0207", rayos: 0.5, nubes: 0.5 });
+  fondo({ rayos: 0.4 });
   const k = eOut(seg(lt, 0, 0.5));
   const fr = await seq("acierto", lt < cambio ? 0 : 7 + (lt - cambio) * 30);
   const frFin = lt >= fin ? await seq("fin", 14 + (lt - fin) * 30) : null;
   const kz = eInOut(seg(lt, fin, fin + 0.6));
   const salto = lt > cambio ? Math.sin(seg(lt, cambio, cambio + 0.3) * Math.PI) * 0.12 : 0;
   moviles[0].poner({
-    x: lerp(-2.4, 0, k), y: -0.62 + salto, z: kz * 0.5, rx: -0.05, ry: lerp(1.2, 0.12, k) - kz * 0.12, rz: lerp(-0.3, 0, k), s: 1.4,
+    x: lerp(-2.4, -0.1, k), y: -0.7 + salto, z: kz * 0.4, rx: -0.12, ry: lerp(1.2, 0.38, k) - eInOut(seg(lt, 0.5, BAR * 2)) * 0.6, rz: lerp(-0.3, 0, k), s: 1.34,
     img: lt >= fin ? frFin : fr,
-    zoom: kz > 0 ? { cx: 0.5, cy: lerp(0.5, 0.4, kz), s: 1 + kz * 0.35 } : (lt > cambio - 0.05 && lt < cambio + 1.3 * B ? { cx: 0.7, cy: 0.24, s: 1 + 0.75 * Math.sin(Math.PI * seg(lt, cambio - 0.05, cambio + 1.3 * B)) } : null),
+    zoom: kz > 0 ? { cx: 0.5, cy: lerp(0.5, 0.4, kz), s: 1 + kz * 0.35 } : null,
     tap: lt > 1.2 * B && lt < cambio + 0.1 ? { x: ZOOM.tap.x, y: ZOOM.tap.y, k: seg(lt, 1.2 * B, cambio) } : null,
     flash: (lt > cambio ? 0.3 * (1 - seg(lt, cambio, cambio + 0.3)) : 0) + (lt > fin ? 0.4 * (1 - seg(lt, fin, fin + 0.3)) : 0),
   });
   M.particulas.material.uniforms.uWarp.value = lt > cambio ? 3 * (1 - Math.exp(-(lt - cambio) * 3)) : 0;
+  const frOk = await seq("acierto", 40);
+  const sale = seg(lt, fin - 0.35, fin);
+  M.sacarTarjeta(0, moviles[0], frOk, { x: 0.52, y: 0.34, w: 0.36, h: 0.23 }, seg(lt, cambio + 0.1, cambio + 0.55) * (1 - sale), { x: 0.42, y: -0.1, z: 1.9, rx: -0.1, ry: -0.35, rz: -0.06, s: 1.25 });
+  M.sacarTarjeta(1, moviles[0], frOk, { x: 0.72, y: 0.1, w: 0.22, h: 0.075 }, seg(lt, cambio + 0.35, cambio + 0.8) * (1 - sale), { x: 0.5, y: 0.7, z: 2.3, rx: 0, ry: -0.2, rz: 0.18, s: 1.8 });
+  M.sacarTarjeta(2, moviles[0], frOk, { x: 0.0, y: 0.82, w: 1.0, h: 0.09 }, seg(lt, cambio + 0.6, cambio + 1.0) * (1 - sale), { x: -0.05, y: -1.6, z: 1.9, rx: 0.15, ry: 0.25, rz: 0.03, s: 1.1 });
   C.texto("l1", "边学<em>边练</em>", "tit2", lt, 0.1, BAR * 2, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("l1es", "LECCIONES INTERACTIVAS", "es-peq", lt, 0.1 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("l2", "<em>即时反馈</em>，越学越上瘾", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
-  C.chip("l3", "¡Correcto!", "答对了", lt, cambio, fin, { x: 300, y: 1360, cls: "jade", rot: -6 });
-  post(() => C.rotulo("l6", "答错马上纠正", "Corrección al instante", lt, cambio + 0.6 * B, fin, { x: 210, y: 1150, punto: moviles[0].punto(0.27, 0.87) }));
   C.chip("l4", "¡Perfecto!", "满分", lt, fin, BAR * 2, { x: 640, y: 1480, cls: "oro", rot: 5 });
   C.texto("l5", CIFRAS.leccion, "sub peq", lt, fin + 0.2, BAR * 2, { y: 505, entrada: "sube" });
 };
@@ -193,13 +196,17 @@ ESC.unidades = async (lt) => {
   fondo({ rayos: 0.2 });
   const k = eOut(seg(lt, 0, 0.5));
   const img = await seq("unidad1", lt * 30 * 2.0);
-  moviles[0].poner({ x: lerp(-2.4, 0.18, k), y: -0.62, z: 0, rx: -0.05, ry: lerp(1.1, -0.16, k) + Math.sin(lt * 1.3) * 0.05, s: 1.4, img });
+  const orb = eInOut(seg(lt, 0.4, BAR * 2));
+  moviles[0].poner({ x: lerp(-2.4, -0.25, k), y: -0.7, z: 0, rx: -0.12, ry: lerp(1.1, 0.5, k) - orb * 0.55, s: 1.3, img });
+  const fv = await seq("unidad1", 170);
+  [[0.18, "¡Hola!"], [0.35, "Buenos días"], [0.52, "Buenas tardes"]].forEach(([y], i) => {
+    const ini = 4 * B + i * 0.55 * B;
+    M.sacarTarjeta(i, moviles[0], fv, { x: 0.04, y, w: 0.92, h: 0.15 }, seg(lt, ini, ini + 0.45), { x: 0.18, y: 0.2 - i * 0.6, z: 1.8 + i * 0.1, rx: -0.05, ry: -0.38, rz: (i - 1) * 0.04, s: 0.8 });
+  });
   C.texto("u1", `${CIFRAS.unidades} 个<em>单元</em>`, "tit2", lt, 0.1, BAR * 2, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("u1es", "DEL A1 AL B2 · TEORÍA EN CHINO", "es-peq", lt, 0.25, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("u2", "语法·词汇·对话，<em>中文讲解</em>", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
   post(() => C.rotulo("u3", "从第一课学起", "Unidad 1 · Hola y adiós", lt, 0.6 * B, 3 * B, { x: 215, y: 640, punto: moviles[0].punto(0.5, 0.35) }));
-  C.chip("u4", "¡Hola!", "你好", lt, 4.2 * B, BAR * 2, { x: 290, y: 1420, rot: -5 });
-  C.chip("u5", "Buenos días", "早上好", lt, 5.2 * B, BAR * 2, { x: 700, y: 1500, rot: 4, cls: "oro" });
 };
 
 // 6 · HERRAMIENTAS: pronunciación, diccionario, repaso
@@ -209,10 +216,13 @@ ESC.herramientas = async (lt) => {
   ["发音神殿", "西汉词典"].forEach((nom, i) => {
     const k = eBack(seg(lt, i * 0.35 * B, i * 0.35 * B + 0.45), 1.5);
     const x = i ? 0.6 : -0.6;
-    moviles[i].poner({ x, y: lerp(-5, -0.5, k), z: 0, ry: (i ? -1 : 1) * 0.18 + Math.sin(lt * 2 + i) * 0.04, rx: -0.05, s: 0.98, img: vids[i], halo: 0.35 });
+    moviles[i].poner({ x: x * 1.05, y: lerp(-5, -0.55, k), z: i ? -0.2 : 0.1, ry: (i ? -1 : 1) * 0.42 + Math.sin(lt * 1.2 + i) * 0.06, rx: -0.12, s: 0.98, img: vids[i], halo: 0.35 });
     const p = proy(x, -0.5 - 1.12 * 0.98 - 0.1, 0);
     C.libre("hn" + i, nom, "sello doble", lt, i * 0.35 * B + 0.2, 2 * BAR, { x: Math.max(220, Math.min(p.x, 820)), y: Math.min(p.y + 25, 1470), escala: 0.9, rot: i ? 4 : -4 });
   });
+  const fd = await seq("dicc", 141), fp = await seq("pron", 60);
+  M.sacarTarjeta(0, moviles[1], fd, { x: 0.06, y: 0.07, w: 0.88, h: 0.3 }, seg(lt, 4.6 * B, 5.2 * B), { x: 0.25, y: 0.5, z: 2.0, rx: -0.12, ry: -0.3, rz: 0.04, s: 1.1 });
+  M.sacarTarjeta(1, moviles[0], fp, { x: 0.12, y: 0.53, w: 0.76, h: 0.15 }, seg(lt, 2.4 * B, 3.0 * B), { x: -0.5, y: -1.75, z: 2.0, rx: 0.1, ry: 0.35, rz: -0.03, s: 1.3 });
   C.texto("h1", "发音·<em>词典</em>", "tit2", lt, 0.05, 2 * BAR, { y: 200, entrada: "pincel", dur: 0.35 });
   C.texto("h1es", "PRONUNCIACIÓN · DICCIONARIO", "es-peq", lt, 0.2, 2 * BAR, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("h2", "<em>一站搞定</em>，随时随地学", "sub", lt, 0.5 * B, 2 * BAR, { y: 378, entrada: "letras" });
