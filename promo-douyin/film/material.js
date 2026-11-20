@@ -36,6 +36,12 @@ export const SEQ = {
   concurso: { n: 235, url: (i) => `${C}v2/concurso/f_${pad(i + 1)}.jpg` },
   ahorcado: { n: 138, url: (i) => `${C}v2/ahorcado/f_${pad(i + 1)}.jpg` },
   ruleta: { n: 338, url: (i) => `${C}v2/ruleta/f_${pad(i + 1)}.jpg` },
+  ruta2: { n: 250, url: (i) => `${C}v2/ruta/f_${pad(i + 1)}.jpg` },
+  tutorV: { n: 193, url: (i) => `${C}v2/tutor/f_${pad(i + 1)}.jpg` },
+  dicc: { n: 142, url: (i) => `${C}v2/diccionario/f_${pad(i + 1)}.jpg` },
+  pron: { n: 120, url: (i) => `${C}v2/pronunciacion/f_${pad(i + 1)}.jpg` },
+  examenes: { n: 168, url: (i) => `${C}v2/examenes/f_${pad(i + 1)}.jpg` },
+  progreso: { n: 90, url: (i) => `${C}v2/progreso/f_${pad(i + 1)}.jpg` },
   acierto: { n: 90, url: (i) => `${C}aprender/seq-acierto-hola/f${pad(i)}.jpg` },
 };
 export const ZOOM = { tap: { x: 0.69, y: 0.47 } };

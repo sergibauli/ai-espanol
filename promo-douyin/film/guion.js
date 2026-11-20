@@ -146,12 +146,12 @@ ESC.aprender = async (lt) => {
   fondo({ c1: ["#1f6b4a", "#b3122b", "#25407a", "#4a2a8a"][lt < 2 * B ? 0 : i], c2: "#06080a", rayos: 0.3, nubes: 0.4, img: T["ruta" + nivel], imgK: 0.6, asp: 1, blur: 5.5, brillo: 0.6 });
   const k = eOut(seg(lt, 0, 0.6));
   const cambio = lt >= 2 * B ? golpeBeat(lt - 2 * B, 1.1) : 0;
-  const img = lt < 2 * B ? await seq("ruta", 10 + lt * 30 * 1.6) : T["ruta" + nivel];
+  const img = await seq("ruta2", 8 + lt * 30 * 2.2);
   moviles[0].poner({ x: lerp(2.5, 0.32, k), y: -0.62, z: cambio * 0.15, rx: -0.08, ry: lerp(-1.3, -0.24, k) + Math.sin(lt) * 0.05, rz: lerp(0.3, 0.02, k), s: 1.4, img, flash: cambio * 0.3 });
   C.texto("a1", "A1→B2 <em>闯关地图</em>", "tit2", lt, 0.1, BAR * 2, { y: 200, entrada: "pincel", dur: 0.4 });
   C.texto("a1es", "RUTA DE APRENDIZAJE · A1–B2", "es-peq", lt, 0.1 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("a2", "<em>四大世界</em>，一关关往上闯", "sub", lt, B, BAR * 2, { y: 378, entrada: "letras" });
-  chipsNivel(lt, 2 * B - 0.05, [[205, 720], [210, 900], [205, 1080], [215, 1260]], 1.1);
+
   post(() => C.rotulo("a3", "每级一个新世界", "Un mundo por nivel", lt, 1.0 * B, BAR * 2, { x: 205, y: 540, punto: moviles[0].punto(0.5, 0.11) }));
   M.camara.position.y += golpeBeat(lt) * 0.015;
 };
@@ -198,20 +198,18 @@ ESC.unidades = async (lt) => {
 
 // 6 · HERRAMIENTAS: pronunciación, diccionario, repaso
 ESC.herramientas = async (lt) => {
-  fondo({ c1: "#8f0c21", c2: "#1d0205", rayos: 0.5, nubes: 0.4 });
-  const imgs = [T.pronunciacion, T.rr, T.diccionario];
-  const nombres = ["发音", "大舌音", "词典"];
-  imgs.forEach((img, i) => {
-    const k = eBack(seg(lt, i * B * 0.75, i * B * 0.75 + 0.45), 1.6);
-    const x = (i - 1) * 0.8;
-    moviles[i].poner({ x, y: lerp(-5, -0.15, k) + (i === 1 ? 0.08 : 0), z: i === 1 ? 0.35 : -0.25, ry: (1 - i) * 0.28 + Math.sin(lt * 2 + i) * 0.05, rx: -0.05, s: 0.82, img, halo: 0.35 });
-    const p = proy(x, -0.15 - 1.12 * 0.82 - 0.1, 0);
-    C.libre("hn" + i, nombres[i], "sello doble", lt, i * B * 0.75 + 0.2, BAR, { x: Math.min(p.x, 820), y: Math.min(p.y + 30, 1450), escala: 1, rot: -4 + i * 4 });
+  fondo({ rayos: 0.25 });
+  const vids = [await seq("pron", 10 + lt * 30 * 2.4), await seq("dicc", 5 + lt * 30 * 2.6)];
+  ["发音神殿", "西汉词典"].forEach((nom, i) => {
+    const k = eBack(seg(lt, i * 0.35 * B, i * 0.35 * B + 0.45), 1.5);
+    const x = i ? 0.6 : -0.6;
+    moviles[i].poner({ x, y: lerp(-5, -0.5, k), z: 0, ry: (i ? -1 : 1) * 0.18 + Math.sin(lt * 2 + i) * 0.04, rx: -0.05, s: 0.98, img: vids[i], halo: 0.35 });
+    const p = proy(x, -0.5 - 1.12 * 0.98 - 0.1, 0);
+    C.libre("hn" + i, nom, "sello doble", lt, i * 0.35 * B + 0.2, BAR, { x: Math.max(220, Math.min(p.x, 820)), y: Math.min(p.y + 25, 1470), escala: 0.9, rot: i ? 4 : -4 });
   });
   C.texto("h1", "发音·<em>词典</em>", "tit2", lt, 0.05, BAR, { y: 200, entrada: "pincel", dur: 0.35 });
-  C.texto("h1es", "PRONUNCIACIÓN · DICCIONARIO", "es-peq", lt, 0.05 + 0.15, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
+  C.texto("h1es", "PRONUNCIACIÓN · DICCIONARIO", "es-peq", lt, 0.2, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("h2", "<em>一站搞定</em>，随时随地学", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
-  C.chip("h3", "agua", "水", lt, 2.2 * B, BAR, { x: 540, y: 520, cls: "jade" });
 };
 
 // 7 · PRÁCTICA: exámenes por nivel + PDF
@@ -222,7 +220,7 @@ ESC.practica = async (lt) => {
   const kf = eOut(seg(lt, 0, 0.55));
   const fase2 = seg(lt, 4 * B, 5 * B);
   // primer compás: los cuatro mundos de examen a golpe de beat; segundo: el examen y el PDF
-  const img = lt < 4 * B ? T[NIV[idx]] : T.cuatroMundos;
+  const img = await seq("examenes", 4 + lt * 30 * 1.45);
   moviles[0].poner({ x: lerp(0, -0.55, eInOut(fase2)), y: -0.62, z: lerp(0, -0.6, eInOut(fase2)), ry: (1 - kf) * Math.PI + Math.sin(lt * 1.5) * 0.08 + eInOut(fase2) * 0.35, rx: -0.05, s: 1.4, img, flash: lt < 4 * B ? golpeBeat(lt) * 0.25 : 0 });
   // la hoja impresa sale del móvil
   const kp = eOut(seg(lt, 5 * B, 6.4 * B));
@@ -234,7 +232,6 @@ ESC.practica = async (lt) => {
   C.texto("x1es", "EXÁMENES POR NIVEL", "es-peq", lt, 0.05 + 0.15, BAR * 2, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("x2", "听说读写，<em>四项全练</em>", "sub", lt, B, 4 * B, { y: 378, entrada: "letras" });
   C.texto("x3", "<em>一键打印</em> PDF 试卷", "sub", lt, 4 * B + 0.15, BAR * 2, { y: 378, entrada: "letras" });
-  ["A1", "A2", "B1", "B2"].forEach((n, i) => C.chip("xn" + n, n, "", lt, i * B, 4 * B, { x: 170 + i * 0, y: 760 + i * 170, cls: ["jade", "", "azul", "morado"][i], rot: -5 }));
   C.chip("x4", `${CIFRAS.modelos} 套模拟题`, "", lt, 6.2 * B, BAR * 2, { x: 300, y: 1500, cls: "oro", rot: -4 });
 };
 
@@ -242,13 +239,13 @@ ESC.practica = async (lt) => {
 ESC.tutor = async (lt) => {
   fondo({ c1: "#c8102e", c2: "#260206", rayos: 0.7, nubes: 0.5 });
   const k = eOut(seg(lt, 0, 0.45));
-  moviles[0].poner({ x: lerp(0, 0.28, k), y: -0.62, z: lerp(-6, 0, k), ry: -0.2 + Math.sin(lt * 1.7) * 0.05, rx: -0.04, s: 1.4, img: lt < 1.4 * B ? T.tutorRetrato : T.tutorChat, flash: lt > 1.4 * B ? 0.35 * (1 - seg(lt, 1.4 * B, 1.4 * B + 0.25)) : 0, halo: 0.6 + golpeBeat(lt) * 0.4 });
+  moviles[0].poner({ x: lerp(0, 0.28, k), y: -0.62, z: lerp(-6, 0, k), ry: -0.2 + Math.sin(lt * 1.7) * 0.05, rx: -0.04, s: 1.4, img: await seq("tutorV", 30 + lt * 30 * 2.9), halo: 0.6 + golpeBeat(lt) * 0.4 });
   C.texto("tu1", "口语<em>陪练</em>", "tit2", lt, 0.05, BAR, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("tu1es", "TUTOR ORAL · REY MONO", "es-peq", lt, 0.05 + 0.15, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
   C.texto("tu2", "和<em>美猴王</em>对话，模拟口语考试", "sub", lt, 0.5 * B, BAR, { y: 378, entrada: "letras" });
   post(() => {
     const m = moviles[0];
-    C.lupa("tu3", CAP.tutorChat, { x: 0.22, y: 0.345, w: 0.68, h: 0.17 }, lt, 1.7 * B, BAR, { x: 470, y: 1250, ancho: 760, rot: -2, desde: m.punto(0.56, 0.43) });
+    C.lupa("tu3", CAP.tutorChat, { x: 0.22, y: 0.345, w: 0.68, h: 0.17 }, lt, 2.6 * B, BAR, { x: 470, y: 1250, ancho: 760, rot: -2, desde: m.punto(0.56, 0.43) });
     C.rotulo("tu4", "说错马上改", "Te corrige al momento", lt, 0.6 * B, BAR, { x: 205, y: 560, punto: m.punto(0.5, 0.25) });
   });
 };
@@ -314,7 +311,7 @@ ESC.turbo = async (lt) => {
 ESC.progreso = async (lt) => {
   fondo({ c1: "#c8961e", c2: "#3a1404", rayos: 0.6, nubes: 0.5 });
   const k = eOut(seg(lt, 0, 0.5));
-  moviles[0].poner({ x: lerp(-2.5, -0.15, k), y: -0.62, z: 0, ry: lerp(1.4, 0.25, k), rx: -0.05, s: 1.4, img: lt < 2 * B ? T.progreso : T.progreso2, flash: lt > 2 * B ? 0.3 * (1 - seg(lt, 2 * B, 2 * B + 0.25)) : 0 });
+  moviles[0].poner({ x: lerp(-2.5, -0.15, k), y: -0.62, z: 0, ry: lerp(1.4, 0.25, k), rx: -0.05, s: 1.4, img: await seq("progreso", lt * 30 * 1.5) });
   spr(S.trofeo, { x: 0.95, y: -1.55, z: 0.9, a: k, t: lt, esc: eBack(seg(lt, B, B + 0.4)), rz: Math.sin(lt * 4) * 0.05 });
   C.texto("pg1", "学习<em>进度</em>", "tit2", lt, 0.05, BAR, { y: 200, entrada: "golpe", temblor: 6 });
   C.texto("pg1es", "MI PROGRESO", "es-peq", lt, 0.05 + 0.15, BAR, { y: 292, entrada: "pincel", dur: 0.4 });
