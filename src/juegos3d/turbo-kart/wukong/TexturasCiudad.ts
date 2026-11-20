@@ -112,8 +112,8 @@ export function texturaEscamas(luz = false): THREE.CanvasTexture {
         c.arc(x, y - 16, 21, 0.02 * Math.PI, 0.98 * Math.PI);
         c.closePath();
         c.fill();
-        c.strokeStyle = '#f2c14e';
-        c.lineWidth = 3;
+        c.strokeStyle = '#ffd36a';
+        c.lineWidth = 5;
         c.beginPath();
         c.arc(x, y - 16, 21, 0.06 * Math.PI, 0.94 * Math.PI);
         c.stroke();

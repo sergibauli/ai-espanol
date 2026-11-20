@@ -21,6 +21,7 @@ const VERT = /* glsl */ `
 #include <common>
 #include <fog_pars_vertex>
 uniform float uTime;
+uniform float uAlta;
 attribute float aTipo;
 attribute float aFase;
 attribute vec3 aOnda;
@@ -35,12 +36,12 @@ varying float vFase;
 void main() {
   vec3 p = position;
   // ondulación serpenteante (lateral) y un leve vaivén vertical
-  float ola = sin(aFase - uTime * 1.05);
+  float ola = sin(aFase - uTime * 0.85);
   p += aOnda * ola;
-  p.y += length(aOnda) * 0.45 * cos(aFase * 0.7 - uTime * 0.8);
+  p.y += length(aOnda) * 0.45 * cos(aFase * 0.7 - uTime * 0.65);
   // respiración: el cuerpo se hincha un poco, como si respirase
   float cuerpo = step(0.5, aTipo) * step(aTipo, 1.5);
-  p += normal * cuerpo * 0.06 * sin(uTime * 1.5 - aFase * 0.3);
+  p += normal * cuerpo * 0.04 * uAlta * sin(uTime * 1.1 - aFase * 0.3);
   vec4 w = modelMatrix * vec4(p, 1.0);
   vW = w.xyz;
   vN = normalize(mat3(modelMatrix) * normal);
@@ -65,6 +66,7 @@ uniform vec3 uBrillo;
 uniform vec3 uOro;
 uniform vec3 uLuna;
 uniform float uOpacidad;
+uniform float uAlta;
 varying vec3 vW;
 varying vec3 vN;
 varying float vTipo;
@@ -91,9 +93,9 @@ void main() {
     col = min(col, vec3(0.85));
     alfa = 1.0;
   } else {
-    col = mix(uHondo, uJade, dif) * 0.62;
-    float pulso = pow(0.5 + 0.5 * sin(vFase * 0.45 - uTime * 2.1), 8.0);
-    col += uEmis * 0.4 * (0.75 + 0.25 * pulso);
+    col = uJade * (0.35 + 0.4 * dif);
+    float pulso = pow(0.5 + 0.5 * sin(vFase * 0.45 - uTime * 1.5), 8.0) * uAlta;
+    col += uEmis * 0.5 * 0.45 * (0.75 + 0.25 * pulso);
     if (vTipo > 0.5 && vTipo < 1.5) {
       // escamas: semicírculos solapados, filas alternas desplazadas
       vec2 e = vEsc;
@@ -102,8 +104,12 @@ void main() {
       float d = length(vec2(f.x, f.y - 0.5));
       float sombra = smoothstep(0.1, 0.62, d);
       float filo = smoothstep(0.5, 0.56, d) * (1.0 - smoothstep(0.58, 0.66, d));
-      col *= mix(1.08, 0.72, sombra);
-      col += uEmis * filo * (0.18 + 0.25 * pulso);
+      // escama clara #d8f7ef en el centro, #8fd3c3 hacia el borde y filo oscuro marcado
+      vec3 claro = vec3(0.69, 0.93, 0.86);
+      vec3 oscuro = vec3(0.28, 0.65, 0.55);
+      col = mix(claro, oscuro, sombra) * (0.32 + 0.38 * dif) + uEmis * 0.22;
+      col *= 1.0 - filo * 0.45;
+      col += uEmis * filo * 0.25 * pulso;
       // vientre: placas doradas pálidas
       float placa = smoothstep(0.08, 0.14, fract(vEsc.x * 0.35));
       vec3 vientre = mix(uJade, uOro, 0.45) * (0.35 + 0.4 * dif) * mix(0.6, 1.0, placa);
@@ -112,10 +118,12 @@ void main() {
       // cuernos, melena y aletas laterales: jade con veta dorada
       col = mix(col, uOro * (0.4 + 0.5 * dif), 0.25);
     }
-    // falso subsurface: la luz atraviesa los bordes del jade
-    col += uEmis * pow(1.0 - ndv, 1.7) * 0.25;
+    // falso subsurface (solo en calidad alta): la luz atraviesa los bordes del jade
+    if (uAlta > 0.5) {
+      col += uEmis * pow(1.0 - ndv, 1.7) * 0.25;
+      col += vec3(1.0, 0.98, 0.95) * spec * 0.3;
+    }
     col += uFres * fres * 0.35;
-    col += vec3(1.0, 0.98, 0.95) * spec * 0.3;
     col = min(col, vec3(0.85));
   }
   gl_FragColor = vec4(col, alfa);
@@ -202,13 +210,14 @@ export class DragonesJade {
         THREE.UniformsLib.fog,
         {
           uTime: { value: 0 },
-          uJade: { value: new THREE.Color(0xcfeee6) },
+          uJade: { value: new THREE.Color(0xa8e0d2) },
           uHondo: { value: new THREE.Color(0x1d5c58) },
-          uEmis: { value: new THREE.Color(0x5fd6c0) },
+          uEmis: { value: new THREE.Color(0x3fbfa8) },
           uFres: { value: new THREE.Color(0xe8fff9) },
           uBrillo: { value: new THREE.Color(0.55, 1.0, 0.95) },
           uOro: { value: new THREE.Color(0xd9a640) },
-          uOpacidad: { value: 0.66 },
+          uOpacidad: { value: 0.75 },
+          uAlta: { value: 1 },
           uLuna: { value: new THREE.Vector3(-0.35, 0.8, -0.49).normalize() },
         },
       ]),
@@ -451,6 +460,11 @@ export class DragonesJade {
 
   update(tiempo: number): void {
     this.material.uniforms.uTime.value = tiempo;
+  }
+
+  /** Calidad baja (móvil): sin subsurface ni especular, sin respiración ni venas que laten. */
+  setCalidad(alta: boolean): void {
+    this.material.uniforms.uAlta.value = alta ? 1 : 0;
   }
 
   dispose(): void {

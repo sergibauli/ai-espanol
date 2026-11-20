@@ -58,6 +58,9 @@ uniform vec3 uBordeB;
 uniform float uAlfa;
 uniform float uModo;
 uniform sampler2D uNubes;
+uniform float uAlta;
+uniform vec2 uArcos;
+uniform float uLargo;
 varying vec2 vUv;
 varying float vBorde;
 varying vec3 vW;
@@ -77,48 +80,73 @@ void main() {
   vec3 col;
   float vena = 0.0;
   if (uModo > 0.5) {
-    // Cristal de jade oscuro: de #0e5a55 (cerca) a #2a8f86 (horizonte), muy especular.
+    // Cristal de jade: #14706a (cerca) → #2fa197 (horizonte), franja central más clara #3fb3a6 al 25 %.
+    // (Valores ×0,6: el tonemapping ACES aclara ~1,75×.)
     vec3 V = normalize(cameraPosition - vW);
     float dist = length(cameraPosition - vW);
     float lejos = smoothstep(4.0, 150.0, dist);
     float fondo = fbm(p * 0.6 + 7.0);
     float vetas = fbm(vec2(x * 7.0, y * 0.45) + fondo * 2.5);
-    // (×0,6: el tonemapping ACES multiplica por ~1,75; así se ve #0e5a55 → #2a8f86 en pantalla)
-    col = mix(vec3(0.0044, 0.102, 0.091), vec3(0.023, 0.275, 0.238), lejos) * (0.48 + 0.24 * fondo);
-    col += vec3(0.03, 0.11, 0.1) * smoothstep(0.55, 0.85, vetas);
-    // Xiangyun finos (#9ffff0, ~42 %) en bandas a los lados, con un contorno bajo el cristal (parallax).
-    float bandas = smoothstep(0.12, 0.3, xc) * (1.0 - smoothstep(e - 0.17, e - 0.07, xc));
-    vec2 q1 = vec2(x * 2.4, y * 0.6);
-    vec2 par = V.xz * 0.018;
-    float a1 = smoothstep(0.45, 0.9, texture2D(uNubes, q1).r);
-    float a2 = smoothstep(0.45, 0.9, texture2D(uNubes, vec2(x * 1.55 + 0.31, y * 0.38 + 0.5)).r);
-    float a3 = smoothstep(0.45, 0.9, texture2D(uNubes, q1 + vec2(0.008, 0.0) - par).r);
-    float pulso = 1.0 + 0.15 * sin(uTime * 2.0944);
-    float traz = max(a1, a2 * 0.85);
+    col = mix(vec3(0.007, 0.162, 0.144), vec3(0.028, 0.356, 0.3), lejos) * 0.6 * (0.85 + 0.3 * fondo);
+    col = mix(col, vec3(0.05, 0.45, 0.38) * 0.6, 0.25 * (1.0 - smoothstep(0.1, 0.45, xc)));
+    col += vec3(0.03, 0.1, 0.09) * smoothstep(0.55, 0.85, vetas);
+    // Xiangyun grabados (#9ffff0 ~60 %), grandes y densos, con contorno doble bajo el cristal.
+    float bandas = smoothstep(0.03, 0.14, xc) * (1.0 - smoothstep(e - 0.12, e - 0.05, xc));
+    vec2 q1 = vec2(x * 1.7, y * 0.43);
+    vec2 par = V.xz * 0.02;
+    float a1 = smoothstep(0.42, 0.88, texture2D(uNubes, q1).r);
+    float a2 = smoothstep(0.42, 0.88, texture2D(uNubes, vec2(x * 1.1 + 0.31, y * 0.28 + 0.5)).r);
+    float a3 = uAlta > 0.5 ? smoothstep(0.42, 0.88, texture2D(uNubes, q1 + vec2(0.01, 0.0) - par).r) : 0.0;
+    float pulso = 1.0 + 0.15 * uAlta * sin(uTime * 2.0944);
+    float traz = max(a1, a2 * 0.9);
     vena = traz;
-    col = mix(col, vec3(0.35, 1.0, 0.87) * 0.4, clamp((traz * 0.45 + a3 * 0.18) * bandas * pulso, 0.0, 1.0));
-    // Reflejos falsos alargados en Z: rótulos (rosa/cian/ámbar) y la franja cálida de las barandillas.
-    float rompeR = fbm(vec2(x * 3.0, y * 0.25));
-    vec2 celda = vec2(x * 7.0, y * 0.22);
-    float mancha = smoothstep(0.58, 0.8, noise(celda)) * smoothstep(0.2, 0.6, noise(celda * vec2(0.5, 3.0) + 9.0));
-    float h = hash(floor(celda));
-    vec3 tono = h < 0.4 ? vec3(1.0, 0.08, 0.43) : (h < 0.7 ? vec3(0.2, 1.0, 0.87) : vec3(1.0, 0.45, 0.1));
-    col += tono * mancha * 0.26 * (0.35 + 0.65 * lejos);
-    col += vec3(1.0, 0.45, 0.1) * exp(-pow((xc - (e - 0.07)) * 13.0, 2.0)) * 0.24 * (0.6 + 0.4 * rompeR);
-    col += vec3(1.0, 0.08, 0.43) * exp(-pow((xc - (e - 0.17)) * 10.0, 2.0)) * 0.12 * (0.6 + 0.4 * rompeR);
-    // Especular del cristal: hacia el horizonte refleja el cielo violeta.
-    float fres = pow(1.0 - clamp(V.y, 0.0, 1.0), 5.0);
-    col += vec3(0.1, 0.08, 0.2) * fres;
-    float chispa = step(0.997, hash(floor(vec2(x * 90.0, y * 14.0)))) * (0.5 + 0.5 * sin(uTime * 6.0 + y));
-    col += vec3(0.5, 0.9, 0.85) * chispa * 0.35;
+    col = mix(col, vec3(0.35, 1.0, 0.87) * 0.6, clamp((traz * 0.6 + a3 * 0.25) * bandas * pulso, 0.0, 1.0));
+    // Cada ~60 m, una banda de escamas de dragón grabada en el suelo.
+    float m60 = fract(y * 0.1);
+    float bandaE = smoothstep(0.0, 0.01, m60) * (1.0 - smoothstep(0.07, 0.08, m60)) * step(xc, e - 0.04);
+    vec2 ce = vec2(x * 18.0, y * 6.0);
+    ce.x += mod(floor(ce.y), 2.0) * 0.5;
+    vec2 fe = fract(ce);
+    float de = length(vec2(fe.x - 0.5, fe.y));
+    float filoE = smoothstep(0.42, 0.48, de) * (1.0 - smoothstep(0.5, 0.58, de));
+    col = mix(col, vec3(0.35, 1.0, 0.87) * 0.55, filoE * bandaE * 0.6);
+    col += vec3(0.02, 0.12, 0.1) * bandaE * (1.0 - smoothstep(0.0, 0.5, de));
+    // Reflejos aditivos alargados (1–1,5 m × 6–12 m) que se deslizan con la cámara (parallax).
+    float yR = y * 6.0 - dist * 0.5;
+    float ancho = 22.0;
+    float rompe = 0.55 + 0.45 * noise(vec2(x * 4.0, yR * 0.08));
+    // ámbar bajo cada barandilla (la franja cálida)
+    col += vec3(1.0, 0.45, 0.1) * exp(-pow((xc - (e - 0.07)) * 12.0, 2.0)) * 0.5 * rompe;
+    // rosa / rojo bajo rótulos y farolillos cercanos
+    vec2 cR = vec2(xc * ancho / 1.3, yR / 9.0);
+    float hR = hash(floor(cR));
+    vec2 fR = fract(cR);
+    float forma = smoothstep(0.5, 0.15, abs(fR.x - 0.5)) * smoothstep(0.5, 0.2, abs(fR.y - 0.5));
+    float zonaR = step(0.35, xc) * step(xc, e - 0.14);
+    vec3 tonoR = hR < 0.55 ? vec3(1.0, 0.08, 0.43) : vec3(1.0, 0.1, 0.03);
+    col += tonoR * forma * step(0.62, hR) * zonaR * 0.5;
+    // cian tenue a lo largo de la línea central
+    col += vec3(0.2, 1.0, 0.87) * exp(-pow(xc * 22.0, 2.0)) * 0.2 * rompe;
+    // reflejo del arco paifang (columnas cian y placa roja) en los ~14 m antes de cada arco
+    for (int k = 0; k < 2; k++) {
+      float dA = mod((k == 0 ? uArcos.x : uArcos.y) - y * 6.0, uLargo);
+      float tramo = smoothstep(0.0, 2.0, dA) * (1.0 - smoothstep(10.0, 16.0, dA));
+      col += vec3(0.2, 1.0, 0.87) * exp(-pow((xc - (e - 0.02)) * 14.0, 2.0)) * 0.55 * tramo;
+      col += vec3(1.0, 0.1, 0.03) * exp(-pow(xc * 4.0, 2.0)) * 0.35 * tramo * rompe;
+    }
+    // brillo rasante #8fd8ff (30 %) sobre el 30 % más lejano
+    float rasante = smoothstep(0.55, 0.85, lejos) * pow(1.0 - clamp(V.y, 0.0, 1.0), 3.0);
+    col += vec3(0.28, 0.69, 1.0) * 0.3 * rasante;
+    float chispa = step(0.997, hash(floor(vec2(x * 90.0, y * 14.0)))) * (0.5 + 0.5 * sin(uTime * 2.5 + y));
+    col += vec3(0.5, 0.9, 0.85) * chispa * 0.35 * uAlta;
   } else {
     // relámpagos: líneas finas de ruido con un segundo nivel de ramas
-    float n = fbm(p + vec2(0.0, -uTime * 0.22));
+    float n = fbm(p + vec2(0.0, -uTime * 0.15));
     vena = 1.0 - smoothstep(0.0, 0.018, abs(n - 0.5));
     float n2 = fbm(p * 2.3 + vec2(3.1, uTime * 0.15));
     vena += 0.55 * (1.0 - smoothstep(0.0, 0.012, abs(n2 - 0.52)));
     float halo = 1.0 - smoothstep(0.0, 0.09, abs(n - 0.5));
-    float pulso = 0.65 + 0.35 * sin(uTime * 4.0 + y * 1.7 + n * 6.0);
+    float pulso = 0.65 + 0.35 * sin(uTime * 2.8 + y * 1.7 + n * 6.0);
     float fondo = fbm(p * 0.5 + 7.0);
     col = uBase * (0.12 + 0.3 * fondo);
     col += uBase * 0.3 * halo;
@@ -138,12 +166,18 @@ void main() {
   float kL = uModo > 0.5 ? 0.5 : 1.0;
   col = mix(col, uBordeA * 1.6, rosa * (uModo > 0.5 ? 0.75 : 1.0));
   col += uBordeA * brilloRosa * kL;
-  col = mix(col, vec3(1.6, 1.5, 1.6), blanca * 0.9 * kL);
+  col = mix(col, vec3(1.6, 1.5, 1.6), blanca * 0.9 * (uModo > 0.5 ? 0.0 : 1.0));
   // segunda línea cian junto al muro
   float cian = 1.0 - smoothstep(0.004, 0.012, abs(xc - 0.985));
   col = mix(col, uBordeB * 1.4, cian * step(e, 0.999));
   // línea central discontinua
   float dash = step(0.5, fract(y * 0.5)) * (1.0 - smoothstep(0.004, 0.01, xc));
+  if (uModo > 0.5) {
+    // marcas finas: trazos de 15 cm, #d8fff6 al 35 %
+    float trazo = step(0.6, fract(y * 0.5)) * (1.0 - smoothstep(0.005, 0.008, xc));
+    col = mix(col, vec3(0.69, 1.0, 0.92) * 0.8, trazo * 0.35);
+    dash = 0.0;
+  }
   col = mix(col, vec3(1.3), dash * 0.85 * kL);
   float a = clamp(uAlfa + vena * 0.1 + rosa + blanca + dash * 0.5, 0.0, 1.0);
   gl_FragColor = vec4(col, a);
@@ -197,6 +231,8 @@ export class CiudadDragon {
   private readonly tramoDragon: [number, number] = [0.03, 0.1];
   /** Tiempo compartido por los materiales que se mecen (farolillos). */
   private readonly uTiempo = { value: 0 };
+  /** 1 = farolillos que se mecen; 0 en calidad baja. */
+  private readonly uMecer = { value: 1 };
   private dragones: DragonesJade | null = null;
 
   constructor(
@@ -243,6 +279,9 @@ export class CiudadDragon {
         uAlfa: { value: e.alfa },
         uModo: { value: e.ciudad ? 1 : 0 },
         uNubes: { value: null },
+        uArcos: { value: new THREE.Vector2(8, 0.088 * track.length) },
+        uLargo: { value: track.length },
+        uAlta: { value: 1 },
       },
     });
     this.mats.push(this.matCarretera);
@@ -403,7 +442,7 @@ export class CiudadDragon {
         for (const [o, h, v] of perfil) {
           const dd = d + o;
           pos.push(s.position.x + s.binormal.x * dd * lado, y + h, s.position.z + s.binormal.z * dd * lado);
-          uv.push((t * L) / 6.5, v);
+          uv.push((t * L) / 9, v);
         }
         // Banda rosa en la base (enlaza con el borde de la pista) y franja cálida continua bajo el pasamanos.
         const P = (o: number, h: number, out: number[]): void => {
@@ -436,7 +475,7 @@ export class CiudadDragon {
           const largo = new THREE.Vector3(s.tangent.x, 0, s.tangent.z).normalize();
           const ancho = new THREE.Vector3().crossVectors(largo, arriba).normalize();
           const dt = d + 0.12;
-          const esc = i % 2 === 0 ? 0.62 : 0.54;
+          const esc = i % 2 === 0 ? 0.82 : 0.75;
           puntas.push(
             new THREE.Matrix4()
               .makeBasis(largo.multiplyScalar(esc), arriba.multiplyScalar(esc), ancho)
@@ -461,7 +500,7 @@ export class CiudadDragon {
     const linea = new THREE.Mesh(gn, this.m(new THREE.MeshBasicMaterial({ vertexColors: true, toneMapped: false, side: THREE.DoubleSide })));
     linea.frustumCulled = false;
     this.object.add(linea);
-    const matOro = this.m(new THREE.MeshStandardMaterial({ color: 0xe0a93a, emissive: 0x8a5a10, emissiveIntensity: 0.6, metalness: 0.9, roughness: 0.25, side: THREE.DoubleSide }));
+    const matOro = this.m(new THREE.MeshStandardMaterial({ color: 0xffd36a, emissive: 0x9a6612, emissiveIntensity: 0.7, metalness: 0.9, roughness: 0.22, side: THREE.DoubleSide }));
     const go = this.g(new THREE.BufferGeometry());
     go.setAttribute('position', new THREE.Float32BufferAttribute(oroPos, 3));
     go.setIndex(oroIdx);
@@ -498,7 +537,7 @@ export class CiudadDragon {
     const oro = this.m(new THREE.MeshStandardMaterial({ color: 0xf2c14e, metalness: 0.85, roughness: 0.25, emissive: 0x5a3a08, emissiveIntensity: 0.6 }));
     const laca = this.m(new THREE.MeshStandardMaterial({ color: 0xb30f22, roughness: 0.4, metalness: 0.2, emissive: 0x3a0008, emissiveIntensity: 0.6 }));
     const jade = this.m(new THREE.MeshStandardMaterial({ color: 0x1f8a7a, roughness: 0.3, metalness: 0.3, emissive: 0x0b4a40, emissiveIntensity: 0.8 }));
-    const neon = this.m(new THREE.MeshBasicMaterial({ color: new THREE.Color(0x5ffff0).multiplyScalar(2.2), toneMapped: false }));
+    const neon = this.neonCerca(0x7ffff0, 1.2);
     const H = 13;
     const columna = this.g(new THREE.CylinderGeometry(0.75, 0.9, H, 12));
     for (const lado of [-1, 1]) {
@@ -793,18 +832,30 @@ export class CiudadDragon {
     }
   }
 
+  /** Neón que se atenúa al acercarse la cámara (no quema en blanco al pasar por debajo). */
+  private neonCerca(hex: number, k: number): THREE.ShaderMaterial {
+    return this.m(
+      new THREE.ShaderMaterial({
+        uniforms: { uCol: { value: new THREE.Color(hex).multiplyScalar(k) } },
+        vertexShader: 'varying vec3 vW; void main() { vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }',
+        fragmentShader: 'uniform vec3 uCol; varying vec3 vW; void main() { float d = length(cameraPosition - vW); gl_FragColor = vec4(uCol * mix(0.35, 1.0, smoothstep(6.0, 45.0, d)), 1.0); }',
+      }),
+    );
+  }
+
   /** Los farolillos se mecen con la brisa (en el vertex shader; el pivote está encima). */
   private mecer(mat: THREE.Material): void {
     mat.onBeforeCompile = (sh) => {
       sh.uniforms.uTiempo = this.uTiempo;
+      sh.uniforms.uMecer = this.uMecer;
       sh.vertexShader =
-        'uniform float uTiempo;\n' +
+        'uniform float uTiempo;\nuniform float uMecer;\n' +
         sh.vertexShader.replace(
           '#include <begin_vertex>',
           `#include <begin_vertex>
           #ifdef USE_INSTANCING
             float faseF = instanceMatrix[3].x * 0.37 + instanceMatrix[3].z * 0.23;
-            float brazo = 0.75 - position.y;
+            float brazo = (0.75 - position.y) * uMecer;
             transformed.x += sin(uTiempo * 1.7 + faseF) * 0.07 * brazo;
             transformed.z += cos(uTiempo * 1.3 + faseF * 1.7) * 0.045 * brazo;
           #endif`,
@@ -1059,23 +1110,25 @@ export class CiudadDragon {
     const v = (x: number, y: number, z: number): THREE.Vector3 => new THREE.Vector3(x, y, z);
     const ondaLejos = (a: number) => (u: number) => a * THREE.MathUtils.smoothstep(u, 0.06, 0.45);
     const tmp = new THREE.Vector3();
+    // La cabeza flota sobre la pista (25–40 m) y el cuerpo cruza en S hacia un lado, por delante del skyline,
+    // y baja entre los edificios. Nunca a menos de 14 m por encima de ningún tramo de pista.
     const enT = (t0: number, lado: number): THREE.Vector3[] | null => {
       const pts: THREE.Vector3[] = [];
-      for (let k = 0; k <= 12; k++) {
-        const t = t0 + (k * 7.5) / L;
+      for (let k = 0; k <= 13; k++) {
+        const t = t0 + (k * 5) / L;
         this.muestra(t, s);
-        const lat = s.wallHalfWidth + 21 + k * 1.5 + Math.sin(k * 0.95) * 5;
-        const h = 20 + Math.sin(k * 0.8 + 0.4) * 3.5 - Math.max(0, k - 7) * 7;
-        const p = v(s.position.x + s.binormal.x * lat * lado, s.position.y + h, s.position.z + s.binormal.z * lat * lado);
+        const lat = lado * (3 + k * 4.2 + Math.sin(k * 0.9) * 3);
+        const h = 31 + Math.sin(k * 0.75 + 0.6) * 4 - Math.max(0, k - 8) * 6;
+        const p = v(s.position.x + s.binormal.x * lat, s.position.y + h, s.position.z + s.binormal.z * lat);
         const q = this.track.query(tmp.set(p.x, 0, p.z));
-        if (Math.abs(q.lateral) - q.wallHalfWidth < 13 && p.y > q.center.y - 20) return null;
+        if (Math.abs(q.lateral) - q.wallHalfWidth < 12 && p.y < q.center.y + 14) return null;
         pts.push(p);
       }
       return pts;
     };
     let lado = -1;
     let cabezas = 0;
-    for (const tBase of [0.03, 0.15, 0.27, 0.39, 0.51, 0.63, 0.75, 0.87]) {
+    for (const tBase of [0.07, 0.17, 0.27, 0.37, 0.47, 0.57, 0.67, 0.77, 0.87, 0.97]) {
       // prueba este lado, el otro y luego un poco más adelante
       let pts: THREE.Vector3[] | null = null;
       let l = lado;
@@ -1093,8 +1146,8 @@ export class CiudadDragon {
       cabezas++;
       this.muestra(t0, s);
       // mira hacia atrás (a los karts que llegan), un poco hacia la pista y hacia abajo
-      const mirar = s.tangent.clone().negate().addScaledVector(s.binormal, -l * 0.55).setY(-0.32).normalize();
-      fab.agregar({ puntos: pts, radio: 1.9, onda: ondaLejos(1.6), escalaCabeza: 2.0, mirar, patas: [0.2, 0.46], segs: 200 });
+      const mirar = s.tangent.clone().negate().addScaledVector(s.binormal, -l * 0.25).setY(-0.38).normalize();
+      fab.agregar({ puntos: pts, radio: 1.9, onda: ondaLejos(1.6), escalaCabeza: 2.5, mirar, patas: [0.2, 0.46], segs: 170 });
     }
     // En el centro del circuito, enroscado hacia arriba.
     const espiral: THREE.Vector3[] = [v(96, 47, -96)];
@@ -1476,6 +1529,18 @@ export class CiudadDragon {
       pos.needsUpdate = true;
       col.needsUpdate = true;
     }
+  }
+
+  /**
+   * Calidad alta/baja (pensado para móvil; Game.ts aún no lo llama). En baja se apagan el falso
+   * subsurface y la respiración de los dragones, el vaivén de los farolillos, la deriva de las nubes,
+   * el pulso de los rótulos, los focos y las capas caras de la carretera.
+   */
+  setHighQualityMode(alta: boolean): void {
+    this.matCarretera.uniforms.uAlta.value = alta ? 1 : 0;
+    this.uMecer.value = alta ? 1 : 0;
+    this.dragones?.setCalidad(alta);
+    this.elevada?.setCalidad(alta);
   }
 
   dispose(): void {
