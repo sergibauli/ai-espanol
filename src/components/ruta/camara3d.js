@@ -17,7 +17,16 @@ import { ANCHO_CARRIL } from "./geometria.js";
 
 const GRADOS = Math.PI / 180;
 const sinMovimiento = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-const esMovil = () => typeof window !== "undefined" && window.innerWidth <= 700;
+// Leer window.innerWidth puede forzar un recálculo de diseño; camaraBase() se llama por tablero en cada fotograma,
+// justo después de escribir transformaciones (layout thrashing: ~200 ms al cargar la ruta). Se cachea y se renueva
+// solo al cambiar el tamaño de la ventana.
+let movilCache = null;
+if (typeof window !== "undefined") window.addEventListener("resize", () => (movilCache = null), { passive: true });
+const esMovil = () => {
+  if (typeof window === "undefined") return false;
+  if (movilCache === null) movilCache = window.innerWidth <= 700;
+  return movilCache;
+};
 
 /** Postura de reposo del tablero de una unidad de `alto` px */
 export function camaraBase(alto, movil = esMovil()) {
@@ -125,6 +134,7 @@ export function crearDirector(raiz) {
   let desplazado = 0; // scroll acumulado (px) desde que se midieron las cajas
   let medidaGlobal = 0; // se incrementa para volver a medir (resize, cambios del DOM)
   const ultimoScroll = new WeakMap();
+  let altoVentana = typeof window !== "undefined" ? window.innerHeight || 800 : 800;
 
   const estado = (el) => {
     let e = tableros.get(el);
@@ -150,7 +160,7 @@ export function crearDirector(raiz) {
     const alto = Number(el.dataset.alto) || 500;
     const base = camaraBase(alto);
     if (!activa) return { cam: base, quieta: true };
-    const vh = window.innerHeight || 800;
+    const vh = altoVentana; // leído una vez al empezar el fotograma, antes de escribir transformaciones
     // Posición del tablero en pantalla sin forzar layout: la caja medida una vez y el desplazamiento acumulado
     const e0 = tableros.get(el);
     if (!e0.caja || e0.medida !== medidaGlobal) {
@@ -188,6 +198,16 @@ export function crearDirector(raiz) {
     raf = 0;
     if (pausada) return;
     if (pendientes.size) leerScroll();
+    altoVentana = window.innerHeight || 800;
+    // Todas las lecturas de cajas antes de cualquier escritura (sin intercalar: evita un layout forzado por tablero)
+    for (const el of visibles) {
+      const e0 = estado(el);
+      if (!e0.caja || e0.medida !== medidaGlobal) {
+        const r = el.getBoundingClientRect();
+        e0.caja = { top: r.top + desplazado, height: r.height };
+        e0.medida = medidaGlobal;
+      }
+    }
     punteroSuave = { x: punteroSuave.x + (puntero.x - punteroSuave.x) * 0.08, y: punteroSuave.y + (puntero.y - punteroSuave.y) * 0.08 };
     let seguir = Math.abs(punteroSuave.x - puntero.x) > 0.002 || Math.abs(punteroSuave.y - puntero.y) > 0.002;
     // Parallax del paisaje (solo en el mundo: cambiar una variable en .ruta-main recalcularía toda la página)

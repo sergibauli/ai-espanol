@@ -101,3 +101,9 @@
   html body .light-page .light-top .sel-idioma-btn { min-height: 44px; }
   html body .light-page .light-top .light-salir { min-width: 44px; min-height: 44px; }
 }
+
+/* Ruta en móvil: el panel lateral (racha, metas, logros: ~800 nodos) queda al final de una página de ~17 000 px.
+   El navegador no lo calcula ni lo pinta hasta que se acerca (igual que las unidades: v20-fluidez.css). */
+@media (max-width: 1023px) {
+  .ruta-layout > aside.ruta-side { content-visibility: auto; contain-intrinsic-size: auto 1480px; }
+}

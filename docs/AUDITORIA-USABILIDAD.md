@@ -35,7 +35,7 @@ La base es sólida (trabajo previo de v14 y «móvil · juegos»): no hay pantal
 | 7 | Medio | Bajo | Gesto de deslizar entre secciones | Recorría un orden distinto al de la barra (`/dashboard → /examenes → /diccionarios…` e incluso `/consejos`, `/ayudas`, ocultas en el menú) y podía dispararse dentro de filas deslizables. | ✅ Mismo orden que la barra inferior (Aprender → Unidades → Práctica → Juegos → TV); se ignora en filas con scroll horizontal y en `canvas`. |
 | 8 | Medio | Bajo | Objetivos táctiles en partidas | Pistas de la Sopa 40 px, «Escuchar» de Palabra desordenada 40 px, acciones del UNO 40 px, cabecera del Viaje del Rey Mono 40 px, barra del Pinball 34–36 px. | ✅ 44 px en < 1024 px. |
 | 9 | Medio | Bajo | Juegos clásicos con `?m=N` | Abrir a mano (o desde otra pestaña) dos URL `#/juegos/x?m=N` seguidas: la segunda mostraba el selector en vez de la partida (clave «default» compartida). | ✅ La entrada se identifica por clave + ruta. |
-| 10 | Medio | Alto | Rendimiento | CSS inicial de **852 KB (161 KB gzip)**; `app.css` (Tailwind compilado, 246 KB) tenía 2.091 de 2.732 clases sin uso. | ✅ Purga al compilar (`scripts/vite-purga-tailwind.mjs`): CSS inicial 680 KB · 135 KB gzip. Comparación píxel a píxel de 21 pantallas × 2 tamaños: idénticas. ⏳ Queda mover hojas de sección (`v12-*`) a sus páginas. |
+| 10 | Medio | Alto | Rendimiento | CSS inicial de **852 KB (161 KB gzip)**; `app.css` (Tailwind compilado, 246 KB) tenía 2.091 de 2.732 clases sin uso. | ✅ Purga al compilar (`scripts/vite-purga-tailwind.mjs`) y hojas de sección con prefijo propio (`v12-examenes`, `v12-juegos-dicc`, `v12-clases`) movidas a sus páginas: CSS inicial **580 KB · 117 KB gzip** (−32 % / −27 %). Comparación píxel a píxel de 18 pantallas × 2 tamaños y recorrido en distinto orden de visita: idénticas. `v12-unidad` se queda en el paquete inicial: comparte elementos con `v13-pergamino` y moverla invertiría su orden. |
 | 11 | Medio | Bajo | LCP | El LCP lo marcaban fondos decorativos que se descubrían tarde (`dragon-luz.webp` del pabellón, `papel.jpg` del mapa de la unidad, `saluda.webp` en la ruta). | ✅ `src/lib/precargaLcp.js`: `<link rel=preload fetchpriority=high>` según la ruta de entrada. 4G lenta + CPU ×4: `/ruta` 4,6 → 3,7 s; `/juegos` 6,3 → ~2,5 s. |
 | 11b | Alto | Bajo | 8 juegos (Brisca, Dragón de jade, Fichas del palacio, Mapa mental, Palacio de las palabras, Pincel mágico, Teatro, Viaje del Rey Mono) | `contenidoJuego.js` importaba `ALL_MODULES`: para jugar una unidad se descargaban las 90 unidades completas (~1,4 MB transferidos). *Corrección: la página de unidad ya cargaba solo su unidad; su LCP lo marcan las imágenes del mapa.* | ✅ `unidadJuego.js` + `<ConUnidadJuego>` (App.jsx): solo se descarga la unidad del juego (trozo `unidad-NN`). 4G lenta + CPU ×4, tiempo hasta ver la partida: Brisca 9,0 → 4,9 s · Teatro 8,9 → 4,8 s · Fichas 8,0 → 4,9 s · Viaje 8,0 → 5,1 s; 1,3–1,45 MB → ~0,6 MB. |
 | 12 | Bajo | Bajo | Teclados de Ruleta/Ahorcado | Teclas de 28–31 px de ancho × 44 px de alto (como un teclado del sistema). | Aceptado: 10 teclas por fila no caben a 44 px en 360 px. |
@@ -57,6 +57,17 @@ La base es sólida (trabajo previo de v14 y «móvil · juegos»): no hay pantal
 | Bocadillo del tutor | Se cierra al desplazarse o tocar fuera; ya no tapa fichas del Diccionario ni otras pantallas. | — |
 
 Nota: los fps medidos aquí (Chromium sin GPU) no cambian de forma apreciable; la mejora se ve en la traza (menos trabajo forzado en el hilo principal), que en un móvil con GPU se traduce en un scroll más estable. La ruta sigue construyendo cada unidad (~500 nodos) al acercarse: es intencionado para no cargar el DOM entero.
+
+## Bloque 6 · lo pendiente (21-11-2026)
+
+| Cambio | Detalle | Verificación |
+|---|---|---|
+| Estilos de sección fuera del paquete inicial | Ver hallazgo 10. | 36 capturas + orden de visita alterado: 0,00 % de diferencia |
+| Cámara 3D de la ruta sin «layout thrashing» | `esMovil()` leía `window.innerWidth` (y `objetivo()` `innerHeight`) por tablero en cada fotograma, entre escrituras de transformaciones; ahora se cachea / se lee una vez por fotograma, y las medidas de los tableros se agrupan antes de escribir. | Perfil de CPU al cargar `/ruta`: `esMovil` 210 ms → 0 |
+| Panel lateral de la ruta en móvil | ~800 nodos al final de la página: `content-visibility: auto` (no se calcula hasta acercarse). | Capturas idénticas; se ve bien al llegar |
+| Probado y descartado | Construir solo la unidad actual al cargar (no sus vecinas): sin mejora medible. Desactivar el ángulo de cámara ligado al scroll en táctil: sin mejora medible. Ambos revertidos. | — |
+
+Límite de la medición: aquí Chromium pinta sin GPU y los fps de desplazamiento varían ±30 % entre ejecuciones del mismo build; solo se dan por buenas las mejoras que se ven en perfiles y trazas. La ruta sigue siendo la pantalla más rica (3 unidades construidas con ~1000 nodos y ~40 animaciones visibles): aligerarla más ya sería quitar decoración, decisión de diseño.
 
 ## Antes / después
 
@@ -94,4 +105,4 @@ Publicado en `main`: bloque 1 (21-11-2026) bloque 2 (elegir unidad compacto + pr
 ## Pendiente y decisiones para el dueño
 
 1. **CSS inicial (161 KB gzip, bloqueante)**: mover las hojas de cada sección a su página diferida reduciría la primera carga a la mitad, pero cambia el orden de la cascada y obliga a revisar todas las pantallas. Propuesta: hacerlo por secciones (TV, Diccionario, Pronunciación primero), con capturas antes/después.
-2. Mover las hojas de cada sección (`v12-examenes`, `v12-unidad`, `v12-juegos-dicc`…) del paquete inicial a sus páginas, con comparación visual (cambia el orden de la cascada).
+2. Si se quiere aligerar más la ruta en móviles modestos: menos decoración animada por unidad (decisión de diseño).
