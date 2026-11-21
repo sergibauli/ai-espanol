@@ -40,7 +40,7 @@ La base es sólida (trabajo previo de v14 y «móvil · juegos»): no hay pantal
 | 11b | Alto | Bajo | 8 juegos (Brisca, Dragón de jade, Fichas del palacio, Mapa mental, Palacio de las palabras, Pincel mágico, Teatro, Viaje del Rey Mono) | `contenidoJuego.js` importaba `ALL_MODULES`: para jugar una unidad se descargaban las 90 unidades completas (~1,4 MB transferidos). *Corrección: la página de unidad ya cargaba solo su unidad; su LCP lo marcan las imágenes del mapa.* | ✅ `unidadJuego.js` + `<ConUnidadJuego>` (App.jsx): solo se descarga la unidad del juego (trozo `unidad-NN`). 4G lenta + CPU ×4, tiempo hasta ver la partida: Brisca 9,0 → 4,9 s · Teatro 8,9 → 4,8 s · Fichas 8,0 → 4,9 s · Viaje 8,0 → 5,1 s; 1,3–1,45 MB → ~0,6 MB. |
 | 12 | Bajo | Bajo | Teclados de Ruleta/Ahorcado | Teclas de 28–31 px de ancho × 44 px de alto (como un teclado del sistema). | Aceptado: 10 teclas por fila no caben a 44 px en 360 px. |
 | 13 | Bajo | Bajo | Barra superior móvil | Logo y «Salir» a 40×40 px. | ⏳ Pendiente (otra sesión rehace portada/marco). |
-| 14 | Bajo | Medio | Diccionario | 70+ chips de palabras a 28–40 px de alto. | ⏳ Pendiente. |
+| 14 | Medio | Bajo | Diccionario | En móvil, 70 objetivos < 44 px: índice A–Z (40 px), estrella «Guardar en Memoria» (40 px), buscador (42 px), sugerencias «Prueba» (40 px); en tableta horizontal A–Z 34 px y estrella 31 px. | ✅ 44 px en toda pantalla táctil (`pointer: coarse`), también tabletas; la estrella conserva su tamaño visible (borde transparente). Escritorio con ratón sin cambios. |
 | 15 | Alto | Bajo | Elegir unidad de los juegos (todas las partidas pasan por aquí) | En móvil la primera unidad aparecía a ~650 px (cabecera grande + 4 puertas de 92 px + «Mezcla todo» + buscador). | ✅ Compactado en ≤ 600 px: primera unidad a ~440 px (390×844) y ~455 px (360×780); se ven 3–4 unidades sin desplazar. Escritorio igual. |
 | 16 | Bajo | Bajo | Feedback «哦不!» (`Mascot.jsx`) | Tarjeta con degradados del tema antiguo (verde/azul/naranja). No bloquea toques (`pointer-events: none`). | ⏳ Pendiente de rediseño imperial. |
 
@@ -75,9 +75,10 @@ Los 17 juegos se abren, eligen unidad y llegan a la partida sin errores ni desbo
 - `src/lib/precargaLcp.js` (nuevo) · `src/main.jsx`
 - `src/lib/unidadJuego.js` (nuevo) · `src/lib/contenidoJuego.js` · `src/App.jsx` (`ConUnidadJuego`)
 
-Publicado en `main`: bloque 1 (21-11-2026) bloque 2 (elegir unidad compacto + precarga LCP) y bloque 3 (juegos con solo su unidad).
+Publicado en `main`: bloque 1 (21-11-2026) bloque 2 (elegir unidad compacto + precarga LCP) bloque 3 (juegos con solo su unidad) y bloque 4 (Diccionario a 44 px).
 
 ## Pendiente y decisiones para el dueño
 
 1. **CSS inicial (161 KB gzip, bloqueante)**: mover las hojas de cada sección a su página diferida reduciría la primera carga a la mitad, pero cambia el orden de la cascada y obliga a revisar todas las pantallas. Propuesta: hacerlo por secciones (TV, Diccionario, Pronunciación primero), con capturas antes/después.
-2. Chips del Diccionario y barra superior móvil a 44 px (coordinar con la sesión de diseño de portada/marco).
+2. Barra superior móvil a 44 px (coordinar con la sesión de diseño de portada/marco).
+3. El bocadillo de bienvenida del Rey Mono del tutor («¡Hola! Soy el Rey Mono») tapa fichas del Diccionario en el móvil mientras está abierto.

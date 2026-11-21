@@ -76,3 +76,17 @@
   .jeu.jeu .jeu-tablilla { min-height: 76px; padding: 9px 12px; }
   .jeu.jeu .jeu-tablilla__jugar { width: 40px; height: 40px; }
 }
+
+/* ---------- Diccionario: objetivos táctiles de 44 px en pantallas táctiles ----------
+   Índice A–Z (40 px en móvil, 34 px en tableta horizontal), estrella «Guardar en Memoria» (40/31 px),
+   «+N temas» (35 px) y buscador (42 px). La estrella conserva su tamaño visible: el resto es
+   borde transparente que solo amplía la zona de toque. */
+@media (pointer: coarse) {
+  .dz.dz .dz-abc { gap: 6px; }
+  .dz.dz .dz-abc button { min-width: 44px; height: 44px; }
+  .dz.dz .dz-ficha__fav { right: 2px; bottom: 2px; width: 44px; height: 44px; border: 8px solid transparent; background-clip: padding-box; }
+  .dz.dz .dz-tema-mas { min-height: 44px; }
+  .dz.dz .dz-sugerencias button { min-height: 44px; }
+  .dz.dz .dz-buscador__borrar { min-width: 44px; min-height: 44px; }
+  .dz.dz .dz-buscar, .dz.dz input[type="search"] { min-height: 44px; }
+}
