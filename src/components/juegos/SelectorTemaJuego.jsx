@@ -70,17 +70,19 @@ export function SelectorTemaJuego({ juego, onIniciar, error = "", sinUnidades = 
 
   // Llegada con una unidad (?m=N, también desde una clase con &clase=K): arranca directamente con la unidad entera.
   // useLayoutEffect: antes de que el auto-clic heredado de App.jsx (PageTransition) pulse una tarjeta.
+  // La entrada se identifica por clave + ruta: las URL abiertas a mano comparten la clave «default»
+  const entrada = `${location.key}|${location.pathname}${location.search}`;
   React.useLayoutEffect(() => {
     if (sinUnidades || !ruta.numero) return;
-    if (entradaIniciada === location.key) return;
-    entradaIniciada = location.key;
+    if (entradaIniciada === entrada) return;
+    entradaIniciada = entrada;
     iniciarRef.current(`modulo-${ruta.numero}`);
-  }, [location.key, ruta.numero, sinUnidades]);
+  }, [entrada, ruta.numero, sinUnidades]);
 
   const ir = (numero) => {
     const destino = `?m=${numero}`;
     if (Number(new URLSearchParams(location.search).get("m")) === numero) {
-      entradaIniciada = location.key;
+      entradaIniciada = entrada;
       iniciarRef.current(`modulo-${numero}`);
     } else {
       navigate(`${location.pathname}${destino}`);

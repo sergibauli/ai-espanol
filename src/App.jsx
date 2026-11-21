@@ -11,6 +11,7 @@ import { LIGHT_ROUTES, LEGACY_LIGHT, STAGE_ROUTES, LightShell } from "./componen
 import WelcomePage from "./pages/WelcomePage.jsx";
 import { SECCIONES } from "./lib/precarga.js";
 import { AvisoActualizacion } from "./components/layout/AvisosApp.jsx";
+import { GestorScroll } from "./components/layout/GestorScroll.jsx";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
 const DashboardPage = React.lazy(SECCIONES["/ruta"]);
@@ -107,23 +108,16 @@ function PageTransition({ children }) {
     </MascotProvider>
   );
 }
-const SWIPE_SECTIONS = [
-  "/dashboard",
-  "/examenes",
-  "/diccionarios",
-  "/modulos",
-  "/pronunciacion",
-  "/juegos",
-  "/consejos",
-  "/ayudas",
-];
+// Deslizar a izquierda/derecha recorre las secciones en el mismo orden que la barra inferior móvil
+const SWIPE_SECTIONS = ["/ruta", "/modulos", "/oficial", "/juegos", "/tv"];
+const SWIPE_ALIAS = { "/dashboard": "/ruta" };
 function SwipeNavigation() {
   const i = useLocation();
   const t = useNavigate();
   const cRef = React.useRef(null);
   const [u, setU] = React.useState(null);
   React.useEffect(() => {
-    const d = SWIPE_SECTIONS.indexOf(i.pathname);
+    const d = SWIPE_SECTIONS.indexOf(SWIPE_ALIAS[i.pathname] || i.pathname);
     if (d < 0) {
       return;
     }
@@ -134,9 +128,13 @@ function SwipeNavigation() {
       const v_target = v.target;
       if (
         v_target instanceof Element &&
-        v_target.closest("input,textarea,select,button,a,[data-no-section-swipe]")
+        v_target.closest("input,textarea,select,button,a,canvas,[data-no-section-swipe]")
       ) {
         return;
+      }
+      // Dentro de una fila que se desliza en horizontal (pestañas, carruseles) el gesto es de la fila
+      for (let el = v_target instanceof Element ? v_target : null; el && el !== document.body; el = el.parentElement) {
+        if (el.scrollWidth > el.clientWidth + 4 && /(auto|scroll)/.test(getComputedStyle(el).overflowX)) return;
       }
       const E = v.touches[0];
       cRef.current = {
@@ -206,6 +204,7 @@ function AppRoutes() {
   const u = pathname === "/login" || pathname === "/" || pathname === "/sign-in" || pathname.startsWith("/juegos") || light;
   return (
     <>
+      <GestorScroll />
       <CursorTrail />
       <SwipeNavigation />
       <AvisoActualizacion />
@@ -563,6 +562,8 @@ function AppRoutes() {
             }
           />
           <Route path="/" element={<WelcomePage />} />
+          {/* Enlace roto o antiguo: en vez de una pantalla vacía con el tema viejo, a «Aprender» (o a la portada sin sesión) */}
+          <Route path="*" element={<Navigate to="/ruta" replace />} />
         </Routes>
         );
         return legacyLight ? <LightShell legacy>{routes}</LightShell> : stage ? <LightShell stage>{routes}</LightShell> : routes;

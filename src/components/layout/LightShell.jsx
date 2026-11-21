@@ -138,6 +138,11 @@ export function LightShell({ children, legacy = false, stage = false }) {
   const adapt = legacy || ADAPT_ROUTES(pathname);
   // .con-juego en .light-page = «contiene main.game-bg» (sustituye a .light-page:not(:has(main.game-bg)) del CSS)
   const juego = pathname.startsWith("/juegos/");
+  // Modo partida: en móvil la barra inferior se retira mientras se juega (no en la elección de unidad, .jeu)
+  React.useEffect(() => {
+    document.documentElement.classList.toggle("en-juego", juego);
+    return () => document.documentElement.classList.remove("en-juego");
+  }, [juego]);
   React.useEffect(() => (adapt ? attachLightAdapter(mainRef.current) : undefined), [adapt, pathname]);
   // Doble clic / doble toque en «Práctica» → «Mi progreso»
   const navigate = useNavigate();

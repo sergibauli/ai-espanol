@@ -3,7 +3,7 @@
 // (recalcs de miles de elementos al cargar y al navegar). Aquí un único MutationObserver mira solo los nodos que
 // entran o salen (y los cambios de class) y pone `html.hay-<marca>` mientras exista algún elemento con esa clase.
 // El callback de MutationObserver corre como microtarea antes del pintado: no hay ningún fotograma sin la clase.
-const MARCAS = ["lp-root", "pp-overlay", "sx-bnav", "pc", "v14j-marca", "v14j-selector"];
+const MARCAS = ["lp-root", "pp-overlay", "sx-bnav", "pc", "v14j-marca", "v14j-selector", "jeu"];
 const SELECTOR = MARCAS.map((m) => `.${m}`).join(",");
 const EN_CLASS = new RegExp(`(^|\\s)(${MARCAS.join("|")})(\\s|$)`);
 

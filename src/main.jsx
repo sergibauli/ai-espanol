@@ -21,6 +21,7 @@ import "./styles/v14-fix-nav.css";
 import "./styles/v20-fluidez.css";
 import "./styles/v13-pergamino.css";
 import "./styles/movil-marco.css";
+import "./styles/usabilidad.css";
 import { iniciarFluidez } from "./lib/fluidez.js";
 import { iniciarAppNativo } from "./lib/appNativo.js";
 import { iniciarClasesRaiz } from "./lib/clasesRaiz.js";

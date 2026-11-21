@@ -1,0 +1,50 @@
+/* ===== usabilidad · auditoría 2026-11 (docs/AUDITORIA-USABILIDAD.md) ===== */
+/* Cambios localizados de usabilidad móvil. Se carga después de movil-marco.css. */
+
+/* ---------- Modo partida (móvil y tableta) ----------
+   Durante una partida (/juegos/<juego>, fuera de la pantalla de elegir unidad) la barra inferior
+   fija tapaba el teclado de la Ruleta, el botón «Repartir cartas» de la Brisca o los tableros de
+   Fichas del palacio. Se retira mientras se juega: cada juego tiene su botón «←» arriba y la barra
+   superior sigue visible. */
+@media (max-width: 1023px) {
+  html.en-juego:not(.hay-jeu) body .bottom-nav.in-barra,
+  html.en-juego:not(.hay-jeu) body .in-mas { display: none !important; }
+  html.en-juego:not(.hay-jeu) body .light-page main { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+}
+
+/* ---------- Objetivos táctiles de 44 px en partidas (teléfono) ---------- */
+@media (max-width: 1023px) {
+  .j3.j3.j3 .sp-pista { width: 44px; height: 44px; }
+  .scr2-oir.scr2-oir { min-width: 44px; min-height: 44px; }
+  .j3.j3 .uno-accion.uno-accion { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+}
+@media (max-width: 1023px) {
+  .vm.vm .vm-volver, .vm.vm .vm-icono { min-width: 44px; min-height: 44px; }
+  .pb-barra .pb-volver, .pb-barra .pb-icono { min-width: 44px; min-height: 44px; }
+  .pb-oir.pb-oir { min-height: 44px; }
+}
+
+/* ---------- Brisca: «Repartir cartas» siempre a la vista en el teléfono ----------
+   En 360–390 px el abanico de cartas y las reglas empujaban el botón principal fuera de la pantalla. */
+@media (max-width: 600px) {
+  .bz-intro .bz-intro-texto .bz-boton--grande {
+    position: sticky; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 3;
+    box-shadow: 0 10px 24px rgba(30, 2, 6, 0.45);
+  }
+}
+
+/* `.app-stage` recortaba con overflow:hidden, que lo convierte en contenedor de scroll y anula todo
+   `position: sticky` dentro de los juegos. `clip` recorta igual sin crear contenedor de scroll
+   (ya se usaba así en los selectores de unidad: v14-fix-juegos.css). */
+.light-page .app-stage { overflow: clip; }
+
+/* Sin barra inferior en la partida, el Rey Mono y su bocadillo bajan al borde y dejan libres
+   los botones de acción (p. ej. «Comprobar» en Palabra desordenada). */
+@media (max-width: 1023px) {
+  html.en-juego:not(.hay-jeu) .jfx-mono { bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* Ruleta en el teléfono: rueda algo más pequeña para que el teclado quepa en la primera pantalla */
+@media (max-width: 600px) {
+  .rl-rueda.rl-rueda { --t: min(290px, 68vw, 30vh); }
+}
