@@ -68,7 +68,8 @@ function construirPalabras(contenido) {
     lista.push({ es, zh });
   }
   const relleno = [];
-  if (lista.length < 8) {
+  // Solo la unidad: otras unidades únicamente si la unidad no llega a 4 palabras (ninguna de las 90 está en ese caso)
+  if (lista.length < 4) {
     for (const v of barajar(todasLasPalabras())) {
       const es = limpiar(v.espanol);
       if (!es || es.length > 18 || vistas.has(normal(es)) || !tieneChino(v.chino)) continue;

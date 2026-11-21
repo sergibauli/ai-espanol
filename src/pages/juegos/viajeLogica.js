@@ -148,7 +148,8 @@ function tablasDeTeoria(teoria) {
  */
 export function crearPreguntas(c, plus) {
   let vocab = (c.vocabulario || []).map((v) => ({ es: limpiar(v.espanol), zh: limpiar(v.chino) })).filter((v) => v.es && v.zh && tieneChino(v.zh) && corta(v.es, 36));
-  if (vocab.length < 8)
+  // Solo la unidad: otras unidades únicamente si la unidad no llega a 4 palabras (ninguna de las 90 está en ese caso)
+  if (vocab.length < 4)
     vocab = [...vocab, ...barajar(todasLasPalabras()).slice(0, 30).map((v) => ({ es: limpiar(v.espanol), zh: limpiar(v.chino) })).filter((v) => v.es && v.zh && tieneChino(v.zh))];
   const es = vocab.map((v) => v.es);
   const zh = vocab.map((v) => v.zh);

@@ -94,7 +94,8 @@ function opcionesCon(correcta, distractores, n = 4) {
 /** Fábrica de retos: cada carta de tu mano recibe uno (traducir, artículo, completar, elegir, verdadero/falso, frase o la propia carta) */
 export function crearFabricaRetos(c) {
   let vocab = (c.vocabulario || []).map((v) => ({ es: limpiar(v.espanol), zh: limpiar(v.chino) })).filter((v) => v.es && v.zh && tieneChino(v.zh));
-  if (vocab.length < 8) vocab = [...vocab, ...barajar(todasLasPalabras()).slice(0, 24).map((v) => ({ es: limpiar(v.espanol), zh: limpiar(v.chino) })).filter((v) => v.es && v.zh)];
+  // Solo la unidad: otras unidades únicamente si la unidad no llega a 4 palabras (ninguna de las 90 está en ese caso)
+  if (vocab.length < 4) vocab = [...vocab, ...barajar(todasLasPalabras()).slice(0, 24).map((v) => ({ es: limpiar(v.espanol), zh: limpiar(v.chino) })).filter((v) => v.es && v.zh)];
   const es = vocab.map((v) => v.es);
   const zh = vocab.map((v) => v.zh);
   const retos = [];

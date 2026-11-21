@@ -35,7 +35,8 @@ const VIDAS = 3;
 // ---------- Contenido ----------
 function construirPreguntas(c) {
   const vocab = (c.vocabulario || []).filter((v) => limpiar(v.espanol).length <= 26 && limpiar(v.chino));
-  const relleno = vocab.length < 8 ? barajar(todasLasPalabras().filter((v) => limpiar(v.espanol).length <= 18)).slice(0, 30) : [];
+  // Solo la unidad: otras unidades únicamente si la unidad no llega a 4 palabras (ninguna de las 90 está en ese caso)
+  const relleno = vocab.length < 4 ? barajar(todasLasPalabras().filter((v) => limpiar(v.espanol).length <= 18)).slice(0, 30) : [];
   const preguntas = vocab.map((v) => ({ tipo: "vocab", zh: limpiar(v.chino), es: limpiar(v.espanol) }));
   const huecos = [];
   for (const e of c.ejercicios?.completar || []) {

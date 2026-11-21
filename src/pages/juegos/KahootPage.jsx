@@ -14,7 +14,7 @@ import "../../styles/v17-kahoot.css";
 import "../../styles/v33-kahoot.css";
 import "../../styles/movil-juegos.css";
 // Kahoot solo usa el vocabulario de la unidad: datos ligeros
-import { vocabularioJuego as contenidoJuego } from "../../lib/vocabularioJuegos.js";
+import { vocabularioJuego as contenidoJuego, todasLasPalabras } from "../../lib/vocabularioJuegos.js";
 // Banco de preguntas por unidad (las unidades sin banco usan su vocabulario)
 const BANCO = {
   modulos: [
@@ -3681,7 +3681,8 @@ const BANCO = {
       ],
     },
     {
-      id: "modulo-26",
+      // Banco de las emociones: es de la unidad 69 (antes estaba asignado por error a la 26 y, duplicado, a la 56)
+      id: "modulo-69",
       titulo: "Emociones y Sentimientos - ¿Cómo te sientes?",
       preguntas: [
         {
@@ -8185,152 +8186,6 @@ const BANCO = {
       ],
     },
     {
-      id: "modulo-56",
-      titulo: "Emociones y Sentimientos - ¿Cómo te sientes?",
-      preguntas: [
-        {
-          id: 1,
-          tipo: "vocabulario",
-          preguntaChino: "快乐的",
-          correcta: "feliz",
-          incorrectas: ["triste", "enfadado", "cansado"],
-        },
-        {
-          id: 2,
-          tipo: "vocabulario",
-          preguntaChino: "悲伤的",
-          correcta: "triste",
-          incorrectas: ["feliz", "contento", "alegre"],
-        },
-        {
-          id: 3,
-          tipo: "vocabulario",
-          preguntaChino: "生气的",
-          correcta: "enfadado",
-          incorrectas: ["contento", "triste", "cansado"],
-        },
-        {
-          id: 4,
-          tipo: "vocabulario",
-          preguntaChino: "紧张的",
-          correcta: "nervioso",
-          incorrectas: ["tranquilo", "relajado", "contento"],
-        },
-        {
-          id: 5,
-          tipo: "vocabulario",
-          preguntaChino: "累的",
-          correcta: "cansado",
-          incorrectas: ["energético", "activo", "dinámico"],
-        },
-        {
-          id: 6,
-          tipo: "vocabulario",
-          preguntaChino: "担心的",
-          correcta: "preocupado",
-          incorrectas: ["tranquilo", "relajado", "contento"],
-        },
-        {
-          id: 7,
-          tipo: "vocabulario",
-          preguntaChino: "平静的",
-          correcta: "tranquilo",
-          incorrectas: ["nervioso", "estresado", "preocupado"],
-        },
-        {
-          id: 8,
-          tipo: "vocabulario",
-          preguntaChino: "放松的",
-          correcta: "relajado",
-          incorrectas: ["nervioso", "estresado", "preocupado"],
-        },
-        {
-          id: 9,
-          tipo: "vocabulario",
-          preguntaChino: "骄傲的",
-          correcta: "orgulloso",
-          incorrectas: ["avergonzado", "triste", "enfadado"],
-        },
-        {
-          id: 10,
-          tipo: "vocabulario",
-          preguntaChino: "害怕的",
-          correcta: "asustado",
-          incorrectas: ["valiente", "tranquilo", "feliz"],
-        },
-        {
-          id: 11,
-          tipo: "vocabulario",
-          preguntaChino: "无聊的",
-          correcta: "aburrido",
-          incorrectas: ["interesado", "ocupado", "activo"],
-        },
-        {
-          id: 12,
-          tipo: "vocabulario",
-          preguntaChino: "兴奋的",
-          correcta: "emocionado",
-          incorrectas: ["aburrido", "triste", "cansado"],
-        },
-        {
-          id: 13,
-          tipo: "vocabulario",
-          preguntaChino: "孤单的",
-          correcta: "solo",
-          incorrectas: ["acompañado", "feliz", "tranquilo"],
-        },
-        {
-          id: 14,
-          tipo: "teoria",
-          preguntaChino: "哪个是正面情绪？",
-          correcta: "feliz",
-          incorrectas: ["triste", "enfadado", "nervioso"],
-        },
-        {
-          id: 15,
-          tipo: "teoria",
-          preguntaChino: "'Estoy de mal humor'意思是",
-          correcta: "我心情不好",
-          incorrectas: ["我生病了", "我累了", "我饿了"],
-        },
-        {
-          id: 16,
-          tipo: "teoria",
-          preguntaChino: "如何问'你好吗？'",
-          correcta: "¿Cómo estás?",
-          incorrectas: ["¿Qué haces?", "¿Dónde vas?", "¿Cuándo vienes?"],
-        },
-        {
-          id: 17,
-          tipo: "teoria",
-          preguntaChino: "如何说'我害怕'？",
-          correcta: "Tengo miedo",
-          incorrectas: ["Tengo hambre", "Tengo sed", "Tengo sueño"],
-        },
-        {
-          id: 18,
-          tipo: "teoria",
-          preguntaChino: "如何说'我很兴奋'？",
-          correcta: "Estoy emocionado",
-          incorrectas: ["Estoy aburrido", "Estoy cansado", "Estoy triste"],
-        },
-        {
-          id: 19,
-          tipo: "vocabulario",
-          preguntaChino: "尴尬的",
-          correcta: "avergonzado",
-          incorrectas: ["orgulloso", "feliz", "tranquilo"],
-        },
-        {
-          id: 20,
-          tipo: "teoria",
-          preguntaChino: "如何说'别担心'？",
-          correcta: "No te preocupes",
-          incorrectas: ["No te enfades", "No te pongas triste", "No te asustes"],
-        },
-      ],
-    },
-    {
       id: "modulo-57",
       titulo: "El Hotel - Alojamiento y Reservas",
       preguntas: [
@@ -8941,6 +8796,47 @@ function barajar(lista) {
   return copia;
 }
 
+// Solo contenido de la unidad: en el banco fijo, algunas opciones incorrectas eran palabras de OTRAS unidades
+// («Por favor», de la U2, en la U1). Se cambian por expresiones de esta unidad con forma parecida (pregunta «¿…?» por
+// pregunta, número de palabras cercano). Las formas erróneas inventadas («Yo llamo») no son de ninguna unidad y se quedan.
+const normalizar = (t) =>
+  String(t ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[¿?¡!.,;:«»"()]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+let palabrasDeTodas = null;
+function soloDeLaUnidad(preguntas, numero) {
+  const contenido = contenidoJuego(numero);
+  if (!contenido) return preguntas;
+  palabrasDeTodas ||= new Set(todasLasPalabras().map((v) => normalizar(v.espanol)));
+  const propias = [...new Map(contenido.vocabulario.filter((v) => v.espanol).map((v) => [normalizar(v.espanol), v])).entries()].map(([n, v]) => [n, v.espanol, String(v.chino || "").trim()]);
+  const deLaUnidad = new Set(propias.map(([n]) => n));
+  const palabrasEn = (t) => normalizar(t).split(" ").filter(Boolean).length;
+  return preguntas.map((p) => {
+    const ajena = (x) => palabrasDeTodas.has(normalizar(x)) && !deLaUnidad.has(normalizar(x));
+    if (!p.incorrectas?.some(ajena)) return p;
+    const usadas = new Set([normalizar(p.correcta), ...p.incorrectas.map(normalizar)]);
+    // Nunca un sinónimo de la respuesta: fuera las expresiones con la misma traducción que la pregunta
+    const zhPregunta = String(p.preguntaChino || "").trim();
+    const sinonimo = (zh) => !!zhPregunta && !!zh && (zh === zhPregunta || zh.includes(zhPregunta) || zhPregunta.includes(zh));
+    const incorrectas = p.incorrectas.map((x) => {
+      if (!ajena(x)) return x;
+      const pregunta = /^¿/.test(String(x).trim());
+      const candidatas = barajar(propias.filter(([n, , zh]) => !usadas.has(n) && !sinonimo(zh)))
+        .map(([n, texto]) => ({ n, texto, coste: (/^¿/.test(texto.trim()) === pregunta ? 0 : 3) + Math.abs(palabrasEn(texto) - palabrasEn(x)) }))
+        .sort((a, b) => a.coste - b.coste);
+      const elegida = candidatas[0];
+      if (!elegida) return x; // la unidad no tiene más expresiones: mejor la opción original que una pregunta con menos opciones
+      usadas.add(elegida.n);
+      return elegida.texto;
+    });
+    return { ...p, incorrectas };
+  });
+}
+
 function preguntasDeVocabulario(numero) {
   const contenido = contenidoJuego(numero);
   if (!contenido) return [];
@@ -8992,7 +8888,7 @@ export default function KahootPage() {
       } else {
         const numero = Number(String(idTema).replace("modulo-", ""));
         const banco = modulos.find((modulo) => modulo.id === idTema)?.preguntas || [];
-        elegidas = banco.length === 0 ? preguntasDeVocabulario(numero) : banco;
+        elegidas = banco.length === 0 ? preguntasDeVocabulario(numero) : soloDeLaUnidad(banco, numero);
       }
       if (!elegidas || elegidas.length === 0) {
         setError("Esta unidad no tiene preguntas disponibles. Prueba con otra unidad. · 这个单元没有题目，请换一个单元。");

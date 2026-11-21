@@ -49,8 +49,9 @@ function SelloUnidad({ numero, pct }) {
  * - `unidadActual` (opcional): número de la unidad que llega en la ruta (acceso rápido)
  * - `error` (opcional): aviso bilingüe ya montado
  * - `volver`: ruta del botón volver (por defecto el hub de juegos)
+ * - `bloqueadas` (opcional): Map número → { es, zh } con las unidades que este juego no puede usar y por qué
  */
-export function ElegirUnidadJuego({ juego, onElegir, onTodas, unidadActual = null, error = "", volver = "/juegos" }) {
+export function ElegirUnidadJuego({ juego, onElegir, onTodas, unidadActual = null, error = "", volver = "/juegos", bloqueadas = null }) {
   const actual = unidadActual ? CATALOGO.find((u) => u.numero === Number(unidadActual)) : null;
   const [nivel, setNivel] = React.useState(actual?.nivel || "A1");
   const [busqueda, setBusqueda] = React.useState("");
@@ -151,7 +152,7 @@ export function ElegirUnidadJuego({ juego, onElegir, onTodas, unidadActual = nul
       )}
 
       <div className="jeu-barra">
-        {actual && (
+        {actual && !bloqueadas?.has(actual.numero) && (
           <button type="button" className="jeu-atajo jeu-atajo--actual" onClick={() => onElegir(actual.numero)}>
             <SparklesIcon size={18} aria-hidden="true" />
             <span>
@@ -190,7 +191,14 @@ export function ElegirUnidadJuego({ juego, onElegir, onTodas, unidadActual = nul
       <ul className="jeu-grid" key={`${nivel}|${texto}`}>
         {unidades.map((u, i) => (
           <li key={u.numero} className={animar ? "jeu-entra" : ""} style={{ "--i": Math.min(i, 16) }} data-nivel={u.nivel}>
-            <button type="button" className="jeu-tablilla" onPointerDown={() => cargarUnidadJuego(u.numero)} onClick={() => onElegir(u.numero)}>
+            <button
+              type="button"
+              className={`jeu-tablilla${bloqueadas?.has(u.numero) ? " is-bloqueada" : ""}`}
+              disabled={!!bloqueadas?.has(u.numero)}
+              aria-describedby={bloqueadas?.has(u.numero) ? `jeu-bloq-${u.numero}` : undefined}
+              onPointerDown={() => cargarUnidadJuego(u.numero)}
+              onClick={() => onElegir(u.numero)}
+            >
               <SelloUnidad numero={u.numero} pct={progreso[u.numero] || 0} />
               <span className="jeu-tablilla__txt">
                 <b>{u.titulo}</b>
@@ -198,6 +206,11 @@ export function ElegirUnidadJuego({ juego, onElegir, onTodas, unidadActual = nul
                 <span className="jeu-tablilla__meta">
                   <em>{u.nivel}</em> {u.vocabularioCount || 0} palabras · 词{progreso[u.numero] ? ` · ${progreso[u.numero]}%` : ""}
                 </span>
+                {bloqueadas?.has(u.numero) && (
+                  <span className="jeu-tablilla__bloq" id={`jeu-bloq-${u.numero}`}>
+                    {bloqueadas.get(u.numero).es} · <span translate="no">{bloqueadas.get(u.numero).zh}</span>
+                  </span>
+                )}
               </span>
               <span className="jeu-tablilla__jugar" aria-hidden="true">
                 <PlayIcon size={18} fill="currentColor" />

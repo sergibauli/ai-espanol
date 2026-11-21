@@ -99,12 +99,12 @@ export function Volver({ to = "/juegos" }) {
 }
 
 /** Selector nivel → unidad cuando no llega ?m= en la ruta (siempre la unidad completa) */
-export function SelectorUnidad({ titulo, tituloChino, icono, descripcion }) {
+export function SelectorUnidad({ titulo, tituloChino, icono, descripcion, bloqueadas }) {
   const navigate = useNavigate();
   const location = useLocation();
   const ir = (numero) => navigate(`${location.pathname}?m=${numero}`);
   const sello = typeof icono?.props?.children === "string" ? icono.props.children : "游";
-  return <ElegirUnidadJuego juego={{ titulo, tituloZh: tituloChino, sello, desc: descripcion }} onElegir={ir} onTodas={() => ir("todas")} />;
+  return <ElegirUnidadJuego juego={{ titulo, tituloZh: tituloChino, sello, desc: descripcion }} onElegir={ir} onTodas={() => ir("todas")} bloqueadas={bloqueadas} />;
 }
 
 /** Etiqueta «UN · nivel» */

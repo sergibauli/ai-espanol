@@ -55,17 +55,30 @@ function useUnidad() {
   }, [location.search, location.pathname]);
 }
 
-/** Palabras de la partida: SOLO las de la unidad elegida; si casi no tiene dibujables, se completa con su nivel */
+/** Palabras de la partida: SOLO las de la unidad elegida (dibujos de la unidad y, como opciones falsas, su vocabulario).
+ *  Antes, si la unidad tenía menos de 4 palabras dibujables, se completaba con otras unidades del nivel: 54 de 90
+ *  unidades mezclaban contenido ajeno. Ahora la partida es más corta y, sin ninguna palabra dibujable, no se ofrece. */
 function repartoPalabras(unidad) {
+  const esUnidad = unidad.numero !== "todas";
   const { propias, nivel, extra } = palabrasConDibujo(unidad.numero, UNIDADES_VOCABULARIO);
   const u = UNIDADES_VOCABULARIO.find((x) => x.numero === unidad.numero);
   // Vocabulario de la unidad que sirve como opción falsa (palabras sueltas, sin frases)
   const vocab = (u?.vocabulario || [])
     .map((v) => String(v.espanol || "").trim())
     .filter((t) => t && t.length <= 24 && !/[?¿!¡…]|\.\.\./.test(t));
-  const pocas = propias.length < MIN_PROPIAS;
-  const juego = pocas ? [...propias, ...nivel, ...extra] : propias;
-  return { propias, nivel, extra, pocas, juego, vocab, todas: [...propias, ...nivel, ...extra] };
+  const nivelPartida = esUnidad ? [] : nivel;
+  const extraPartida = esUnidad ? [] : extra;
+  return { propias, nivel: nivelPartida, extra: extraPartida, pocas: false, corta: esUnidad && propias.length < MIN_PROPIAS, sinDibujos: propias.length === 0, juego: propias, vocab, todas: [...propias, ...nivelPartida, ...extraPartida] };
+}
+
+/** Unidades sin ninguna palabra dibujable (para marcarlas en el selector en vez de mezclar otras unidades) */
+let sinDibujosCache = null;
+export function unidadesSinDibujos() {
+  if (!sinDibujosCache) {
+    sinDibujosCache = new Map();
+    for (const u of UNIDADES_VOCABULARIO) if (!palabrasConDibujo(u.numero, UNIDADES_VOCABULARIO).propias.length) sinDibujosCache.set(u.numero, { es: "Sin palabras para dibujar", zh: "没有可画的词" });
+  }
+  return sinDibujosCache;
 }
 
 function elegirRondas(reparto) {
@@ -92,6 +105,7 @@ export default function PincelPage() {
         tituloChino="神笔"
         icono={<Sello grande>笔</Sello>}
         descripcion="El pincel del Rey Mono dibuja y tú adivinas la palabra · 美猴王的神笔画画，你来猜词"
+        bloqueadas={unidadesSinDibujos()}
       />
     );
   return <Pincel key={unidad.numero} unidad={unidad} />;
@@ -131,14 +145,18 @@ function Pincel({ unidad }) {
     setModo("solo");
   };
 
-  const avisoRelleno =
-    unidad.numero !== "todas" && reparto.pocas
+  const avisoRelleno = reparto.sinDibujos && unidad.numero !== "todas"
+    ? {
+        es: "Esta unidad no tiene palabras que se puedan dibujar. Elige otra unidad para jugar al Pincel mágico.",
+        zh: "本单元没有可以画的词。请选择其他单元来玩神笔。",
+      }
+    : reparto.corta
       ? {
-          es: `Esta unidad casi no tiene palabras que se puedan dibujar (${reparto.propias.length}); completamos con palabras de otras unidades del nivel ${unidad.nivel}.`,
-          zh: `本单元几乎没有可以画的词（${reparto.propias.length}个），其余的来自 ${unidad.nivel} 级其他单元。`,
+          es: `Esta unidad tiene ${reparto.propias.length} ${reparto.propias.length === 1 ? "palabra que se puede dibujar" : "palabras que se pueden dibujar"}: partida corta, solo con palabras de la unidad.`,
+          zh: `本单元只有${reparto.propias.length}个可以画的词：短局，只用本单元的词。`,
         }
       : null;
-  const rondasPartida = reparto.pocas ? 6 : Math.min(RONDAS, reparto.propias.length);
+  const rondasPartida = Math.min(RONDAS, reparto.propias.length);
 
   if (modo === "clase")
     return (
@@ -165,7 +183,8 @@ function Pincel({ unidad }) {
     );
 
   // ---------- Portada del juego ----------
-  const muestra = reparto.propias[0] || reparto.todas[0];
+  const muestra = reparto.propias[0] || reparto.todas[0] || null;
+  const sinJuego = reparto.sinDibujos;
   return (
     <div className={`pm-raiz gm-no-adapt ${reducido ? "is-reducido" : ""}`}>
       <div className="pm-barra">
@@ -195,7 +214,7 @@ function Pincel({ unidad }) {
         </div>
 
         <div className="pm-modos">
-          <button type="button" className="pm-modo pm-modo--solo" onClick={empezar}>
+          <button type="button" className="pm-modo pm-modo--solo" onClick={empezar} disabled={sinJuego}>
             <span className="pm-modo__escena" aria-hidden="true">
               <Pergamino className="pm-pergamino--mini">
                 {muestra && <DibujoTinta nodos={ICONOS[muestra.icono]} duracion={5200} className="pm-dibujo--mini" key={muestra.icono} />}
@@ -216,7 +235,7 @@ function Pincel({ unidad }) {
             </span>
           </button>
 
-          <button type="button" className="pm-modo pm-modo--clase" onClick={() => setModo("clase")}>
+          <button type="button" className="pm-modo pm-modo--clase" onClick={() => setModo("clase")} disabled={sinJuego}>
             <span className="pm-modo__escena" aria-hidden="true">
               <span className="pm-modo__equipos">
                 {["甲", "乙", "丙"].map((t, i) => (

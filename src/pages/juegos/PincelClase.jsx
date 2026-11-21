@@ -274,7 +274,9 @@ export function ModoClase({ unidad, reparto, onSalir, avisoRelleno }) {
   const empezarPartida = () => {
     playClick?.();
     const lista = [...barajar(reparto.propias), ...barajar(reparto.nivel), ...barajar(reparto.extra)];
-    setCola(lista.slice(0, equipos.length * rondas));
+    // Solo palabras de la unidad: si hay menos que turnos, se repiten (nunca se traen de otras unidades)
+    const total = equipos.length * rondas;
+    setCola(lista.length ? Array.from({ length: total }, (_, i) => lista[i % lista.length]) : []);
     setEquipos((es) => es.map((e) => ({ ...e, puntos: 0 })));
     setGaleria([]);
     setTurno(0);

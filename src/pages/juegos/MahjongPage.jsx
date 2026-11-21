@@ -8,7 +8,6 @@ import { LightbulbIcon, ShuffleIcon, Undo2Icon, RotateCcwIcon, TimerIcon, Volume
 import { useSound } from "../../lib/sound.jsx";
 import { speak, confetti } from "../../components/lesson/fx.js";
 import { addXp } from "../../lib/gamification.js";
-import { todasLasPalabras } from "../../lib/contenidoJuego.js";
 import { DISPOSICIONES, TIPOS, disposicion, posicionesDe, medidas, elegirParejas, repartir, validas, emparejan, libres, jugadas, rebarajar, candidatas, TUTORIAL } from "../../lib/mahjong.js";
 import { useContenidoJuego, claveRecord, leerNumero, guardarNumero, usePrefiereMenosMovimiento, SelectorUnidad, Sello, etiquetaContenido } from "./jbComun.jsx";
 import "../../styles/v13-juegos-b.css";
@@ -239,7 +238,8 @@ function JuegoMahjong({ contenido }) {
       const d = disposicion(id);
       const girar = debeGirar(d);
       const posiciones = posicionesDe(d, girar);
-      const respaldo = contenido.numero === "todas" ? [] : todasLasPalabras();
+      // Solo la unidad: si tiene pocas parejas se repiten (son intercambiables) en vez de traer palabras de otras unidades
+      const respaldo = [];
       let fichas = null;
       let conjunto = null;
       for (let i = 0; i < 6 && !fichas; i++) {
@@ -279,7 +279,7 @@ function JuegoMahjong({ contenido }) {
   const decirFijo = React.useCallback((pose, es, zh) => setMono({ pose, es, zh, id: Math.random(), fijo: true }), []);
   const empezarTutorial = React.useCallback(() => {
     const posiciones = posicionesDe(TUTORIAL);
-    const respaldo = contenido.numero === "todas" ? [] : todasLasPalabras();
+    const respaldo = [];
     // Solo palabras y expresiones cortas: lo importante aquí es entender la regla
     const sencillo = { ...contenido, teoria: [], dialogos: [], ejercicios: {}, vocabulario: (contenido.vocabulario || []).filter((v) => String(v.espanol || "").length <= 12) };
     const parejas = elegirParejas(sencillo, 3, Math.random, respaldo);

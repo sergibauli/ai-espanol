@@ -527,7 +527,8 @@ export default function UnitPage() {
 
             <h2 className="unit-h2" id="u-juegos">Juegos <small>(con las palabras de esta unidad)</small></h2>
             <div className="unit-games">
-              {[...GAMES].sort((a, b) => isReadyGame(b) - isReadyGame(a)).map((g) => {
+              {/* Solo juegos que usan la unidad: Palacio de las palabras es libre (todo el diccionario) y se juega desde el pabellón */}
+              {[...GAMES].filter((g) => g.path !== "/juegos/palacio-palabras").sort((a, b) => isReadyGame(b) - isReadyGame(a)).map((g) => {
                 const Icon = g.icon;
                 if (!isReadyGame(g))
                   return (

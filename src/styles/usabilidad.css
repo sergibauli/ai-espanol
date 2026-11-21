@@ -107,3 +107,9 @@
 @media (max-width: 1023px) {
   .ruta-layout > aside.ruta-side { content-visibility: auto; contain-intrinsic-size: auto 1480px; }
 }
+
+/* Elegir unidad: unidades que un juego no puede usar (p. ej. Pincel mágico sin palabras dibujables) */
+.jeu .jeu-tablilla.is-bloqueada { opacity: 0.55; filter: grayscale(0.6); cursor: not-allowed; }
+.jeu .jeu-tablilla.is-bloqueada .jeu-tablilla__jugar { display: none; }
+.jeu .jeu-tablilla__bloq { display: block; margin-top: 4px; font-size: 12px; font-weight: 700; color: #ffd76a; }
+.pm-modo:disabled { opacity: 0.5; filter: grayscale(0.5); cursor: not-allowed; }
