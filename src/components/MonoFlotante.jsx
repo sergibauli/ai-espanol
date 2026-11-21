@@ -42,6 +42,24 @@ export function MonoFlotante({ onAbrir }) {
   };
   React.useEffect(() => () => (clearTimeout(temporizador.current), clearTimeout(largo.current)), []);
 
+  // El bocadillo no debe tapar el contenido: se cierra en cuanto el alumno se desplaza o toca fuera del Mono
+  const raiz = React.useRef(null);
+  React.useEffect(() => {
+    if (!bocadillo) return undefined;
+    const cerrar = (e) => {
+      if (e.type === "pointerdown" && raiz.current?.contains(e.target)) return;
+      clearTimeout(temporizador.current);
+      setBocadillo(null);
+      setPose("saluda");
+    };
+    window.addEventListener("scroll", cerrar, { passive: true, once: true });
+    document.addEventListener("pointerdown", cerrar, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", cerrar);
+      document.removeEventListener("pointerdown", cerrar);
+    };
+  }, [bocadillo]);
+
   // Primera vez en la sesión: explica cómo se abre
   React.useEffect(() => {
     let visto = false;
@@ -103,7 +121,7 @@ export function MonoFlotante({ onAbrir }) {
   const cancelarLargo = () => clearTimeout(largo.current);
 
   return (
-    <div className={`mf gm-no-adapt ${saliendo ? "is-saliendo" : ""} ${bocadillo ? "con-bocadillo" : ""}`}>
+    <div ref={raiz} className={`mf gm-no-adapt ${saliendo ? "is-saliendo" : ""} ${bocadillo ? "con-bocadillo" : ""}`}>
       {bocadillo && (
         <div className={`mf-bocadillo ${bocadillo.pista ? "es-pista" : ""}`} role="status">
           {bocadillo.pista ? (

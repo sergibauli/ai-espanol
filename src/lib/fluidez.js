@@ -20,6 +20,11 @@ const PAGINAS = [
   [/^\/juegos\/mapa-mental/, () => import("../pages/juegos/MapaMentalPage.jsx")],
   [/^\/juegos\/teatro/, () => import("../pages/juegos/TeatroDialogosPage.jsx")],
   [/^\/juegos\/enjambre/, () => import("../pages/juegos/EnjambrePage.jsx")],
+  [/^\/juegos\/fichas-palacio/, () => import("../pages/juegos/MahjongPage.jsx")],
+  [/^\/juegos\/viaje-mono/, () => import("../pages/juegos/ViajeMonoPage.jsx")],
+  [/^\/juegos\/pincel-magico/, () => import("../pages/juegos/PincelPage.jsx")],
+  [/^\/juegos\/pinball-dragon/, () => import("../pages/juegos/PinballDragonPage.jsx")],
+  [/^\/juegos\/turbo-kart/, () => import("../pages/juegos/TurboKartPage.jsx")],
 ];
 
 const hechas = new Set();

@@ -9,6 +9,7 @@ import { ESCENAS } from "../dele/EscenasNivel.jsx";
 import { ParticulasNivel } from "../ui/ParticulasNivel.jsx";
 import { progresoUnidad } from "../../lib/clases.js";
 import { getGame } from "../../lib/gamification.js";
+import { cargarUnidadJuego } from "../../lib/unidadJuego.js";
 import "../../styles/juegos-elegir-unidad.css";
 
 const MUNDOS = [
@@ -189,7 +190,7 @@ export function ElegirUnidadJuego({ juego, onElegir, onTodas, unidadActual = nul
       <ul className="jeu-grid" key={`${nivel}|${texto}`}>
         {unidades.map((u, i) => (
           <li key={u.numero} className={animar ? "jeu-entra" : ""} style={{ "--i": Math.min(i, 16) }} data-nivel={u.nivel}>
-            <button type="button" className="jeu-tablilla" onClick={() => onElegir(u.numero)}>
+            <button type="button" className="jeu-tablilla" onPointerDown={() => cargarUnidadJuego(u.numero)} onClick={() => onElegir(u.numero)}>
               <SelloUnidad numero={u.numero} pct={progreso[u.numero] || 0} />
               <span className="jeu-tablilla__txt">
                 <b>{u.titulo}</b>

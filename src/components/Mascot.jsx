@@ -40,11 +40,12 @@ function MascotBubble({ mood }) {
   }
   const m = MASCOT_PHRASES[t];
   const g = t === "correct";
+  // Estética imperial: jade con filete de oro al acertar, laca roja con oro al fallar
   const v = g
-    ? "linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%)"
-    : "linear-gradient(135deg, #ef4444 0%, #f97316 50%, #db2777 100%)";
-  const color = g ? "rgba(16, 185, 129, 0.6)" : "rgba(239, 68, 68, 0.6)";
-  const E = g ? "rgba(52, 211, 153, 0.8)" : "rgba(251, 146, 60, 0.8)";
+    ? "linear-gradient(145deg, #4fae78 0%, #2f8f52 45%, #1d6339 100%)"
+    : "linear-gradient(145deg, #e0485a 0%, #c8102e 45%, #8f0c21 100%)";
+  const color = g ? "rgba(47, 143, 82, 0.55)" : "rgba(200, 16, 46, 0.55)";
+  const E = "#f2c14e";
   const j = u
     ? "animate-[mascota-fade-out_0.4s_ease-in_forwards]"
     : "animate-[mascota-pop-in_0.6s_cubic-bezier(0.34,1.56,0.64,1)_forwards]";

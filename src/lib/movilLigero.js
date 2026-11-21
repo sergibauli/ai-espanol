@@ -100,16 +100,25 @@ export function iniciarMovilLigero() {
   // dirección del scroll (en cualquier contenedor)
   const ultimos = new WeakMap();
   const html = document.documentElement;
-  const alDesplazar = (e) => {
-    programar();
-    if (!mq.matches) return;
-    const t = e.target === document ? document.scrollingElement : e.target;
+  // Dirección del scroll leída una vez por fotograma (leer scrollTop en cada evento forzaba recálculos de estilo)
+  let rafDir = 0;
+  let objetivo = null;
+  const leerDireccion = () => {
+    rafDir = 0;
+    const t = objetivo;
     if (!t || typeof t.scrollTop !== "number") return;
     const y = t.scrollTop;
     const ultimo = ultimos.get(t) ?? 0;
     if (Math.abs(y - ultimo) < 24) return;
-    html.classList.toggle("scroll-bajando", y > ultimo && y > 80);
+    const bajando = y > ultimo && y > 80;
+    if (html.classList.contains("scroll-bajando") !== bajando) html.classList.toggle("scroll-bajando", bajando);
     ultimos.set(t, y);
+  };
+  const alDesplazar = (e) => {
+    programar();
+    if (!mq.matches) return;
+    objetivo = e.target === document ? document.scrollingElement : e.target;
+    if (!rafDir) rafDir = requestAnimationFrame(leerDireccion);
   };
   document.addEventListener("scroll", alDesplazar, { passive: true, capture: true });
   window.addEventListener("hashchange", () => {

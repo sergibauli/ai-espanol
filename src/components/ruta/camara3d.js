@@ -187,6 +187,7 @@ export function crearDirector(raiz) {
   const paso = (ahora) => {
     raf = 0;
     if (pausada) return;
+    if (pendientes.size) leerScroll();
     punteroSuave = { x: punteroSuave.x + (puntero.x - punteroSuave.x) * 0.08, y: punteroSuave.y + (puntero.y - punteroSuave.y) * 0.08 };
     let seguir = Math.abs(punteroSuave.x - puntero.x) > 0.002 || Math.abs(punteroSuave.y - puntero.y) > 0.002;
     // Parallax del paisaje (solo en el mundo: cambiar una variable en .ruta-main recalcularía toda la página)
@@ -259,13 +260,21 @@ export function crearDirector(raiz) {
     activa = !reducir.matches;
     despertar();
   };
+  // La posición se lee en el fotograma (paso), no en cada evento: leer scrollY/scrollTop dentro del evento forzaba
+  // un recálculo de estilos extra a mitad de fotograma.
+  const pendientes = new Set();
+  const leerScroll = () => {
+    for (const clave of pendientes) {
+      const ahora = clave === window ? window.scrollY : clave.scrollTop;
+      const antes = ultimoScroll.get(clave);
+      ultimoScroll.set(clave, ahora);
+      if (antes != null) desplazado += ahora - antes;
+    }
+    pendientes.clear();
+  };
   const alScroll = (ev) => {
     const t = ev.target === document || ev.target === document.documentElement ? null : ev.target;
-    const ahora = t ? t.scrollTop : window.scrollY;
-    const clave = t || window;
-    const antes = ultimoScroll.get(clave);
-    ultimoScroll.set(clave, ahora);
-    if (antes != null) desplazado += ahora - antes;
+    pendientes.add(t || window);
     despertar();
   };
   const alRedimensionar = () => {

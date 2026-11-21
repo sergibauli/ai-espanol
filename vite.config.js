@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import trozosDatos from './scripts/vite-trozos-datos.mjs';
 import precargaSecciones from './scripts/vite-precarga-secciones.mjs';
+import purgaTailwind from './scripts/vite-purga-tailwind.mjs';
 
 // v21 · Service worker con Workbox (vite-plugin-pwa): precarga la interfaz y guarda en caché lo que se va usando
 // (código de cada sección, imágenes, traducciones) para que la app abra al instante y funcione sin red.
@@ -20,7 +21,7 @@ const pwa = VitePWA({
     navigateFallback: 'index.html',
     // theme/: solo las imágenes que el código pide por URL (las que usa el CSS van con hash en assets/ y se guardan al usarse);
     // antes 'theme/*.{webp,jpg}' precargaba ~1,3 MB de copias que nadie pedía (mapa, fondos de portadas antiguas…)
-    globPatterns: ['index.html', 'assets/index-*.{js,css}', 'assets/*.css', 'icons/*.{png,svg}', 'theme/{dragon-luz,dragon,montes-tinta,paisaje-leccion}.webp', 'mono/*.webp'],
+    globPatterns: ['index.html', 'assets/index-*.{js,css}', 'assets/*.css', 'icons/*.{png,svg}', 'theme/{dragon-luz,dragon,montes-tinta,paisaje-leccion}.webp', 'mono/*.webp', 'fuentes/*.woff2'],
     maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
     runtimeCaching: [
       { urlPattern: ({ url, request }) => request.destination === 'script' || url.pathname.includes('/assets/'), handler: 'StaleWhileRevalidate', options: { cacheName: 'ae-codigo', expiration: { maxEntries: 400, maxAgeSeconds: 60 * 24 * 3600 } } },
@@ -45,7 +46,7 @@ function encodedDeepseekKey() {
 // base relativa: la app se sirve en https://sergibauli.github.io/wukong-espanol/ (HashRouter)
 export default defineConfig({
   base: './',
-  plugins: [react(), pwa, trozosDatos(), precargaSecciones()],
+  plugins: [purgaTailwind(), react(), pwa, trozosDatos(), precargaSecciones()],
   // Con el Worker (VITE_API_URL) la clave de DeepSeek no se incrusta en la web
   define: { __DS_KEY__: JSON.stringify(process.env.VITE_API_URL ? "" : encodedDeepseekKey()) },
   build: { chunkSizeWarningLimit: 4000 },

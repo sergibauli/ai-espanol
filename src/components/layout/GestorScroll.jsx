@@ -22,10 +22,22 @@ export function GestorScroll() {
 
   // Guarda la posición mientras se desplaza (no al desmontar: para entonces la página nueva ya
   // puede haber encogido el documento y el navegador habría recortado scrollY)
+  // Leer scrollY en cada evento forzaba al navegador a recalcular estilos a mitad de fotograma (~300 ms en 3 s de
+  // desplazamiento con CPU ×4): se lee una vez al parar de desplazarse y justo al tocar algo (antes de navegar).
   React.useLayoutEffect(() => {
+    let espera = 0;
     const guardar = () => posiciones.set(clave, window.scrollY);
-    window.addEventListener("scroll", guardar, { passive: true });
-    return () => window.removeEventListener("scroll", guardar);
+    const alDesplazar = () => {
+      clearTimeout(espera);
+      espera = setTimeout(guardar, 120);
+    };
+    window.addEventListener("scroll", alDesplazar, { passive: true });
+    window.addEventListener("pointerdown", guardar, { passive: true, capture: true });
+    return () => {
+      clearTimeout(espera);
+      window.removeEventListener("scroll", alDesplazar);
+      window.removeEventListener("pointerdown", guardar, { capture: true });
+    };
   }, [clave]);
 
   React.useLayoutEffect(() => {

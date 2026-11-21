@@ -90,3 +90,14 @@
   .dz.dz .dz-buscador__borrar { min-width: 44px; min-height: 44px; }
   .dz.dz .dz-buscar, .dz.dz input[type="search"] { min-height: 44px; }
 }
+
+/* ---------- Barra superior móvil: 44 px de zona táctil ----------
+   Logo, marcador, idioma y «Salir» medían 40 px. Se amplía la zona táctil sin cambiar el aspecto:
+   el aumento sale del relleno de la barra (8 → 6 px arriba y abajo): la barra sigue midiendo 56 px. */
+@media (max-width: 1023px) {
+  html body .light-page .light-top { padding-top: 6px; padding-bottom: 6px; }
+  html body .light-page .light-top > .side-brand { min-width: 44px; min-height: 44px; justify-content: center; }
+  html body .light-page .light-top .game-stats { height: 44px; }
+  html body .light-page .light-top .sel-idioma-btn { min-height: 44px; }
+  html body .light-page .light-top .light-salir { min-width: 44px; min-height: 44px; }
+}
