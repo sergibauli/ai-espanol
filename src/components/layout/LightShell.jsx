@@ -121,6 +121,15 @@ function skyNow() {
   return h >= 20 || h < 5 ? "noche" : (h >= 5 && h < 8) || (h >= 17 && h < 20) ? "amanecer" : "dia";
 }
 
+// Cerrar sesión obliga a volver a entrar con Clerk (lento desde China): nunca con un toque accidental
+const confirmarSalida = () => {
+  try {
+    return window.confirm("¿Cerrar sesión? · 确定要退出登录吗？");
+  } catch {
+    return true;
+  }
+};
+
 export function LightShell({ children, legacy = false, stage = false }) {
   React.useEffect(() => {
     const set = () => document.documentElement.setAttribute("data-cielo", skyNow());
@@ -171,7 +180,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
         <div className="light-top-der">
           <GameStats compact />
           <SelectorIdioma compacto />
-          <button type="button" className="light-salir" onClick={() => logout()} aria-label="Salir · 退出" title="Salir · 退出">
+          <button type="button" className="light-salir" onClick={() => confirmarSalida() && logout()} aria-label="Salir · 退出" title="Salir · 退出">
             <LogOutIcon size={18} strokeWidth={2.6} />
             <span>Salir</span>
           </button>
@@ -201,7 +210,7 @@ export function LightShell({ children, legacy = false, stage = false }) {
           <FichaHoy />
           <EstadoGuardado />
           <SelectorIdioma arriba />
-          <a href="#/" className="side-exit" onClick={(e) => (e.preventDefault(), logout())}>
+          <a href="#/" className="side-exit" onClick={(e) => (e.preventDefault(), confirmarSalida() && logout())}>
             Salir · 退出
           </a>
         </nav>

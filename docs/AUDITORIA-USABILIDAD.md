@@ -69,6 +69,37 @@ Nota: los fps medidos aquí (Chromium sin GPU) no cambian de forma apreciable; l
 
 Límite de la medición: aquí Chromium pinta sin GPU y los fps de desplazamiento varían ±30 % entre ejecuciones del mismo build; solo se dan por buenas las mejoras que se ven en perfiles y trazas. La ruta sigue siendo la pantalla más rica (3 unidades construidas con ~1000 nodos y ~40 animaciones visibles): aligerarla más ya sería quitar decoración, decisión de diseño.
 
+## Bloque 7 · contenido por unidad y segunda auditoría de juegos (21-11-2026)
+
+### Contenido: solo la unidad elegida
+
+Validador en Node contra los datos reales de las 90 unidades (vocabulario, teoría, diálogos y ejercicios).
+
+| Juego | Hallazgo | Corrección |
+|---|---|---|
+| Kahoot | El banco de preguntas de «Emociones» estaba asignado a la **U26** (Tiempo libre) y, duplicado, a la **U56** (Banco): 40 preguntas de otro tema. | El banco pasa a la U69 (Emociones), la suya; la 26 y la 56 generan sus preguntas con su propio vocabulario. |
+| Kahoot | En 267 de 1.180 preguntas, 417 opciones incorrectas eran palabras de **otras unidades** («Por favor», de la U2, en la U1). | Se cambian al empezar por expresiones de la unidad con forma parecida (pregunta por pregunta, mismo nº de palabras) y nunca sinónimos de la respuesta. Simulación sobre todo el banco: 0 opciones ajenas. Las formas erróneas inventadas («Yo llamo») no son de ninguna unidad y se quedan. |
+| Pincel mágico | 54 de 90 unidades tenían menos de 4 palabras dibujables y se completaban con palabras **de otras unidades del nivel**. | Solo dibujos de la unidad (partida corta si hay pocos). Las unidades sin ninguno se marcan en el selector («Sin palabras para dibujar») y no se pueden abrir. |
+| Dragón de jade, Pinball, Brisca, Viaje del Rey Mono | Con menos de 8 palabras (U47) se rellenaba con otras unidades. | Umbral a 4: ninguna de las 90 unidades lo necesita. |
+| Fichas del palacio | Con poco contenido, «respaldo» de todas las unidades. | Repite parejas de la unidad (ya lo hacía después del respaldo). |
+| Pestaña de juegos de la unidad | Ofrecía «Palacio de las palabras», que es libre (todo el diccionario). | Fuera de esa lista; se juega desde el pabellón. |
+| Ruleta, Ahorcado, Memory, Sopa, Palabra desordenada, UNO, Teatro, Mapa mental, Turbo-kart | Correcto: ya usaban solo la unidad (Turbo-kart solo pide otras unidades para opciones falsas cuando le faltan, y ninguna unidad llega a ese caso). | — |
+
+### Usabilidad y fluidez (17 juegos × móvil 390×844 con CPU ×4 y escritorio 1366×860)
+
+Prueba de estrés: 12–25 s por juego de toques, teclas y gestos al azar sobre lo que está en pantalla («mono test»), midiendo errores, salidas inesperadas del juego, fotogramas y bloqueos del hilo principal. Además: solapes de controles (`elementFromPoint`), botón principal visible en la primera pantalla y teclado en escritorio.
+
+| # | Gravedad | Hallazgo | Corrección |
+|---|---|---|---|
+| J1 | **Alta** | Dragón de jade (y cualquier juego con flechas/espacio): la página se desplazaba con el teclado; «Pausa» quedaba bajo la barra superior **encima de «Salir»**, y un toque **cerraba la sesión** del alumno (reproducido 30 veces). | El juego bloquea flechas y espacio mientras dura la partida; en el móvil «Salir» no está en la barra superior durante las partidas; cerrar sesión pide confirmación siempre («¿Cerrar sesión? · 确定要退出登录吗？»). |
+| J2 | Alta | Fichas del palacio: el botón para empezar estaba a ~1.500 px en el móvil y ~1.000 px en escritorio (no se veía en ningún tamaño). Palacio de las palabras: ~1.200 px en el móvil. | Botón fijo abajo mientras se lee la introducción: visible en la primera pantalla en 360, 390 y 1366 px. |
+| J3 | Media | Ruleta, Ahorcado, Kahoot, Memory, Sopa, Palabra desordenada y UNO: la cuadrícula del suelo 3D animaba `background-position` y el navegador repintaba la capa entera en cada fotograma (Ruleta: 1,26 s de cada 3 s solo rasterizando, con el juego parado). | La cuadrícula se mueve con `transform` (GPU) en una capa propia; mismo aspecto (comparación de capturas). Ruleta: rasterizado 1.261 → 128 ms. |
+| J4 | Baja | Barra de tiempo de Ruleta y Ahorcado animaba `width` (diseño en cada segundo). | `transform: scaleX`. |
+| J5 | Info | UNO: las cartas de la mano se solapan (abanico); zona tocable de cada carta 44–66 px en móvil. | Correcto (≥ 44 px). |
+| J6 | Info | Turbo-kart a 1–2 fps aquí: es 3D con WebGL y este navegador de pruebas no tiene GPU. Se monta y responde sin errores. | Probar en un móvil real. |
+
+Resultado de la prueba de estrés tras los cambios: **0 errores de JavaScript, 0 salidas inesperadas y 0 desbordes** en los 17 juegos en móvil y escritorio. Navegación (unidades → unidad → juego → atrás ×2 → barra → juego → elegir unidad → atrás ×2 → ruta inventada): todo vuelve a la pantalla y posición correctas, sin pantallas vacías.
+
 ## Antes / después
 
 | | Antes | Después |

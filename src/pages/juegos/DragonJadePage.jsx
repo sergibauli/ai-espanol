@@ -1239,6 +1239,10 @@ function JuegoDragon({ contenido }) {
     const abajo = (e) => {
       const s = S.current;
       if (e.target?.tagName === "INPUT" || e.target?.tagName === "TEXTAREA") return;
+      // Con el juego en marcha (también en la cuenta atrás) las teclas de juego y el espacio no desplazan la página:
+      // si la página bajaba, el marcador quedaba bajo la barra superior y «Pausa» caía encima de «Salir».
+      const enPartida = s.fase !== "inicio" && s.fase !== "fin";
+      if (enPartida && (mapa[e.code] || e.code === "Space") && e.target?.tagName !== "BUTTON") e.preventDefault();
       if (mapa[e.code] && (s.fase === "jugando" || s.fase === "pausa")) {
         e.preventDefault();
         s.teclas.add(mapa[e.code]);

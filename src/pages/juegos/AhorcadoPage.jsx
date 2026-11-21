@@ -539,7 +539,7 @@ function OtComponent() {
           <div className={`rl-tiempo ${tiempoPct < 25 ? "rl-tiempo--poco" : ""}`}>
             <ClockIcon size={15} />
             <span>
-              <i style={{ width: `${tiempoPct}%` }} />
+              <i style={{ transform: `scaleX(${tiempoPct / 100})` }} />
             </span>
             <b>{H}s</b>
           </div>

@@ -393,7 +393,7 @@ export default function RuletaPage() {
           <div className={`rl-tiempo ${enJuego ? "" : "rl-tiempo--oculto"} ${tiempoPct < 25 ? "rl-tiempo--poco" : ""}`}>
             <TimerIcon size={15} />
             <span>
-              <i style={{ width: `${tiempoPct}%` }} />
+              <i style={{ transform: `scaleX(${tiempoPct / 100})` }} />
             </span>
             <b>{segundos}s</b>
           </div>
