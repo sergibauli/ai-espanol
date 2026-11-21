@@ -36,11 +36,12 @@ La base es sólida (trabajo previo de v14 y «móvil · juegos»): no hay pantal
 | 8 | Medio | Bajo | Objetivos táctiles en partidas | Pistas de la Sopa 40 px, «Escuchar» de Palabra desordenada 40 px, acciones del UNO 40 px, cabecera del Viaje del Rey Mono 40 px, barra del Pinball 34–36 px. | ✅ 44 px en < 1024 px. |
 | 9 | Medio | Bajo | Juegos clásicos con `?m=N` | Abrir a mano (o desde otra pestaña) dos URL `#/juegos/x?m=N` seguidas: la segunda mostraba el selector en vez de la partida (clave «default» compartida). | ✅ La entrada se identifica por clave + ruta. |
 | 10 | Medio | Alto | Rendimiento | CSS inicial de **852 KB (161 KB gzip)** bloqueante: `main.jsx` y `LightShell` importan ~25 hojas de todas las secciones. | ⏳ Propuesto (ver «Pendiente»). |
-| 11 | Bajo | Medio | LCP | El LCP lo marcan fondos decorativos que se descubren tarde (`dragon-luz.webp` del pabellón, `papel.jpg` del mapa de la unidad, `saluda.webp` en la ruta). | ⏳ Propuesto: `preload` de esas imágenes o `fetchpriority="high"`. |
+| 11 | Medio | Bajo | LCP | El LCP lo marcaban fondos decorativos que se descubrían tarde (`dragon-luz.webp` del pabellón, `papel.jpg` del mapa de la unidad, `saluda.webp` en la ruta). | ✅ `src/lib/precargaLcp.js`: `<link rel=preload fetchpriority=high>` según la ruta de entrada. 4G lenta + CPU ×4: `/ruta` 4,6 → 3,7 s; `/juegos` 6,3 → ~2,5 s. |
+| 11b | Medio | Medio | Unidad (`/modulos/modulo-N`) | LCP 6,4 s: para pintar una unidad se descarga el bloque de datos de 20 unidades (`modulos-01-20`, 595 KB · 150 KB gzip). | ⏳ Propuesto: un fichero de datos por unidad (cambio en el cargador, no en el contenido). |
 | 12 | Bajo | Bajo | Teclados de Ruleta/Ahorcado | Teclas de 28–31 px de ancho × 44 px de alto (como un teclado del sistema). | Aceptado: 10 teclas por fila no caben a 44 px en 360 px. |
 | 13 | Bajo | Bajo | Barra superior móvil | Logo y «Salir» a 40×40 px. | ⏳ Pendiente (otra sesión rehace portada/marco). |
 | 14 | Bajo | Medio | Diccionario | 70+ chips de palabras a 28–40 px de alto. | ⏳ Pendiente. |
-| 15 | Bajo | Medio | Selector de unidad de los juegos | En móvil la primera unidad aparece a ~650 px (cabecera grande + 4 puertas + «Mezcla todo» + buscador). | ⏳ Propuesta: compactar la cabecera en ≤ 600 px. |
+| 15 | Alto | Bajo | Elegir unidad de los juegos (todas las partidas pasan por aquí) | En móvil la primera unidad aparecía a ~650 px (cabecera grande + 4 puertas de 92 px + «Mezcla todo» + buscador). | ✅ Compactado en ≤ 600 px: primera unidad a ~440 px (390×844) y ~455 px (360×780); se ven 3–4 unidades sin desplazar. Escritorio igual. |
 | 16 | Bajo | Bajo | Feedback «哦不!» (`Mascot.jsx`) | Tarjeta con degradados del tema antiguo (verde/azul/naranja). No bloquea toques (`pointer-events: none`). | ⏳ Pendiente de rediseño imperial. |
 
 ## Antes / después
@@ -51,6 +52,7 @@ La base es sólida (trabajo previo de v14 y «móvil · juegos»): no hay pantal
 | Brisca (390×844) | ![](auditoria-usabilidad/antes-brisca.jpg) | ![](auditoria-usabilidad/despues-brisca.jpg) |
 | Ruta inexistente | ![](auditoria-usabilidad/antes-ruta-rota.jpg) | Redirige a «Aprender» |
 | Palabra desordenada | Bocadillo sobre «Comprobar» | ![](auditoria-usabilidad/despues-scramble.jpg) |
+| Elegir unidad (390×844) | ![](auditoria-usabilidad/antes-elegir-unidad.jpg) | ![](auditoria-usabilidad/despues-elegir-unidad.jpg) |
 
 ## Juegos: estado tras la auditoría (móvil 390×844)
 
@@ -70,11 +72,12 @@ Los 17 juegos se abren, eligen unidad y llegan a la partida sin errores ni desbo
 - `src/components/layout/LightShell.jsx` (marca `html.en-juego`) · `src/lib/clasesRaiz.js` (marca `hay-jeu`)
 - `src/components/juegos/SelectorTemaJuego.jsx` (arranque con `?m=N`)
 - `src/styles/usabilidad.css` (nuevo, cargado tras `movil-marco.css`)
+- `src/lib/precargaLcp.js` (nuevo) · `src/main.jsx`
+
+Publicado en `main`: bloque 1 (21-11-2026) y bloque 2 (elegir unidad compacto + precarga LCP).
 
 ## Pendiente y decisiones para el dueño
 
-1. **Modo partida sin barra inferior** (aplicado): ¿de acuerdo con que la barra desaparezca mientras se juega en el móvil? Es lo habitual en juegos y gana ~90 px; la salida es el «←» de cada juego.
-2. **CSS inicial (161 KB gzip, bloqueante)**: mover las hojas de cada sección a su página diferida reduciría la primera carga a la mitad, pero cambia el orden de la cascada y obliga a revisar todas las pantallas. Propuesta: hacerlo por secciones (TV, Diccionario, Pronunciación primero), con capturas antes/después.
-3. **Imágenes decorativas que marcan el LCP**: precargar las 3 imágenes indicadas o servir una versión más ligera en móvil.
-4. **Selector de unidad de los juegos**: compactar la cabecera en el teléfono para que las unidades se vean sin desplazarse.
-5. Chips del Diccionario y barra superior móvil a 44 px (coordinar con la sesión de diseño de portada/marco).
+1. **CSS inicial (161 KB gzip, bloqueante)**: mover las hojas de cada sección a su página diferida reduciría la primera carga a la mitad, pero cambia el orden de la cascada y obliga a revisar todas las pantallas. Propuesta: hacerlo por secciones (TV, Diccionario, Pronunciación primero), con capturas antes/después.
+2. **Datos de las unidades**: cargar un fichero por unidad en lugar de bloques de 20 (la unidad tarda 6,4 s en 4G lenta).
+3. Chips del Diccionario y barra superior móvil a 44 px (coordinar con la sesión de diseño de portada/marco).

@@ -48,3 +48,31 @@
 @media (max-width: 600px) {
   .rl-rueda.rl-rueda { --t: min(290px, 68vw, 30vh); }
 }
+
+/* ---------- Elegir unidad de un juego: más compacto en el teléfono ----------
+   La primera unidad quedaba a ~650 px (cabecera alta + puertas de 92 px + atajos + buscador):
+   había que desplazarse antes de poder jugar. Misma estética, menos altura. */
+@media (max-width: 600px) {
+  .jeu.jeu .jeu-hero { padding: 58px 14px 12px; border-radius: 18px; }
+  .jeu.jeu .jeu-hero__mono { width: 50px; top: 4px; right: 10px; }
+  .jeu.jeu .jeu-hero__glifo { font-size: 130px; }
+  .jeu.jeu .jeu-hero__txt { gap: 12px; align-items: center; }
+  .jeu.jeu .jeu-emblema { width: 54px; height: 54px; }
+  .jeu.jeu .jeu-emblema__sello { font-size: 27px; border-radius: 12px; }
+  .jeu.jeu .jeu-emblema__sello--largo { font-size: 19px; }
+  .jeu.jeu .jeu-hero__mundo { font-size: 11px; display: block; padding-right: 46px; }
+  .jeu.jeu .jeu-hero__txt h1 { font-size: 24px; line-height: 1.08; }
+  .jeu.jeu .jeu-hero__zh { font-size: 15px; margin-top: 1px; }
+  .jeu.jeu .jeu-hero__desc { font-size: 13px; line-height: 1.38; margin-top: 4px; }
+  .jeu.jeu .jeu-puertas { gap: 6px; margin-top: 10px; }
+  .jeu.jeu .jeu-puerta { min-height: 54px; gap: 2px; padding: 6px 2px; }
+  .jeu.jeu .jeu-puerta__moneda { display: none; }
+  .jeu.jeu .jeu-puerta__txt b { font-size: 17px; line-height: 1.05; }
+  .jeu.jeu .jeu-puerta__txt small { font-size: 10.5px; }
+  .jeu.jeu .jeu-barra { gap: 6px; margin-top: 10px; }
+  .jeu.jeu .jeu-atajo { min-height: 46px; padding: 5px 10px; }
+  .jeu.jeu .jeu-buscar { min-height: 44px; }
+  .jeu.jeu .jeu-paso { margin: 10px 0 8px; }
+  .jeu.jeu .jeu-tablilla { min-height: 76px; padding: 9px 12px; }
+  .jeu.jeu .jeu-tablilla__jugar { width: 40px; height: 40px; }
+}
