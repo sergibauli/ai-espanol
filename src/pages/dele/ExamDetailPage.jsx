@@ -67,6 +67,8 @@ import {
   useAudioExamen,
 } from "../../lib/audioExamen.jsx";
 import "../../styles/movil-dele.css";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../../styles/v12-examenes.css";
 function BsComponent({ onClose }) {
   return (
     <div

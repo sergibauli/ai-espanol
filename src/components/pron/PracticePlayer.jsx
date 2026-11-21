@@ -3,6 +3,8 @@ import { XIcon, Volume2Icon, Volume1Icon, MicIcon, CheckIcon, RotateCcwIcon, Arr
 import OndaViva, { useVoz, SelloEstampa } from "./OndaViva.jsx";
 import "../../styles/pronunciacion-v2.css";
 import { useModalAccesible } from "../../lib/useModalAccesible.js";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../../styles/v12-juegos-dicc.css";
 
 // Normaliza: minúsculas, sin tildes (salvo ñ), sin puntuación.
 function norm(t) {

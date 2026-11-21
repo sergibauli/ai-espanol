@@ -35,6 +35,8 @@ import "../styles/v23-ruta-recorridos.css";
 import "../styles/v25-ruta.css";
 import "../styles/v26-ruta.css";
 import "../styles/v27-ruta-3d.css";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../styles/v12-clases.css";
 
 const BASE_URL = import.meta.env.BASE_URL || "./";
 const STOP = Object.fromEntries(STOPS.map((parada) => [parada.n, parada]));

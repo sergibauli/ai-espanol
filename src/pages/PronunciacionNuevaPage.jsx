@@ -32,6 +32,8 @@ import "../styles/pronunciacion-sonido.css";
 import "../styles/pronunciacion-hero.css";
 import "../styles/pronunciacion-templos.css";
 import "../styles/movil-recursos.css";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../styles/v12-juegos-dicc.css";
 
 const DIFICILES = FAMILIAS.filter((familia) => familia.dificil).length;
 const TODAS = FAMILIAS.flatMap((familia) => familia.silabas.map((silaba) => ({ familia, silaba })));

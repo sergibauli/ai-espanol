@@ -6,6 +6,8 @@ import { generateExam, saveExamResult } from "../../lib/examGenerator.js";
 import { recordModuleScore, completeModule, recordClassScore, completeClass } from "../../lib/progress.js";
 import { clasesDe } from "../../lib/clases.js";
 import { BotonImprimir } from "../../components/impresion/BotonImprimir.jsx";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../../styles/v12-clases.css";
 
 // Opciones de examen: el corto de una clase (solo su contenido) o el de la unidad entera (todas las clases)
 const MODOS = {

@@ -2,6 +2,8 @@ import * as React from "react";
 import { CheckIcon, XIcon, ClockIcon, ChevronLeftIcon, ChevronRightIcon, FlagIcon, RotateCcwIcon, BookOpenIcon, LanguagesIcon, LightbulbIcon, ListChecksIcon } from "lucide-react";
 import { isCorrect, scoreExam, SKILLS } from "../../lib/examGenerator.js";
 import { BotonImprimir } from "../impresion/BotonImprimir.jsx";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../../styles/v12-examenes.css";
 
 // Examen con estética imperial (pergamino, laca roja y oro). Estilos: src/styles/v12-examenes.css (prefijo xm-).
 const LETTERS = ["A", "B", "C", "D", "E"];

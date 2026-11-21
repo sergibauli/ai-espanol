@@ -66,6 +66,8 @@ const ModuloJuegos = React.lazy(() => import("./modulo/ModuloJuegos.jsx"));
 const ModuloExamen = React.lazy(() => import("./modulo/ModuloExamen.jsx"));
 import { BotonImprimir } from "../components/impresion/BotonImprimir.jsx";
 import { fuenteExamenUnidad } from "../components/impresion/examenUnidad.js";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../styles/v12-clases.css";
 const ModuloDescubre = React.lazy(() => import("./modulo/ModuloDescubre.jsx"));
 const STORIES = import.meta.glob("../data/stories/*.json", { import: "default" });
 // Colores de cada mundo (bambú, linternas, tinta, Ciudad Prohibida) para los detalles de las tarjetas

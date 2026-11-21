@@ -8,6 +8,8 @@ import { getModuleProgress } from "../lib/progress.js";
 import { useCampus } from "../lib/campus.jsx";
 import CATALOG from "../data/modulos/catalog.json";
 import "../styles/movil-dele.css";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../styles/v12-examenes.css";
 
 const LEVELS = ["A1", "A2", "B1", "B2"];
 const PRESETS = [

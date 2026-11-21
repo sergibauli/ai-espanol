@@ -7,6 +7,8 @@ import "../styles/v14-fix-recursos.css";
 import { useFavorites } from "../lib/favorites.js";
 import { getSrsStats, getDueSrsCards, getSrsCards, SRS_BOX_LABELS_ES, SRS_BOX_LABELS_ZH, removeSrsCard, reviewSrsCard, importSrsCards } from "../lib/srs.js";
 import "../styles/movil-recursos.css";
+// Hoja de esta sección: fuera del paquete inicial (auditoría 2026-11)
+import "../styles/v12-juegos-dicc.css";
 
 // Repaso espaciado (cajas de Leitner: 1, 3, 7, 14 y 30 días) con la estética imperial
 function MemoriaPage() {
