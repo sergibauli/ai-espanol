@@ -12,6 +12,7 @@ import WelcomePage from "./pages/WelcomePage.jsx";
 import { SECCIONES } from "./lib/precarga.js";
 import { AvisoActualizacion } from "./components/layout/AvisosApp.jsx";
 import { GestorScroll } from "./components/layout/GestorScroll.jsx";
+import { unidadJuegoCargada, cargarUnidadJuego } from "./lib/unidadJuego.js";
 const Login = React.lazy(() => import("./pages/Login.jsx"));
 const SignInPage = React.lazy(() => import("./pages/SignInPage.jsx"));
 const DashboardPage = React.lazy(SECCIONES["/ruta"]);
@@ -84,6 +85,24 @@ function QuitaCargadorInicial() {
     });
   }, []);
   return null;
+}
+// Juegos que leen la unidad completa (teoría, diálogos, ejercicios) con contenidoJuego(): antes de pintarlos
+// con ?m=N se descarga solo esa unidad (antes bajaban las 90 unidades al abrir el juego).
+const JUEGOS_UNIDAD_COMPLETA = /^\/juegos\/(brisca|dragon-jade|fichas-palacio|mapa-mental|palacio-palabras|pincel-magico|teatro|viaje-mono)\/?$/;
+function ConUnidadJuego({ children }) {
+  const { pathname, search } = useLocation();
+  const numero = JUEGOS_UNIDAD_COMPLETA.test(pathname) ? Number(new URLSearchParams(search).get("m")) || null : null;
+  const lista = !numero || unidadJuegoCargada(numero);
+  const [, refrescar] = React.useState(0);
+  React.useEffect(() => {
+    if (lista) return undefined;
+    let vigente = true;
+    cargarUnidadJuego(numero).then(() => vigente && refrescar((v) => v + 1));
+    return () => {
+      vigente = false;
+    };
+  }, [numero, lista]);
+  return lista ? children : <PageLoader />;
 }
 // El antiguo juego de tablero de letras ahora es «Palacio de las palabras» (conserva ?m=N)
 function RedirigePalacio() {
@@ -566,7 +585,7 @@ function AppRoutes() {
           <Route path="*" element={<Navigate to="/ruta" replace />} />
         </Routes>
         );
-        return legacyLight ? <LightShell legacy>{routes}</LightShell> : stage ? <LightShell stage>{routes}</LightShell> : routes;
+        return legacyLight ? <LightShell legacy>{routes}</LightShell> : stage ? <LightShell stage><ConUnidadJuego>{routes}</ConUnidadJuego></LightShell> : routes;
       })()}
       </React.Suspense>
       <React.Suspense fallback={null}>

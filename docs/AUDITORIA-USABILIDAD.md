@@ -37,7 +37,7 @@ La base es sólida (trabajo previo de v14 y «móvil · juegos»): no hay pantal
 | 9 | Medio | Bajo | Juegos clásicos con `?m=N` | Abrir a mano (o desde otra pestaña) dos URL `#/juegos/x?m=N` seguidas: la segunda mostraba el selector en vez de la partida (clave «default» compartida). | ✅ La entrada se identifica por clave + ruta. |
 | 10 | Medio | Alto | Rendimiento | CSS inicial de **852 KB (161 KB gzip)** bloqueante: `main.jsx` y `LightShell` importan ~25 hojas de todas las secciones. | ⏳ Propuesto (ver «Pendiente»). |
 | 11 | Medio | Bajo | LCP | El LCP lo marcaban fondos decorativos que se descubrían tarde (`dragon-luz.webp` del pabellón, `papel.jpg` del mapa de la unidad, `saluda.webp` en la ruta). | ✅ `src/lib/precargaLcp.js`: `<link rel=preload fetchpriority=high>` según la ruta de entrada. 4G lenta + CPU ×4: `/ruta` 4,6 → 3,7 s; `/juegos` 6,3 → ~2,5 s. |
-| 11b | Medio | Medio | Unidad (`/modulos/modulo-N`) | LCP 6,4 s: para pintar una unidad se descarga el bloque de datos de 20 unidades (`modulos-01-20`, 595 KB · 150 KB gzip). | ⏳ Propuesto: un fichero de datos por unidad (cambio en el cargador, no en el contenido). |
+| 11b | Alto | Bajo | 8 juegos (Brisca, Dragón de jade, Fichas del palacio, Mapa mental, Palacio de las palabras, Pincel mágico, Teatro, Viaje del Rey Mono) | `contenidoJuego.js` importaba `ALL_MODULES`: para jugar una unidad se descargaban las 90 unidades completas (~1,4 MB transferidos). *Corrección: la página de unidad ya cargaba solo su unidad; su LCP lo marcan las imágenes del mapa.* | ✅ `unidadJuego.js` + `<ConUnidadJuego>` (App.jsx): solo se descarga la unidad del juego (trozo `unidad-NN`). 4G lenta + CPU ×4, tiempo hasta ver la partida: Brisca 9,0 → 4,9 s · Teatro 8,9 → 4,8 s · Fichas 8,0 → 4,9 s · Viaje 8,0 → 5,1 s; 1,3–1,45 MB → ~0,6 MB. |
 | 12 | Bajo | Bajo | Teclados de Ruleta/Ahorcado | Teclas de 28–31 px de ancho × 44 px de alto (como un teclado del sistema). | Aceptado: 10 teclas por fila no caben a 44 px en 360 px. |
 | 13 | Bajo | Bajo | Barra superior móvil | Logo y «Salir» a 40×40 px. | ⏳ Pendiente (otra sesión rehace portada/marco). |
 | 14 | Bajo | Medio | Diccionario | 70+ chips de palabras a 28–40 px de alto. | ⏳ Pendiente. |
@@ -73,11 +73,11 @@ Los 17 juegos se abren, eligen unidad y llegan a la partida sin errores ni desbo
 - `src/components/juegos/SelectorTemaJuego.jsx` (arranque con `?m=N`)
 - `src/styles/usabilidad.css` (nuevo, cargado tras `movil-marco.css`)
 - `src/lib/precargaLcp.js` (nuevo) · `src/main.jsx`
+- `src/lib/unidadJuego.js` (nuevo) · `src/lib/contenidoJuego.js` · `src/App.jsx` (`ConUnidadJuego`)
 
-Publicado en `main`: bloque 1 (21-11-2026) y bloque 2 (elegir unidad compacto + precarga LCP).
+Publicado en `main`: bloque 1 (21-11-2026) bloque 2 (elegir unidad compacto + precarga LCP) y bloque 3 (juegos con solo su unidad).
 
 ## Pendiente y decisiones para el dueño
 
 1. **CSS inicial (161 KB gzip, bloqueante)**: mover las hojas de cada sección a su página diferida reduciría la primera carga a la mitad, pero cambia el orden de la cascada y obliga a revisar todas las pantallas. Propuesta: hacerlo por secciones (TV, Diccionario, Pronunciación primero), con capturas antes/después.
-2. **Datos de las unidades**: cargar un fichero por unidad en lugar de bloques de 20 (la unidad tarda 6,4 s en 4G lenta).
-3. Chips del Diccionario y barra superior móvil a 44 px (coordinar con la sesión de diseño de portada/marco).
+2. Chips del Diccionario y barra superior móvil a 44 px (coordinar con la sesión de diseño de portada/marco).
