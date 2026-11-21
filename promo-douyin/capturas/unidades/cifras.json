@@ -1,0 +1,27 @@
+{
+  "unidades": 90,
+  "unidades_por_nivel": {"A1": 23, "A2": 27, "B1": 20, "B2": 20},
+  "clases": 193,
+  "puntos_de_teoria": 362,
+  "palabras_vocabulario_unidades": 1969,
+  "palabras_vocabulario_unicas": 1746,
+  "dialogos": 420,
+  "frases_de_dialogo": 2682,
+  "diccionario_entradas": 4409,
+  "diccionario_entradas_por_tomo": {"A1": 1214, "A2": 990, "B1": 1001, "B2": 1204},
+  "diccionario_formas_unicas": 3639,
+  "pronunciacion_familias": 22,
+  "pronunciacion_familias_dificiles_para_chinos": 13,
+  "pronunciacion_silabas": 109,
+  "pronunciacion_palabras_ejemplo_json": 575,
+  "pronunciacion_frases_json": 210,
+  "idiomas_de_ayuda": 7,
+  "idiomas_de_ayuda_lista": ["中文", "English", "Français", "Deutsch", "Nederlands", "Русский", "日本語"],
+  "repaso_intervalos_dias": [1, 3, 7, 14, 30],
+  "notas": {
+    "fuentes": "Contado con node: src/data/modulos/catalog.json y modulos-*.js (unidades, vocabulario, diálogos, líneas), clases.json (clases), src/data/diccionarios/*Dictionary.js (diccionario), src/data/pronunciacion.json (21 familias / 105 sílabas en el JSON; la página añade la H y sílabas extra de ge/gi/j vía src/components/pron/datos.js y muestra 22 familias, 109 sílabas y 13 difíciles), src/lib/srs.js (intervalos).",
+    "palabras_vocabulario_unicas": "Formas distintas en minúsculas; algunas palabras se repiten entre unidades.",
+    "diccionario_formas_unicas": "Hay entradas repetidas (p. ej. panadería, agua) dentro de un mismo tomo.",
+    "audio": "Cada palabra, frase y línea de diálogo tiene botón de escuchar; no prometer «真人» sin confirmar con el dueño qué voz suena."
+  }
+}

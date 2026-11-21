@@ -1,0 +1,15 @@
+node_modules/
+fotogramas*/
+audio/*.wav
+capturas/**/*.png
+capturas/**/*.jpg
+capturas/**/_borrador/
+film/recursos/puerta/
+film/recursos/vuelo/
+film/prueba.*
+capturas/**/*.mp3
+audio/voz/
+audio/*.mp3
+fotogramas5/
+fotos-escena/
+capturas/**/crudo/

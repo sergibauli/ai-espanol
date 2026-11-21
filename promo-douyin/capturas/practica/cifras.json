@@ -1,0 +1,13 @@
+{
+ "fuente": "contado con node sobre src/data (oficial/*.js + oficial/nuevos/*.json, banco/*.json, tv.js, modulos/catalog.json) y ffprobe sobre public/tv; 2026-11-20",
+ "modelos_examen_por_nivel": { "A1": 22, "A2": 23, "B1": 21, "B2": 22 },
+ "modelos_examen_total": 88,
+ "preguntas_de_opcion_en_los_modelos_por_nivel": { "A1": 1122, "A2": 1173, "B1": 1302, "B2": 1518 },
+ "preguntas_de_opcion_en_los_modelos_total": 5115,
+ "pruebas_por_examen": 4,
+ "niveles_mundos": { "A1": "Jardín de bambú · 竹林春晓", "A2": "Festival de linternas · 元宵灯会", "B1": "Montañas de tinta · 水墨山河", "B2": "Ciudad Prohibida · 紫禁之巅" },
+ "unidades_del_curso": 90,
+ "tv": { "series": 1, "serie": "El Rey Mono y el Dragón Dorado · 美猴王与金龙", "episodios_publicados": 5, "episodio_6": "anunciado como «Próximamente»", "frases_de_episodio_con_audio": 32, "duracion_total_segundos": 161, "duracion_por_episodio_s": [36, 40, 38, 33, 15] },
+ "tutor": { "niveles": 4, "temas_rapidos": 6, "usos_semanales_por_alumno": 5 },
+ "notas": "«88 modelos» y «5.000+ preguntas» salen de los propios datos; no usar 官方/真题 aunque los ficheros llamen «Modelo oficial» a los exámenes. Las cifras de progreso de las capturas (racha 28, 2460 XP, 94 %, notas) son de demostración sembradas."
+}
