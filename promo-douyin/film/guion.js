@@ -441,7 +441,7 @@ function escenaVideo(cfg) {
     const orb = eInOut(seg(lt, 0.4, dur));
     const lado = cfg.lado || 1;
     const cambio = tr.i > 0 ? 0.35 * (1 - seg(tr.lt, 0, 0.25)) : 0;
-    moviles[0].poner({ x: lado * (lerp(-2.4, -0.22, k) + orb * 0.35), y: -0.72, rx: -0.12, ry: lado * (lerp(1.1, 0.42, k) - orb * 0.75), s: 1.32, img: tr.img, flash: cambio, halo: 0.6 });
+    moviles[0].poner({ x: lado * (k < 1 ? lerp(-2.4, -0.22, k) : clamp(-0.22 + orb * 0.35, -0.6, 0.6)), y: -0.72, rx: -0.12, ry: lado * (lerp(1.1, 0.42, k) - orb * 0.75), s: 1.32, img: tr.img, flash: cambio, halo: 0.6 });
     (cfg.tarjetas || []).forEach((c, i) => M.sacarTarjeta(i, moviles[0], T["_" + cfg.seq + i] || tr.img, c.r, seg(lt, c.t0, c.t0 + 0.5) * (1 - seg(lt, c.t1 - 0.3, c.t1)), c.d));
     C.texto(sec.id + "t", cfg.tit, "tit2", lt, 0.05, dur, { y: 200, entrada: "golpe", temblor: 6 });
     C.texto(sec.id + "e", cfg.es, "es-peq", lt, 0.2, dur, { y: 292, entrada: "pincel", dur: 0.4 });
@@ -486,14 +486,26 @@ window.pintar = async (t) => {
   M.ocultarTarjetas();
   POST = []; M.VIDA.t = t; M.VIDA.k = ["juegos", "turbo"].includes(sec.id) ? 0.6 : 1;
   await ESC[sec.id](lt, sec);
+  if (!["gancho", "cierre"].includes(sec.id)) {
+    const dd = (sec.fin - sec.ini) * BAR, u = clamp(lt / dd);
+    M.camara.position.z -= 0.6 * eInOut(u);
+    M.camara.position.x += 0.15 * Math.sin(t * 0.35);
+    M.camara.position.y += 0.08 * Math.sin(t * 0.27);
+  }
+  const ent = seg(lt, 0, 0.25), idx2 = SECCIONES.indexOf(sec);
+  if (idx2 > 1 && !["cierre", "beneficios"].includes(sec.id)) M.camara.position.x += (idx2 % 2 ? 1 : -1) * -1.2 * (1 - eOut(ent));
+  const golpeC = Math.exp(-10 * (t % BAR)); M.camara.fov = 30 / (1 + 0.035 * golpeC); M.camara.updateProjectionMatrix();
   M.camara.lookAt(0, M.camara.position.y * 0.5, 0);
+  M.camara.rotateZ(0.012 * Math.sin(t * 0.4));
   M.camara.updateMatrixWorld(true);
   for (const fn of POST) fn();
   const tFin = sec.fin * BAR, kSal = seg(t, tFin - 0.3, tFin);
-  if (kSal > 0 && !["gancho", "cierre", "beneficios"].includes(sec.id) && moviles[0].g.visible) { moviles[0].g.position.z += eIn(kSal) * 6.5; moviles[0].g.rotation.z += eIn(kSal) * 0.4; C.destello(eIn(kSal) * 0.85); }
+  const idx = SECCIONES.indexOf(sec), dir = idx % 2 ? 1 : -1;
+  if (kSal > 0 && !["gancho", "cierre", "beneficios"].includes(sec.id) && moviles[0].g.visible) { moviles[0].g.position.x += dir * Math.pow(eIn(kSal), 2) * 5; moviles[0].g.position.z += eIn(kSal) * 1.5; moviles[0].g.rotation.y += dir * eIn(kSal) * 0.9; C.velocidad(eIn(kSal) * 0.7, t, 540, 900); C.destello(eIn(kSal) * 0.35); }
   if (!["gancho", "problema"].includes(sec.id)) C.barrido(seg(lt, 0, 0.42));
   if (!["gancho", "problema", "cierre"].includes(sec.id)) C.nubesOro(t);
   M.render(t);
+  C.grado(t);
   C.terminarCapa();
 };
 

@@ -103,3 +103,8 @@ html, body { margin: 0; background: #000; overflow: hidden; }
   font-family: 'Noto Sans SC', sans-serif; font-weight: 900; font-size: 56px; color: #fff; letter-spacing: 4px; box-shadow: 0 14px 30px rgba(0,0,0,.5); }
 .logo-juego { position: absolute; }
 .logo-juego img { display: block; width: 620px; filter: drop-shadow(0 10px 22px rgba(0,0,0,.6)) drop-shadow(0 0 30px rgba(255,180,60,.55)); }
+
+/* v6 · títulos con volumen */
+.tit2 { text-shadow: 0 1px 0 #d9b8a0, 0 2px 0 #b89878, 0 3px 0 #8a6a50, 0 4px 0 #5a3a28, 0 10px 18px rgba(0,0,0,.6), 0 0 24px rgba(255,190,80,.3); }
+.tit2 em { background: linear-gradient(180deg, #ff9aa6 0%, #ff3d52 45%, #b0102a 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 0 #4a0410) drop-shadow(0 0 14px rgba(255,40,60,.75)); text-shadow: none; }

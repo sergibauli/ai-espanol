@@ -253,3 +253,17 @@ export function nubesOro(t) {
   nubeOro(110 + d, 1850, 1.1, false); nubeOro(250 - d, 1890, 0.8, false);
   nubeOro(970 - d, 1840, 1.05, true); nubeOro(830 + d, 1895, 0.75, true);
 }
+
+/** Grado de color cinematográfico: viñeta, calidez y grano */
+const rg2 = aleatorio(9);
+let grano = null;
+export function grado(t) {
+  if (!grano) { grano = document.createElement("canvas"); grano.width = grano.height = 256; const g = grano.getContext("2d"); const im = g.createImageData(256, 256); for (let i = 0; i < im.data.length; i += 4) { const v = rg2() * 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; } g.putImageData(im, 0, 0); }
+  fx.save();
+  const v = fx.createRadialGradient(540, 960, 600, 540, 960, 1150); v.addColorStop(0, "rgba(10,0,0,0)"); v.addColorStop(1, "rgba(10,0,0,.55)");
+  fx.fillStyle = v; fx.fillRect(0, 0, 1080, 1920);
+  fx.globalCompositeOperation = "soft-light"; fx.globalAlpha = 0.12; fx.fillStyle = "#ffb35a"; fx.fillRect(0, 0, 1080, 1920);
+  fx.globalCompositeOperation = "overlay"; fx.globalAlpha = 0.05; const ox = Math.floor(t * 997) % 256, oy = Math.floor(t * 613) % 256;
+  for (let x = -ox; x < 1080; x += 256) for (let y = -oy; y < 1920; y += 256) fx.drawImage(grano, x, y);
+  fx.restore();
+}

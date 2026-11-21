@@ -27,17 +27,25 @@ renderer.setPixelRatio(1);
 renderer.setSize(W * ESCALA, H * ESCALA, false);
 lienzo.style.width = W + "px"; lienzo.style.height = H + "px";
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.05;
+renderer.toneMappingExposure = 1.15;
 renderer.autoClear = false;
 
 export const escena = new THREE.Scene();
 export const camara = new THREE.PerspectiveCamera(30, W / H, 0.05, 200);
 camara.position.set(0, 0, 9);
 const pmrem = new THREE.PMREMGenerator(renderer);
-escena.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+{
+  const envS = new THREE.Scene();
+  const esf = new THREE.Mesh(new THREE.SphereGeometry(20, 32, 16), new THREE.ShaderMaterial({ side: THREE.BackSide, vertexShader: `varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }`, fragmentShader: `varying vec3 vP; void main(){ float h = normalize(vP).y * .5 + .5; gl_FragColor = vec4(mix(vec3(.16,.01,.03), vec3(1.,.8,.48), pow(h, 1.6)), 1.); }` }));
+  envS.add(esf);
+  const tira = (x, color, i) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(i), side: THREE.DoubleSide })); m.position.set(x, 1, 2); m.lookAt(0, 0, 0); envS.add(m); };
+  tira(3.5, 0xffffff, 6); tira(-3.5, 0xffb040, 4);
+  escena.environment = pmrem.fromScene(envS, 0.02).texture;
+}
 escena.add(new THREE.AmbientLight(0xffffff, 0.25));
 const luzOro = new THREE.DirectionalLight(0xffd58a, 2.2); luzOro.position.set(3, 4, 5); escena.add(luzOro);
 const luzRoja = new THREE.DirectionalLight(0xff3040, 1.6); luzRoja.position.set(-4, -2, 2); escena.add(luzRoja);
+const luzRim = new THREE.DirectionalLight(0xffe0a0, 3); luzRim.position.set(-2, 3, -4); escena.add(luzRim);
 
 // ---------------- texturas ----------------
 const cargador = new THREE.TextureLoader();
@@ -177,8 +185,8 @@ function rectRedondo(w, h, r) {
 }
 const geoCuerpo = new THREE.ExtrudeGeometry(rectRedondo(MW - 0.04, MH - 0.04, MR - 0.02), { depth: MD, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 5, curveSegments: 20 });
 geoCuerpo.translate(0, 0, -MD / 2);
-const matOro = new THREE.MeshPhysicalMaterial({ color: 0xe8b860, metalness: 1, roughness: 0.22, clearcoat: 0.6, envMapIntensity: 1.4 });
-const matLaca = new THREE.MeshPhysicalMaterial({ color: 0x120604, metalness: 0.3, roughness: 0.18, clearcoat: 1, clearcoatRoughness: 0.05 });
+const matOro = new THREE.MeshPhysicalMaterial({ color: 0xe8b860, metalness: 1, roughness: 0.15, clearcoat: 1, envMapIntensity: 2.2 });
+const matLaca = new THREE.MeshPhysicalMaterial({ color: 0x120604, metalness: 0.3, roughness: 0.18, clearcoat: 1, clearcoatRoughness: 0.05, envMapIntensity: 1.5 });
 const geoPantalla = new THREE.PlaneGeometry(SW, SH);
 const geoTrasera = new THREE.PlaneGeometry(MW - 0.06, MH - 0.06);
 const geoIsla = new THREE.ShapeGeometry(rectRedondo(0.27, 0.075, 0.0375), 12);
@@ -212,8 +220,9 @@ const FRAG_PANT = `
       c += vec3(1., .9, .6) * (smoothstep(.06*an+.02, .06*an, r) - smoothstep(.06*an, .06*an-.015, r)) * (1.-an) * 1.5;
       c += vec3(1.,.85,.5) * smoothstep(.04, 0., r) * (1.-an) * .5; }
     // reflejo del cristal
-    float g = smoothstep(.10, 0., abs((p.x*.8 + p.y) - uGlare)) * .16 + smoothstep(.03, 0., abs((p.x*.8 + p.y) - uGlare - .16)) * .08;
+    float g = smoothstep(.18, 0., abs((p.x*.8 + p.y) - uGlare)) * .22 + smoothstep(.03, 0., abs((p.x*.8 + p.y) - uGlare - .16)) * .08;
     c += g * mask;
+    float edge = smoothstep(-.03, 0., dist); c += vec3(1., .85, .55) * edge * .25;
     c += uFlash;
     gl_FragColor = vec4(c * uBrillo, mask);
     #include <colorspace_fragment>
@@ -446,9 +455,9 @@ export function animarDecor(t, cy = -0.6) {
     decor.suelo.material.uniforms.uOff.value = t * 0.22; decor.suelo.material.uniforms.uK.value = k;
     decor.brillo.position.set(0, cy, -2.25); decor.brillo.rotation.copy(decor.anillos[0].rotation); decor.brillo.material.opacity = 0.14 * k * (0.8 + 0.2 * Math.sin(t * 2));
     decor.focos.forEach((m) => { const l = m.userData.l; m.position.set(l * 1.6, 2.6, -4.5); m.rotation.set(0, 0, Math.PI + l * (0.35 + 0.28 * Math.sin(t * 0.7 + l))); m.material.opacity = 0.2 * k; });
-    if (decor.dragon) { const ciclo = (t % 14) / 14; const d = decor.dragon; d.visible = true; d.position.set(lerp(-5, 5, ciclo), 1.2 + Math.sin(ciclo * 6.28) * 0.5, -7); d.rotation.set(0, Math.PI, -0.15); d.scale.setScalar(1.6); const u = d.material.uniforms; u.uA.value = 0.55 * k * Math.sin(Math.PI * ciclo); u.uT.value = t; }
+    if (decor.dragon) { const ciclo = (t % 14) / 14; const d = decor.dragon; d.visible = true; d.position.set(lerp(-5, 5, ciclo), 1.2 + Math.sin(ciclo * 6.28) * 0.5, -7); d.rotation.set(0, Math.PI, -0.15); d.scale.setScalar(1.6); const u = d.material.uniforms; u.uA.value = 0.32 * k * Math.sin(Math.PI * ciclo); u.uT.value = t; }
   }
-  decor.anillos.forEach((m, i) => { m.position.set(0, cy, -2.2 - i * 0.6); m.rotation.set(-0.35 + 0.1 * Math.sin(t * 0.4 + i), 0.25 * Math.sin(t * 0.3 + i * 2), (i ? -1 : 1) * t * 0.22); m.material.opacity = (i ? 0.28 : 0.4) * k; });
+  decor.anillos.forEach((m, i) => { m.position.set(0, cy, -2.2 - i * 0.6); m.rotation.set(-0.35 + 0.1 * Math.sin(t * 0.4 + i), 0.25 * Math.sin(t * 0.3 + i * 2), (i ? -1 : 1) * t * 0.22); m.material.opacity = (i ? 0.2 : 0.3) * k; });
   decor.faroles.forEach((g) => { const u = g.userData; const fase = ((u.f + t * u.v) % 5.5) / 5.5; const y = fase * 5.5 - 4.5; const fade = Math.min(1, fase * 6, (1 - fase) * 6); g.position.set(u.x + Math.sin(t * 0.6 + u.f) * 0.2, y, u.z); g.rotation.set(0, t * 0.8 + u.f, Math.sin(t + u.f) * 0.12); g.scale.setScalar(u.s * k * 0.8 * Math.max(0.001, fade)); });
   decor.fichas.forEach((m) => { const u = m.userData; const y = ((u.y0 + t * u.v) % 7) - 5; m.position.set(u.x, y, u.z); m.rotation.set(Math.sin(t * 0.7 + u.f) * 0.4, t * 0.5 + u.f, Math.sin(t * 0.5 + u.f) * 0.2); m.material.opacity = 0.85 * k; });
 }
