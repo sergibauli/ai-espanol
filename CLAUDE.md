@@ -9,6 +9,8 @@ App web (PWA) para que estudiantes chinos aprendan español y preparen el DELE A
 - Juego «Palacio de las palabras» (`#/juegos/palacio-palabras`, antes Apalabrados; sin selector de unidad): acepta cualquier palabra de `public/palabras/es.txt.gz` (lista Letterpress CC0, ~590 000 formas; se carga al abrir el juego, Cache API; el Rey Mono busca en `src/lib/palacioMono.worker.js`). Regenerar: `node scripts/build-diccionario-palacio.mjs` (ver `public/palabras/README.md`). `node scripts/build-lexico-palacio.mjs` regenera `src/data/palacio-lexico.json` (traducciones al chino) tras cambiar unidades o diccionarios.
 - Deploy: cada push a `main` construye y publica en GitHub Pages (`.github/workflows/deploy.yml`). URL: https://sergibauli.github.io/wukong-espanol/
 
+- Vídeo promocional de Douyin: proyecto aparte en `promo-douyin/` (Three.js + Chromium + ffmpeg). Cómo continuarlo en `promo-douyin/README.md`.
+
 ## Arquitectura
 - React 19 + React Router 7 (**HashRouter**, rutas `#/...`) + Clerk (login) + lucide-react (iconos `XxxIcon`). Vite 7, `base: './'`.
 - `src/App.jsx`: todas las rutas (páginas con `React.lazy`), layout, `RequireAuth`, `ErrorBoundary`.

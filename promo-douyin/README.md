@@ -1,43 +1,50 @@
 # Vídeo promocional de Douyin · Wukong Español · 悟空西语
 
-Salida: `salida/wukong-espanol-douyin.mp4`, versión de unos 56 s en vertical 1080×1920 a 30 fps, H.264 + AAC 48 kHz y −14 LUFS. Hay también una versión corta para anuncio: `salida/wukong-espanol-douyin-15s.mp4`, de 16,5 s.
+Vídeo vertical 1080×1920, 30 fps, ~78 s, H.264 + AAC (−14 LUFS), con voz femenina en chino (Fish Audio) y música original estilo Douyin (sintetizada aquí, sin derechos de terceros). El vídeo final publicado está en `public/video/promo-douyin.mp4` (página `#/promo`).
 
-## Guion (130 BPM, cortes a compás)
-| s | Sección | En pantalla |
-|---|---|---|
-| 0–3,7 | Gancho | Grietas doradas en negro y un golpe: el cristal estalla y sale el Rey Mono con un dragón. «想去西班牙？» · «留学 · 工作 · 旅行» · «零基础也能学会！» · ¡Hola!, Gracias, ¿Qué tal?, ¡Vamos! |
-| 3,7–7,4 | Problema | Fondo de tinta y montañas. «单词背了就忘？» «语法越学越乱？» «想开口却不敢说？» → «别慌！让悟空带你学» (el Rey Mono guiña) |
-| 7,4–11,1 | Revelación (drop) | Fogonazo y el vídeo real de la puerta. El móvil 3D llega girando con la portada «Cruza la puerta». «悟空西语 · WUKONG ESPAÑOL · 专为中国学生打造的西语神器» |
-| 11,1–14,8 | Aprender | La ruta A1→B2 cambia de mundo en cada golpe: 竹林 / 灯笼 / 水墨 / 紫禁城 |
-| 14,8–18,5 | Lecciones | Ejercicio real con el sello 正确 → ¡Lección perfecta! con confeti |
-| 18,5–22,2 | Unidades | Tres móviles en abanico: teoría, vocabulario y diálogo. «90 个单元», «¿Y de segundo?» / «El pollo asado, por favor.» |
-| 22,2–24 | Herramientas | Pronunciación, diccionario (agua · 水) y repaso |
-| 24–27,7 | Práctica | Los cuatro mundos de examen, la corrección automática (对) y una hoja PDF que sale volando del móvil. «88 套模拟题» |
-| 27,7–29,5 | Tutor | Conversación con el Rey Mono, con lupa sobre la corrección «Yo soy cansado» → «Hoy estoy cansado» |
-| 29,5–31,4 | TV | El móvil gira a horizontal y reproduce la serie del Rey Mono |
-| 31,4–35,1 | Juegos | Carrusel 3D de seis juegos reales. «17 款小游戏» |
-| 35,1–38,8 | Turbo Rush | Fotogramas reales de la carrera con cortes a corchea y líneas de velocidad. «3D 极速赛车 · 冲对单词门，立刻加速！» |
-| 38,8–40,6 | Progreso | La probabilidad de aprobar, con lupa |
-| 40,6–42,5 | Idiomas | Respiro con el erhu: siete idiomas de ayuda en órbita |
-| 42,5–46,2 | Cifras | Placas imperiales de laca con sello dorado que giran en 3D: 90 个单元 · 88 套模拟题 · 17 款小游戏 · 7 种讲解语言 · «从 A1 到 B2，一路陪你进阶» |
-| 46,2–56,2 | Cierre | Panel de cine con el vuelo y el dragón dorado. Después el sello 悟, el logo, el precio ¥39 (一次付费 · 永久使用), el QR de la web, el QR de WeChat, la URL y «今天就开口说西语！» |
+Todo se genera con código: una página Three.js pinta cada fotograma (móvil 3D, fondo animado, textos), Chromium sin pantalla hace la captura y ffmpeg monta el MP4 con el audio.
 
-## Cómo se hace
-- `audio/musica.mjs`: banda sonora compuesta y sintetizada aquí, libre de derechos. Lleva guzheng (Karplus-Strong), erhu, taikos, gong, 808 y beat 4×4 en la escala pentatónica yu. Se genera con `node audio/musica.mjs`; para la versión corta, `VERSION=corta node audio/musica.mjs`.
-- `tiempo.mjs`: el BPM y las secciones, compartidos entre la música y la imagen.
-- `film/`: página que pinta cada fotograma.
-  - `motor.js`: Three.js. Móvil 3D con biseles dorados, pantalla con reflejo y lupa, fondo procedural, partículas, sprites y cristales.
-  - `capa.js`: textos, rótulos con línea guía, lupas, tinta y barrido de luz.
-  - `guion.js`: las escenas.
-  - `material.js`: las capturas usadas y las cifras reales.
-- `capturas/`: capturas reales de la app (no se versionan; los scripts están en `herramientas/`).
+## Para continuar en otra sesión (otra persona / otra cuenta de Claude)
 
-Para regenerar:
-1. `sh herramientas/preparar-recursos.sh`
-2. `node herramientas/servidor.cjs 8765 &`
-3. `node herramientas/render.cjs 0 1685 fotogramas` (se puede repartir el rango entre varios procesos)
-4. `sh herramientas/montar.sh`
+```sh
+cd promo-douyin
+npm install                                   # three, fuentes, qrcode
+sh herramientas/empaquetar-capturas.sh unpack # recrea capturas/ desde capturas-mp4/ (grabaciones reales de la app)
+sh herramientas/preparar-recursos.sh          # fotogramas de los vídeos de la portada
+node audio/musica2.mjs                        # música → audio/musica2.wav
+node herramientas/servidor.cjs 8765 &         # servidor estático (raíz = repo)
+```
 
-Para la versión corta: `VERSION=corta node herramientas/render.cjs 0 495 fotogramas-15s` y después `sh herramientas/montar.sh fotogramas-15s audio/musica-15s.wav salida/wukong-espanol-douyin-15s.mp4`.
+Voz (opcional; las frases están en `audio/locucion.json`). Necesita una clave de Fish Audio **solo como variable de entorno** (nunca en el repo) y acceso de red a `api.fish.audio`:
 
-Revisiones hechas: director, especialistas por sección, revisor nativo de chino y revisor de calidad visual. Se ha comprobado que en pantalla no aparecen «DELE», «IA» ni «AI».
+```sh
+NODE_USE_ENV_PROXY=1 VOICE=5c353fdb312f4888836a9a5680099ef0 FISH_KEY=... node audio/voz-fish.mjs
+MUSICA=musica2.wav TEMPO=1.0 node audio/mezcla.mjs larga   # → audio/mezcla.wav (voz + música, la música baja al hablar)
+```
+
+Render y montaje:
+
+```sh
+# fotogramas (~1–2 s cada uno; repartir el rango entre 4 procesos en paralelo)
+N=$(node -e "import('./tiempo.mjs').then(m=>console.log(Math.ceil(m.DURACION*30)))")
+node herramientas/render.cjs 0 $N fotogramas5
+sh herramientas/montar.sh fotogramas5 audio/mezcla.wav salida/wukong-espanol-douyin.mp4
+```
+
+Trabajo por escenas (recomendado para iterar): `sh herramientas/escena.sh <id_seccion> <n>` genera `salida/escenas/<n>_<id>.mp4` solo con esa escena y su audio. Fotogramas sueltos para revisar: `node herramientas/vistazo.cjs index.html /tmp/x 12.5 30.0` (desde `film/`).
+
+## Estructura
+- `tiempo.mjs`: 130 BPM y la lista de secciones en compases (1 compás = 1,846 s). Cambiar aquí la duración de una escena mueve música e imagen a la vez.
+- `film/guion.js`: las escenas (`ESC.<id>`). Las de la app usan `escenaVideo({ seq, tramos, tit, es, sub, chips, tarjetas })`: reproduce tramos de una grabación real dentro del móvil 3D y saca recortes de la pantalla en 3D (`tarjetas`). El bucle `window.pintar` añade cámara (dolly, deriva, pulso en cada compás), transición lateral entre escenas y gradación de color.
+- `film/motor.js`: Three.js (móvil con material dorado y reflejos, pantalla con shader, fondo, partículas, decorado 3D: mandala, farolillos, fichas, focos, dragón; `sacarTarjeta`).
+- `film/capa.js`: textos animados (DOM) y efectos 2D (tinta, barrido de luz, velocidad, grado de color).
+- `film/material.js`: qué grabación/captura usa cada escena y las cifras reales (90 unidades, 88 modelos, 17 juegos, 7 idiomas).
+- `herramientas/grabar-app.mjs`: graba la app real (necesita `npm run dev` en la raíz, puerto 5173) a 30 fps en `capturas/v2/<nombre>/`; `node herramientas/grabar-app.mjs <nombre…>`.
+- `audio/musica2.mjs` (música), `audio/locucion.json` (guion de voz con segundos), `audio/mezcla.mjs`.
+
+## Reglas del dueño
+- No deben aparecer «DELE» ni «IA/AI» en el vídeo (el sello de IA de la TV se oculta al grabar).
+- Textos en chino simplificado, tono Douyin; ejemplos en español correcto.
+- Un solo QR (WeChat) + URL + precio ¥39 en el cierre.
+- Al publicar en Douyin: activar la etiqueta «内容由AI生成» (voz sintética y serie generada).
+- Enseñar las escenas por partes para su aprobación antes del render completo.
